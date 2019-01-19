@@ -1,6 +1,6 @@
 package xyz.zaijushou.zhx.common.entity;
 
-import xyz.zaijushou.zhx.sys.entity.SysUser;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import java.util.Date;
 
@@ -22,12 +22,12 @@ public class CommonEntity {
     /**
      * 创建人
      */
-    private SysUser createUser;
+    private SysUserEntity createUser;
 
     /**
      * 更新人
      */
-    private SysUser updateUser;
+    private SysUserEntity updateUser;
 
     /**
      * 创建时间
@@ -60,19 +60,19 @@ public class CommonEntity {
         this.remark = remark;
     }
 
-    public SysUser getCreateUser() {
+    public SysUserEntity getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(SysUser createUser) {
+    public void setCreateUser(SysUserEntity createUser) {
         this.createUser = createUser;
     }
 
-    public SysUser getUpdateUser() {
+    public SysUserEntity getUpdateUser() {
         return updateUser;
     }
 
-    public void setUpdateUser(SysUser updateUser) {
+    public void setUpdateUser(SysUserEntity updateUser) {
         this.updateUser = updateUser;
     }
 

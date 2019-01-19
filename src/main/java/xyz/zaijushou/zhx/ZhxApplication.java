@@ -8,7 +8,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 //@EnableScheduling
 //@ServletComponentScan({"cn.qiuyiping.wechat.filter"})
-@MapperScan("xyz.zaijushou.zhx.**.mapper")
+@MapperScan("xyz.zaijushou.zhx.**.dao")
 @EnableSwagger2
 public class ZhxApplication {
 

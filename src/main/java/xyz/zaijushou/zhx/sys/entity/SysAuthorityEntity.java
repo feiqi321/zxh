@@ -3,7 +3,7 @@ package xyz.zaijushou.zhx.sys.entity;
 /**
  * 权限实体类
  */
-public class SysAuthority {
+public class SysAuthorityEntity {
 
     /**
      * 权限名称

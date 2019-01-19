@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 用户实体类
  */
-public class SysUser extends CommonEntity {
+public class SysUserEntity extends CommonEntity {
 
     /**
      * 姓名
@@ -27,7 +27,12 @@ public class SysUser extends CommonEntity {
     /**
      * 角色列表
      */
-    private List<SysRole> roles;
+    private List<SysRoleEntity> roles;
+
+    /**
+     * 生成的token
+     */
+    private String token;
 
     public String getUserName() {
         return userName;
@@ -53,11 +58,19 @@ public class SysUser extends CommonEntity {
         this.password = password;
     }
 
-    public List<SysRole> getRoles() {
+    public List<SysRoleEntity> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<SysRole> roles) {
+    public void setRoles(List<SysRoleEntity> roles) {
         this.roles = roles;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

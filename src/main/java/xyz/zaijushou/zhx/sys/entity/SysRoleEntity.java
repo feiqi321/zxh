@@ -5,7 +5,7 @@ import xyz.zaijushou.zhx.common.entity.CommonEntity;
 /**
  * 角色实体类
  */
-public class SysRole extends CommonEntity {
+public class SysRoleEntity extends CommonEntity {
 
     /**
      * 权限名称

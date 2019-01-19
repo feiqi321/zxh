@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.SysUserMapper">
+
+    <!-- 无密码等敏感信息返回 -->
+    <sql id="colSqlWithoutPassword">
+        id as id,
+        username as userName,
+        mobile as mobile,
+        email as email,
+        remark as remark,
+        create_user as 'createUser.id',
+        update_user as 'updateUser.id',
+        create_time as createTime,
+        update_time as updateTime,
+        delete_flag as deleteFlag
+    </sql>
+
+    <!-- 无密码信息返回 -->
+    <sql id="colSqlPasswordInfo">
+        id as id,
+        username as userName,
+        password as password,
+        mobile as mobile,
+        email as email,
+        remark as remark,
+        create_user as 'createUser.id',
+        update_user as 'updateUser.id',
+        create_time as createTime,
+        update_time as updateTime,
+        delete_flag as deleteFlag
+    </sql>
+
+    <select id="findPasswordInfoByUsername" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        select
+        <include refid="colSqlPasswordInfo"/>
+        from sys_user
+        where delete_flag = '0'
+        and enable = '1'
+    </select>
+    
+    <select id="findUserInfoWithoutPasswordByUsername" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        select
+        <include refid="colSqlWithoutPassword"/>
+        from sys_user
+        where delete_flag = '0'
+        and enable = '1'
+    </select>
+
+</mapper>
