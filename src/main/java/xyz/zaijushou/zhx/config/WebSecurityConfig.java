@@ -1,17 +1,11 @@
 package xyz.zaijushou.zhx.config;
 
-//import boss.portal.filter.JWTAuthenticationFilter;
-//import boss.portal.filter.JWTLoginFilter;
-//import boss.portal.handler.Http401AuthenticationEntryPoint;
-//import boss.portal.service.impl.CustomAuthenticationProvider;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import xyz.zaijushou.zhx.filter.JWTAuthenticationFilter;
 import xyz.zaijushou.zhx.filter.JWTLoginFilter;
@@ -28,7 +22,6 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -55,11 +48,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
 
-
     // 设置 HTTP 验证规则
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        LogoutConfigurer<HttpSecurity> httpSecurityLogoutConfigurer = http.cors().and().csrf().disable()
+        http.cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
@@ -72,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .and()
                 .addFilter(new JWTLoginFilter(authenticationManager()))
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+//                .addFilter(jwtAuthenticationFilter)
                 .logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")// 设置注销成功后跳转页面，默认是跳转到登录页面;
@@ -81,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 该方法是登录的时候会进入
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    public void configure(AuthenticationManagerBuilder auth) {
         // 使用自定义身份验证组件
         auth.authenticationProvider(dbAuthenticationProvider);
     }

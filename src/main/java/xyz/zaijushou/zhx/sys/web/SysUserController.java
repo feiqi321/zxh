@@ -1,9 +1,11 @@
 package xyz.zaijushou.zhx.sys.web;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 
 import javax.annotation.Resource;
@@ -19,5 +21,13 @@ public class SysUserController {
     public Object index() {
         return WebResponse.success();
     }
+
+    @PostMapping("userInfo")
+    public Object userInfo(@RequestBody SysUserEntity user) {
+        user = sysUserService.findUserInfoWithoutPasswordById(user);
+        return WebResponse.success(user);
+    }
+
+
 
 }

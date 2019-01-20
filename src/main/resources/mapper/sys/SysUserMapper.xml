@@ -8,6 +8,7 @@
     <sql id="colSqlWithoutPassword">
         id as id,
         username as userName,
+        login_name as loginName,
         mobile as mobile,
         email as email,
         remark as remark,
@@ -22,6 +23,7 @@
     <sql id="colSqlPasswordInfo">
         id as id,
         username as userName,
+        login_name as loginName,
         password as password,
         mobile as mobile,
         email as email,
@@ -33,20 +35,31 @@
         delete_flag as deleteFlag
     </sql>
 
-    <select id="findPasswordInfoByUsername" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+    <select id="findPasswordInfoByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
         <include refid="colSqlPasswordInfo"/>
         from sys_user
         where delete_flag = '0'
         and enable = '1'
+        and login_name = #{loginName}
     </select>
     
-    <select id="findUserInfoWithoutPasswordByUsername" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+    <select id="findUserInfoWithoutPasswordByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
         <include refid="colSqlWithoutPassword"/>
         from sys_user
         where delete_flag = '0'
         and enable = '1'
+        and login_name = #{loginName}
+    </select>
+
+    <select id="findUserInfoWithoutPasswordById" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        select
+        <include refid="colSqlWithoutPassword"/>
+        from sys_user
+        where delete_flag = '0'
+        and enable = '1'
+        and id = #{id}
     </select>
 
 </mapper>

@@ -20,6 +20,11 @@ public class SysUserEntity extends CommonEntity {
     private String mobile;
 
     /**
+     * 登录名
+     */
+    private String loginName;
+
+    /**
      * 密码
      */
     private String password;
@@ -72,5 +77,13 @@ public class SysUserEntity extends CommonEntity {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 }

@@ -14,7 +14,7 @@ public class JwtTokenUtil {
 
     public static String generateToken(SysUserEntity userEntity) {
         Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", userEntity.getUserName());
+        claims.put("sub", userEntity.getLoginName());
         claims.put("created", new Date());
         return generateToken(claims);
     }

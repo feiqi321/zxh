@@ -5,7 +5,9 @@ import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 @Mapper
 public interface SysUserMapper {
-    SysUserEntity findPasswordInfoByUsername(SysUserEntity user);
+    SysUserEntity findPasswordInfoByLoginName(SysUserEntity user);
 
-    SysUserEntity findUserInfoWithoutPasswordByUsername(SysUserEntity user);
+    SysUserEntity findUserInfoWithoutPasswordByLoginName(SysUserEntity user);
+
+    SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user);
 }

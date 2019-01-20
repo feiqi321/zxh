@@ -4,14 +4,17 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
 import xyz.zaijushou.zhx.common.exception.TokenException;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.security.GrantedAuthorityImpl;
+import xyz.zaijushou.zhx.utils.SpringUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -31,40 +34,57 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
+    private StringRedisTemplate redisTemplate = SpringUtils.getBean(StringRedisTemplate.class);
+
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer ")) {
-//            chain.doFilter(request, response);
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(JSONObject.toJSONString(WebResponse.error("401", "no token error!")));
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Access-Token");
+        response.setHeader("Access-Control-Expose-Headers", "*");
+
+        if (request.getMethod().equals( RequestMethod.OPTIONS.toString())){
             return;
         }
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        try {
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } catch (TokenException e) {
+            logger.warn("token 验证失败：" + e);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSONObject.toJSONString(WebResponse.error("400", e.getMessage())));
+            return;
+        }
+
         chain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        long start = System.currentTimeMillis();
         String token = request.getHeader("Authorization");
-        if (token == null || token.isEmpty()) {
+        if(StringUtils.isEmpty(token)) {
             throw new TokenException("Token为空");
         }
-        // parse the token.
-        String user = null;
+        if(!token.startsWith("Bearer ")) {
+            throw new TokenException("Token类型错误");
+        }
+
+        String redisTokenInfo = redisTemplate.opsForValue().get("login_token_" + token);
+        if(StringUtils.isEmpty(redisTokenInfo)) {
+            throw new TokenException("无效token");
+        }
         try {
-            user = Jwts.parser()
+            String user = Jwts.parser()
                     .setSigningKey("zaijushouzhx")
                     .parseClaimsJws(token.replace("Bearer ", ""))
                     .getBody()
                     .getSubject();
-            long end = System.currentTimeMillis();
-            logger.info("执行时间: {}", (end - start) + " 毫秒");
             if (user != null) {
 //                String[] split = user.split("-")[1].split(",");
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();

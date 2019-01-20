@@ -18,13 +18,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private SysUserMapper sysUserMapper;
 
     @Override
-    public UserDetails loadUserByUsername(String loginname) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
         SysUserEntity user = new SysUserEntity();
-        user.setUserName(loginname);
-        user = sysUserMapper.findPasswordInfoByUsername(user);
+        user.setLoginName(loginName);
+        user = sysUserMapper.findPasswordInfoByLoginName(user);
         if(user == null){
-            throw new UsernameNotFoundException("账号 " + loginname + " 不存在");
+            throw new UsernameNotFoundException("账号 " + loginName + " 不存在");
         }
-        return new User(user.getUserName(), user.getPassword(), new ArrayList<>());
+        return new User(user.getLoginName(), user.getPassword(), new ArrayList<>());
     }
 }
