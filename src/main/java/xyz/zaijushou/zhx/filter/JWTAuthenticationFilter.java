@@ -43,15 +43,15 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Methods", "*");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Access-Token");
-        response.setHeader("Access-Control-Expose-Headers", "*");
-
-        if (request.getMethod().equals( RequestMethod.OPTIONS.toString())){
-            return;
-        }
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Access-Control-Allow-Credentials", "true");
+//        response.setHeader("Access-Control-Allow-Methods", "*");
+//        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Access-Token");
+//        response.setHeader("Access-Control-Expose-Headers", "*");
+//
+//        if (request.getMethod().equals( RequestMethod.OPTIONS.toString())){
+//            return;
+//        }
 
         try {
             UsernamePasswordAuthenticationToken authentication = getAuthentication(request);

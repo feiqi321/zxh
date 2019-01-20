@@ -95,7 +95,11 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             for (GrantedAuthority grantedAuthority : authorities) {
                 roleList.add(grantedAuthority.getAuthority());
             }
+            SysUserEntity user = new SysUserEntity();
+            user.setLoginName(auth.getName());
+            user = sysUserMapper.findUserInfoWithoutPasswordByLoginName(user);
             JSONObject subject = new JSONObject();
+            subject.put("userId", user.getId());
             subject.put("loginName", auth.getName());
             subject.put("loginTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             String token = Jwts.builder()
@@ -104,9 +108,6 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                     .compact();
             // 登录成功后，返回token到header里面
 //            response.addHeader("Authorization", "Bearer " + token);
-            SysUserEntity user = new SysUserEntity();
-            user.setLoginName(auth.getName());
-            user = sysUserMapper.findUserInfoWithoutPasswordByLoginName(user);
             user.setToken("Bearer " + token);
             redisTemplate.opsForValue().set("login_token_" + user.getToken(), JSONObject.toJSONString(token), 30, TimeUnit.MINUTES);
             response.setHeader("Access-Control-Allow-Origin", "*");

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @Api("用户操作")
 @RestController
 @RequestMapping(value = "/user")
-public class SysUserController {
+public class SysMenuController {
 
     @Resource
     private SysUserService sysUserService;
@@ -30,7 +30,7 @@ public class SysUserController {
         return WebResponse.success();
     }
 
-    @PostMapping("userInfo")
+    @PostMapping("treeAllMenusByToken")
     @ApiOperation(value = "根据token获取用户信息", notes = "根据token获取用户信息")
     public Object userInfo(HttpServletRequest request) {
         String token = request.getHeader("Authorization");

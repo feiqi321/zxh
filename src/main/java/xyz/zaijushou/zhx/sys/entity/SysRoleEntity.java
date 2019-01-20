@@ -2,6 +2,8 @@ package xyz.zaijushou.zhx.sys.entity;
 
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
+import java.util.List;
+
 /**
  * 角色实体类
  */
@@ -13,9 +15,19 @@ public class SysRoleEntity extends CommonEntity {
     private String roleName;
 
     /**
-     * 权限标志
+     * 权限描述
      */
-    private String roleSymbol;
+    private String roleDesc;
+
+    /**
+     * 角色用户列表
+     */
+    private List<SysUserEntity> users;
+
+    /**
+     * 角色权限列表
+     */
+    private List<SysMenuEntity> menus;
 
     public String getRoleName() {
         return roleName;
@@ -25,11 +37,27 @@ public class SysRoleEntity extends CommonEntity {
         this.roleName = roleName;
     }
 
-    public String getRoleSymbol() {
-        return roleSymbol;
+    public String getRoleDesc() {
+        return roleDesc;
     }
 
-    public void setRoleSymbol(String roleSymbol) {
-        this.roleSymbol = roleSymbol;
+    public void setRoleDesc(String roleDesc) {
+        this.roleDesc = roleDesc;
+    }
+
+    public List<SysUserEntity> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<SysUserEntity> users) {
+        this.users = users;
+    }
+
+    public List<SysMenuEntity> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<SysMenuEntity> menus) {
+        this.menus = menus;
     }
 }

@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.common.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import java.util.Date;
@@ -32,11 +33,13 @@ public class CommonEntity {
     /**
      * 创建时间
      */
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
      * 更新时间
      */
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**
