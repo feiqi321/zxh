@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.filter;
 
+import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import xyz.zaijushou.zhx.common.exception.TokenException;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.security.GrantedAuthorityImpl;
 
 import javax.servlet.FilterChain;
@@ -37,7 +39,9 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Bearer ")) {
-            chain.doFilter(request, response);
+//            chain.doFilter(request, response);
+            response.setContentType("application/json;charset=UTF-8");
+            response.getWriter().write(JSONObject.toJSONString(WebResponse.error("401", "no token error!")));
             return;
         }
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);

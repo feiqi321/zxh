@@ -4,7 +4,7 @@ package xyz.zaijushou.zhx.config;
 //import boss.portal.filter.JWTLoginFilter;
 //import boss.portal.handler.Http401AuthenticationEntryPoint;
 //import boss.portal.service.impl.CustomAuthenticationProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,17 +13,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import xyz.zaijushou.zhx.filter.JWTAuthenticationFilter;
 import xyz.zaijushou.zhx.filter.JWTLoginFilter;
 import xyz.zaijushou.zhx.sys.security.DbAuthenticationProvider;
+import xyz.zaijushou.zhx.sys.security.JwtLogoutSuccessHandler;
 
 import javax.annotation.Resource;
 
 /**
  * SpringSecurity的配置
  * 通过SpringSecurity的配置，将JWTLoginFilter，JWTAuthenticationFilter组合在一起
+ *
  * @author zhaoxinguo on 2017/9/13.
  */
 @Configuration
@@ -52,6 +52,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private DbAuthenticationProvider dbAuthenticationProvider;
 
+    @Resource
+    private JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
 
 
     // 设置 HTTP 验证规则
@@ -65,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
 //                    .authenticationEntryPoint(new Http401AuthenticationEntryPoint("Basic realm=\"MyApp\""))
-                    .and()
+                .and()
 //                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler) // 自定义访问失败处理器
 //                .and()
                 .addFilter(new JWTLoginFilter(authenticationManager()))
@@ -73,7 +75,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")// 设置注销成功后跳转页面，默认是跳转到登录页面;
-//                .logoutSuccessHandler(customLogoutSuccessHandler)
+                .logoutSuccessHandler(jwtLogoutSuccessHandler)
                 .permitAll();
     }
 
