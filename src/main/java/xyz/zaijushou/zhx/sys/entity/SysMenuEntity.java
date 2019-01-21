@@ -15,9 +15,9 @@ public class SysMenuEntity extends CommonEntity {
     private String menuLabel;
 
     /**
-     * 父菜单id
+     * 父菜单
      */
-    private Integer parentId;
+    private SysMenuEntity parent;
 
     /**
      * 菜单url
@@ -32,7 +32,7 @@ public class SysMenuEntity extends CommonEntity {
     /**
      * 是否叶子节点
      */
-    private String leafNode;
+    private Integer leafNode;
 
     /**
      * 菜单权限标志
@@ -57,12 +57,12 @@ public class SysMenuEntity extends CommonEntity {
         this.menuLabel = menuLabel;
     }
 
-    public Integer getParentId() {
-        return parentId;
+    public SysMenuEntity getParent() {
+        return parent;
     }
 
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
+    public void setParent(SysMenuEntity parent) {
+        this.parent = parent;
     }
 
     public String getMenuUrl() {
@@ -81,11 +81,11 @@ public class SysMenuEntity extends CommonEntity {
         this.menuLevel = menuLevel;
     }
 
-    public String getLeafNode() {
+    public Integer getLeafNode() {
         return leafNode;
     }
 
-    public void setLeafNode(String leafNode) {
+    public void setLeafNode(Integer leafNode) {
         this.leafNode = leafNode;
     }
 

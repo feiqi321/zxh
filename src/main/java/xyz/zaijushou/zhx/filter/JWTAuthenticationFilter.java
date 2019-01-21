@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.filter;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -14,6 +15,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xyz.zaijushou.zhx.common.exception.TokenException;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.sys.entity.SysAuthorityEntity;
+import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
+import xyz.zaijushou.zhx.sys.security.GrantedAuthorityImpl;
 import xyz.zaijushou.zhx.utils.SpringUtils;
 
 import javax.servlet.FilterChain;
@@ -22,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 自定义JWT认证过滤器
@@ -34,7 +42,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-    private StringRedisTemplate redisTemplate = SpringUtils.getBean(StringRedisTemplate.class);
+    private StringRedisTemplate stringRedisTemplate = SpringUtils.getBean(StringRedisTemplate.class);
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -75,23 +83,43 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             throw new TokenException("Token类型错误");
         }
 
-        String redisTokenInfo = redisTemplate.opsForValue().get("login_token_" + token);
+        String redisTokenInfo = stringRedisTemplate.opsForValue().get("login_token_" + token);
         if(StringUtils.isEmpty(redisTokenInfo)) {
             throw new TokenException("无效token");
         }
         try {
-            String user = Jwts.parser()
+            String tokenData = Jwts.parser()
                     .setSigningKey("zaijushouzhx")
                     .parseClaimsJws(token.replace("Bearer ", ""))
                     .getBody()
                     .getSubject();
-            if (user != null) {
-//                String[] split = user.split("-")[1].split(",");
+            if (!StringUtils.isEmpty(tokenData)) {
+                JSONObject redisJson = JSONObject.parseObject(tokenData);
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-//                for (int i=0; i < split.length; i++) {
-//                    authorities.add(new GrantedAuthorityImpl());
-//                }
-                return new UsernamePasswordAuthenticationToken(user, null, authorities);
+                String userRolesString = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.USER_ROLE + redisJson.getInteger("userId"));
+                JSONArray roles = JSONArray.parseArray(userRolesString);
+                if(roles != null && roles.size() > 0) {
+                    Set<String> redisKeys = new HashSet<>();
+                    for(int i = 0; i < roles.size(); i ++) {
+                        SysRoleEntity role = JSONObject.parseObject(roles.getString(i), SysRoleEntity.class);
+                        redisKeys.add(RedisKeyPrefix.ROLE_AUTHORITY + role.getId());
+                    }
+                    if(redisKeys.size() > 0) {
+                        List<String> values = stringRedisTemplate.opsForValue().multiGet(redisKeys);
+                        if(values != null && values.size() > 0) {
+                            for(String value : values) {
+                                SysAuthorityEntity[] authorityEntities = JSONArray.parseObject(value, SysAuthorityEntity[].class);
+                                if(authorityEntities.length > 0) {
+                                    for(SysAuthorityEntity authority : authorityEntities) {
+                                        authorities.add(new GrantedAuthorityImpl(authority.getAuthoritySymbol()));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                return new UsernamePasswordAuthenticationToken(tokenData, null, authorities);
             }
 
         } catch (ExpiredJwtException e) {

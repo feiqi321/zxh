@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.filter.JWTAuthenticationFilter;
 import xyz.zaijushou.zhx.filter.JWTLoginFilter;
 import xyz.zaijushou.zhx.sys.security.DbAuthenticationProvider;
 import xyz.zaijushou.zhx.sys.security.JwtLogoutSuccessHandler;
+import xyz.zaijushou.zhx.sys.security.ZhxAccessDeniedHandler;
 
 import javax.annotation.Resource;
 
@@ -23,7 +24,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled=true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
@@ -51,6 +52,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
 
+    @Resource
+    private ZhxAccessDeniedHandler zhxAccessDeniedHandler;
+
     // 设置 HTTP 验证规则
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -72,7 +76,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")// 设置注销成功后跳转页面，默认是跳转到登录页面;
                 .logoutSuccessHandler(jwtLogoutSuccessHandler)
-                .permitAll();
+                .permitAll()
+                .and()
+                .csrf()
+                .disable()
+                .exceptionHandling()
+                .accessDeniedHandler(zhxAccessDeniedHandler);
     }
 
     // 该方法是登录的时候会进入

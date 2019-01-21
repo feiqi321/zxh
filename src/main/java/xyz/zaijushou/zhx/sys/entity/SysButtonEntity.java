@@ -25,9 +25,9 @@ public class SysButtonEntity extends CommonEntity {
     private SysMenuEntity parentMenu;
 
     /**
-     * 对应api列表，完成该菜单请求所需要的后台api接口
+     * 对应权限列表，完成该菜单请求所需要的后台权限
      */
-    private List<SysApiEntity> apiList;
+    private List<SysAuthorityEntity> authorityList;
 
     public String getButtonLabel() {
         return buttonLabel;
@@ -53,11 +53,11 @@ public class SysButtonEntity extends CommonEntity {
         this.parentMenu = parentMenu;
     }
 
-    public List<SysApiEntity> getApiList() {
-        return apiList;
+    public List<SysAuthorityEntity> getAuthorityList() {
+        return authorityList;
     }
 
-    public void setApiList(List<SysApiEntity> apiList) {
-        this.apiList = apiList;
+    public void setAuthorityList(List<SysAuthorityEntity> authorityList) {
+        this.authorityList = authorityList;
     }
 }

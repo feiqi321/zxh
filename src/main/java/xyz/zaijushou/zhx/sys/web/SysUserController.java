@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ public class SysUserController {
         return WebResponse.success();
     }
 
+    @PreAuthorize("hasAuthority('auth_userinfo')")
     @PostMapping("userInfo")
     @ApiOperation(value = "根据token获取用户信息", notes = "根据token获取用户信息")
     public Object userInfo(HttpServletRequest request) {
