@@ -1,10 +1,7 @@
 package xyz.zaijushou.zhx.sys.web;
 
-import com.alibaba.fastjson.JSONObject;
-import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +9,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -31,17 +29,11 @@ public class SysUserController {
         return WebResponse.success();
     }
 
-    @PreAuthorize("hasAuthority('auth_userinfo')")
+//    @PreAuthorize("hasAuthority('auth_userinfo')")
     @PostMapping("userInfo")
     @ApiOperation(value = "根据token获取用户信息", notes = "根据token获取用户信息")
     public Object userInfo(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String tokenData = Jwts.parser()
-                .setSigningKey("zaijushouzhx")
-                .parseClaimsJws(token.replace("Bearer ", ""))
-                .getBody()
-                .getSubject();
-        Integer userId = JSONObject.parseObject(tokenData).getInteger("userId");
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
         user = sysUserService.findUserInfoWithoutPasswordById(user);

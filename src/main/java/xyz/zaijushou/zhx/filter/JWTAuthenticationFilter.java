@@ -11,14 +11,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMethod;
 import xyz.zaijushou.zhx.common.exception.TokenException;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.entity.SysAuthorityEntity;
 import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
 import xyz.zaijushou.zhx.sys.security.GrantedAuthorityImpl;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.SpringUtils;
 
 import javax.servlet.FilterChain;
@@ -36,6 +37,7 @@ import java.util.Set;
  * 该类继承自BasicAuthenticationFilter，在doFilterInternal方法中，
  * 从http头的Authorization 项读取token数据，然后用Jwts包提供的方法校验token的合法性。
  * 如果校验通过，就认为这是一个取得授权的合法请求
+ *
  * @author zhaoxinguo on 2017/9/13.
  */
 public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
@@ -50,17 +52,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-
-//        response.setHeader("Access-Control-Allow-Origin", "*");
-//        response.setHeader("Access-Control-Allow-Credentials", "true");
-//        response.setHeader("Access-Control-Allow-Methods", "*");
-//        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Access-Token");
-//        response.setHeader("Access-Control-Expose-Headers", "*");
-//
-//        if (request.getMethod().equals( RequestMethod.OPTIONS.toString())){
-//            return;
-//        }
-
         try {
             UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -76,52 +67,43 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        if(StringUtils.isEmpty(token)) {
+        if (StringUtils.isEmpty(token)) {
             throw new TokenException("Token为空");
         }
-        if(!token.startsWith("Bearer ")) {
+        if (!token.startsWith("Bearer ")) {
             throw new TokenException("Token类型错误");
         }
 
-        String redisTokenInfo = stringRedisTemplate.opsForValue().get("login_token_" + token);
-        if(StringUtils.isEmpty(redisTokenInfo)) {
+        String redisTokenInfo = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.LOGIN_TOKEN + token);
+        if (StringUtils.isEmpty(redisTokenInfo)) {
             throw new TokenException("无效token");
         }
         try {
-            String tokenData = Jwts.parser()
-                    .setSigningKey("zaijushouzhx")
-                    .parseClaimsJws(token.replace("Bearer ", ""))
-                    .getBody()
-                    .getSubject();
-            if (!StringUtils.isEmpty(tokenData)) {
-                JSONObject redisJson = JSONObject.parseObject(tokenData);
-                ArrayList<GrantedAuthority> authorities = new ArrayList<>();
-                String userRolesString = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.USER_ROLE + redisJson.getInteger("userId"));
-                JSONArray roles = JSONArray.parseArray(userRolesString);
-                if(roles != null && roles.size() > 0) {
-                    Set<String> redisKeys = new HashSet<>();
-                    for(int i = 0; i < roles.size(); i ++) {
-                        SysRoleEntity role = JSONObject.parseObject(roles.getString(i), SysRoleEntity.class);
-                        redisKeys.add(RedisKeyPrefix.ROLE_AUTHORITY + role.getId());
-                    }
-                    if(redisKeys.size() > 0) {
-                        List<String> values = stringRedisTemplate.opsForValue().multiGet(redisKeys);
-                        if(values != null && values.size() > 0) {
-                            for(String value : values) {
-                                SysAuthorityEntity[] authorityEntities = JSONArray.parseObject(value, SysAuthorityEntity[].class);
-                                if(authorityEntities.length > 0) {
-                                    for(SysAuthorityEntity authority : authorityEntities) {
-                                        authorities.add(new GrantedAuthorityImpl(authority.getAuthoritySymbol()));
-                                    }
+            JSONObject redisJson = JwtTokenUtil.tokenData();
+            ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+            String userRolesString = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.USER_ROLE + redisJson.getInteger("userId"));
+            JSONArray roles = JSONArray.parseArray(userRolesString);
+            if (!CollectionUtils.isEmpty(roles)) {
+                Set<String> redisKeys = new HashSet<>();
+                for (int i = 0; i < roles.size(); i++) {
+                    SysRoleEntity role = JSONObject.parseObject(roles.getString(i), SysRoleEntity.class);
+                    redisKeys.add(RedisKeyPrefix.ROLE_AUTHORITY + role.getId());
+                }
+                if (redisKeys.size() > 0) {
+                    List<String> values = stringRedisTemplate.opsForValue().multiGet(redisKeys);
+                    if (values != null && values.size() > 0) {
+                        for (String value : values) {
+                            SysAuthorityEntity[] authorityEntities = JSONArray.parseObject(value, SysAuthorityEntity[].class);
+                            if (authorityEntities.length > 0) {
+                                for (SysAuthorityEntity authority : authorityEntities) {
+                                    authorities.add(new GrantedAuthorityImpl(authority.getAuthoritySymbol()));
                                 }
                             }
                         }
                     }
-
                 }
-                return new UsernamePasswordAuthenticationToken(tokenData, null, authorities);
             }
-
+            return new UsernamePasswordAuthenticationToken(redisJson.toJSONString(), null, authorities);
         } catch (ExpiredJwtException e) {
             logger.error("Token已过期: {} " + e);
             throw new TokenException("Token已过期");
@@ -138,8 +120,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             logger.error("非法参数异常: {} " + e);
             throw new TokenException("非法参数异常");
         }
-
-        return null;
     }
 
 }

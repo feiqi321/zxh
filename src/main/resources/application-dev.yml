@@ -19,3 +19,11 @@ mybatis:
 logging:
   level:
     xyz.zaijushou.zhx : debug
+
+xyz:
+  zaijushou:
+    zhx:
+      token:
+        sign-key: zaijushouzhx
+      redis:
+        login-token-expire-time: 30

@@ -43,6 +43,11 @@ public class RedisKeyPrefix {
     public static final String ROLE_MENU = "role_menu_";
 
     /**
+     * 角色菜单
+     */
+    public static final String ROLE_BUTTON = "role_button_";
+
+    /**
      * 按钮权限
      */
     public static final String BUTTON_AUTHORITY = "button_authority_";

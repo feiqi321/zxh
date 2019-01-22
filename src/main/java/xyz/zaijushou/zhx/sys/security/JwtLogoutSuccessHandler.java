@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,6 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(JSONObject.toJSONString(WebResponse.success().msg("登出成功")));
         String token = request.getHeader("Authorization");
-        stringRedisTemplate.delete("login_token_" + token);
+        stringRedisTemplate.delete(RedisKeyPrefix.LOGIN_TOKEN + token);
     }
 }

@@ -1,27 +1,50 @@
 package xyz.zaijushou.zhx.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
+@Component
 public class JwtTokenUtil {
 
-    private static String SECRET_KEY = "zaijushou.zhx";
+    private static String signKey;
 
-    public static String generateToken(SysUserEntity userEntity) {
-        Map<String, Object> claims = new HashMap<>(2);
-        claims.put("sub", userEntity.getLoginName());
-        claims.put("created", new Date());
-        return generateToken(claims);
+    /**
+     * 从request 中获取token
+     * @return token
+     */
+    public static String token(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return request.getHeader("Authorization");
     }
 
-    private static String generateToken(Map<String, Object> claims) {
-        Date expirationDate = new Date(System.currentTimeMillis() + 2592000L * 1000);
-        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, SECRET_KEY).compact();
+    /**
+     * 生成token
+     * @param subject token内容
+     * @return token
+     */
+    public static String token(String subject){
+        return Jwts.builder().setSubject(subject).signWith(SignatureAlgorithm.HS512, signKey).compact();
     }
 
+    /**
+     * 解析token
+     * @return JSONObject
+     */
+    public static JSONObject tokenData() {
+        String token = token();
+        String tokenContent = Jwts.parser().setSigningKey(signKey).parseClaimsJws(token.replace("Bearer ", "")).getBody().getSubject();
+        return JSONObject.parseObject(tokenContent);
+    }
+
+    @Value("${xyz.zaijushou.zhx.token.sign-key}")
+    public void setSignKey(String signKey) {
+        JwtTokenUtil.signKey = signKey;
+    }
 }

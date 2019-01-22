@@ -4,8 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,9 +12,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.SpringUtils;
 
 import javax.servlet.FilterChain;
@@ -37,6 +39,9 @@ import java.util.concurrent.TimeUnit;
 
 public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
 
+    @Value("${xyz.zaijushou.zhx.redis.login-token-expire-time}")
+    private Integer loginTokenExpireTime;
+
     private SysUserMapper sysUserMapper = SpringUtils.getBean(SysUserMapper.class);
 
     private AuthenticationManager authenticationManager;
@@ -52,14 +57,8 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
             SysUserEntity user = new ObjectMapper().readValue(req.getInputStream(), SysUserEntity.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            user.getLoginName(),
-                            user.getPassword(),
-                            new ArrayList<>())
-            );
+            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getLoginName(),user.getPassword(),new ArrayList<>()));
         } catch (AuthenticationException e) {
-//            throw new RuntimeException(e);
             try {
                 res.setHeader("Access-Control-Allow-Origin", "*");
                 res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -87,14 +86,9 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication auth) throws IOException, ServletException {
-        // builder the token
         try {
             Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
             // 定义存放角色集合的对象
-            List roleList = new ArrayList<>();
-            for (GrantedAuthority grantedAuthority : authorities) {
-                roleList.add(grantedAuthority.getAuthority());
-            }
             SysUserEntity user = new SysUserEntity();
             user.setLoginName(auth.getName());
             user = sysUserMapper.findUserInfoWithoutPasswordByLoginName(user);
@@ -102,14 +96,9 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             subject.put("userId", user.getId());
             subject.put("loginName", auth.getName());
             subject.put("loginTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-            String token = Jwts.builder()
-                    .setSubject(subject.toJSONString())
-                    .signWith(SignatureAlgorithm.HS512, "zaijushouzhx") //采用什么算法是可以自己选择的，不一定非要采用HS512
-                    .compact();
-            // 登录成功后，返回token到header里面
-//            response.addHeader("Authorization", "Bearer " + token);
+            String token = JwtTokenUtil.token(subject.toJSONString());
             user.setToken("Bearer " + token);
-            redisTemplate.opsForValue().set("login_token_" + user.getToken(), JSONObject.toJSONString(token), 30, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(RedisKeyPrefix.LOGIN_TOKEN + user.getToken(), JSONObject.toJSONString(token), 30, TimeUnit.MINUTES);
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "*");
