@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -69,8 +71,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 //                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler) // 自定义访问失败处理器
 //                .and()
-                .addFilter(new JWTLoginFilter(authenticationManager()))
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(jwtLoginFilter())
+                .addFilter(jwtAuthenticationFilter())
 //                .addFilter(jwtAuthenticationFilter)
                 .logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")
@@ -96,4 +98,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //解决静态资源被拦截的问题
         web.ignoring().antMatchers(AUTH_WHITELIST);
     }
+
+    @Bean
+    public JWTLoginFilter jwtLoginFilter() throws Exception {
+        JWTLoginFilter jwtLoginFilter = new JWTLoginFilter();
+        jwtLoginFilter.setAuthenticationManager(authenticationManager());
+        return jwtLoginFilter;
+    }
+
+    @Bean
+    public JWTAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        return new JWTAuthenticationFilter(authenticationManager());
+    }
+
+
 }

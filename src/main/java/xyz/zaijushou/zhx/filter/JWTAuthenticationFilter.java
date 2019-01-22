@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +23,7 @@ import xyz.zaijushou.zhx.sys.security.GrantedAuthorityImpl;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.SpringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 自定义JWT认证过滤器
@@ -44,7 +47,11 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationFilter.class);
 
-    private StringRedisTemplate stringRedisTemplate = SpringUtils.getBean(StringRedisTemplate.class);
+    @Value("${xyz.zaijushou.zhx.redis.login-token-expire-time}")
+    private Integer loginTokenExpireTime;
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -78,6 +85,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         if (StringUtils.isEmpty(redisTokenInfo)) {
             throw new TokenException("无效token");
         }
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.LOGIN_TOKEN + token, redisTokenInfo, loginTokenExpireTime, TimeUnit.MINUTES);
         try {
             JSONObject redisJson = JwtTokenUtil.tokenData();
             ArrayList<GrantedAuthority> authorities = new ArrayList<>();

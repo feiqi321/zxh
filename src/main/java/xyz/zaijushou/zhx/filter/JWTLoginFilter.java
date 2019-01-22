@@ -20,6 +20,7 @@ import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.SpringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -42,22 +43,20 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Value("${xyz.zaijushou.zhx.redis.login-token-expire-time}")
     private Integer loginTokenExpireTime;
 
-    private SysUserMapper sysUserMapper = SpringUtils.getBean(SysUserMapper.class);
+    @Resource
+    private SysUserMapper sysUserMapper;
 
-    private AuthenticationManager authenticationManager;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
-    private StringRedisTemplate redisTemplate = SpringUtils.getBean(StringRedisTemplate.class);
 
-    public JWTLoginFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
 
     // 接收并解析用户凭证
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
         try {
             SysUserEntity user = new ObjectMapper().readValue(req.getInputStream(), SysUserEntity.class);
-            return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getLoginName(),user.getPassword(),new ArrayList<>()));
+            return getAuthenticationManager().authenticate(new UsernamePasswordAuthenticationToken(user.getLoginName(),user.getPassword(),new ArrayList<>()));
         } catch (AuthenticationException e) {
             try {
                 res.setHeader("Access-Control-Allow-Origin", "*");
@@ -98,7 +97,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             subject.put("loginTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             String token = JwtTokenUtil.token(subject.toJSONString());
             user.setToken("Bearer " + token);
-            redisTemplate.opsForValue().set(RedisKeyPrefix.LOGIN_TOKEN + user.getToken(), JSONObject.toJSONString(token), 30, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.LOGIN_TOKEN + user.getToken(), JSONObject.toJSONString(token), 30, TimeUnit.MINUTES);
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "*");
@@ -110,7 +109,4 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             e.printStackTrace();
         }
     }
-
-
-
 }
