@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 @RestController
 public class LoginController {
 
+
     @ApiOperation(value = "登录", notes = "用户登录")
     @PostMapping("/login")
     public Object login(@RequestBody SysUserEntity user) {
