@@ -4,3 +4,12 @@ spring:
 
 server:
   port: 9119
+
+# pagehelper properties
+pagehelper:
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  pageSizeZero: true
+  reasonable: false
+  params: pageNum=pageHelperStart;pageSize=pageHelperRows;
+  supportMethodsArguments: false

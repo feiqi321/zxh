@@ -23,6 +23,10 @@ public class OperationLogFilter implements Filter {
     @Resource
     private SysOperationLogService sysOperationLogService;
 
+    private static final String[] RESPONSE_EXCEPT_URL = {
+            "/operationLog/pageLogs",   //操作日志查询
+    };
+
     @Override
     public void init(FilterConfig filterConfig) {
     }
@@ -79,7 +83,9 @@ public class OperationLogFilter implements Filter {
         out.flush();
         out.close();
         logger.info("返回结果:{}", result);
-        operationLog.setResponseBody(result);
+        if(!arrayContainsContent(RESPONSE_EXCEPT_URL, operationLog.getUrl())) {
+            operationLog.setResponseBody(result);
+        }
         if("/login".equals(operationLog.getUrl())) {
             JSONObject jsonData = JSONObject.parseObject(body.toString());
             if(jsonData != null) {
@@ -99,7 +105,7 @@ public class OperationLogFilter implements Filter {
     public void destroy() {
     }
 
-    public static String getIPAddress(HttpServletRequest request) {
+    private static String getIPAddress(HttpServletRequest request) {
         String ip = null;
 
         //X-Forwarded-For：Squid 服务代理
@@ -135,5 +141,14 @@ public class OperationLogFilter implements Filter {
             ip = request.getRemoteAddr();
         }
         return ip;
+    }
+
+    private boolean arrayContainsContent(String[] array, String value){
+        for(String val : array) {
+            if(val.equals(value)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

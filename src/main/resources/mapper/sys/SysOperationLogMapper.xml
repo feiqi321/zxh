@@ -67,11 +67,11 @@
             id = #{id}
     </update>
 
-    <!--<select id="listAllMenus" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity">-->
-        <!--select-->
-        <!--<include refid="colSql"/>-->
-        <!--from sys_operation_log-->
-        <!--where delete_flag = '0'-->
-    <!--</select>-->
+    <select id="pageLogs" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity">
+        select
+        <include refid="colSql"/>
+        from sys_operation_log
+        where delete_flag = '0'
+    </select>
 
 </mapper>
