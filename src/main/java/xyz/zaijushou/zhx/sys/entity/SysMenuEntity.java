@@ -40,6 +40,16 @@ public class SysMenuEntity extends CommonEntity {
     private String menuAuthSymbol;
 
     /**
+     * 菜单图标
+     */
+    private String menuIcon;
+
+    /**
+     * 排序
+     */
+    private String sort;
+
+    /**
      * 子菜单列表
      */
     private List<SysMenuEntity> children;
@@ -95,6 +105,22 @@ public class SysMenuEntity extends CommonEntity {
 
     public void setMenuAuthSymbol(String menuAuthSymbol) {
         this.menuAuthSymbol = menuAuthSymbol;
+    }
+
+    public String getMenuIcon() {
+        return menuIcon;
+    }
+
+    public void setMenuIcon(String menuIcon) {
+        this.menuIcon = menuIcon;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
     public List<SysMenuEntity> getChildren() {

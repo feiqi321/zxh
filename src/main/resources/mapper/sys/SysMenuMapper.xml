@@ -12,6 +12,8 @@
         menu_level as menuLevel,
         leaf_node as leafNode,
         menu_auth_symbol as menuAuthSymbol,
+        menu_icon as menuIcon,
+        sort as sort,
         remark as remark,
         create_user as 'createUser.id',
         update_user as 'updateUser.id',

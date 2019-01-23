@@ -34,11 +34,20 @@ public class JwtTokenUtil {
     }
 
     /**
-     * 解析token
+     * 解析token，token 从request中获取
      * @return JSONObject
      */
     public static JSONObject tokenData() {
         String token = token();
+        return tokenData(token);
+    }
+
+    /**
+     * 解析token
+     * @param token token 字符串
+     * @return JSONObject
+     */
+    public static JSONObject tokenData(String token) {
         String tokenContent = Jwts.parser().setSigningKey(signKey).parseClaimsJws(token.replace("Bearer ", "")).getBody().getSubject();
         return JSONObject.parseObject(tokenContent);
     }

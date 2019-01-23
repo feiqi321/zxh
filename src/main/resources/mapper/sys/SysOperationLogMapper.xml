@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.SysOperationLogMapper">
+
+    <sql id="colSql">
+        id as id,
+        url as url,
+        user_ip as userIp,
+        user_browser as userBrowser,
+        request_token as requestToken,
+        user_id as userId,
+        user_login_name as userLoginName,
+        request_body as requestBody,
+        response_body as responseBody,
+        remark as remark,
+        create_user as 'createUser.id',
+        update_user as 'updateUser.id',
+        create_time as createTime,
+        update_time as updateTime,
+        delete_flag as deleteFlag
+    </sql>
+
+    <insert id="insertRequest" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_operation_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="url != null">url,</if>
+            <if test="userIp != null">user_ip,</if>
+            <if test="userBrowser != null">user_browser,</if>
+            <if test="requestToken != null">request_token,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userLoginName != null">user_login_name,</if>
+            <if test="requestBody != null">request_body,</if>
+            <if test="responseBody != null">response_body,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="url != null">#{url},</if>
+            <if test="userIp != null">#{userIp},</if>
+            <if test="userBrowser != null">#{userBrowser},</if>
+            <if test="requestToken != null">#{requestToken},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userLoginName != null">#{userLoginName},</if>
+            <if test="requestBody != null">#{requestBody},</if>
+            <if test="responseBody != null">#{responseBody},</if>
+        </trim>
+    </insert>
+
+    <update id="updateResponse" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity">
+        update sys_operation_log
+        set
+        <trim suffixOverrides=",">
+            <if test="url != null">url = #{url},</if>
+            <if test="userIp != null">user_ip = #{userIp},</if>
+            <if test="userBrowser != null">user_browser = #{userBrowser},</if>
+            <if test="requestToken != null">request_token = #{requestToken},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userLoginName != null">user_login_name = #{userLoginName},</if>
+            <if test="requestBody != null">request_body = #{requestBody},</if>
+            <if test="responseBody != null">response_body = #{responseBody},</if>
+        </trim>
+        where
+            id = #{id}
+    </update>
+
+    <!--<select id="listAllMenus" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity">-->
+        <!--select-->
+        <!--<include refid="colSql"/>-->
+        <!--from sys_operation_log-->
+        <!--where delete_flag = '0'-->
+    <!--</select>-->
+
+</mapper>

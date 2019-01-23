@@ -21,7 +21,6 @@ import xyz.zaijushou.zhx.sys.entity.SysAuthorityEntity;
 import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
 import xyz.zaijushou.zhx.sys.security.GrantedAuthorityImpl;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
-import xyz.zaijushou.zhx.utils.SpringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;

@@ -2,7 +2,6 @@ package xyz.zaijushou.zhx.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,8 +9,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import xyz.zaijushou.zhx.filter.JWTAuthenticationFilter;
 import xyz.zaijushou.zhx.filter.JWTLoginFilter;
+import xyz.zaijushou.zhx.filter.OperationLogFilter;
 import xyz.zaijushou.zhx.sys.security.DbAuthenticationProvider;
 import xyz.zaijushou.zhx.sys.security.JwtLogoutSuccessHandler;
 import xyz.zaijushou.zhx.sys.security.ZhxAccessDeniedHandler;
@@ -57,6 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private ZhxAccessDeniedHandler zhxAccessDeniedHandler;
 
+    @Resource
+    private OperationLogFilter operationLogFilter;
+
     // 设置 HTTP 验证规则
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -83,7 +87,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .exceptionHandling()
-                .accessDeniedHandler(zhxAccessDeniedHandler);
+                .accessDeniedHandler(zhxAccessDeniedHandler)
+                .and()
+                .addFilterBefore(operationLogFilter, ChannelProcessingFilter.class);
     }
 
     // 该方法是登录的时候会进入
