@@ -31,7 +31,6 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         if(StringUtils.notEmpty(dictionary)){//非空判断
 
             dictionary.setNumber(1);//默认为1
-            dictionary.setStatus(1);//默认启用
             dictionary.setCreateTime(new Date());
             //获取用户信息
             //dictionary.setCreateUser(getUserInfo());//
