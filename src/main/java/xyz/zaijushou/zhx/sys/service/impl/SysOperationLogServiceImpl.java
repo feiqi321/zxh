@@ -27,7 +27,6 @@ public class SysOperationLogServiceImpl implements SysOperationLogService {
 
     @Override
     public List<SysOperationLogEntity> pageLogs(SysOperationLogEntity operationLog) {
-        PageHelper.startPage(1, 10);
         return operationLogMapper.pageLogs(operationLog);
     }
 }

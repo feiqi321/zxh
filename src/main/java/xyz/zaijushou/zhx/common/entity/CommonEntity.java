@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.common.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import java.util.Date;
@@ -46,6 +48,16 @@ public class CommonEntity {
      * 删除标志， 0-正常， 1-已删除
      */
     private Integer deleteFlag;
+
+    /**
+     * 页码
+     */
+    private Integer pageNum;
+
+    /**
+     * 分页数量
+     */
+    private Integer pageSize;
 
     public Integer getId() {
         return id;
@@ -101,5 +113,21 @@ public class CommonEntity {
 
     public void setDeleteFlag(Integer deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public Integer getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

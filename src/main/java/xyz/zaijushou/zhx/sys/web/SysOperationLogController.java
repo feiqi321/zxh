@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.web;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
@@ -16,7 +17,7 @@ public class SysOperationLogController {
     private SysOperationLogService sysOperationLogService;
 
     @PostMapping("/pageLogs")
-    public Object pageLogs(SysOperationLogEntity operationLog) {
+    public Object pageLogs(@RequestBody SysOperationLogEntity operationLog) {
         return sysOperationLogService.pageLogs(operationLog);
     }
 

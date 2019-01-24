@@ -1,23 +1,18 @@
 package xyz.zaijushou.zhx.sys.entity;
 
-import xyz.zaijushou.zhx.common.entity.CommonEntity;
+import xyz.zaijushou.zhx.common.entity.TreeEntity;
 
 import java.util.List;
 
 /**
  * 菜单实体类
  */
-public class SysMenuEntity extends CommonEntity {
+public class SysMenuEntity extends TreeEntity<SysMenuEntity> {
 
     /**
      * 菜单名称
      */
     private String menuLabel;
-
-    /**
-     * 父菜单
-     */
-    private SysMenuEntity parent;
 
     /**
      * 菜单url
@@ -50,11 +45,6 @@ public class SysMenuEntity extends CommonEntity {
     private String sort;
 
     /**
-     * 子菜单列表
-     */
-    private List<SysMenuEntity> children;
-
-    /**
      * 按钮列表
      */
     private List<SysButtonEntity> buttonList;
@@ -65,14 +55,6 @@ public class SysMenuEntity extends CommonEntity {
 
     public void setMenuLabel(String menuLabel) {
         this.menuLabel = menuLabel;
-    }
-
-    public SysMenuEntity getParent() {
-        return parent;
-    }
-
-    public void setParent(SysMenuEntity parent) {
-        this.parent = parent;
     }
 
     public String getMenuUrl() {
@@ -121,14 +103,6 @@ public class SysMenuEntity extends CommonEntity {
 
     public void setSort(String sort) {
         this.sort = sort;
-    }
-
-    public List<SysMenuEntity> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<SysMenuEntity> children) {
-        this.children = children;
     }
 
     public List<SysButtonEntity> getButtonList() {

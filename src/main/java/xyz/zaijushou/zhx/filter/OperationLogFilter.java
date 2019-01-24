@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.OncePerRequestFilter;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -17,45 +18,50 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-public class OperationLogFilter implements Filter {
+public class OperationLogFilter extends OncePerRequestFilter {
     private static Logger logger = LoggerFactory.getLogger(OperationLogFilter.class);
 
     @Resource
     private SysOperationLogService sysOperationLogService;
+
+    private static final String[] REQUEST_EXCEPT_URL = {
+            "/import",   //上传文件
+    };
 
     private static final String[] RESPONSE_EXCEPT_URL = {
             "/operationLog/pageLogs",   //操作日志查询
     };
 
     @Override
-    public void init(FilterConfig filterConfig) {
-    }
-
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String method = httpServletRequest.getMethod();
         //仅对post请求进行过滤
         if (!"POST".equals(method)) {
-            chain.doFilter(request, response);
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
         ZhxHttpServletRequestWrapper requestWrapper = new ZhxHttpServletRequestWrapper(httpServletRequest);
-        ZhxHttpServletResponseWrapper responseWrapper = new ZhxHttpServletResponseWrapper((HttpServletResponse) response);
-        StringBuilder body = new StringBuilder();
-        BufferedReader reader = requestWrapper.getReader();
-        String line;
-        if (reader != null) {
-            while ((line = reader.readLine()) != null) {
-                body.append(line);
-            }
-        }
-        logger.info("请求参数:{}", body.toString());
-
-        String token = requestWrapper.getHeader("Authorization");
+        ZhxHttpServletResponseWrapper responseWrapper = new ZhxHttpServletResponseWrapper(httpServletResponse);
 
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
+
         operationLog.setUrl(requestWrapper.getRequestURI().replaceAll("/+", "/"));
+
+        StringBuilder body = new StringBuilder();
+        if(arrayContainsContent(REQUEST_EXCEPT_URL, operationLog.getUrl())) {
+            BufferedReader reader = requestWrapper.getReader();
+            String line;
+            if (reader != null) {
+                while ((line = reader.readLine()) != null) {
+                    body.append(line);
+                }
+            }
+            logger.info("请求参数:{}", body.toString());
+
+            operationLog.setRequestBody(body.toString());
+        }
+
+        String token = requestWrapper.getHeader("Authorization");
         operationLog.setUserIp(getIPAddress(requestWrapper));
         operationLog.setUserBrowser(requestWrapper.getHeader("User-Agent"));
         operationLog.setRequestToken(token);
@@ -68,17 +74,16 @@ public class OperationLogFilter implements Filter {
                 logger.error("token解析失败，{}", e);
             }
         }
-        operationLog.setRequestBody(body.toString());
 
         sysOperationLogService.insertRequest(operationLog);
 
-        chain.doFilter(requestWrapper, responseWrapper);
+        filterChain.doFilter(requestWrapper, responseWrapper);
 
         String result = new String(responseWrapper.getResponseData(), StandardCharsets.UTF_8);
 
-        response.setContentLength(-1);
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
+        httpServletResponse.setContentLength(-1);
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        PrintWriter out = httpServletResponse.getWriter();
         out.write(result);
         out.flush();
         out.close();

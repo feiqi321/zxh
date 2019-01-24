@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import xyz.zaijushou.zhx.filter.JWTAuthenticationFilter;
 import xyz.zaijushou.zhx.filter.JWTLoginFilter;
 import xyz.zaijushou.zhx.filter.OperationLogFilter;
@@ -89,7 +90,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedHandler(zhxAccessDeniedHandler)
                 .and()
-                .addFilterBefore(operationLogFilter, ChannelProcessingFilter.class);
+                .addFilterBefore(operationLogFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     // 该方法是登录的时候会进入
