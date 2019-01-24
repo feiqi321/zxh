@@ -35,7 +35,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             //获取用户信息
             //dictionary.setCreateUser(getUserInfo());//
             //插入数据
-            dictionaryMapper.insertDataDictionary(dictionary);
+            dictionaryMapper.saveDataDictionary(dictionary);
         }
     }
 
@@ -46,7 +46,6 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Override
     public void updateDataDictionary(SysDictionaryEntity dictionary){
         dictionary.setUpdateTime(new Date());//更新时间
-
        // dictionary.setUpdateUser(getUserInfo());//获取更新用户
         //保存更新数据
         dictionaryMapper.updateDataDictionary(dictionary);
@@ -62,32 +61,31 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
 
     /**
      * 查询数据列表
-     * @param dictionaryId
-     * @param name
+     * @param dictionary
      * @return
      */
     @Override
-    public List<SysDictionaryEntity> getDataList(Integer dictionaryId, String name){
-        return dictionaryMapper.getDataList(dictionaryId,name);
+    public List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary){
+        return dictionaryMapper.getDataList(dictionary.getDictionaryId(),dictionary.getName());
     }
 
     /**
      * 根据数据Id查询数据
-     * @param id
+     * @param dictionary
      * @return
      */
     @Override
-    public SysDictionaryEntity getDataById(Integer id){
-       return dictionaryMapper.getDataById(id);
+    public SysDictionaryEntity getDataById(SysDictionaryEntity dictionary){
+       return dictionaryMapper.getDataById(dictionary.getId());
     }
 
     /**
      * 物理删除数据
-     * @param id
+     * @param dictionary
      */
     @Override
-    public void deleteById(Integer id){
-        dictionaryMapper.deleteById(id);
+    public void deleteById(SysDictionaryEntity dictionary){
+        dictionaryMapper.deleteById(dictionary.getId());
     }
 
 }

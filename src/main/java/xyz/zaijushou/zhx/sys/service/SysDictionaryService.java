@@ -20,22 +20,22 @@ public interface SysDictionaryService {
 
     /**
      * 查询数据集合
-     * @param dictionaryId
+     * @param dictionary
      * @return
      */
-    List<SysDictionaryEntity> getDataList(Integer dictionaryId, String name);
+    List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
 
     /**
      *  根据Id查询数据
-     * @param id
+     * @param dictionary
      * @return
      */
-    SysDictionaryEntity getDataById(Integer id);
+    SysDictionaryEntity getDataById(SysDictionaryEntity dictionary);
 
     /**
      * 通过Id删除数据信息
-     * @param id
+     * @param dictionary
      */
-    void deleteById(Integer id);
+    void deleteById(SysDictionaryEntity dictionary);
 }
 

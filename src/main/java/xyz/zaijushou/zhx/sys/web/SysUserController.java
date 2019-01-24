@@ -2,17 +2,17 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Api("用户操作")
 @RestController
@@ -40,6 +40,32 @@ public class SysUserController {
         return WebResponse.success(user);
     }
 
+    @ApiOperation(value = "新增用户", notes = "新增用户")
+    @PostMapping("/insert")
+    public Object saveData(@RequestBody SysOperationUserEntity userEntity) {
+        sysUserService.saveUser(userEntity);
+        return WebResponse.success(userEntity);
+    }
 
+    @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
+    @PostMapping("/update")
+    public Object updateData(@RequestBody SysOperationUserEntity userEntity) {
+        sysUserService.updateUser(userEntity);
+        return WebResponse.success(userEntity);
+    }
+
+    @ApiOperation(value = "查询用户数据列表", notes = "查询用户数据列表")
+    @PostMapping("/select/list")
+    public Object getDataList(@RequestBody SysOperationUserEntity userEntity) {
+        List<SysOperationUserEntity> userEntityList = sysUserService.getDataList(userEntity);
+        return WebResponse.success(userEntity);
+    }
+
+    @ApiOperation(value = "查询指定用户数据", notes = "查询指定用户数据")
+    @PostMapping("/select/id")
+    public Object getDataById(@RequestBody SysOperationUserEntity userEntity) {
+        SysOperationUserEntity userInfoEntity = sysUserService.getDataById(userEntity);
+        return WebResponse.success(userInfoEntity);
+    }
 
 }

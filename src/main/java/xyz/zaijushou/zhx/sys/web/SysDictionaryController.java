@@ -2,8 +2,10 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
@@ -21,7 +23,7 @@ public class SysDictionaryController {
 
     @ApiOperation(value = "增加数据信息", notes = "增加数据信息")
     @PostMapping("/insert")
-    public Object insertData(@RequestBody SysDictionaryEntity dictionary) {
+    public Object saveData(@RequestBody SysDictionaryEntity dictionary) {
         dictionaryService.saveDataDictionary(dictionary);
         return WebResponse.success(dictionary);
     }
@@ -34,23 +36,23 @@ public class SysDictionaryController {
     }
 
     @ApiOperation(value = "查询数据列表", notes = "查询数据列表")
-    @GetMapping("/select/list")
-    public Object getDataList(@RequestParam Integer dictionaryId,@RequestParam String name) {
-        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.getDataList(dictionaryId,name);
+    @PostMapping("/select/list")
+    public Object getDataList(@RequestBody SysDictionaryEntity dictionary) {
+        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.getDataList(dictionary);
         return WebResponse.success(dictionaryEntityList);
     }
 
     @ApiOperation(value = "查询指定数据", notes = "查询指定数据")
-    @GetMapping("/select/id")
-    public Object getDataById(@RequestParam Integer id) {
-        SysDictionaryEntity dictionaryEntity = dictionaryService.getDataById(id);
+    @PostMapping("/select/id")
+    public Object getDataById(@RequestBody SysDictionaryEntity dictionary) {
+        SysDictionaryEntity dictionaryEntity = dictionaryService.getDataById(dictionary);
         return WebResponse.success(dictionaryEntity);
     }
 
     @ApiOperation(value = "删除指定数据", notes = "删除指定数据")
     @PostMapping("/delete/id")
-    public Object deleteById(@RequestParam Integer id) {
-        dictionaryService.deleteById(id);
-        return WebResponse.success(id);
+    public Object deleteById(@RequestBody SysDictionaryEntity dictionary) {
+        dictionaryService.deleteById(dictionary);
+        return WebResponse.success(dictionary);
     }
 }

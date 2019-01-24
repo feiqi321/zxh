@@ -20,12 +20,13 @@
     </sql>
 
     <!--插入数据信息-->
-    <insert id="insertDataDictionary" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+    <insert id="saveDataDictionary" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
         INSERT INTO sys_data_dictionary
         SET
         name=#{name}
 		,description=#{description}
 		,status=#{status}
+		,create_time=#{createTime,jdbcType=TIMESTAMP}
 		,dictionary_id=#{dictionaryId}
     </insert>
 
@@ -42,6 +43,9 @@
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
             </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
             <if test="number != null">
                 number = #{number,jdbcType=INTEGER},
             </if>
@@ -53,27 +57,26 @@
     </update>
 
     <!--查询数据集合-->
-    <select id="getDataList" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+    <select id="getDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
         select
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
-        where status = 1
+        where 1 = 1
         <if test="dictionaryId != null">
             AND  dictionary_id = #{dictionaryId,jdbcType=INTEGER}
         </if>
         <if test="name != null and name != ''">
             AND  name = #{name}
         </if>
-        order by create_time desc
+        order by id
     </select>
 
     <!--根据Id查询数据-->
-    <select id="getDataById" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+    <select id="getDataById"  resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
         select
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
-        where status = 1 and id = #{id,jdbcType=INTEGER}
-        order by create_time desc
+        where 1 = 1 and id = #{id,jdbcType=INTEGER}
     </select>
 
     <!--通过Id删除数据信息-->
