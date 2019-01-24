@@ -1,8 +1,6 @@
 package xyz.zaijushou.zhx.aop;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -20,9 +18,9 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 @Aspect
 @Component
-public class PageAop {
+public class SqlAop {
 
-    private static Logger logger = LoggerFactory.getLogger(PageAop.class);
+    private static Logger logger = LoggerFactory.getLogger(SqlAop.class);
 
     @Value("${xyz.zaijushou.zhx.page.start-page}")
     private Integer startPage;
