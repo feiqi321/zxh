@@ -11,7 +11,12 @@
         description,
         status,
         number,
-        dictionary_id as dictionaryId
+        dictionary_id as dictionaryId,
+        create_user as 'createUser.id',
+        update_user as 'updateUser.id',
+        create_time as createTime,
+        update_time as updateTime
+
     </sql>
 
     <!--插入数据信息-->
@@ -21,7 +26,6 @@
         name=#{name}
 		,description=#{description}
 		,status=#{status}
-		,number=#{number}
 		,dictionary_id=#{dictionaryId}
     </insert>
 
@@ -44,7 +48,6 @@
             <if test="dictionaryId !=null">
                 dictionary_id = #{dictionaryId,jdbcType=INTEGER}
             </if>
-
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -61,7 +64,7 @@
         <if test="name != null and name != ''">
             AND  name = #{name}
         </if>
-        order by number
+        order by create_time desc
     </select>
 
     <!--根据Id查询数据-->
@@ -70,7 +73,7 @@
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
         where status = 1 and id = #{id,jdbcType=INTEGER}
-        order by number
+        order by create_time desc
     </select>
 
     <!--通过Id删除数据信息-->

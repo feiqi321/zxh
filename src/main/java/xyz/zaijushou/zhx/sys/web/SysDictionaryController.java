@@ -11,16 +11,13 @@ import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import javax.annotation.Resource;
 import java.util.List;
 
-@Api("菜单操作")
+@Api("枚举操作")
 @RestController
 @RequestMapping(value = "/sys/dictionary")
 public class SysDictionaryController {
 
     @Resource
     private SysDictionaryService dictionaryService;
-
-    @Resource
-    private StringRedisTemplate stringRedisTemplate;
 
     @ApiOperation(value = "增加数据信息", notes = "增加数据信息")
     @PostMapping("/insert")
@@ -50,10 +47,10 @@ public class SysDictionaryController {
         return WebResponse.success(dictionaryEntity);
     }
 
-    @ApiOperation(value = "查询指定数据", notes = "查询指定数据")
+    @ApiOperation(value = "删除指定数据", notes = "删除指定数据")
     @PostMapping("/delete/id")
     public Object deleteById(@RequestParam Integer id) {
         dictionaryService.deleteById(id);
-        return WebResponse.success();
+        return WebResponse.success(id);
     }
 }
