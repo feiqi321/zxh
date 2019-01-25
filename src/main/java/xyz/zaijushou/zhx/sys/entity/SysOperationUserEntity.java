@@ -12,7 +12,7 @@ public class SysOperationUserEntity extends CommonEntity {
 
   private String username;
   private String number;
-  private int deptId;
+  private String department;
   private String position;
   private String sex;
   private String highEdu;
@@ -95,14 +95,13 @@ public class SysOperationUserEntity extends CommonEntity {
   }
 
 
-  public int getDeptId() {
-    return deptId;
+  public String getDepartment() {
+    return department;
   }
 
-  public void setDeptId(int deptId) {
-    this.deptId = deptId;
+  public void setDepartment(String department) {
+    this.department = department;
   }
-
 
   public String getPosition() {
     return position;

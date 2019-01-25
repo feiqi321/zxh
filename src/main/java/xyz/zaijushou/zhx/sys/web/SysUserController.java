@@ -2,7 +2,10 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
@@ -44,21 +47,21 @@ public class SysUserController {
     @PostMapping("/insert")
     public Object saveData(@RequestBody SysOperationUserEntity userEntity) {
         sysUserService.saveUser(userEntity);
-        return WebResponse.success(userEntity);
+        return WebResponse.success();
     }
 
     @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
     @PostMapping("/update")
     public Object updateData(@RequestBody SysOperationUserEntity userEntity) {
         sysUserService.updateUser(userEntity);
-        return WebResponse.success(userEntity);
+        return WebResponse.success();
     }
 
     @ApiOperation(value = "查询用户数据列表", notes = "查询用户数据列表")
     @PostMapping("/select/list")
     public Object getDataList(@RequestBody SysOperationUserEntity userEntity) {
-        List<SysOperationUserEntity> userEntityList = sysUserService.getDataList(userEntity);
-        return WebResponse.success(userEntity);
+        List<SysOperationUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
+        return WebResponse.success(userEntityList);
     }
 
     @ApiOperation(value = "查询指定用户数据", notes = "查询指定用户数据")

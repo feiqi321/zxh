@@ -46,7 +46,9 @@ public class SysUserServiceImpl implements SysUserService {
         BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
         userEntity.setPassword(encoder.encode("admin".trim()));//保存加密密码
         userEntity.setCreateTime(new Date());
-        userEntity.setDeleteFlag(0);//正常
+        userEntity.setDeleteFlag(0);//默认正常
+        userEntity.setEnable(1);//默认启用
+        userEntity.setStatus(1);//默认在职
         sysUserMapper.saveUser(userEntity);
     }
 
@@ -63,13 +65,9 @@ public class SysUserServiceImpl implements SysUserService {
      * @param userEntity
      * @return
      */
-    public List<SysOperationUserEntity> getDataList(SysOperationUserEntity userEntity){
-        List<SysOperationUserEntity> userEntityList = new ArrayList<SysOperationUserEntity>();
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("id",userEntity.getId());//用户Id
-        map.put("status",userEntity.getStatus());//1-在职，0-离职
-        userEntityList = sysUserMapper.getDataList(map);
-        return  userEntityList;
+    public List<SysOperationUserEntity> pageDataList(SysOperationUserEntity userEntity){
+
+        return   sysUserMapper.pageDataList(userEntity);
     }
 
     /**

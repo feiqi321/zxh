@@ -43,7 +43,7 @@
         email as email,
         remark as remark,
 
-        dept_id as deptId,
+        department,
         position,
         sex,
         high_edu as highEdu,
@@ -141,7 +141,7 @@
     <!--插入用户数据信息-->
     <insert id="saveUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
         INSERT INTO `sys_user`
-(`username`, `number`, `dept_id`, `position`, `sex`,
+(`username`, `number`, `department`, `position`, `sex`,
 `high_edu`, `user_type`, `category`, `posi_title`, `come_resource`,
  `join_time`, `internship`, `plan_time`, `actual_time`, `credit_time`,
 `leave_time`, `yearly_salary`, `security_number`, `fund_number`, `benefit`,
@@ -152,7 +152,7 @@
  `address`, `login_name`, `password`, `remark`, `enable`,
 `create_time`, `delete_flag`, `status`)
 VALUES (
-#{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+#{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
 #{highEdu,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{posiTitle,jdbcType=VARCHAR}, #{comeResource,jdbcType=VARCHAR},
 #{joinTime,jdbcType=TIMESTAMP}, #{internship,jdbcType=INTEGER}, #{planTime,jdbcType=TIMESTAMP}, #{actualTime,jdbcType=TIMESTAMP}, #{creditTime,jdbcType=TIMESTAMP},
 #{leaveTime,jdbcType=TIMESTAMP}, #{yearlySalary,jdbcType=DECIMAL}, #{securityNumber,jdbcType=VARCHAR}, #{fundNumber,jdbcType=VARCHAR}, #{benefit,jdbcType=VARCHAR},
@@ -178,13 +178,13 @@ VALUES (
     </update>
 
     <!--查询数据集合-->
-    <select id="getDataList" resultType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
+    <select id="pageDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
         select
         <include refid="userInfo"/>
         from sys_user
         where 1 = 1
         <if test="status != null">
-            AND  status = #{staus,jdbcType=INTEGER}
+            AND  status = #{status,jdbcType=INTEGER}
         </if>
 
         order by create_time

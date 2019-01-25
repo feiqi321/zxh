@@ -1,16 +1,12 @@
 package xyz.zaijushou.zhx.sys.entity;
 
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
+import xyz.zaijushou.zhx.common.entity.TreeEntity;
 
 /**
  * 权限实体类
  */
-public class SysDictionaryEntity extends CommonEntity {
-
-    /**
-     * 主键Id
-     */
-    private Integer id;
+public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
 
     /**
      * 名称
@@ -26,26 +22,6 @@ public class SysDictionaryEntity extends CommonEntity {
      * 0停用 1启用
      */
     private Integer status;
-
-    /**
-     * 排列序号
-     */
-    private Integer number;
-
-    /**
-     * 字典id
-     */
-    private Integer dictionaryId;
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -71,19 +47,4 @@ public class SysDictionaryEntity extends CommonEntity {
         this.status = status;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public Integer getDictionaryId() {
-        return dictionaryId;
-    }
-
-    public void setDictionaryId(Integer dictionaryId) {
-        this.dictionaryId = dictionaryId;
-    }
 }
