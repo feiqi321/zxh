@@ -1,11 +1,15 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -21,7 +25,8 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Resource
     private SysUserService sysUserService;
 
-
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
     /**
      * 保存数据
      * @param dictionary
@@ -66,7 +71,15 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      */
     @Override
     public List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary){
-        return dictionaryMapper.getDataList(dictionary.getDictionaryId(),dictionary.getName());
+
+        //查询枚举数据
+        List<SysDictionaryEntity> dictionaryList = dictionaryMapper.getDataList(dictionary.getDictionaryId(),dictionary.getName());
+
+        dictionaryList = CollectionsUtils.listToTree(dictionaryList);
+        //将枚举数据存入缓存中
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_DICTIONARY + dictionary.getDictionaryId(), JSONArray.toJSONString(dictionaryList));
+
+        return dictionaryList;
     }
 
     /**

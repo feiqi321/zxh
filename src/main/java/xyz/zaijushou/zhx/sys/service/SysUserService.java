@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
@@ -31,7 +32,7 @@ public interface SysUserService {
      * @param userEntity
      * @return
      */
-    List<SysOperationUserEntity> getDataList(SysOperationUserEntity userEntity);
+    List<SysOperationUserEntity> pageDataList(SysOperationUserEntity userEntity);
 
     /**
      * 查询用户信息

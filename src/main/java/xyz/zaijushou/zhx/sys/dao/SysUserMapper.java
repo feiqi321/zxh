@@ -30,10 +30,11 @@ public interface SysUserMapper {
 
     /**
      * 查询用户列表
-     * @param map
+     * @param userEntity
      * @return
      */
-    List<SysOperationUserEntity> getDataList(Map<String,Object> map);
+    List<SysOperationUserEntity> pageDataList(SysOperationUserEntity userEntity);
+
 
     /**
      * 查询用户信息

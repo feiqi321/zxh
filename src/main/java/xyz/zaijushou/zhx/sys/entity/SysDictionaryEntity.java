@@ -1,11 +1,12 @@
 package xyz.zaijushou.zhx.sys.entity;
 
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
+import xyz.zaijushou.zhx.common.entity.TreeEntity;
 
 /**
  * 权限实体类
  */
-public class SysDictionaryEntity extends CommonEntity {
+public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
 
     /**
      * 主键Id

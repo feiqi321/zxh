@@ -43,7 +43,7 @@ public class DataCaseController {
     }
 
     @ApiOperation(value = "刪除批次", notes = "刪除批次")
-    @PostMapping("/dataCase/update")
+    @PostMapping("/dataCase/delete")
     public Object delete(@RequestBody DataCaseEntity dataCaseEntity) {
 
         dataCaseService.deleteById(dataCaseEntity);
