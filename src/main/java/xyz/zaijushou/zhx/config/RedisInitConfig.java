@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.config;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.models.auth.In;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.redis.core.Cursor;
@@ -67,13 +68,98 @@ public class RedisInitConfig implements ApplicationRunner {
         initButtonInfo(allButton);
         initAuthorityInfo(allAuthority);
         initUserRole(allRole, userRoles);
-//        initRoleMenu(allRole, allMenu, roleMenus);
-
-        initRoleTo(allRole, allMenu, allAuthority, roleMenus, allButton, buttonAuthorities);
+        Map<Integer, SysRoleEntity> roleMap = initRoleMenu(allRole, allMenu, roleMenus);
+        roleMap = initRoleButton(roleMap, allButton, roleButtons);
+        initRoleAuthority(roleMap, allButton, allAuthority, buttonAuthorities);
 
     }
 
-    private void initRoleMenu(List<SysRoleEntity> allRole, List<SysMenuEntity> allMenu, List<SysToRoleMenu> roleMenus) {
+    private Map<Integer, SysRoleEntity> initRoleAuthority(Map<Integer, SysRoleEntity> roleMap, List<SysButtonEntity> allButton, List<SysAuthorityEntity> allAuthority, List<SysToButtonAuthority> buttonAuthorities) {
+        Map<Integer, Map<Integer, SysButtonEntity>> roleButtonMap = new HashMap<>();
+        for(Map.Entry<Integer, SysRoleEntity> entry : roleMap.entrySet()) {
+            roleButtonMap.put(entry.getKey(), CollectionsUtils.listToMap(entry.getValue().getButtons()));
+        }
+
+        Map<Integer, SysButtonEntity> buttonMap = CollectionsUtils.listToMap(allButton);
+        Map<Integer, SysAuthorityEntity> authorityMap = CollectionsUtils.listToMap(allAuthority);
+        Map<Integer, Map<Integer, SysAuthorityEntity>> buttonAuthorityMap = new HashMap<>();
+        Iterator<SysToButtonAuthority> buttonAuthorityIterator = buttonAuthorities.iterator();
+        while(buttonAuthorityIterator.hasNext()) {
+            SysToButtonAuthority buttonAuthority = buttonAuthorityIterator.next();
+            if(!buttonMap.containsKey(buttonAuthority.getButton().getId())) {
+                buttonAuthorityIterator.remove();
+                continue;
+            }
+            if(!authorityMap.containsKey(buttonAuthority.getAuthority().getId())) {
+                buttonAuthorityIterator.remove();
+                continue;
+            }
+            if(!buttonAuthorityMap.containsKey(buttonAuthority.getButton().getId())) {
+                buttonAuthorityMap.put(buttonAuthority.getButton().getId(), new HashMap<>());
+            }
+            buttonAuthorityMap.get(buttonAuthority.getButton().getId()).put(buttonAuthority.getAuthority().getId(), authorityMap.get(buttonAuthority.getAuthority().getId()));
+        }
+
+        Map<Integer, Map<Integer, SysAuthorityEntity>> roleAuthorityMap = new HashMap<>();
+        for(Map.Entry<Integer, SysRoleEntity> entry : roleMap.entrySet()) {
+            roleAuthorityMap.put(entry.getKey(), new HashMap<>());
+            SysRoleEntity role = entry.getValue();
+            if(role.getAuthorities() == null) {
+                role.setAuthorities(new ArrayList<>());
+            }
+            if(!CollectionUtils.isEmpty(role.getButtons())) {
+                for(SysButtonEntity button : role.getButtons()) {
+                    roleAuthorityMap.get(entry.getKey()).putAll(buttonAuthorityMap.get(button.getId()));
+                }
+
+            }
+        }
+        deleteKeys(RedisKeyPrefix.ROLE_AUTHORITY);
+        for(Map.Entry<Integer, Map<Integer, SysAuthorityEntity>> entry : roleAuthorityMap.entrySet()) {
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.ROLE_AUTHORITY + entry.getKey(), JSONArray.toJSONString(entry.getValue().values()));
+            roleMap.get(entry.getKey()).setAuthorities(new ArrayList<>(entry.getValue().values()));
+        }
+        return roleMap;
+    }
+
+    private Map<Integer, SysRoleEntity> initRoleButton(Map<Integer, SysRoleEntity> roleMap, List<SysButtonEntity> allButton, List<SysToRoleButton> roleButtons) {
+        Map<Integer, Map<Integer, SysMenuEntity>> roleMenuMap = new HashMap<>();
+        for(Map.Entry<Integer, SysRoleEntity> entry : roleMap.entrySet()) {
+            roleMenuMap.put(entry.getKey(), CollectionsUtils.listToMap(entry.getValue().getMenus()));
+        }
+
+        Map<Integer, SysButtonEntity> buttonMap = CollectionsUtils.listToMap(allButton);
+        Iterator<SysToRoleButton> roleButtonIterator = roleButtons.iterator();
+        while(roleButtonIterator.hasNext()) {
+            SysToRoleButton roleButton = roleButtonIterator.next();
+            if(!roleMap.containsKey(roleButton.getRole().getId())) {
+                roleButtonIterator.remove();
+                continue;
+            }
+            if(!buttonMap.containsKey(roleButton.getButton().getId())) {
+                roleButtonIterator.remove();
+                continue;
+            }
+            SysButtonEntity button = buttonMap.get(roleButton.getButton().getId());
+            if(!roleMenuMap.get(roleButton.getRole().getId()).containsKey(button.getParentMenu().getId())) {
+                roleButtonIterator.remove();
+                continue;
+            }
+            if(roleMap.get(roleButton.getRole().getId()).getButtons() == null) {
+                roleMap.get(roleButton.getRole().getId()).setButtons(new ArrayList<>());
+            }
+            roleMap.get(roleButton.getRole().getId()).getButtons().add(button);
+        }
+
+        deleteKeys(RedisKeyPrefix.ROLE_BUTTON);
+        for(Map.Entry<Integer, SysRoleEntity> entry : roleMap.entrySet()) {
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.ROLE_BUTTON + entry.getKey(), JSONArray.toJSONString(entry.getValue().getButtons()));
+        }
+
+        return roleMap;
+    }
+
+    private Map<Integer, SysRoleEntity> initRoleMenu(List<SysRoleEntity> allRole, List<SysMenuEntity> allMenu, List<SysToRoleMenu> roleMenus) {
 
         Map<Integer, SysRoleEntity> roleMap = CollectionsUtils.listToMap(allRole);
         Map<Integer, SysMenuEntity> menuMap = CollectionsUtils.listToMap(allMenu);
@@ -89,149 +175,16 @@ public class RedisInitConfig implements ApplicationRunner {
             }
         }
 
-        Map<Integer, SysToRoleMenu> menusOfRoleMap = new HashMap<>();
         for(SysToRoleMenu roleMenu : roleMenus) {
-
-        }
-
-
-    }
-
-
-
-    private void initRoleTo(List<SysRoleEntity> allRole, List<SysMenuEntity> allMenu, List<SysAuthorityEntity> allAuthority, List<SysToRoleMenu> roleMenus, List<SysButtonEntity> allButton, List<SysToButtonAuthority> buttonAuthorities) {
-
-        Map<Integer, SysRoleEntity> roleMap = associatedRoleAuthoriry(allRole, allMenu, allAuthority, roleMenus, allButton, buttonAuthorities);
-
-        Map<Integer, Set<SysAuthorityEntity>> roleAuthoryMap = combineRoleAuthorities(roleMap);
-
-        deleteKeys(RedisKeyPrefix.ROLE_AUTHORITY);
-        for(Map.Entry<Integer, Set<SysAuthorityEntity>> entry : roleAuthoryMap.entrySet()) {
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.ROLE_AUTHORITY + entry.getKey(), JSONArray.toJSONString(entry.getValue()));
-        }
-
-        Map<Integer, Set<SysButtonEntity>> roleButtonMap = combineRoleButtons(roleMap);
-        deleteKeys(RedisKeyPrefix.ROLE_BUTTON);
-        for(Map.Entry<Integer, Set<SysButtonEntity>> entry : roleButtonMap.entrySet()) {
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.ROLE_BUTTON + entry.getKey(), JSONArray.toJSONString(entry.getValue()));
-        }
-
-        Map<Integer, Set<SysMenuEntity>> roleMenuMap = combineRoleMenus(roleMap);
-        deleteKeys(RedisKeyPrefix.ROLE_MENU);
-        for(Map.Entry<Integer, Set<SysMenuEntity>> entry : roleMenuMap.entrySet()) {
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.ROLE_MENU + entry.getKey(), JSONArray.toJSONString(entry.getValue()));
-        }
-    }
-
-    private Map<Integer, Set<SysButtonEntity>> combineRoleButtons(Map<Integer, SysRoleEntity> roleMap) {
-        Map<Integer, Set<SysButtonEntity>> roleButtonMap = new HashMap<>();
-
-        for(Map.Entry<Integer, SysRoleEntity> roleEntry : roleMap.entrySet()) {
-            Map<Integer, SysButtonEntity> buttonMap = new HashMap<>();
-            if(!CollectionUtils.isEmpty(roleEntry.getValue().getMenus())) {
-                for(SysMenuEntity menu : roleEntry.getValue().getMenus()) {
-                    if(CollectionUtils.isEmpty(menu.getButtonList())) {
-                        continue;
-                    }
-                    for(SysButtonEntity button : menu.getButtonList()) {
-                        if(CollectionUtils.isEmpty(button.getAuthorityList())) {
-                            button.setAuthorityList(null);
-                        }
-                        buttonMap.put(button.getId(), button);
-                    }
-                }
-            }
-            roleButtonMap.put(roleEntry.getKey(), new HashSet<>(buttonMap.values()));
-        }
-        return roleButtonMap;
-    }
-
-    private Map<Integer, Set<SysMenuEntity>> combineRoleMenus(Map<Integer, SysRoleEntity> roleMap) {
-        Map<Integer, Set<SysMenuEntity>> roleMenuMap = new HashMap<>();
-
-        for(Map.Entry<Integer, SysRoleEntity> roleEntry : roleMap.entrySet()) {
-            Map<Integer, SysMenuEntity> menuMap = new HashMap<>();
-            if(!CollectionUtils.isEmpty(roleEntry.getValue().getMenus())) {
-                for(SysMenuEntity menu : roleEntry.getValue().getMenus()) {
-                    if(!CollectionUtils.isEmpty(menu.getButtonList())) {
-                        menu.setButtonList(null);
-                    }
-                    menuMap.put(menu.getId(), menu);
-                }
-            }
-            roleMenuMap.put(roleEntry.getKey(), new HashSet<>(menuMap.values()));
-
-        }
-        return roleMenuMap;
-    }
-
-    private Map<Integer, Set<SysAuthorityEntity>> combineRoleAuthorities(Map<Integer, SysRoleEntity> roleMap) {
-        Map<Integer, Set<SysAuthorityEntity>> roleAuthorityMap = new HashMap<>();
-
-        for(Map.Entry<Integer, SysRoleEntity> roleEntry : roleMap.entrySet()) {
-            Map<Integer, SysAuthorityEntity> authorityMap = new HashMap<>();
-            if(!CollectionUtils.isEmpty(roleEntry.getValue().getMenus())) {
-                for(SysMenuEntity menu : roleEntry.getValue().getMenus()) {
-                    if(CollectionUtils.isEmpty(menu.getButtonList())) {
-                        continue;
-                    }
-                    for(SysButtonEntity button : menu.getButtonList()) {
-                        if(CollectionUtils.isEmpty(button.getAuthorityList())) {
-                            continue;
-                        }
-                        for(SysAuthorityEntity authority : button.getAuthorityList()) {
-                            authorityMap.put(authority.getId(), authority);
-                        }
-                    }
-                }
-            }
-            roleAuthorityMap.put(roleEntry.getKey(), new HashSet<>(authorityMap.values()));
-        }
-        return roleAuthorityMap;
-    }
-
-    private Map<Integer, SysRoleEntity> associatedRoleAuthoriry(List<SysRoleEntity> allRole, List<SysMenuEntity> allMenu, List<SysAuthorityEntity> allAuthority, List<SysToRoleMenu> roleMenus, List<SysButtonEntity> allButton, List<SysToButtonAuthority> buttonAuthorities) {
-        Map<Integer, SysAuthorityEntity> authorityMap = new HashMap<>();
-        for(SysAuthorityEntity authority : allAuthority) {
-            authorityMap.put(authority.getId(), authority);
-        }
-
-        Map<Integer, SysButtonEntity> buttonMap = new HashMap<>();
-        for(SysButtonEntity button : allButton) {
-            button.setAuthorityList(new ArrayList<>());
-            buttonMap.put(button.getId(), button);
-        }
-        for(SysToButtonAuthority buttonAuthority : buttonAuthorities) {
-            if(!buttonMap.containsKey(buttonAuthority.getButton().getId())) {
-                continue;
-            }
-            buttonMap.get(buttonAuthority.getButton().getId()).getAuthorityList().add(authorityMap.get(buttonAuthority.getAuthority().getId()));
-        }
-
-        Map<Integer, SysMenuEntity> menuMap = new HashMap<>();
-        for(SysMenuEntity menu : allMenu) {
-            menu.setButtonList(new ArrayList<>());
-            menuMap.put(menu.getId(), menu);
-        }
-
-        for(Map.Entry<Integer, SysButtonEntity> entry : buttonMap.entrySet()) {
-            SysButtonEntity button = entry.getValue();
-            if(!menuMap.containsKey(button.getParentMenu().getId())) {
-                continue;
-            }
-            menuMap.get(button.getParentMenu().getId()).getButtonList().add(button);
-        }
-
-        Map<Integer, SysRoleEntity> roleMap = new HashMap<>();
-        for(SysRoleEntity role : allRole) {
-            role.setMenus(new ArrayList<>());
-            roleMap.put(role.getId(), role);
-        }
-        for(SysToRoleMenu roleMenu : roleMenus) {
-            if(!roleMap.containsKey(roleMenu.getRole().getId())) {
-                continue;
+            if(roleMap.get(roleMenu.getRole().getId()).getMenus() == null) {
+                roleMap.get(roleMenu.getRole().getId()).setMenus(new ArrayList<>());
             }
             roleMap.get(roleMenu.getRole().getId()).getMenus().add(menuMap.get(roleMenu.getMenu().getId()));
+        }
+
+        deleteKeys(RedisKeyPrefix.ROLE_MENU);
+        for(Map.Entry<Integer, SysRoleEntity> entry : roleMap.entrySet()) {
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.ROLE_MENU + entry.getKey(), JSONArray.toJSONString(entry.getValue().getMenus()));
         }
         return roleMap;
     }

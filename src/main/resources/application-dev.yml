@@ -26,7 +26,7 @@ xyz:
       token:
         sign-key: zaijushouzhx
       redis:
-        login-token-expire-time: 30
+        login-token-expire-time: 14400  #10天
       page:
         start-page: 1
         default-page-size: 10

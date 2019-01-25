@@ -30,9 +30,19 @@ public class SysRoleEntity extends CommonEntity {
     private List<SysUserEntity> users;
 
     /**
-     * 角色权限列表
+     * 角色菜单列表
      */
     private List<SysMenuEntity> menus;
+
+    /**
+     * 角色权限列表
+     */
+    private List<SysAuthorityEntity> authorities;
+
+    /**
+     * 角色按钮列表
+     */
+    private List<SysButtonEntity> buttons;
 
     public String getRoleName() {
         return roleName;
@@ -72,5 +82,21 @@ public class SysRoleEntity extends CommonEntity {
 
     public void setRoleAuthSymbol(String roleAuthSymbol) {
         this.roleAuthSymbol = roleAuthSymbol;
+    }
+
+    public List<SysButtonEntity> getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(List<SysButtonEntity> buttons) {
+        this.buttons = buttons;
+    }
+
+    public List<SysAuthorityEntity> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<SysAuthorityEntity> authorities) {
+        this.authorities = authorities;
     }
 }
