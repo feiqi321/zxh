@@ -8,6 +8,7 @@
         id as id,
         role_name as roleName,
         role_desc as roleDesc,
+        role_auth_symbol as roleAuthSymbol,
         remark as remark,
         create_user as 'createUser.id',
         update_user as 'updateUser.id',
@@ -28,6 +29,14 @@
             role_id as 'role.id',
             menu_id as 'menu.id'
         from sys_role_menu
+        where delete_flag = '0'
+    </select>
+
+    <select id="listAllRoleButtons" parameterType="xyz.zaijushou.zhx.sys.entity.SysToRoleButton" resultType="xyz.zaijushou.zhx.sys.entity.SysToRoleButton">
+        select
+            role_id as 'role.id',
+            button_id as 'button.id'
+        from sys_role_button
         where delete_flag = '0'
     </select>
 
