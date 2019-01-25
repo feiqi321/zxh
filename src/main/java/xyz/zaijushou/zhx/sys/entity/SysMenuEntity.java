@@ -40,11 +40,6 @@ public class SysMenuEntity extends TreeEntity<SysMenuEntity> {
     private String menuIcon;
 
     /**
-     * 排序
-     */
-    private String sort;
-
-    /**
      * 按钮列表
      */
     private List<SysButtonEntity> buttonList;
@@ -95,14 +90,6 @@ public class SysMenuEntity extends TreeEntity<SysMenuEntity> {
 
     public void setMenuIcon(String menuIcon) {
         this.menuIcon = menuIcon;
-    }
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
     }
 
     public List<SysButtonEntity> getButtonList() {

@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
 import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
+import xyz.zaijushou.zhx.sys.entity.SysToRoleButton;
 import xyz.zaijushou.zhx.sys.entity.SysToRoleMenu;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 
@@ -23,5 +24,10 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public List<SysToRoleMenu> listAllRoleMenus(SysToRoleMenu sysToRoleMenu) {
         return sysRoleMapper.listAllRoleMenus(sysToRoleMenu);
+    }
+
+    @Override
+    public List<SysToRoleButton> listAllRoleButtons(SysToRoleButton sysToRoleButton) {
+        return sysRoleMapper.listAllRoleButtons(sysToRoleButton);
     }
 }

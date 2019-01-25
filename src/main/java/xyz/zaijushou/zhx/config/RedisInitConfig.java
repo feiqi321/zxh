@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.*;
 
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
 
 @Component
 public class RedisInitConfig implements ApplicationRunner {
@@ -56,6 +57,8 @@ public class RedisInitConfig implements ApplicationRunner {
 
         List<SysToRoleMenu> roleMenus = sysRoleService.listAllRoleMenus(new SysToRoleMenu());
 
+        List<SysToRoleButton> roleButtons = sysRoleService.listAllRoleButtons(new SysToRoleButton());
+
         List<SysToButtonAuthority> buttonAuthorities = sysButtonService.listAllButtonAuthorities(new SysToButtonAuthority());
 
         initUserInfo(allUser);
@@ -64,8 +67,37 @@ public class RedisInitConfig implements ApplicationRunner {
         initButtonInfo(allButton);
         initAuthorityInfo(allAuthority);
         initUserRole(allRole, userRoles);
+//        initRoleMenu(allRole, allMenu, roleMenus);
+
         initRoleTo(allRole, allMenu, allAuthority, roleMenus, allButton, buttonAuthorities);
+
     }
+
+    private void initRoleMenu(List<SysRoleEntity> allRole, List<SysMenuEntity> allMenu, List<SysToRoleMenu> roleMenus) {
+
+        Map<Integer, SysRoleEntity> roleMap = CollectionsUtils.listToMap(allRole);
+        Map<Integer, SysMenuEntity> menuMap = CollectionsUtils.listToMap(allMenu);
+        Iterator<SysToRoleMenu> roleMenuIterator = roleMenus.iterator();
+        while(roleMenuIterator.hasNext()) {
+            SysToRoleMenu roleMenu = roleMenuIterator.next();
+            if(!roleMap.containsKey(roleMenu.getRole().getId())) {
+                roleMenuIterator.remove();
+                continue;
+            }
+            if(!menuMap.containsKey(roleMenu.getMenu().getId())) {
+                roleMenuIterator.remove();
+            }
+        }
+
+        Map<Integer, SysToRoleMenu> menusOfRoleMap = new HashMap<>();
+        for(SysToRoleMenu roleMenu : roleMenus) {
+
+        }
+
+
+    }
+
+
 
     private void initRoleTo(List<SysRoleEntity> allRole, List<SysMenuEntity> allMenu, List<SysAuthorityEntity> allAuthority, List<SysToRoleMenu> roleMenus, List<SysButtonEntity> allButton, List<SysToButtonAuthority> buttonAuthorities) {
 

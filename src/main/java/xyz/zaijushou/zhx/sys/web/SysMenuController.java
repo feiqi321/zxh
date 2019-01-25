@@ -14,6 +14,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.entity.SysMenuEntity;
 import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
 import xyz.zaijushou.zhx.sys.service.SysMenuService;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
@@ -60,31 +61,31 @@ public class SysMenuController {
             }
         }
 
-        List<SysMenuEntity> menuList = new ArrayList<>(menuMap.values());
-        for(SysMenuEntity menu : menuList) {
-            menuMap.put(menu.getId(), menu);
-        }
-        for(SysMenuEntity menu : menuList) {
-            if(menu.getParent().getId() == 0) {
-                continue;
-            }
-            if(menuMap.get(menu.getParent().getId()).getChildren() == null) {
-                menuMap.get(menu.getParent().getId()).setChildren(new ArrayList<>());
-            }
-            menuMap.get(menu.getParent().getId()).getChildren().add(menuMap.get(menu.getId()));
-        }
-
-        for(Map.Entry<Integer, SysMenuEntity> entry : menuMap.entrySet()) {
-            if(entry.getValue().getParent().getId() == 0) {
-                continue;
-            }
-            menuMap.remove(entry.getKey());
-        }
-
-        menuList = new ArrayList<>();
-        for(Map.Entry<Integer, SysMenuEntity> entry : menuMap.entrySet()) {
-            menuList.add(entry.getValue());
-        }
+        List<SysMenuEntity> menuList = CollectionsUtils.listToTree(new ArrayList<>(menuMap.values()));
+//        for(SysMenuEntity menu : menuList) {
+//            menuMap.put(menu.getId(), menu);
+//        }
+//        for(SysMenuEntity menu : menuList) {
+//            if(menu.getParent().getId() == 0) {
+//                continue;
+//            }
+//            if(menuMap.get(menu.getParent().getId()).getChildren() == null) {
+//                menuMap.get(menu.getParent().getId()).setChildren(new ArrayList<>());
+//            }
+//            menuMap.get(menu.getParent().getId()).getChildren().add(menuMap.get(menu.getId()));
+//        }
+//
+//        for(Map.Entry<Integer, SysMenuEntity> entry : menuMap.entrySet()) {
+//            if(entry.getValue().getParent().getId() == 0) {
+//                continue;
+//            }
+//            menuMap.remove(entry.getKey());
+//        }
+//
+//        menuList = new ArrayList<>();
+//        for(Map.Entry<Integer, SysMenuEntity> entry : menuMap.entrySet()) {
+//            menuList.add(entry.getValue());
+//        }
         return WebResponse.success(menuList);
     }
 

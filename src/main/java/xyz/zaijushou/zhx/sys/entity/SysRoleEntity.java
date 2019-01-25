@@ -20,6 +20,11 @@ public class SysRoleEntity extends CommonEntity {
     private String roleDesc;
 
     /**
+     * 角色权限标志
+     */
+    private String roleAuthSymbol;
+
+    /**
      * 角色用户列表
      */
     private List<SysUserEntity> users;
@@ -59,5 +64,13 @@ public class SysRoleEntity extends CommonEntity {
 
     public void setMenus(List<SysMenuEntity> menus) {
         this.menus = menus;
+    }
+
+    public String getRoleAuthSymbol() {
+        return roleAuthSymbol;
+    }
+
+    public void setRoleAuthSymbol(String roleAuthSymbol) {
+        this.roleAuthSymbol = roleAuthSymbol;
     }
 }
