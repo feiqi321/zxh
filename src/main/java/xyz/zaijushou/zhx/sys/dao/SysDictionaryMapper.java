@@ -11,7 +11,8 @@ import java.util.List;
 public interface SysDictionaryMapper {
     void saveDataDictionary(SysDictionaryEntity dictionary);
     void updateDataDictionary(SysDictionaryEntity dictionary);
-    List<SysDictionaryEntity> getDataList(@Param("dictionaryId") Integer dictionaryId, @Param("name") String name);
-    SysDictionaryEntity getDataById(Integer id);
+    List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
+    List<SysDictionaryEntity> getDataById(Integer id);
+    List<SysDictionaryEntity> getDataByParentId(Integer parentId);
     void deleteById(Integer id);
 }

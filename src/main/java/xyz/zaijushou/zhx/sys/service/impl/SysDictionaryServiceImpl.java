@@ -14,6 +14,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     public void saveDataDictionary(SysDictionaryEntity dictionary){
         if(StringUtils.notEmpty(dictionary)){//非空判断
 
-            dictionary.setNumber(1);//默认为1
             dictionary.setCreateTime(new Date());
             //获取用户信息
             //dictionary.setCreateUser(getUserInfo());//
@@ -56,14 +56,6 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         dictionaryMapper.updateDataDictionary(dictionary);
     }
 
-    //获取用户信息
-    private SysUserEntity getUserInfo(){
-        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
-        SysUserEntity user = new SysUserEntity();
-        user.setId(userId);
-        return sysUserService.findUserInfoWithoutPasswordById(user);
-    }
-
     /**
      * 查询数据列表
      * @param dictionary
@@ -73,13 +65,36 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     public List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary){
 
         //查询枚举数据
-        List<SysDictionaryEntity> dictionaryList = dictionaryMapper.getDataList(dictionary.getDictionaryId(),dictionary.getName());
+        List<SysDictionaryEntity> dictionaryList = dictionaryMapper.getDataList(dictionary);
 
-        dictionaryList = CollectionsUtils.listToTree(dictionaryList);
-        //将枚举数据存入缓存中
-        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_DICTIONARY + dictionary.getDictionaryId(), JSONArray.toJSONString(dictionaryList));
+        if (dictionary.getParent().getId() == 0){//只查询做菜单目录
+            //将枚举数据存入缓存中
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_DICTIONARY + dictionary.getParent().getId(), JSONArray.toJSONString(dictionaryList));
+            return dictionaryList;
+        }else {
+            List<SysDictionaryEntity> dictList = new ArrayList<SysDictionaryEntity>();
+            //递归查询列表
+            for (SysDictionaryEntity dictionaryEntity : dictionaryList){
+                dictList.add(dictionaryEntity);
+                getChildDataInfo(dictionaryEntity.getId(),dictList);
+            }
+            dictList = CollectionsUtils.listToTree(dictList);
+            //将枚举数据存入缓存中
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_DICTIONARY + dictionary.getParent().getId(), JSONArray.toJSONString(dictList));
+            return dictList;
+        }
+    }
 
-        return dictionaryList;
+    //递归查询
+    private void getChildDataInfo(Integer parentId,List<SysDictionaryEntity> dictList){
+        List<SysDictionaryEntity> dictionaryList = dictionaryMapper.getDataByParentId(parentId);
+        if (StringUtils.isEmpty(dictionaryList)){
+            return ;
+        }
+        for (SysDictionaryEntity dictionaryEntity : dictionaryList){
+            dictList.add(dictionaryEntity);
+            getChildDataInfo(dictionaryEntity.getId(),dictList);
+        }
     }
 
     /**
@@ -89,7 +104,11 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
      */
     @Override
     public SysDictionaryEntity getDataById(SysDictionaryEntity dictionary){
-       return dictionaryMapper.getDataById(dictionary.getId());
+        List<SysDictionaryEntity> dictionaryList = dictionaryMapper.getDataById(dictionary.getId());
+        if(StringUtils.notEmpty(dictionaryList)){
+            return dictionaryList.get(0);
+        }
+       return null;
     }
 
     /**
