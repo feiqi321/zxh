@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataArchiveMapper">
+
+    <!--插入数据信息-->
+    <insert id="saveArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_archive
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="identNo != null">ident_no,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="address != null">address,</if>
+            <if test="remark != null">remark,</if>
+            delete_flag,
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="identNo != null">#{identNo},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="address != null">#{address},</if>
+            <if test="remark != null">#{remark},</if>
+            0,
+            now(),
+        </trim>
+    </insert>
+
+    <update id="updateArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
+        update data_archive
+        set
+        <trim suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="identNo != null">ident_no = #{identNo},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where
+        id = #{id}
+    </update>
+
+    <!--通过Id删除数据信息-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        update data_archive set delete_flag =1
+        where id = #{id}
+    </delete>
+
+    <select id="pageDataArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
+        select
+        name,ident_no as identNo,mobile,address,remark,create_time as createTime
+        from data_archive
+        <where>
+            <trim suffixOverrides=",">
+                <if test="name != null and name!=''">
+                    name like CONCAT('%',#{name},'%'),
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    ident_no like CONCAT('%',#{identNo},'%'),
+                </if>
+                <if test="mobile != null and mobile!=''">
+                    mobile  like CONCAT('%',#{mobile},'%'),
+                </if>
+                <if test="address != null and address!=''">
+                    address like CONCAT('%',#{address},'%'),
+                </if>
+                <if test="startTime != null and startTime!=''">
+                    <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="endTime != null and endTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{endTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+
+</mapper>

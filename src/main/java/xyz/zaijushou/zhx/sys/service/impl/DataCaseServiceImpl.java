@@ -2,7 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
-import xyz.zaijushou.zhx.sys.entity.DataCase;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 
 import javax.annotation.Resource;
@@ -17,25 +17,25 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Resource
     private DataCaseMapper dataCaseMapper;
 
-    public void save(DataCase bean){
+    public void save(DataCaseEntity bean){
         dataCaseMapper.saveCase(bean);
     }
 
-    public void update(DataCase bean){
+    public void update(DataCaseEntity bean){
         dataCaseMapper.updateCase(bean);
     }
 
-    public void deleteById(DataCase bean){
+    public void deleteById(DataCaseEntity bean){
         dataCaseMapper.deleteById(bean.getId());
     }
 
 
-    public List<DataCase> findAll(DataCase bean){
-        List<DataCase> dataCases = dataCaseMapper.pageDataCase(bean);
-        return dataCases;
+    public List<DataCaseEntity> findAll(DataCaseEntity bean){
+        List<DataCaseEntity> dataCaseEntities = dataCaseMapper.pageDataCase(bean);
+        return dataCaseEntities;
     }
 
-    public DataCase getDataById(DataCase bean){
+    public DataCaseEntity getDataById(DataCaseEntity bean){
         return dataCaseMapper.selectCaseById(bean.getId());
     }
 

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 /**
  * Created by looyer on 2019/1/25.
  */
-public class DataCase extends CommonEntity {
+public class DataCaseEntity extends CommonEntity {
     //批次编号
     private String batchNo;
     //委托方

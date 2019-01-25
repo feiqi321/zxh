@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.entity.DataCase;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 
 import java.util.List;
@@ -25,9 +24,9 @@ public class DataCaseController {
 
     @ApiOperation(value = "新增批次", notes = "新增批次")
     @PostMapping("/dataCase/save")
-    public Object save(@RequestBody DataCase dataCase) {
+    public Object save(@RequestBody DataCaseEntity dataCaseEntity) {
 
-        dataCaseService.save(dataCase);
+        dataCaseService.save(dataCaseEntity);
 
         return WebResponse.success();
 
@@ -35,9 +34,9 @@ public class DataCaseController {
 
     @ApiOperation(value = "修改批次", notes = "修改批次")
     @PostMapping("/dataCase/update")
-    public Object update(@RequestBody DataCase dataCase) {
+    public Object update(@RequestBody DataCaseEntity dataCaseEntity) {
 
-        dataCaseService.update(dataCase);
+        dataCaseService.update(dataCaseEntity);
 
         return WebResponse.success();
 
@@ -45,9 +44,9 @@ public class DataCaseController {
 
     @ApiOperation(value = "刪除批次", notes = "刪除批次")
     @PostMapping("/dataCase/update")
-    public Object delete(@RequestBody DataCase dataCase) {
+    public Object delete(@RequestBody DataCaseEntity dataCaseEntity) {
 
-        dataCaseService.deleteById(dataCase);
+        dataCaseService.deleteById(dataCaseEntity);
 
         return WebResponse.success();
 
@@ -55,9 +54,9 @@ public class DataCaseController {
 
     @ApiOperation(value = "分頁查询", notes = "分頁查询")
     @PostMapping("/dataCase/pageDataCase")
-    public Object pageDataCase(@RequestBody DataCase dataCase) {
+    public Object pageDataCase(@RequestBody DataCaseEntity dataCaseEntity) {
 
-        List<DataCase> list = dataCaseService.findAll(dataCase);
+        List<DataCaseEntity> list = dataCaseService.findAll(dataCaseEntity);
         return WebResponse.success(list);
 
     }

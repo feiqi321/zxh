@@ -1,6 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
-import xyz.zaijushou.zhx.sys.entity.DataCase;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 
 import java.util.List;
 
@@ -9,14 +9,14 @@ import java.util.List;
  */
 public interface DataCaseService {
 
-    public void save(DataCase bean);
+    public void save(DataCaseEntity bean);
 
-    public void update(DataCase bean);
+    public void update(DataCaseEntity bean);
 
-    public void deleteById(DataCase bean);
+    public void deleteById(DataCaseEntity bean);
 
-    public List<DataCase> findAll(DataCase bean);
+    public List<DataCaseEntity> findAll(DataCaseEntity bean);
 
-    public DataCase getDataById(DataCase bean);
+    public DataCaseEntity getDataById(DataCaseEntity bean);
 
 }

@@ -5,7 +5,7 @@
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseMapper">
 
     <!--插入数据信息-->
-    <insert id="saveCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCase">
+    <insert id="saveCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -33,7 +33,7 @@
         </trim>
     </insert>
 
-    <update id="updateCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCase">
+    <update id="updateCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case
         set
         <trim suffixOverrides=",">
@@ -56,13 +56,13 @@
         where id = #{id}
     </delete>
 
-    <select id="pageDataCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCase">
+    <select id="pageDataCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         batch_no as batchNo,client,area,case_time as caseTime,case_type as caseType,return_time as returnTime,rate,remark,upload_time as uploadTime,status,create_user as createUser,real_return_time as realReturnTime
         from data_case
     </select>
 
-    <select id="selectCaseById" parameterType="java.lang.Integer" resultType="xyz.zaijushou.zhx.sys.entity.DataCase">
+    <select id="selectCaseById" parameterType="java.lang.Integer" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         batch_no as batchNo,client,area,case_time as caseTime,case_type as caseType,return_time as returnTime,rate,remark,upload_time as uploadTime,status,create_user as createUser,real_return_time as realReturnTime
         from data_case limit 1
