@@ -53,7 +53,7 @@
 
     <select id="pageDataArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
         select
-        name,ident_no as identNo,mobile,address,remark,create_time as createTime
+        id,name,ident_no as identNo,mobile,address,remark,create_time as createTime
         from data_archive
         <where>
             <trim suffixOverrides=",">
