@@ -8,9 +8,9 @@ import java.util.List;
 public interface SysDictionaryService {
     /**
      * 插入数据信息
-     * @param dictionary
+     * @param dictionarys
      */
-    void saveDataDictionary(SysDictionaryEntity dictionary);
+    void saveDataDictionary(SysDictionaryEntity[] dictionarys);
 
     /**
      * 更新数据信息
