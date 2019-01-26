@@ -30,3 +30,5 @@ xyz:
       page:
         start-page: 1
         default-page-size: 10
+      role:
+        admin-judge: true #管理员权限开关，打开时，代码中需要判断是否有管理员权限

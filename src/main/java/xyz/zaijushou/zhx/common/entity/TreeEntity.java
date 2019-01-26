@@ -22,6 +22,11 @@ public class TreeEntity<T extends TreeEntity> extends CommonEntity {
      */
     private List<T> children;
 
+    /**
+     * 是否选中
+     */
+    private boolean select;
+
     public T getParent() {
         return parent;
     }
@@ -44,5 +49,13 @@ public class TreeEntity<T extends TreeEntity> extends CommonEntity {
 
     public void setSort(String sort) {
         this.sort = sort;
+    }
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
     }
 }

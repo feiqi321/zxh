@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -76,10 +78,16 @@ public class OperationLogFilter extends OncePerRequestFilter {
         }
 
         sysOperationLogService.insertRequest(operationLog);
+        String result;
+        try {
+            filterChain.doFilter(requestWrapper, responseWrapper);
+            result = new String(responseWrapper.getResponseData(), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            logger.error("后台错误：{}", e);
+            result = JSONObject.toJSONString(WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "后台错误：" + e.getMessage()));
+        }
 
-        filterChain.doFilter(requestWrapper, responseWrapper);
 
-        String result = new String(responseWrapper.getResponseData(), StandardCharsets.UTF_8);
 
         httpServletResponse.setContentLength(-1);
         httpServletResponse.setCharacterEncoding("UTF-8");

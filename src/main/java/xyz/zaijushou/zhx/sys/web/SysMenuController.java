@@ -63,11 +63,11 @@ public class SysMenuController {
             return WebResponse.success(new ArrayList<>());
         }
 
-        Set<String> buttonReisKeys = roleAttrKeys(roles, RedisKeyPrefix.ROLE_BUTTON);
+        Set<String> buttonRedisKeys = roleAttrKeys(roles, RedisKeyPrefix.ROLE_BUTTON);
 
         Map<Integer, SysButtonEntity> buttonMap = new HashMap<>();
-        if(buttonReisKeys.size() > 0) {
-            List<String> buttonsString = stringRedisTemplate.opsForValue().multiGet(buttonReisKeys);
+        if(buttonRedisKeys.size() > 0) {
+            List<String> buttonsString = stringRedisTemplate.opsForValue().multiGet(buttonRedisKeys);
             if(!CollectionUtils.isEmpty(buttonsString)) {
                 for(String buttonsStr : buttonsString) {
                     SysButtonEntity[] buttons = JSONArray.parseObject(buttonsStr, SysButtonEntity[].class);
@@ -102,9 +102,9 @@ public class SysMenuController {
 
     private Map<Integer, SysMenuEntity> menuMap(JSONArray roles) {
         Map<Integer, SysMenuEntity> menuMap = new ConcurrentHashMap<>();
-        Set<String> menuReisKeys = roleAttrKeys(roles, RedisKeyPrefix.ROLE_MENU);
-        if(menuReisKeys.size() > 0) {
-            List<String> menusString = stringRedisTemplate.opsForValue().multiGet(menuReisKeys);
+        Set<String> menuRedisKeys = roleAttrKeys(roles, RedisKeyPrefix.ROLE_MENU);
+        if(menuRedisKeys.size() > 0) {
+            List<String> menusString = stringRedisTemplate.opsForValue().multiGet(menuRedisKeys);
             if(CollectionUtils.isEmpty(menusString)) {
                 return menuMap;
             }
