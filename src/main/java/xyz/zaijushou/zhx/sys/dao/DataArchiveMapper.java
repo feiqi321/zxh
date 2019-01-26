@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface DataArchiveMapper {
 
-    public void saveArchive(DataArchiveEntity bean);
+    public int saveArchive(DataArchiveEntity bean);
 
     public void updateArchive(DataArchiveEntity bean);
 
