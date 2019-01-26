@@ -29,6 +29,11 @@ public class SysButtonEntity extends CommonEntity {
      */
     private List<SysAuthorityEntity> authorityList;
 
+    /**
+     * 是否选中
+     */
+    private boolean select;
+
     public String getButtonLabel() {
         return buttonLabel;
     }
@@ -59,5 +64,13 @@ public class SysButtonEntity extends CommonEntity {
 
     public void setAuthorityList(List<SysAuthorityEntity> authorityList) {
         this.authorityList = authorityList;
+    }
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
     }
 }

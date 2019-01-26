@@ -30,4 +30,24 @@ public class SysRoleServiceImpl implements SysRoleService {
     public List<SysToRoleButton> listAllRoleButtons(SysToRoleButton sysToRoleButton) {
         return sysRoleMapper.listAllRoleButtons(sysToRoleButton);
     }
+
+    @Override
+    public void updateRole(SysRoleEntity roleEntity) {
+        sysRoleMapper.updateRole(roleEntity);
+    }
+
+    @Override
+    public void saveRole(SysRoleEntity roleEntity) {
+        sysRoleMapper.saveRole(roleEntity);
+    }
+
+    @Override
+    public void deleteRole(SysRoleEntity roleEntity) {
+        sysRoleMapper.deleteRole(roleEntity);
+    }
+
+    @Override
+    public SysRoleEntity selectByRoleName(SysRoleEntity roleEntity) {
+        return sysRoleMapper.selectByRoleName(roleEntity);
+    }
 }

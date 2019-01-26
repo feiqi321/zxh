@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.SysOrganizationMapper">
+
+    <sql id="colSql">
+        id as id,
+        org_name as orgName,
+        parent_id as 'parent.id',
+        org_nature as orgNature,
+        legal_person as legalPerson,
+        user_num as userNum,
+        org_address as orgAddress,
+        main_industry as mainIndustry,
+        sort as sort,
+        remark as remark,
+        create_user as 'createUser.id',
+        update_user as 'updateUser.id',
+        create_time as createTime,
+        update_time as updateTime,
+        delete_flag as deleteFlag
+    </sql>
+
+    <insert id="saveOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_organization
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orgName != null">org_name,</if>
+            <if test="parent != null and parent.id != null">parent_id,</if>
+            <if test="orgNature != null">org_nature,</if>
+            <if test="legalPerson != null">legal_person,</if>
+            <if test="userNum != null">user_num,</if>
+            <if test="orgAddress != null">org_address,</if>
+            <if test="mainIndustry != null">main_industry,</if>
+            <if test="sort != null">sort,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createUser != null and createUser.id != null">create_user,</if>
+            <if test="updateUser != null and updateUser.id != null">update_user,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orgName != null">#{orgName},</if>
+            <if test="parent != null and parent.id != null">#{parent.id},</if>
+            <if test="orgNature != null">#{orgNature},</if>
+            <if test="legalPerson != null">#{legalPerson},</if>
+            <if test="userNum != null">#{userNum},</if>
+            <if test="orgAddress != null">#{orgAddress},</if>
+            <if test="mainIndustry != null">#{mainIndustry},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
+            <if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        update sys_organization
+        set
+        <trim prefix="" suffix="" suffixOverrides=",">
+            <if test="orgName != null">org_name = #{orgName},</if>
+            <if test="parent != null and parent.id != null">parent_id = #{parent.id},</if>
+            org_nature = #{orgNature},
+            legal_person = #{legalPerson},
+            user_num = #{userNum},
+            org_address = #{orgAddress},
+            main_industry = #{mainIndustry},
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="deleteOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        update sys_organization
+        set delete_flag = '1'
+        where id = #{id}
+          and delete_flag = '0'
+    </update>
+
+    <select id="listAllOrganizations" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        select
+        <include refid="colSql"/>
+        from sys_organization
+        where delete_flag = '0'
+    </select>
+
+</mapper>

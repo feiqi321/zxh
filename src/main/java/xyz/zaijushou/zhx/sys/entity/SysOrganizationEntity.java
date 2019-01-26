@@ -15,6 +15,31 @@ public class SysOrganizationEntity extends TreeEntity<SysOrganizationEntity> {
     private String orgName;
 
     /**
+     * 机构性质
+     */
+    private String orgNature;
+
+    /**
+     * 法人
+     */
+    private String legalPerson;
+
+    /**
+     * 员工人数
+     */
+    private Integer userNum;
+
+    /**
+     * 地址
+     */
+    private String orgAddress;
+
+    /**
+     * 主营行业
+     */
+    private String mainIndustry;
+
+    /**
      * 机构用户列表
      */
     private List<SysUserEntity> users;
@@ -25,6 +50,47 @@ public class SysOrganizationEntity extends TreeEntity<SysOrganizationEntity> {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+
+    public String getOrgNature() {
+        return orgNature;
+    }
+
+    public void setOrgNature(String orgNature) {
+        this.orgNature = orgNature;
+    }
+
+    public String getLegalPerson() {
+        return legalPerson;
+    }
+
+    public void setLegalPerson(String legalPerson) {
+        this.legalPerson = legalPerson;
+    }
+
+    public Integer getUserNum() {
+        return userNum;
+    }
+
+    public void setUserNum(Integer userNum) {
+        this.userNum = userNum;
+    }
+
+    public String getOrgAddress() {
+        return orgAddress;
+    }
+
+    public void setOrgAddress(String orgAddress) {
+        this.orgAddress = orgAddress;
+    }
+
+    public String getMainIndustry() {
+        return mainIndustry;
+    }
+
+    public void setMainIndustry(String mainIndustry) {
+        this.mainIndustry = mainIndustry;
     }
 
     public List<SysUserEntity> getUsers() {

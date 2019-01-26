@@ -15,4 +15,12 @@ public interface SysRoleMapper {
     List<SysToRoleMenu> listAllRoleMenus(SysToRoleMenu sysToRoleMenu);
 
     List<SysToRoleButton> listAllRoleButtons(SysToRoleButton sysToRoleButton);
+
+    void updateRole(SysRoleEntity roleEntity);
+
+    void saveRole(SysRoleEntity roleEntity);
+
+    void deleteRole(SysRoleEntity roleEntity);
+
+    SysRoleEntity selectByRoleName(SysRoleEntity roleEntity);
 }

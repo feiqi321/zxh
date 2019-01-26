@@ -23,7 +23,7 @@ public class SysDictionaryController {
 
     @ApiOperation(value = "增加数据信息", notes = "增加数据信息")
     @PostMapping("/insert")
-    public Object saveData(@RequestBody SysDictionaryEntity dictionary) {
+    public Object saveData(@RequestBody SysDictionaryEntity[] dictionary) {
         dictionaryService.saveDataDictionary(dictionary);
         return WebResponse.success(dictionary);
     }

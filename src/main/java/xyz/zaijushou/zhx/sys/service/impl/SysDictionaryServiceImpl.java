@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
@@ -14,9 +15,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SysDictionaryServiceImpl implements SysDictionaryService {
@@ -30,17 +29,42 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     private StringRedisTemplate stringRedisTemplate;
     /**
      * 保存数据
-     * @param dictionary
+     * @param dictionarys
      */
     @Override
-    public void saveDataDictionary(SysDictionaryEntity dictionary){
-        if(StringUtils.notEmpty(dictionary)){//非空判断
+    public void saveDataDictionary(SysDictionaryEntity[] dictionarys){
+        if(StringUtils.notEmpty(dictionarys)){//非空判断
+            List<SysDictionaryEntity> list = dictionaryMapper.getDataList(dictionarys[0]);
+            Map<Integer, SysDictionaryEntity> originalOrgs = CollectionsUtils.listToMap(list);
+            List<Integer> originalOrgIds = new ArrayList<>(originalOrgs.keySet());
+            List<SysDictionaryEntity> changeOrgList = CollectionsUtils.treeToList(new ArrayList<>(Arrays.asList(dictionarys)));
+            for(SysDictionaryEntity org : changeOrgList) {
+                if(originalOrgIds.contains(org.getId())){
+                    originalOrgs.remove(org.getId());
+                }
+            }
+            List<SysDictionaryEntity> deletes = new ArrayList<>(originalOrgs.values());
+            for(SysDictionaryEntity org : deletes) {
+                dictionaryMapper.deleteById(org.getId());
+            }
+            for(SysDictionaryEntity org : dictionarys) {
+                modify(org);
+            }
+        }
+    }
 
-            dictionary.setCreateTime(new Date());
-            //获取用户信息
-            //dictionary.setCreateUser(getUserInfo());//
-            //插入数据
-            dictionaryMapper.saveDataDictionary(dictionary);
+    private void modify(SysDictionaryEntity org) {
+        if(org.getId() == null) {
+            dictionaryMapper.saveDataDictionary(org);
+        } else {
+            dictionaryMapper.updateDataDictionary(org);
+        }
+        if(CollectionUtils.isEmpty(org.getChildren())) {
+            return;
+        }
+        for(SysDictionaryEntity child : org.getChildren()) {
+            child.setParent(org);
+            modify(child);
         }
     }
 

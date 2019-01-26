@@ -15,7 +15,8 @@
         create_user as 'createUser.id',
         update_user as 'updateUser.id',
         create_time as createTime,
-        update_time as updateTime
+        update_time as updateTime,
+        delete_flag as deleteFlag
 
     </sql>
 
@@ -28,6 +29,33 @@
 		,status=#{status}
 		,create_time=#{createTime,jdbcType=TIMESTAMP}
 		,dictionary_id=#{parent.id}
+    </insert>
+
+    <!--新增数据-->
+    <insert id="saveDataAfter" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_data_dictionary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="parent != null and parent.id != null">dictionary_id,</if>
+            <if test="description != null">description,</if>
+            <if test="status != null">status,</if>
+            <if test="create_time != null">create_time,</if>
+            <if test="createUser != null and createUser.id != null">create_user,</if>
+            <if test="updateUser != null and updateUser.id != null">update_user,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="parent != null and parent.id != null">#{parent.id},</if>
+            <if test="description != null">#{description},</if>
+            <if test="status != null">#{status},</if>
+            <if test="create_time != null">#{createTime,jdbcType=TIMESTAMP},</if>
+            <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
+            <if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>
+        </trim>
     </insert>
 
     <!--更新数据信息-->
@@ -46,8 +74,8 @@
             <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="number != null">
-                number = #{number,jdbcType=INTEGER},
+            <if test="sort != null">
+                number = #{sort,jdbcType=INTEGER},
             </if>
             <if test="parent != null and parent.id != null">
                 dictionary_id = #{parent.id,jdbcType=INTEGER}
@@ -61,7 +89,7 @@
         select
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
-        where 1 = 1
+        where delete_flag = '0'
         <if test="parent != null and parent.id != null">
             AND  dictionary_id = #{parent.id,jdbcType=INTEGER}
         </if>
@@ -80,13 +108,15 @@
         select
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
-        where 1 = 1 and dictionary_id = #{parentId,jdbcType=INTEGER}
+        where delete_flag = '0' and dictionary_id = #{parentId,jdbcType=INTEGER}
         order by id
     </select>
 
     <!--通过Id删除数据信息-->
     <delete id="deleteById" parameterType="java.lang.Integer">
-        delete from sys_data_dictionary
-        where id = #{id,jdbcType=INTEGER}
+        update sys_data_dictionary
+        set delete_flag = '1'
+        where id = #{id}
+        and delete_flag = '0'
     </delete>
 </mapper>

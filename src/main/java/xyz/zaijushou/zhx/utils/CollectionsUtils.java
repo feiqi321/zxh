@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 import xyz.zaijushou.zhx.common.entity.TreeEntity;
-import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
 @Component
 public class CollectionsUtils {
 
-    public static  <T extends CommonEntity> Map<Integer, T> listToMap(List<T> list) {
+    public static <T extends CommonEntity> Map<Integer, T> listToMap(List<T> list) {
         Map<Integer, T> map = new HashMap<>();
         if(CollectionUtils.isEmpty(list)) {
             return map;
@@ -51,5 +50,31 @@ public class CollectionsUtils {
             }
         }
         return list;
+    }
+
+    public static <T extends TreeEntity> List<T> treeToList(List<T> list) {
+        List<T> returnList = new ArrayList<>();
+        if(CollectionUtils.isEmpty(list)) {
+            return returnList;
+        }
+        for(T t : list) {
+            if(!CollectionUtils.isEmpty(t.getChildren())) {
+                returnList.addAll(traversalChildren(t));
+            }
+        }
+        return returnList;
+    }
+
+    private static <T extends TreeEntity> List<T> traversalChildren(T t) {
+        List<T> returnList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(t.getChildren())) {
+            for(int i = 0; i < t.getChildren().size(); i ++) {
+                T child = (T) t.getChildren().get(i);
+                returnList.addAll(traversalChildren(child));
+            }
+//            t.setChildren(null);
+        }
+        returnList.add(t);
+        return returnList;
     }
 }
