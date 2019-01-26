@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 /**
  * Created by looyer on 2019/1/25.
  */
-public class DataCaseEntity extends CommonEntity {
+public class DataBatchEntity extends CommonEntity {
     //批次编号
     private String batchNo;
     //委托方
@@ -21,17 +21,46 @@ public class DataCaseEntity extends CommonEntity {
     //预计退案日期
     private String returnTime;
     //目标回款率
-    private BigDecimal rate;
+    private BigDecimal targetRate;
     //备注
-    private String remark;
 
     private String uploadTime;
 
-    private int status;
+    private int batchStatus;
 
     private String statusMsg;
     //真实退案时间
     private String realReturnTime;
+
+    private String creatUser;
+
+    private int userCount;
+
+    private BigDecimal totalAmt;
+
+    public String getCreatUser() {
+        return creatUser;
+    }
+
+    public void setCreatUser(String creatUser) {
+        this.creatUser = creatUser;
+    }
+
+    public int getUserCount() {
+        return userCount;
+    }
+
+    public void setUserCount(int userCount) {
+        this.userCount = userCount;
+    }
+
+    public BigDecimal getTotalAmt() {
+        return totalAmt;
+    }
+
+    public void setTotalAmt(BigDecimal totalAmt) {
+        this.totalAmt = totalAmt;
+    }
 
     public String getRealReturnTime() {
         return realReturnTime;
@@ -49,12 +78,12 @@ public class DataCaseEntity extends CommonEntity {
         this.uploadTime = uploadTime;
     }
 
-    public int getStatus() {
-        return status;
+    public int getBatchStatus() {
+        return batchStatus;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setBatchStatus(int batchStatus) {
+        this.batchStatus = batchStatus;
     }
 
     public String getStatusMsg() {
@@ -113,21 +142,12 @@ public class DataCaseEntity extends CommonEntity {
         this.returnTime = returnTime;
     }
 
-    public BigDecimal getRate() {
-        return rate;
+    public BigDecimal getTargetRate() {
+        return targetRate;
     }
 
-    public void setRate(BigDecimal rate) {
-        this.rate = rate;
+    public void setTargetRate(BigDecimal targetRate) {
+        this.targetRate = targetRate;
     }
 
-    @Override
-    public String getRemark() {
-        return remark;
-    }
-
-    @Override
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
 }

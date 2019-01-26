@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
+import xyz.zaijushou.zhx.sys.service.DataBatchService;
 
 import java.util.List;
 
@@ -17,46 +17,46 @@ import java.util.List;
  */
 @Api("数据管理/案件导入")
 @RestController
-public class DataCaseController {
+public class DataBatchController {
 
     @Autowired
-    private DataCaseService dataCaseService;
+    private DataBatchService dataCaseService;
 
     @ApiOperation(value = "新增批次", notes = "新增批次")
-    @PostMapping("/dataCase/save")
-    public Object save(@RequestBody DataCaseEntity dataCaseEntity) {
+    @PostMapping("/dataBatch/save")
+    public Object save(@RequestBody DataBatchEntity dataBatchEntity) {
 
-        dataCaseService.save(dataCaseEntity);
+        dataCaseService.save(dataBatchEntity);
 
         return WebResponse.success();
 
     }
 
     @ApiOperation(value = "修改批次", notes = "修改批次")
-    @PostMapping("/dataCase/update")
-    public Object update(@RequestBody DataCaseEntity dataCaseEntity) {
+    @PostMapping("/dataBatch/update")
+    public Object update(@RequestBody DataBatchEntity dataBatchEntity) {
 
-        dataCaseService.update(dataCaseEntity);
+        dataCaseService.update(dataBatchEntity);
 
         return WebResponse.success();
 
     }
 
     @ApiOperation(value = "刪除批次", notes = "刪除批次")
-    @PostMapping("/dataCase/delete")
-    public Object delete(@RequestBody DataCaseEntity dataCaseEntity) {
+    @PostMapping("/dataBatchdelete")
+    public Object delete(@RequestBody DataBatchEntity dataBatchEntity) {
 
-        dataCaseService.deleteById(dataCaseEntity);
+        dataCaseService.deleteById(dataBatchEntity);
 
         return WebResponse.success();
 
     }
 
     @ApiOperation(value = "分頁查询", notes = "分頁查询")
-    @PostMapping("/dataCase/pageDataCase")
-    public Object pageDataCase(@RequestBody DataCaseEntity dataCaseEntity) {
+    @PostMapping("/dataBatch/pageDataCase")
+    public Object pageDataCase(@RequestBody DataBatchEntity dataBatchEntity) {
 
-        List<DataCaseEntity> list = dataCaseService.findAll(dataCaseEntity);
+        List<DataBatchEntity> list = dataCaseService.findAll(dataBatchEntity);
         return WebResponse.success(list);
 
     }
