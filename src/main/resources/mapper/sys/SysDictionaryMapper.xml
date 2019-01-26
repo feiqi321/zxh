@@ -94,7 +94,7 @@
         <if test="parent != null and parent.id != null">
             AND  dictionary_id = #{parent.id,jdbcType=INTEGER}
         </if>
-        order by id
+        order by id desc
     </select>
 
     <!--根据Id查询数据-->
