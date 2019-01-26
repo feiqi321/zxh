@@ -42,7 +42,6 @@
             <if test="parent != null and parent.id != null">dictionary_id,</if>
             <if test="description != null">description,</if>
             <if test="status != null">status,</if>
-            <if test="create_time != null">create_time,</if>
             <if test="createUser != null and createUser.id != null">create_user,</if>
             <if test="updateUser != null and updateUser.id != null">update_user,</if>
         </trim>
@@ -52,7 +51,6 @@
             <if test="parent != null and parent.id != null">#{parent.id},</if>
             <if test="description != null">#{description},</if>
             <if test="status != null">#{status},</if>
-            <if test="create_time != null">#{createTime,jdbcType=TIMESTAMP},</if>
             <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
             <if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>
         </trim>
@@ -76,6 +74,9 @@
             </if>
             <if test="sort != null">
                 number = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag,jdbcType=INTEGER},
             </if>
             <if test="parent != null and parent.id != null">
                 dictionary_id = #{parent.id,jdbcType=INTEGER}

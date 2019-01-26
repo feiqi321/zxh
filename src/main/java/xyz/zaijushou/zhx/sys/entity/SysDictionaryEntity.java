@@ -23,6 +23,19 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      */
     private Integer status;
 
+    /**
+     * 1-地区，0-其他
+     */
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public String getName() {
         return name;
     }

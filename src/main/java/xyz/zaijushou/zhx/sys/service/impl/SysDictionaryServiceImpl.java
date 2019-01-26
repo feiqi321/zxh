@@ -34,19 +34,19 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Override
     public void saveDataDictionary(SysDictionaryEntity[] dictionarys){
         if(StringUtils.notEmpty(dictionarys)){//非空判断
-            List<SysDictionaryEntity> list = dictionaryMapper.getDataList(dictionarys[0]);
-            Map<Integer, SysDictionaryEntity> originalOrgs = CollectionsUtils.listToMap(list);
-            List<Integer> originalOrgIds = new ArrayList<>(originalOrgs.keySet());
-            List<SysDictionaryEntity> changeOrgList = CollectionsUtils.treeToList(new ArrayList<>(Arrays.asList(dictionarys)));
-            for(SysDictionaryEntity org : changeOrgList) {
-                if(originalOrgIds.contains(org.getId())){
-                    originalOrgs.remove(org.getId());
+            List<SysDictionaryEntity> dictList = new ArrayList<SysDictionaryEntity>();
+            //递归查询列表
+            for (SysDictionaryEntity dictionaryEntity : dictionarys){
+                dictList.add(dictionaryEntity);
+                getChildDataInfo(dictionaryEntity.getId(),dictList);
+            }
+
+            if (dictList.get(0).getType() == 1){
+                for(SysDictionaryEntity org : dictList) {
+                    dictionaryMapper.deleteById(org.getId());
                 }
             }
-            List<SysDictionaryEntity> deletes = new ArrayList<>(originalOrgs.values());
-            for(SysDictionaryEntity org : deletes) {
-                dictionaryMapper.deleteById(org.getId());
-            }
+
             for(SysDictionaryEntity org : dictionarys) {
                 modify(org);
             }
@@ -55,8 +55,9 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
 
     private void modify(SysDictionaryEntity org) {
         if(org.getId() == null) {
-            dictionaryMapper.saveDataDictionary(org);
+            dictionaryMapper.saveDataAfter(org);
         } else {
+            org.setDeleteFlag(0);
             dictionaryMapper.updateDataDictionary(org);
         }
         if(CollectionUtils.isEmpty(org.getChildren())) {
