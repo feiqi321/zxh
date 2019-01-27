@@ -69,8 +69,8 @@
             <if test="status != null">
                 status = #{status,jdbcType=INTEGER},
             </if>
-            <if test="updateTime != null">
-                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            <if test="updateUser != null and updateUser.id != null">
+                update_user = #{updateUser.id},
             </if>
             <if test="sort != null">
                 number = #{sort,jdbcType=INTEGER},
