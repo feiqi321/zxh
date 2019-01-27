@@ -43,7 +43,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
 
             if (dictList.get(0).getType() == 1){
                 for(SysDictionaryEntity org : dictList) {
-                    dictionaryMapper.deleteById(org.getId());
+                    dictionaryMapper.deleteById(org);
                 }
             }
 
@@ -54,15 +54,11 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     }
 
     private void modify(SysDictionaryEntity org) {
-        if(org.getId() == null) {
+        if(org.getId() == null || org.getId() < 0) {
             dictionaryMapper.saveDataAfter(org);
         } else {
-            if (org.getId() < 0){
-                dictionaryMapper.saveDataAfter(org);
-            }else{
-                org.setDeleteFlag(0);
-                dictionaryMapper.updateDataDictionary(org);
-            }
+            org.setDeleteFlag(0);
+            dictionaryMapper.updateDataDictionary(org);
         }
         if(CollectionUtils.isEmpty(org.getChildren())) {
             return;
@@ -141,12 +137,12 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     }
 
     /**
-     * 物理删除数据
+     * 删除数据
      * @param dictionary
      */
     @Override
     public void deleteById(SysDictionaryEntity dictionary){
-        dictionaryMapper.deleteById(dictionary.getId());
+        dictionaryMapper.deleteById(dictionary);
     }
 
 }
