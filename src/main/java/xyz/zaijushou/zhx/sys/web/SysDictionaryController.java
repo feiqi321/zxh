@@ -15,7 +15,7 @@ import java.util.List;
 
 @Api("枚举操作")
 @RestController
-@RequestMapping(value = "/zxh/sys/dictionary")
+@RequestMapping(value = "/sys/dictionary")
 public class SysDictionaryController {
 
     @Resource

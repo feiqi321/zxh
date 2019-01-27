@@ -18,7 +18,6 @@ import java.util.List;
  */
 @Api("数据管理/案件导入")
 @RestController
-@RequestMapping(value = "/zxh")
 public class DataBatchController {
 
     @Autowired

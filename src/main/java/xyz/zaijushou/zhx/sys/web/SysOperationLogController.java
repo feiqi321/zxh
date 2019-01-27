@@ -13,7 +13,7 @@ import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import javax.annotation.Resource;
 
 @RestController
-@RequestMapping("/zxh/operationLog")
+@RequestMapping("/operationLog")
 public class SysOperationLogController {
 
     @Resource

@@ -19,7 +19,7 @@ import java.util.List;
 
 @Api("用户操作")
 @RestController
-@RequestMapping(value = "/zxh/user")
+@RequestMapping(value = "/user")
 public class SysUserController {
 
     @Resource

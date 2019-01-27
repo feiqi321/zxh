@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/zxh/organization")
+@RequestMapping("/organization")
 public class SysOrganizationController {
 
     @Resource

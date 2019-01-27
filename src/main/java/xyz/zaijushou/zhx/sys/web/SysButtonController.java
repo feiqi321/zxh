@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Api("按钮操作")
 @RestController
-@RequestMapping(value = "/zxh/button")
+@RequestMapping(value = "/button")
 public class SysButtonController {
 
     @Resource

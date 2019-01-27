@@ -18,7 +18,6 @@ import java.util.List;
  */
 @Api("数据管理/档案管理")
 @RestController
-@RequestMapping(value = "/zxh")
 public class DataArchivesController {
 
     @Autowired

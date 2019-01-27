@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Api("菜单操作")
 @RestController
-@RequestMapping(value = "/zxh/menu")
+@RequestMapping(value = "/menu")
 public class SysMenuController {
 
     @Resource

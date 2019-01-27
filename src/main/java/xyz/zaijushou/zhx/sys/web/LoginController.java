@@ -11,7 +11,6 @@ import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 @Api("登录/注销")
 @RestController
-@RequestMapping(value = "/zxh")
 public class LoginController {
 
 
