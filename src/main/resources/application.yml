@@ -4,8 +4,8 @@ spring:
 
 server:
   port: 9119
-  servlet:
-    context-path: /zhx
+#  servlet:
+#    context-path: /
 
 # pagehelper properties
 pagehelper:

@@ -35,7 +35,9 @@ public class SysOrganizationController {
         List<SysOrganizationEntity> list = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());
         Map<Integer, SysOrganizationEntity> originalOrgs = CollectionsUtils.listToMap(list);
         List<Integer> originalOrgIds = new ArrayList<>(originalOrgs.keySet());
-        List<SysOrganizationEntity> changeOrgList = CollectionsUtils.treeToList(new ArrayList<>(Arrays.asList(organizations)));
+        List<SysOrganizationEntity> orgList = new ArrayList<>(Arrays.asList(organizations));
+        CollectionsUtils.treeResetSort(orgList, 0);
+        List<SysOrganizationEntity> changeOrgList = CollectionsUtils.treeToList(orgList);
         for(SysOrganizationEntity org : changeOrgList) {
             if(originalOrgIds.contains(org.getId())){
                 originalOrgs.remove(org.getId());
