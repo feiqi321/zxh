@@ -24,6 +24,16 @@
         where delete_flag = '0'
     </select>
 
+    <select id="listRoles" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+        select
+        <include refid="colSql"/>
+        from sys_role
+        where delete_flag = '0'
+        <if test="roleName != null and roleName != ''">
+            and role_name like concat('%',#{roleName},'%')
+        </if>
+    </select>
+
     <select id="listAllRoleMenus" parameterType="xyz.zaijushou.zhx.sys.entity.SysToRoleMenu" resultType="xyz.zaijushou.zhx.sys.entity.SysToRoleMenu">
         select
             role_id as 'role.id',
@@ -91,5 +101,49 @@
         where id = #{id}
           and delete_flag = '0'
     </update>
+
+    <update id="deleteRoleMenus" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+        update sys_role_menu
+        set delete_flag = '1'
+        where delete_flag = '0'
+          and role_id = #{id}
+    </update>
+
+    <insert id="saveRoleMenus" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+        insert into sys_role_menu
+            (
+              role_id,
+              menu_id
+            )
+        values
+          <foreach collection="menus" item="menu" separator=",">
+              (
+                #{id},
+                #{menu.id}
+              )
+          </foreach>
+    </insert>
+
+    <update id="deleteRoleButtons" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+        update sys_role_button
+        set delete_flag = '1'
+        where delete_flag = '0'
+          and role_id = #{id}
+    </update>
+
+    <insert id="saveRoleButtons" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+        insert into sys_role_button
+        (
+        role_id,
+        button_id
+        )
+        values
+        <foreach collection="buttons" item="button" separator=",">
+            (
+            #{id},
+            #{button.id}
+            )
+        </foreach>
+    </insert>
 
 </mapper>

@@ -1,6 +1,9 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
+import java.util.Date;
 
 /**
  * 操作日志实体类
@@ -38,6 +41,11 @@ public class SysOperationLogEntity extends CommonEntity {
     private String userLoginName;
 
     /**
+     * 用户姓名
+     */
+    private String userName;
+
+    /**
      * 请求内容
      */
     private String requestBody;
@@ -46,6 +54,23 @@ public class SysOperationLogEntity extends CommonEntity {
      * 返回内容
      */
     private String responseBody;
+
+    /**
+     * 查询时间-开始
+     */
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    private Date createTimeBegin;
+
+    /**
+     * 查询时间-结束
+     */
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    private Date createTimeEnd;
+
+    /**
+     * 日志内容
+     */
+    private String logContent;
 
     public String getUrl() {
         return url;
@@ -109,5 +134,37 @@ public class SysOperationLogEntity extends CommonEntity {
 
     public void setResponseBody(String responseBody) {
         this.responseBody = responseBody;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Date getCreateTimeBegin() {
+        return createTimeBegin;
+    }
+
+    public void setCreateTimeBegin(Date createTimeBegin) {
+        this.createTimeBegin = createTimeBegin;
+    }
+
+    public Date getCreateTimeEnd() {
+        return createTimeEnd;
+    }
+
+    public void setCreateTimeEnd(Date createTimeEnd) {
+        this.createTimeEnd = createTimeEnd;
+    }
+
+    public String getLogContent() {
+        return logContent;
+    }
+
+    public void setLogContent(String logContent) {
+        this.logContent = logContent;
     }
 }

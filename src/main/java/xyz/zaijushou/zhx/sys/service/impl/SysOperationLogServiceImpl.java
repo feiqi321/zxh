@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.SysOperationLogMapper;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
@@ -26,7 +28,8 @@ public class SysOperationLogServiceImpl implements SysOperationLogService {
     }
 
     @Override
-    public List<SysOperationLogEntity> pageLogs(SysOperationLogEntity operationLog) {
-        return operationLogMapper.pageLogs(operationLog);
+    public PageInfo<SysOperationLogEntity> pageLogs(SysOperationLogEntity operationLog) {
+        List<SysOperationLogEntity> list = operationLogMapper.pageLogs(operationLog);
+        return PageInfo.of(list);
     }
 }

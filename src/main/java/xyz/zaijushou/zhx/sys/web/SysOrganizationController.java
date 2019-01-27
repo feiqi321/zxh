@@ -54,7 +54,7 @@ public class SysOrganizationController {
     }
 
     private void modify(SysOrganizationEntity org) {
-        if(org.getId() == null) {
+        if(org.getId() == null || org.getId() < 0) {
             sysOrganizationService.saveOrg(org);
         } else {
             if (org.getId() < 0){

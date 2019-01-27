@@ -23,4 +23,14 @@ public interface SysRoleMapper {
     void deleteRole(SysRoleEntity roleEntity);
 
     SysRoleEntity selectByRoleName(SysRoleEntity roleEntity);
+
+    void deleteRoleMenus(SysRoleEntity roleEntity);
+
+    void saveRoleMenus(SysRoleEntity roleEntity);
+
+    void deleteRoleButtons(SysRoleEntity roleEntity);
+
+    void saveRoleButtons(SysRoleEntity roleEntity);
+
+    List<SysRoleEntity> listRoles(SysRoleEntity roleEntity);
 }

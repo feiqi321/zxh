@@ -34,7 +34,7 @@
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveTelEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveTelEntity">
-        select id,tel,archive_id,teltype
+        select id,tel,archive_id as archiveId,teltype
         from data_archive_tel where archive_id = #{archiveId} and delete_flag=0
     </select>
 
