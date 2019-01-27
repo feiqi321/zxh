@@ -15,5 +15,5 @@ public interface SysDictionaryMapper {
     List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
     List<SysDictionaryEntity> getDataById(Integer id);
     List<SysDictionaryEntity> getDataByParentId(Integer parentId);
-    void deleteById(Integer id);
+    void deleteById(SysDictionaryEntity dictionary);
 }

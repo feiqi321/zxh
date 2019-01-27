@@ -114,7 +114,7 @@
     </select>
 
     <!--通过Id删除数据信息-->
-    <delete id="deleteById" parameterType="java.lang.Integer">
+    <delete id="deleteById" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
         update sys_data_dictionary
         set delete_flag = '1'
         where id = #{id}
