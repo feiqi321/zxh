@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: hangzhou
 
 server:
   port: 9119
