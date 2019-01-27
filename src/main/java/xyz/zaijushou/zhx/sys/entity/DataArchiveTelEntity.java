@@ -11,6 +11,16 @@ public class DataArchiveTelEntity {
 
     private String tel;
 
+    private String teltype;
+
+    public String getTeltype() {
+        return teltype;
+    }
+
+    public void setTeltype(String teltype) {
+        this.teltype = teltype;
+    }
+
     public int getArchiveId() {
         return archiveId;
     }

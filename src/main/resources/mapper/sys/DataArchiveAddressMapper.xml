@@ -13,11 +13,13 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="address != null">address,</if>
             <if test="archiveId != null">archive_id,</if>
+            delete_flag,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="address != null">#{address},</if>
             <if test="archiveId != null">#{archiveId},</if>
+            0,
         </trim>
     </insert>
 
@@ -25,13 +27,13 @@
 
     <!--通过Id删除数据信息-->
     <delete id="deleteAddress" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveAddressEntity">
-        delete from data_archive_address
+        update data_archive_address set delete_flag=1
         where archive_id = #{archiveId}
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveAddressEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveAddressEntity">
         select id,address,archive_id
-        from data_archive_address where archive_id = #{archiveId}
+        from data_archive_address where archive_id = #{archiveId} and delete_flag=0
     </select>
 
 </mapper>

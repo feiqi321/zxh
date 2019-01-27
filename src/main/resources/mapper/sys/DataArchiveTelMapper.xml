@@ -12,12 +12,16 @@
         insert into data_archive_tel
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tel != null">tel,</if>
+            <if test="teltype != null">teltype,</if>
             <if test="archiveId != null">archive_id,</if>
+            delete_flag,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="tel != null">#{tel},</if>
+            <if test="teltype != null">#{teltype},</if>
             <if test="archiveId != null">#{archiveId},</if>
+            0,
         </trim>
     </insert>
 
@@ -25,13 +29,13 @@
 
     <!--通过Id删除数据信息-->
     <delete id="deleteTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveTelEntity">
-        delete from data_archive_tel
+        update data_archive_tel set delete_flag=1
         where archive_id = #{archiveId}
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveTelEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveTelEntity">
-        select id,tel,archive_id
-        from data_archive_tel where archive_id = #{archiveId}
+        select id,tel,archive_id,teltype
+        from data_archive_tel where archive_id = #{archiveId} and delete_flag=0
     </select>
 
 </mapper>
