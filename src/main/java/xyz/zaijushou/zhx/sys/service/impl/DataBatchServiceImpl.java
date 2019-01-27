@@ -15,28 +15,28 @@ import java.util.List;
 public class DataBatchServiceImpl implements DataBatchService {
 
     @Resource
-    private DataBatchMapper dataCaseMapper;
+    private DataBatchMapper dataBatchMapper;
 
     public void save(DataBatchEntity bean){
-        dataCaseMapper.saveBatch(bean);
+        dataBatchMapper.saveBatch(bean);
     }
 
     public void update(DataBatchEntity bean){
-        dataCaseMapper.updateBatch(bean);
+        dataBatchMapper.updateBatch(bean);
     }
 
     public void deleteById(DataBatchEntity bean){
-        dataCaseMapper.deleteById(bean.getId());
+        dataBatchMapper.deleteById(bean.getId());
     }
 
 
     public List<DataBatchEntity> findAll(DataBatchEntity bean){
-        List<DataBatchEntity> dataCaseEntities = dataCaseMapper.pageDataBatch(bean);
+        List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         return dataCaseEntities;
     }
 
     public DataBatchEntity getDataById(DataBatchEntity bean){
-        return dataCaseMapper.selectBatchById(bean.getId());
+        return dataBatchMapper.selectBatchById(bean.getId());
     }
 
 }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseInterestMapper">
+
+    <!--插入数据信息-->
+    <insert id="saveInterest" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_case_interest
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="interest != null">interest,</if>
+            <if test="caseId != null">case_id,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="interest != null">#{interest},</if>
+            <if test="caseId != null">#{caseId},</if>
+        </trim>
+    </insert>
+
+
+
+    <!--通过Id删除数据信息-->
+    <delete id="deleteInterest" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity">
+        delete from data_case_interest
+        where case_id = #{caseId}
+    </delete>
+
+    <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity">
+        select id,interest,case_id
+        from data_case_interest where case_id = #{caseId}
+    </select>
+
+</mapper>
