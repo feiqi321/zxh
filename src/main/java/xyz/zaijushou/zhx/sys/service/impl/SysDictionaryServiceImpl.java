@@ -57,8 +57,12 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         if(org.getId() == null) {
             dictionaryMapper.saveDataAfter(org);
         } else {
-            org.setDeleteFlag(0);
-            dictionaryMapper.updateDataDictionary(org);
+            if (org.getId() < 0){
+                dictionaryMapper.saveDataAfter(org);
+            }else{
+                org.setDeleteFlag(0);
+                dictionaryMapper.updateDataDictionary(org);
+            }
         }
         if(CollectionUtils.isEmpty(org.getChildren())) {
             return;

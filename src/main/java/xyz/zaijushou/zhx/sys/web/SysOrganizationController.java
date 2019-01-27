@@ -57,7 +57,11 @@ public class SysOrganizationController {
         if(org.getId() == null) {
             sysOrganizationService.saveOrg(org);
         } else {
-            sysOrganizationService.updateOrg(org);
+            if (org.getId() < 0){
+                sysOrganizationService.saveOrg(org);
+            }else {
+                sysOrganizationService.updateOrg(org);
+            }
         }
         if(CollectionUtils.isEmpty(org.getChildren())) {
             return;
