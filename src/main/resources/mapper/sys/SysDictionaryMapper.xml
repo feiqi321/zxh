@@ -120,4 +120,15 @@
         where id = #{id}
         and delete_flag = '0'
     </delete>
+
+    <!--根据名称获取数据组-->
+    <select id="listDataByName" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+        select
+        <include refid="dataDictionaryInfo"/>
+        from sys_data_dictionary
+        where dictionary_id = (
+        select id from sys_data_dictionary where name = #{name}
+        LIMIT 1
+        )
+    </select>
 </mapper>

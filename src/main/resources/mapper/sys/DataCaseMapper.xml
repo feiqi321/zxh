@@ -11,13 +11,9 @@
         </selectKey>
         insert into data_case
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="newColumn != null">new_column,</if>
             <if test="batchNo != null">batch_no,</if>
             <if test="money != null">money,</if>
             <if test="balance != null">balance,</if>
-            <if test="caseTime != null">case_time,</if>
-            <if test="caseType != null">case_type,</if>
-            <if test="returnTime != null">return_time,</if>
             <if test="rate != null">rate,</if>
             <if test="remark != null">remark,</if>
             <if test="realReturnTime != null">real_return_time,</if>
@@ -27,16 +23,12 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="new_column != null">#{newColumn},</if>
             <if test="batchNo != null">#{batchNo},</if>
             <if test="money != null">#{money},</if>
             <if test="balance != null">#{balance},</if>
-            <if test="caseTime != null">#{caseTime},</if>
-            <if test="caseType != null">#{caseType},</if>
-            <if test="returnTime != null">#{returnTime},</if>
             <if test="rate != null">#{rate},</if>
             <if test="remark != null">#{remark},</if>
-            <if test="realTeturnTime != null">#{real_return_time},</if>
+            <if test="realReturnTime != null">#{real_return_time},</if>
             <if test="status != null">#{status},</if>
             0,
             now(),
@@ -49,7 +41,6 @@
         <trim suffixOverrides=",">
             <if test="money != null">money = #{money},</if>
             <if test="balance != null">balance = #{balance},</if>
-            <if test="caseTime != null">case_time = #{caseTime},</if>
             <if test="status != null">status = #{status},</if>
         </trim>
         where
@@ -64,7 +55,7 @@
 
     <select id="pageDataCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
-        id,money,balance,case_time as caseTime,remark,status,create_time as createTime
+        id,money,balance,remark,status,create_time as createTime
         from data_case
         <where>
             <trim suffixOverrides=",">

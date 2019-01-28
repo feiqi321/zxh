@@ -42,6 +42,13 @@ public class SysDictionaryController {
         return WebResponse.success(dictionaryEntityList);
     }
 
+    @ApiOperation(value = "根据名称查询数据列表", notes = "根据名称查询数据列表")
+    @PostMapping("/select/list/name")
+    public Object listDataByName(@RequestBody SysDictionaryEntity dictionary) {
+        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.listDataByName(dictionary);
+        return WebResponse.success(dictionaryEntityList);
+    }
+
     @ApiOperation(value = "查询指定数据", notes = "查询指定数据")
     @PostMapping("/select/id")
     public Object getDataById(@RequestBody SysDictionaryEntity dictionary) {

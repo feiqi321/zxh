@@ -25,6 +25,14 @@ public interface SysDictionaryService {
      */
     List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
 
+
+    /**
+     * 根据名称获取数据组
+     * @param dictionary
+     * @return
+     */
+    List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary);
+
     /**
      *  根据Id查询数据
      * @param dictionary
