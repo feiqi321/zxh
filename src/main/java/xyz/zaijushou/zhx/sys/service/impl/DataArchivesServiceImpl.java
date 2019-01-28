@@ -40,17 +40,17 @@ public class DataArchivesServiceImpl implements DataArchiveService {
         }
         dataArchiveEntity.setAddress(address);
         dataArchiveEntity.setMobile(mobile);
-        int id = dataArchiveMapper.saveArchive(dataArchiveEntity);
+        int key = dataArchiveMapper.saveArchive(dataArchiveEntity);
         for (int i=0;i<addressEntityList.size();i++){
             DataArchiveAddressEntity dataArchiveAddressEntity = addressEntityList.get(i);
-            dataArchiveAddressEntity.setArchiveId(id);
+            dataArchiveAddressEntity.setArchiveId(dataArchiveEntity.getId());
             address = address+","+dataArchiveAddressEntity.getAddress();
             dataArchiveAddressMapper.saveAddress(dataArchiveAddressEntity);
         }
         for (int j=0;j<telEntityList.size();j++){
             DataArchiveTelEntity dataArchiveTelEntity = telEntityList.get(j);
             mobile = mobile + "," + dataArchiveTelEntity.getTel();
-            dataArchiveTelEntity.setArchiveId(id);
+            dataArchiveTelEntity.setArchiveId(dataArchiveEntity.getId());
             dataArchiveTelMapper.saveTel(dataArchiveTelEntity);
         }
 
