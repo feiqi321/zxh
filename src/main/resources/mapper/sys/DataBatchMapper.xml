@@ -65,7 +65,7 @@
     </delete>
 
     <select id="pageDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select
+        select id,
         batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,create_user as createUser,real_time as realReturnTime
         from data_batch
         <where>
@@ -94,7 +94,7 @@
     </select>
 
     <select id="selectBatchById" parameterType="java.lang.Integer" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select
+        select id,
         batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,create_user as createUser,real_time as realReturnTime
         from data_batch limit 1
     </select>
