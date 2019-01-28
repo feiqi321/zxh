@@ -66,13 +66,36 @@
 
     <select id="pageDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select
-        batch_no as batchNo,client,area,bail_time as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,status,create_user as createUser,real_return_time as realReturnTime
+        batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,create_user as createUser,real_time as realReturnTime
         from data_batch
+        <where>
+            delete_flag = 0
+            <trim suffixOverrides=",">
+                <if test="batchNo != null and batchNo!=''">
+                    AND  batch_no like CONCAT('%',#{batchNo},'%')
+                </if>
+                <if test="client != null and client!=''">
+                    AND client like CONCAT('%',#{client},'%')
+                </if>
+                <if test="area != null and area!=''">
+                    AND area  like CONCAT('%',#{area},'%')
+                </if>
+                <if test="caseType != null and caseType!=''">
+                    AND case_type like CONCAT('%',#{caseType},'%')
+                </if>
+                <if test="startTime != null and startTime!=''">
+                    <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="endTime != null and endTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{endTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
     </select>
 
     <select id="selectBatchById" parameterType="java.lang.Integer" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select
-        batch_no as batchNo,client,area,bail_time as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,status,create_user as createUser,real_time as realReturnTime
+        batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,create_user as createUser,real_time as realReturnTime
         from data_batch limit 1
     </select>
 </mapper>

@@ -44,7 +44,7 @@ public class DataBatchController {
     }
 
     @ApiOperation(value = "刪除批次", notes = "刪除批次")
-    @PostMapping("/dataBatchdelete")
+    @PostMapping("/dataBatch/delete")
     public Object delete(@RequestBody DataBatchEntity dataBatchEntity) {
 
         dataCaseService.deleteById(dataBatchEntity);
