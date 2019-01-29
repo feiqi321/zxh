@@ -14,7 +14,7 @@
             <if test="batchNo != null">batch_no,</if>
             <if test="client != null">client,</if>
             <if test="area != null">area,</if>
-            <if test="caseTime != null">bail_time,</if>
+            <if test="caseTime != null">bail_date,</if>
             <if test="caseType != null">case_type,</if>
             <if test="returnTime != null">expect_time,</if>
             <if test="targetRate != null">target_rate,</if>
