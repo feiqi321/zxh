@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseRepayMapper">
+
+    <!--插入数据信息-->
+    <insert id="saveRepay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_case_repay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repayTime != null">repay_time,</if>
+            <if test="repayAmt != null">repay_amt,</if>
+            <if test="caseId != null">case_id,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="repayTime != null">#{repayTime},</if>
+            <if test="repayAmt != null">#{repayAmt},</if>
+            <if test="caseId != null">#{caseId},</if>
+        </trim>
+    </insert>
+
+
+
+    <!--通过Id删除数据信息-->
+    <delete id="deleteRepay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayEntity">
+        delete from data_case_repay
+        where case_id = #{caseId}
+    </delete>
+
+    <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayEntity">
+        select id,repay_time as repayTime,repay_amt as repayAmt,case_id as caseId
+        from data_case_repay where case_id = #{caseId}
+    </select>
+
+</mapper>

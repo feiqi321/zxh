@@ -25,6 +25,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseCommentMapper dataCaseCommentMapper;
     @Resource
     private DataCaseInterestMapper dataCaseInterestMapper;
+    @Resource
+    private DataCaseRepayMapper dataCaseRepayMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -113,5 +115,32 @@ public class DataCaseServiceImpl implements DataCaseService {
            list.set(i,temp);
        }
        return list;
+    }
+
+
+    /**
+     * 催收模块-我的案件-列表查询
+     * @param dataCaseEntity
+     * @return
+     */
+    @Override
+    public List<DataCaseEntity> pageCaseInfoList(DataCaseEntity dataCaseEntity){
+        List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+
+            list.set(i,temp);
+        }
+        return list;
+    }
+
+    /**
+     *  催收管理-统计
+     * @param bean
+     */
+    @Override
+    public void sumCaseMoney(DataCaseEntity bean){
+        dataCaseMapper.sumCaseMoney(bean);
+        return ;
     }
 }

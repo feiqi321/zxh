@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCollectionMapper">
+
+    <!--插入数据信息-->
+    <insert id="saveCollection" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_collection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dept != null">dept,</if>
+            <if test="area != null">area,</if>
+            <if test="odv != null">odv,</if>
+            <if test="odv != null">odv,</if>
+            <if test="remark != null">remark,</if>
+            delete_flag,
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dept != null">#{dept},</if>
+            <if test="area != null">#{area},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="odv != null">#{odv},</if>
+            <if test="remark != null">#{remark},</if>
+            0,
+            now(),
+        </trim>
+    </insert>
+
+    <update id="updateCollection" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        update data_collection
+        set
+        <trim suffixOverrides=",">
+            <if test="dept != null">name = #{dept},</if>
+            <if test="area != null">area = #{area},</if>
+            <if test="mobile != null">mobile = #{mobile},</if>
+            <if test="odv != null">odv = #{odv},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where
+        id = #{id}
+    </update>
+
+    <!--通过Id删除数据信息-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        update data_collection set delete_flag =1
+        where id = #{id}
+    </delete>
+
+    <select id="pageDataCollection" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select
+        id,dept,create_time as createTime
+        from data_collection
+        <where>
+            delete_flag = 0
+            <trim suffixOverrides=",">
+                <if test="dept != null and dept!=''">
+                    AND  dept like CONCAT('%',#{dept},'%')
+                </if>
+                <if test="startTime != null and startTime!=''">
+                     <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="endTime != null and endTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{endTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+
+</mapper>

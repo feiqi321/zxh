@@ -13,6 +13,7 @@ public interface SysDictionaryMapper {
     void saveDataAfter(SysDictionaryEntity dictionary);
     void updateDataDictionary(SysDictionaryEntity dictionary);
     List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
+    List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary);
     List<SysDictionaryEntity> getDataById(Integer id);
     List<SysDictionaryEntity> getDataByParentId(Integer parentId);
     void deleteById(SysDictionaryEntity dictionary);

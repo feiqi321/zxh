@@ -145,4 +145,13 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         dictionaryMapper.deleteById(dictionary);
     }
 
+    /**
+     * 根据名称获取数据组
+     * @param dictionary
+     * @return
+     */
+    @Override
+    public  List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary){
+        return dictionaryMapper.listDataByName(dictionary);
+    }
 }

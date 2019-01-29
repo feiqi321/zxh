@@ -63,4 +63,22 @@ public class DataCaseController {
         List<DataCaseEntity> list = dataCaseService.pageDataCaseList(bean);
         return WebResponse.success(list);
     }
+
+    @ApiOperation(value = "催收管理-分頁查询", notes = "催收管理-分頁查询")
+    @PostMapping("/dataCase/case/pageCaseInfo")
+    public Object pageCaseInfo(@RequestBody DataCaseEntity bean) {
+
+        List<DataCaseEntity> list = dataCaseService.pageCaseInfoList(bean);
+        return WebResponse.success(list);
+    }
+
+    @ApiOperation(value = "催收管理-统计", notes = "催收管理-统计")
+    @PostMapping("/dataCase/case/sumCaseMoney")
+    public Object sumCaseMoney(@RequestBody DataCaseEntity bean) {
+
+        //List<DataCaseEntity> list = dataCaseService.pageCaseInfoList(bean);
+        dataCaseService.sumCaseMoney(bean);
+
+        return WebResponse.success();
+    }
 }
