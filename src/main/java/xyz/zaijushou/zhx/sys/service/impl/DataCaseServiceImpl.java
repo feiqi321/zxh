@@ -5,9 +5,14 @@ import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +32,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseInterestMapper dataCaseInterestMapper;
     @Resource
     private DataCaseRepayMapper dataCaseRepayMapper;
+    @Resource
+    private SysUserService sysUserService;//用户业务控制层
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -125,13 +132,27 @@ public class DataCaseServiceImpl implements DataCaseService {
      */
     @Override
     public List<DataCaseEntity> pageCaseInfoList(DataCaseEntity dataCaseEntity){
-        List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        if (StringUtils.isEmpty(user)){
+            return list;
+        }
+        dataCaseEntity.setName(user.getUserName());//当前用户
+        list =  dataCaseMapper.pageDataCase(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
 
             list.set(i,temp);
         }
         return list;
+    }
+
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity user = new SysUserEntity();
+        user.setId(userId);
+        return sysUserService.findUserInfoWithoutPasswordById(user);
     }
 
     /**
