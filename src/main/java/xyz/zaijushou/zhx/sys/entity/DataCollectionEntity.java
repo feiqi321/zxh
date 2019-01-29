@@ -22,7 +22,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String mobile;
     private String result;
     private String collectInfo;
-    private String method;
+    private String method;//谈判方式(催收分类)
     private int repayTime;
     private BigDecimal repayAmt;
     private BigDecimal reduceAmt;

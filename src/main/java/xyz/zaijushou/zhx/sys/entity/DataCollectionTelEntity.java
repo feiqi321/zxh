@@ -11,6 +11,7 @@ public class DataCollectionTelEntity extends CommonEntity {
     private int collectionId;
     private String startTime;
     private String endTime;
+    private String followTime;//下次跟进时间
     private int status;
 
     public String getTel() {
@@ -59,5 +60,13 @@ public class DataCollectionTelEntity extends CommonEntity {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getFollowTime() {
+        return followTime;
+    }
+
+    public void setFollowTime(String followTime) {
+        this.followTime = followTime;
     }
 }

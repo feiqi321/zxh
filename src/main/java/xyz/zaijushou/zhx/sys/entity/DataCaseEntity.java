@@ -10,25 +10,32 @@ import java.util.List;
  * Created by looyer on 2019/1/25.
  */
 public class DataCaseEntity extends CommonEntity {
-    private String client;
     private String batchNo;
-    private BigDecimal money;
-    private BigDecimal balance;
-    private String odv;
+    private String client;//委托方
+    private BigDecimal money;//委案金额
+    private BigDecimal moneyStart;//委案金额
+    private BigDecimal moneyEnd;//委案金额
+    private BigDecimal balance;//委案余额
+
+
+    private String odv;//催收员
     private BigDecimal rate;
-    private String realReturnTime;
-    private String mVal;
+
+
+    private String realReturnTime;//实际退案日期
+    private String mVal; //M值系数
     private String important;
-    private String summary;
+    private String summary;//案件小結
     private String distributeHistory;
-    private BigDecimal enRepayAmt;
-    private BigDecimal bankAmt;
-    private String proRepayDate;
-    private String distributeTime;
+
+    private BigDecimal enRepayAmt;//已还金额
+    private BigDecimal bankAmt;//待銀行查账金额-CP
+    private String proRepayDate;//承诺还款金额-PTP
+
+
     private String identNo;
-    private String seqNo;
+    private String seqNo;//个案序列号
     private String cardNo;
-    private int overDays;
     private int reportStatus;
     private String bank;
     private int reduceStatus;
@@ -36,24 +43,41 @@ public class DataCaseEntity extends CommonEntity {
     private String archiveNo;
     private String name;
     private String realRepayDate;
-    private String collectHand;
+    private String realRepayDateStart;
+    private String realRepayDateEnd;
+    private String collectHand; //催收手别（0-90天）
     private String license;
-    private int distributeStatus;
-    private String repayDate;
-    private String vin;
+
+    private int distributeStatus;//分配状态
+    private String distributeTime;//分配時間
+
+    private String repayDate;//还款日期
+    private String repayDateStart;//还款日期
+    private String repayDateEnd;//还款日期
+
+    private String repayStatus;//还款状态
+    private String vin; //车架号
     private int collectStatus;
-    private String accountAge;
+    private String accountAge;//逾期账龄
+    private int overDays;//逾期天数
     private String color;
     private String dept;
     private int status;
+
+    private String collectInfo;//催收小结（催收表）
+
     //最后一次跟进时间(催收时间)
     private String collectDate;
     //地区
     private String area;
     //委案日期
     private String caseDate;
+    private String caseDateStart;
+    private String caseDateEnd;
     //案件类型
     private String caseType;
+
+    private int newCase;//是否新分配
 
 
     List<DataCaseAddressEntity> addressList = new ArrayList<DataCaseAddressEntity>();
@@ -61,6 +85,94 @@ public class DataCaseEntity extends CommonEntity {
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+    public String getRealRepayDateStart() {
+        return realRepayDateStart;
+    }
+
+    public void setRealRepayDateStart(String realRepayDateStart) {
+        this.realRepayDateStart = realRepayDateStart;
+    }
+
+    public String getRealRepayDateEnd() {
+        return realRepayDateEnd;
+    }
+
+    public void setRealRepayDateEnd(String realRepayDateEnd) {
+        this.realRepayDateEnd = realRepayDateEnd;
+    }
+
+    public BigDecimal getMoneyStart() {
+        return moneyStart;
+    }
+
+    public void setMoneyStart(BigDecimal moneyStart) {
+        this.moneyStart = moneyStart;
+    }
+
+    public BigDecimal getMoneyEnd() {
+        return moneyEnd;
+    }
+
+    public void setMoneyEnd(BigDecimal moneyEnd) {
+        this.moneyEnd = moneyEnd;
+    }
+
+    public String getRepayDateStart() {
+        return repayDateStart;
+    }
+
+    public void setRepayDateStart(String repayDateStart) {
+        this.repayDateStart = repayDateStart;
+    }
+
+    public String getRepayDateEnd() {
+        return repayDateEnd;
+    }
+
+    public void setRepayDateEnd(String repayDateEnd) {
+        this.repayDateEnd = repayDateEnd;
+    }
+
+    public String getCaseDateStart() {
+        return caseDateStart;
+    }
+
+    public void setCaseDateStart(String caseDateStart) {
+        this.caseDateStart = caseDateStart;
+    }
+
+    public String getCaseDateEnd() {
+        return caseDateEnd;
+    }
+
+    public void setCaseDateEnd(String caseDateEnd) {
+        this.caseDateEnd = caseDateEnd;
+    }
+
+    public String getCollectInfo() {
+        return collectInfo;
+    }
+
+    public void setCollectInfo(String collectInfo) {
+        this.collectInfo = collectInfo;
+    }
+
+    public int getNewCase() {
+        return newCase;
+    }
+
+    public void setNewCase(int newCase) {
+        this.newCase = newCase;
+    }
+
+    public String getRepayStatus() {
+        return repayStatus;
+    }
+
+    public void setRepayStatus(String repayStatus) {
+        this.repayStatus = repayStatus;
+    }
 
     public String getBatchNo() {
         return batchNo;
