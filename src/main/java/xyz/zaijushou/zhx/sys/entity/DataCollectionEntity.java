@@ -3,6 +3,8 @@ package xyz.zaijushou.zhx.sys.entity;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by looyer on 2019/1/29.
@@ -74,6 +76,8 @@ public class DataCollectionEntity extends CommonEntity {
     private String identNo;
 
     private String cardNo;
+
+    List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
 
     public String getBailStartDate() {
         return bailStartDate;
@@ -162,32 +166,6 @@ public class DataCollectionEntity extends CommonEntity {
     public void setClient(String client) {
         this.client = client;
     }
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by looyer on 2019/1/25.
- */
-public class DataCollectionEntity extends CommonEntity {
-    private String caseId;
-    private String area;
-    private String dept;
-    private String odv;
-    private String measure;
-    private String collectTime;
-    private String targetName;
-    private String relation;
-    private String telType;
-    private String mobile;
-    private String result;
-    private String collectInfo;
-    private String method;
-    private int repayTime;
-    private BigDecimal repayAmt;
-    private BigDecimal reduceAmt;
-    private int collectStatus;
-    private int reduceStatus;
-    List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
 
     public String getCaseId() {
         return caseId;
@@ -330,11 +308,6 @@ public class DataCollectionEntity extends CommonEntity {
     }
 
     public void setRepayTime(String repayTime) {
-    public int getRepayTime() {
-        return repayTime;
-    }
-
-    public void setRepayTime(int repayTime) {
         this.repayTime = repayTime;
     }
 

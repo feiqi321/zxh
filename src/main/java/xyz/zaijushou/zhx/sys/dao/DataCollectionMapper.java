@@ -19,6 +19,7 @@ public interface DataCollectionMapper {
     public void deleteById(Integer id);
 
     public List<DataCollectionEntity> pageDataCollection(DataCollectionEntity bean);
+
     public void deleteCollect(DataCollectionEntity entity);
 
     public List<DataCollectionEntity> pageDataCollect(DataCollectionEntity bean);
