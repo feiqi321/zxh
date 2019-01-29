@@ -8,6 +8,7 @@ import java.math.BigDecimal;
  * Created by looyer on 2019/1/25.
  */
 public class DataBatchEntity extends CommonEntity {
+
     //批次编号
     private String batchNo;
     //委托方
@@ -41,6 +42,7 @@ public class DataBatchEntity extends CommonEntity {
     private String startTime;
 
     private String endTime;
+
 
     public String getStartTime() {
         return startTime;
