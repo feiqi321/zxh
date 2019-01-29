@@ -45,9 +45,12 @@ public class DataCaseController {
 
     @ApiOperation(value = "刪除案件", notes = "刪除案件")
     @PostMapping("/dataCase/delete")
-    public Object delete(@RequestBody DataCaseEntity bean) {
+    public Object delete(@RequestBody List<DataCaseEntity> list) {
+        for(int i=0;i<list.size();i++){
+            DataCaseEntity bean = list.get(i);
+            dataCaseService.delete(bean);
+        }
 
-        dataCaseService.delete(bean);
 
         return WebResponse.success();
 

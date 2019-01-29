@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCollectionMapper">
+
+    <!--通过Id删除数据信息-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+       update data_collection set delete_flag=1
+        where id = #{id}
+    </delete>
+
+    <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select id,case_id as caseId,seqno,color,bail_date as bailDate,expect_time as expectTime,area,
+        dept,odv,measure,collect_time as collectTime,target_name as targetName,relation,tel_type as telType,
+        mobile,result,collect_time as collectTime,method,repay_time as repayTime,
+        repay_amt as repayAmt,reduce_amt as reduceAmt,collect_status collectStatus,reduce_status as reduceStatus
+        from data_collection
+        <where>
+            delete_flag = 0
+            <trim suffixOverrides=",">
+                <if test="dept != null and dept!=''">
+                    AND  dept like CONCAT('%',#{dept},'%')
+                </if>
+                <if test="area != null and area!=''">
+                    AND area like CONCAT('%',#{area},'%')
+                </if>
+                <if test="odv != null and odv!=''">
+                    AND odv  like CONCAT('%',#{odv},'%')
+                </if>
+                <if test="measure != null and measure!=''">
+                    AND measure like CONCAT('%',#{measure},'%')
+                </if>
+                <if test="client != null and client!=''">
+                    AND client like CONCAT('%',#{client},'%')
+                </if>
+                <if test="caseStatus != null and caseStatus!=''">
+                    AND case_status like CONCAT('%',#{caseStatus},'%')
+                </if>
+                <if test="result != null and result!=''">
+                    AND result like CONCAT('%',#{result},'%')
+                </if>
+                <if test="batchNo != null and batchNo!=''">
+                    AND batch_no like CONCAT('%',#{batchNo},'%')
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    AND ident_no like CONCAT('%',#{identNo},'%')
+                </if>
+                <if test="cardNo != null and cardNo!=''">
+                    AND card_no like CONCAT('%',#{cardNo},'%')
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    AND collect_info like CONCAT('%',#{collectInfo},'%')
+                </if>
+                <if test="color != null and color!=''">
+                    AND color like CONCAT('%',#{color},'%')
+                </if>
+                <if test="seqno != null and seqno!=''">
+                    AND seqno like CONCAT('%',#{seqno},'%')
+                </if>
+                <if test="bailStartDate != null and bailStartDate!=''">
+                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{bailStartDate}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="bailEndDate != null and bailEndDate!=''" >
+                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{bailEndDate}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectStartTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectEndTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="collectStartTime != null and collectStartTime!=''">
+                    <![CDATA[   and DATE_FORMAT(collect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="collectEndTime != null and collectEndTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(collect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{collectEndTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+
+</mapper>
