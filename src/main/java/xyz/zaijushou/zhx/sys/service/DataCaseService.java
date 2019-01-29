@@ -19,4 +19,6 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> pageCaseInfoList(DataCaseEntity dataCaseEntity);
 
+    void sumCaseMoney(DataCaseEntity bean);
+
 }

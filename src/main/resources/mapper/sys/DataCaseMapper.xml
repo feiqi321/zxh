@@ -66,4 +66,32 @@
         </where>
     </select>
 
+    <!--催收模块-我的案件-列表查询-->
+    <select id="pageCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select
+        id,money,balance,remark,status,create_time as createTime
+        from data_case
+        <where>
+            <trim suffixOverrides=",">
+                <if test="remark != null and remark!=''">
+                    remark like CONCAT('%',#{remark},'%')
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <!--统计金额-->
+    <select id="sumCaseMoney" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select
+        id
+        from data_case
+        <where>
+            <trim suffixOverrides=",">
+                <if test="remark != null and remark!=''">
+                    remark like CONCAT('%',#{remark},'%')
+                </if>
+            </trim>
+        </where>
+    </select>
+
 </mapper>

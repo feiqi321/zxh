@@ -74,6 +74,8 @@ public class DataCaseController {
     public Object sumCaseMoney(@RequestBody DataCaseEntity bean) {
 
         //List<DataCaseEntity> list = dataCaseService.pageCaseInfoList(bean);
+        dataCaseService.sumCaseMoney(bean);
+
         return WebResponse.success();
     }
 }

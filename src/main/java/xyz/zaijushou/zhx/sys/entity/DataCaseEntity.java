@@ -45,7 +45,6 @@ public class DataCaseEntity extends CommonEntity {
     private String accountAge;
     private String color;
     private String dept;
-    private String remark;
     private int status;
     //最后一次跟进时间(催收时间)
     private String collectDate;
@@ -333,16 +332,6 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setDept(String dept) {
         this.dept = dept;
-    }
-
-    @Override
-    public String getRemark() {
-        return remark;
-    }
-
-    @Override
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 
     public int getStatus() {

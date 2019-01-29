@@ -133,4 +133,14 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         return list;
     }
+
+    /**
+     *  催收管理-统计
+     * @param bean
+     */
+    @Override
+    public void sumCaseMoney(DataCaseEntity bean){
+        dataCaseMapper.sumCaseMoney(bean);
+        return ;
+    }
 }
