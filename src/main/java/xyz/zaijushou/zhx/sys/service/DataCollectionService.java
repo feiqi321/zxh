@@ -17,4 +17,6 @@ public interface DataCollectionService {
 
     public List<DataCollectionEntity> pageDataCollectionList(DataCollectionEntity dataCollectionEntity);
 
+    public List<DataCollectionEntity> pageMyCase(DataCollectionEntity dataCollectionEntity);
+
 }

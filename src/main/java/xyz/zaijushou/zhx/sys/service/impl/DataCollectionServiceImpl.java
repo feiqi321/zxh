@@ -39,4 +39,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
        }
        return list;
     }
+
+    @Override
+    public List<DataCollectionEntity> pageMyCase(DataCollectionEntity dataCollectionEntity){
+        List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            list.set(i,temp);
+        }
+        return list;
+    }
 }

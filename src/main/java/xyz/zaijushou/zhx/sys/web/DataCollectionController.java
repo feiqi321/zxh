@@ -64,4 +64,13 @@ public class DataCollectionController {
 
     }
 
+    @ApiOperation(value = "催收管理-我的案件分頁查询", notes = "催收管理-我的案件分頁查询")
+    @PostMapping("/dataCollection/pageMyCase")
+    public Object pageMyCase(@RequestBody DataCollectionEntity bean) {
+
+        List<DataCollectionEntity> list = dataCollectionService.pageMyCase(bean);
+        return WebResponse.success(list);
+
+    }
+
 }

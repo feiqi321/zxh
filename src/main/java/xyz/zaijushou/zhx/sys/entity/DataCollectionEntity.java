@@ -103,8 +103,17 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal moneyEnd;//委案金额
     private BigDecimal balance;//委案余额
 
+    private String archiveNo;//档案号
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public String getArchiveNo() {
+        return archiveNo;
+    }
+
+    public void setArchiveNo(String archiveNo) {
+        this.archiveNo = archiveNo;
+    }
 
     public String getExpectTimeStart() {
         return expectTimeStart;
