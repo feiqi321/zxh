@@ -1,6 +1,9 @@
 package xyz.zaijushou.zhx.utils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
@@ -16,6 +19,8 @@ import java.util.Set;
 
 @Component
 public class RedisUtils {
+
+    private static Logger logger = LoggerFactory.getLogger(RedisUtils.class);
 
     private static StringRedisTemplate stringRedisTemplate;
 
@@ -58,6 +63,31 @@ public class RedisUtils {
             keys.add(new String((byte[]) cursor.next()));
         }
         return keys;
+    }
+
+    public static <T extends CommonEntity> List<T> scanEntityWithKeys(Set<String> idSet, Class<T> clazz) {
+        List<T> list = new ArrayList<>();
+        List<String> values = stringRedisTemplate.opsForValue().multiGet(idSet);
+        if(CollectionUtils.isEmpty(values)) {
+            return list;
+        }
+        for(String value : values) {
+            list.add(JSON.parseObject(value, clazz));
+        }
+        return list;
+    }
+
+    public static <T> T entityGet(String key, Class<T> clazz) {
+        String value = stringRedisTemplate.opsForValue().get(key);
+        if(value == null) {
+            return null;
+        }
+        try {
+            return JSONObject.parseObject(value, clazz);
+        } catch (Exception e) {
+            logger.error("redis转entity出错：{}", e);
+            return null;
+        }
     }
 
     @Autowired
