@@ -58,6 +58,20 @@ public class SysUserController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "修改状态", notes = "修改状态")
+    @PostMapping("/update/status")
+    public Object updateDataStatus(@RequestBody SysNewUserEntity userEntity) {
+        sysUserService.updateDataStatus(userEntity);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "员工删除", notes = "员工删除")
+    @PostMapping("/delete/id")
+    public Object deleteById(@RequestBody SysNewUserEntity userEntity) {
+        sysUserService.deleteById(userEntity);
+        return WebResponse.success();
+    }
+
     @ApiOperation(value = "查询用户数据列表", notes = "查询用户数据列表")
     @PostMapping("/select/list")
     public Object getDataList(@RequestBody SysNewUserEntity userEntity) {

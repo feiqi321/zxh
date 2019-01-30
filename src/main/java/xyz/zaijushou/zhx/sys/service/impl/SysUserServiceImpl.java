@@ -7,6 +7,7 @@ import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -51,8 +52,13 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setEnable(1);//启动
         }else {//离职
             userEntity.setEnable(0);//锁定
+            userEntity.setLeaveTime(new Date());//保存离职日期
         }
         sysUserMapper.saveNewUser(userEntity);
+        //保存角色中间表
+        if (StringUtils.notEmpty(userEntity.getRole())){
+
+        }
     }
 
     /**
@@ -66,6 +72,16 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setEnable(0);
         }
         sysUserMapper.updateUser(userEntity);
+    }
+
+    public void updateDataStatus(SysNewUserEntity userEntity){
+        if (userEntity.getStatus() == 1){
+            userEntity.setEnable(1);
+        }else {
+            userEntity.setEnable(0);
+            userEntity.setLeaveTime(new Date());//保存离职日期
+        }
+        sysUserMapper.updateDataStatus(userEntity);
     }
 
     public void deleteById(SysNewUserEntity userEntity){
