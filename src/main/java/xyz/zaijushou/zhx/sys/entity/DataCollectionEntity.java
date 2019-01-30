@@ -67,8 +67,8 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal reduceAmt;
     //催收状态
     private int collectStatus;
-    //减免状态
-    private int reduceStatus;
+//    //减免状态
+//    private int reduceStatus;
     //案件状态
     private int caseStatus;
 
@@ -498,13 +498,6 @@ public class DataCollectionEntity extends CommonEntity {
         this.collectStatus = collectStatus;
     }
 
-    public int getReduceStatus() {
-        return reduceStatus;
-    }
-
-    public void setReduceStatus(int reduceStatus) {
-        this.reduceStatus = reduceStatus;
-    }
 
     public List<DataCollectionTelEntity> getCollTelList() {
         return collTelList;
