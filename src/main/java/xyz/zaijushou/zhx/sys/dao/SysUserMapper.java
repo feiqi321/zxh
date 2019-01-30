@@ -1,7 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
@@ -20,20 +20,20 @@ public interface SysUserMapper {
 
     List<SysUserEntity> listAllUsers(SysUserEntity userEntity);
 
-    void saveUser(SysOperationUserEntity userEntity);
+    void saveNewUser(SysNewUserEntity userEntity);
 
     /**
      * 修改用户
      * @param userEntity
      */
-    void updateUser(SysOperationUserEntity userEntity);
+    void updateUser(SysNewUserEntity userEntity);
 
     /**
      * 查询用户列表
      * @param userEntity
      * @return
      */
-    List<SysOperationUserEntity> pageDataList(SysOperationUserEntity userEntity);
+    List<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity);
 
 
     /**
@@ -41,7 +41,9 @@ public interface SysUserMapper {
      * @param id
      * @return
      */
-    SysOperationUserEntity getDataById(Integer id);
+    SysNewUserEntity getDataById(Integer id);
+
+    void deleteById(Integer id);
 
     /**
      * 根据用户属性查询用户列表

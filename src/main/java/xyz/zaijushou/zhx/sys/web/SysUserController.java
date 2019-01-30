@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
@@ -45,29 +46,29 @@ public class SysUserController {
 
     @ApiOperation(value = "新增用户", notes = "新增用户")
     @PostMapping("/insert")
-    public Object saveData(@RequestBody SysOperationUserEntity userEntity) {
+    public Object saveData(@RequestBody SysNewUserEntity userEntity) {
         sysUserService.saveUser(userEntity);
         return WebResponse.success();
     }
 
     @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
     @PostMapping("/update")
-    public Object updateData(@RequestBody SysOperationUserEntity userEntity) {
+    public Object updateData(@RequestBody SysNewUserEntity userEntity) {
         sysUserService.updateUser(userEntity);
         return WebResponse.success();
     }
 
     @ApiOperation(value = "查询用户数据列表", notes = "查询用户数据列表")
     @PostMapping("/select/list")
-    public Object getDataList(@RequestBody SysOperationUserEntity userEntity) {
-        List<SysOperationUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
+    public Object getDataList(@RequestBody SysNewUserEntity userEntity) {
+        List<SysNewUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
         return WebResponse.success(userEntityList);
     }
 
     @ApiOperation(value = "查询指定用户数据", notes = "查询指定用户数据")
     @PostMapping("/select/id")
-    public Object getDataById(@RequestBody SysOperationUserEntity userEntity) {
-        SysOperationUserEntity userInfoEntity = sysUserService.getDataById(userEntity);
+    public Object getDataById(@RequestBody SysNewUserEntity userEntity) {
+        SysNewUserEntity userInfoEntity = sysUserService.getDataById(userEntity);
         return WebResponse.success(userInfoEntity);
     }
 

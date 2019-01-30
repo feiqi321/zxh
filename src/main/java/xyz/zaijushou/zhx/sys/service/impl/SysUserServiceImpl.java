@@ -3,7 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
-import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
@@ -41,31 +41,44 @@ public class SysUserServiceImpl implements SysUserService {
      * 保存用户
      * @param userEntity
      */
-    public void saveUser(SysOperationUserEntity userEntity){
+    public void saveUser(SysNewUserEntity userEntity){
         userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
         BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
         userEntity.setPassword(encoder.encode("admin".trim()));//保存加密密码
         userEntity.setCreateTime(new Date());
         userEntity.setDeleteFlag(0);//默认正常
-        userEntity.setEnable(1);//默认启用
-        userEntity.setStatus(1);//默认在职
-        sysUserMapper.saveUser(userEntity);
+        if (userEntity.getStatus() == 1){//在职
+            userEntity.setEnable(1);//启动
+        }else {//离职
+            userEntity.setEnable(0);//锁定
+        }
+        sysUserMapper.saveNewUser(userEntity);
     }
 
     /**
      * 修改用户
      * @param userEntity
      */
-    public void updateUser(SysOperationUserEntity userEntity){
+    public void updateUser(SysNewUserEntity userEntity){
+        if (userEntity.getStatus() == 1){
+            userEntity.setEnable(1);
+        }else {
+            userEntity.setEnable(0);
+        }
         sysUserMapper.updateUser(userEntity);
     }
+
+    public void deleteById(SysNewUserEntity userEntity){
+        sysUserMapper.deleteById(userEntity.getId());
+    }
+
 
     /**
      * 查询用户列表
      * @param userEntity
      * @return
      */
-    public List<SysOperationUserEntity> pageDataList(SysOperationUserEntity userEntity){
+    public List<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity){
 
         return   sysUserMapper.pageDataList(userEntity);
     }
@@ -75,8 +88,8 @@ public class SysUserServiceImpl implements SysUserService {
      * @param userEntity
      * @return
      */
-    public SysOperationUserEntity getDataById(SysOperationUserEntity userEntity){
-        SysOperationUserEntity userInfoEntity = new SysOperationUserEntity();
+    public SysNewUserEntity getDataById(SysNewUserEntity userEntity){
+        SysNewUserEntity userInfoEntity = new SysNewUserEntity();
         userInfoEntity = sysUserMapper.getDataById(userEntity.getId());
         return userInfoEntity;
     }

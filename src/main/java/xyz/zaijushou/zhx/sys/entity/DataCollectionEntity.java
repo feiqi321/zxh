@@ -24,6 +24,8 @@ public class DataCollectionEntity extends CommonEntity {
     private String bailEndDate;
     //预计退案日
     private String expectTime;
+    private String expectTimeStart;
+    private String expectTimeEnd;
     //预计退案日  开始时间
     private String expectStartTime;
     //预计退案日  结束时间
@@ -58,8 +60,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String collectInfo;
     //谈判方式
     private String method;
-    //承诺日期
-    private String repayTime;
+
     //承诺还款金额
     private BigDecimal repayAmt;
     //减免金额
@@ -77,7 +78,169 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String cardNo;
 
+    private String accountAge;//逾期账龄
+
+    private int overDays;//逾期天数
+    private int newCase;//逾期天数
+
+    private String collectionType ; //催收类别
+    private String caseType ; //案件类别
+    private String repayStatus ; //还款状态
+
+    //委案日期
+    private String caseDate;
+    private String caseDateStart;
+    private String caseDateEnd;
+
+    //预计还款时间
+    //承诺日期
+    private String repayTime;
+    private String repayTimeStart;
+    private String repayTimeEnd;
+
+    private BigDecimal money;//委案金额
+    private BigDecimal moneyStart;//委案金额
+    private BigDecimal moneyEnd;//委案金额
+    private BigDecimal balance;//委案余额
+
+
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public String getExpectTimeStart() {
+        return expectTimeStart;
+    }
+
+    public void setExpectTimeStart(String expectTimeStart) {
+        this.expectTimeStart = expectTimeStart;
+    }
+
+    public String getExpectTimeEnd() {
+        return expectTimeEnd;
+    }
+
+    public void setExpectTimeEnd(String expectTimeEnd) {
+        this.expectTimeEnd = expectTimeEnd;
+    }
+
+    public String getAccountAge() {
+        return accountAge;
+    }
+
+    public void setAccountAge(String accountAge) {
+        this.accountAge = accountAge;
+    }
+
+    public int getOverDays() {
+        return overDays;
+    }
+
+    public void setOverDays(int overDays) {
+        this.overDays = overDays;
+    }
+
+    public int getNewCase() {
+        return newCase;
+    }
+
+    public void setNewCase(int newCase) {
+        this.newCase = newCase;
+    }
+
+    public String getCollectionType() {
+        return collectionType;
+    }
+
+    public void setCollectionType(String collectionType) {
+        this.collectionType = collectionType;
+    }
+
+    public String getCaseType() {
+        return caseType;
+    }
+
+    public void setCaseType(String caseType) {
+        this.caseType = caseType;
+    }
+
+    public String getRepayStatus() {
+        return repayStatus;
+    }
+
+    public void setRepayStatus(String repayStatus) {
+        this.repayStatus = repayStatus;
+    }
+
+    public String getCaseDate() {
+        return caseDate;
+    }
+
+    public void setCaseDate(String caseDate) {
+        this.caseDate = caseDate;
+    }
+
+    public String getCaseDateStart() {
+        return caseDateStart;
+    }
+
+    public void setCaseDateStart(String caseDateStart) {
+        this.caseDateStart = caseDateStart;
+    }
+
+    public String getCaseDateEnd() {
+        return caseDateEnd;
+    }
+
+    public void setCaseDateEnd(String caseDateEnd) {
+        this.caseDateEnd = caseDateEnd;
+    }
+
+    public String getRepayTimeStart() {
+        return repayTimeStart;
+    }
+
+    public void setRepayTimeStart(String repayTimeStart) {
+        this.repayTimeStart = repayTimeStart;
+    }
+
+    public String getRepayTimeEnd() {
+        return repayTimeEnd;
+    }
+
+    public void setRepayTimeEnd(String repayTimeEnd) {
+        this.repayTimeEnd = repayTimeEnd;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
+    public BigDecimal getMoneyStart() {
+        return moneyStart;
+    }
+
+    public void setMoneyStart(BigDecimal moneyStart) {
+        this.moneyStart = moneyStart;
+    }
+
+    public BigDecimal getMoneyEnd() {
+        return moneyEnd;
+    }
+
+    public void setMoneyEnd(BigDecimal moneyEnd) {
+        this.moneyEnd = moneyEnd;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 
     public String getBailStartDate() {
         return bailStartDate;

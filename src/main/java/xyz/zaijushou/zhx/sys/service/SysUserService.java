@@ -1,7 +1,7 @@
 package xyz.zaijushou.zhx.sys.service;
 
 import com.github.pagehelper.PageInfo;
-import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
@@ -19,27 +19,29 @@ public interface SysUserService {
      * 新增用户
      * @param userEntity
      */
-    void saveUser(SysOperationUserEntity userEntity);
+    void saveUser(SysNewUserEntity userEntity);
 
     /**
      * 修改用户
      * @param userEntity
      */
-    void updateUser(SysOperationUserEntity userEntity);
+    void updateUser(SysNewUserEntity userEntity);
 
     /**
      * 查询用户列表
      * @param userEntity
      * @return
      */
-    List<SysOperationUserEntity> pageDataList(SysOperationUserEntity userEntity);
+    List<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity);
 
     /**
      * 查询用户信息
      * @param userEntity
      * @return
      */
-    SysOperationUserEntity getDataById(SysOperationUserEntity userEntity);
+    SysNewUserEntity getDataById(SysNewUserEntity userEntity);
+
+    void deleteById(SysNewUserEntity userEntity);
 
     /**
      * 根据用户属性查询用户列表

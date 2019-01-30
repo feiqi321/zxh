@@ -96,6 +96,7 @@
         delete_flag as deleteFlag
     </sql>
 
+
     <select id="findPasswordInfoByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
         <include refid="colSqlPasswordInfo"/>
@@ -141,32 +142,49 @@
     <!--插入用户数据信息-->
     <insert id="saveUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
         INSERT INTO `sys_user`
-(`username`, `number`, `department`, `position`, `sex`,
-`high_edu`, `user_type`, `category`, `posi_title`, `come_resource`,
- `join_time`, `internship`, `plan_time`, `actual_time`, `credit_time`,
-`leave_time`, `yearly_salary`, `security_number`, `fund_number`, `benefit`,
- `deposit_bank`, `bank_number`, `idnumber`, `birth_time`, `marry_status`,
- `political`, `nation`, `birth_origin`, `household_address`, `household_nature`,
-`graduation`, `edu_background`, `work_experience`, `mobilization`, `mobile`,
-`office_phone`, `home_phone`, `qq`, `msn`, `email`,
- `address`, `login_name`, `password`, `remark`, `enable`,
-`create_time`, `delete_flag`, `status`)
-VALUES (
-#{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
-#{highEdu,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{posiTitle,jdbcType=VARCHAR}, #{comeResource,jdbcType=VARCHAR},
-#{joinTime,jdbcType=TIMESTAMP}, #{internship,jdbcType=INTEGER}, #{planTime,jdbcType=TIMESTAMP}, #{actualTime,jdbcType=TIMESTAMP}, #{creditTime,jdbcType=TIMESTAMP},
-#{leaveTime,jdbcType=TIMESTAMP}, #{yearlySalary,jdbcType=DECIMAL}, #{securityNumber,jdbcType=VARCHAR}, #{fundNumber,jdbcType=VARCHAR}, #{benefit,jdbcType=VARCHAR},
-#{depositBank,jdbcType=VARCHAR}, #{bankNumber,jdbcType=VARCHAR}, #{idnumber,jdbcType=VARCHAR}, #{birthTime,jdbcType=TIMESTAMP}, #{marryStatus,jdbcType=INTEGER},
-#{political,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{birthOrigin,jdbcType=VARCHAR}, #{householdAddress,jdbcType=VARCHAR}, #{householdNature,jdbcType=VARCHAR},
-#{graduation,jdbcType=VARCHAR}, #{eduBackground,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{mobilization,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
+        (`username`, `number`, `department`, `position`, `sex`,
+        `high_edu`, `user_type`, `category`, `posi_title`, `come_resource`,
+         `join_time`, `internship`, `plan_time`, `actual_time`, `credit_time`,
+        `leave_time`, `yearly_salary`, `security_number`, `fund_number`, `benefit`,
+         `deposit_bank`, `bank_number`, `idnumber`, `birth_time`, `marry_status`,
+         `political`, `nation`, `birth_origin`, `household_address`, `household_nature`,
+        `graduation`, `edu_background`, `work_experience`, `mobilization`, `mobile`,
+        `office_phone`, `home_phone`, `qq`, `msn`, `email`,
+         `address`, `login_name`, `password`, `remark`, `enable`,
+        `create_time`, `delete_flag`, `status`)
+        VALUES (
+        #{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+        #{highEdu,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{posiTitle,jdbcType=VARCHAR}, #{comeResource,jdbcType=VARCHAR},
+        #{joinTime,jdbcType=TIMESTAMP}, #{internship,jdbcType=INTEGER}, #{planTime,jdbcType=TIMESTAMP}, #{actualTime,jdbcType=TIMESTAMP}, #{creditTime,jdbcType=TIMESTAMP},
+        #{leaveTime,jdbcType=TIMESTAMP}, #{yearlySalary,jdbcType=DECIMAL}, #{securityNumber,jdbcType=VARCHAR}, #{fundNumber,jdbcType=VARCHAR}, #{benefit,jdbcType=VARCHAR},
+        #{depositBank,jdbcType=VARCHAR}, #{bankNumber,jdbcType=VARCHAR}, #{idnumber,jdbcType=VARCHAR}, #{birthTime,jdbcType=TIMESTAMP}, #{marryStatus,jdbcType=INTEGER},
+        #{political,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR}, #{birthOrigin,jdbcType=VARCHAR}, #{householdAddress,jdbcType=VARCHAR}, #{householdNature,jdbcType=VARCHAR},
+        #{graduation,jdbcType=VARCHAR}, #{eduBackground,jdbcType=VARCHAR}, #{workExperience,jdbcType=VARCHAR}, #{mobilization,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR},
 
-#{officePhone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{msn,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
-#{address,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER},
-#{createTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+        #{officePhone,jdbcType=VARCHAR}, #{homePhone,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{msn,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
+    </insert>
+
+    <insert id="saveNewUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        INSERT INTO `sys_user`
+        (`username`, `number`, `department`,  `sex`,
+        `join_time`,
+        `mobile`,
+        `office_phone`,
+        `address`, `login_name`, `password`, `enable`,
+        `delete_flag`, `status`)
+        VALUES (
+        #{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
+        #{joinTime,jdbcType=TIMESTAMP},
+        #{mobile,jdbcType=VARCHAR},
+        #{officePhone,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},  #{enable,jdbcType=INTEGER},
+        0, #{status,jdbcType=INTEGER})
     </insert>
 
     <!--更新用户数据信息-->
-    <update id="updateUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
+    <update id="updateUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user
         <set>
             <if test="phone != null">
@@ -178,16 +196,38 @@ VALUES (
     </update>
 
     <!--查询数据集合-->
-    <select id="pageDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
+    <select id="pageDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         select
-        <include refid="userInfo"/>
-        from sys_user
-        where 1 = 1
-        <if test="status != null">
-            AND  status = #{status,jdbcType=INTEGER}
+        select
+        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
+        su.status,su.enable,su.username as userName,so.org_name department,
+        su.create_time as createTime,su.create_user as 'createUser.id',
+        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.delete_flag as deleteFlag,
+        sr.role_name as role,
+        su.leave_time as leaveTime
+        from
+        sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
+        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        LEFT JOIN sys_organization so on su.department = so.id
+        where delete_flag = 0
+        <if test="status != null and status !=''">
+            AND  su.status = #{status,jdbcType=INTEGER}
+        </if>
+--         部门
+        <if test="department != null and department!=''">
+            AND  su.department = #{department}
+        </if>
+--         员工号
+        <if test="number != null and number!=''">
+            AND  su.number like CONCAT('%',#{number},'%')
+        </if>
+--         用户名
+        <if test="userName != null and userName!=''">
+            AND  su.username like CONCAT('%',#{userName},'%')
         </if>
 
-        order by create_time
+        order by id desc
     </select>
 
     <!--根据Id查询数据-->
@@ -195,8 +235,14 @@ VALUES (
         select
         <include refid="userInfo"/>
         from sys_user
-        where 1 = 1 and id = #{id,jdbcType=INTEGER}
+        where 1 = 1 and id = #{id,jdbcType=INTEGER} limit 1
     </select>
+
+    <!--通过Id删除数据信息-->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        update sys_user set delete_flag =1
+        where id = #{id}
+    </delete>
 
     <select id="listUsers" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
