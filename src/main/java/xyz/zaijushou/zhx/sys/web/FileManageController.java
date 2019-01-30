@@ -4,9 +4,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.FileManageDTO;
+import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.FileDownService;
 
 import javax.servlet.ServletOutputStream;
@@ -25,17 +31,19 @@ import java.io.InputStream;
 public class FileManageController {
     @Autowired
     private FileDownService fileDownService;
+
     @Value(value = "${rar_path}")
     private String filePath;
 
+
     @ApiOperation(value = "下载压缩包", notes = "下载压缩包")
-    @PostMapping("/fileManage/downRar")
-    public void downRar(HttpServletRequest request, HttpServletResponse response) {
+    @GetMapping("/fileManage/download")
+    public Object download(HttpServletRequest request,HttpServletResponse response) {
 
 
             File imageFile = new File(filePath);
             if (!imageFile.exists()) {
-                return;
+                return null;
             }
             String fileName = "枫软催收系统导入模板.rar";
 
@@ -59,7 +67,7 @@ public class FileManageController {
                 e.printStackTrace();
             }
 
-
+        return null;
     }
 
 

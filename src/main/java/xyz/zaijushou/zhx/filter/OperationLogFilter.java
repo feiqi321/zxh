@@ -28,10 +28,12 @@ public class OperationLogFilter extends OncePerRequestFilter {
 
     private static final String[] REQUEST_EXCEPT_URL = {
             "/import",   //上传文件
+            "/fileManage/download", //下载附件
     };
 
     private static final String[] RESPONSE_EXCEPT_URL = {
             "/operationLog/pageLogs",   //操作日志查询
+            "/fileManage/download", //下载附件
     };
 
     @Override
