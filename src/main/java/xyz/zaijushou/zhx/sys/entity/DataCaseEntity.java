@@ -10,72 +10,69 @@ import java.util.List;
  * Created by looyer on 2019/1/25.
  */
 public class DataCaseEntity extends CommonEntity {
-    private String batchNo;
-    private String client;//委托方
-    private BigDecimal money;//委案金额
-    private BigDecimal moneyStart;//委案金额
-    private BigDecimal moneyEnd;//委案金额
-    private BigDecimal balance;//委案余额
-
-
-    private String odv;//催收员
-    private BigDecimal rate;
-
-
-    private String realReturnTime;//实际退案日期
-    private String mVal; //M值系数
-    private String important;
-    private String summary;//案件小結
-    private String distributeHistory;
-
-    private BigDecimal enRepayAmt;//已还金额
-    private BigDecimal bankAmt;//待銀行查账金额-CP
-    private String proRepayDate;//承诺还款金额-PTP
-
-
-    private String identNo;
-    private String seqNo;//个案序列号
-    private String cardNo;
-    private int reportStatus;
-    private String bank;
-    private int reduceStatus;
-    private String account;
-    private String archiveNo;
-    private String name;
-    private String realRepayDate;
-    private String realRepayDateStart;
-    private String realRepayDateEnd;
-    private String collectHand; //催收手别（0-90天）
-    private String license;
-
-    private int distributeStatus;//分配状态
-    private String distributeTime;//分配時間
-
-    private String repayDate;//还款日期
-    private String repayDateStart;//还款日期
-    private String repayDateEnd;//还款日期
-
-    private String repayStatus;//还款状态
-    private String vin; //车架号
-    private int collectStatus;
-    private String accountAge;//逾期账龄
-    private int overDays;//逾期天数
-    private String color;
-    private String dept;
-    private int status;
-
-    private String collectInfo;//催收小结（催收表）
-
-    //最后一次跟进时间(催收时间)
-    private String collectDate;
-    //地区
-    private String area;
-    //委案日期
+    private String batchNo; //批次编号 查询条件  列表
+    private String client;//委托方 查询条件
+    private BigDecimal money;//委案金额 查询条件    列表
+    private BigDecimal moneyStart;//委案金额  查询条件
+    private BigDecimal moneyEnd;//委案金额  查询条件
+    private BigDecimal balance;//委案余额    列表
+    //委案日期 查询条件   列表
     private String caseDate;
     private String caseDateStart;
     private String caseDateEnd;
-    //案件类型
+    private String collectArea;//催收区域  查询条件  列表
+    private String dept;  //部门 查询条件
+
+    private String odv;//催收员 查询条件     列表
+    private BigDecimal rate;
+    private int status; //案件状态 查询条件
+    private String accountAge;//逾期账龄 查询条件
+    //地区 查询条件   列表
+    private String area;
+    private String color; //标色状态
+    //案件类型  查询条件
     private String caseType;
+    private String vin; //车架号 查询条件
+
+    private String repayDate;//还款日期 查询条件
+    private String repayDateStart;//还款日期
+    private String repayDateEnd;//还款日期
+    private int distributeStatus;//分配状态  查询条件
+    private String license; //牌照号  查询条件
+    private String  expectTime;// 预计退案日 查询条件   列表
+    private String collectHand;//催收手别（0-90天） 查询条件
+    private String realReturnTime;//实际退案日期 查询条件
+    private String archiveNo; //档案号 查询条件
+    private String name; //姓名 查询条件   列表
+    private String account;//账号 查询条件
+    private int reduceStatus;//减免状态 查询条件
+    private int reportStatus;//报备状态 查询条件
+    private String bank; //开户行 查询条件
+    //最后一次跟进时间(催收时间) 查询条件
+    private String collectDate;
+    private int overDays;//逾期天数 查询条件
+    private String identNo;//证件号 查询条件    列表
+    private String seqNo;//个案序列号 查询条件  列表
+    private String cardNo;//卡号 查询条件
+    private String collectInfo;//催收小结（催收表） 催收记录 查询条件    列表
+    private int collectStatus; //催收状态   列表
+    private int collectTimes; // 跟进次数 列表
+    private String distributeTime;//分配時間   列表
+
+    private String mVal; //M值系数
+    private String important;
+    private String summary;//案件小結 列表
+    private String distributeHistory; // 分配历史  列表
+
+    private BigDecimal enRepayAmt;//已还金额  列表
+    private BigDecimal bankAmt;//待銀行查账金额-CP 列表
+    private String proRepayDate;//承诺还款金额-PTP   列表
+
+    private String realRepayDate;
+    private String realRepayDateStart;
+    private String realRepayDateEnd;
+
+    private String repayStatus;//还款状态
 
     private int newCase;//是否新分配
 
@@ -85,6 +82,31 @@ public class DataCaseEntity extends CommonEntity {
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+    public int getCollectTimes() {
+        return collectTimes;
+    }
+
+    public void setCollectTimes(int collectTimes) {
+        this.collectTimes = collectTimes;
+    }
+
+    public String getCollectArea() {
+        return collectArea;
+    }
+
+    public void setCollectArea(String collectArea) {
+        this.collectArea = collectArea;
+    }
+
+    public String getExpectTime() {
+        return expectTime;
+    }
+
+    public void setExpectTime(String expectTime) {
+        this.expectTime = expectTime;
+    }
+
 
     public String getRealRepayDateStart() {
         return realRepayDateStart;
