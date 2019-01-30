@@ -169,17 +169,17 @@
     <insert id="saveNewUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         INSERT INTO `sys_user`
         (`username`, `number`, `department`,  `sex`,
-        `join_time`,
+        `join_time`,`leave_time`,
         `mobile`,
         `office_phone`,
-        `address`, `login_name`, `password`, `enable`,
+         `login_name`, `password`, `enable`,
         `delete_flag`, `status`)
         VALUES (
-        #{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
-        #{joinTime,jdbcType=TIMESTAMP},
+        #{userName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
+        #{joinTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP},
         #{mobile,jdbcType=VARCHAR},
         #{officePhone,jdbcType=VARCHAR},
-        #{address,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},  #{enable,jdbcType=INTEGER},
+         #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},  #{enable,jdbcType=INTEGER},
         0, #{status,jdbcType=INTEGER})
     </insert>
 
@@ -187,8 +187,36 @@
     <update id="updateUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user
         <set>
-            <if test="phone != null">
-                phone = #{phone,jdbcType=VARCHAR}
+            <if test="mobile != null and mobile !=''">
+                mobile = #{mobile},
+            </if>
+
+            <if test="userName != null and userName != ''">
+                username = #{userName},
+            </if>
+
+            <if test="number != null and number != ''">
+                number = #{number},
+            </if>
+
+            <if test="department != null and userName != ''">
+                department = #{department},
+            </if>
+
+            <if test="sex != null and sex != ''">
+                sex = #{department},
+            </if>
+
+            <if test="officePhone != null and officePhone != ''">
+                office_phone = #{officePhone},
+            </if>
+
+            <if test="joinTime != null">
+                join_time = #{joinTime,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="leaveTime != null">
+                leave_time = #{leaveTime,jdbcType=TIMESTAMP},
             </if>
 
         </set>
@@ -197,7 +225,6 @@
 
     <!--查询数据集合-->
     <select id="pageDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
-        select
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
         su.status,su.enable,su.username as userName,so.org_name department,
@@ -210,7 +237,7 @@
         sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
-        where delete_flag = 0
+        where su.delete_flag = 0
         <if test="status != null and status !=''">
             AND  su.status = #{status,jdbcType=INTEGER}
         </if>
@@ -231,11 +258,20 @@
     </select>
 
     <!--根据Id查询数据-->
-    <select id="getDataById" resultType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
-        select
-        <include refid="userInfo"/>
-        from sys_user
-        where 1 = 1 and id = #{id,jdbcType=INTEGER} limit 1
+    <select id="getDataById" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+            select
+        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
+        su.status,su.enable,su.username as userName,so.org_name department,
+        su.create_time as createTime,su.create_user as 'createUser.id',
+        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.delete_flag as deleteFlag,
+        sr.role_name as role,
+        su.leave_time as leaveTime
+        from
+        sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
+        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        LEFT JOIN sys_organization so on su.department = so.id
+        where 1 = 1 and su.id = #{id,jdbcType=INTEGER} limit 1
     </select>
 
     <!--通过Id删除数据信息-->
@@ -243,6 +279,26 @@
         update sys_user set delete_flag =1
         where id = #{id}
     </delete>
+
+    <!--更新员工状态-->
+    <update id="updateDataStatus" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        update sys_user
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+
+            <if test="enable != null">
+                enable = #{enable},
+            </if>
+
+            <if test="leaveTime != null">
+                leave_time = #{leaveTime},
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
 
     <select id="listUsers" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select

@@ -44,18 +44,27 @@ public class SysNewUserEntity extends CommonEntity {
     /**
      * 入职日期
      */
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd")
     private Date joinTime;
     /**
      * 离职日期
      */
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd")
     private Date leaveTime;
 
     private String loginName;
     private int enable;
     private String password;
     private int status;
+    private String sex;
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     public Date getLeaveTime() {
         return leaveTime;

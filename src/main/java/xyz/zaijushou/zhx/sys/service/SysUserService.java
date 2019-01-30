@@ -27,6 +27,9 @@ public interface SysUserService {
      */
     void updateUser(SysNewUserEntity userEntity);
 
+
+    void updateDataStatus(SysNewUserEntity userEntity);
+
     /**
      * 查询用户列表
      * @param userEntity
