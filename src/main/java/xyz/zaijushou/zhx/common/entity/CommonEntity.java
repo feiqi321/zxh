@@ -58,6 +58,16 @@ public class CommonEntity {
      * 分页数量
      */
     private Integer pageSize;
+    //总数量
+    private Integer totalNum;
+
+    public Integer getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(Integer totalNum) {
+        this.totalNum = totalNum;
+    }
 
     public Integer getId() {
         return id;
