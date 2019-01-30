@@ -111,6 +111,11 @@ public class SysUserServiceImpl implements SysUserService {
         return userInfoEntity;
     }
 
+    public List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity){
+        List<SysNewUserEntity> userInfoEntity = sysUserMapper.getDataByRoleName(userEntity);
+        return userInfoEntity;
+    }
+
     /**
      * 根据用户属性查询用户列表
      * 属性：姓名

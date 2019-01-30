@@ -16,10 +16,6 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private String userName;
 
-    private int job;
-
-    private String jobName;
-
     /**
      * 手机号
      */
@@ -62,13 +58,13 @@ public class SysNewUserEntity extends CommonEntity {
     private int status;
     private String sex;
 
-    public String getJobName() {
-        return jobName;
-    }
 
-    public void setJobName(String jobName) {
-        this.jobName = jobName;
-    }
+    private int departId ;//部门Id
+
+    private int roleId ;//角色Id
+
+    private int job ;//职位Id
+    private String position ;//职位名称
 
     public int getJob() {
         return job;
@@ -76,6 +72,30 @@ public class SysNewUserEntity extends CommonEntity {
 
     public void setJob(int job) {
         this.job = job;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public int getDepartId() {
+        return departId;
+    }
+
+    public void setDepartId(int departId) {
+        this.departId = departId;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getSex() {

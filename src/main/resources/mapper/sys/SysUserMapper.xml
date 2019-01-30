@@ -173,14 +173,14 @@
         `mobile`,
         `office_phone`,
          `login_name`, `password`, `enable`,
-        `delete_flag`, `status`)
+        `delete_flag`, `status`,, `position`)
         VALUES (
         #{userName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
         #{joinTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP},
         #{mobile,jdbcType=VARCHAR},
         #{officePhone,jdbcType=VARCHAR},
          #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},  #{enable,jdbcType=INTEGER},
-        0, #{status,jdbcType=INTEGER})
+        0, #{status,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR})
     </insert>
 
     <!--更新用户数据信息-->
@@ -219,6 +219,10 @@
                 leave_time = #{leaveTime,jdbcType=TIMESTAMP},
             </if>
 
+            <if test="position != null and position != ''">
+                position = #{position},
+            </if>
+
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -233,7 +237,10 @@
         su.delete_flag as deleteFlag,
         sr.role_name as role,
         su.leave_time as leaveTime,
-        su.join_time as joinTime
+        su.join_time as joinTime,
+        su.department as departId,
+        sr.id as roleId,
+        su.position
         from
         sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
@@ -242,15 +249,12 @@
         <if test="status != null and status !=''">
             AND  su.status = #{status,jdbcType=INTEGER}
         </if>
---         部门
         <if test="department != null and department!=''">
             AND  su.department = #{department}
         </if>
---         员工号
         <if test="number != null and number!=''">
             AND  su.number like CONCAT('%',#{number},'%')
         </if>
---         用户名
         <if test="userName != null and userName!=''">
             AND  su.username like CONCAT('%',#{userName},'%')
         </if>
@@ -267,12 +271,31 @@
         su.update_user as 'updateUser.id',su.update_time as updateTime,
         su.delete_flag as deleteFlag,
         sr.role_name as role,
-        su.leave_time as leaveTime
+        su.leave_time as leaveTime,
+        su.position
         from
         sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
         where 1 = 1 and su.id = #{id,jdbcType=INTEGER} limit 1
+    </select>
+
+    <select id="getDataByRoleName" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        select
+        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
+        su.status,su.enable,su.username as userName,
+        su.create_time as createTime,su.create_user as 'createUser.id',
+        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.delete_flag as deleteFlag,
+        sr.role_name as role,
+        su.leave_time as leaveTime
+        from
+        sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
+        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        where su.delete_flag = 0
+        <if test="role != null and role!=''">
+            AND  sr.role_name = #{role}
+        </if>
     </select>
 
     <!--通过Id删除数据信息-->

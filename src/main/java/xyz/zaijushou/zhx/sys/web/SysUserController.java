@@ -92,19 +92,27 @@ public class SysUserController {
         return WebResponse.success(userInfoEntity);
     }
 
-    @ApiOperation(value = "查询职位列表", notes = "查询职位列表")
-    @PostMapping("/select/joblist")
-    public Object getJobList() {
-        List<SysNewUserEntity> list = new ArrayList<SysNewUserEntity>();
-        SysNewUserEntity sysNewUserEntity1= new SysNewUserEntity();
-        sysNewUserEntity1.setJob(1);//业务员
-        sysNewUserEntity1.setJobName("业务员");
-        list.add(sysNewUserEntity1);
-        SysNewUserEntity sysNewUserEntity2= new SysNewUserEntity();
-        sysNewUserEntity2.setJob(2);//职能经理
-        sysNewUserEntity2.setJobName("职能经理");
-        list.add(sysNewUserEntity2);
-        return WebResponse.success(list);
+    @ApiOperation(value = "通过角色查询员工列表", notes = "通过角色查询员工列表")
+    @PostMapping("/select/role")
+    public Object getDataByRoleName(@RequestBody SysNewUserEntity userEntity) {
+        List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleName(userEntity);
+        return WebResponse.success(userInfoEntity);
     }
+
+    @ApiOperation(value = "获取职位列表", notes = "获取职位列表")
+    @PostMapping("/select/position")
+    public Object getPosition() {
+        List<SysNewUserEntity> userInfoEntity = new ArrayList<SysNewUserEntity>();
+        SysNewUserEntity user1 = new SysNewUserEntity();
+        user1.setJob(1);
+        user1.setPosition("业务员");
+        userInfoEntity.add(user1);
+        SysNewUserEntity user2 = new SysNewUserEntity();
+        user2.setJob(2);
+        user2.setPosition("职能经理");
+        userInfoEntity.add(user2);
+        return WebResponse.success(userInfoEntity);
+    }
+
 
 }

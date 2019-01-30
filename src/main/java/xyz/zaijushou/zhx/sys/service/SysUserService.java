@@ -44,6 +44,9 @@ public interface SysUserService {
      */
     SysNewUserEntity getDataById(SysNewUserEntity userEntity);
 
+
+    List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity);
+
     void deleteById(SysNewUserEntity userEntity);
 
     /**

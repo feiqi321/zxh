@@ -8,7 +8,10 @@ import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
+import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -24,6 +27,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private DataCollectionTelMapper dataCollectionTelMapper;
+
+    @Resource
+    private SysUserService sysUserService;//用户业务控制层
 
     @Override
     public void save(DataCollectionEntity dataCollectionEntity){
@@ -49,6 +55,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public CollectionReturnEntity pageMyCase(DataCollectionEntity dataCollectionEntity){
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        if (StringUtils.isEmpty(user)){
+            return collectionReturn;
+        }
+       // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0.00");//列表金额
@@ -84,5 +96,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setSumRepay(sumRepay);
         collectionReturn.setSumPayMoney(sumPayMoney);
         return collectionReturn;
+    }
+
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity user = new SysUserEntity();
+        user.setId(userId);
+        return sysUserService.findUserInfoWithoutPasswordById(user);
     }
 }

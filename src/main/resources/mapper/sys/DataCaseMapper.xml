@@ -304,7 +304,7 @@
         </where>
     </select>
 
-    <update id="sendOdv" parameterType="java.lang.Integer">
+    <update id="sendOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set odv = #{odv}
         where id = #{id}
     </update>

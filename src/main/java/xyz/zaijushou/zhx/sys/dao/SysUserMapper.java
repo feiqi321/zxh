@@ -37,6 +37,8 @@ public interface SysUserMapper {
      */
     List<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity);
 
+    List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity);
+
 
     /**
      * 查询用户信息
