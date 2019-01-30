@@ -15,6 +15,8 @@ public interface DataBatchMapper {
 
     public void updateBatch(DataBatchEntity bean);
 
+    public void returnCase(DataBatchEntity bean);
+
     public void deleteById(Integer id);
 
     public List<DataBatchEntity> pageDataBatch(DataBatchEntity bean);

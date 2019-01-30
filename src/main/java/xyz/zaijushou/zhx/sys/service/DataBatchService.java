@@ -13,6 +13,8 @@ public interface DataBatchService {
 
     public void update(DataBatchEntity bean);
 
+    public void returnCase(DataBatchEntity bean);
+
     public void deleteById(DataBatchEntity bean);
 
     public List<DataBatchEntity> pageDataBatch(DataBatchEntity bean);

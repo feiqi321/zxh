@@ -26,7 +26,7 @@ public class DataBatchEntity extends CommonEntity {
     //备注
 
     private String uploadTime;
-
+    //0 未导入 1未退案 2 已退案
     private int batchStatus;
 
     private String statusMsg;
@@ -43,6 +43,15 @@ public class DataBatchEntity extends CommonEntity {
 
     private String endTime;
 
+    private String batchRemark;
+
+    public String getBatchRemark() {
+        return batchRemark;
+    }
+
+    public void setBatchRemark(String batchRemark) {
+        this.batchRemark = batchRemark;
+    }
 
     public String getStartTime() {
         return startTime;
