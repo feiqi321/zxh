@@ -232,7 +232,8 @@
         su.update_user as 'updateUser.id',su.update_time as updateTime,
         su.delete_flag as deleteFlag,
         sr.role_name as role,
-        su.leave_time as leaveTime
+        su.leave_time as leaveTime,
+        su.join_time as joinTime
         from
         sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id

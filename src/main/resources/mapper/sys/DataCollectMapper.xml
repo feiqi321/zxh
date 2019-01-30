@@ -79,7 +79,8 @@
         mobile,result,method,repay_time as repayTime,
         repay_amt as repayAmt,reduce_amt as reduceAmt,collect_status collectStatus,reduce_status as reduceStatus,
         account_age as accountAge,case_date as caseDate,card_no as cardNo,ident_no as identNo,
-        money,balance,bank_amt as bankAmt,collect_info as collectInfo
+        money,balance,bank_amt as bankAmt,collect_info as collectInfo,
+        en_repay_amt as enRepayAmt
         from data_collection
         <where>
             delete_flag = 0
