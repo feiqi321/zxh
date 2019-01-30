@@ -30,7 +30,7 @@ public class DataBatchServiceImpl implements DataBatchService {
     }
 
 
-    public List<DataBatchEntity> findAll(DataBatchEntity bean){
+    public List<DataBatchEntity> pageDataBatch(DataBatchEntity bean){
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         return dataCaseEntities;
     }

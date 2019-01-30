@@ -15,7 +15,7 @@ public interface DataBatchService {
 
     public void deleteById(DataBatchEntity bean);
 
-    public List<DataBatchEntity> findAll(DataBatchEntity bean);
+    public List<DataBatchEntity> pageDataBatch(DataBatchEntity bean);
 
     public DataBatchEntity getDataById(DataBatchEntity bean);
 
