@@ -80,4 +80,15 @@ public class SysUserServiceImpl implements SysUserService {
         userInfoEntity = sysUserMapper.getDataById(userEntity.getId());
         return userInfoEntity;
     }
+
+    /**
+     * 根据用户属性查询用户列表
+     * 属性：姓名
+     * @param user
+     * @return
+     */
+    @Override
+    public List<SysUserEntity> listUsers(SysUserEntity user) {
+        return sysUserMapper.listUsers(user);
+    }
 }

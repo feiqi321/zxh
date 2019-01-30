@@ -16,11 +16,10 @@ public class HttpMessageConvertersConfig {
         FastJsonHttpMessageConverter fastConverter=new FastJsonHttpMessageConverter();
         //2.添加fastjson的配置信息，比如是否要格式化返回的json数据
         FastJsonConfig fastJsonConfig=new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
+        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat, SerializerFeature.DisableCircularReferenceDetect);
         //3.在convert中添加配置信息
         fastConverter.setFastJsonConfig(fastJsonConfig);
         return new HttpMessageConverters(fastConverter);
-
 
     }
 

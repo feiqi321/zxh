@@ -1,9 +1,14 @@
 package xyz.zaijushou.zhx.utils;
 
+import io.swagger.models.auth.In;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 import xyz.zaijushou.zhx.common.entity.TreeEntity;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import java.util.*;
 
@@ -16,6 +21,9 @@ public class CollectionsUtils {
             return map;
         }
         for (T t : list) {
+            if(t == null) {
+                continue;
+            }
             map.put(t.getId(), t);
         }
         return map;
@@ -59,6 +67,41 @@ public class CollectionsUtils {
             treeSort(t.getChildren());
         }
         return;
+    }
+
+    public static <T extends CommonEntity> void userInfoSet(List<T> list) {
+        if (CollectionUtils.isEmpty(list)) {
+            return;
+        }
+        Map<Integer, SysUserEntity> userInfos = listUserInfoGetByIds(list);
+        for(int i = 0; i < list.size(); i ++) {
+            if(list.get(i) != null) {
+                if(list.get(i).getCreateUser() != null &&
+                        list.get(i).getCreateUser().getId() != null &&
+                        userInfos.containsKey(list.get(i).getCreateUser().getId())) {
+                    BeanUtils.copyProperties(userInfos.get(list.get(i).getCreateUser().getId()), list.get(i).getCreateUser());
+                }
+                if(list.get(i).getUpdateUser() != null &&
+                        list.get(i).getUpdateUser().getId() != null &&
+                        userInfos.containsKey(list.get(i).getUpdateUser().getId())) {
+                    BeanUtils.copyProperties(userInfos.get(list.get(i).getUpdateUser().getId()), list.get(i).getUpdateUser());
+                }
+            }
+        }
+    }
+
+    private static <T extends CommonEntity> Map<Integer, SysUserEntity> listUserInfoGetByIds(List<T> list) {
+        if(CollectionUtils.isEmpty(list)) {
+            return new HashMap<>();
+        }
+        Set<String> idSet = new HashSet<>();
+        for(T t : list) {
+            idSet.add(RedisKeyPrefix.USER_INFO + t.getCreateUser().getId());
+            idSet.add(RedisKeyPrefix.USER_INFO + t.getUpdateUser().getId());
+        }
+
+        List<SysUserEntity> users = RedisUtils.scanEntityWithKeys(idSet, SysUserEntity.class);
+        return listToMap(users);
     }
 
 

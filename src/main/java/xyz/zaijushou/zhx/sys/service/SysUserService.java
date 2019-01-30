@@ -40,4 +40,12 @@ public interface SysUserService {
      * @return
      */
     SysOperationUserEntity getDataById(SysOperationUserEntity userEntity);
+
+    /**
+     * 根据用户属性查询用户列表
+     * 属性：姓名
+     * @param user
+     * @return
+     */
+    List<SysUserEntity> listUsers(SysUserEntity user);
 }

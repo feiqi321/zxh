@@ -214,9 +214,6 @@ public class SysRoleController {
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_auth')")
     @PostMapping("/listAuth")
     public Object listAuth(@RequestBody SysRoleEntity roleEntity) {
-        if (roleEntity == null || roleEntity.getId() == null) {
-            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "参数缺失");
-        }
         JSONObject redisJson = JwtTokenUtil.tokenData();
         String userRolesString = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.USER_ROLE + redisJson.getInteger("userId"));
         JSONArray roles = JSONArray.parseArray(userRolesString);
@@ -224,7 +221,10 @@ public class SysRoleController {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色权限不足,不能对该角色进行授权");
         }
 
-        SysMenuEntity[] selectMenus = JSONArray.parseObject(stringRedisTemplate.opsForValue().get(RedisKeyPrefix.ROLE_MENU + roleEntity.getId()), SysMenuEntity[].class);
+        SysMenuEntity[] selectMenus = null;
+        if (roleEntity != null && roleEntity.getId() != null) {
+            selectMenus = JSONArray.parseObject(stringRedisTemplate.opsForValue().get(RedisKeyPrefix.ROLE_MENU + roleEntity.getId()), SysMenuEntity[].class);
+        }
         List<Integer> selectMenuIds = new ArrayList<>();
         if (selectMenus != null && selectMenus.length > 0) {
             for (SysMenuEntity menu : selectMenus) {
@@ -257,7 +257,11 @@ public class SysRoleController {
             return WebResponse.success(new ArrayList<>());
         }
 
-        SysButtonEntity[] selectButtons = JSONArray.parseObject(stringRedisTemplate.opsForValue().get(RedisKeyPrefix.ROLE_BUTTON + roleEntity.getId()), SysButtonEntity[].class);
+        SysButtonEntity[] selectButtons = null;
+        if (roleEntity != null && roleEntity.getId() != null) {
+            selectButtons = JSONArray.parseObject(stringRedisTemplate.opsForValue().get(RedisKeyPrefix.ROLE_BUTTON + roleEntity.getId()), SysButtonEntity[].class);
+        }
+
         List<Integer> selectButtonIds = new ArrayList<>();
         if (selectButtons != null && selectButtons.length > 0) {
             for (SysButtonEntity button : selectButtons) {

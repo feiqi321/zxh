@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 操作日志实体类
@@ -47,12 +48,16 @@ public class SysOperationLogEntity extends CommonEntity {
 
     /**
      * 请求内容
+     * 请求内容可能涉及用户信息，不返回到前端
      */
+    @JSONField(serialize=false)
     private String requestBody;
 
     /**
      * 返回内容
+     * 返回内容可能涉及用户信息，不返回到前端
      */
+    @JSONField(serialize=false)
     private String responseBody;
 
     /**
@@ -71,6 +76,16 @@ public class SysOperationLogEntity extends CommonEntity {
      * 日志内容
      */
     private String logContent;
+
+    /**
+     * 用户id列表，用作查询用
+     */
+    private List<Integer> userIds;
+
+    /**
+     * 过滤的请求
+     */
+    private List<String> queryUrls;
 
     public String getUrl() {
         return url;
@@ -166,5 +181,21 @@ public class SysOperationLogEntity extends CommonEntity {
 
     public void setLogContent(String logContent) {
         this.logContent = logContent;
+    }
+
+    public List<Integer> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Integer> userIds) {
+        this.userIds = userIds;
+    }
+
+    public List<String> getQueryUrls() {
+        return queryUrls;
+    }
+
+    public void setQueryUrls(List<String> queryUrls) {
+        this.queryUrls = queryUrls;
     }
 }
