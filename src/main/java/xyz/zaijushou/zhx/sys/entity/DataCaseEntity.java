@@ -62,6 +62,7 @@ public class DataCaseEntity extends CommonEntity {
     private String important;
     private String summary;//案件小結 列表
     private String distributeHistory; // 分配历史  列表
+    private String comment;//评语
 
     private BigDecimal enRepayAmt;//已还金额  列表
     private BigDecimal bankAmt;//待銀行查账金额-CP 列表
@@ -86,6 +87,14 @@ public class DataCaseEntity extends CommonEntity {
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public int getUserCount() {
         return userCount;

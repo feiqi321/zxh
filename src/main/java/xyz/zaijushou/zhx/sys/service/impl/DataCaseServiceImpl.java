@@ -180,4 +180,29 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void sendOdv(DataCaseEntity bean){
         dataCaseMapper.sendOdv(bean);
     }
+    @Override
+    public void addComment(DataCaseEntity bean){
+        dataCaseMapper.addComment(bean);
+    }
+    @Override
+    public void addColor(DataCaseEntity bean){
+        dataCaseMapper.addColor(bean);
+    }
+    @Override
+    public void addImportant(DataCaseEntity bean){
+        dataCaseMapper.addImportant(bean);
+    }
+    @Override
+    public void addCollectStatus(DataCaseEntity bean){
+        dataCaseMapper.addCollectStatus(bean);
+    }
+    @Override
+    public void addCollectArea(DataCaseEntity bean){
+        dataCaseMapper.addCollectArea(bean);
+    }
+    @Override
+    public void addMValue(DataCaseEntity bean){
+        dataCaseMapper.addMValue(bean);
+    }
+
 }

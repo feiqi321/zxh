@@ -313,4 +313,30 @@
         update data_case set status = #{status}
         where id = #{id}
     </update>
+
+    <update id="addComment" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set comment = #{comment}
+        where id = #{id}
+    </update>
+
+    <update id="addColor" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set color = #{color}
+        where id = #{id}
+    </update>
+    <update id="addImportant" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set important = #{important}
+        where id = #{id}
+    </update>
+    <update id="addCollectStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set collect_status = #{collectStatus}
+        where id = #{id}
+    </update>
+    <update id="addCollectArea" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set collect_area = #{collectArea}
+        where id = #{id}
+    </update>
+    <update id="addMValue" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set m_val = #{mVal}
+        where id = #{id}
+    </update>
 </mapper>

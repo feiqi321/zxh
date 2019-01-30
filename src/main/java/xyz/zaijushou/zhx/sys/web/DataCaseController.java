@@ -115,4 +115,75 @@ public class DataCaseController {
     }
 
 
+    @ApiOperation(value = "添加评语", notes = "修改案件状态")
+    @PostMapping("/dataCase/addComment")
+    public Object addComment(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.addComment(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "案件标色", notes = "案件标色")
+    @PostMapping("/dataCase/addColor")
+    public Object addColor(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.addColor(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "修改重要等级", notes = "修改重要等级")
+    @PostMapping("/dataCase/addImportant")
+    public Object addImportant(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.addImportant(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "修改催收状态", notes = "修改催收状态")
+    @PostMapping("/dataCase/addCollectStatus")
+    public Object addCollectStatus(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.addCollectStatus(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "修改催收区域", notes = "修改催收区域")
+    @PostMapping("/dataCase/addCollectArea")
+    public Object addCollectArea(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.addCollectArea(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "修改 M 值系数", notes = "修改 M 值系数")
+    @PostMapping("/dataCase/addMValue")
+    public Object addMValue(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.addMValue(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
 }

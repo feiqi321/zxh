@@ -27,4 +27,17 @@ public interface DataCaseService {
 
     public void sendOdv(DataCaseEntity bean);
 
+    public void addComment(DataCaseEntity bean);
+
+    public void addColor(DataCaseEntity bean);
+
+    public void addImportant(DataCaseEntity bean);
+
+    public void addCollectStatus(DataCaseEntity bean);
+
+    public void addCollectArea(DataCaseEntity bean);
+
+    public void addMValue(DataCaseEntity bean);
+
+
 }
