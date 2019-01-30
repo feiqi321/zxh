@@ -87,7 +87,7 @@ public class SysUserController {
         return WebResponse.success(userInfoEntity);
     }
 
-    @ApiOperation(value = "查询指定用户数据", notes = "查询指定用户数据")
+    @ApiOperation(value = "查询职位列表", notes = "查询职位列表")
     @PostMapping("/select/joblist")
     public Object getJobList() {
         List<SysNewUserEntity> list = new ArrayList<SysNewUserEntity>();
