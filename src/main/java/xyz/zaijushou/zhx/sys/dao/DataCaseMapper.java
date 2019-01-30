@@ -21,6 +21,8 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> pageCaseInfo(DataCaseEntity bean);
 
+    public List<DataCaseEntity> pageCaseList(DataCaseEntity bean);
+
     public void sumCaseMoney(DataCaseEntity bean);
 
 }

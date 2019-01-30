@@ -56,6 +56,14 @@ public class DataCaseController {
 
     }
 
+    @ApiOperation(value = "数据模块-案件管理分頁查询", notes = "数据模块-案件管理分頁查询")
+    @PostMapping("/dataCase/pageCaseList")
+    public Object pageCaseList(@RequestBody DataCaseEntity bean) {
+
+        List<DataCaseEntity> list = dataCaseService.pageCaseList(bean);
+        return WebResponse.success(list);
+    }
+
     @ApiOperation(value = "分頁查询", notes = "分頁查询")
     @PostMapping("/dataCase/pageDataCase")
     public Object pageDataCase(@RequestBody DataCaseEntity bean) {

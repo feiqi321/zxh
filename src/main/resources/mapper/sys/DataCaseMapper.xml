@@ -66,6 +66,156 @@
         </where>
     </select>
 
+    <!--数据模块-管理列表查询-->
+    <select id="pageCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,
+        da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,da.case_date as caseDate,da.collect_hand as collectHand,
+        da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardo,da.ident_no as identNo,da.distribute_time as distributeTime,
+        da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
+        da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_date as proRepayDate
+        from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
+        <where>
+            1 = 1
+            <trim suffixOverrides=",">
+                --                 委托方
+                <if test="client != null and client!=''">
+                    and da.client = #{client}
+                </if>
+                --                 批次号
+                <if test="batchNo != null and batchNo!=''">
+                    and da.batch_no = #{batchNo}
+                </if>
+                <if test="odv != null and odv!=''">
+                    and da.odv = #{odv}
+                </if>
+                <if test="dept != null and dept!=''">
+                    and da.dept = #{dept}
+                </if>
+
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
+                <if test="realReturnTime != null and realReturnTime!=''">
+                    and da.real_return_time = #{realReturnTime}
+                </if>
+                --                 个案序列号
+                <if test="seqNo != null and seqNo!=''">
+                    and da.seq_no = #{seqNo}
+                </if>
+                <if test="collectArea != null and collectArea!=''">
+                    and da.collect_area = #{collectArea}
+                </if>
+                <if test="overDays != null and overDays!=''">
+                    and da.overDays = #{overDays}
+                </if>
+                <if test="area != null and area!=''">
+                    and da.area = #{area}
+                </if>
+                <if test="license != null and license!=''">
+                    and da.license = #{license}
+                </if>
+                <if test="expectTime != null and expectTime!=''">
+                    and da.expect_time = #{expectTime}
+                </if>
+                <if test="collectHand != null and collectHand!=''">
+                    and da.collect_hand = #{collectHand}
+                </if>
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and da.distribute_status = #{distributeStatus}
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    and da.identNo = #{identNo}
+                </if>
+                <if test="vin != null and vin!=''">
+                    and da.vin = #{vin}
+                </if>
+                --                 姓名
+                <if test="name != null and name!=''">
+                    and da.name = #{name}
+                </if>
+                --                 证件号
+                <if test="idenNo != null and idenNo!=''">
+                    and da.iden_no = #{idenNo}
+                </if>
+                --                 逾期账龄
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
+                --                 案件状态
+                <if test="status != null and status!=''">
+                    and da.status = #{status}
+                </if>
+                <if test="bank != null and bank!=''">
+                    and da.bank = #{bank}
+                </if>
+                <if test="collectDate != null and collectDate!=''">
+                    and da.collect_date = #{collectDate}
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    and dc.collectInfo = #{collectInfo}
+                </if>
+                --                 催收状态
+                <if test="collectStatus != null and collectStatus!=''">
+                    and dc.collect_status = #{collectStatus}
+                </if>
+                --                 案件类型
+                <if test="caseType != null and caseType!=''">
+                    and da.case_type = #{caseType}
+                </if>
+                --                 标记颜色
+                <if test="color != null and color!=''">
+                    and da.color = #{color}
+                </if>
+                --                 卡号
+                <if test="cardNo != null and cardNo!=''">
+                    and da.card_no = #{cardNo}
+                </if>
+                --                 档案号
+                <if test="archiveNo != null and archiveNo!=''">
+                    and da.archive_no = #{archiveNo}
+                </if>
+                --                 是否新分配（0-否，1-是）
+                <if test="newCase != null and newCase!=''">
+                    and da.new_case = #{newCase}
+                </if>
+                --                 还款状态
+                <if test="repayStatus != null and repayStatus!=''">
+                    and da.repay_status = #{repayStatus}
+                </if>
+
+                --                 委案日期
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+                --                 还款日期
+                <if test="repayDateStart != null and repayDateStart!=''">
+                    <![CDATA[   and DATE_FORMATd(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="repayDateEnd != null and repayDateEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+                --                 委案金额
+                <if test="moneyStart != null and moneyStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                </if>
+
+                --                 实际退案日
+                <if test="realRepayDateStart != null and realRepayDateStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')>=  DATE_FORMAT(#{realRepayDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="realRepayDateEnd != null and realRepayDateEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')>=  DATE_FORMAT(#{realRepayDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+
     <!--催收模块-我的案件-列表查询-->
     <select id="pageCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
@@ -100,6 +250,9 @@
  --                 逾期账龄
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
+                </if>
+                <if test="account != null and account!=''">
+                    and da.account = #{account}
                 </if>
 --                 案件状态
                 <if test="status != null and status!=''">

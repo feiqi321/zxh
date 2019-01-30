@@ -45,8 +45,7 @@ public class DataCaseEntity extends CommonEntity {
     private String archiveNo; //档案号 查询条件
     private String name; //姓名 查询条件   列表
     private String account;//账号 查询条件
-    private int reduceStatus;//减免状态 查询条件
-    private int reportStatus;//报备状态 查询条件
+
     private String bank; //开户行 查询条件
     //最后一次跟进时间(催收时间) 查询条件
     private String collectDate;
@@ -54,7 +53,7 @@ public class DataCaseEntity extends CommonEntity {
     private String identNo;//证件号 查询条件    列表
     private String seqNo;//个案序列号 查询条件  列表
     private String cardNo;//卡号 查询条件
-    private String collectInfo;//催收小结（催收表） 催收记录 查询条件    列表
+    private String collectInfo;//催收小结（催收表） 催收记录 查询条件
     private int collectStatus; //催收状态   列表
     private int collectTimes; // 跟进次数 列表
     private String distributeTime;//分配時間   列表
@@ -76,12 +75,33 @@ public class DataCaseEntity extends CommonEntity {
 
     private int newCase;//是否新分配
 
+    private int reduceStatus;//减免状态
+    private int reportStatus;//报备状态
+
+    private int userCount;//用户数
+    private BigDecimal totalAmt; //总金额
 
     List<DataCaseAddressEntity> addressList = new ArrayList<DataCaseAddressEntity>();
     List<DataCaseTelEntity> telList = new ArrayList<DataCaseTelEntity>();
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+    public int getUserCount() {
+        return userCount;
+    }
+
+    public void setUserCount(int userCount) {
+        this.userCount = userCount;
+    }
+
+    public BigDecimal getTotalAmt() {
+        return totalAmt;
+    }
+
+    public void setTotalAmt(BigDecimal totalAmt) {
+        this.totalAmt = totalAmt;
+    }
 
     public int getCollectTimes() {
         return collectTimes;

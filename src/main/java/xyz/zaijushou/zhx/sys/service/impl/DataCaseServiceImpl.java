@@ -124,6 +124,12 @@ public class DataCaseServiceImpl implements DataCaseService {
        return list;
     }
 
+    @Override
+    public List<DataCaseEntity> pageCaseList(DataCaseEntity dataCaseEntity){
+        List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        return list;
+    }
+
 
     /**
      * 催收模块-我的案件-列表查询
