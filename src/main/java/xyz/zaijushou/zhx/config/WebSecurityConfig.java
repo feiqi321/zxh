@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/csrf",
-            "/fileManage/**",
+            "/fileManage/download",
             "/webjars/**"
             // other public endpoints of your API may be appended to this array
     };
@@ -104,7 +105,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //解决静态资源被拦截的问题
-        web.ignoring().antMatchers(AUTH_WHITELIST);
+        web.ignoring().antMatchers(AUTH_WHITELIST).antMatchers(HttpMethod.GET);
     }
 
     @Bean
