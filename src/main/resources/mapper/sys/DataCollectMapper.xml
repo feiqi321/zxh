@@ -167,14 +167,6 @@
                 <if test="repayStatus != null and repayStatus!=''">
                     and repay_status = #{repayStatus}
                 </if>
-                --                 减免状态
-                <if test="reduceStatus != null and reduceStatus!=''">
-                    and reduce_status = #{reduceStatus}
-                </if>
-                --                 报备状态
-                <if test="reportStatus != null and reportStatus!=''">
-                    and report_status = #{reportStatus}
-                </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
                     <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{bailStartDate}, '%Y-%m-%d')   ]]>
