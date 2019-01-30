@@ -16,6 +16,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Api("用户操作")
@@ -84,6 +85,21 @@ public class SysUserController {
     public Object getDataById(@RequestBody SysNewUserEntity userEntity) {
         SysNewUserEntity userInfoEntity = sysUserService.getDataById(userEntity);
         return WebResponse.success(userInfoEntity);
+    }
+
+    @ApiOperation(value = "查询指定用户数据", notes = "查询指定用户数据")
+    @PostMapping("/select/joblist")
+    public Object getJobList() {
+        List<SysNewUserEntity> list = new ArrayList<SysNewUserEntity>();
+        SysNewUserEntity sysNewUserEntity1= new SysNewUserEntity();
+        sysNewUserEntity1.setJob(1);//业务员
+        sysNewUserEntity1.setJobName("业务员");
+        list.add(sysNewUserEntity1);
+        SysNewUserEntity sysNewUserEntity2= new SysNewUserEntity();
+        sysNewUserEntity2.setJob(2);//职能经理
+        sysNewUserEntity2.setJobName("职能经理");
+        list.add(sysNewUserEntity2);
+        return WebResponse.success(list);
     }
 
 }

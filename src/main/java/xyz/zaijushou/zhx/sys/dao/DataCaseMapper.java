@@ -25,4 +25,8 @@ public interface DataCaseMapper {
 
     public void sumCaseMoney(DataCaseEntity bean);
 
+    public void sendOdv(DataCaseEntity bean);
+
+    public void updateStatus(DataCaseEntity bean);
+
 }

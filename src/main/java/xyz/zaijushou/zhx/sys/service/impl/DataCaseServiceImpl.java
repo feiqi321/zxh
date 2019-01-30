@@ -170,4 +170,14 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.sumCaseMoney(bean);
         return ;
     }
+    //未退案0/正常1/暂停2/关档3/退档4/全部5
+    @Override
+    public void updateStatus(DataCaseEntity bean){
+        dataCaseMapper.updateStatus(bean);
+    }
+
+    @Override
+    public void sendOdv(DataCaseEntity bean){
+        dataCaseMapper.sendOdv(bean);
+    }
 }

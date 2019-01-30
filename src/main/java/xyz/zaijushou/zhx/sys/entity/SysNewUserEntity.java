@@ -16,6 +16,10 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private String userName;
 
+    private int job;
+
+    private String jobName;
+
     /**
      * 手机号
      */
@@ -57,6 +61,22 @@ public class SysNewUserEntity extends CommonEntity {
     private String password;
     private int status;
     private String sex;
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public int getJob() {
+        return job;
+    }
+
+    public void setJob(int job) {
+        this.job = job;
+    }
 
     public String getSex() {
         return sex;

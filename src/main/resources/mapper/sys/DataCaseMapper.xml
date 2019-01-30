@@ -342,4 +342,13 @@
         </where>
     </select>
 
+    <update id="sendOdv" parameterType="java.lang.Integer">
+        update data_case set odv = #{odv}
+        where id = #{id}
+    </update>
+
+    <update id="updateStatus" parameterType="java.lang.Integer">
+        update data_case set status = #{status}
+        where id = #{id}
+    </update>
 </mapper>

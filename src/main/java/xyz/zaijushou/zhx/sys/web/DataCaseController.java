@@ -89,4 +89,30 @@ public class DataCaseController {
 
         return WebResponse.success();
     }
+
+    @ApiOperation(value = "分配业务员", notes = "分配业务员")
+    @PostMapping("/dataCase/sendOdv")
+    public Object sendOdv(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.sendOdv(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+    //未退案0/正常1/暂停2/关档3/退档4/全部5
+    @ApiOperation(value = "修改案件状态", notes = "修改案件状态")
+    @PostMapping("/dataCase/sendOdv")
+    public Object updateStatus(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.updateStatus(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
+
 }

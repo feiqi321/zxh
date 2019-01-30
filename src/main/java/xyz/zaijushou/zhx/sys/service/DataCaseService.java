@@ -23,4 +23,8 @@ public interface DataCaseService {
 
     void sumCaseMoney(DataCaseEntity bean);
 
+    public void updateStatus(DataCaseEntity bean);
+
+    public void sendOdv(DataCaseEntity bean);
+
 }
