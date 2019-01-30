@@ -15,3 +15,6 @@ pagehelper:
   reasonable: false
   params: pageNum=pageHelperStart;pageSize=pageHelperRows;
   supportMethodsArguments: false
+
+logging:
+  config: classpath:logging/logback-${spring.profiles.active}.xml
