@@ -35,7 +35,7 @@ public interface SysUserService {
      * @param userEntity
      * @return
      */
-    List<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity);
+    PageInfo<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity);
 
     /**
      * 查询用户信息

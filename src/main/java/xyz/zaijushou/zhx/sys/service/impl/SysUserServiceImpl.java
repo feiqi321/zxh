@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
@@ -94,9 +95,9 @@ public class SysUserServiceImpl implements SysUserService {
      * @param userEntity
      * @return
      */
-    public List<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity){
+    public PageInfo<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity){
 
-        return   sysUserMapper.pageDataList(userEntity);
+        return   PageInfo.of(sysUserMapper.pageDataList(userEntity));
     }
 
     /**

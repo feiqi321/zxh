@@ -1,7 +1,9 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -76,7 +78,10 @@ public class SysUserController {
     @ApiOperation(value = "查询用户数据列表", notes = "查询用户数据列表")
     @PostMapping("/select/list")
     public Object getDataList(@RequestBody SysNewUserEntity userEntity) {
-        List<SysNewUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
+        PageInfo<SysNewUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
+        if(CollectionUtils.isEmpty(userEntityList.getList())) {
+            return WebResponse.success(new PageInfo<>());
+        }
         return WebResponse.success(userEntityList);
     }
 

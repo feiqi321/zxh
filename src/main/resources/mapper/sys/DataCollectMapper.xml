@@ -79,7 +79,8 @@
         mobile,result,method,repay_time as repayTime,
         repay_amt as repayAmt,reduce_amt as reduceAmt,collect_status collectStatus,reduce_status as reduceStatus,
         account_age as accountAge,case_date as caseDate,card_no as cardNo,ident_no as identNo,
-        money,balance,bank_amt as bankAmt,collect_info as collectInfo
+        money,balance,bank_amt as bankAmt,collect_info as collectInfo,
+        en_repay_amt as enRepayAmt
         from data_collection
         <where>
             delete_flag = 0
@@ -96,18 +97,15 @@
                 <if test="measure != null and measure!=''">
                     AND measure like CONCAT('%',#{measure},'%')
                 </if>
-                --                 委托方
                 <if test="client != null and client!=''">
                     AND client like CONCAT('%',#{client},'%')
                 </if>
-                --                 案件状态
                 <if test="caseStatus != null and caseStatus!=''">
                     AND case_status like CONCAT('%',#{caseStatus},'%')
                 </if>
                 <if test="result != null and result!=''">
                     AND result like CONCAT('%',#{result},'%')
                 </if>
-                --                 批次号
                 <if test="batchNo != null and batchNo!=''">
                     AND batch_no like CONCAT('%',#{batchNo},'%')
                 </if>
@@ -115,7 +113,6 @@
                     AND ident_no like CONCAT('%',#{identNo},'%')
                 </if>
 
-                --                 卡号
                 <if test="cardNo != null and cardNo!=''">
                     AND card_no like CONCAT('%',#{cardNo},'%')
                 </if>
@@ -125,45 +122,36 @@
                 <if test="color != null and color!=''">
                     AND color like CONCAT('%',#{color},'%')
                 </if>
-                --                 个案序列号
                 <if test="seqno != null and seqno!=''">
                     AND seqno like CONCAT('%',#{seqno},'%')
                 </if>
 
-                --                 催收对象
                 <if test="targetName != null and targetName!=''">
                     AND target_name like CONCAT('%',#{targetName},'%')
                 </if>
 
-                --                 逾期账龄
                 <if test="accountAge != null and accountAge!=''">
                     and account_age = #{accountAge}
                 </if>
-                --                 证件号
-                <if test="idenNo != null and idenNo!=''">
-                    and iden_no = #{idenNo}
+                <if test="identNo != null and identNo!=''">
+                    and ident_no = #{identNo}
                 </if>
 
-                --                 催收状态
                 <if test="collectStatus != null and collectStatus!=''">
                     and collect_status = #{collectStatus}
                 </if>
 
-                --                 案件类型
                 <if test="caseType != null and caseType!=''">
                     and case_type = #{caseType}
                 </if>
 
-                --                 档案号
                 <if test="archiveNo != null and archiveNo!=''">
                     and archive_no = #{archiveNo}
                 </if>
 
-                --                 是否新分配（0-否，1-是）
                 <if test="newCase != null and newCase!=''">
                     and new_case = #{newCase}
                 </if>
-                --                 还款状态
                 <if test="repayStatus != null and repayStatus!=''">
                     and repay_status = #{repayStatus}
                 </if>
@@ -187,7 +175,6 @@
                     <![CDATA[   and DATE_FORMAT(collect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{collectEndTime}, '%Y-%m-%d')   ]]>
                 </if>
 
-                --                 委案日期
                 <if test="caseDateStart != null and caseDateStart!=''">
                     <![CDATA[   and DATE_FORMAT(case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
                 </if>
@@ -195,7 +182,6 @@
                     <![CDATA[   and DATE_FORMAT(case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
-                --                 预计还款时间
                 <if test="repayTimeStart != null and repayTimeStart!=''">
                     <![CDATA[   and DATE_FORMAT(repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
@@ -203,7 +189,6 @@
                     <![CDATA[   and DATE_FORMAT(repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
-                --                 委案金额
                 <if test="moneyStart != null and moneyStart!=''">
                     <![CDATA[   and DATE_FORMAT(money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
                 </if>
@@ -211,7 +196,6 @@
                     <![CDATA[   and DATE_FORMAT(money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
-                --                预计退案日期
                 <if test="expectTimeStart != null and expectTimeStart!=''">
                     <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
                 </if>

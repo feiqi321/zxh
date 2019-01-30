@@ -63,6 +63,8 @@ public class DataCollectionEntity extends CommonEntity {
 
     //承诺还款金额
     private BigDecimal repayAmt;
+    //待銀行对账金额
+    private BigDecimal bankAmt;
     //减免金额
     private BigDecimal reduceAmt;
     //催收状态
@@ -102,9 +104,37 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal moneyStart;//委案金额
     private BigDecimal moneyEnd;//委案金额
     private BigDecimal balance;//委案余额
+    private BigDecimal enRepayAmt;//已还金额
+
+    private String archiveNo;//档案号
 
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public BigDecimal getBankAmt() {
+        return bankAmt;
+    }
+
+    public void setBankAmt(BigDecimal bankAmt) {
+        this.bankAmt = bankAmt;
+    }
+
+    public BigDecimal getEnRepayAmt() {
+        return enRepayAmt;
+    }
+
+    public void setEnRepayAmt(BigDecimal enRepayAmt) {
+        this.enRepayAmt = enRepayAmt;
+    }
+
+
+    public String getArchiveNo() {
+        return archiveNo;
+    }
+
+    public void setArchiveNo(String archiveNo) {
+        this.archiveNo = archiveNo;
+    }
 
     public String getExpectTimeStart() {
         return expectTimeStart;

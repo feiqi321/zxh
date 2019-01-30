@@ -1,14 +1,18 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import java.util.List;
 
@@ -60,6 +64,16 @@ public class DataCollectionController {
     public Object pageDataCollection(@RequestBody DataCollectionEntity bean) {
 
         List<DataCollectionEntity> list = dataCollectionService.pageDataCollectionList(bean);
+        return WebResponse.success(list);
+
+    }
+
+    @ApiOperation(value = "催收管理-我的案件分頁查询", notes = "催收管理-我的案件分頁查询")
+    @PostMapping("/dataCollection/pageMyCase")
+    public Object pageMyCase(@RequestBody DataCollectionEntity bean) {
+
+        CollectionReturnEntity list = dataCollectionService.pageMyCase(bean);
+
         return WebResponse.success(list);
 
     }
