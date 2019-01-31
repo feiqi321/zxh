@@ -32,6 +32,8 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private String department;
 
+    private String role;
+
     /**
      * 员工角色list
      */
