@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 
 import java.util.List;
@@ -45,5 +46,5 @@ public interface DataCaseService {
 
     public void updateSynergy(DataCaseEntity bean);
 
-    public List<DataCaseEntity> pageSynergyInfo(DataCaseEntity dataCaseEntity);
+    public WebResponse pageSynergyInfo(DataCaseEntity dataCaseEntity);
 }

@@ -6,7 +6,17 @@ public class WebResponse {
 
     private String msg = "success";
 
+    private int totalPageNum;
+
     private Object data;
+
+    public int getTotalPageNum() {
+        return totalPageNum;
+    }
+
+    public void setTotalPageNum(int totalPageNum) {
+        this.totalPageNum = totalPageNum;
+    }
 
     private WebResponse() {
 

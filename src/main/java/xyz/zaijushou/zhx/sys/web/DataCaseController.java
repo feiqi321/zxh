@@ -224,7 +224,7 @@ public class DataCaseController {
     @PostMapping("/synergy/synergy/pageSynergyInfo")
     public Object pageSynergyInfo(@RequestBody DataCaseEntity bean) {
 
-        List<DataCaseEntity> list = dataCaseService.pageCaseInfoList(bean);
-        return WebResponse.success(list);
+        WebResponse webResponse = dataCaseService.pageSynergyInfo(bean);
+        return webResponse;
     }
 }

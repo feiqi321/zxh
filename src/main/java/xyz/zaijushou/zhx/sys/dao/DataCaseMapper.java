@@ -47,6 +47,8 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> pageSynergyInfo(DataCaseEntity bean);
 
+    public int countSynergyInfo(DataCaseEntity bean);
+
     public void updateSynergy(DataCaseEntity bean);
 
 }

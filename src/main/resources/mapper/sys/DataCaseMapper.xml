@@ -504,6 +504,32 @@
         </where>
     </select>
 
+    <select id="pageCountSynergyInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="java.lang.Integer">
+        select
+        count(id)
+        from data_case
+        <where>
+            synergy
+            <trim suffixOverrides=",">
+                <if test="dept != null and dept!=''">
+                    and dept = #{dept}
+                </if>
+                <if test="odv != null and odv!=''">
+                    and odv = #{odv}
+                </if>
+                <if test="client != null and client!=''">
+                    and client = #{client}
+                </if>
+                <if test="synergyStartTime != null and synergyStartTime!=''">
+                    <![CDATA[   and DATE_FORMAT(synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{synergyStartTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="synergyEndTime != null and synergyEndTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{synergyEndTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+
     <update id="updateSynergy" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set synergy = #{synergy}
         where id = #{id}

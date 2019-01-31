@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
@@ -148,6 +149,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         dataCaseEntity.setName(user.getUserName());//当前用户
         list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
 
@@ -221,17 +223,26 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.updateSynergy(bean);
     }
 
-    public List<DataCaseEntity> pageSynergyInfo(DataCaseEntity dataCaseEntity){
+    public WebResponse pageSynergyInfo(DataCaseEntity dataCaseEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
         List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        int count = dataCaseMapper.countSynergyInfo(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user.getUserName());
             list.set(i,temp);
         }
+        webResponse.setData(list);
+        int totalPageNum = 0 ;
+        if (count%dataCaseEntity.getPageSize()>0){
+            totalPageNum = count/dataCaseEntity.getPageSize()+1;
+        }else{
+            totalPageNum = count/dataCaseEntity.getPageSize();
+        }
 
-
-        return list;
+        webResponse.setTotalPageNum(totalPageNum);
+        return webResponse;
     }
 
 }
