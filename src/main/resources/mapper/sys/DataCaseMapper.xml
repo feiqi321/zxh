@@ -339,4 +339,8 @@
         update data_case set m_val = #{mVal}
         where id = #{id}
     </update>
+    <update id="addSynergy" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set synergy = 2
+        where id = #{id}
+    </update>
 </mapper>

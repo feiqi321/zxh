@@ -48,7 +48,7 @@
             <if test="batchNo != null">batch_no =#{batchNo},</if>
             <if test="client != null">client=#{client},</if>
             <if test="area != null">area=#{area},</if>
-            <if test="caseTime != null">bail_time=#{caseTime},</if>
+            <if test="caseTime != null">bail_date=#{caseTime},</if>
             <if test="caseType != null">case_type=#{caseType},</if>
             <if test="returnTime != null">expect_time=#{returnTime},</if>
             <if test="targetRate != null">target_rate=#{targetRate},</if>

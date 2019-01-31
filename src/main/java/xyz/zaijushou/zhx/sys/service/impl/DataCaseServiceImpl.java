@@ -204,5 +204,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void addMValue(DataCaseEntity bean){
         dataCaseMapper.addMValue(bean);
     }
+    @Override
+    public void addSynergy(DataCaseEntity bean){
+        dataCaseMapper.addSynergy(bean);
+    }
 
 }

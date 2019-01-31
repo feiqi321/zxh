@@ -186,4 +186,16 @@ public class DataCaseController {
         return WebResponse.success();
 
     }
+
+    @ApiOperation(value = "申请协催", notes = "申请协催")
+    @PostMapping("/dataCase/addSynergy")
+    public Object addSynergy(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.addSynergy(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
 }

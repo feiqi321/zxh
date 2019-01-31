@@ -41,4 +41,6 @@ public interface DataCaseMapper {
 
     public void addMValue(DataCaseEntity bean);
 
+    public void addSynergy(DataCaseEntity bean);
+
 }
