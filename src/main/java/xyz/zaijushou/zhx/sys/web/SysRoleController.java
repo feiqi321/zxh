@@ -112,7 +112,7 @@ public class SysRoleController {
 
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_auth')")
     @PostMapping("/auth")
-    public Object auth(@RequestBody SysRoleEntity roleEntity) {
+    public WebResponse auth(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || roleEntity.getId() == null || roleEntity.getMenus() == null) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "参数缺失");
         }
@@ -120,7 +120,7 @@ public class SysRoleController {
         String userRolesString = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.USER_ROLE + redisJson.getInteger("userId"));
         JSONArray roles = JSONArray.parseArray(userRolesString);
         if (CollectionUtils.isEmpty(roles)) {
-            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色权限不足,不能对该角色进行授权");
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色权限不足，不能对该角色进行授权");
         }
 
         Map<Integer, SysMenuEntity> menuMap = new ConcurrentHashMap<>();
@@ -132,7 +132,7 @@ public class SysRoleController {
         if (menuRedisKeys.size() > 0) {
             List<String> menusString = stringRedisTemplate.opsForValue().multiGet(menuRedisKeys);
             if (CollectionUtils.isEmpty(menusString)) {
-                return menuMap;
+                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "菜单权限不足，不能对该角色进行授权");
             }
             for (String menusStr : menusString) {
                 SysMenuEntity[] menus = JSONArray.parseObject(menusStr, SysMenuEntity[].class);
@@ -142,7 +142,7 @@ public class SysRoleController {
             }
         }
         if (CollectionUtils.isEmpty(menuMap)) {
-            return WebResponse.success(new ArrayList<>());
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "菜单权限不足，不能对该角色进行授权");
         }
 
         Set<String> buttonRedisKeys = new HashSet<>();
@@ -168,6 +168,9 @@ public class SysRoleController {
         }
 
         List<SysMenuEntity> changeMenuList = CollectionsUtils.treeToList(roleEntity.getMenus());
+        parentSelect(changeMenuList);
+
+
         List<SysButtonEntity> changeButtonList = new ArrayList<>();
         List<SysMenuEntity> addMenusList = new ArrayList<>();
         for (SysMenuEntity menu : changeMenuList) {
@@ -209,6 +212,11 @@ public class SysRoleController {
         sysRoleService.refreshRoleRedis();
 
         return WebResponse.success();
+    }
+
+    private void parentSelect(List<SysMenuEntity> changeMenuList) {
+        Map<Integer, SysMenuEntity> menuMap = CollectionsUtils.listToMap(changeMenuList);
+
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_auth')")
