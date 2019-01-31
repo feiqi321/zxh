@@ -129,7 +129,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     @Override
     public List<DataCaseEntity> pageCaseList(DataCaseEntity dataCaseEntity){
-        List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        List<DataCaseEntity> list =  dataCaseMapper.pageCaseList(dataCaseEntity);
         return list;
     }
 

@@ -40,8 +40,12 @@ public class DataCaseEntity extends CommonEntity {
     private int distributeStatus;//分配状态  查询条件
     private String license; //牌照号  查询条件
     private String  expectTime;// 预计退案日 查询条件   列表
+    private String expectStartTime;
+    private String expectEndTime;
     private String collectHand;//催收手别（0-90天） 查询条件
     private String realReturnTime;//实际退案日期 查询条件
+    private String realReturnStartTime;
+    private String realReturnEndTime;
     private String archiveNo; //档案号 查询条件
     private String name; //姓名 查询条件   列表
     private String account;//账号 查询条件
@@ -49,6 +53,8 @@ public class DataCaseEntity extends CommonEntity {
     private String bank; //开户行 查询条件
     //最后一次跟进时间(催收时间) 查询条件
     private String collectDate;
+    private String collectStartDate;
+    private String collectEndDate;
     private int overDays;//逾期天数 查询条件
     private String identNo;//证件号 查询条件    列表
     private String seqNo;//个案序列号 查询条件  列表
@@ -66,7 +72,8 @@ public class DataCaseEntity extends CommonEntity {
 
     private BigDecimal enRepayAmt;//已还金额  列表
     private BigDecimal bankAmt;//待銀行查账金额-CP 列表
-    private String proRepayDate;//承诺还款金额-PTP   列表
+    private String proRepayDate;//承诺还款时间-PTP   列表
+    private String proRepayAmt;//承诺还款金额-PTP   列表
 
     private String realRepayDate;
     private String realRepayDateStart;
@@ -93,6 +100,63 @@ public class DataCaseEntity extends CommonEntity {
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+
+    public String getExpectStartTime() {
+        return expectStartTime;
+    }
+
+    public void setExpectStartTime(String expectStartTime) {
+        this.expectStartTime = expectStartTime;
+    }
+
+    public String getExpectEndTime() {
+        return expectEndTime;
+    }
+
+    public void setExpectEndTime(String expectEndTime) {
+        this.expectEndTime = expectEndTime;
+    }
+
+    public String getRealReturnStartTime() {
+        return realReturnStartTime;
+    }
+
+    public void setRealReturnStartTime(String realReturnStartTime) {
+        this.realReturnStartTime = realReturnStartTime;
+    }
+
+    public String getRealReturnEndTime() {
+        return realReturnEndTime;
+    }
+
+    public void setRealReturnEndTime(String realReturnEndTime) {
+        this.realReturnEndTime = realReturnEndTime;
+    }
+
+    public String getCollectStartDate() {
+        return collectStartDate;
+    }
+
+    public void setCollectStartDate(String collectStartDate) {
+        this.collectStartDate = collectStartDate;
+    }
+
+    public String getCollectEndDate() {
+        return collectEndDate;
+    }
+
+    public void setCollectEndDate(String collectEndDate) {
+        this.collectEndDate = collectEndDate;
+    }
+
+    public String getProRepayAmt() {
+        return proRepayAmt;
+    }
+
+    public void setProRepayAmt(String proRepayAmt) {
+        this.proRepayAmt = proRepayAmt;
+    }
 
     public int getSynergy() {
         return synergy;
