@@ -95,12 +95,32 @@ public class DataCaseEntity extends CommonEntity {
     private String synergyEndTime;//协催申请结束时间
     private String synergyContext; //协催申请内容
 
+    private String queryMethod; //精确查询1 模糊查询2
+
+    private String unitName; //单位名称
+
     List<DataCaseAddressEntity> addressList = new ArrayList<DataCaseAddressEntity>();
     List<DataCaseTelEntity> telList = new ArrayList<DataCaseTelEntity>();
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
 
+
+    public String getQueryMethod() {
+        return queryMethod;
+    }
+
+    public void setQueryMethod(String queryMethod) {
+        this.queryMethod = queryMethod;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
 
     public String getExpectStartTime() {
         return expectStartTime;

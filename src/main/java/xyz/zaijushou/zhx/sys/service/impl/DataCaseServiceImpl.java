@@ -222,11 +222,34 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void updateSynergy(DataCaseEntity bean){
         dataCaseMapper.updateSynergy(bean);
     }
-
+    //部门案件 --- 来电查询
     public WebResponse pageSynergyInfo(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCaseEntity> list =  dataCaseMapper.pageSynergyInfo(dataCaseEntity);
         int count = dataCaseMapper.countSynergyInfo(dataCaseEntity);
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user.getUserName());
+            list.set(i,temp);
+        }
+        webResponse.setData(list);
+        int totalPageNum = 0 ;
+        if (count%dataCaseEntity.getPageSize()>0){
+            totalPageNum = count/dataCaseEntity.getPageSize()+1;
+        }else{
+            totalPageNum = count/dataCaseEntity.getPageSize();
+        }
+
+        webResponse.setTotalPageNum(totalPageNum);
+        return webResponse;
+    }
+
+    //部门案件 --- 来电查询
+    public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
+        List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
+        int count = dataCaseMapper.countCaseTel(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);

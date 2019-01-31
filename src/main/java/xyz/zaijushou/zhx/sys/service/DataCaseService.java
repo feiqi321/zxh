@@ -47,4 +47,6 @@ public interface DataCaseService {
     public void updateSynergy(DataCaseEntity bean);
 
     public WebResponse pageSynergyInfo(DataCaseEntity dataCaseEntity);
+
+    public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity);
 }

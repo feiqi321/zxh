@@ -227,4 +227,13 @@ public class DataCaseController {
         WebResponse webResponse = dataCaseService.pageSynergyInfo(bean);
         return webResponse;
     }
+
+
+    @ApiOperation(value = "催收管理-来电查询-分頁查询", notes = "催收管理-来电查询-分頁查询")
+    @PostMapping("/synergy/synergy/pageCaseTel")
+    public Object pageCaseTel(@RequestBody DataCaseEntity bean) {
+
+        WebResponse webResponse = dataCaseService.pageCaseTel(bean);
+        return webResponse;
+    }
 }
