@@ -61,7 +61,8 @@ public class DataBatchServiceImpl implements DataBatchService {
                 dataBatchEntity.setClient(sysDictionaryEntity.getName());
             }
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
-            dataBatchEntity.setTotalAmt(new BigDecimal(100));
+            dataBatchEntity.setTotalAmt(new BigDecimal(0));
+            dataBatchEntity.setUserCount(0);
             dataCaseEntities.set(i,dataBatchEntity);
         }
         int totalPageNum = 0 ;

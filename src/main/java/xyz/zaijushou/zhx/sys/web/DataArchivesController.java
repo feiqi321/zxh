@@ -61,7 +61,7 @@ public class DataArchivesController {
     public Object pageDataArchive(@RequestBody DataArchiveEntity bean) {
 
         WebResponse webResponse = dataArchiveService.pageDataArchiveList(bean);
-        return WebResponse.success(list);
+        return webResponse;
 
     }
 
