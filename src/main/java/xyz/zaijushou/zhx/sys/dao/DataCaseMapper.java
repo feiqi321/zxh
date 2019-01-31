@@ -27,6 +27,8 @@ public interface DataCaseMapper {
 
     public void sendOdv(DataCaseEntity bean);
 
+    public void sendOdvByProperty(DataCaseEntity bean);
+
     public void updateStatus(DataCaseEntity bean);
 
     public void addComment(DataCaseEntity bean);
@@ -42,5 +44,11 @@ public interface DataCaseMapper {
     public void addMValue(DataCaseEntity bean);
 
     public void addSynergy(DataCaseEntity bean);
+
+    public List<DataCaseEntity> pageSynergyInfo(DataCaseEntity bean);
+
+    public int countSynergyInfo(DataCaseEntity bean);
+
+    public void updateSynergy(DataCaseEntity bean);
 
 }

@@ -82,11 +82,57 @@ public class DataCaseEntity extends CommonEntity {
     private int userCount;//用户数
     private BigDecimal totalAmt; //总金额
 
+    private int synergy; //协催状态 2 申请中  1 最终同意申请  3待协催 4撤销申请
+    private String synergyDate; //协催申请时间
+    private String synergyStartTime;//协催申请开始时间
+    private String synergyEndTime;//协催申请结束时间
+    private String synergyContext; //协催申请内容
+
     List<DataCaseAddressEntity> addressList = new ArrayList<DataCaseAddressEntity>();
     List<DataCaseTelEntity> telList = new ArrayList<DataCaseTelEntity>();
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+    public int getSynergy() {
+        return synergy;
+    }
+
+    public void setSynergy(int synergy) {
+        this.synergy = synergy;
+    }
+
+    public String getSynergyDate() {
+        return synergyDate;
+    }
+
+    public void setSynergyDate(String synergyDate) {
+        this.synergyDate = synergyDate;
+    }
+
+    public String getSynergyStartTime() {
+        return synergyStartTime;
+    }
+
+    public void setSynergyStartTime(String synergyStartTime) {
+        this.synergyStartTime = synergyStartTime;
+    }
+
+    public String getSynergyEndTime() {
+        return synergyEndTime;
+    }
+
+    public void setSynergyEndTime(String synergyEndTime) {
+        this.synergyEndTime = synergyEndTime;
+    }
+
+    public String getSynergyContext() {
+        return synergyContext;
+    }
+
+    public void setSynergyContext(String synergyContext) {
+        this.synergyContext = synergyContext;
+    }
 
     public String getComment() {
         return comment;

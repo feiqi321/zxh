@@ -340,7 +340,200 @@
         where id = #{id}
     </update>
     <update id="addSynergy" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set synergy = 2
+        update data_case set synergy = 2,synergy_date = now(),synergy_context =#{synergyContext}
         where id = #{id}
     </update>
+
+
+    <!--数据模块-按照查询分配业务员-->
+    <select id="sendOdvByProperty" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set odv = #{odv}
+        where id  in (select da.id
+        from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
+        <where>
+            1 = 1
+            <trim suffixOverrides=",">
+                <if test="client != null and client!=''">
+                    and da.client = #{client}
+                </if>
+                <if test="batchNo != null and batchNo!=''">
+                    and da.batch_no = #{batchNo}
+                </if>
+                <if test="odv != null and odv!=''">
+                    and da.odv = #{odv}
+                </if>
+                <if test="dept != null and dept!=''">
+                    and da.dept = #{dept}
+                </if>
+
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
+                <if test="realReturnTime != null and realReturnTime!=''">
+                    and da.real_return_time = #{realReturnTime}
+                </if>
+                <if test="seqNo != null and seqNo!=''">
+                    and da.seq_no = #{seqNo}
+                </if>
+                <if test="collectArea != null and collectArea!=''">
+                    and da.collect_area = #{collectArea}
+                </if>
+                <if test="overDays != null and overDays!=''">
+                    and da.overDays = #{overDays}
+                </if>
+                <if test="area != null and area!=''">
+                    and da.area = #{area}
+                </if>
+                <if test="license != null and license!=''">
+                    and da.license = #{license}
+                </if>
+                <if test="expectTime != null and expectTime!=''">
+                    and da.expect_time = #{expectTime}
+                </if>
+                <if test="collectHand != null and collectHand!=''">
+                    and da.collect_hand = #{collectHand}
+                </if>
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and da.distribute_status = #{distributeStatus}
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    and da.identNo = #{identNo}
+                </if>
+                <if test="vin != null and vin!=''">
+                    and da.vin = #{vin}
+                </if>
+                <if test="name != null and name!=''">
+                    and da.name = #{name}
+                </if>
+                <if test="idenNo != null and idenNo!=''">
+                    and da.iden_no = #{idenNo}
+                </if>
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
+                <if test="status != null and status!=''">
+                    and da.status = #{status}
+                </if>
+                <if test="bank != null and bank!=''">
+                    and da.bank = #{bank}
+                </if>
+                <if test="collectDate != null and collectDate!=''">
+                    and da.collect_date = #{collectDate}
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    and dc.collectInfo = #{collectInfo}
+                </if>
+                <if test="collectStatus != null and collectStatus!=''">
+                    and dc.collect_status = #{collectStatus}
+                </if>
+                <if test="caseType != null and caseType!=''">
+                    and da.case_type = #{caseType}
+                </if>
+                <if test="color != null and color!=''">
+                    and da.color = #{color}
+                </if>
+                <if test="cardNo != null and cardNo!=''">
+                    and da.card_no = #{cardNo}
+                </if>
+                <if test="archiveNo != null and archiveNo!=''">
+                    and da.archive_no = #{archiveNo}
+                </if>
+                <if test="newCase != null and newCase!=''">
+                    and da.new_case = #{newCase}
+                </if>
+                <if test="repayStatus != null and repayStatus!=''">
+                    and da.repay_status = #{repayStatus}
+                </if>
+
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''">
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="repayDateStart != null and repayDateStart!=''">
+                    <![CDATA[   and DATE_FORMATd(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="repayDateEnd != null and repayDateEnd!=''">
+                    <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="moneyStart != null and moneyStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''">
+                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                </if>
+
+                <if test="realRepayDateStart != null and realRepayDateStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')>=  DATE_FORMAT(#{realRepayDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="realRepayDateEnd != null and realRepayDateEnd!=''">
+                    <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')>=  DATE_FORMAT(#{realRepayDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+        )
+    </select>
+
+
+
+    <!--催收模块-主管协催-列表查询-->
+    <select id="pageSynergyInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select
+         id, synergy_context as synergyContext,seq_no as seqNo,odv,DATE_FORMAT(synergy_date,'%Y-%m-%d %H:%i:%S') as synergyDate
+        from data_case
+        <where>
+            synergy
+            <trim suffixOverrides=",">
+                <if test="dept != null and dept!=''">
+                    and dept = #{dept}
+                </if>
+                <if test="odv != null and odv!=''">
+                    and odv = #{odv}
+                </if>
+                <if test="client != null and client!=''">
+                    and client = #{client}
+                </if>
+                <if test="synergyStartTime != null and synergyStartTime!=''">
+                    <![CDATA[   and DATE_FORMAT(synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{synergyStartTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="synergyEndTime != null and synergyEndTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{synergyEndTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <select id="pageCountSynergyInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="java.lang.Integer">
+        select
+        count(id)
+        from data_case
+        <where>
+            synergy
+            <trim suffixOverrides=",">
+                <if test="dept != null and dept!=''">
+                    and dept = #{dept}
+                </if>
+                <if test="odv != null and odv!=''">
+                    and odv = #{odv}
+                </if>
+                <if test="client != null and client!=''">
+                    and client = #{client}
+                </if>
+                <if test="synergyStartTime != null and synergyStartTime!=''">
+                    <![CDATA[   and DATE_FORMAT(synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{synergyStartTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="synergyEndTime != null and synergyEndTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{synergyEndTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <update id="updateSynergy" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set synergy = #{synergy}
+        where id = #{id}
+    </update>
+
+
 </mapper>

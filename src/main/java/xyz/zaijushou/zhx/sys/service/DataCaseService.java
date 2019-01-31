@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 
 import java.util.List;
@@ -27,6 +28,8 @@ public interface DataCaseService {
 
     public void sendOdv(DataCaseEntity bean);
 
+    public void sendOdvByProperty(DataCaseEntity bean);
+
     public void addComment(DataCaseEntity bean);
 
     public void addColor(DataCaseEntity bean);
@@ -40,4 +43,8 @@ public interface DataCaseService {
     public void addMValue(DataCaseEntity bean);
 
     public void addSynergy(DataCaseEntity bean);
+
+    public void updateSynergy(DataCaseEntity bean);
+
+    public WebResponse pageSynergyInfo(DataCaseEntity dataCaseEntity);
 }
