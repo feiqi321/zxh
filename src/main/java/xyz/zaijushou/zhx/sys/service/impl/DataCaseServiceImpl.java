@@ -225,7 +225,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public WebResponse pageSynergyInfo(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        List<DataCaseEntity> list =  dataCaseMapper.pageSynergyInfo(dataCaseEntity);
         int count = dataCaseMapper.countSynergyInfo(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
