@@ -168,8 +168,7 @@ public class SysRoleController {
         }
 
         List<SysMenuEntity> changeMenuList = CollectionsUtils.treeToList(roleEntity.getMenus());
-        parentSelect(changeMenuList);
-
+        changeMenuList = new ArrayList<>(parentSelect(changeMenuList).values());
 
         List<SysButtonEntity> changeButtonList = new ArrayList<>();
         List<SysMenuEntity> addMenusList = new ArrayList<>();
@@ -214,9 +213,30 @@ public class SysRoleController {
         return WebResponse.success();
     }
 
-    private void parentSelect(List<SysMenuEntity> changeMenuList) {
-        Map<Integer, SysMenuEntity> menuMap = CollectionsUtils.listToMap(changeMenuList);
-
+    private Map<Integer, SysMenuEntity> parentSelect(List<SysMenuEntity> changeMenuList) {
+        Map<Integer, SysMenuEntity> menuMap = new ConcurrentHashMap<>(CollectionsUtils.listToMap(changeMenuList));
+        if(!menuMap.containsKey(1)) {
+            SysMenuEntity index = new SysMenuEntity();
+            index.setId(1);
+            SysMenuEntity parent = new SysMenuEntity();
+            parent.setId(0);
+            index.setParent(parent);
+            menuMap.put(1, index);
+        }
+        for(Map.Entry<Integer, SysMenuEntity> entry : menuMap.entrySet()) {
+            SysMenuEntity menu = entry.getValue();
+            if(new Integer(1).equals(menu.getId())) {
+                menuMap.get(menu.getId()).setSelect(true);
+                continue;
+            }
+            if(menu.isSelect()) {
+                while (menu.getParent() != null && menu.getParent().getId() != null && menu.getParent().getId() != 0 && menu.getId().equals(menu.getParent().getId())) {
+                    menuMap.get(menu.getParent().getId()).setSelect(true);
+                    menu = menuMap.get(menu.getParent().getId());
+                }
+            }
+        }
+        return menuMap;
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_auth')")
