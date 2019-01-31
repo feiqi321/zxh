@@ -96,6 +96,27 @@
         delete_flag as deleteFlag
     </sql>
 
+    <resultMap id="UserResultMap" type="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="officePhone" property="officePhone" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="userName" property="userName" jdbcType="VARCHAR"/>
+        <result column="department" property="department" jdbcType="VARCHAR"/>
+        <result column="departId" property="departId" jdbcType="INTEGER"/>
+        <result column="position" property="position" jdbcType="INTEGER"/>
+        <result column="deleteFlag" property="deleteFlag" jdbcType="INTEGER"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="leaveTime" property="leaveTime" jdbcType="TIMESTAMP"/>
+        <result column="joinTime" property="joinTime" jdbcType="TIMESTAMP"/>
+
+        <collection property="roleList" column="role_id" ofType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+            <result column="roleId" property="id"  jdbcType="INTEGER"/>
+            <result column="role" property="roleName"  jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
 
     <select id="findPasswordInfoByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
@@ -140,7 +161,7 @@
     </select>
 
     <!--插入用户数据信息-->
-    <insert id="saveUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
+    <insert id="saveUser"  parameterType="xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity">
         INSERT INTO `sys_user`
         (`username`, `number`, `department`, `position`, `sex`,
         `high_edu`, `user_type`, `category`, `posi_title`, `come_resource`,
@@ -166,14 +187,14 @@
         #{createTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
     </insert>
 
-    <insert id="saveNewUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+    <insert id="saveNewUser"  parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `sys_user`
         (`username`, `number`, `department`,  `sex`,
         `join_time`,`leave_time`,
         `mobile`,
         `office_phone`,
          `login_name`, `password`, `enable`,
-        `delete_flag`, `status`,, `position`)
+        `delete_flag`, `status`, `position`)
         VALUES (
         #{userName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
         #{joinTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP},
@@ -223,12 +244,20 @@
                 position = #{position},
             </if>
 
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+
+            <if test="enable != null and enable != ''">
+                enable = #{enable},
+            </if>
+
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
 
     <!--查询数据集合-->
-    <select id="pageDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+    <select id="pageDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
         su.status,su.enable,su.username as userName,so.org_name department,
@@ -241,8 +270,8 @@
         su.department as departId,
         sr.id as roleId,
         su.position
-        from
-        sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
+        from sys_user su
+        LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
         where su.delete_flag = 0
@@ -263,7 +292,7 @@
     </select>
 
     <!--根据Id查询数据-->
-    <select id="getDataById" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+    <select id="getDataById" resultMap="UserResultMap">
             select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
         su.status,su.enable,su.username as userName,so.org_name department,

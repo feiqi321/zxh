@@ -20,7 +20,7 @@ public interface SysUserMapper {
 
     List<SysUserEntity> listAllUsers(SysUserEntity userEntity);
 
-    void saveNewUser(SysNewUserEntity userEntity);
+    int saveNewUser(SysNewUserEntity userEntity);
 
     /**
      * 修改用户
