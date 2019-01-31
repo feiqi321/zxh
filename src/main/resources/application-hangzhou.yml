@@ -34,4 +34,4 @@ xyz:
         admin-judge: true #管理员权限开关，打开时，代码中需要判断是否有管理员权限
 
 
-rar_path: d:/枫软催收系统导入模板.rar
+rar_path: c:/枫软催收系统导入模板.rar
