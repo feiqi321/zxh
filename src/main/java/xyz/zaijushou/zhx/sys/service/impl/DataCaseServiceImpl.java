@@ -135,7 +135,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
 
     /**
-     * 催收模块-我的案件-列表查询
+     * 催收模块-我的案件-列表查询（废弃）
      * @param dataCaseEntity
      * @return
      */

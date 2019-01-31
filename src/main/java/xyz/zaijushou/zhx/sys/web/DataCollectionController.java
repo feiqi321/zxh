@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.utils.StringUtils;
@@ -73,6 +74,16 @@ public class DataCollectionController {
     public Object pageMyCase(@RequestBody DataCollectionEntity bean) {
 
         CollectionReturnEntity list = dataCollectionService.pageMyCase(bean);
+
+        return WebResponse.success(list);
+
+    }
+
+    @ApiOperation(value = "催收管理-催收状况统计-单日电催量", notes = "催收管理-催收状况统计-单日电催量")
+    @PostMapping("/dataCollection/statistics/day")
+    public Object statisticsCollection(@RequestBody CollectionStatistic bean) {
+
+        List<CollectionStatistic> list = dataCollectionService.statisticsCollection(bean);
 
         return WebResponse.success(list);
 

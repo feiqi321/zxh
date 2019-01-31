@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service;
 
 import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 
 import java.util.List;
@@ -20,5 +21,7 @@ public interface DataCollectionService {
     public List<DataCollectionEntity> pageDataCollectionList(DataCollectionEntity dataCollectionEntity);
 
     public CollectionReturnEntity pageMyCase(DataCollectionEntity dataCollectionEntity);
+
+    public List<CollectionStatistic> statisticsCollection(CollectionStatistic dataCollectionEntity);
 
 }
