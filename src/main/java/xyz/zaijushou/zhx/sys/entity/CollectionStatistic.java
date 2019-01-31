@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -94,5 +95,71 @@ public class CollectionStatistic extends CommonEntity {
 
     public void setCountCasePhoneNum(int countCasePhoneNum) {
         this.countCasePhoneNum = countCasePhoneNum;
+    }
+
+    //委托方
+    private String client;
+
+    private String batchNo;
+    private String accountAge;//逾期账龄
+    private int collectStatus ; // 催收状态
+    private BigDecimal paidMoney;//已还款金额
+    private BigDecimal commisionMoney;//委案金额
+    private int sumCase;//案件量
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public String getBatchNo() {
+        return batchNo;
+    }
+
+    public void setBatchNo(String batchNo) {
+        this.batchNo = batchNo;
+    }
+
+    public String getAccountAge() {
+        return accountAge;
+    }
+
+    public void setAccountAge(String accountAge) {
+        this.accountAge = accountAge;
+    }
+
+    public int getCollectStatus() {
+        return collectStatus;
+    }
+
+    public void setCollectStatus(int collectStatus) {
+        this.collectStatus = collectStatus;
+    }
+
+    public BigDecimal getPaidMoney() {
+        return paidMoney;
+    }
+
+    public void setPaidMoney(BigDecimal paidMoney) {
+        this.paidMoney = paidMoney;
+    }
+
+    public BigDecimal getCommisionMoney() {
+        return commisionMoney;
+    }
+
+    public void setCommisionMoney(BigDecimal commisionMoney) {
+        this.commisionMoney = commisionMoney;
+    }
+
+    public int getSumCase() {
+        return sumCase;
+    }
+
+    public void setSumCase(int sumCase) {
+        this.sumCase = sumCase;
     }
 }

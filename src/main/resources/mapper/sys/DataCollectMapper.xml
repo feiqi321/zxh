@@ -206,4 +206,55 @@
         </where>
     </select>
 
+
+    <select id="statisticsCollectionState" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+        dc.collect_status as collectStatus,sum(dc.en_repay_amt) as paidMoney,sum(dc.money) as commisionMoney,
+        count(DISTINCT(dc.case_id)) as sumCase
+        from
+        data_collection dc
+        where dc.delete_flag = 0
+        <if test="client != null and client !=''">
+            and client = #{client}
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            and batch_no = #{batchNo}
+        </if>
+
+        <if test="accountAge != null and accountAge !=''">
+            and account_age = #{accountAge}
+        </if>
+        GROUP BY dc.collect_status
+    </select>
+
+
+    <select id="statisticsCollectionBatch" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+        dc.batch_no as batchNo,sum(dc.en_repay_amt) as paidMoney,sum(dc.money) as commisionMoney,
+        count(DISTINCT(dc.case_id)) as sumCase
+        from
+        data_collection dc
+        where dc.delete_flag = 0
+        <if test="client != null and client !=''">
+            and client = #{client}
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            and batch_no = #{batchNo}
+        </if>
+
+        <if test="accountAge != null and accountAge !=''">
+            and account_age = #{accountAge}
+        </if>
+        GROUP BY dc.batch_no
+    </select>
+
+    <select id="statisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+       *
+        from
+        data_collection dc
+        where dc.delete_flag = 0
+
+    </select>
+
 </mapper>

@@ -111,8 +111,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
 
+    /**
+     * 单日电催量
+     * @param beanInfo
+     * @return
+     */
     @Override
-    public List<CollectionStatistic> statisticsCollection(CollectionStatistic beanInfo){
+    public List<CollectionStatistic> statisticsCollectionDay(CollectionStatistic beanInfo){
         List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
         //获取当前用户名
         SysUserEntity user = getUserInfo();
@@ -154,6 +159,43 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        return colList;
+    }
+
+
+    /**
+     * 催收状况统计
+     * @param beanInfo
+     * @return
+     */
+    @Override
+    public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic beanInfo){
+        List<CollectionStatistic> colList =
+                dataCollectionMapper.statisticsCollectionState(beanInfo);
+        return colList;
+    }
+
+    /**
+     * 批次分类统计
+     * @param beanInfo
+     * @return
+     */
+    @Override
+    public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic beanInfo){
+        List<CollectionStatistic> colList =
+                dataCollectionMapper.statisticsCollectionBatch(beanInfo);
+        return colList;
+    }
+
+    /**
+     * 我的还款统计
+     * @param beanInfo
+     * @return
+     */
+    @Override
+    public List<CollectionStatistic> statisticsCollectionPay(CollectionStatistic beanInfo){
+        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
 
         return colList;
     }

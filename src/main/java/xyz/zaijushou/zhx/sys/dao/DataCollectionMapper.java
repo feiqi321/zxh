@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 
 import java.util.List;
@@ -24,4 +25,7 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> pageDataCollect(DataCollectionEntity bean);
 
+    public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic bean);
+    public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic bean);
+    public int statisticsCollectionPay(CollectionStatistic bean);
 }

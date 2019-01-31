@@ -22,6 +22,4 @@ public interface DataCollectionTelMapper {
     public int statisticsCollectionSum(CollectionStatistic bean);
     public int statisticsCollectionCon(CollectionStatistic bean);
     public int statisticsCollectionCase(CollectionStatistic bean);
-
-
 }
