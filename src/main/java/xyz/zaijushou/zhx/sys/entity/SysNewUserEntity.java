@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.entity;
 import com.alibaba.fastjson.annotation.JSONField;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +33,9 @@ public class SysNewUserEntity extends CommonEntity {
     private String department;
 
     /**
-     * 员工角色
+     * 员工角色list
      */
-    private String role;
+    private List<SysRoleEntity> roleList = new ArrayList<SysRoleEntity>();
 
     /**
      * 办公电话
@@ -61,10 +62,18 @@ public class SysNewUserEntity extends CommonEntity {
 
     private int departId ;//部门Id
 
-    private int roleId ;//角色Id
 
     private int job ;//职位Id
     private String position ;//职位名称
+
+
+    public List<SysRoleEntity> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<SysRoleEntity> roleList) {
+        this.roleList = roleList;
+    }
 
     public int getJob() {
         return job;
@@ -88,14 +97,6 @@ public class SysNewUserEntity extends CommonEntity {
 
     public void setDepartId(int departId) {
         this.departId = departId;
-    }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
     }
 
     public String getSex() {
@@ -146,13 +147,6 @@ public class SysNewUserEntity extends CommonEntity {
         this.department = department;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public String getOfficePhone() {
         return officePhone;
