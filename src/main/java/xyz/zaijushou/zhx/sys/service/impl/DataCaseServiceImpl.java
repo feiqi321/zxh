@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
@@ -9,6 +10,7 @@ import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -181,6 +183,10 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.sendOdv(bean);
     }
     @Override
+    public void sendOdvByProperty(DataCaseEntity bean){
+        dataCaseMapper.sendOdvByProperty(bean);
+    }
+    @Override
     public void addComment(DataCaseEntity bean){
         dataCaseMapper.addComment(bean);
     }
@@ -204,9 +210,28 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void addMValue(DataCaseEntity bean){
         dataCaseMapper.addMValue(bean);
     }
+
+    //2 申请中  1 最终同意申请  3待协催 4撤销申请
     @Override
     public void addSynergy(DataCaseEntity bean){
         dataCaseMapper.addSynergy(bean);
+    }
+
+    public void updateSynergy(DataCaseEntity bean){
+        dataCaseMapper.updateSynergy(bean);
+    }
+
+    public List<DataCaseEntity> pageSynergyInfo(DataCaseEntity dataCaseEntity){
+        List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user.getUserName());
+            list.set(i,temp);
+        }
+
+
+        return list;
     }
 
 }

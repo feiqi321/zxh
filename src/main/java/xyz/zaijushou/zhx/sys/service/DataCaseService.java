@@ -27,6 +27,8 @@ public interface DataCaseService {
 
     public void sendOdv(DataCaseEntity bean);
 
+    public void sendOdvByProperty(DataCaseEntity bean);
+
     public void addComment(DataCaseEntity bean);
 
     public void addColor(DataCaseEntity bean);
@@ -40,4 +42,8 @@ public interface DataCaseService {
     public void addMValue(DataCaseEntity bean);
 
     public void addSynergy(DataCaseEntity bean);
+
+    public void updateSynergy(DataCaseEntity bean);
+
+    public List<DataCaseEntity> pageSynergyInfo(DataCaseEntity dataCaseEntity);
 }

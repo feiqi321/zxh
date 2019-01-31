@@ -101,6 +101,14 @@ public class DataCaseController {
         return WebResponse.success();
 
     }
+
+    @ApiOperation(value = "按照查询分配业务员", notes = "按照查询分配业务员")
+    @PostMapping("/dataCase/sendOdvByProperty")
+    public Object sendOdvByProperty(@RequestBody DataCaseEntity bean) {
+        dataCaseService.sendOdvByProperty(bean);
+        return WebResponse.success();
+
+    }
     //未退案0/正常1/暂停2/关档3/退档4/全部5
     @ApiOperation(value = "修改案件状态", notes = "修改案件状态")
     @PostMapping("/dataCase/updateStatus")
@@ -197,5 +205,26 @@ public class DataCaseController {
 
         return WebResponse.success();
 
+    }
+
+    @ApiOperation(value = "协催状态修改", notes = "协催状态修改")
+    @PostMapping("/synergy/updateSynergy")
+    public Object updateSynergy(@RequestBody List<DataCaseEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            dataCaseService.updateSynergy(dataCaseEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
+
+    @ApiOperation(value = "催收管理-主管协催-分頁查询", notes = "催收管理-主管协催-分頁查询")
+    @PostMapping("/synergy/synergy/pageSynergyInfo")
+    public Object pageSynergyInfo(@RequestBody DataCaseEntity bean) {
+
+        List<DataCaseEntity> list = dataCaseService.pageCaseInfoList(bean);
+        return WebResponse.success(list);
     }
 }
