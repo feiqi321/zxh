@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.dao.DataArchiveAddressMapper;
 import xyz.zaijushou.zhx.sys.dao.DataArchiveMapper;
 import xyz.zaijushou.zhx.sys.dao.DataArchiveTelMapper;
@@ -100,8 +101,10 @@ public class DataArchivesServiceImpl implements DataArchiveService {
         dataArchiveMapper.deleteById(dataArchiveEntity.getId());
     }
     @Override
-    public List<DataArchiveEntity> pageDataArchiveList(DataArchiveEntity dataArchiveEntity){
+    public WebResponse pageDataArchiveList(DataArchiveEntity dataArchiveEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
        List<DataArchiveEntity> list =  dataArchiveMapper.pageDataArchive(dataArchiveEntity);
+       int count = dataArchiveMapper.countDataArchive(dataArchiveEntity);
        for (int i=0;i<list.size();i++){
            DataArchiveEntity temp = list.get(i);
            DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
@@ -114,8 +117,16 @@ public class DataArchivesServiceImpl implements DataArchiveService {
            temp.setTelList(telEntityList);
            list.set(i,temp);
        }
+        int totalPageNum = 0 ;
+        if (count%dataArchiveEntity.getPageSize()>0){
+            totalPageNum = count/dataArchiveEntity.getPageSize()+1;
+        }else{
+            totalPageNum = count/dataArchiveEntity.getPageSize();
+        }
+        webResponse.setTotalNum(count);
+        webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setData(list);
 
-
-       return list;
+       return webResponse;
     }
 }

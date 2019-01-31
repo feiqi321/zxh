@@ -60,7 +60,7 @@ public class DataArchivesController {
     @PostMapping("/dataArchive/pageDataArchive")
     public Object pageDataArchive(@RequestBody DataArchiveEntity bean) {
 
-        List<DataArchiveEntity> list = dataArchiveService.pageDataArchiveList(bean);
+        WebResponse webResponse = dataArchiveService.pageDataArchiveList(bean);
         return WebResponse.success(list);
 
     }

@@ -40,6 +40,7 @@
             <if test="mobile != null">mobile = #{mobile},</if>
             <if test="address != null">address = #{address},</if>
             <if test="remark != null">remark = #{remark},</if>
+            update_time = now(),
         </trim>
         where
         id = #{id}
@@ -71,13 +72,42 @@
                     AND address like CONCAT('%',#{address},'%')
                 </if>
                 <if test="startTime != null and startTime!=''">
-                     <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+                     <![CDATA[   and DATE_FORMAT(update_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and DATE_FORMAT(create_time, '%Y-%m-%d')<=  DATE_FORMAT(#{endTime}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(update_time, '%Y-%m-%d')<=  DATE_FORMAT(#{endTime}, '%Y-%m-%d')   ]]>
                 </if>
             </trim>
         </where>
     </select>
 
+
+    <select id="countDataArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity" resultType="java.lang.Integer">
+        select
+        count(id) as sum
+        from data_archive
+        <where>
+            delete_flag = 0
+            <trim suffixOverrides=",">
+                <if test="name != null and name!=''">
+                    AND  name like CONCAT('%',#{name},'%')
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    AND ident_no like CONCAT('%',#{identNo},'%')
+                </if>
+                <if test="mobile != null and mobile!=''">
+                    AND mobile  like CONCAT('%',#{mobile},'%')
+                </if>
+                <if test="address != null and address!=''">
+                    AND address like CONCAT('%',#{address},'%')
+                </if>
+                <if test="startTime != null and startTime!=''">
+                    <![CDATA[   and DATE_FORMAT(update_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="endTime != null and endTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(update_time, '%Y-%m-%d')<=  DATE_FORMAT(#{endTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
 </mapper>

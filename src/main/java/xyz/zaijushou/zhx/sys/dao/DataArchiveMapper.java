@@ -19,4 +19,6 @@ public interface DataArchiveMapper {
 
     public List<DataArchiveEntity> pageDataArchive(DataArchiveEntity bean);
 
+    public int countDataArchive(DataArchiveEntity bean);
+
 }

@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.DataArchiveEntity;
 
 import java.util.List;
@@ -15,6 +16,6 @@ public interface DataArchiveService {
 
     public void delete(DataArchiveEntity dataArchiveEntity);
 
-    public List<DataArchiveEntity> pageDataArchiveList(DataArchiveEntity dataArchiveEntity);
+    public WebResponse pageDataArchiveList(DataArchiveEntity dataArchiveEntity);
 
 }
