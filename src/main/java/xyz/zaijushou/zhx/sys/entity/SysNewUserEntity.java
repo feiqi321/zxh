@@ -69,6 +69,14 @@ public class SysNewUserEntity extends CommonEntity {
     private String position ;//职位名称
 
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public List<SysRoleEntity> getRoleList() {
         return roleList;
     }
