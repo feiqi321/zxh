@@ -72,8 +72,8 @@ public class DataBatchController {
     @PostMapping("/dataBatch/pageDataCase")
     public Object pageDataCase(@RequestBody DataBatchEntity dataBatchEntity) {
 
-        List<DataBatchEntity> list = dataCaseService.pageDataBatch(dataBatchEntity);
-        return WebResponse.success(list);
+        WebResponse webResponse = dataCaseService.pageDataBatch(dataBatchEntity);
+        return WebResponse.success(webResponse);
 
     }
 

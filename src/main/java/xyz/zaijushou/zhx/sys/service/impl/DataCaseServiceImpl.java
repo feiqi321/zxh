@@ -242,6 +242,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
         webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setTotalNum(count);
         return webResponse;
     }
 
@@ -263,7 +264,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             totalPageNum = count/dataCaseEntity.getPageSize();
         }
-
+        webResponse.setTotalNum(count);
         webResponse.setTotalPageNum(totalPageNum);
         return webResponse;
     }

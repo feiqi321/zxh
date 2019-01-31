@@ -8,7 +8,17 @@ public class WebResponse {
 
     private int totalPageNum;
 
+    private int totalNum;
+
     private Object data;
+
+    public int getTotalNum() {
+        return totalNum;
+    }
+
+    public void setTotalNum(int totalNum) {
+        this.totalNum = totalNum;
+    }
 
     public int getTotalPageNum() {
         return totalPageNum;

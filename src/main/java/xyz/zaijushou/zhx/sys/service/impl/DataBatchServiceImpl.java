@@ -3,9 +3,12 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
+import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
+import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -24,7 +27,7 @@ public class DataBatchServiceImpl implements DataBatchService {
     @Resource
     private DataBatchMapper dataBatchMapper;
     @Resource
-    private StringRedisTemplate stringRedisTemplate;
+    private SysDictionaryMapper dictionaryMapper;
 
     public void save(DataBatchEntity bean){
         JSONObject tokenData = JwtTokenUtil.tokenData();
@@ -45,16 +48,32 @@ public class DataBatchServiceImpl implements DataBatchService {
     }
 
 
-    public List<DataBatchEntity> pageDataBatch(DataBatchEntity bean){
+    public WebResponse pageDataBatch(DataBatchEntity bean){
+        WebResponse webResponse = WebResponse.buildResponse();
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
+        int count = dataBatchMapper.countDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
+            List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
+            if (dictList.size()>0){
+                SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                dataBatchEntity.setClient(sysDictionaryEntity.getName());
+            }
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
             dataBatchEntity.setTotalAmt(new BigDecimal(100));
             dataCaseEntities.set(i,dataBatchEntity);
         }
-        return dataCaseEntities;
+        int totalPageNum = 0 ;
+        if (count%bean.getPageSize()>0){
+            totalPageNum = count/bean.getPageSize()+1;
+        }else{
+            totalPageNum = count/bean.getPageSize();
+        }
+        webResponse.setData(dataCaseEntities);
+        webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setTotalNum(count);
+        return webResponse;
     }
 
     public DataBatchEntity getDataById(DataBatchEntity bean){

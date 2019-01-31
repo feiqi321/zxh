@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface DataBatchService {
 
     public void deleteById(DataBatchEntity bean);
 
-    public List<DataBatchEntity> pageDataBatch(DataBatchEntity bean);
+    public WebResponse pageDataBatch(DataBatchEntity bean);
 
     public DataBatchEntity getDataById(DataBatchEntity bean);
 
