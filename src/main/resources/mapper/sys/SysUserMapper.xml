@@ -126,6 +126,14 @@
         and enable = '1'
         and login_name = #{loginName}
     </select>
+
+    <select id="selectPasswordInfoById" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        select
+        <include refid="colSqlPasswordInfo"/>
+        from sys_user
+        where delete_flag = '0'
+        and id = #{id}
+    </select>
     
     <select id="findUserInfoWithoutPasswordByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
@@ -365,5 +373,11 @@
             and username like concat('%', #{userName}, '%')
         </if>
     </select>
+
+    <update id="passwordReset" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        update sys_user
+        set password = #{password}
+        where id = #{id}
+    </update>
 
 </mapper>

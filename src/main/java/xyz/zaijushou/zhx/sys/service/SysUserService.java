@@ -56,4 +56,16 @@ public interface SysUserService {
      * @return
      */
     List<SysUserEntity> listUsers(SysUserEntity user);
+
+    /**
+     * 用户修改密码
+     * @param user
+     */
+    void passwordReset(SysNewUserEntity user);
+
+    /**
+     * 管理员修改用户密码
+     * @param user
+     */
+    void passwordResetByAdmin(SysNewUserEntity user);
 }

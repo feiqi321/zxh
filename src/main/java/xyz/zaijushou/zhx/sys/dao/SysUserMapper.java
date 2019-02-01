@@ -56,4 +56,12 @@ public interface SysUserMapper {
      * @return
      */
     List<SysUserEntity> listUsers(SysUserEntity user);
+
+    /**
+     * 修改密码
+     * @param user
+     */
+    void passwordReset(SysNewUserEntity user);
+
+    SysNewUserEntity selectPasswordInfoById(SysNewUserEntity user);
 }
