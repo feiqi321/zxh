@@ -27,5 +27,7 @@ public interface DataCollectionMapper {
 
     public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic bean);
     public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic bean);
-    public int statisticsCollectionPay(CollectionStatistic bean);
+    public List<DataCollectionEntity> pageStatisticsCollectionPay(CollectionStatistic bean);
+    public CollectionStatistic statisticsCollectionPayLastM(CollectionStatistic bean);
+    public CollectionStatistic statisticsCollectionPayThisM(CollectionStatistic bean);
 }

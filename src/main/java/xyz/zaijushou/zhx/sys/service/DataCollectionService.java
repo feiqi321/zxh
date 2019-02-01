@@ -25,6 +25,6 @@ public interface DataCollectionService {
     public List<CollectionStatistic> statisticsCollectionDay(CollectionStatistic dataCollectionEntity);
     public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic dataCollectionEntity);
     public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
-    public List<CollectionStatistic> statisticsCollectionPay(CollectionStatistic dataCollectionEntity);
+    public CollectionStatistic pageStatisticsCollectionPay(CollectionStatistic dataCollectionEntity);
 
 }

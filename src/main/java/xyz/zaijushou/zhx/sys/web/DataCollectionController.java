@@ -1,8 +1,10 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -109,13 +111,7 @@ public class DataCollectionController {
     @ApiOperation(value = "催收管理-我的还款统计", notes = "催收管理-我的还款统计")
     @PostMapping("/dataCollection/statistics/pay")
     public Object statisticsCollectionPay(@RequestBody CollectionStatistic bean) {
-
-        List<CollectionStatistic> list = dataCollectionService.statisticsCollectionPay(bean);
-
+        CollectionStatistic list = dataCollectionService.pageStatisticsCollectionPay(bean);
         return WebResponse.success(list);
-
     }
-
-
-
 }

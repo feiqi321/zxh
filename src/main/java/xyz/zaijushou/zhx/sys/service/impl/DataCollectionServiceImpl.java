@@ -194,9 +194,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public List<CollectionStatistic> statisticsCollectionPay(CollectionStatistic beanInfo){
-        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
+    public CollectionStatistic pageStatisticsCollectionPay(CollectionStatistic beanInfo){
+        CollectionStatistic collectionReturn = new CollectionStatistic();
+        List<DataCollectionEntity> colList = new ArrayList<DataCollectionEntity>();
+        colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);
+        collectionReturn.setList(PageInfo.of(colList));
 
-        return colList;
+        Calendar time = Calendar.getInstance();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM");
+        time.add(Calendar.MONTH, -1);    //得到前一个月
+        beanInfo.setLastMonth(sdf1.format(time.getTime()));
+        return collectionReturn;
     }
 }
