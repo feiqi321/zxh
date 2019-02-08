@@ -2,16 +2,39 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelConstant;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -19,6 +42,8 @@ import java.util.List;
 @Api("数据管理/案件管理")
 @RestController
 public class DataCaseController {
+
+    private static Logger logger = LoggerFactory.getLogger(DataCaseController.class);
 
     @Autowired
     private DataCaseService dataCaseService;
@@ -236,4 +261,85 @@ public class DataCaseController {
         WebResponse webResponse = dataCaseService.pageCaseTel(bean);
         return webResponse;
     }
+
+
+    @ApiOperation(value = "案件电话导入", notes = "案件电话导入")
+    @PostMapping("/dataCase/tel/import")
+    public Object dataCaseTelImport(MultipartFile file) {
+        String fileName = file.getOriginalFilename();
+        logger.info(fileName);
+        ExcelConstant.CaseTel[] caseTels = ExcelConstant.CaseTel.values();
+        Map<String, ExcelConstant.CaseTel> caseTelMap = new HashMap<>();
+        for(ExcelConstant.CaseTel caseTel : caseTels) {
+            caseTelMap.put(caseTel.getCol(), caseTel);
+        }
+
+        InputStream inputStream = null;
+        Workbook workbook = null;
+        try {
+            inputStream = file.getInputStream();
+            workbook = new XSSFWorkbook(inputStream);
+        } catch (IOException e) {
+            logger.error("导入文件错误：{}", e);
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), e.getMessage());
+        }
+        Sheet sheet = workbook.getSheetAt(0);
+        Row header = sheet.getRow(0);
+        Map<Integer, ExcelConstant.CaseTel> colMap = new HashMap<>();
+        for(int i = 0; i < header.getPhysicalNumberOfCells(); i ++) {
+            String cell = header.getCell(i).getStringCellValue();
+            colMap.put(i, caseTelMap.get(cell));
+        }
+        for(int i = 1; i <= sheet.getLastRowNum(); i ++) {
+            Row row = sheet.getRow(i);
+            DataCaseEntity dataCaseEntity = new DataCaseEntity();
+            for(int k = 0; k < row.getPhysicalNumberOfCells(); k ++) {
+                Cell cell = row.getCell(k);
+                ExcelConstant.CaseTel caseTel = colMap.get(k);
+                if(caseTel == null) {
+                    continue;
+                }
+                try {
+                    String attr = caseTel.getAttr();
+                    Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);
+                    if(matcher.find()) {
+                        Integer index = Integer.parseInt(matcher.group(0).substring(1, 2));
+                        String firstAttr = attr.substring(0, matcher.start());
+                        String secondAttr = attr.substring(matcher.end());
+                        Method firstAttrGetMethod = dataCaseEntity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                        Object object = firstAttrGetMethod.invoke(dataCaseEntity);
+                        if(object == null) {
+                            Method firstAttrSetMethod = dataCaseEntity.getClass().getMethod("set" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1), caseTel.getAttrClazz()[0]);
+                            firstAttrSetMethod.invoke(dataCaseEntity, new ArrayList<>());
+                        }
+                        List telList = (List) firstAttrGetMethod.invoke(dataCaseEntity);
+                        if(telList.size() == index) {
+                            Class clazz = caseTel.getAttrClazz()[0];
+                            Constructor constructor = clazz.getConstructor();
+                            Object obj = constructor.newInstance();
+                            telList.add(obj);
+                        }
+                        Method secondAttrSetMethod = caseTel.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), caseTel.getAttrClazz()[1]);
+                        secondAttrSetMethod.invoke(telList.get(index), cell.getStringCellValue());
+                        logger.info("over");
+                    } else {
+                        Method method = dataCaseEntity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), caseTel.getAttrClazz()[0]);
+                        method.invoke(dataCaseEntity, cell.getStringCellValue());
+                    }
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        return WebResponse.success();
+    }
+
 }

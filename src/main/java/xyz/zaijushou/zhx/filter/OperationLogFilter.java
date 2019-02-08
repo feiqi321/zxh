@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 public class OperationLogFilter extends OncePerRequestFilter {
@@ -28,16 +29,27 @@ public class OperationLogFilter extends OncePerRequestFilter {
 
     private static final String[] REQUEST_EXCEPT_URL = {
             "/import",   //上传文件
-            "/fileManage/download", //下载附件
     };
 
     private static final String[] RESPONSE_EXCEPT_URL = {
             "/operationLog/pageLogs",   //操作日志查询
+
+    };
+
+    private static final String[] IMPORT_FILE_URL = {
+            "/dataCase/tel/import", //案件电话导入
+    };
+
+    private static final String[] DOWNLOAD_FILE_URL = {
             "/fileManage/download", //下载附件
     };
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
+//        filterChain.doFilter(httpServletRequest, httpServletResponse);
+//        if(true) {
+//            return;
+//        }
         String method = httpServletRequest.getMethod();
         //仅对post请求进行过滤
         if (!"POST".equals(method)) {
@@ -83,6 +95,16 @@ public class OperationLogFilter extends OncePerRequestFilter {
         String result;
         try {
             filterChain.doFilter(requestWrapper, responseWrapper);
+            if(arrayContainsContent(DOWNLOAD_FILE_URL, operationLog.getUrl())) {
+//                httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("枫软催收系统导入模板.rar", "UTF-8"));
+//                httpServletResponse.setContentType("application/octet-stream");
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                servletOutputStream.write(responseWrapper.getResponseData());
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                sysOperationLogService.updateResponse(operationLog);
+                return;
+            }
             result = new String(responseWrapper.getResponseData(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             logger.error("后台错误：{}", e);
