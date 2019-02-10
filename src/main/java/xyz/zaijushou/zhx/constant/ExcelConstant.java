@@ -4,7 +4,7 @@ import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
 
 public class ExcelConstant {
 
-    public enum CaseTel {
+    public enum CaseTel implements ExcelEnum{
         COL10(10, "*个案序列号", "seqNo", String.class),
         COL20(20, "*档案号", "archiveNo", String.class),
         COL30(30, "*卡号", "cardNo", String.class),
