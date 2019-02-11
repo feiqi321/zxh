@@ -1,13 +1,15 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -21,6 +23,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private SysToUserRoleMapper sysToUserRoleMapper;
+
+    @Resource
+    private DelegatingPasswordEncoder delegatingPasswordEncoder;
 
     @Override
     public SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user) {
@@ -50,8 +55,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional
     public void saveUser(SysNewUserEntity userEntity){
         userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
-        BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
-        userEntity.setPassword(encoder.encode("admin".trim()));//保存加密密码
+        userEntity.setPassword(delegatingPasswordEncoder.encode("admin".trim()));//保存加密密码
         userEntity.setCreateTime(new Date());
         userEntity.setDeleteFlag(0);//默认正常
 //        if (userEntity.getStatus() == 1){//在职
@@ -149,4 +153,30 @@ public class SysUserServiceImpl implements SysUserService {
     public List<SysUserEntity> listUsers(SysUserEntity user) {
         return sysUserMapper.listUsers(user);
     }
+
+    @Override
+    public void passwordReset(SysNewUserEntity user) {
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        user.setId(userId);
+        SysNewUserEntity queryUser = selectPasswordInfoById(user);
+        if(delegatingPasswordEncoder.matches(user.getOldPassword(), queryUser.getPassword())) {
+            user.setId(userId);
+            user.setPassword(delegatingPasswordEncoder.encode(user.getPassword()));
+            sysUserMapper.passwordReset(user);
+        } else {
+            throw new BadCredentialsException("密码错误");
+        }
+    }
+
+    private SysNewUserEntity selectPasswordInfoById(SysNewUserEntity user) {
+        return sysUserMapper.selectPasswordInfoById(user);
+    }
+
+    @Override
+    public void passwordResetByAdmin(SysNewUserEntity user) {
+        user.setPassword(delegatingPasswordEncoder.encode(user.getPassword()));
+        sysUserMapper.passwordReset(user);
+    }
+
+
 }

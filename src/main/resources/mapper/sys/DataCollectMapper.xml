@@ -206,4 +206,88 @@
         </where>
     </select>
 
+
+    <select id="statisticsCollectionState" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+        dc.collect_status as collectStatus,sum(dc.en_repay_amt) as paidMoney,sum(dc.money) as commisionMoney,
+        count(DISTINCT(dc.case_id)) as sumCase
+        from
+        data_collection dc
+        where dc.delete_flag = 0
+        <if test="client != null and client !=''">
+            and client = #{client}
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            and batch_no = #{batchNo}
+        </if>
+
+        <if test="accountAge != null and accountAge !=''">
+            and account_age = #{accountAge}
+        </if>
+        GROUP BY dc.collect_status
+    </select>
+
+
+    <select id="statisticsCollectionBatch" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        SELECT
+        dc.batch_no as batchNo,sum(dc.en_repay_amt) as paidMoney,sum(dc.money) as commisionMoney,
+        count(DISTINCT(dc.case_id)) as sumCase
+        from
+        data_collection dc
+        where dc.delete_flag = 0
+        <if test="client != null and client !=''">
+            and client = #{client}
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            and batch_no = #{batchNo}
+        </if>
+
+        <if test="accountAge != null and accountAge !=''">
+            and account_age = #{accountAge}
+        </if>
+        GROUP BY dc.batch_no
+    </select>
+
+    <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+        dc.batch_no as batchNo,dc.target_name as targetName,dc.seqno,dc.client,dc.account_age as accountAge,
+        dc.money,dc.repay_amt as repayAmt, dc.repay_time as repayTime,dc.en_repay_amt as enRepayAmt,
+        dc.expect_time as expectTime
+        from
+        data_collection dc
+        where dc.delete_flag = 0
+        <if test="client != null and client !=''">
+            and client = #{client}
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            and batch_no = #{batchNo}
+        </if>
+
+        <if test="accountAge != null and accountAge !=''">
+            and account_age = #{accountAge}
+        </if>
+
+        <if test="repayTimeStart != null and repayTimeStart!=''">
+            <![CDATA[   and DATE_FORMAT(da.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="repayTimeEnd != null and repayTimeEnd!=''">
+            <![CDATA[   and DATE_FORMAT(da.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="bankTimeStart != null and bankTimeStart!=''">
+            <![CDATA[   and DATE_FORMATd(da.bank_time, '%Y-%m-%d')>=  DATE_FORMAT(#{bankTimeStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="bankTimeEnd != null and bankTimeEnd!=''">
+            <![CDATA[   and DATE_FORMAT(da.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="expectTimeStart != null and expectTimeStart!=''">
+            <![CDATA[   and DATE_FORMAT(da.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="expectTimeEnd != null and expectTimeEnd!=''">
+            <![CDATA[   and DATE_FORMAT(da.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+        </if>
+
+    </select>
+
+
+
 </mapper>

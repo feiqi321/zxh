@@ -32,6 +32,8 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private String department;
 
+    private String role;
+
     /**
      * 员工角色list
      */
@@ -66,6 +68,19 @@ public class SysNewUserEntity extends CommonEntity {
     private int job ;//职位Id
     private String position ;//职位名称
 
+    /**
+     * 旧密码，用户自行修改密码，需确认密码
+     */
+    private String oldPassword;
+
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public List<SysRoleEntity> getRoleList() {
         return roleList;
@@ -194,5 +209,13 @@ public class SysNewUserEntity extends CommonEntity {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 }

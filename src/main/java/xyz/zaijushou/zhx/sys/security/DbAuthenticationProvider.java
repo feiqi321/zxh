@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -22,7 +22,7 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
     private UserDetailsService userDetailsService;
 
     @Resource
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private DelegatingPasswordEncoder delegatingPasswordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -31,7 +31,7 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         // 认证逻辑
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
         if (null != userDetails) {
-            if (bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
+            if (delegatingPasswordEncoder.matches(password, userDetails.getPassword())) {
                 // 这里设置权限和角色
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();
 //                authorities.add( new GrantedAuthorityImpl("ROLE_ADMIN"));

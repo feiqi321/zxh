@@ -82,7 +82,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             subject.put("loginTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
             String token = JwtTokenUtil.token(subject.toJSONString());
             user.setToken("Bearer " + token);
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.LOGIN_TOKEN + user.getToken(), JSONObject.toJSONString(token), 30, TimeUnit.MINUTES);
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.LOGIN_TOKEN + user.getToken(), JSONObject.toJSONString(token), loginTokenExpireTime, TimeUnit.MINUTES);
             crosResponse(response);
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(JSONObject.toJSONString(WebResponse.success(user)));

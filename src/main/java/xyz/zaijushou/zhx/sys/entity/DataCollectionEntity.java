@@ -65,6 +65,8 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal repayAmt;
     //待銀行对账金额
     private BigDecimal bankAmt;
+    //银行对账时间
+    private String bankTime;
     //减免金额
     private BigDecimal reduceAmt;
     //催收状态
@@ -108,8 +110,63 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String archiveNo;//档案号
 
+    private String payName;//还款人
+    private String payMethod; // 还款方式
+    private String confimName;//确认人
+    private String confimTime;//确认时间
+    private String remark;//标注
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public String getPayName() {
+        return payName;
+    }
+
+    public void setPayName(String payName) {
+        this.payName = payName;
+    }
+
+    public String getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(String payMethod) {
+        this.payMethod = payMethod;
+    }
+
+    public String getConfimName() {
+        return confimName;
+    }
+
+    public void setConfimName(String confimName) {
+        this.confimName = confimName;
+    }
+
+    public String getConfimTime() {
+        return confimTime;
+    }
+
+    public void setConfimTime(String confimTime) {
+        this.confimTime = confimTime;
+    }
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getBankTime() {
+        return bankTime;
+    }
+
+    public void setBankTime(String bankTime) {
+        this.bankTime = bankTime;
+    }
 
     public BigDecimal getBankAmt() {
         return bankAmt;

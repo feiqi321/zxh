@@ -1,6 +1,10 @@
 spring:
   profiles:
     active: hangzhou
+  servlet:
+    multipart:
+      max-file-size: 64MB
+      max-request-size: 256MB
 
 server:
   port: 9119
@@ -18,3 +22,4 @@ pagehelper:
 
 logging:
   config: classpath:logging/logback-${spring.profiles.active}.xml
+

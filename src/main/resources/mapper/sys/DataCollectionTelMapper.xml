@@ -42,4 +42,45 @@
         from data_collection_tel where collection_id = #{collectionId}
     </select>
 
+    <!--统计拨打电话量，可能存在没有接通的-->
+    <select id="statisticsCollectionSum" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
+        select count(1) as countTotal
+        from data_collection_tel dct
+        where dct.delete_flag = 0
+        <if test="dateStart != null">
+            and start_time &gt;= #{dateStart}
+        </if>
+        <if test="dateEnd != null" >
+            and start_time &lt;= #{dateEnd}
+        </if>
+    </select>
+
+    <!--统计接通电话量-->
+    <select id="statisticsCollectionCon" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
+        select count(1) as countTotal
+        from data_collection_tel dct
+        where  dct.delete_flag = 0 and end_time is not null
+        <if test="dateStart != null">
+            and start_time &gt;= #{dateStart}
+        </if>
+        <if test="dateEnd != null" >
+            and start_time &lt;= #{dateEnd}
+        </if>
+    </select>
+
+    <!--拨打电话存在的案件数量-->
+    <select id="statisticsCollectionCase" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
+        SELECT
+        count(DISTINCT(dc.case_id)) as countCase
+        from
+        data_collection_tel dct LEFT JOIN data_collection dc on dc.id = dct.collection_id
+        where dct.delete_flag = 0
+        <if test="dateStart != null">
+            and start_time &gt;= #{dateStart}
+        </if>
+        <if test="dateEnd != null" >
+            and start_time &lt;= #{dateEnd}
+        </if>
+    </select>
+
 </mapper>

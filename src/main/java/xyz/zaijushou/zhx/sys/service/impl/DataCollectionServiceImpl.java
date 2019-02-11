@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
@@ -15,7 +16,11 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,5 +108,102 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
         return sysUserService.findUserInfoWithoutPasswordById(user);
+    }
+
+
+    /**
+     * 单日电催量
+     * @param beanInfo
+     * @return
+     */
+    @Override
+    public List<CollectionStatistic> statisticsCollectionDay(CollectionStatistic beanInfo){
+        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        if (StringUtils.isEmpty(user)){
+            return colList;
+        }
+        // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+        Calendar time = Calendar.getInstance();
+        try {
+
+            Date date = sdf2.parse("09:00");
+            Date dateStart = new Date();
+            Date dateEnd = new Date();
+            for (int i=0 ;i <12 ;i++){
+                dateStart = date;
+                time.setTime(dateStart);
+                time.add(Calendar.HOUR,1);
+                dateEnd = time.getTime();
+                date = dateEnd;
+                CollectionStatistic bean = new CollectionStatistic();
+                bean.setDateSearchEnd(beanInfo.getDateSearchEnd());
+                bean.setDateSearchStart(beanInfo.getDateSearchStart());
+                bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart())+sdf2.format(dateStart)));;
+                bean.setDateEnd(sdf.parse(sdf1.format(bean.getDateSearchEnd())+sdf2.format(dateEnd)));;
+
+                int countSum = dataCollectionTelMapper.statisticsCollectionSum(bean);
+                int countCon = dataCollectionTelMapper.statisticsCollectionCon(bean);
+                int countCase = dataCollectionTelMapper.statisticsCollectionCase(bean);
+                bean.setCountPhoneNum(countSum);
+                bean.setCountConPhoneNum(countCon);
+                bean.setCountCasePhoneNum(countCase);
+                bean.setComlun(i);
+                colList.add(bean);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return colList;
+    }
+
+
+    /**
+     * 催收状况统计
+     * @param beanInfo
+     * @return
+     */
+    @Override
+    public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic beanInfo){
+        List<CollectionStatistic> colList =
+                dataCollectionMapper.statisticsCollectionState(beanInfo);
+        return colList;
+    }
+
+    /**
+     * 批次分类统计
+     * @param beanInfo
+     * @return
+     */
+    @Override
+    public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic beanInfo){
+        List<CollectionStatistic> colList =
+                dataCollectionMapper.statisticsCollectionBatch(beanInfo);
+        return colList;
+    }
+
+    /**
+     * 我的还款统计
+     * @param beanInfo
+     * @return
+     */
+    @Override
+    public CollectionStatistic pageStatisticsCollectionPay(CollectionStatistic beanInfo){
+        CollectionStatistic collectionReturn = new CollectionStatistic();
+        List<DataCollectionEntity> colList = new ArrayList<DataCollectionEntity>();
+        colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);
+        collectionReturn.setList(PageInfo.of(colList));
+
+        Calendar time = Calendar.getInstance();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM");
+        time.add(Calendar.MONTH, -1);    //得到前一个月
+        beanInfo.setLastMonth(sdf1.format(time.getTime()));
+        return collectionReturn;
     }
 }

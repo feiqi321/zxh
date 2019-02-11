@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.web;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysOperationUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -113,6 +114,28 @@ public class SysUserController {
         userInfoEntity.add(user2);
         return WebResponse.success(userInfoEntity);
     }
+
+    @ApiOperation(value = "密码重置", notes = "重置用户密码")
+    @PostMapping("/passwordReset")
+    public Object passwordReset(@RequestBody SysNewUserEntity user) {
+        if(user == null || user.getOldPassword() == null || user.getPassword() == null) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "缺少参数");
+        }
+        sysUserService.passwordReset(user);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "管理员重置用户密码", notes = "管理员重置用户密码")
+    @PostMapping("/passwordResetByAdmin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Object passwordResetByAdmin(@RequestBody SysNewUserEntity user) {
+        if(user == null || user.getPassword() == null || user.getId() == null) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "缺少参数");
+        }
+        sysUserService.passwordResetByAdmin(user);
+        return WebResponse.success();
+    }
+
 
 
 }
