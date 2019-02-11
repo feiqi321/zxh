@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -92,7 +91,7 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/statistics/state")
     public Object statisticsCollectionState(@RequestBody CollectionStatistic bean) {
 
-        List<CollectionStatistic> list = dataCollectionService.statisticsCollectionState(bean);
+        PageInfo<CollectionStatistic> list = dataCollectionService.pageStatisticsCollectionState(bean);
 
         return WebResponse.success(list);
 
@@ -102,7 +101,7 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/statistics/batch")
     public Object statisticsCollectionBatch(@RequestBody CollectionStatistic bean) {
 
-        List<CollectionStatistic> list = dataCollectionService.statisticsCollectionBatch(bean);
+        PageInfo<CollectionStatistic> list = dataCollectionService.pageStatisticsCollectionBatch(bean);
 
         return WebResponse.success(list);
 

@@ -50,17 +50,25 @@ public class CollectionStatistic extends CommonEntity {
     private String expectTimeStart;//预计退案日期
     private String expectTimeEnd;//预计退案日期
 
-    private String lastMonth ; //上个月日期
+    private String monthStart ; //月日期开始
+    private String monthEnd ; //月日期结束
+
+    private BigDecimal bankAmt;//銀行对账金额
+    private BigDecimal repayAmt;//承諾还款金额-PTP
+    private BigDecimal repaidAmt;//已还款金额的提成金额（M）
+    private BigDecimal repaidBankAmt;//银行查账金额的提成金额（M）
 
     private BigDecimal lastPaidMoney ; //上月还款金额
     private BigDecimal lastBankAmt;//上月銀行对账金额
-    private BigDecimal lastRepayAmt;//上月承諾还款金额-cp
-    private BigDecimal lastRepaidAmt;//上月承諾还款金额(已还款)-cp
+    private BigDecimal lastRepayAmt;//上月承諾还款金额-PTP
+    private BigDecimal lastRepaidAmt;//上月已还款金额的提成金额（M）
+    private BigDecimal lastRepaidBankAmt;//月银行查账金额的提成金额（M）
 
     private BigDecimal thisPaidMoney ; //上月还款金额
     private BigDecimal thisBankAmt;//上月銀行对账金额
-    private BigDecimal thisRepayAmt;//上月承諾还款金额-cp
-    private BigDecimal thisRepaidAmt;//上月承諾还款金额(已还款)-cp
+    private BigDecimal thisRepayAmt;//上月承諾还款金额-PTP
+    private BigDecimal thisRepaidAmt;//月已还款金额的提成金额（M）
+    private BigDecimal thisRepaidBankAmt;//月银行查账金额的提成金额（M）
 
     PageInfo<DataCollectionEntity> list = new PageInfo<DataCollectionEntity>();
 
@@ -208,12 +216,20 @@ public class CollectionStatistic extends CommonEntity {
         this.expectTimeEnd = expectTimeEnd;
     }
 
-    public String getLastMonth() {
-        return lastMonth;
+    public String getMonthStart() {
+        return monthStart;
     }
 
-    public void setLastMonth(String lastMonth) {
-        this.lastMonth = lastMonth;
+    public void setMonthStart(String monthStart) {
+        this.monthStart = monthStart;
+    }
+
+    public String getMonthEnd() {
+        return monthEnd;
+    }
+
+    public void setMonthEnd(String monthEnd) {
+        this.monthEnd = monthEnd;
     }
 
     public Date getDateStart() {
@@ -343,5 +359,53 @@ public class CollectionStatistic extends CommonEntity {
 
     public void setSumCase(int sumCase) {
         this.sumCase = sumCase;
+    }
+
+    public BigDecimal getBankAmt() {
+        return bankAmt;
+    }
+
+    public void setBankAmt(BigDecimal bankAmt) {
+        this.bankAmt = bankAmt;
+    }
+
+    public BigDecimal getRepayAmt() {
+        return repayAmt;
+    }
+
+    public void setRepayAmt(BigDecimal repayAmt) {
+        this.repayAmt = repayAmt;
+    }
+
+    public BigDecimal getRepaidAmt() {
+        return repaidAmt;
+    }
+
+    public void setRepaidAmt(BigDecimal repaidAmt) {
+        this.repaidAmt = repaidAmt;
+    }
+
+    public BigDecimal getRepaidBankAmt() {
+        return repaidBankAmt;
+    }
+
+    public void setRepaidBankAmt(BigDecimal repaidBankAmt) {
+        this.repaidBankAmt = repaidBankAmt;
+    }
+
+    public BigDecimal getLastRepaidBankAmt() {
+        return lastRepaidBankAmt;
+    }
+
+    public void setLastRepaidBankAmt(BigDecimal lastRepaidBankAmt) {
+        this.lastRepaidBankAmt = lastRepaidBankAmt;
+    }
+
+    public BigDecimal getThisRepaidBankAmt() {
+        return thisRepaidBankAmt;
+    }
+
+    public void setThisRepaidBankAmt(BigDecimal thisRepaidBankAmt) {
+        this.thisRepaidBankAmt = thisRepaidBankAmt;
     }
 }

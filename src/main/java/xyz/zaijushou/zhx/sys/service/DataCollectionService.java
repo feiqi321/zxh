@@ -23,8 +23,8 @@ public interface DataCollectionService {
     public CollectionReturnEntity pageMyCase(DataCollectionEntity dataCollectionEntity);
 
     public List<CollectionStatistic> statisticsCollectionDay(CollectionStatistic dataCollectionEntity);
-    public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic dataCollectionEntity);
-    public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
+    public PageInfo<CollectionStatistic> pageStatisticsCollectionState(CollectionStatistic dataCollectionEntity);
+    public PageInfo<CollectionStatistic> pageStatisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
     public CollectionStatistic pageStatisticsCollectionPay(CollectionStatistic dataCollectionEntity);
 
 }

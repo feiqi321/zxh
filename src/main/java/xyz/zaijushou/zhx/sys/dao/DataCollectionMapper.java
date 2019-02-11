@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Created by looyer on 2019/1/29.
- * Created by looyer on 2019/1/25.
+ *
  */
 @Mapper
 public interface DataCollectionMapper {
@@ -26,8 +26,10 @@ public interface DataCollectionMapper {
     public List<DataCollectionEntity> pageDataCollect(DataCollectionEntity bean);
 
     public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic bean);
+
     public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic bean);
+
     public List<DataCollectionEntity> pageStatisticsCollectionPay(CollectionStatistic bean);
-    public CollectionStatistic statisticsCollectionPayLastM(CollectionStatistic bean);
-    public CollectionStatistic statisticsCollectionPayThisM(CollectionStatistic bean);
+
+    public CollectionStatistic statisticsCollectionPayM(CollectionStatistic bean);
 }

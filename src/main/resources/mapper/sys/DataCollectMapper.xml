@@ -268,26 +268,40 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(da.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(da.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and DATE_FORMATd(da.bank_time, '%Y-%m-%d')>=  DATE_FORMAT(#{bankTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMATd(dc.bank_time, '%Y-%m-%d')>=  DATE_FORMAT(#{bankTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(da.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(da.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(da.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
     </select>
 
+    <select id="statisticsCollectionPayM" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+        IFNULL(sum(dc.en_repay_amt),0) as paidMoney , IFNULL(sum(dc.bank_amt),0) as bankAmt,
+        IFNULL(sum(dc.repay_amt),0) as repayAmt,
+        IFNULL(sum(dc.en_repay_amt*dc.m_val),0) as repaidAmt,IFNULL(sum(dc.bank_amt*dc.m_val),0) as repaidBankAmt
+        from
+        data_collection dc
+        where dc.delete_flag = 0
 
-
+        <if test="monthStart != null and monthStart!=''">
+            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{monthStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="monthEnd != null and monthEnd!=''">
+            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m-%d')   ]]>
+        </if>
+    </select>
 </mapper>

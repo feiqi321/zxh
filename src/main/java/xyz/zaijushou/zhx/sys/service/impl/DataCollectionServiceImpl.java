@@ -2,7 +2,6 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
@@ -170,10 +169,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic beanInfo){
+    public PageInfo<CollectionStatistic> pageStatisticsCollectionState(CollectionStatistic beanInfo){
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
-        return colList;
+        return PageInfo.of(colList);
     }
 
     /**
@@ -182,10 +181,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic beanInfo){
+    public PageInfo<CollectionStatistic> pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
-        return colList;
+        return PageInfo.of(colList);
     }
 
     /**
@@ -197,13 +196,54 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     public CollectionStatistic pageStatisticsCollectionPay(CollectionStatistic beanInfo){
         CollectionStatistic collectionReturn = new CollectionStatistic();
         List<DataCollectionEntity> colList = new ArrayList<DataCollectionEntity>();
-        colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);
+        colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);//我的还款列表统计查询
         collectionReturn.setList(PageInfo.of(colList));
 
-        Calendar time = Calendar.getInstance();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM");
-        time.add(Calendar.MONTH, -1);    //得到前一个月
-        beanInfo.setLastMonth(sdf1.format(time.getTime()));
+        //我的还款统计，上月和当月金额统计 查询
+        getLastMData(collectionReturn,beanInfo);
+        getThisMData(collectionReturn,beanInfo);
+
         return collectionReturn;
+    }
+
+    private void getLastMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
+        Calendar timeStart = Calendar.getInstance();
+        Calendar timeEnd = Calendar.getInstance();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        timeStart.add(Calendar.MONTH, -1);    //得到前一个月
+        timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
+        beanInfo.setMonthStart(sdf1.format(timeStart.getTime()));//上月第一天
+        timeEnd.set(Calendar.DAY_OF_MONTH,0);
+        beanInfo.setMonthEnd(sdf1.format(timeEnd.getTime()));//上月最后一天
+        CollectionStatistic collectonStatic =
+                dataCollectionMapper.statisticsCollectionPayM(beanInfo);
+        collectionReturn.setLastBankAmt(collectonStatic.getBankAmt());
+        collectionReturn.setLastPaidMoney(collectonStatic.getPaidMoney());
+        collectionReturn.setLastRepaidAmt(collectonStatic.getRepaidAmt());
+        collectionReturn.setLastRepayAmt(collectonStatic.getRepayAmt());
+        collectionReturn.setLastRepaidBankAmt(collectonStatic.getRepaidBankAmt());
+    }
+   /* paidMoney;//已还款金额
+    bankAmt;//上月銀行对账金额
+    repayAmt;//上月承諾还款金额-PTP
+    repaidAmt;//已还款金额的提成金额（M）
+    repaidBankAmt;//月银行查账金额的提成金额（M）*/
+
+    private void getThisMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
+        Calendar timeStart = Calendar.getInstance();
+        Calendar timeEnd = Calendar.getInstance();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        timeStart.add(Calendar.MONTH, 0);    //得到前一个月
+        timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
+        beanInfo.setMonthStart(sdf1.format(timeStart.getTime()));//月第一天
+        timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+        beanInfo.setMonthEnd(sdf1.format(timeEnd.getTime()));//月最后一天
+        CollectionStatistic collectonStatic =
+                dataCollectionMapper.statisticsCollectionPayM(beanInfo);
+        collectionReturn.setThisBankAmt(collectonStatic.getBankAmt());
+        collectionReturn.setThisPaidMoney(collectonStatic.getPaidMoney());
+        collectionReturn.setThisRepaidAmt(collectonStatic.getRepaidAmt());
+        collectionReturn.setThisRepayAmt(collectonStatic.getRepayAmt());
+        collectionReturn.setThisRepaidBankAmt(collectonStatic.getRepaidBankAmt());
     }
 }
