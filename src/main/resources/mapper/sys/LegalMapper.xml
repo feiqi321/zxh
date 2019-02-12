@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.LegalMapper" >
+  <resultMap id="BaseResultMap" type="xyz.zaijushou.zhx.sys.entity.Legal" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cst_name" property="cstName" jdbcType="VARCHAR" />
+    <result column="legal_status" property="legalStatus" jdbcType="INTEGER" />
+    <result column="ident_no" property="identNo" jdbcType="VARCHAR" />
+    <result column="progress" property="progress" jdbcType="VARCHAR" />
+    <result column="legal_type" property="legalType" jdbcType="INTEGER" />
+    <result column="tital" property="tital" jdbcType="VARCHAR" />
+    <result column="clientele" property="clientele" jdbcType="VARCHAR" />
+    <result column="accused" property="accused" jdbcType="VARCHAR" />
+    <result column="owner" property="owner" jdbcType="VARCHAR" />
+    <result column="agent" property="agent" jdbcType="VARCHAR" />
+    <result column="agent_tel" property="agentTel" jdbcType="VARCHAR" />
+    <result column="filing_date" property="filingDate" jdbcType="VARCHAR" />
+    <result column="legal_date" property="legalDate" jdbcType="VARCHAR" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="judge_tel" property="judgeTel" jdbcType="VARCHAR" />
+    <result column="judge" property="judge" jdbcType="VARCHAR" />
+    <result column="court" property="court" jdbcType="VARCHAR" />
+    <result column="cost_date" property="costDate" jdbcType="VARCHAR" />
+    <result column="preservation_date" property="preservationDate" jdbcType="VARCHAR" />
+    <result column="preservation_list" property="preservationList" jdbcType="VARCHAR" />
+    <result column="exe_end_date" property="exeEndDate" jdbcType="VARCHAR" />
+    <result column="exe_date" property="exeDate" jdbcType="VARCHAR" />
+    <result column="legal_no" property="legalNo" jdbcType="VARCHAR" />
+    <result column="exe_no" property="exeNo" jdbcType="VARCHAR" />
+    <result column="first_date" property="firstDate" jdbcType="VARCHAR" />
+    <result column="judge_date" property="judgeDate" jdbcType="VARCHAR" />
+    <result column="arrive_info" property="arriveInfo" jdbcType="VARCHAR" />
+    <result column="judgment" property="judgment" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, cst_name, legal_status, ident_no, progress, legal_type, tital, clientele, accused, 
+    owner, agent, agent_tel, filing_date, legal_date, cost, judge_tel, judge, court, 
+    cost_date, preservation_date, preservation_list, exe_end_date, exe_date, legal_no, 
+    exe_no, first_date, judge_date, arrive_info, judgment, remark, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from legal
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from legal
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+    insert into legal (id, cst_name, legal_status, 
+      ident_no, progress, legal_type, 
+      tital, clientele, accused, 
+      owner, agent, agent_tel, 
+      filing_date, legal_date, cost, 
+      judge_tel, judge, court, 
+      cost_date, preservation_date, preservation_list, 
+      exe_end_date, exe_date, legal_no, 
+      exe_no, first_date, judge_date, 
+      arrive_info, judgment, remark, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{cstName,jdbcType=VARCHAR}, #{legalStatus,jdbcType=INTEGER}, 
+      #{identNo,jdbcType=VARCHAR}, #{progress,jdbcType=VARCHAR}, #{legalType,jdbcType=INTEGER}, 
+      #{tital,jdbcType=VARCHAR}, #{clientele,jdbcType=VARCHAR}, #{accused,jdbcType=VARCHAR}, 
+      #{owner,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, #{agentTel,jdbcType=VARCHAR}, 
+      #{filingDate,jdbcType=VARCHAR}, #{legalDate,jdbcType=VARCHAR}, #{cost,jdbcType=DECIMAL}, 
+      #{judgeTel,jdbcType=VARCHAR}, #{judge,jdbcType=VARCHAR}, #{court,jdbcType=VARCHAR}, 
+      #{costDate,jdbcType=VARCHAR}, #{preservationDate,jdbcType=VARCHAR}, #{preservationList,jdbcType=VARCHAR}, 
+      #{exeEndDate,jdbcType=VARCHAR}, #{exeDate,jdbcType=VARCHAR}, #{legalNo,jdbcType=VARCHAR}, 
+      #{exeNo,jdbcType=VARCHAR}, #{firstDate,jdbcType=VARCHAR}, #{judgeDate,jdbcType=VARCHAR}, 
+      #{arriveInfo,jdbcType=VARCHAR}, #{judgment,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+    insert into legal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cstName != null" >
+        cst_name,
+      </if>
+      <if test="legalStatus != null" >
+        legal_status,
+      </if>
+      <if test="identNo != null" >
+        ident_no,
+      </if>
+      <if test="progress != null" >
+        progress,
+      </if>
+      <if test="legalType != null" >
+        legal_type,
+      </if>
+      <if test="tital != null" >
+        tital,
+      </if>
+      <if test="clientele != null" >
+        clientele,
+      </if>
+      <if test="accused != null" >
+        accused,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="agent != null" >
+        agent,
+      </if>
+      <if test="agentTel != null" >
+        agent_tel,
+      </if>
+      <if test="filingDate != null" >
+        filing_date,
+      </if>
+      <if test="legalDate != null" >
+        legal_date,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="judgeTel != null" >
+        judge_tel,
+      </if>
+      <if test="judge != null" >
+        judge,
+      </if>
+      <if test="court != null" >
+        court,
+      </if>
+      <if test="costDate != null" >
+        cost_date,
+      </if>
+      <if test="preservationDate != null" >
+        preservation_date,
+      </if>
+      <if test="preservationList != null" >
+        preservation_list,
+      </if>
+      <if test="exeEndDate != null" >
+        exe_end_date,
+      </if>
+      <if test="exeDate != null" >
+        exe_date,
+      </if>
+      <if test="legalNo != null" >
+        legal_no,
+      </if>
+      <if test="exeNo != null" >
+        exe_no,
+      </if>
+      <if test="firstDate != null" >
+        first_date,
+      </if>
+      <if test="judgeDate != null" >
+        judge_date,
+      </if>
+      <if test="arriveInfo != null" >
+        arrive_info,
+      </if>
+      <if test="judgment != null" >
+        judgment,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cstName != null" >
+        #{cstName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalStatus != null" >
+        #{legalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="identNo != null" >
+        #{identNo,jdbcType=VARCHAR},
+      </if>
+      <if test="progress != null" >
+        #{progress,jdbcType=VARCHAR},
+      </if>
+      <if test="legalType != null" >
+        #{legalType,jdbcType=INTEGER},
+      </if>
+      <if test="tital != null" >
+        #{tital,jdbcType=VARCHAR},
+      </if>
+      <if test="clientele != null" >
+        #{clientele,jdbcType=VARCHAR},
+      </if>
+      <if test="accused != null" >
+        #{accused,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="agentTel != null" >
+        #{agentTel,jdbcType=VARCHAR},
+      </if>
+      <if test="filingDate != null" >
+        #{filingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="legalDate != null" >
+        #{legalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="judgeTel != null" >
+        #{judgeTel,jdbcType=VARCHAR},
+      </if>
+      <if test="judge != null" >
+        #{judge,jdbcType=VARCHAR},
+      </if>
+      <if test="court != null" >
+        #{court,jdbcType=VARCHAR},
+      </if>
+      <if test="costDate != null" >
+        #{costDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationDate != null" >
+        #{preservationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationList != null" >
+        #{preservationList,jdbcType=VARCHAR},
+      </if>
+      <if test="exeEndDate != null" >
+        #{exeEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exeDate != null" >
+        #{exeDate,jdbcType=VARCHAR},
+      </if>
+      <if test="legalNo != null" >
+        #{legalNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exeNo != null" >
+        #{exeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="firstDate != null" >
+        #{firstDate,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeDate != null" >
+        #{judgeDate,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveInfo != null" >
+        #{arriveInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="judgment != null" >
+        #{judgment,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+    update legal
+    <set >
+      <if test="cstName != null" >
+        cst_name = #{cstName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalStatus != null" >
+        legal_status = #{legalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="identNo != null" >
+        ident_no = #{identNo,jdbcType=VARCHAR},
+      </if>
+      <if test="progress != null" >
+        progress = #{progress,jdbcType=VARCHAR},
+      </if>
+      <if test="legalType != null" >
+        legal_type = #{legalType,jdbcType=INTEGER},
+      </if>
+      <if test="tital != null" >
+        tital = #{tital,jdbcType=VARCHAR},
+      </if>
+      <if test="clientele != null" >
+        clientele = #{clientele,jdbcType=VARCHAR},
+      </if>
+      <if test="accused != null" >
+        accused = #{accused,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="agent != null" >
+        agent = #{agent,jdbcType=VARCHAR},
+      </if>
+      <if test="agentTel != null" >
+        agent_tel = #{agentTel,jdbcType=VARCHAR},
+      </if>
+      <if test="filingDate != null" >
+        filing_date = #{filingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="legalDate != null" >
+        legal_date = #{legalDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="judgeTel != null" >
+        judge_tel = #{judgeTel,jdbcType=VARCHAR},
+      </if>
+      <if test="judge != null" >
+        judge = #{judge,jdbcType=VARCHAR},
+      </if>
+      <if test="court != null" >
+        court = #{court,jdbcType=VARCHAR},
+      </if>
+      <if test="costDate != null" >
+        cost_date = #{costDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationDate != null" >
+        preservation_date = #{preservationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationList != null" >
+        preservation_list = #{preservationList,jdbcType=VARCHAR},
+      </if>
+      <if test="exeEndDate != null" >
+        exe_end_date = #{exeEndDate,jdbcType=VARCHAR},
+      </if>
+      <if test="exeDate != null" >
+        exe_date = #{exeDate,jdbcType=VARCHAR},
+      </if>
+      <if test="legalNo != null" >
+        legal_no = #{legalNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exeNo != null" >
+        exe_no = #{exeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="firstDate != null" >
+        first_date = #{firstDate,jdbcType=VARCHAR},
+      </if>
+      <if test="judgeDate != null" >
+        judge_date = #{judgeDate,jdbcType=VARCHAR},
+      </if>
+      <if test="arriveInfo != null" >
+        arrive_info = #{arriveInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="judgment != null" >
+        judgment = #{judgment,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+    update legal
+    set cst_name = #{cstName,jdbcType=VARCHAR},
+      legal_status = #{legalStatus,jdbcType=INTEGER},
+      ident_no = #{identNo,jdbcType=VARCHAR},
+      progress = #{progress,jdbcType=VARCHAR},
+      legal_type = #{legalType,jdbcType=INTEGER},
+      tital = #{tital,jdbcType=VARCHAR},
+      clientele = #{clientele,jdbcType=VARCHAR},
+      accused = #{accused,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=VARCHAR},
+      agent = #{agent,jdbcType=VARCHAR},
+      agent_tel = #{agentTel,jdbcType=VARCHAR},
+      filing_date = #{filingDate,jdbcType=VARCHAR},
+      legal_date = #{legalDate,jdbcType=VARCHAR},
+      cost = #{cost,jdbcType=DECIMAL},
+      judge_tel = #{judgeTel,jdbcType=VARCHAR},
+      judge = #{judge,jdbcType=VARCHAR},
+      court = #{court,jdbcType=VARCHAR},
+      cost_date = #{costDate,jdbcType=VARCHAR},
+      preservation_date = #{preservationDate,jdbcType=VARCHAR},
+      preservation_list = #{preservationList,jdbcType=VARCHAR},
+      exe_end_date = #{exeEndDate,jdbcType=VARCHAR},
+      exe_date = #{exeDate,jdbcType=VARCHAR},
+      legal_no = #{legalNo,jdbcType=VARCHAR},
+      exe_no = #{exeNo,jdbcType=VARCHAR},
+      first_date = #{firstDate,jdbcType=VARCHAR},
+      judge_date = #{judgeDate,jdbcType=VARCHAR},
+      arrive_info = #{arriveInfo,jdbcType=VARCHAR},
+      judgment = #{judgment,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

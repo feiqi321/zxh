@@ -74,7 +74,7 @@
 
 
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,case_id as caseId,seqno,color,bail_date as bailDate,expect_time as expectTime,area,
+        select id,name,case_id as caseId,seqno,color,bail_date as bailDate,expect_time as expectTime,area,
         dept,odv,measure,collect_time as collectTime,target_name as targetName,relation,tel_type as telType,
         mobile,result,method,repay_time as repayTime,
         repay_amt as repayAmt,reduce_amt as reduceAmt,collect_status collectStatus,reduce_status as reduceStatus,

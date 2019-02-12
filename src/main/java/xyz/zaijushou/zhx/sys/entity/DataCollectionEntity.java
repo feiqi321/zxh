@@ -12,6 +12,8 @@ import java.util.List;
 public class DataCollectionEntity extends CommonEntity {
     //案件id
     private String caseId;
+
+    private String name;
     //个案序列号
     private String seqno;
     //标色状态
@@ -122,6 +124,38 @@ public class DataCollectionEntity extends CommonEntity {
     private String remark;//标注
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public String getNextFollDate() {
+        return nextFollDate;
+    }
+
+    public void setNextFollDate(String nextFollDate) {
+        this.nextFollDate = nextFollDate;
+    }
+
+    public String getNextFollDateStart() {
+        return nextFollDateStart;
+    }
+
+    public void setNextFollDateStart(String nextFollDateStart) {
+        this.nextFollDateStart = nextFollDateStart;
+    }
+
+    public String getNextFollDateEnd() {
+        return nextFollDateEnd;
+    }
+
+    public void setNextFollDateEnd(String nextFollDateEnd) {
+        this.nextFollDateEnd = nextFollDateEnd;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getPayName() {
         return payName;
