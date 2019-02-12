@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 
 import java.util.List;
@@ -11,6 +12,6 @@ public interface DataCollectService {
 
     public void delete(DataCollectionEntity bean);
 
-    public List<DataCollectionEntity> pageDataCollect(DataCollectionEntity bean);
+    public WebResponse pageDataCollect(DataCollectionEntity bean);
 
 }

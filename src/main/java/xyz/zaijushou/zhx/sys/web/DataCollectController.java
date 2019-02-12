@@ -40,8 +40,8 @@ public class DataCollectController {
     @PostMapping("/dataCollect/pageDataCollect")
     public Object pageDataCase(@RequestBody DataCollectionEntity bean) {
 
-        List<DataCollectionEntity> list = dataCollectService.pageDataCollect(bean);
-        return WebResponse.success(list);
+        WebResponse webResponse = dataCollectService.pageDataCollect(bean);
+        return webResponse;
     }
 
 }
