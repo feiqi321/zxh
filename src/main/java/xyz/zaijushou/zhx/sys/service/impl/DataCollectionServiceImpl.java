@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
@@ -48,23 +49,24 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
     @Override
     public List<DataCollectionEntity> pageDataCollectionList(DataCollectionEntity dataCollectionEntity){
-       List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollection(dataCollectionEntity);
-       for (int i=0;i<list.size();i++){
-           DataCollectionEntity temp = list.get(i);
-           list.set(i,temp);
-       }
-       return list;
+        List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollection(dataCollectionEntity);
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            list.set(i,temp);
+        }
+        return list;
     }
 
     @Override
     public CollectionReturnEntity pageMyCase(DataCollectionEntity dataCollectionEntity){
+        dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){
             return collectionReturn;
         }
-       // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
+        // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0.00");//列表金额
@@ -78,19 +80,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return  collectionReturn;
         }
         for (int i=0;i<list.size();i++){
-           for (DataCollectionEntity collection : list){
-               if(!caseIds.contains(collection.getCaseId())){
-                   caseIds.add(collection.getCaseId());
-                   ++countCase;
-                   sumMoney = sumMoney.add(collection.getMoney());
-                   if (collection.getCaseStatus() == 1){
-                       ++countCasePay;
-                       sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt());
-                   }
-               }
-               sumRepay = sumRepay.add(collection.getRepayAmt());
-               sumBank = sumBank.add(collection.getBankAmt());
-           }
+            for (DataCollectionEntity collection : list){
+                if(!caseIds.contains(collection.getCaseId())){
+                    caseIds.add(collection.getCaseId());
+                    ++countCase;
+                    sumMoney = sumMoney.add(collection.getMoney());
+                    if (collection.getCaseStatus() == 1){
+                        ++countCasePay;
+                        sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt());
+                    }
+                }
+                sumRepay = sumRepay.add(collection.getRepayAmt());
+                sumBank = sumBank.add(collection.getBankAmt());
+            }
         }
         collectionReturn.setList(PageInfo.of(list));
         collectionReturn.setCountCase(countCase);

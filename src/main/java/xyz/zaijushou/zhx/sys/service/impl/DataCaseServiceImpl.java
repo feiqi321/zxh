@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
@@ -194,6 +195,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public void addColor(DataCaseEntity bean){
+        bean.setColor(ColorEnum.getEnumByKey(bean.getColor()).getValue());
         dataCaseMapper.addColor(bean);
     }
     @Override

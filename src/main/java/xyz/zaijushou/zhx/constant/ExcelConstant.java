@@ -65,30 +65,5 @@ public class ExcelConstant {
         }
     }
 
-    public static String[] CASE_TEL_EXCEL_COL = {
-            "*个案序列号",
-            "*档案号",
-            "*卡号",
-            "*证件号",
-            "*委案日期",
-            "*电话",
-            "*姓名",
-            "电话类型",
-            "关系",
-            "备注"
-    };
-
-    public static String[] CASE_TEL_EXCEL_ATTR = {
-            "seqNo",
-            "archiveNo",
-            "cardNo",
-            "identNo",
-            "caseDate",
-            "telList[0].tel",
-            "telList[0].name",
-            "telList[0].type",
-            "telList[0].relation",
-            "telList[0].remark"
-    };
 
 }
