@@ -2,19 +2,19 @@ package xyz.zaijushou.zhx.constant;
 
 import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
 
-public class ExcelConstant {
+public class ExcelAddressConstant {
 
-    public enum CaseTel implements ExcelEnum{
+    public enum CaseAddress implements ExcelEnum{
         COL10(10, "*个案序列号", "seqNo", String.class),
         COL20(20, "*档案号", "archiveNo", String.class),
         COL30(30, "*卡号", "cardNo", String.class),
         COL40(40, "*证件号", "identNo", String.class),
         COL50(50, "*委案日期", "caseDate", String.class),
-        COL60(60, "*电话", "telList[0].tel", DataCaseTelEntity.class, String.class),
-        COL70(70, "*姓名", "telList[0].name", DataCaseTelEntity.class, String.class),
-        COL80(80, "电话类型", "telList[0].type", DataCaseTelEntity.class, String.class),
-        COL90(90, "关系", "telList[0].relation", DataCaseTelEntity.class, String.class),
-        COL100(100, "备注", "telList[0].remark", DataCaseTelEntity.class, String.class),
+        COL60(60, "*地址", "address",  String.class),
+        COL70(70, "*姓名", "name",  String.class),
+        COL80(80, "地址类型", "type",  String.class),
+        COL90(90, "关系", "relation",  String.class),
+        COL100(100, "备注", "remark", String.class),
         ;
 
         private Integer sort;
@@ -25,7 +25,7 @@ public class ExcelConstant {
 
         private Class[] attrClazz;
 
-        CaseTel(Integer sort, String col, String attr, Class... attrClazz) {
+        CaseAddress(Integer sort, String col, String attr, Class... attrClazz) {
             this.sort = sort;
             this.col = col;
             this.attr = attr;

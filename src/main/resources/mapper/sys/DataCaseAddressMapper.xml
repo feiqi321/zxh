@@ -13,11 +13,29 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="address != null">address,</if>
             <if test="caseId != null">case_id,</if>
+            <if test="seqNo != null">seq_no,</if>
+            <if test="archiveNo != null">archive_no,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="identNo != null">ident_no,</if>
+            <if test="caseDate != null">case_date,</if>
+            <if test="name != null">name,</if>
+            <if test="type != null">address_type,</if>
+            <if test="relation != null">relation,</if>
+            <if test="remark != null">remark,</if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="address != null">#{address},</if>
             <if test="caseId != null">#{caseId},</if>
+            <if test="seqNo != null">#{caseId},</if>
+            <if test="archiveNo != null">#{archiveNo},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="identNo != null">#{identNo},</if>
+            <if test="caseDate != null">#{caseDate},</if>
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="relation != null">#{relation},</if>
+            <if test="remark != null">#{remark},</if>
         </trim>
     </insert>
 

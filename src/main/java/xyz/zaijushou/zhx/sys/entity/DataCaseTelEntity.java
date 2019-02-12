@@ -14,6 +14,51 @@ public class DataCaseTelEntity extends CommonEntity {
     private String type;
     private String relation;
     private String remark;
+    private String seqNo;
+    private String archiveNo;
+    private String cardNo;
+    private String identNo;
+    private String caseDate;
+
+    public String getSeqNo() {
+        return seqNo;
+    }
+
+    public void setSeqNo(String seqNo) {
+        this.seqNo = seqNo;
+    }
+
+    public String getArchiveNo() {
+        return archiveNo;
+    }
+
+    public void setArchiveNo(String archiveNo) {
+        this.archiveNo = archiveNo;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public String getIdentNo() {
+        return identNo;
+    }
+
+    public void setIdentNo(String identNo) {
+        this.identNo = identNo;
+    }
+
+    public String getCaseDate() {
+        return caseDate;
+    }
+
+    public void setCaseDate(String caseDate) {
+        this.caseDate = caseDate;
+    }
 
     public int getCaseId() {
         return caseId;
