@@ -80,7 +80,7 @@
         repay_amt as repayAmt,reduce_amt as reduceAmt,collect_status collectStatus,reduce_status as reduceStatus,
         account_age as accountAge,case_date as caseDate,card_no as cardNo,ident_no as identNo,
         money,balance,bank_amt as bankAmt,collect_info as collectInfo,
-        en_repay_amt as enRepayAmt
+        en_repay_amt as enRepayAmt,next_foll_date as nextFollDate
         from data_collection
         <where>
             delete_flag = 0
@@ -156,8 +156,15 @@
                     and repay_status = #{repayStatus}
                 </if>
 
+                <if test="nextFollDateStart != null and nextFollDateStart!=''">
+                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{nextFollDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(next_foll_date, '%Y-%m-%d')<=  DATE_FORMAT(#{nextFollDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{bailStartDate}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(next_foll_date, '%Y-%m-%d')>=  DATE_FORMAT(#{bailStartDate}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
                     <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')<=  DATE_FORMAT(#{bailEndDate}, '%Y-%m-%d')   ]]>
@@ -194,13 +201,6 @@
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and DATE_FORMAT(money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
-                </if>
-
-                <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
             </trim>
         </where>

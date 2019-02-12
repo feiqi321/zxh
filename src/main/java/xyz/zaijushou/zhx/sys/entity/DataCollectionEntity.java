@@ -96,6 +96,11 @@ public class DataCollectionEntity extends CommonEntity {
     private String caseDateStart;
     private String caseDateEnd;
 
+    //下次跟进日期
+    private String nextFollDate;
+    private String nextFollDateStart;
+    private String nextFollDateEnd;
+
     //预计还款时间
     //承诺日期
     private String repayTime;
