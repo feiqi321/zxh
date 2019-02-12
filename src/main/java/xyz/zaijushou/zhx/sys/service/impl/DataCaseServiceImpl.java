@@ -194,11 +194,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public void addColor(DataCaseEntity bean){
-        bean.setColor(ColorEnum.getEnumByKey(bean.getColor()).getValue());
+        String color = ColorEnum.getEnumByKey(bean.getColor()).getValue();
+        bean.setColor(color);
         dataCaseMapper.addColor(bean);
 
         DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
-        dataCollectionEntity.setColor(ColorEnum.getEnumByKey(bean.getColor()).getValue());
+        dataCollectionEntity.setColor(color);
         dataCollectionEntity.setCaseId(bean.getId()+"");
         dataCollectionMapper.addColor(dataCollectionEntity);
     }
