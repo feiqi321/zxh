@@ -11,7 +11,7 @@ import java.util.List;
  * Created by looyer on 2019/1/29.
  */
 public class CollectionReturnEntity extends CommonEntity {
-    PageInfo<DataCollectionEntity> list = new PageInfo<DataCollectionEntity>();
+    List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
     private int countCase;//列表案量
     private BigDecimal sumMoney;//列表金额
     private int countCasePay;//列表还款案量
@@ -19,11 +19,11 @@ public class CollectionReturnEntity extends CommonEntity {
     private BigDecimal sumRepay;//列表CP值
     private BigDecimal sumBank;//列表PTP值
 
-    public PageInfo<DataCollectionEntity> getList() {
+    public List<DataCollectionEntity> getList() {
         return list;
     }
 
-    public void setList(PageInfo<DataCollectionEntity> list) {
+    public void setList(List<DataCollectionEntity> list) {
         this.list = list;
     }
 
