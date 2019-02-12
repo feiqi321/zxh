@@ -5,7 +5,8 @@ package xyz.zaijushou.zhx.constant;
  */
 public enum  ColorEnum {
 
-    BLACK("黑","#000000"),RED("红","#FF0000"),BLUE("蓝","#0000FF"),CHENG("橙","#FA8072"),ZI("紫","#A020F0"),ZONG("棕","#D2B48C");
+    //BLACK("黑","#000000"),RED("红","#FF0000"),BLUE("蓝","#0000FF"),CHENG("橙","#FA8072"),ZI("紫","#A020F0"),ZONG("棕","#D2B48C");
+    BLACK("黑","BLACK"),RED("红","RED"),BLUE("蓝","BLUE"),ORANGE("橙","ORANGE"),ZI("紫","ZI"),ZONG("棕","ZONG");
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;
     private final String value;
