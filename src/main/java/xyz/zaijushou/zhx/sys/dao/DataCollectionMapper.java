@@ -40,4 +40,6 @@ public interface DataCollectionMapper {
     public int countStatisticsCollectionPay(CollectionStatistic bean);
 
     public CollectionStatistic statisticsCollectionPayM(CollectionStatistic bean);
+
+    public void addColor(DataCollectionEntity dataCollectionEntity);
 }

@@ -526,4 +526,9 @@
             <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m-%d')   ]]>
         </if>
     </select>
+
+    <update id="addColor" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        update data_collection set color = #{color}
+        where case_id = #{caseId}
+    </update>
 </mapper>

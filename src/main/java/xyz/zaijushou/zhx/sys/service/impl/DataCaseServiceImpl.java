@@ -5,10 +5,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
-import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -36,6 +33,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseInterestMapper dataCaseInterestMapper;
     @Resource
     private DataCaseRepayMapper dataCaseRepayMapper;
+    @Resource
+    private DataCollectionMapper dataCollectionMapper;
     @Resource
     private SysUserService sysUserService;//用户业务控制层
 
@@ -197,6 +196,11 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void addColor(DataCaseEntity bean){
         bean.setColor(ColorEnum.getEnumByKey(bean.getColor()).getValue());
         dataCaseMapper.addColor(bean);
+
+        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+        dataCollectionEntity.setColor(ColorEnum.getEnumByKey(bean.getColor()).getValue());
+        dataCollectionEntity.setCaseId(bean.getId()+"");
+        dataCollectionMapper.addColor(dataCollectionEntity);
     }
     @Override
     public void addImportant(DataCaseEntity bean){
