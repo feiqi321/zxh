@@ -55,4 +55,6 @@ public interface DataCaseMapper {
 
     public int countCaseTel(DataCaseEntity bean);
 
+    public List<DataCaseEntity> listAllCaseInfo(DataCaseEntity bean);
+
 }

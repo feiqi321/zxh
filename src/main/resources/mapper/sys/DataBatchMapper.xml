@@ -142,4 +142,14 @@
         batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,create_user as createUser,real_time as realReturnTime
         from data_batch limit 1
     </select>
+
+
+
+    <select id="listAllDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+        select id,
+        batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,create_user as createUser,real_time as realReturnTime,
+        batch_remark as batchRemark
+        from data_batch
+        where     delete_flag = 0
+    </select>
 </mapper>

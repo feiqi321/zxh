@@ -37,12 +37,12 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
             dictionary1.setId(temp.getReduceStatus());
             SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
-            temp.setReduceStatusMsg(sysDictionaryEntity.getName());
+            temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
             SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
             dictionary2.setId(temp.getCollectStatus());
             SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
-            temp.setCollectStatusMsg(sysDictionaryEntity2.getName());
+            temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             resultList.add(temp);
         }

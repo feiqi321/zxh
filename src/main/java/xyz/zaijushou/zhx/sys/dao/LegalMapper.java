@@ -1,9 +1,10 @@
 package xyz.zaijushou.zhx.sys.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.LegalEntity;
 
 import java.util.List;
-
+@Mapper
 public interface LegalMapper {
     int deleteByPrimaryKey(Integer id);
 

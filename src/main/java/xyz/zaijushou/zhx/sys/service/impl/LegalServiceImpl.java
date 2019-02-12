@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.LegalMapper;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * Created by looyer on 2019/2/12.
  */
+@Service
 public class LegalServiceImpl implements LegalService {
     @Resource
     private LegalMapper legalMapper;

@@ -3,6 +3,8 @@ package xyz.zaijushou.zhx.config;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.*;
 
@@ -30,6 +32,13 @@ public class RedisInitConfig implements ApplicationRunner {
     @Resource
     private SysUserService sysUserService;
 
+    @Resource
+    private DataBatchMapper dataBatchMapper;
+
+    @Resource
+    private DataCaseMapper dataCaseMapper;
+
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
@@ -41,12 +50,25 @@ public class RedisInitConfig implements ApplicationRunner {
 
         List<SysAuthorityEntity> allAuthority = sysAuthorityService.listAllAuthorities(new SysAuthorityEntity());
 
+        List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
+
+        List<DataCaseEntity> allCase = dataCaseMapper.listAllCaseInfo(new DataCaseEntity());
+
         initUserInfo(allUser);
         initMenuInfo(allMenu);
         initButtonInfo(allButton);
         initAuthorityInfo(allAuthority);
         initRoleInfo();
+        initBatch(allBatch);
+        initCase(allCase);
+    }
 
+    private void initBatch(List<DataBatchEntity> allBatch) {
+        RedisUtils.refreshBatchEntity(allBatch, RedisKeyPrefix.DATA_BATCH);
+    }
+
+    private void initCase(List<DataCaseEntity> allCase) {
+        RedisUtils.refreshCaseEntity(allCase, RedisKeyPrefix.DATA_CASE);
     }
 
     private void initUserInfo(List<SysUserEntity> allUser) {

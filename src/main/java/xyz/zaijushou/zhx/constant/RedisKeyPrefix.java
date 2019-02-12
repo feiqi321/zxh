@@ -61,5 +61,10 @@ public class RedisKeyPrefix {
      * 枚举数据
      */
     public static final String DATA_DICTIONARY = "data_dictionary_";
+    //批次
+    public static final String DATA_BATCH = "data_batch_";
+
+    //案件
+    public static final String DATA_CASE = "data_case_";
 
 }

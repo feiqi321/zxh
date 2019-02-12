@@ -62,9 +62,9 @@
       </if>
     </where>
   </select>
-  <select id="countDataLegal" resultMap="java.lang.Integer" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
+  <select id="countDataLegal" resultType="java.lang.Integer" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     select
-    count(id)
+    count(id) as cout
     from legal
     <where>
       <if test="cstName != null" >
