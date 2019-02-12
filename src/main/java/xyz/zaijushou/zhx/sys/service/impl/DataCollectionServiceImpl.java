@@ -59,7 +59,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public CollectionReturnEntity pageMyCase(DataCollectionEntity dataCollectionEntity){
-        dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
+        if (dataCollectionEntity.getColor()!=null) {
+            dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
+        }
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
         //获取当前用户名
         SysUserEntity user = getUserInfo();
