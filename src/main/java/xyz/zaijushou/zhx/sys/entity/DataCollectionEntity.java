@@ -73,8 +73,12 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal reduceAmt;
     //催收状态
     private int collectStatus;
+
+    private String collectStatusMsg;
 //    //减免状态
-//    private int reduceStatus;
+   private int reduceStatus;
+
+   private String reduceStatusMsg;
     //案件状态
     private int caseStatus;
 
@@ -124,6 +128,30 @@ public class DataCollectionEntity extends CommonEntity {
     private String remark;//标注
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public String getCollectStatusMsg() {
+        return collectStatusMsg;
+    }
+
+    public void setCollectStatusMsg(String collectStatusMsg) {
+        this.collectStatusMsg = collectStatusMsg;
+    }
+
+    public int getReduceStatus() {
+        return reduceStatus;
+    }
+
+    public void setReduceStatus(int reduceStatus) {
+        this.reduceStatus = reduceStatus;
+    }
+
+    public String getReduceStatusMsg() {
+        return reduceStatusMsg;
+    }
+
+    public void setReduceStatusMsg(String reduceStatusMsg) {
+        this.reduceStatusMsg = reduceStatusMsg;
+    }
 
     public String getNextFollDate() {
         return nextFollDate;

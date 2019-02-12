@@ -59,7 +59,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public CollectionReturnEntity pageMyCase(DataCollectionEntity dataCollectionEntity){
-        if (dataCollectionEntity.getColor()!=null) {
+        if (StringUtils.isEmpty(dataCollectionEntity.getColor())) {
+
+        }else{
             dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
         }
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
