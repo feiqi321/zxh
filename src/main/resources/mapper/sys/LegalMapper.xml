@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.LegalMapper" >
-  <resultMap id="BaseResultMap" type="xyz.zaijushou.zhx.sys.entity.Legal" >
+  <resultMap id="BaseResultMap" type="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="cst_name" property="cstName" jdbcType="VARCHAR" />
     <result column="legal_status" property="legalStatus" jdbcType="INTEGER" />
@@ -46,11 +46,43 @@
     from legal
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="pageDataLegal" resultMap="BaseResultMap" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
+    select
+    <include refid="Base_Column_List" />
+    from legal
+    <where>
+      <if test="cstName != null" >
+        cst_name = #{cstName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalStatus != null" >
+        legal_status = #{legalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="legal_no != null" >
+        ident_no = #{legalNo,jdbcType=VARCHAR},
+      </if>
+    </where>
+  </select>
+  <select id="countDataLegal" resultMap="java.lang.Integer" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
+    select
+    count(id)
+    from legal
+    <where>
+      <if test="cstName != null" >
+        cst_name = #{cstName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalStatus != null" >
+        legal_status = #{legalStatus,jdbcType=INTEGER},
+      </if>
+      <if test="legal_no != null" >
+        ident_no = #{legalNo,jdbcType=VARCHAR},
+      </if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from legal
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+  <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     insert into legal (id, cst_name, legal_status, 
       ident_no, progress, legal_type, 
       tital, clientele, accused, 
@@ -74,7 +106,7 @@
       #{arriveInfo,jdbcType=VARCHAR}, #{judgment,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+  <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     insert into legal
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -267,7 +299,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     update legal
     <set >
       <if test="cstName != null" >
@@ -363,7 +395,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="xyz.zaijushou.zhx.sys.entity.Legal" >
+  <update id="updateByPrimaryKey" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     update legal
     set cst_name = #{cstName,jdbcType=VARCHAR},
       legal_status = #{legalStatus,jdbcType=INTEGER},

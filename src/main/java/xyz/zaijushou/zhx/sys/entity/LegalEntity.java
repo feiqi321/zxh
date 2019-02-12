@@ -1,9 +1,11 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class Legal {
+public class LegalEntity extends CommonEntity {
     private Integer id;
 
     private String cstName;

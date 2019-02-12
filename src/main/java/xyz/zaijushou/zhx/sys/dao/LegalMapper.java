@@ -1,17 +1,23 @@
 package xyz.zaijushou.zhx.sys.dao;
 
-import xyz.zaijushou.zhx.sys.entity.Legal;
+import xyz.zaijushou.zhx.sys.entity.LegalEntity;
+
+import java.util.List;
 
 public interface LegalMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Legal record);
+    int insert(LegalEntity record);
 
-    int insertSelective(Legal record);
+    int insertSelective(LegalEntity record);
 
-    Legal selectByPrimaryKey(Integer id);
+    LegalEntity selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(Legal record);
+    List<LegalEntity> pageDataLegal(LegalEntity record);
 
-    int updateByPrimaryKey(Legal record);
+    int countDataLegal(LegalEntity record);
+
+    int updateByPrimaryKeySelective(LegalEntity record);
+
+    int updateByPrimaryKey(LegalEntity record);
 }
