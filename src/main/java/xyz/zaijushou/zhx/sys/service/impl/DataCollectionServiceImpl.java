@@ -60,7 +60,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity){
-        if (dataCollectionEntity.getColor()!=null) {
+        if (StringUtils.isEmpty(dataCollectionEntity.getColor())) {
+
+        }else{
             dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
         }
         WebResponse webResponse = WebResponse.buildResponse();
