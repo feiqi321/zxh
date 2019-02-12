@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
@@ -58,18 +59,20 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     @Override
-    public CollectionReturnEntity pageMyCase(DataCollectionEntity dataCollectionEntity){
+    public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity){
         if (dataCollectionEntity.getColor()!=null) {
             dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
         }
+        WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){
-            return collectionReturn;
+            return webResponse;
         }
         // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
+        int count = dataCollectionMapper.countDataCollect(dataCollectionEntity);
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0.00");//列表金额
         int countCasePay = 0;//列表还款案量
@@ -78,8 +81,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         BigDecimal sumBank = new BigDecimal("0.00");//列表PTP值
         List<String> caseIds = new ArrayList<String>();//案件ID数组
         if(StringUtils.isEmpty(list)) {
-            collectionReturn.setList(new PageInfo<>());
-            return  collectionReturn;
+            return  webResponse;
         }
         for (int i=0;i<list.size();i++){
             for (DataCollectionEntity collection : list){
@@ -96,14 +98,24 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 sumBank = sumBank.add(collection.getBankAmt());
             }
         }
-        collectionReturn.setList(PageInfo.of(list));
+        int totalPageNum = 0 ;
+        if (count%dataCollectionEntity.getPageSize()>0){
+            totalPageNum = count/dataCollectionEntity.getPageSize()+1;
+        }else{
+            totalPageNum = count/dataCollectionEntity.getPageSize();
+        }
+
+        collectionReturn.setList(list);
         collectionReturn.setCountCase(countCase);
         collectionReturn.setCountCasePay(countCasePay);
         collectionReturn.setSumBank(sumBank);
         collectionReturn.setSumMoney(sumMoney);
         collectionReturn.setSumRepay(sumRepay);
         collectionReturn.setSumPayMoney(sumPayMoney);
-        return collectionReturn;
+        webResponse.setTotalNum(count);
+        webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setData(collectionReturn);
+        return webResponse;
     }
 
     private SysUserEntity getUserInfo (){
@@ -173,10 +185,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public PageInfo<CollectionStatistic> pageStatisticsCollectionState(CollectionStatistic beanInfo){
+    public WebResponse pageStatisticsCollectionState(CollectionStatistic beanInfo){
+        WebResponse webResponse = WebResponse.buildResponse();
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
-        return PageInfo.of(colList);
+        int count = dataCollectionMapper.countStatisticsCollectionState(beanInfo);
+        int totalPageNum = 0 ;
+        if (count%beanInfo.getPageSize()>0){
+            totalPageNum = count/beanInfo.getPageSize()+1;
+        }else{
+            totalPageNum = count/beanInfo.getPageSize();
+        }
+        webResponse.setTotalNum(count);
+        webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setData(colList);
+        return webResponse;
     }
 
     /**
@@ -185,10 +208,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public PageInfo<CollectionStatistic> pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
+    public WebResponse pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
+        WebResponse webResponse = WebResponse.buildResponse();
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
-        return PageInfo.of(colList);
+        int count = dataCollectionMapper.countStatisticsCollectionBatch(beanInfo);
+        int totalPageNum = 0 ;
+        if (count%beanInfo.getPageSize()>0){
+            totalPageNum = count/beanInfo.getPageSize()+1;
+        }else{
+            totalPageNum = count/beanInfo.getPageSize();
+        }
+        webResponse.setTotalNum(count);
+        webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setData(colList);
+        return webResponse;
     }
 
     /**
@@ -197,17 +231,28 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public CollectionStatistic pageStatisticsCollectionPay(CollectionStatistic beanInfo){
+    public WebResponse pageStatisticsCollectionPay(CollectionStatistic beanInfo){
+        WebResponse webResponse = WebResponse.buildResponse();
         CollectionStatistic collectionReturn = new CollectionStatistic();
         List<DataCollectionEntity> colList = new ArrayList<DataCollectionEntity>();
         colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);//我的还款列表统计查询
-        collectionReturn.setList(PageInfo.of(colList));
+        int count = dataCollectionMapper.countStatisticsCollectionPay(beanInfo);
+        int totalPageNum = 0 ;
+        if (count%beanInfo.getPageSize()>0){
+            totalPageNum = count/beanInfo.getPageSize()+1;
+        }else{
+            totalPageNum = count/beanInfo.getPageSize();
+        }
+        collectionReturn.setList(colList);
 
         //我的还款统计，上月和当月金额统计 查询
         getLastMData(collectionReturn,beanInfo);
         getThisMData(collectionReturn,beanInfo);
 
-        return collectionReturn;
+        webResponse.setTotalNum(count);
+        webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setData(collectionReturn);
+        return webResponse;
     }
 
     private void getLastMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){

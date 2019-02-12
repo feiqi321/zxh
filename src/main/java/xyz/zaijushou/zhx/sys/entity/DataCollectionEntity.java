@@ -103,6 +103,33 @@ public class DataCollectionEntity extends CommonEntity {
     private String nextFollDateStart;
     private String nextFollDateEnd;
 
+    //最后跟进日期
+    private String lastFollDate;
+    private String lastFollDateStart;
+    private String lastFollDateEnd;
+
+    //跟进次数
+    private String countFollow;
+    private String countFollowStart;
+    private String countFollowEnd;
+
+    //自定义信息
+    private String remark;
+    //电话查询-电话
+    private String telPhone;
+    //电话查询-姓名
+    private String telName;
+    //催记查询-电话/地址
+    private String collectPhoneAddr;
+    //催记查询-催记内容
+    private String collectMeasure;
+    //提醒
+    private String remind;
+    //上次通话时间
+    private String lastPhoneTime;
+    //闲置天数
+    private String leaveDays;
+
     //预计还款时间
     //承诺日期
     private String repayTime;
@@ -121,7 +148,6 @@ public class DataCollectionEntity extends CommonEntity {
     private String payMethod; // 还款方式
     private String confimName;//确认人
     private String confimTime;//确认时间
-    private String remark;//标注
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
 
@@ -631,5 +657,109 @@ public class DataCollectionEntity extends CommonEntity {
 
     public void setCollTelList(List<DataCollectionTelEntity> collTelList) {
         this.collTelList = collTelList;
+    }
+
+    public String getLastFollDate() {
+        return lastFollDate;
+    }
+
+    public void setLastFollDate(String lastFollDate) {
+        this.lastFollDate = lastFollDate;
+    }
+
+    public String getLastFollDateStart() {
+        return lastFollDateStart;
+    }
+
+    public void setLastFollDateStart(String lastFollDateStart) {
+        this.lastFollDateStart = lastFollDateStart;
+    }
+
+    public String getLastFollDateEnd() {
+        return lastFollDateEnd;
+    }
+
+    public void setLastFollDateEnd(String lastFollDateEnd) {
+        this.lastFollDateEnd = lastFollDateEnd;
+    }
+
+    public String getCountFollow() {
+        return countFollow;
+    }
+
+    public void setCountFollow(String countFollow) {
+        this.countFollow = countFollow;
+    }
+
+    public String getCountFollowStart() {
+        return countFollowStart;
+    }
+
+    public void setCountFollowStart(String countFollowStart) {
+        this.countFollowStart = countFollowStart;
+    }
+
+    public String getCountFollowEnd() {
+        return countFollowEnd;
+    }
+
+    public void setCountFollowEnd(String countFollowEnd) {
+        this.countFollowEnd = countFollowEnd;
+    }
+
+    public String getTelPhone() {
+        return telPhone;
+    }
+
+    public void setTelPhone(String telPhone) {
+        this.telPhone = telPhone;
+    }
+
+    public String getTelName() {
+        return telName;
+    }
+
+    public void setTelName(String telName) {
+        this.telName = telName;
+    }
+
+    public String getCollectPhoneAddr() {
+        return collectPhoneAddr;
+    }
+
+    public void setCollectPhoneAddr(String collectPhoneAddr) {
+        this.collectPhoneAddr = collectPhoneAddr;
+    }
+
+    public String getCollectMeasure() {
+        return collectMeasure;
+    }
+
+    public void setCollectMeasure(String collectMeasure) {
+        this.collectMeasure = collectMeasure;
+    }
+
+    public String getRemind() {
+        return remind;
+    }
+
+    public void setRemind(String remind) {
+        this.remind = remind;
+    }
+
+    public String getLastPhoneTime() {
+        return lastPhoneTime;
+    }
+
+    public void setLastPhoneTime(String lastPhoneTime) {
+        this.lastPhoneTime = lastPhoneTime;
+    }
+
+    public String getLeaveDays() {
+        return leaveDays;
+    }
+
+    public void setLeaveDays(String leaveDays) {
+        this.leaveDays = leaveDays;
     }
 }

@@ -25,11 +25,19 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> pageDataCollect(DataCollectionEntity bean);
 
+    public int countDataCollect(DataCollectionEntity bean);
+
     public List<CollectionStatistic> statisticsCollectionState(CollectionStatistic bean);
+
+    public int countStatisticsCollectionState(CollectionStatistic bean);
 
     public List<CollectionStatistic> statisticsCollectionBatch(CollectionStatistic bean);
 
+    public int countStatisticsCollectionBatch(CollectionStatistic bean);
+
     public List<DataCollectionEntity> pageStatisticsCollectionPay(CollectionStatistic bean);
+
+    public int countStatisticsCollectionPay(CollectionStatistic bean);
 
     public CollectionStatistic statisticsCollectionPayM(CollectionStatistic bean);
 }

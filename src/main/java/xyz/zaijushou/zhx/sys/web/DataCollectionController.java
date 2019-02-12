@@ -71,9 +71,9 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/pageMyCase")
     public Object pageMyCase(@RequestBody DataCollectionEntity bean) {
 
-        CollectionReturnEntity list = dataCollectionService.pageMyCase(bean);
+        WebResponse webResponse = dataCollectionService.pageMyCase(bean);
 
-        return WebResponse.success(list);
+        return webResponse;
 
     }
 
@@ -91,9 +91,9 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/statistics/state")
     public Object statisticsCollectionState(@RequestBody CollectionStatistic bean) {
 
-        PageInfo<CollectionStatistic> list = dataCollectionService.pageStatisticsCollectionState(bean);
+        WebResponse webResponse = dataCollectionService.pageStatisticsCollectionState(bean);
 
-        return WebResponse.success(list);
+        return webResponse;
 
     }
 
@@ -101,16 +101,16 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/statistics/batch")
     public Object statisticsCollectionBatch(@RequestBody CollectionStatistic bean) {
 
-        PageInfo<CollectionStatistic> list = dataCollectionService.pageStatisticsCollectionBatch(bean);
+        WebResponse webResponse = dataCollectionService.pageStatisticsCollectionBatch(bean);
 
-        return WebResponse.success(list);
+        return webResponse;
 
     }
 
     @ApiOperation(value = "催收管理-我的还款统计", notes = "催收管理-我的还款统计")
     @PostMapping("/dataCollection/statistics/pay")
     public Object statisticsCollectionPay(@RequestBody CollectionStatistic bean) {
-        CollectionStatistic list = dataCollectionService.pageStatisticsCollectionPay(bean);
-        return WebResponse.success(list);
+        WebResponse webResponse = dataCollectionService.pageStatisticsCollectionPay(bean);
+        return webResponse;
     }
 }

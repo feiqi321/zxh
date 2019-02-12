@@ -1,10 +1,10 @@
 package xyz.zaijushou.zhx.sys.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class CollectionStatistic extends CommonEntity {
     private BigDecimal thisRepaidAmt;//月已还款金额的提成金额（M）
     private BigDecimal thisRepaidBankAmt;//月银行查账金额的提成金额（M）
 
-    PageInfo<DataCollectionEntity> list = new PageInfo<DataCollectionEntity>();
+    List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
 
     public BigDecimal getLastPaidMoney() {
         return lastPaidMoney;
@@ -136,11 +136,11 @@ public class CollectionStatistic extends CommonEntity {
         this.thisRepaidAmt = thisRepaidAmt;
     }
 
-    public PageInfo<DataCollectionEntity> getList() {
+    public List<DataCollectionEntity> getList() {
         return list;
     }
 
-    public void setList(PageInfo<DataCollectionEntity> list) {
+    public void setList(List<DataCollectionEntity> list) {
         this.list = list;
     }
 
