@@ -445,6 +445,16 @@
         where id = #{id}
     </update>
 
+
+    <update id="updateComment" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set
+        <trim suffixOverrides=",">
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="color != null">color = #{color},</if>
+        </trim>
+        where seq_no = #{seqNo}
+    </update>
+
     <update id="addColor" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set color = #{color}
         where id = #{id}

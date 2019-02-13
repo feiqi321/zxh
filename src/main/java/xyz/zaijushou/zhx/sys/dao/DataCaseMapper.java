@@ -59,4 +59,7 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> listAllCaseInfo(DataCaseEntity bean);
 
+
+    public void updateComment(DataCaseEntity bean);
+
 }
