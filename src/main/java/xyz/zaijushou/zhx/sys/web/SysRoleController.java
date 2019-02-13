@@ -117,6 +117,9 @@ public class SysRoleController {
         if (roleEntity == null || roleEntity.getId() == null || roleEntity.getMenus() == null) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色id未传或角色权限为空");
         }
+        if(roleEntity.getId() == 1) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员角色权限不得修改");
+        }
         JSONObject redisJson = JwtTokenUtil.tokenData();
         String userRolesString = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.USER_ROLE + redisJson.getInteger("userId"));
         JSONArray roles = JSONArray.parseArray(userRolesString);
