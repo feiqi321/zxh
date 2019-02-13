@@ -9,7 +9,7 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into data_case_interest
+        replace  into data_case_interest
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="interest != null">interest,</if>
             <if test="caseId != null">#{case_id},</if>
