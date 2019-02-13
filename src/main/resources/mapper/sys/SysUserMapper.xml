@@ -99,6 +99,7 @@
     <resultMap id="UserResultMap" type="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="VARCHAR"/>
         <result column="sex" property="sex" jdbcType="VARCHAR"/>
         <result column="officePhone" property="officePhone" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
