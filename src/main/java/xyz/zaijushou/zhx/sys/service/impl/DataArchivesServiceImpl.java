@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.dao.DataArchiveAddressMapper;
@@ -104,7 +105,7 @@ public class DataArchivesServiceImpl implements DataArchiveService {
     public WebResponse pageDataArchiveList(DataArchiveEntity dataArchiveEntity){
         WebResponse webResponse = WebResponse.buildResponse();
        List<DataArchiveEntity> list =  dataArchiveMapper.pageDataArchive(dataArchiveEntity);
-       int count = dataArchiveMapper.countDataArchive(dataArchiveEntity);
+       //int count = dataArchiveMapper.countDataArchive(dataArchiveEntity);
        for (int i=0;i<list.size();i++){
            DataArchiveEntity temp = list.get(i);
            DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
@@ -117,15 +118,8 @@ public class DataArchivesServiceImpl implements DataArchiveService {
            temp.setTelList(telEntityList);
            list.set(i,temp);
        }
-        int totalPageNum = 0 ;
-        if (count%dataArchiveEntity.getPageSize()>0){
-            totalPageNum = count/dataArchiveEntity.getPageSize()+1;
-        }else{
-            totalPageNum = count/dataArchiveEntity.getPageSize();
-        }
-        webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
-        webResponse.setData(list);
+
+        webResponse.setData(PageInfo.of(list));
 
        return webResponse;
     }
