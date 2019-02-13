@@ -556,7 +556,7 @@
                     and d.address = #{address}
                 </if>
                 <if test="tel != null and tel!='' and queryMethod='1'">
-                    and l.address = #{tel}
+                    and l.tel = #{tel}
                 </if>
 
                 <if test="client != null and client!='' and queryMethod='2'">
