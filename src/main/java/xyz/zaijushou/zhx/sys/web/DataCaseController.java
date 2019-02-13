@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelAddressConstant;
+import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.constant.ExcelTelConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
@@ -265,8 +268,18 @@ public class DataCaseController {
     public Object dataCaseAddressImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         logger.info(fileName);
-        List<DataCaseAddressEntity> addressList = ExcelUtils.importExcel(file, ExcelTelConstant.CaseTel.values(), DataCaseAddressEntity.class);
+        List<DataCaseAddressEntity> addressList = ExcelUtils.importExcel(file, ExcelAddressConstant.CaseAddress.values(), DataCaseAddressEntity.class);
         WebResponse webResponse =fileManageService.batchCaseAddress(addressList);
+        return webResponse;
+    }
+
+    @ApiOperation(value = "案件利息导入", notes = "案件利息导入")
+    @PostMapping("/dataCase/address/import")
+    public Object dataCaseInterestImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        logger.info(fileName);
+        List<DataCaseInterestEntity> interestList = ExcelUtils.importExcel(file, ExcelInterestConstant.CaseInterest.values(), DataCaseInterestEntity.class);
+        WebResponse webResponse =fileManageService.batchCaseInterest(interestList);
         return webResponse;
     }
 

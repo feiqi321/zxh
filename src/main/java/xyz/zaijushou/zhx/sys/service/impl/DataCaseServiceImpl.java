@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
@@ -257,22 +258,14 @@ public class DataCaseServiceImpl implements DataCaseService {
     public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
-        int count = dataCaseMapper.countCaseTel(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user.getUserName());
             list.set(i,temp);
         }
-        webResponse.setData(list);
-        int totalPageNum = 0 ;
-        if (count%dataCaseEntity.getPageSize()>0){
-            totalPageNum = count/dataCaseEntity.getPageSize()+1;
-        }else{
-            totalPageNum = count/dataCaseEntity.getPageSize();
-        }
-        webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
+        webResponse.setData(PageInfo.of(list));
+
         return webResponse;
     }
 

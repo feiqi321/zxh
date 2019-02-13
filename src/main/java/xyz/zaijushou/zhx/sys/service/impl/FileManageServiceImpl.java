@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseAddressMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseInterestMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseTelMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -25,6 +27,8 @@ public class FileManageServiceImpl implements FileManageService {
     private DataCaseTelMapper dataCaseTelMapper;
     @Resource
     private DataCaseAddressMapper dataCaseAddressMapper;
+    @Resource
+    private DataCaseInterestMapper dataCaseInterestMapper;
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
@@ -33,11 +37,13 @@ public class FileManageServiceImpl implements FileManageService {
             if (StringUtils.isEmpty(dataCaseTelEntity.getSeqNo())){
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getCardNo()+"@"+dataCaseTelEntity.getCaseDate(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
+                    dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
                     dataCaseTelMapper.saveTel(dataCaseTelEntity);
                 }
             }else{
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getSeqNo(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
+                    dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
                     dataCaseTelMapper.saveTel(dataCaseTelEntity);
                 }
             }
@@ -62,6 +68,28 @@ public class FileManageServiceImpl implements FileManageService {
                 DataCaseAddressEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getSeqNo(),DataCaseAddressEntity.class);
                 if (temp!=null){
                     dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
+                }
+            }
+
+        }
+
+        webResponse.setCode("100");
+        return webResponse;
+    }
+
+    public WebResponse batchCaseInterest(List<DataCaseInterestEntity> list){
+        WebResponse webResponse = WebResponse.buildResponse();
+        for (int i=0;i<list.size();i++){
+            DataCaseInterestEntity dataCaseInterestEntity = list.get(i);
+            if (StringUtils.isEmpty(dataCaseInterestEntity.getSeqNo())){
+                DataCaseInterestEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getCardNo()+"@"+dataCaseInterestEntity.getCaseDate(),DataCaseInterestEntity.class);
+                if (temp!=null){
+                    dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
+                }
+            }else{
+                DataCaseInterestEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getSeqNo(),DataCaseInterestEntity.class);
+                if (temp!=null){
+                    dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
                 }
             }
 
