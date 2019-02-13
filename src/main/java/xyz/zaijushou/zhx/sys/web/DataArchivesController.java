@@ -7,10 +7,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelArchiveConstant;
+import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.sys.entity.DataArchiveEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.service.DataArchiveService;
+import xyz.zaijushou.zhx.sys.service.FileManageService;
+import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,6 +29,8 @@ public class DataArchivesController {
 
     @Autowired
     private DataArchiveService dataArchiveService;
+    @Autowired
+    private FileManageService fileManageService;
 
     @ApiOperation(value = "新增档案", notes = "新增档案")
     @PostMapping("/dataArchive/save")
@@ -63,6 +72,15 @@ public class DataArchivesController {
         WebResponse webResponse = dataArchiveService.pageDataArchiveList(bean);
         return webResponse;
 
+    }
+
+    @ApiOperation(value = "案人导入", notes = "案人导入")
+    @PostMapping("/dataArchive/import")
+    public Object dataCaseCommentImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        List<DataArchiveEntity> dataArchiveEntityList = ExcelUtils.importExcel(file, ExcelArchiveConstant.Archive.values(), DataArchiveEntity.class);
+        WebResponse webResponse =fileManageService.batchArchive(dataArchiveEntityList);
+        return webResponse;
     }
 
 }

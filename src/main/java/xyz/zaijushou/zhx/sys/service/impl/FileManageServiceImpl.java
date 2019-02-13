@@ -5,14 +5,8 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.sys.dao.DataCaseAddressMapper;
-import xyz.zaijushou.zhx.sys.dao.DataCaseInterestMapper;
-import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
-import xyz.zaijushou.zhx.sys.dao.DataCaseTelMapper;
-import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
+import xyz.zaijushou.zhx.sys.dao.*;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
@@ -32,6 +26,8 @@ public class FileManageServiceImpl implements FileManageService {
     private DataCaseInterestMapper dataCaseInterestMapper;
     @Resource
     private DataCaseMapper dateCaseMapper;
+    @Resource
+    private DataArchiveMapper dataArchiveMapper;
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
@@ -129,4 +125,21 @@ public class FileManageServiceImpl implements FileManageService {
         webResponse.setCode("100");
         return webResponse;
     }
+
+    public WebResponse batchArchive(List<DataArchiveEntity> list){
+
+        WebResponse webResponse = WebResponse.buildResponse();
+
+        for (int i=0;i<list.size();i++){
+            DataArchiveEntity dataArchiveEntity = list.get(i);
+            dataArchiveMapper.saveArchive(dataArchiveEntity);
+
+        }
+
+
+        webResponse.setCode("100");
+        return webResponse;
+    }
+
+
 }

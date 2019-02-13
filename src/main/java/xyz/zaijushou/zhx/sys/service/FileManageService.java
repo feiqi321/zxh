@@ -1,10 +1,7 @@
 package xyz.zaijushou.zhx.sys.service;
 
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.util.List;
 
@@ -21,5 +18,5 @@ public interface FileManageService {
 
     public WebResponse batchCaseComment(List<DataCaseEntity> list);
 
-
+    public WebResponse batchArchive(List<DataArchiveEntity> list);
 }
