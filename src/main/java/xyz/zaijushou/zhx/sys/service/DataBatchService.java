@@ -22,4 +22,6 @@ public interface DataBatchService {
 
     public DataBatchEntity getDataById(DataBatchEntity bean);
 
+    public WebResponse selectBatchNo(DataBatchEntity bean);
+
 }

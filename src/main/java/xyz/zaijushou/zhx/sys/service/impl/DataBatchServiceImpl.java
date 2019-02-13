@@ -81,4 +81,9 @@ public class DataBatchServiceImpl implements DataBatchService {
         return dataBatchMapper.selectBatchById(bean.getId());
     }
 
+    public WebResponse selectBatchNo(DataBatchEntity bean){
+        List<DataBatchEntity> list = dataBatchMapper.selectBatchNo(bean);
+        return WebResponse.success(list);
+    }
+
 }

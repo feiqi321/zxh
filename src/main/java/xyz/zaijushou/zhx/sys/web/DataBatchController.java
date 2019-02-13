@@ -73,7 +73,17 @@ public class DataBatchController {
     public Object pageDataCase(@RequestBody DataBatchEntity dataBatchEntity) {
 
         WebResponse webResponse = dataCaseService.pageDataBatch(dataBatchEntity);
-        return WebResponse.success(webResponse);
+        return webResponse;
+
+    }
+
+
+    @ApiOperation(value = "批次编号下拉查询", notes = "批次编号下拉查询")
+    @PostMapping("/dataBatch/selectBatchNo")
+    public Object selectBatchNo(@RequestBody DataBatchEntity dataBatchEntity) {
+
+        WebResponse webResponse = dataCaseService.selectBatchNo(dataBatchEntity);
+        return webResponse;
 
     }
 

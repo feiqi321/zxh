@@ -27,4 +27,6 @@ public interface DataBatchMapper {
 
     public List<DataBatchEntity> listAllDataBatch(DataBatchEntity bean);
 
+    public List<DataBatchEntity> selectBatchNo(DataBatchEntity bean);
+
 }
