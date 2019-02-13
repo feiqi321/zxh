@@ -92,6 +92,9 @@
                 <if test="measure != null and measure!=''">
                     AND measure like CONCAT('%',#{measure},'%')
                 </if>
+                <if test="collectMeasure != null and collectMeasure!=''">
+                    AND measure like CONCAT('%',#{collectMeasure},'%')
+                </if>
                 <if test="client != null and client!=''">
                     AND client like CONCAT('%',#{client},'%')
                 </if>
@@ -154,6 +157,18 @@
                     and remark = #{remark}
                 </if>
 
+                <if test="telName != null and telName!=''">
+                    AND tel_name like CONCAT('%',#{telName},'%')
+                </if>
+
+                <if test="telPhone != null and telPhone!=''">
+                    AND tel_phone like CONCAT('%',#{telPhone},'%')
+                </if>
+
+                <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
+                    AND tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                </if>
+
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
                     <![CDATA[   and DATE_FORMAT(next_foll_date, '%Y-%m-%d')>=  DATE_FORMAT(#{nextFollDateStart}, '%Y-%m-%d')   ]]>
                 </if>
@@ -174,11 +189,11 @@
                 <if test="bailEndDate != null and bailEndDate!=''" >
                     <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')<=  DATE_FORMAT(#{bailEndDate}, '%Y-%m-%d')   ]]>
                 </if>
-                <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectStartTime}, '%Y-%m-%d')   ]]>
+                <if test="expectTimeStart != null and expectTimeStart!=''">
+                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
-                <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectEndTime}, '%Y-%m-%d')   ]]>
+                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
                     <![CDATA[   and DATE_FORMAT(collect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartTime}, '%Y-%m-%d')   ]]>
@@ -236,6 +251,9 @@
                 <if test="measure != null and measure!=''">
                     AND measure like CONCAT('%',#{measure},'%')
                 </if>
+                <if test="collectMeasure != null and collectMeasure!=''">
+                    AND measure like CONCAT('%',#{collectMeasure},'%')
+                </if>
                 <if test="client != null and client!=''">
                     AND client like CONCAT('%',#{client},'%')
                 </if>
@@ -298,6 +316,18 @@
                     and remark = #{remark}
                 </if>
 
+                <if test="telName != null and telName!=''">
+                    AND tel_name like CONCAT('%',#{telName},'%')
+                </if>
+
+                <if test="telPhone != null and telPhone!=''">
+                    AND tel_phone like CONCAT('%',#{telPhone},'%')
+                </if>
+
+                <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
+                    AND tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                </if>
+
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
                     <![CDATA[   and DATE_FORMAT(next_foll_date, '%Y-%m-%d')>=  DATE_FORMAT(#{nextFollDateStart}, '%Y-%m-%d')   ]]>
                 </if>
@@ -318,11 +348,11 @@
                 <if test="bailEndDate != null and bailEndDate!=''" >
                     <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')<=  DATE_FORMAT(#{bailEndDate}, '%Y-%m-%d')   ]]>
                 </if>
-                <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectStartTime}, '%Y-%m-%d')   ]]>
+                <if test="expectTimeStart != null and expectTimeStart!=''">
+                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
-                <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectEndTime}, '%Y-%m-%d')   ]]>
+                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
                     <![CDATA[   and DATE_FORMAT(collect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartTime}, '%Y-%m-%d')   ]]>
@@ -411,6 +441,12 @@
         <if test="accountAge != null and accountAge !=''">
             and account_age = #{accountAge}
         </if>
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
         GROUP BY dc.batch_no
     </select>
 
@@ -430,6 +466,12 @@
         <if test="accountAge != null and accountAge !=''">
             and account_age = #{accountAge}
         </if>
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
     </select>
 
     <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
@@ -440,6 +482,13 @@
         from
         data_collection dc
         where dc.delete_flag = 0
+
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
         <if test="client != null and client !=''">
             and client = #{client}
         </if>
@@ -478,6 +527,12 @@
         from
         data_collection dc
         where dc.delete_flag = 0
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
         <if test="client != null and client !=''">
             and client = #{client}
         </if>
