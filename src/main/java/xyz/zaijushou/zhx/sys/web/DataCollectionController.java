@@ -77,7 +77,7 @@ public class DataCollectionController {
 
     }
 
-    @ApiOperation(value = "催收管理-单日电催量", notes = "催收管理-单日电催量")
+    @ApiOperation(value = "催收管理-当日电催量", notes = "催收管理-当日电催量")
     @PostMapping("/dataCollection/statistics/day")
     public Object statisticsCollectionDay(@RequestBody CollectionStatistic bean) {
 

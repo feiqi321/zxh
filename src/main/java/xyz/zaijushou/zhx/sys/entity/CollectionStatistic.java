@@ -25,7 +25,7 @@ public class CollectionStatistic extends CommonEntity {
     private int countConPhoneNum;//接通电话数
     private int countPhoneNum;//总通话数
     private int countCasePhoneNum;//通话涉及到的案件数
-
+    private int sType;//通话涉及到的案件数
 
     //委托方
     private String client;
@@ -71,6 +71,14 @@ public class CollectionStatistic extends CommonEntity {
     private BigDecimal thisRepaidBankAmt;//月银行查账金额的提成金额（M）
 
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+
+    public int getsType() {
+        return sType;
+    }
+
+    public void setsType(int sType) {
+        this.sType = sType;
+    }
 
     public BigDecimal getLastPaidMoney() {
         return lastPaidMoney;

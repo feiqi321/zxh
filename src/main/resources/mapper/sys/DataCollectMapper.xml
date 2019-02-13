@@ -441,6 +441,12 @@
         <if test="accountAge != null and accountAge !=''">
             and account_age = #{accountAge}
         </if>
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
         GROUP BY dc.batch_no
     </select>
 
@@ -460,6 +466,12 @@
         <if test="accountAge != null and accountAge !=''">
             and account_age = #{accountAge}
         </if>
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
     </select>
 
     <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
@@ -470,6 +482,13 @@
         from
         data_collection dc
         where dc.delete_flag = 0
+
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
         <if test="client != null and client !=''">
             and client = #{client}
         </if>
@@ -508,6 +527,12 @@
         from
         data_collection dc
         where dc.delete_flag = 0
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
         <if test="client != null and client !=''">
             and client = #{client}
         </if>
