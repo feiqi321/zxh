@@ -162,12 +162,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 bean.setDateSearchEnd(beanInfo.getDateSearchEnd());
                 bean.setDateSearchStart(beanInfo.getDateSearchStart());
                 if (bean.getDateSearchStart()!=null) {
-                    bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart()) + sdf2.format(dateStart)));
+                    bean.setDateSearchStart(new Date());
                 }
+                bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart()) + sdf2.format(dateStart)));
                 if (bean.getDateSearchEnd()!=null){
-                    bean.setDateEnd(sdf.parse(sdf1.format(bean.getDateSearchEnd())+sdf2.format(dateEnd)));;
+                    bean.setDateSearchEnd(new Date());
                 }
-
+                bean.setDateEnd(sdf.parse(sdf1.format(bean.getDateSearchEnd())+sdf2.format(dateEnd)));;
                 int countSum = dataCollectionTelMapper.statisticsCollectionSum(bean);
                 int countCon = dataCollectionTelMapper.statisticsCollectionCon(bean);
                 int countCase = dataCollectionTelMapper.statisticsCollectionCase(bean);
