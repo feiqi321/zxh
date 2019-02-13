@@ -102,11 +102,21 @@ public class DataCaseEntity extends CommonEntity {
     private String address;//地址
     private String tel;
 
+    private boolean batchBonds;//批次共债
+
     List<DataCaseAddressEntity> addressList = new ArrayList<DataCaseAddressEntity>();
     List<DataCaseTelEntity> telList = new ArrayList<DataCaseTelEntity>();
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+    public void setBatchBonds(boolean batchBonds) {
+        this.batchBonds = batchBonds;
+    }
+
+    public boolean isBatchBonds() {
+        return batchBonds;
+    }
 
     public String getTel() {
         return tel;
