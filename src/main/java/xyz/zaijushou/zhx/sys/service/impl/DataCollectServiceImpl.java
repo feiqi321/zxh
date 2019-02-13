@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
@@ -30,7 +31,6 @@ public class DataCollectServiceImpl implements DataCollectService {
     public WebResponse pageDataCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCollectionEntity> list = dataCollectionMapper.pageDataCollect(bean);
-        int count  =  dataCollectionMapper.countDataCollect(bean);
         List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
@@ -46,16 +46,8 @@ public class DataCollectServiceImpl implements DataCollectService {
 
             resultList.add(temp);
         }
-        webResponse.setData(list);
-        int totalPageNum = 0 ;
-        if (count%bean.getPageSize()>0){
-            totalPageNum = count/bean.getPageSize()+1;
-        }else{
-            totalPageNum = count/bean.getPageSize();
-        }
+        webResponse.setData(PageInfo.of(list));
 
-        webResponse.setTotalPageNum(totalPageNum);
-        webResponse.setTotalNum(count);
         return webResponse;
     }
 

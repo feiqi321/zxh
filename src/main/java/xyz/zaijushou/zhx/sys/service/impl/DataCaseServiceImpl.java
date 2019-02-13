@@ -112,26 +112,28 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity){
-       List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
-       for (int i=0;i<list.size();i++){
-           DataCaseEntity temp = list.get(i);
-           DataCaseAddressEntity dataCaseAddressEntity = new DataCaseAddressEntity();
-           dataCaseAddressEntity.setCaseId(temp.getId());
-           List<DataCaseAddressEntity> addressEntityList = dataCaseAddressMapper.findAll(dataCaseAddressEntity);
-           temp.setAddressList(addressEntityList);
-           DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
-           dataCaseTelEntity.setCaseId(temp.getId());
-           List<DataCaseTelEntity> telEntityList = dataCaseTelMapper.findAll(dataCaseTelEntity);
-           temp.setTelList(telEntityList);
-           list.set(i,temp);
-       }
-       return list;
+        List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            DataCaseAddressEntity dataCaseAddressEntity = new DataCaseAddressEntity();
+            dataCaseAddressEntity.setCaseId(temp.getId());
+            List<DataCaseAddressEntity> addressEntityList = dataCaseAddressMapper.findAll(dataCaseAddressEntity);
+            temp.setAddressList(addressEntityList);
+            DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
+            dataCaseTelEntity.setCaseId(temp.getId());
+            List<DataCaseTelEntity> telEntityList = dataCaseTelMapper.findAll(dataCaseTelEntity);
+            temp.setTelList(telEntityList);
+            list.set(i,temp);
+        }
+        return list;
     }
 
     @Override
-    public List<DataCaseEntity> pageCaseList(DataCaseEntity dataCaseEntity){
+    public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseList(dataCaseEntity);
-        return list;
+        webResponse.setData(PageInfo.of(list));
+        return webResponse;
     }
 
 

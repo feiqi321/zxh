@@ -18,7 +18,7 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity);
 
-    public List<DataCaseEntity> pageCaseList(DataCaseEntity dataCaseEntity);
+    public WebResponse pageCaseList(DataCaseEntity dataCaseEntity);
 
     public List<DataCaseEntity> pageCaseInfoList(DataCaseEntity dataCaseEntity);
 

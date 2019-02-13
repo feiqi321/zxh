@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
@@ -51,7 +52,6 @@ public class DataBatchServiceImpl implements DataBatchService {
     public WebResponse pageDataBatch(DataBatchEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
-        int count = dataBatchMapper.countDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
@@ -65,15 +65,9 @@ public class DataBatchServiceImpl implements DataBatchService {
             dataBatchEntity.setUserCount(0);
             dataCaseEntities.set(i,dataBatchEntity);
         }
-        int totalPageNum = 0 ;
-        if (count%bean.getPageSize()>0){
-            totalPageNum = count/bean.getPageSize()+1;
-        }else{
-            totalPageNum = count/bean.getPageSize();
-        }
-        webResponse.setData(dataCaseEntities);
-        webResponse.setTotalPageNum(totalPageNum);
-        webResponse.setTotalNum(count);
+
+        webResponse.setData(PageInfo.of(dataCaseEntities));
+
         return webResponse;
     }
 
