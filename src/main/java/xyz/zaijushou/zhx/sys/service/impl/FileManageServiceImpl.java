@@ -1,17 +1,12 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.sys.dao.DataCaseAddressMapper;
-import xyz.zaijushou.zhx.sys.dao.DataCaseInterestMapper;
-import xyz.zaijushou.zhx.sys.dao.DataCaseTelMapper;
-import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
+import xyz.zaijushou.zhx.sys.dao.*;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
@@ -29,6 +24,10 @@ public class FileManageServiceImpl implements FileManageService {
     private DataCaseAddressMapper dataCaseAddressMapper;
     @Resource
     private DataCaseInterestMapper dataCaseInterestMapper;
+    @Resource
+    private DataCaseMapper dateCaseMapper;
+    @Resource
+    private DataArchiveMapper dataArchiveMapper;
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
@@ -60,12 +59,12 @@ public class FileManageServiceImpl implements FileManageService {
         for (int i=0;i<list.size();i++){
             DataCaseAddressEntity dataCaseAddressEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseAddressEntity.getSeqNo())){
-                DataCaseAddressEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getCardNo()+"@"+dataCaseAddressEntity.getCaseDate(),DataCaseAddressEntity.class);
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getCardNo()+"@"+dataCaseAddressEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
                 }
             }else{
-                DataCaseAddressEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getSeqNo(),DataCaseAddressEntity.class);
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getSeqNo(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
                 }
@@ -82,12 +81,12 @@ public class FileManageServiceImpl implements FileManageService {
         for (int i=0;i<list.size();i++){
             DataCaseInterestEntity dataCaseInterestEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseInterestEntity.getSeqNo())){
-                DataCaseInterestEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getCardNo()+"@"+dataCaseInterestEntity.getCaseDate(),DataCaseInterestEntity.class);
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getCardNo()+"@"+dataCaseInterestEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
                 }
             }else{
-                DataCaseInterestEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getSeqNo(),DataCaseInterestEntity.class);
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getSeqNo(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
                 }
@@ -98,4 +97,49 @@ public class FileManageServiceImpl implements FileManageService {
         webResponse.setCode("100");
         return webResponse;
     }
+
+    public WebResponse batchCaseComment(List<DataCaseEntity> list){
+        WebResponse webResponse = WebResponse.buildResponse();
+
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            if (StringUtils.isNotEmpty(dataCaseEntity.getSeqNo())){
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getSeqNo(),DataCaseEntity.class);
+                if (temp!=null){
+                    if (dataCaseEntity.getColor().equals("0")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
+                    }else if (dataCaseEntity.getColor().equals("1")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
+                    }else if (dataCaseEntity.getColor().equals("2")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
+                    }
+                    dateCaseMapper.updateComment(dataCaseEntity);
+                }
+            }else{
+
+            }
+
+        }
+
+
+        webResponse.setCode("100");
+        return webResponse;
+    }
+
+    public WebResponse batchArchive(List<DataArchiveEntity> list){
+
+        WebResponse webResponse = WebResponse.buildResponse();
+
+        for (int i=0;i<list.size();i++){
+            DataArchiveEntity dataArchiveEntity = list.get(i);
+            dataArchiveMapper.saveArchive(dataArchiveEntity);
+
+        }
+
+
+        webResponse.setCode("100");
+        return webResponse;
+    }
+
+
 }

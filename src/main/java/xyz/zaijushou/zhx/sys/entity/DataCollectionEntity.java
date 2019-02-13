@@ -48,8 +48,12 @@ public class DataCollectionEntity extends CommonEntity {
     private String collectStartTime;
     //催收时间  结束
     private String collectEndTime;
+    //查询类型：1-部门，0-个人
+    private int sType;
     //对象姓名
     private String  targetName;
+    //所属部门
+    private String  department;
     //与案人关系
     private String relation;
     //电话类型
@@ -154,6 +158,14 @@ public class DataCollectionEntity extends CommonEntity {
     private String confimTime;//确认时间
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public int getsType() {
+        return sType;
+    }
+
+    public void setsType(int sType) {
+        this.sType = sType;
+    }
 
     public String getCollectStatusMsg() {
         return collectStatusMsg;
@@ -789,5 +801,15 @@ public class DataCollectionEntity extends CommonEntity {
 
     public void setLeaveDays(String leaveDays) {
         this.leaveDays = leaveDays;
+    }
+
+
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }

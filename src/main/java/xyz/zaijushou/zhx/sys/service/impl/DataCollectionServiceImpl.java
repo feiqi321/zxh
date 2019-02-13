@@ -67,6 +67,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
+        if (dataCollectionEntity.getsType() == 0){//查询个人
+
+        }
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){
@@ -114,9 +117,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setSumMoney(sumMoney);
         collectionReturn.setSumRepay(sumRepay);
         collectionReturn.setSumPayMoney(sumPayMoney);
-        collectionReturn.setTotal(count);
-        collectionReturn.setPages(totalPageNum);
         webResponse.setData(collectionReturn);
+        webResponse.setTotalNum(count);
+        webResponse.setTotalPageNum(totalPageNum);
         return webResponse;
     }
 
@@ -161,9 +164,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 CollectionStatistic bean = new CollectionStatistic();
                 bean.setDateSearchEnd(beanInfo.getDateSearchEnd());
                 bean.setDateSearchStart(beanInfo.getDateSearchStart());
-                bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart())+sdf2.format(dateStart)));;
+                if (bean.getDateSearchStart()==null) {
+                    bean.setDateSearchStart(new Date());
+                }
+                bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart()) + sdf2.format(dateStart)));
+                if (bean.getDateSearchEnd()==null){
+                    bean.setDateSearchEnd(new Date());
+                }
                 bean.setDateEnd(sdf.parse(sdf1.format(bean.getDateSearchEnd())+sdf2.format(dateEnd)));;
-
                 int countSum = dataCollectionTelMapper.statisticsCollectionSum(bean);
                 int countCon = dataCollectionTelMapper.statisticsCollectionCon(bean);
                 int countCase = dataCollectionTelMapper.statisticsCollectionCase(bean);
@@ -212,6 +220,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        if (beanInfo.getsType() == 0){//查询个人
+
+        }
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionBatch(beanInfo);
@@ -235,6 +246,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionPay(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        if (beanInfo.getsType() == 0){//查询个人
+
+        }
         CollectionStatistic collectionReturn = new CollectionStatistic();
         List<DataCollectionEntity> colList = new ArrayList<DataCollectionEntity>();
         colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);//我的还款列表统计查询

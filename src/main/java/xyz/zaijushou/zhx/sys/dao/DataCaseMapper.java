@@ -23,6 +23,8 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> pageCaseList(DataCaseEntity bean);
 
+    public List<DataCaseEntity> pageBatchBoundsCaseList(DataCaseEntity bean);
+
     public void sumCaseMoney(DataCaseEntity bean);
 
     public void sendOdv(DataCaseEntity bean);
@@ -56,5 +58,8 @@ public interface DataCaseMapper {
     public int countCaseTel(DataCaseEntity bean);
 
     public List<DataCaseEntity> listAllCaseInfo(DataCaseEntity bean);
+
+
+    public void updateComment(DataCaseEntity bean);
 
 }

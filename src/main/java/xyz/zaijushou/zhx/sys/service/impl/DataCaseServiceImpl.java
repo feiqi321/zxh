@@ -131,7 +131,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataCaseEntity> list =  dataCaseMapper.pageCaseList(dataCaseEntity);
+        List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+        if (dataCaseEntity.isBatchBonds()){
+            list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
+        }else {
+            list = dataCaseMapper.pageCaseList(dataCaseEntity);
+        }
         webResponse.setData(PageInfo.of(list));
         return webResponse;
     }

@@ -283,4 +283,16 @@ public class DataCaseController {
         return webResponse;
     }
 
+    @ApiOperation(value = "案件评语导入", notes = "案件评语导入")
+    @PostMapping("/dataCase/comment/import")
+    public Object dataCaseCommentImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        logger.info(fileName);
+        List<DataCaseEntity> dataCaseEntities = ExcelUtils.importExcel(file, ExcelInterestConstant.CaseInterest.values(), DataCaseEntity.class);
+        WebResponse webResponse =fileManageService.batchCaseComment(dataCaseEntities);
+        return webResponse;
+    }
+
+
+
 }

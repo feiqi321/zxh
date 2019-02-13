@@ -25,6 +25,26 @@ public class DataArchiveEntity extends CommonEntity {
 
     private String endTime;
 
+    private String msgType;
+
+    private String msgContext;
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+    }
+
+    public String getMsgContext() {
+        return msgContext;
+    }
+
+    public void setMsgContext(String msgContext) {
+        this.msgContext = msgContext;
+    }
+
     public String getMobile() {
         return mobile;
     }
