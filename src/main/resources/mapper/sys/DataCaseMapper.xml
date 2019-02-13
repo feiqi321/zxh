@@ -537,47 +537,47 @@
                       LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
             <trim suffixOverrides=",">
-                <if test="client != null and client!='' and queryMethod=='1'">
+                <if test="client != null and client!='' and queryMethod=='1'.toString()">
                     and t.client = #{client}
                 </if>
-                <if test="name != null and name!='' and queryMethod=='1'">
+                <if test="name != null and name!='' and queryMethod=='1'.toString()">
                     and t.name = #{name}
                 </if>
-                <if test="cardNo != null and cardNo!='' and queryMethod=='1'">
+                <if test="cardNo != null and cardNo!='' and queryMethod=='1'.toString()">
                     and t.card_no = #{cardNo}
                 </if>
-                <if test="unitName != null and unitName!='' and queryMethod=='1'">
+                <if test="unitName != null and unitName!='' and queryMethod=='1'.toString()">
                     and t.unit_name = #{unitName}
                 </if>
-                <if test="identNo != null and identNo!='' and queryMethod=='1'">
+                <if test="identNo != null and identNo!='' and queryMethod=='1'.toString()">
                     and t.ident_no = #{identNo}
                 </if>
-                <if test="address != null and address!='' and queryMethod=='1'">
+                <if test="address != null and address!='' and queryMethod=='1'.toString()">
                     and d.address = #{address}
                 </if>
-                <if test="tel != null and tel!='' and queryMethod=='1'">
+                <if test="tel != null and tel!='' and queryMethod=='1'.toString()">
                     and l.tel = #{tel}
                 </if>
 
-                <if test="client != null and client!='' and queryMethod=='2'">
+                <if test="client != null and client!='' and queryMethod=='2'.toString()">
                     AND t.client like CONCAT('%',#{client},'%')
                 </if>
-                <if test="name != null and name!='' and queryMethod=='2'">
+                <if test="name != null and name!='' and queryMethod=='2'.toString()">
                     AND t.name like CONCAT('%',#{name},'%')
                 </if>
-                <if test="cardNo != null and cardNo!='' and queryMethod=='2'">
+                <if test="cardNo != null and cardNo!='' and queryMethod=='2'.toString()">
                     AND t.card_no like CONCAT('%',#{cardNo},'%')
                 </if>
-                <if test="unitName != null and unitName!='' and queryMethod=='2'">
+                <if test="unitName != null and unitName!='' and queryMethod=='2'.toString()">
                     AND t.unit_name like CONCAT('%',#{unitName},'%')
                 </if>
-                <if test="identNo != null and identNo!='' and queryMethod=='2'">
+                <if test="identNo != null and identNo!='' and queryMethod=='2'.toString()">
                     AND t.ident_no like CONCAT('%',#{identNo},'%')
                 </if>
-                <if test="address != null and address!='' and queryMethod=='2'">
+                <if test="address != null and address!='' and queryMethod=='2'.toString()">
                     AND d.address like CONCAT('%',#{address},'%')
                 </if>
-                <if test="tel != null and tel!='' and queryMethod=='2'">
+                <if test="tel != null and tel!='' and queryMethod=='2'.toString()">
                     AND l.tel like CONCAT('%',#{tel},'%')
                 </if>
             </trim>
