@@ -79,8 +79,8 @@
     </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from legal
-    where id = #{id,jdbcType=INTEGER}
+    update legal set delete_flag = 1
+     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     insert into legal (id, cst_name, legal_status, 

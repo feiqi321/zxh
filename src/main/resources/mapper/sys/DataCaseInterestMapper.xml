@@ -12,12 +12,46 @@
         insert into data_case_interest
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="interest != null">interest,</if>
-            <if test="caseId != null">case_id,</if>
+            <if test="caseId != null">#{case_id},</if>
+            <if test="seqNo != null">seq_no,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="caseDate != null">case_date,</if>
+            <if test="name != null">name,</if>
+            <if test="currency != null">currency,</if>
+            <if test="lastestDebt != null">lastest_debt,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="principal != null">principal,</if>
+            <if test="penalty != null">penalty,</if>
+            <if test="lasteFee != null">late_fee,</if>
+            <if test="overrunFee != null">overrun_fee,</if>
+            <if test="serviceFee != null">service_fee,</if>
+            <if test="yearFee != null">year_fee,</if>
+            <if test="elseFee != null">else_fee,</if>
+            <if test="sheetFee != null">sheet_fee,</if>
+            create_time,
+            delete_flag,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="interest != null">#{interest},</if>
             <if test="caseId != null">#{caseId},</if>
+            <if test="seqNo != null">#{seqNo},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="caseDate != null">#{caseDate},</if>
+            <if test="name != null">#{name},</if>
+            <if test="currency != null">#{currency},</if>
+            <if test="lastestDebt != null">#{lastestDebt},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="principal != null">#{principal},</if>
+            <if test="penalty != null">#{penalty},</if>
+            <if test="lasteFee != null">#{lasteFee},</if>
+            <if test="overrunFee != null">#{overrunFee},</if>
+            <if test="serviceFee != null">#{serviceFee},</if>
+            <if test="yearFee != null">#{yearFee},</if>
+            <if test="elseFee != null">#{elseFee},</if>
+            <if test="sheetFee != null">#{sheetFee},</if>
+            now(),
+            0,
         </trim>
     </insert>
 
@@ -25,8 +59,7 @@
 
     <!--通过Id删除数据信息-->
     <delete id="deleteInterest" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity">
-        delete from data_case_interest
-        where case_id = #{caseId}
+        update data_case_interest set delete_flag =1 where case_id = #{caseId}
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity">

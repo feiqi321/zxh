@@ -18,6 +18,24 @@ public class CollectionReturnEntity extends CommonEntity {
     private BigDecimal sumPayMoney;//列表还款数额
     private BigDecimal sumRepay;//列表CP值
     private BigDecimal sumBank;//列表PTP值
+    private int pages; //总页数
+    private int total;//总数量
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
 
     public List<DataCollectionEntity> getList() {
         return list;

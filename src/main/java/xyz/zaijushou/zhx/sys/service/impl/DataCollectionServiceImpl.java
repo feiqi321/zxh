@@ -114,8 +114,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setSumMoney(sumMoney);
         collectionReturn.setSumRepay(sumRepay);
         collectionReturn.setSumPayMoney(sumPayMoney);
-        webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
+        collectionReturn.setTotal(count);
+        collectionReturn.setPages(totalPageNum);
         webResponse.setData(collectionReturn);
         return webResponse;
     }

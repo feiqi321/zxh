@@ -9,7 +9,150 @@ import java.math.BigDecimal;
  */
 public class DataCaseInterestEntity extends CommonEntity {
     private int caseId;
-    private String interest;
+    private String seqNo;
+    private String cardNo;
+    private String caseDate;
+    private String name;
+    private String currency;
+    private BigDecimal lastestDebt;
+    private String endDate;
+    private BigDecimal principal;
+    private BigDecimal interest;
+    private BigDecimal penalty;
+    private BigDecimal lateFee;
+    private BigDecimal overrunFee;
+    private BigDecimal serivceFee;
+    private BigDecimal yearFee;
+    private BigDecimal elseFee;
+    private BigDecimal sheetFee;
+
+    public String getSeqNo() {
+        return seqNo;
+    }
+
+    public void setSeqNo(String seqNo) {
+        this.seqNo = seqNo;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public String getCaseDate() {
+        return caseDate;
+    }
+
+    public void setCaseDate(String caseDate) {
+        this.caseDate = caseDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public BigDecimal getLastestDebt() {
+        return lastestDebt;
+    }
+
+    public void setLastestDebt(BigDecimal lastestDebt) {
+        this.lastestDebt = lastestDebt;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public BigDecimal getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(BigDecimal principal) {
+        this.principal = principal;
+    }
+
+    public BigDecimal getInterest() {
+        return interest;
+    }
+
+    public void setInterest(BigDecimal interest) {
+        this.interest = interest;
+    }
+
+    public BigDecimal getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(BigDecimal penalty) {
+        this.penalty = penalty;
+    }
+
+    public BigDecimal getLateFee() {
+        return lateFee;
+    }
+
+    public void setLateFee(BigDecimal lateFee) {
+        this.lateFee = lateFee;
+    }
+
+    public BigDecimal getOverrunFee() {
+        return overrunFee;
+    }
+
+    public void setOverrunFee(BigDecimal overrunFee) {
+        this.overrunFee = overrunFee;
+    }
+
+    public BigDecimal getSerivceFee() {
+        return serivceFee;
+    }
+
+    public void setSerivceFee(BigDecimal serivceFee) {
+        this.serivceFee = serivceFee;
+    }
+
+    public BigDecimal getYearFee() {
+        return yearFee;
+    }
+
+    public void setYearFee(BigDecimal yearFee) {
+        this.yearFee = yearFee;
+    }
+
+    public BigDecimal getElseFee() {
+        return elseFee;
+    }
+
+    public void setElseFee(BigDecimal elseFee) {
+        this.elseFee = elseFee;
+    }
+
+    public BigDecimal getSheetFee() {
+        return sheetFee;
+    }
+
+    public void setSheetFee(BigDecimal sheetFee) {
+        this.sheetFee = sheetFee;
+    }
 
     public int getCaseId() {
         return caseId;
@@ -19,11 +162,5 @@ public class DataCaseInterestEntity extends CommonEntity {
         this.caseId = caseId;
     }
 
-    public String getInterest() {
-        return interest;
-    }
 
-    public void setInterest(String interest) {
-        this.interest = interest;
-    }
 }
