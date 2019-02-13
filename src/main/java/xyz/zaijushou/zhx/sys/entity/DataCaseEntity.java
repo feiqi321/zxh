@@ -99,12 +99,21 @@ public class DataCaseEntity extends CommonEntity {
 
     private String unitName; //单位名称
 
+    private String address;//地址
+
     List<DataCaseAddressEntity> addressList = new ArrayList<DataCaseAddressEntity>();
     List<DataCaseTelEntity> telList = new ArrayList<DataCaseTelEntity>();
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getQueryMethod() {
         return queryMethod;
