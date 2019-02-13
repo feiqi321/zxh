@@ -77,6 +77,12 @@
         <where>
             1 = 1
             <trim suffixOverrides=",">
+                <if test="id != null and id!=''">
+                    and da.id = #{id}
+                </if>
+                <if test="cardNo != null and cardNo!=''">
+                    and da.card_no = #{cardNo}
+                </if>
                 <if test="client != null and client!=''">
                     and da.client = #{client}
                 </if>
