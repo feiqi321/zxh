@@ -161,11 +161,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 CollectionStatistic bean = new CollectionStatistic();
                 bean.setDateSearchEnd(beanInfo.getDateSearchEnd());
                 bean.setDateSearchStart(beanInfo.getDateSearchStart());
-                if (bean.getDateSearchStart()!=null) {
+                if (bean.getDateSearchStart()==null) {
                     bean.setDateSearchStart(new Date());
                 }
                 bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart()) + sdf2.format(dateStart)));
-                if (bean.getDateSearchEnd()!=null){
+                if (bean.getDateSearchEnd()==null){
                     bean.setDateSearchEnd(new Date());
                 }
                 bean.setDateEnd(sdf.parse(sdf1.format(bean.getDateSearchEnd())+sdf2.format(dateEnd)));;
