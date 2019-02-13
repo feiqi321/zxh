@@ -274,7 +274,7 @@ public class DataCaseController {
     }
 
     @ApiOperation(value = "案件利息导入", notes = "案件利息导入")
-    @PostMapping("/dataCase/address/import")
+    @PostMapping("/dataCase/interest/import")
     public Object dataCaseInterestImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         logger.info(fileName);
