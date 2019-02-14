@@ -35,7 +35,9 @@ public interface SysUserMapper {
      * @param userEntity
      * @return
      */
-    List<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity);
+    List<SysNewUserEntity> userDataList(SysNewUserEntity userEntity);
+
+    int countUserData(SysNewUserEntity userEntity);
 
     List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity);
 

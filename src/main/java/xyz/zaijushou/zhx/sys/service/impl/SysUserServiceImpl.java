@@ -5,6 +5,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
@@ -120,9 +121,23 @@ public class SysUserServiceImpl implements SysUserService {
      * @return
      */
     @Override
-    public PageInfo<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity){
+    public PageInfo<SysNewUserEntity> userDataList(SysNewUserEntity userEntity){
+        if (userEntity.getPageSize() == null){
+            userEntity.setPageSize(10);
+        }
+        if (userEntity.getPageNum() == null){
+            userEntity.setPageNum(1);
+        }
+        userEntity.setPageNum((userEntity.getPageNum()-1)*userEntity.getPageSize());
 
-        return   PageInfo.of(sysUserMapper.pageDataList(userEntity));
+        List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
+        int count = sysUserMapper.countUserData(userEntity);
+        if(CollectionUtils.isEmpty(list)) {
+            return new PageInfo<>();
+        }
+        PageInfo<SysNewUserEntity> userInfo = PageInfo.of(list);
+        userInfo.setTotal(count);
+        return userInfo;
     }
 
     /**

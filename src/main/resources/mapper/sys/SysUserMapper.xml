@@ -266,7 +266,7 @@
     </update>
 
     <!--查询数据集合-->
-    <select id="pageDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
+    <select id="userDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
         su.status,su.enable,su.username as userName,so.org_name department,
@@ -279,25 +279,45 @@
         su.department as departId,
         sr.id as roleId,
         su.position
-        from sys_user su
+        from
+        (
+        select * from sys_user where delete_flag = 0
+        <if test="status != null and status !=''">
+            AND  status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="department != null and department!=''">
+            AND  department = #{department}
+        </if>
+        <if test="number != null and number!=''">
+            AND  number like CONCAT('%',#{number},'%')
+        </if>
+        <if test="userName != null and userName!=''">
+            AND  username like CONCAT('%',#{userName},'%')
+        </if>
+        order by id desc
+        limit ${pageNum},${pageSize}
+        )su
         LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
-        where su.delete_flag = 0
+    </select>
+
+    <select id="countUserData" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
+        select count(1) as sum
+        from sys_user
+        where delete_flag = 0
         <if test="status != null and status !=''">
-            AND  su.status = #{status,jdbcType=INTEGER}
+            AND  status = #{status,jdbcType=INTEGER}
         </if>
         <if test="department != null and department!=''">
-            AND  su.department = #{department}
+            AND  department = #{department}
         </if>
         <if test="number != null and number!=''">
-            AND  su.number like CONCAT('%',#{number},'%')
+            AND  number like CONCAT('%',#{number},'%')
         </if>
         <if test="userName != null and userName!=''">
-            AND  su.username like CONCAT('%',#{userName},'%')
+            AND  username like CONCAT('%',#{userName},'%')
         </if>
-
-        order by id desc
     </select>
 
     <!--根据Id查询数据-->
