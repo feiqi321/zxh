@@ -12,6 +12,7 @@
         </selectKey>
         insert into data_collection
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
             <if test="dept != null">dept,</if>
             <if test="seqno != null">seqno,</if>
             <if test="archiveNo != null">archive_no,</if>
@@ -34,6 +35,7 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">#{caseId},</if>
             <if test="dept != null">#{dept},</if>
             <if test="seqno != null">#{seqno},</if>
             <if test="archiveNo != null">#{archiveNo},</if>
