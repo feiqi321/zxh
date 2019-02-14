@@ -105,7 +105,7 @@
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="userName" property="userName" jdbcType="VARCHAR"/>
         <result column="department" property="department" jdbcType="VARCHAR"/>
-        <result column="departId" property="departId" jdbcType="INTEGER"/>
+        <result column="departId" property="departId" jdbcType="VARCHAR"/>
         <result column="position" property="position" jdbcType="INTEGER"/>
         <result column="deleteFlag" property="deleteFlag" jdbcType="INTEGER"/>
         <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>

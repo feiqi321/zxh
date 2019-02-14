@@ -62,7 +62,7 @@ public class SysNewUserEntity extends CommonEntity {
     private String sex;
 
 
-    private int departId ;//部门Id
+    private String departId ;//部门Id
 
 
     private int job ;//职位Id
@@ -106,11 +106,11 @@ public class SysNewUserEntity extends CommonEntity {
         this.position = position;
     }
 
-    public int getDepartId() {
+    public String getDepartId() {
         return departId;
     }
 
-    public void setDepartId(int departId) {
+    public void setDepartId(String departId) {
         this.departId = departId;
     }
 
