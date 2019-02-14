@@ -41,7 +41,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
                 getChildDataInfo(dictionaryEntity.getId(),dictList);
             }
 
-            if (dictList.get(0).getType() == 1){
+            if (StringUtils.isEmpty(dictList.get(0).getType())){
                 for(SysDictionaryEntity org : dictList) {
                     dictionaryMapper.deleteById(org);
                 }
