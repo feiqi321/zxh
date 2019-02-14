@@ -586,4 +586,9 @@
         update data_collection set color = #{color}
         where case_id = #{caseId}
     </update>
+
+    <update id="addCollectStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        update data_collection set collect_status = #{collectStatus}
+        where case_id = #{caseId}
+    </update>
 </mapper>

@@ -218,6 +218,10 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void addCollectStatus(DataCaseEntity bean){
         dataCaseMapper.addCollectStatus(bean);
+        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+        dataCollectionEntity.setCaseId(bean.getId()+"");
+        dataCollectionEntity.setCollectStatus(bean.getCollectStatus());
+        dataCollectionMapper.addCollectStatus(dataCollectionEntity);
     }
     @Override
     public void addCollectArea(DataCaseEntity bean){
