@@ -539,10 +539,10 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
     </select>
@@ -583,10 +583,10 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
     </select>
@@ -637,10 +637,10 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
     </select>
 
