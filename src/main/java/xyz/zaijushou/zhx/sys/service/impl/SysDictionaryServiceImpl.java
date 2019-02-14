@@ -64,7 +64,9 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             return;
         }
         for(SysDictionaryEntity child : org.getChildren()) {
-            child.setParent(org);
+            SysDictionaryEntity parent = new SysDictionaryEntity();
+            parent.setId(org.getId());
+            child.setParent(parent);
             modify(child);
         }
     }
