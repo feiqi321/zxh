@@ -31,6 +31,7 @@ public class FileManageServiceImpl implements FileManageService {
     @Resource
     private DataCollectionMapper dataCollectionMapper;
 
+
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
         for (int i=0;i<list.size();i++){
@@ -145,6 +146,34 @@ public class FileManageServiceImpl implements FileManageService {
 
         webResponse.setCode("100");
         return webResponse;
+    }
+
+    public WebResponse batchCollect(List<DataCollectionEntity> list){
+
+        WebResponse webResponse = WebResponse.buildResponse();
+
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity dataCollectionEntity = list.get(i);
+
+            if (StringUtils.isEmpty(dataCollectionEntity.getSeqno())){
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getCardNo()+"@"+dataCollectionEntity.getCaseDate(),DataCaseEntity.class);
+                if (temp!=null){
+                    dataCollectionMapper.saveCollection(dataCollectionEntity);
+                }
+            }else{
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
+                if (temp!=null){
+                    dataCollectionMapper.saveCollection(dataCollectionEntity);
+                }
+            }
+
+
+        }
+
+
+        webResponse.setCode("100");
+        return webResponse;
+
     }
 
 

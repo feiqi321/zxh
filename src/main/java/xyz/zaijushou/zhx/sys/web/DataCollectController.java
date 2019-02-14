@@ -6,11 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
+import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
+import xyz.zaijushou.zhx.sys.service.FileManageService;
+import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,6 +28,8 @@ public class DataCollectController {
 
     @Autowired
     private DataCollectService dataCollectService;
+    @Autowired
+    private FileManageService fileManageService;
 
     @ApiOperation(value = "刪除催收信息", notes = "刪除催收信息")
     @PostMapping("/dataCollect/delete")
@@ -41,6 +49,15 @@ public class DataCollectController {
     public Object pageDataCase(@RequestBody DataCollectionEntity bean) {
 
         WebResponse webResponse = dataCollectService.pageDataCollect(bean);
+        return webResponse;
+    }
+
+    @ApiOperation(value = "催收记录导入", notes = "催收记录导入")
+    @PostMapping("/dataCollect/import")
+    public Object dataCollectImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        List<DataCollectionEntity> dataCollectionEntities = ExcelUtils.importExcel(file, ExcelCollectConstant.CaseCollect.values(), DataCollectionEntity.class);
+        WebResponse webResponse =fileManageService.batchCollect(dataCollectionEntities);
         return webResponse;
     }
 

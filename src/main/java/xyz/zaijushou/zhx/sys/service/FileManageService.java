@@ -19,4 +19,6 @@ public interface FileManageService {
     public WebResponse batchCaseComment(List<DataCaseEntity> list);
 
     public WebResponse batchArchive(List<DataArchiveEntity> list);
+
+    public WebResponse batchCollect(List<DataCollectionEntity> list);
 }

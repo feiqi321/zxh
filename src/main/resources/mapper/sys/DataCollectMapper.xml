@@ -13,8 +13,20 @@
         insert into data_collection
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="dept != null">dept,</if>
+            <if test="seqno != null">seqno,</if>
+            <if test="archiveNo != null">archive_no,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="account != null">account,</if>
+            <if test="caseDate != null">case_date,</if>
+            <if test="contractDate != null">contact_date,</if>
+            <if test="resultId != null">result_id,</if>
+            <if test="targetName != null">target_name,</if>
+            <if test="relation != null">relation,</if>
+            <if test="collectInfo != null">collect_info,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="telType != null">tel_type,</if>
             <if test="area != null">area,</if>
-            <if test="odv != null">odv,</if>
+            <if test="mobile != null">mobile,</if>
             <if test="odv != null">odv,</if>
             <if test="remark != null">remark,</if>
             delete_flag,
@@ -23,6 +35,18 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="dept != null">#{dept},</if>
+            <if test="seqno != null">#{seqno},</if>
+            <if test="archiveNo != null">#{archiveNo},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="account != null">#{account},</if>
+            <if test="caseDate != null">#{caseDate},</if>
+            <if test="contractDate != null">#{contractDate},</if>
+            <if test="resultId != null">#{resultId},</if>
+            <if test="targetName != null">#{caseDate},</if>
+            <if test="relation != null">#{relation},</if>
+            <if test="collectInfo != null">#{collectInfo},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="telType != null">#{telType},</if>
             <if test="area != null">#{area},</if>
             <if test="mobile != null">#{mobile},</if>
             <if test="odv != null">#{odv},</if>

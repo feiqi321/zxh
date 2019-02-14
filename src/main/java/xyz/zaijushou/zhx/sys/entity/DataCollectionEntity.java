@@ -157,7 +157,35 @@ public class DataCollectionEntity extends CommonEntity {
     private String confimName;//确认人
     private String confimTime;//确认时间
 
+    private String account;//账号
+    private String contractDate;//联系时间
+    private String resultId;//催收结果id
+
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getContractDate() {
+        return contractDate;
+    }
+
+    public void setContractDate(String contractDate) {
+        this.contractDate = contractDate;
+    }
+
+    public String getResultId() {
+        return resultId;
+    }
+
+    public void setResultId(String resultId) {
+        this.resultId = resultId;
+    }
 
     public int getsType() {
         return sType;
