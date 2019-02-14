@@ -4,6 +4,7 @@ import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -100,7 +101,7 @@ public class DataCaseEntity extends CommonEntity {
     private String unitName; //单位名称
 
     private String address;//地址
-    private String tel;
+    private String tel; //本人手机
 
     private boolean batchBonds;//批次共债
 
@@ -109,6 +110,104 @@ public class DataCaseEntity extends CommonEntity {
     List<DataCaseCommentEntity> commentList = new ArrayList<DataCaseCommentEntity>();
     List<DataCaseInterestEntity> interestList = new ArrayList<DataCaseInterestEntity>();
     List<DataCaseRepayEntity> repayList = new ArrayList<DataCaseRepayEntity>();
+
+    private String caseDeadline;    //委案期限
+
+    private BigDecimal rmb; //人民币
+    private BigDecimal hkd; //港币
+    private BigDecimal foreignCurrency; //外币
+    private String gender;  //性别
+    private String identType;   //证件类型
+    private SysNewUserEntity collectionUser;    //催收员
+    private SysDictionaryEntity collectionArea; //催收区域
+    private Double commissionRate;  //公司佣金比率
+    private BigDecimal commissionMoney; //公司佣金金额
+    private String homeTelNumber;   //家庭号码
+    private String companyTelNumber;    //单位号码
+//    private String mobile;  //本人手机
+//    private String companyName; //单位名称
+    private String caseUserPosition;    //案人职位
+    private String caseUserDepart;  //案人部门
+    private String unitAddress;  //单位地址
+    private String unitZipCode;  //单位邮编
+    private String homeAddress; //家庭地址
+    private String homeZipCode; //家庭邮编
+    private String statementAddress;    //对账单地址
+    private String statementZipCode;    //对账单邮编
+    private String censusRegisterAddress;   //户籍地址
+    private String censusRegisterZipCode;   //户籍地邮编
+    private String qq;  //QQ
+    private String email;   //邮箱
+    private String birthday;    //生日
+    private Integer age;    //年龄
+    private SysDictionaryEntity province;   //省份
+    private SysDictionaryEntity city;   //城市
+    private SysDictionaryEntity county; //区县
+    private Date expectRetireCaseDate;  //预计退案日期
+    private List<DataCaseRemarkEntity> caseRemarks;   //备注
+    private String goods;   //商品
+    private String commercialTenant;    //商户
+    private String applyOrderNo;    //申请单号
+    private String socialSecurityComputerNo;    //社保电脑号
+    private String socialSecurityCardNo;    //社保卡号
+//    private String depositBank; //开户行
+    private String accountNo;   //账号
+    private String accountName; //账户名称
+    private String cardType;    //卡类
+    private String principle;   //本金
+    private String loanRate;    //贷款利率
+    private BigDecimal residualPrinciple;    //剩余本金
+    private BigDecimal monthlyRepayments;   //每月还款
+    private BigDecimal minimumPayment;  //最低还款额
+    private BigDecimal creditLine;  //信用额度
+    private BigDecimal fixedQuota;  //固定额度
+    private String defaultLevel;    //拖欠级别
+    private BigDecimal lastRepayMoney;  //最后还款金额
+    private Date lastRepayDate; //最后还款日
+    private Date lastConsumeDate;   //最后消费日
+    private Date lastWithdrawDate;  //最后提现日
+    private Date stopCardDate;  //停卡日
+    private Date activeCardDate;    //开卡日
+    private Date billDate;  //账单日
+    private String billCycle;   //账单周期
+    private BigDecimal outstandingAmount;  //未出账金额
+    private String mainDeputyCard;  //是否主副卡
+    private String deputyCardUserName;  //副卡卡人
+    private Date loanDate;    //贷款日期
+    private Date loanDeadline;  //贷款截止日
+    private Date overdueDate;   //逾期日
+    private Double overduePeriods;  //逾期期数
+    private Double overdueDays; //逾期天数
+    private Integer overdueTimes;   //曾逾期次数
+    private Double entrustPeriods;  //委案期数
+    private Date repayDeadline; //还款期限
+    private Double repaidPeriods;   //已还期数
+    private String loanType;    //信贷分类
+    private String collectionType;  //催收分类
+    private BigDecimal overdueMoney;    //逾期金额
+    private BigDecimal overduePrinciple;    //逾期本金
+    private BigDecimal overdueInterest; //逾期利息
+    private BigDecimal overdueManagementCost;   //逾期管理费
+    private BigDecimal overdueDefaultInterest;  //逾期罚息
+    private BigDecimal penalty; //违约金
+    private BigDecimal lateFee; //滞纳金
+    private BigDecimal overrunFee;  //超限费
+    private BigDecimal bail;    //保证金
+    private String currencyType;    //币种
+    private String lastCollectionRecord;    //原催收记录
+    private String overdueBillTime; //逾期账龄
+
+    private List<DataCaseContactsEntity> contacts;
+
+    private String contractNo;  //合同编号
+    private String dealer;  //经销商
+    private Date applyDate;   //申请日期
+    private Date policyExpiryDate;  //保单到期日
+    private BigDecimal cardPrice;   //车价
+    private String cardModel;   //车型
+    private String brand;   //品牌
+    private String engineNo;    //发动机号
+
 
     public void setBatchBonds(boolean batchBonds) {
         this.batchBonds = batchBonds;
@@ -741,5 +840,725 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setCaseType(String caseType) {
         this.caseType = caseType;
+    }
+
+    public String getCaseDeadline() {
+        return caseDeadline;
+    }
+
+    public void setCaseDeadline(String caseDeadline) {
+        this.caseDeadline = caseDeadline;
+    }
+
+    public BigDecimal getRmb() {
+        return rmb;
+    }
+
+    public void setRmb(BigDecimal rmb) {
+        this.rmb = rmb;
+    }
+
+    public BigDecimal getHkd() {
+        return hkd;
+    }
+
+    public void setHkd(BigDecimal hkd) {
+        this.hkd = hkd;
+    }
+
+    public BigDecimal getForeignCurrency() {
+        return foreignCurrency;
+    }
+
+    public void setForeignCurrency(BigDecimal foreignCurrency) {
+        this.foreignCurrency = foreignCurrency;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getIdentType() {
+        return identType;
+    }
+
+    public void setIdentType(String identType) {
+        this.identType = identType;
+    }
+
+    public SysNewUserEntity getCollectionUser() {
+        return collectionUser;
+    }
+
+    public void setCollectionUser(SysNewUserEntity collectionUser) {
+        this.collectionUser = collectionUser;
+    }
+
+    public SysDictionaryEntity getCollectionArea() {
+        return collectionArea;
+    }
+
+    public void setCollectionArea(SysDictionaryEntity collectionArea) {
+        this.collectionArea = collectionArea;
+    }
+
+    public Double getCommissionRate() {
+        return commissionRate;
+    }
+
+    public void setCommissionRate(Double commissionRate) {
+        this.commissionRate = commissionRate;
+    }
+
+    public BigDecimal getCommissionMoney() {
+        return commissionMoney;
+    }
+
+    public void setCommissionMoney(BigDecimal commissionMoney) {
+        this.commissionMoney = commissionMoney;
+    }
+
+    public String getHomeTelNumber() {
+        return homeTelNumber;
+    }
+
+    public void setHomeTelNumber(String homeTelNumber) {
+        this.homeTelNumber = homeTelNumber;
+    }
+
+    public String getCompanyTelNumber() {
+        return companyTelNumber;
+    }
+
+    public void setCompanyTelNumber(String companyTelNumber) {
+        this.companyTelNumber = companyTelNumber;
+    }
+
+    public String getCaseUserPosition() {
+        return caseUserPosition;
+    }
+
+    public void setCaseUserPosition(String caseUserPosition) {
+        this.caseUserPosition = caseUserPosition;
+    }
+
+    public String getCaseUserDepart() {
+        return caseUserDepart;
+    }
+
+    public void setCaseUserDepart(String caseUserDepart) {
+        this.caseUserDepart = caseUserDepart;
+    }
+
+    public String getUnitAddress() {
+        return unitAddress;
+    }
+
+    public void setUnitAddress(String unitAddress) {
+        this.unitAddress = unitAddress;
+    }
+
+    public String getUnitZipCode() {
+        return unitZipCode;
+    }
+
+    public void setUnitZipCode(String unitZipCode) {
+        this.unitZipCode = unitZipCode;
+    }
+
+    public String getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(String homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public String getHomeZipCode() {
+        return homeZipCode;
+    }
+
+    public void setHomeZipCode(String homeZipCode) {
+        this.homeZipCode = homeZipCode;
+    }
+
+    public String getStatementAddress() {
+        return statementAddress;
+    }
+
+    public void setStatementAddress(String statementAddress) {
+        this.statementAddress = statementAddress;
+    }
+
+    public String getStatementZipCode() {
+        return statementZipCode;
+    }
+
+    public void setStatementZipCode(String statementZipCode) {
+        this.statementZipCode = statementZipCode;
+    }
+
+    public String getCensusRegisterAddress() {
+        return censusRegisterAddress;
+    }
+
+    public void setCensusRegisterAddress(String censusRegisterAddress) {
+        this.censusRegisterAddress = censusRegisterAddress;
+    }
+
+    public String getCensusRegisterZipCode() {
+        return censusRegisterZipCode;
+    }
+
+    public void setCensusRegisterZipCode(String censusRegisterZipCode) {
+        this.censusRegisterZipCode = censusRegisterZipCode;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public SysDictionaryEntity getProvince() {
+        return province;
+    }
+
+    public void setProvince(SysDictionaryEntity province) {
+        this.province = province;
+    }
+
+    public SysDictionaryEntity getCity() {
+        return city;
+    }
+
+    public void setCity(SysDictionaryEntity city) {
+        this.city = city;
+    }
+
+    public SysDictionaryEntity getCounty() {
+        return county;
+    }
+
+    public void setCounty(SysDictionaryEntity county) {
+        this.county = county;
+    }
+
+    public Date getExpectRetireCaseDate() {
+        return expectRetireCaseDate;
+    }
+
+    public void setExpectRetireCaseDate(Date expectRetireCaseDate) {
+        this.expectRetireCaseDate = expectRetireCaseDate;
+    }
+
+    public List<DataCaseRemarkEntity> getCaseRemarks() {
+        return caseRemarks;
+    }
+
+    public void setCaseRemarks(List<DataCaseRemarkEntity> caseRemarks) {
+        this.caseRemarks = caseRemarks;
+    }
+
+    public String getGoods() {
+        return goods;
+    }
+
+    public void setGoods(String goods) {
+        this.goods = goods;
+    }
+
+    public String getCommercialTenant() {
+        return commercialTenant;
+    }
+
+    public void setCommercialTenant(String commercialTenant) {
+        this.commercialTenant = commercialTenant;
+    }
+
+    public String getApplyOrderNo() {
+        return applyOrderNo;
+    }
+
+    public void setApplyOrderNo(String applyOrderNo) {
+        this.applyOrderNo = applyOrderNo;
+    }
+
+    public String getSocialSecurityComputerNo() {
+        return socialSecurityComputerNo;
+    }
+
+    public void setSocialSecurityComputerNo(String socialSecurityComputerNo) {
+        this.socialSecurityComputerNo = socialSecurityComputerNo;
+    }
+
+    public String getSocialSecurityCardNo() {
+        return socialSecurityCardNo;
+    }
+
+    public void setSocialSecurityCardNo(String socialSecurityCardNo) {
+        this.socialSecurityCardNo = socialSecurityCardNo;
+    }
+
+    public String getAccountNo() {
+        return accountNo;
+    }
+
+    public void setAccountNo(String accountNo) {
+        this.accountNo = accountNo;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
+    }
+
+    public String getPrinciple() {
+        return principle;
+    }
+
+    public void setPrinciple(String principle) {
+        this.principle = principle;
+    }
+
+    public String getLoanRate() {
+        return loanRate;
+    }
+
+    public void setLoanRate(String loanRate) {
+        this.loanRate = loanRate;
+    }
+
+    public BigDecimal getResidualPrinciple() {
+        return residualPrinciple;
+    }
+
+    public void setResidualPrinciple(BigDecimal residualPrinciple) {
+        this.residualPrinciple = residualPrinciple;
+    }
+
+    public BigDecimal getMonthlyRepayments() {
+        return monthlyRepayments;
+    }
+
+    public void setMonthlyRepayments(BigDecimal monthlyRepayments) {
+        this.monthlyRepayments = monthlyRepayments;
+    }
+
+    public BigDecimal getMinimumPayment() {
+        return minimumPayment;
+    }
+
+    public void setMinimumPayment(BigDecimal minimumPayment) {
+        this.minimumPayment = minimumPayment;
+    }
+
+    public BigDecimal getCreditLine() {
+        return creditLine;
+    }
+
+    public void setCreditLine(BigDecimal creditLine) {
+        this.creditLine = creditLine;
+    }
+
+    public BigDecimal getFixedQuota() {
+        return fixedQuota;
+    }
+
+    public void setFixedQuota(BigDecimal fixedQuota) {
+        this.fixedQuota = fixedQuota;
+    }
+
+    public String getDefaultLevel() {
+        return defaultLevel;
+    }
+
+    public void setDefaultLevel(String defaultLevel) {
+        this.defaultLevel = defaultLevel;
+    }
+
+    public BigDecimal getLastRepayMoney() {
+        return lastRepayMoney;
+    }
+
+    public void setLastRepayMoney(BigDecimal lastRepayMoney) {
+        this.lastRepayMoney = lastRepayMoney;
+    }
+
+    public Date getLastRepayDate() {
+        return lastRepayDate;
+    }
+
+    public void setLastRepayDate(Date lastRepayDate) {
+        this.lastRepayDate = lastRepayDate;
+    }
+
+    public Date getLastConsumeDate() {
+        return lastConsumeDate;
+    }
+
+    public void setLastConsumeDate(Date lastConsumeDate) {
+        this.lastConsumeDate = lastConsumeDate;
+    }
+
+    public Date getLastWithdrawDate() {
+        return lastWithdrawDate;
+    }
+
+    public void setLastWithdrawDate(Date lastWithdrawDate) {
+        this.lastWithdrawDate = lastWithdrawDate;
+    }
+
+    public Date getStopCardDate() {
+        return stopCardDate;
+    }
+
+    public void setStopCardDate(Date stopCardDate) {
+        this.stopCardDate = stopCardDate;
+    }
+
+    public Date getActiveCardDate() {
+        return activeCardDate;
+    }
+
+    public void setActiveCardDate(Date activeCardDate) {
+        this.activeCardDate = activeCardDate;
+    }
+
+    public Date getBillDate() {
+        return billDate;
+    }
+
+    public void setBillDate(Date billDate) {
+        this.billDate = billDate;
+    }
+
+    public String getBillCycle() {
+        return billCycle;
+    }
+
+    public void setBillCycle(String billCycle) {
+        this.billCycle = billCycle;
+    }
+
+    public BigDecimal getOutstandingAmount() {
+        return outstandingAmount;
+    }
+
+    public void setOutstandingAmount(BigDecimal outstandingAmount) {
+        this.outstandingAmount = outstandingAmount;
+    }
+
+    public String getMainDeputyCard() {
+        return mainDeputyCard;
+    }
+
+    public void setMainDeputyCard(String mainDeputyCard) {
+        this.mainDeputyCard = mainDeputyCard;
+    }
+
+    public String getDeputyCardUserName() {
+        return deputyCardUserName;
+    }
+
+    public void setDeputyCardUserName(String deputyCardUserName) {
+        this.deputyCardUserName = deputyCardUserName;
+    }
+
+    public Date getLoanDate() {
+        return loanDate;
+    }
+
+    public void setLoanDate(Date loanDate) {
+        this.loanDate = loanDate;
+    }
+
+    public Date getLoanDeadline() {
+        return loanDeadline;
+    }
+
+    public void setLoanDeadline(Date loanDeadline) {
+        this.loanDeadline = loanDeadline;
+    }
+
+    public Date getOverdueDate() {
+        return overdueDate;
+    }
+
+    public void setOverdueDate(Date overdueDate) {
+        this.overdueDate = overdueDate;
+    }
+
+    public Double getOverduePeriods() {
+        return overduePeriods;
+    }
+
+    public void setOverduePeriods(Double overduePeriods) {
+        this.overduePeriods = overduePeriods;
+    }
+
+    public Double getOverdueDays() {
+        return overdueDays;
+    }
+
+    public void setOverdueDays(Double overdueDays) {
+        this.overdueDays = overdueDays;
+    }
+
+    public Integer getOverdueTimes() {
+        return overdueTimes;
+    }
+
+    public void setOverdueTimes(Integer overdueTimes) {
+        this.overdueTimes = overdueTimes;
+    }
+
+    public Double getEntrustPeriods() {
+        return entrustPeriods;
+    }
+
+    public void setEntrustPeriods(Double entrustPeriods) {
+        this.entrustPeriods = entrustPeriods;
+    }
+
+    public Date getRepayDeadline() {
+        return repayDeadline;
+    }
+
+    public void setRepayDeadline(Date repayDeadline) {
+        this.repayDeadline = repayDeadline;
+    }
+
+    public Double getRepaidPeriods() {
+        return repaidPeriods;
+    }
+
+    public void setRepaidPeriods(Double repaidPeriods) {
+        this.repaidPeriods = repaidPeriods;
+    }
+
+    public String getLoanType() {
+        return loanType;
+    }
+
+    public void setLoanType(String loanType) {
+        this.loanType = loanType;
+    }
+
+    public String getCollectionType() {
+        return collectionType;
+    }
+
+    public void setCollectionType(String collectionType) {
+        this.collectionType = collectionType;
+    }
+
+    public BigDecimal getOverdueMoney() {
+        return overdueMoney;
+    }
+
+    public void setOverdueMoney(BigDecimal overdueMoney) {
+        this.overdueMoney = overdueMoney;
+    }
+
+    public BigDecimal getOverduePrinciple() {
+        return overduePrinciple;
+    }
+
+    public void setOverduePrinciple(BigDecimal overduePrinciple) {
+        this.overduePrinciple = overduePrinciple;
+    }
+
+    public BigDecimal getOverdueInterest() {
+        return overdueInterest;
+    }
+
+    public void setOverdueInterest(BigDecimal overdueInterest) {
+        this.overdueInterest = overdueInterest;
+    }
+
+    public BigDecimal getOverdueManagementCost() {
+        return overdueManagementCost;
+    }
+
+    public void setOverdueManagementCost(BigDecimal overdueManagementCost) {
+        this.overdueManagementCost = overdueManagementCost;
+    }
+
+    public BigDecimal getOverdueDefaultInterest() {
+        return overdueDefaultInterest;
+    }
+
+    public void setOverdueDefaultInterest(BigDecimal overdueDefaultInterest) {
+        this.overdueDefaultInterest = overdueDefaultInterest;
+    }
+
+    public BigDecimal getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(BigDecimal penalty) {
+        this.penalty = penalty;
+    }
+
+    public BigDecimal getLateFee() {
+        return lateFee;
+    }
+
+    public void setLateFee(BigDecimal lateFee) {
+        this.lateFee = lateFee;
+    }
+
+    public BigDecimal getOverrunFee() {
+        return overrunFee;
+    }
+
+    public void setOverrunFee(BigDecimal overrunFee) {
+        this.overrunFee = overrunFee;
+    }
+
+    public BigDecimal getBail() {
+        return bail;
+    }
+
+    public void setBail(BigDecimal bail) {
+        this.bail = bail;
+    }
+
+    public String getCurrencyType() {
+        return currencyType;
+    }
+
+    public void setCurrencyType(String currencyType) {
+        this.currencyType = currencyType;
+    }
+
+    public String getLastCollectionRecord() {
+        return lastCollectionRecord;
+    }
+
+    public void setLastCollectionRecord(String lastCollectionRecord) {
+        this.lastCollectionRecord = lastCollectionRecord;
+    }
+
+    public String getOverdueBillTime() {
+        return overdueBillTime;
+    }
+
+    public void setOverdueBillTime(String overdueBillTime) {
+        this.overdueBillTime = overdueBillTime;
+    }
+
+    public List<DataCaseContactsEntity> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<DataCaseContactsEntity> contacts) {
+        this.contacts = contacts;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getDealer() {
+        return dealer;
+    }
+
+    public void setDealer(String dealer) {
+        this.dealer = dealer;
+    }
+
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
+    }
+
+    public Date getPolicyExpiryDate() {
+        return policyExpiryDate;
+    }
+
+    public void setPolicyExpiryDate(Date policyExpiryDate) {
+        this.policyExpiryDate = policyExpiryDate;
+    }
+
+    public BigDecimal getCardPrice() {
+        return cardPrice;
+    }
+
+    public void setCardPrice(BigDecimal cardPrice) {
+        this.cardPrice = cardPrice;
+    }
+
+    public String getCardModel() {
+        return cardModel;
+    }
+
+    public void setCardModel(String cardModel) {
+        this.cardModel = cardModel;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getEngineNo() {
+        return engineNo;
+    }
+
+    public void setEngineNo(String engineNo) {
+        this.engineNo = engineNo;
     }
 }
