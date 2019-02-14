@@ -66,6 +66,7 @@ public class SysRoleController {
         if (isAdmin) {
             list = sysRoleService.listRoles(roleEntity);
         }
+        CollectionsUtils.userInfoSet(list);
         return WebResponse.success(list);
     }
 
@@ -79,7 +80,7 @@ public class SysRoleController {
     @PostMapping("/save")
     public Object save(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || StringUtils.isBlank(roleEntity.getRoleName())) {
-            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "参数缺失");
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色名称未填写");
         }
         SysRoleEntity queryRole = sysRoleService.selectByRoleName(roleEntity);
         if (queryRole != null) {
@@ -90,7 +91,7 @@ public class SysRoleController {
 
         sysRoleService.saveRole(roleEntity);
 
-        return WebResponse.success();
+        return WebResponse.success(roleEntity);
     }
 
     /**
@@ -103,7 +104,7 @@ public class SysRoleController {
     @PostMapping("/delete")
     public Object delete(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || roleEntity.getId() == null) {
-            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "参数缺失");
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色id未传");
         }
         sysRoleService.deleteRole(roleEntity);
         sysRoleService.refreshRoleRedis();
@@ -114,7 +115,10 @@ public class SysRoleController {
     @PostMapping("/auth")
     public WebResponse auth(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || roleEntity.getId() == null || roleEntity.getMenus() == null) {
-            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "参数缺失");
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色id未传或角色权限为空");
+        }
+        if(roleEntity.getId() == 1) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员角色权限不得修改");
         }
         JSONObject redisJson = JwtTokenUtil.tokenData();
         String userRolesString = stringRedisTemplate.opsForValue().get(RedisKeyPrefix.USER_ROLE + redisJson.getInteger("userId"));
@@ -274,7 +278,7 @@ public class SysRoleController {
             for (String menusStr : menusString) {
                 SysMenuEntity[] menus = JSONArray.parseObject(menusStr, SysMenuEntity[].class);
                 for (SysMenuEntity menu : menus) {
-                    if (selectMenuIds.contains(menu.getId())) {
+                    if (selectMenuIds.contains(menu.getId()) || menu.getId() == 1) {
                         menu.setSelect(true);
                     }
                     menuMap.put(menu.getId(), menu);
