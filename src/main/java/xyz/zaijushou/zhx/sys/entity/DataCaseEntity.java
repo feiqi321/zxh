@@ -205,9 +205,7 @@ public class DataCaseEntity extends CommonEntity {
     private Date policyExpiryDate;  //保单到期日
     private BigDecimal cardPrice;   //车价
     private String cardModel;   //车型
-    private String licensePlate;   //牌照
     private String brand;   //品牌
-    private String frameNo; //车架号
     private String engineNo;    //发动机号
 
 
@@ -1548,28 +1546,12 @@ public class DataCaseEntity extends CommonEntity {
         this.cardModel = cardModel;
     }
 
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public String getFrameNo() {
-        return frameNo;
-    }
-
-    public void setFrameNo(String frameNo) {
-        this.frameNo = frameNo;
     }
 
     public String getEngineNo() {
