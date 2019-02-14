@@ -55,8 +55,8 @@ public class CollectionStatistic extends CommonEntity {
     private String monthStart ; //月日期开始
     private String monthEnd ; //月日期结束
 
-    private BigDecimal bankAmt;//銀行对账金额
-    private BigDecimal repayAmt;//承諾还款金额-PTP
+    private BigDecimal bankAmtC;//銀行对账金额-CP
+    private BigDecimal repayAmtP;//承諾还款金额-PTP
     private BigDecimal repaidAmt;//已还款金额的提成金额（M）
     private BigDecimal repaidBankAmt;//银行查账金额的提成金额（M）
 
@@ -66,11 +66,13 @@ public class CollectionStatistic extends CommonEntity {
     private BigDecimal lastRepaidAmt;//上月已还款金额的提成金额（M）
     private BigDecimal lastRepaidBankAmt;//月银行查账金额的提成金额（M）
 
-    private BigDecimal thisPaidMoney ; //上月还款金额
-    private BigDecimal thisBankAmt;//上月銀行对账金额
-    private BigDecimal thisRepayAmt;//上月承諾还款金额-PTP
+    private BigDecimal thisPaidMoney ; //月还款金额
+    private BigDecimal thisBankAmt;//月銀行对账金额
+    private BigDecimal thisRepayAmt;//月承諾还款金额-PTP
     private BigDecimal thisRepaidAmt;//月已还款金额的提成金额（M）
     private BigDecimal thisRepaidBankAmt;//月银行查账金额的提成金额（M）
+
+    private String opeType ;//0-还款记录，1-CP记录，2-PTP记录
 
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
 
@@ -387,20 +389,28 @@ public class CollectionStatistic extends CommonEntity {
         this.sumCase = sumCase;
     }
 
-    public BigDecimal getBankAmt() {
-        return bankAmt;
+    public BigDecimal getBankAmtC() {
+        return bankAmtC;
     }
 
-    public void setBankAmt(BigDecimal bankAmt) {
-        this.bankAmt = bankAmt;
+    public void setBankAmtC(BigDecimal bankAmtC) {
+        this.bankAmtC = bankAmtC;
     }
 
-    public BigDecimal getRepayAmt() {
-        return repayAmt;
+    public BigDecimal getRepayAmtP() {
+        return repayAmtP;
     }
 
-    public void setRepayAmt(BigDecimal repayAmt) {
-        this.repayAmt = repayAmt;
+    public void setRepayAmtP(BigDecimal repayAmtP) {
+        this.repayAmtP = repayAmtP;
+    }
+
+    public String getOpeType() {
+        return opeType;
+    }
+
+    public void setOpeType(String opeType) {
+        this.opeType = opeType;
     }
 
     public BigDecimal getRepaidAmt() {
