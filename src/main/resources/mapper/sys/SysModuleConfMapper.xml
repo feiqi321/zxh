@@ -90,4 +90,11 @@
       delete_flag = #{deleteFlag,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="findAllConf" resultMap="BaseResultMap" parameterType="xyz.zaijushou.zhx.sys.entity.SysModuleConf" >
+    select
+    <include refid="Base_Column_List" />
+    from sys_module_conf
+    where type= #{type}
+  </select>
 </mapper>
