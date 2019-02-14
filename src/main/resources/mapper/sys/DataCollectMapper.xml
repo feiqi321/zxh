@@ -500,10 +500,13 @@
         </if>
     </select>
 
-    <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+    <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         SELECT
         dc.batch_no as batchNo,dc.target_name as targetName,dc.seqno,dc.client,dc.account_age as accountAge,
-        dc.money,dc.repay_amt as repayAmt, dc.repay_time as repayTime,dc.en_repay_amt as enRepayAmt,
+        dc.money,dc.m_val as mVal,dc.bank_amt as bankAmt,dc.bank_time as bankTime,
+        IFNULL(dc.bank_amt*dc.m_val,0) as repaidAmtM,
+        IFNULL(dc.repay_amt*dc.m_val,0) as repaidBankAmtM,
+        dc.repay_amt as repayAmt, dc.repay_time as repayTime,dc.en_repay_amt as enRepayAmt,
         dc.expect_time as expectTime
         from
         data_collection dc
@@ -547,7 +550,7 @@
 
     </select>
 
-    <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
+    <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
         SELECT
        count(1) as sum
         from
