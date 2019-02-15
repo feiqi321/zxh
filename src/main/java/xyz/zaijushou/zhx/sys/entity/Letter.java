@@ -285,8 +285,4 @@ public class Letter extends CommonEntity {
         this.createDate = createDate;
     }
 
-
-    public void setCreateUser(Integer createUser) {
-        this.createUser = createUser;
-    }
 }
