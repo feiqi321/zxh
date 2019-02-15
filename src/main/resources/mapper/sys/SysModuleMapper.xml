@@ -12,12 +12,14 @@
         insert  into sys_module
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="title != null">title,</if>
+            <if test="context != null">context,</if>
             delete_flag,
             create_time,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="title != null">#{title},</if>
+            <if test="context != null">#{context},</if>
             0,
             now(),
         </trim>
@@ -46,7 +48,7 @@
     </select>
 
     <update id="saveContext" parameterType="xyz.zaijushou.zhx.sys.entity.SysModule">
-        update sys_module set context =#{context}
+        update sys_module set context =#{context},title=#{title}
         where id = #{id}
     </update>
 </mapper>
