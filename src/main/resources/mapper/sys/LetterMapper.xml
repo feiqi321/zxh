@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.LetterMapper" >
+  <resultMap id="BaseResultMap" type="xyz.zaijushou.zhx.sys.entity.Letter" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="case_id" property="caseId" jdbcType="INTEGER" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="ident_no" property="identNo" jdbcType="VARCHAR" />
+    <result column="case_date" property="caseDate" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="relation" property="relation" jdbcType="VARCHAR" />
+    <result column="address_type" property="addressType" jdbcType="VARCHAR" />
+    <result column="synergy_result" property="synergyResult" jdbcType="VARCHAR" />
+    <result column="apply_context" property="applyContext" jdbcType="VARCHAR" />
+    <result column="synergy_date" property="synergyDate" jdbcType="VARCHAR" />
+    <result column="synergyer" property="synergyer" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, case_id, card_no, ident_no, case_date, address, name, relation, address_type, 
+    synergy_result, apply_context, synergy_date, synergyer, delete_flag, create_date, 
+    create_user
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from letter
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from letter
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
+    insert into letter (id, case_id, card_no, 
+      ident_no, case_date, address, 
+      name, relation, address_type, 
+      synergy_result, apply_context, synergy_date, 
+      synergyer, delete_flag, create_date, 
+      create_user)
+    values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, #{cardNo,jdbcType=VARCHAR}, 
+      #{identNo,jdbcType=VARCHAR}, #{caseDate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, #{addressType,jdbcType=VARCHAR}, 
+      #{synergyResult,jdbcType=VARCHAR}, #{applyContext,jdbcType=VARCHAR}, #{synergyDate,jdbcType=VARCHAR}, 
+      #{synergyer,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{createDate,jdbcType=INTEGER}, 
+      #{createUser,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
+    insert into letter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="caseId != null" >
+        case_id,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="identNo != null" >
+        ident_no,
+      </if>
+      <if test="caseDate != null" >
+        case_date,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="relation != null" >
+        relation,
+      </if>
+      <if test="addressType != null" >
+        address_type,
+      </if>
+      <if test="synergyResult != null" >
+        synergy_result,
+      </if>
+      <if test="applyContext != null" >
+        apply_context,
+      </if>
+      <if test="synergyDate != null" >
+        synergy_date,
+      </if>
+      <if test="synergyer != null" >
+        synergyer,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="identNo != null" >
+        #{identNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseDate != null" >
+        #{caseDate,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="addressType != null" >
+        #{addressType,jdbcType=VARCHAR},
+      </if>
+      <if test="synergyResult != null" >
+        #{synergyResult,jdbcType=VARCHAR},
+      </if>
+      <if test="applyContext != null" >
+        #{applyContext,jdbcType=VARCHAR},
+      </if>
+      <if test="synergyDate != null" >
+        #{synergyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="synergyer != null" >
+        #{synergyer,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
+    update letter
+    <set >
+      <if test="caseId != null" >
+        case_id = #{caseId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="identNo != null" >
+        ident_no = #{identNo,jdbcType=VARCHAR},
+      </if>
+      <if test="caseDate != null" >
+        case_date = #{caseDate,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="relation != null" >
+        relation = #{relation,jdbcType=VARCHAR},
+      </if>
+      <if test="addressType != null" >
+        address_type = #{addressType,jdbcType=VARCHAR},
+      </if>
+      <if test="synergyResult != null" >
+        synergy_result = #{synergyResult,jdbcType=VARCHAR},
+      </if>
+      <if test="applyContext != null" >
+        apply_context = #{applyContext,jdbcType=VARCHAR},
+      </if>
+      <if test="synergyDate != null" >
+        synergy_date = #{synergyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="synergyer != null" >
+        synergyer = #{synergyer,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=INTEGER},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
+    update letter
+    set case_id = #{caseId,jdbcType=INTEGER},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      ident_no = #{identNo,jdbcType=VARCHAR},
+      case_date = #{caseDate,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      relation = #{relation,jdbcType=VARCHAR},
+      address_type = #{addressType,jdbcType=VARCHAR},
+      synergy_result = #{synergyResult,jdbcType=VARCHAR},
+      apply_context = #{applyContext,jdbcType=VARCHAR},
+      synergy_date = #{synergyDate,jdbcType=VARCHAR},
+      synergyer = #{synergyer,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=INTEGER},
+      create_user = #{createUser,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
