@@ -33,9 +33,7 @@ public class Letter extends CommonEntity {
 
     private Integer deleteFlag;
 
-    private Integer createDate;
-
-    private Integer createUser;
+    private String createDate;
 
     private String collectArea;
 
@@ -279,17 +277,14 @@ public class Letter extends CommonEntity {
         this.deleteFlag = deleteFlag;
     }
 
-    public Integer getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Integer createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
-    public Integer getCreateUser() {
-        return createUser;
-    }
 
     public void setCreateUser(Integer createUser) {
         this.createUser = createUser;

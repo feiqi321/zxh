@@ -222,9 +222,6 @@ public class Synergy extends CommonEntity {
         this.createDate = createDate;
     }
 
-    public Integer getCreateUser() {
-        return createUser;
-    }
 
     public void setCreateUser(Integer createUser) {
         this.createUser = createUser;
