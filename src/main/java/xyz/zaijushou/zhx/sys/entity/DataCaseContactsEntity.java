@@ -18,6 +18,12 @@ public class DataCaseContactsEntity extends CommonEntity {
 
     private String unitTel; //联系人单位电话
 
+    private String mobile;  //联系人手机
+
+    private String address; //联系人地址
+
+    private String unit;    //联系人单位
+
     private Integer sort;
 
     public String getName() {
@@ -82,5 +88,29 @@ public class DataCaseContactsEntity extends CommonEntity {
 
     public void setCaseId(Integer caseId) {
         this.caseId = caseId;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

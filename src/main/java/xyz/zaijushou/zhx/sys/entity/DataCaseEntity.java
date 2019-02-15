@@ -123,7 +123,7 @@ public class DataCaseEntity extends CommonEntity {
     private Double commissionRate;  //公司佣金比率
     private BigDecimal commissionMoney; //公司佣金金额
     private String homeTelNumber;   //家庭号码
-    private String companyTelNumber;    //单位号码
+    private String unitTelNumber;    //单位号码
 //    private String mobile;  //本人手机
 //    private String companyName; //单位名称
     private String caseUserPosition;    //案人职位
@@ -154,8 +154,8 @@ public class DataCaseEntity extends CommonEntity {
     private String accountNo;   //账号
     private String accountName; //账户名称
     private String cardType;    //卡类
-    private String principle;   //本金
-    private String loanRate;    //贷款利率
+    private BigDecimal principle;   //本金
+    private BigDecimal loanRate;    //贷款利率
     private BigDecimal residualPrinciple;    //剩余本金
     private BigDecimal monthlyRepayments;   //每月还款
     private BigDecimal minimumPayment;  //最低还款额
@@ -930,12 +930,12 @@ public class DataCaseEntity extends CommonEntity {
         this.homeTelNumber = homeTelNumber;
     }
 
-    public String getCompanyTelNumber() {
-        return companyTelNumber;
+    public String getUnitTelNumber() {
+        return unitTelNumber;
     }
 
-    public void setCompanyTelNumber(String companyTelNumber) {
-        this.companyTelNumber = companyTelNumber;
+    public void setUnitTelNumber(String unitTelNumber) {
+        this.unitTelNumber = unitTelNumber;
     }
 
     public String getCaseUserPosition() {
@@ -1154,19 +1154,19 @@ public class DataCaseEntity extends CommonEntity {
         this.cardType = cardType;
     }
 
-    public String getPrinciple() {
+    public BigDecimal getPrinciple() {
         return principle;
     }
 
-    public void setPrinciple(String principle) {
+    public void setPrinciple(BigDecimal principle) {
         this.principle = principle;
     }
 
-    public String getLoanRate() {
+    public BigDecimal getLoanRate() {
         return loanRate;
     }
 
-    public void setLoanRate(String loanRate) {
+    public void setLoanRate(BigDecimal loanRate) {
         this.loanRate = loanRate;
     }
 
