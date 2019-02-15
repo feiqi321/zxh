@@ -500,10 +500,13 @@
         </if>
     </select>
 
-    <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+    <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         SELECT
         dc.batch_no as batchNo,dc.target_name as targetName,dc.seqno,dc.client,dc.account_age as accountAge,
-        dc.money,dc.repay_amt as repayAmt, dc.repay_time as repayTime,dc.en_repay_amt as enRepayAmt,
+        dc.money,dc.m_val as mVal,dc.bank_amt as bankAmt,dc.bank_time as bankTime,
+        IFNULL(dc.bank_amt*dc.m_val,0) as repaidAmtM,
+        IFNULL(dc.repay_amt*dc.m_val,0) as repaidBankAmtM,
+        dc.repay_amt as repayAmt, dc.repay_time as repayTime,dc.en_repay_amt as enRepayAmt,
         dc.expect_time as expectTime
         from
         data_collection dc
@@ -539,15 +542,15 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
     </select>
 
-    <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
+    <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
         SELECT
        count(1) as sum
         from
@@ -583,18 +586,18 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.except_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
     </select>
 
     <select id="statisticsCollectionPayM" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        IFNULL(sum(dc.en_repay_amt),0) as paidMoney , IFNULL(sum(dc.bank_amt),0) as bankAmt,
-        IFNULL(sum(dc.repay_amt),0) as repayAmt,
+        IFNULL(sum(dc.en_repay_amt),0) as paidMoney , IFNULL(sum(dc.bank_amt),0) as bankAmtC,
+        IFNULL(sum(dc.repay_amt),0) as repayAmtP,
         IFNULL(sum(dc.en_repay_amt*dc.m_val),0) as repaidAmt,IFNULL(sum(dc.bank_amt*dc.m_val),0) as repaidBankAmt
         from
         data_collection dc
@@ -605,6 +608,42 @@
         </if>
         <if test="monthEnd != null and monthEnd!=''">
             <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m-%d')   ]]>
+        </if>
+
+        <if test="dept != null and dept!=''">
+            AND  dept like CONCAT('%',#{dept},'%')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv  like CONCAT('%',#{odv},'%')
+        </if>
+        <if test="client != null and client !=''">
+            and client = #{client}
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            and batch_no = #{batchNo}
+        </if>
+
+        <if test="accountAge != null and accountAge !=''">
+            and account_age = #{accountAge}
+        </if>
+
+        <if test="repayTimeStart != null and repayTimeStart!=''">
+            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="repayTimeEnd != null and repayTimeEnd!=''">
+            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="bankTimeStart != null and bankTimeStart!=''">
+            <![CDATA[   and DATE_FORMATd(dc.bank_time, '%Y-%m-%d')>=  DATE_FORMAT(#{bankTimeStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="bankTimeEnd != null and bankTimeEnd!=''">
+            <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="expectTimeStart != null and expectTimeStart!=''">
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="expectTimeEnd != null and expectTimeEnd!=''">
+            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
     </select>
 

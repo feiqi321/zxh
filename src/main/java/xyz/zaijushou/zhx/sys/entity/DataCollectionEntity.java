@@ -150,6 +150,10 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal balance;//委案余额
     private BigDecimal enRepayAmt;//已还金额
 
+    private BigDecimal repaidAmtM;//已还款金额的提成金额（M）
+    private BigDecimal repaidBankAmtM;//银行查账金额的提成金额（M）
+    private BigDecimal mVal;//M值系数
+
     private String archiveNo;//档案号
 
     private String payName;//还款人
@@ -162,6 +166,30 @@ public class DataCollectionEntity extends CommonEntity {
     private String resultId;//催收结果id
 
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
+
+    public BigDecimal getRepaidAmtM() {
+        return repaidAmtM;
+    }
+
+    public void setRepaidAmtM(BigDecimal repaidAmtM) {
+        this.repaidAmtM = repaidAmtM;
+    }
+
+    public BigDecimal getRepaidBankAmtM() {
+        return repaidBankAmtM;
+    }
+
+    public void setRepaidBankAmtM(BigDecimal repaidBankAmtM) {
+        this.repaidBankAmtM = repaidBankAmtM;
+    }
+
+    public BigDecimal getmVal() {
+        return mVal;
+    }
+
+    public void setmVal(BigDecimal mVal) {
+        this.mVal = mVal;
+    }
 
     public String getAccount() {
         return account;

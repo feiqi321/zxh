@@ -162,19 +162,22 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 dateEnd = time.getTime();
                 date = dateEnd;
                 CollectionStatistic bean = new CollectionStatistic();
-                bean.setDateSearchEnd(beanInfo.getDateSearchEnd());
-                bean.setDateSearchStart(beanInfo.getDateSearchStart());
-                if (bean.getDateSearchStart()==null) {
-                    bean.setDateSearchStart(new Date());
+                //循环查询日期条件的时间范围
+                beanInfo.setDateSearchStart(beanInfo.getDateSearchStart()==null?new Date():beanInfo.getDateSearchStart());
+                beanInfo.setDateSearchEnd(beanInfo.getDateSearchEnd()==null?new Date():beanInfo.getDateSearchEnd());
+                int countSum = 0;
+                int countCon = 0;
+                int countCase = 0;
+                Calendar dTime = Calendar.getInstance();
+                dTime.setTime(beanInfo.getDateSearchStart());
+                while(!dTime.getTime().after(beanInfo.getDateSearchEnd())){
+                    bean.setDateStart(sdf.parse(sdf1.format(dTime.getTime()) + sdf2.format(dateStart)));
+                    bean.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())+sdf2.format(dateEnd)));;
+                    countSum += dataCollectionTelMapper.statisticsCollectionSum(bean);
+                    countCon += dataCollectionTelMapper.statisticsCollectionCon(bean);
+                    countCase += dataCollectionTelMapper.statisticsCollectionCase(bean);
+                    dTime.add(Calendar.MONTH,1);
                 }
-                bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart()) + sdf2.format(dateStart)));
-                if (bean.getDateSearchEnd()==null){
-                    bean.setDateSearchEnd(new Date());
-                }
-                bean.setDateEnd(sdf.parse(sdf1.format(bean.getDateSearchEnd())+sdf2.format(dateEnd)));;
-                int countSum = dataCollectionTelMapper.statisticsCollectionSum(bean);
-                int countCon = dataCollectionTelMapper.statisticsCollectionCon(bean);
-                int countCase = dataCollectionTelMapper.statisticsCollectionCase(bean);
                 bean.setCountPhoneNum(countSum);
                 bean.setCountConPhoneNum(countCon);
                 bean.setCountCasePhoneNum(countCase);
@@ -188,6 +191,49 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return colList;
     }
 
+    /**
+     * 获得该月第一天
+     * @param year
+     * @param month
+     * @return
+     */
+    private static String getFirstDayOfMonth(int year,int month){
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR,year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最小天数
+        int firstDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH);
+        //设置日历中月份的最小天数
+        cal.set(Calendar.DAY_OF_MONTH, firstDay);
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String firstDayOfMonth = sdf.format(cal.getTime());
+        return firstDayOfMonth;
+    }
+
+    /**
+     * 获得该月最后一天
+     * @param year
+     * @param month
+     * @return
+     */
+    private static String getLastDayOfMonth(int year,int month){
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR,year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最大天数
+        int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        //设置日历中月份的最大天数
+        cal.set(Calendar.DAY_OF_MONTH, lastDay);
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String lastDayOfMonth = sdf.format(cal.getTime());
+        return lastDayOfMonth;
+    }
 
     /**
      * 催收状况统计
@@ -264,6 +310,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //我的还款统计，上月和当月金额统计 查询
         getLastMData(collectionReturn,beanInfo);
         getThisMData(collectionReturn,beanInfo);
+        //获取三个不同列表的统计金额
+        getStatisticsData(collectionReturn,beanInfo);
 
         webResponse.setTotalNum(count);
         webResponse.setTotalPageNum(totalPageNum);
@@ -271,21 +319,32 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return webResponse;
     }
 
+    private void getStatisticsData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
+        CollectionStatistic collectonStatic =
+                dataCollectionMapper.statisticsCollectionPayM(beanInfo);
+        collectionReturn.setBankAmtC(collectonStatic.getBankAmtC());
+        collectionReturn.setPaidMoney(collectonStatic.getPaidMoney());
+        collectionReturn.setRepaidAmt(collectonStatic.getRepaidAmt());
+        collectionReturn.setRepayAmtP(collectonStatic.getRepayAmtP());
+        collectionReturn.setRepaidBankAmt(collectonStatic.getRepaidBankAmt());
+    }
+
     private void getLastMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
+        CollectionStatistic beanInfoData = new CollectionStatistic();
         Calendar timeStart = Calendar.getInstance();
         Calendar timeEnd = Calendar.getInstance();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         timeStart.add(Calendar.MONTH, -1);    //得到前一个月
         timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
-        beanInfo.setMonthStart(sdf1.format(timeStart.getTime()));//上月第一天
+        beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//上月第一天
         timeEnd.set(Calendar.DAY_OF_MONTH,0);
-        beanInfo.setMonthEnd(sdf1.format(timeEnd.getTime()));//上月最后一天
+        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//上月最后一天
         CollectionStatistic collectonStatic =
-                dataCollectionMapper.statisticsCollectionPayM(beanInfo);
-        collectionReturn.setLastBankAmt(collectonStatic.getBankAmt());
+                dataCollectionMapper.statisticsCollectionPayM(beanInfoData);
+        collectionReturn.setLastBankAmt(collectonStatic.getBankAmtC());
         collectionReturn.setLastPaidMoney(collectonStatic.getPaidMoney());
         collectionReturn.setLastRepaidAmt(collectonStatic.getRepaidAmt());
-        collectionReturn.setLastRepayAmt(collectonStatic.getRepayAmt());
+        collectionReturn.setLastRepayAmt(collectonStatic.getRepayAmtP());
         collectionReturn.setLastRepaidBankAmt(collectonStatic.getRepaidBankAmt());
     }
    /* paidMoney;//已还款金额
@@ -295,20 +354,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     repaidBankAmt;//月银行查账金额的提成金额（M）*/
 
     private void getThisMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
+        CollectionStatistic beanInfoData = new CollectionStatistic();
         Calendar timeStart = Calendar.getInstance();
         Calendar timeEnd = Calendar.getInstance();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         timeStart.add(Calendar.MONTH, 0);    //得到前一个月
         timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
-        beanInfo.setMonthStart(sdf1.format(timeStart.getTime()));//月第一天
+        beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//月第一天
         timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
-        beanInfo.setMonthEnd(sdf1.format(timeEnd.getTime()));//月最后一天
+        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//月最后一天
         CollectionStatistic collectonStatic =
-                dataCollectionMapper.statisticsCollectionPayM(beanInfo);
-        collectionReturn.setThisBankAmt(collectonStatic.getBankAmt());
+                dataCollectionMapper.statisticsCollectionPayM(beanInfoData);
+        collectionReturn.setThisBankAmt(collectonStatic.getBankAmtC());
         collectionReturn.setThisPaidMoney(collectonStatic.getPaidMoney());
         collectionReturn.setThisRepaidAmt(collectonStatic.getRepaidAmt());
-        collectionReturn.setThisRepayAmt(collectonStatic.getRepayAmt());
+        collectionReturn.setThisRepayAmt(collectonStatic.getRepayAmtP());
         collectionReturn.setThisRepaidBankAmt(collectonStatic.getRepaidBankAmt());
     }
 }
