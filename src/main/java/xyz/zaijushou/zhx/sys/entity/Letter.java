@@ -1,8 +1,10 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 import java.math.BigDecimal;
 
-public class Letter {
+public class Letter extends CommonEntity {
     private Integer id;
 
     private Integer caseId;
