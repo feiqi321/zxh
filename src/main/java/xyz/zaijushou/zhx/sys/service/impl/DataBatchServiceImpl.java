@@ -60,6 +60,18 @@ public class DataBatchServiceImpl implements DataBatchService {
                 SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
                 dataBatchEntity.setClient(sysDictionaryEntity.getName());
             }
+            List<SysDictionaryEntity> caseTypeList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getCaseType()));
+            if (caseTypeList.size()>0){
+                SysDictionaryEntity sysDictionaryEntity = caseTypeList.get(0);
+                dataBatchEntity.setCaseType(sysDictionaryEntity.getName());
+            }
+            if(dataBatchEntity.getBatchStatus()==1){
+                dataBatchEntity.setStatusMsg("未退案");
+            }else if (dataBatchEntity.getBatchStatus()==2){
+                dataBatchEntity.setStatusMsg("已退案");
+            }else{
+                dataBatchEntity.setStatusMsg("未导入");
+            }
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
             dataBatchEntity.setTotalAmt(new BigDecimal(0));
             dataBatchEntity.setUserCount(0);
