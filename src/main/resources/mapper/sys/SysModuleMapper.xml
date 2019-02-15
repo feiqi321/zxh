@@ -33,14 +33,14 @@
         where id = #{id}
     </delete>
 
-    <select id="selectModuleById" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
+    <select id="selectModuleById" parameterType="xyz.zaijushou.zhx.sys.entity.SysModule" resultType="xyz.zaijushou.zhx.sys.entity.SysModule">
         select
         id,title,context
         from sys_module
        where id = #{id}
     </select>
 
-    <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
+    <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.SysModule" resultType="xyz.zaijushou.zhx.sys.entity.SysModule">
     select
     id,title,context
     from sys_module
