@@ -74,7 +74,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return webResponse;
         }
         if (dataCollectionEntity.getsType() == 0){//查询个人
-            dataCollectionEntity.setTargetName(user.getUserName());
+            dataCollectionEntity.setOdv(user.getUserName());
         }
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
         int count = dataCollectionMapper.countDataCollect(dataCollectionEntity);
@@ -272,7 +272,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return webResponse;
         }
         if (beanInfo.getsType() == 0){//查询个人
-            beanInfo.setTargetName(user.getUserName());//当前用户
+            beanInfo.setOdv(user.getUserName());//当前用户
         }
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
@@ -303,7 +303,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return webResponse;
         }
         if (beanInfo.getsType() == 0){//查询个人
-            beanInfo.setTargetName(user.getUserName());//当前用户
+            beanInfo.setOdv(user.getUserName());//当前用户
         }
         CollectionStatistic collectionReturn = new CollectionStatistic();
         List<DataCollectionEntity> colList = new ArrayList<DataCollectionEntity>();
