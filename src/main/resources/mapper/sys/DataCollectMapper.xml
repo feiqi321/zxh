@@ -44,7 +44,7 @@
             <if test="caseDate != null">#{caseDate},</if>
             <if test="contractDate != null">#{contractDate},</if>
             <if test="resultId != null">#{resultId},</if>
-            <if test="targetName != null">#{caseDate},</if>
+            <if test="targetName != null">#{targetName},</if>
             <if test="relation != null">#{relation},</if>
             <if test="collectInfo != null">#{collectInfo},</if>
             <if test="mobile != null">#{mobile},</if>
@@ -473,6 +473,9 @@
         <if test="odv != null and odv!=''">
             AND odv  like CONCAT('%',#{odv},'%')
         </if>
+        <if test="targetName != null and targetName!=''">
+            AND target_name like CONCAT('%',#{targetName},'%')
+        </if>
         GROUP BY dc.batch_no
     </select>
 
@@ -498,6 +501,9 @@
         <if test="odv != null and odv!=''">
             AND odv  like CONCAT('%',#{odv},'%')
         </if>
+        <if test="targetName != null and targetName!=''">
+            AND target_name like CONCAT('%',#{targetName},'%')
+        </if>
     </select>
 
     <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
@@ -511,7 +517,9 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-
+        <if test="targetName != null and targetName!=''">
+            AND target_name like CONCAT('%',#{targetName},'%')
+        </if>
         <if test="dept != null and dept!=''">
             AND  dept like CONCAT('%',#{dept},'%')
         </if>
@@ -556,6 +564,9 @@
         from
         data_collection dc
         where dc.delete_flag = 0
+        <if test="targetName != null and targetName!=''">
+            AND target_name like CONCAT('%',#{targetName},'%')
+        </if>
         <if test="dept != null and dept!=''">
             AND  dept like CONCAT('%',#{dept},'%')
         </if>

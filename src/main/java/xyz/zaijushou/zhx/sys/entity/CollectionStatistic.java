@@ -74,6 +74,17 @@ public class CollectionStatistic extends CommonEntity {
 
     private String opeType ;//0-还款记录，1-CP记录，2-PTP记录
 
+    //对象姓名
+    private String  targetName;
+
+    public String getTargetName() {
+        return targetName;
+    }
+
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
+    }
+
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
 
     public String getOdv() {
