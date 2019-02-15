@@ -162,19 +162,22 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 dateEnd = time.getTime();
                 date = dateEnd;
                 CollectionStatistic bean = new CollectionStatistic();
-                bean.setDateSearchEnd(beanInfo.getDateSearchEnd());
-                bean.setDateSearchStart(beanInfo.getDateSearchStart());
-                if (bean.getDateSearchStart()==null) {
-                    bean.setDateSearchStart(new Date());
+                //循环查询日期条件的时间范围
+                beanInfo.setDateSearchStart(beanInfo.getDateSearchStart()==null?new Date():beanInfo.getDateSearchStart());
+                beanInfo.setDateSearchEnd(beanInfo.getDateSearchEnd()==null?new Date():beanInfo.getDateSearchEnd());
+                int countSum = 0;
+                int countCon = 0;
+                int countCase = 0;
+                Calendar dTime = Calendar.getInstance();
+                dTime.setTime(beanInfo.getDateSearchStart());
+                while(!dTime.getTime().after(beanInfo.getDateSearchEnd())){
+                    bean.setDateStart(sdf.parse(sdf1.format(dTime.getTime()) + sdf2.format(dateStart)));
+                    bean.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())+sdf2.format(dateEnd)));;
+                    countSum += dataCollectionTelMapper.statisticsCollectionSum(bean);
+                    countCon += dataCollectionTelMapper.statisticsCollectionCon(bean);
+                    countCase += dataCollectionTelMapper.statisticsCollectionCase(bean);
+                    dTime.add(Calendar.MONTH,1);
                 }
-                bean.setDateStart(sdf.parse(sdf1.format(bean.getDateSearchStart()) + sdf2.format(dateStart)));
-                if (bean.getDateSearchEnd()==null){
-                    bean.setDateSearchEnd(new Date());
-                }
-                bean.setDateEnd(sdf.parse(sdf1.format(bean.getDateSearchEnd())+sdf2.format(dateEnd)));;
-                int countSum = dataCollectionTelMapper.statisticsCollectionSum(bean);
-                int countCon = dataCollectionTelMapper.statisticsCollectionCon(bean);
-                int countCase = dataCollectionTelMapper.statisticsCollectionCase(bean);
                 bean.setCountPhoneNum(countSum);
                 bean.setCountConPhoneNum(countCon);
                 bean.setCountCasePhoneNum(countCase);
@@ -188,6 +191,49 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return colList;
     }
 
+    /**
+     * 获得该月第一天
+     * @param year
+     * @param month
+     * @return
+     */
+    private static String getFirstDayOfMonth(int year,int month){
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR,year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最小天数
+        int firstDay = cal.getActualMinimum(Calendar.DAY_OF_MONTH);
+        //设置日历中月份的最小天数
+        cal.set(Calendar.DAY_OF_MONTH, firstDay);
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String firstDayOfMonth = sdf.format(cal.getTime());
+        return firstDayOfMonth;
+    }
+
+    /**
+     * 获得该月最后一天
+     * @param year
+     * @param month
+     * @return
+     */
+    private static String getLastDayOfMonth(int year,int month){
+        Calendar cal = Calendar.getInstance();
+        //设置年份
+        cal.set(Calendar.YEAR,year);
+        //设置月份
+        cal.set(Calendar.MONTH, month-1);
+        //获取某月最大天数
+        int lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        //设置日历中月份的最大天数
+        cal.set(Calendar.DAY_OF_MONTH, lastDay);
+        //格式化日期
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String lastDayOfMonth = sdf.format(cal.getTime());
+        return lastDayOfMonth;
+    }
 
     /**
      * 催收状况统计
