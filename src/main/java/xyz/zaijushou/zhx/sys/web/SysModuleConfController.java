@@ -17,7 +17,6 @@ import xyz.zaijushou.zhx.sys.service.SysModuleConfService;
 @Api("模板配置")
 @RestController
 public class SysModuleConfController {
-
     @Autowired
     private SysModuleConfService sysModuleConfService;
 
