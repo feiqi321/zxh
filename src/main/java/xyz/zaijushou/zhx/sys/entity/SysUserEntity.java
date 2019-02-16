@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.entity;
 
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,6 +39,16 @@ public class SysUserEntity extends CommonEntity {
      * 生成的token
      */
     private String token;
+
+    /**
+     * 上次登录失败时间
+     */
+    private Date lastLoginFailTime;
+
+    /**
+     * 连续登录失败次数
+     */
+    private Integer loginFailTimes;
 
     public String getUserName() {
         return userName;
@@ -85,5 +96,21 @@ public class SysUserEntity extends CommonEntity {
 
     public void setLoginName(String loginName) {
         this.loginName = loginName;
+    }
+
+    public Date getLastLoginFailTime() {
+        return lastLoginFailTime;
+    }
+
+    public void setLastLoginFailTime(Date lastLoginFailTime) {
+        this.lastLoginFailTime = lastLoginFailTime;
+    }
+
+    public Integer getLoginFailTimes() {
+        return loginFailTimes;
+    }
+
+    public void setLoginFailTimes(Integer loginFailTimes) {
+        this.loginFailTimes = loginFailTimes;
     }
 }

@@ -135,6 +135,22 @@ public class SysUserController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "解除用户密码锁定", notes = "管理员解除由于用户密码输错被锁定")
+    @PostMapping("/accountPasswordUnlock")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Object accountPasswordUnlock(@RequestBody SysUserEntity user) {
+        if(user == null || user.getLoginName() == null) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请输入用户登录名");
+        }
+        user = sysUserService.findPasswordInfoByUsername(user);
+        if(user == null) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "用户登录名输入有误");
+        }
+        user.setLoginFailTimes(0);
+        sysUserService.updateLoginFailTimes(user);
+        return WebResponse.success();
+    }
+
 
 
 }

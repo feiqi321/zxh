@@ -27,6 +27,8 @@
         password as password,
         mobile as mobile,
         email as email,
+        last_login_fail_time as lastLoginFailTime,
+        login_fail_times as loginFailTimes,
         remark as remark,
         create_user as 'createUser.id',
         update_user as 'updateUser.id',
@@ -399,6 +401,19 @@
     <update id="passwordReset" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user
         set password = #{password}
+        where id = #{id}
+    </update>
+
+    <update id="updateLoginFailTimes" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        update sys_user
+        set login_fail_times = #{loginFailTimes}
+        where id = #{id}
+    </update>
+
+    <update id="updateLoginFailInfo" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        update sys_user
+        set login_fail_times = #{loginFailTimes},
+            last_login_fail_time = #{lastLoginFailTime}
         where id = #{id}
     </update>
 

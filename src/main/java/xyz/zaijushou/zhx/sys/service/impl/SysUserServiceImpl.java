@@ -43,7 +43,8 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.listAllUsers(userEntity);
     }
 
-    private SysUserEntity findPasswordInfoByUsername(SysUserEntity user) {
+    @Override
+    public SysUserEntity findPasswordInfoByUsername(SysUserEntity user) {
         return sysUserMapper.findPasswordInfoByLoginName(user);
     }
 
@@ -191,6 +192,11 @@ public class SysUserServiceImpl implements SysUserService {
     public void passwordResetByAdmin(SysNewUserEntity user) {
         user.setPassword(delegatingPasswordEncoder.encode(user.getPassword()));
         sysUserMapper.passwordReset(user);
+    }
+
+    @Override
+    public void updateLoginFailTimes(SysUserEntity user) {
+        sysUserMapper.updateLoginFailTimes(user);
     }
 
 

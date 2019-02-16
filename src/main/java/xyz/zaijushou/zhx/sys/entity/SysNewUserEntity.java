@@ -73,6 +73,16 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private String oldPassword;
 
+    /**
+     * 上次登录失败时间
+     */
+    private Date lastLoginFailTime;
+
+    /**
+     * 连续登录失败次数
+     */
+    private Integer loginFailTimes;
+
 
     public String getRole() {
         return role;
@@ -217,5 +227,21 @@ public class SysNewUserEntity extends CommonEntity {
 
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;
+    }
+
+    public Date getLastLoginFailTime() {
+        return lastLoginFailTime;
+    }
+
+    public void setLastLoginFailTime(Date lastLoginFailTime) {
+        this.lastLoginFailTime = lastLoginFailTime;
+    }
+
+    public Integer getLoginFailTimes() {
+        return loginFailTimes;
+    }
+
+    public void setLoginFailTimes(Integer loginFailTimes) {
+        this.loginFailTimes = loginFailTimes;
     }
 }

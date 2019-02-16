@@ -66,4 +66,8 @@ public interface SysUserMapper {
     void passwordReset(SysNewUserEntity user);
 
     SysNewUserEntity selectPasswordInfoById(SysNewUserEntity user);
+
+    void updateLoginFailTimes(SysUserEntity user);
+
+    void updateLoginFailInfo(SysUserEntity user);
 }

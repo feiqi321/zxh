@@ -1,8 +1,6 @@
 package xyz.zaijushou.zhx.sys.security;
 
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,9 +9,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Component;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Component
 public class DbAuthenticationProvider implements AuthenticationProvider {
@@ -24,6 +25,9 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
     @Resource
     private DelegatingPasswordEncoder delegatingPasswordEncoder;
 
+    @Resource
+    private SysUserMapper sysUserMapper;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String name = authentication.getName();
@@ -31,7 +35,17 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
         // 认证逻辑
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
         if (null != userDetails) {
+            SysUserEntity user = new SysUserEntity();
+            user.setLoginName(name);
+            user = sysUserMapper.findPasswordInfoByLoginName(user);
+            if(user.getLoginFailTimes() >= 3 && new Date().getTime() - user.getLastLoginFailTime().getTime()  < 30 * 60 * 1000) {
+                throw new LockedException("密码连续三次输入错误，该账号已经被锁定！请在输错密码30分钟后重试，或者联系管理员！");
+            }
             if (delegatingPasswordEncoder.matches(password, userDetails.getPassword())) {
+                if(user.getLoginFailTimes() > 0) {
+                    user.setLoginFailTimes(0);
+                    sysUserMapper.updateLoginFailTimes(user);
+                }
                 // 这里设置权限和角色
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();
 //                authorities.add( new GrantedAuthorityImpl("ROLE_ADMIN"));
@@ -39,6 +53,9 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
                 // 生成令牌 这里令牌里面存入了:name,password,authorities, 当然你也可以放其他内容
                 return new UsernamePasswordAuthenticationToken(name, password, authorities);
             } else {
+                user.setLoginFailTimes(user.getLoginFailTimes() + 1);
+                user.setLastLoginFailTime(new Date());
+                sysUserMapper.updateLoginFailInfo(user);
                 throw new BadCredentialsException("密码错误");
             }
         } else {

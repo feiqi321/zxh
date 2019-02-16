@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface SysUserService {
 
+    SysUserEntity findPasswordInfoByUsername(SysUserEntity user);
+
     SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user);
 
     List<SysToUserRole> listAllUserRoles(SysToUserRole sysToUserRole);
@@ -68,4 +70,6 @@ public interface SysUserService {
      * @param user
      */
     void passwordResetByAdmin(SysNewUserEntity user);
+
+    void updateLoginFailTimes(SysUserEntity user);
 }
