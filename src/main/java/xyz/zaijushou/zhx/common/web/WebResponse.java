@@ -1,7 +1,5 @@
 package xyz.zaijushou.zhx.common.web;
 
-import java.math.BigDecimal;
-
 public class WebResponse {
 
     private String code = "100";
@@ -12,27 +10,7 @@ public class WebResponse {
 
     private int totalNum;
 
-    private BigDecimal totalAmt;
-
-    private int userCount;
-
     private Object data;
-
-    public BigDecimal getTotalAmt() {
-        return totalAmt;
-    }
-
-    public void setTotalAmt(BigDecimal totalAmt) {
-        this.totalAmt = totalAmt;
-    }
-
-    public int getUserCount() {
-        return userCount;
-    }
-
-    public void setUserCount(int userCount) {
-        this.userCount = userCount;
-    }
 
     public int getTotalNum() {
         return totalNum;

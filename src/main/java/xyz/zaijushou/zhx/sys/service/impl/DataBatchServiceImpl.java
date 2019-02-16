@@ -8,6 +8,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.entity.BatchResponse;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
@@ -84,9 +85,12 @@ public class DataBatchServiceImpl implements DataBatchService {
 
             dataCaseEntities.set(i,dataBatchEntity);
         }
-        webResponse.setTotalAmt(new BigDecimal(0));
-        webResponse.setUserCount(0);
-        webResponse.setData(PageInfo.of(dataCaseEntities));
+
+        BatchResponse batchResponse = new BatchResponse();
+        batchResponse.setPageInfo(PageInfo.of(dataCaseEntities));
+        batchResponse.setTotalAmt(new BigDecimal(0));
+        batchResponse.setUserCount(0);
+        webResponse.setData(batchResponse);
 
         return webResponse;
     }
