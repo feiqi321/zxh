@@ -17,12 +17,11 @@ import xyz.zaijushou.zhx.sys.service.SysModuleConfService;
 @Api("模板配置")
 @RestController
 public class SysModuleConfController {
-
     @Autowired
     private SysModuleConfService sysModuleConfService;
 
     @ApiOperation(value = "模板配置-配置项", notes = "模板配置-配置项")
-    @PostMapping("/sys/module/list")
+    @PostMapping("/sys/moduleConf/list")
     public Object findAllConf(@RequestBody SysModuleConf bean) {
 
         WebResponse webResponse = sysModuleConfService.findAllConf(bean);

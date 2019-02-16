@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.sys.entity;
 
-public class SysModuleConf {
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
+public class SysModuleConf extends CommonEntity {
     private Integer id;
 
     private Integer type;

@@ -55,17 +55,37 @@ public class DataBatchServiceImpl implements DataBatchService {
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
-            List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
-            if (dictList.size()>0){
-                SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                dataBatchEntity.setClient(sysDictionaryEntity.getName());
+            if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
+                dataBatchEntity.setClient("");
+            }else {
+                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
+                if (dictList.size() > 0) {
+                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                    dataBatchEntity.setClient(sysDictionaryEntity.getName());
+                }
+            }
+            if (dataBatchEntity.getCaseType()==null || dataBatchEntity.getCaseType().equals("")){
+                dataBatchEntity.setCaseType("");
+            }else {
+                List<SysDictionaryEntity> caseTypeList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getCaseType()));
+                if (caseTypeList.size() > 0) {
+                    SysDictionaryEntity sysDictionaryEntity = caseTypeList.get(0);
+                    dataBatchEntity.setCaseType(sysDictionaryEntity.getName());
+                }
+            }
+            if(dataBatchEntity.getBatchStatus()==1){
+                dataBatchEntity.setStatusMsg("未退案");
+            }else if (dataBatchEntity.getBatchStatus()==2){
+                dataBatchEntity.setStatusMsg("已退案");
+            }else{
+                dataBatchEntity.setStatusMsg("未导入");
             }
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
-            dataBatchEntity.setTotalAmt(new BigDecimal(0));
-            dataBatchEntity.setUserCount(0);
+
             dataCaseEntities.set(i,dataBatchEntity);
         }
-
+        webResponse.setTotalAmt(new BigDecimal(0));
+        webResponse.setUserCount(0);
         webResponse.setData(PageInfo.of(dataCaseEntities));
 
         return webResponse;

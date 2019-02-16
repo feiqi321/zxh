@@ -67,15 +67,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
-        if (dataCollectionEntity.getsType() == 0){//查询个人
 
-        }
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){
             return webResponse;
         }
-        // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
+        if (dataCollectionEntity.getsType() == 0){//查询个人
+            dataCollectionEntity.setOdv(user.getUserName());
+        }
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
         int count = dataCollectionMapper.countDataCollect(dataCollectionEntity);
         int countCase = 0;//列表案量
@@ -144,7 +144,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.isEmpty(user)){
             return colList;
         }
-        // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
+        // dataCollectionEntity.setObv(user.getUserName());//当前用户
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd ");
@@ -266,8 +266,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        if (StringUtils.isEmpty(user)){
+            return webResponse;
+        }
         if (beanInfo.getsType() == 0){//查询个人
-
+            beanInfo.setOdv(user.getUserName());//当前用户
         }
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
@@ -292,8 +297,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionPay(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        if (StringUtils.isEmpty(user)){
+            return webResponse;
+        }
         if (beanInfo.getsType() == 0){//查询个人
-
+            beanInfo.setOdv(user.getUserName());//当前用户
         }
         CollectionStatistic collectionReturn = new CollectionStatistic();
         List<DataCollectionEntity> colList = new ArrayList<DataCollectionEntity>();
