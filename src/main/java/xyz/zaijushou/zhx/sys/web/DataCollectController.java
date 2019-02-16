@@ -1,7 +1,12 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +21,13 @@ import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +61,20 @@ public class DataCollectController {
 
         WebResponse webResponse = dataCollectService.pageDataCollect(bean);
         return webResponse;
+    }
+
+    @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
+    @PostMapping("/dataCollect/pageDataCollectExport")
+    public Object pageDataCollectExport(DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCollectService.pageDataCollect(bean);
+        PageInfo<DataCollectionEntity> pageInfo = (PageInfo<DataCollectionEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(pageInfo.getList(),
+                ExcelCollectConstant.CollectMemorize.values(),
+                "催记管理导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
     }
 
     @ApiOperation(value = "催收记录导入", notes = "催收记录导入")

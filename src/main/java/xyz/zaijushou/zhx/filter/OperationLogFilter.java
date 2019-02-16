@@ -42,6 +42,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
 
     private static final String[] DOWNLOAD_FILE_URL = {
             "/fileManage/download", //下载附件
+            "/dataCollect/pageDataCollectExport", //催记导出
     };
 
     @Override
@@ -96,8 +97,10 @@ public class OperationLogFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(requestWrapper, responseWrapper);
             if(arrayContainsContent(DOWNLOAD_FILE_URL, operationLog.getUrl())) {
-//                httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("枫软催收系统导入模板.rar", "UTF-8"));
-//                httpServletResponse.setContentType("application/octet-stream");
+                httpServletResponse.setHeader("Content-Disposition", responseWrapper.getHeader("Content-Disposition"));
+                logger.info(httpServletResponse.getHeader("Content-Disposition"));
+                httpServletResponse.setContentType("application/octet-stream");
+                httpServletResponse.setHeader("Access-Control-Expose-Headers","Content-Disposition");
                 ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
                 servletOutputStream.write(responseWrapper.getResponseData());
                 servletOutputStream.flush();

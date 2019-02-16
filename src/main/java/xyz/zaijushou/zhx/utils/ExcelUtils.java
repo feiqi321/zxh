@@ -11,11 +11,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.constant.ExcelEnum;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,8 +78,25 @@ public class ExcelUtils {
 
                         secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1]));
                     } else {
-                        Method method = entity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), excelEnum.getAttrClazz()[0]);
-                        method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0]));
+                        matcher = Pattern.compile("\\.").matcher(attr);
+                        if(matcher.find()) {
+                            String firstAttr = attr.substring(0, matcher.start());
+                            String secondAttr = attr.substring(matcher.end());
+                            Method firstAttrGetMethod = entityClazz.getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                            Object object = firstAttrGetMethod.invoke(entity);
+                            if (object == null) {
+                                Class clazz = excelEnum.getAttrClazz()[0];
+                                Constructor constructor = clazz.getConstructor();
+                                Object obj = constructor.newInstance();
+                                Method firstAttrSetMethod = entityClazz.getMethod("set" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1), excelEnum.getAttrClazz()[0]);
+                                firstAttrSetMethod.invoke(entity, obj);
+                            }
+                            Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
+                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1]));
+                        }else {
+                            Method method = entity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), excelEnum.getAttrClazz()[0]);
+                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0]));
+                        }
                     }
 
                 }
@@ -108,5 +130,106 @@ public class ExcelUtils {
         }
         return result;
     }
+
+    public static <T> void exportExcel(List<T> data, ExcelEnum[] enums, String fileName, HttpServletResponse response) throws IOException {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet();
+        //渲染表头
+        Arrays.sort(enums, Comparator.comparingInt(ExcelEnum::getSort));
+        Map<Integer, ExcelEnum> excelEnumMap = new HashMap<>();
+        for (ExcelEnum value : enums) {
+            excelEnumMap.put(excelEnumMap.size(), value);
+        }
+        Row header = sheet.createRow(0);
+        for(int i = 0; i < excelEnumMap.size(); i ++) {
+            Cell cell = header.createCell(i);
+            cell.setCellValue(enums[i].getCol());
+        }
+        for(int i = 1; i <= data.size(); i ++) {
+            try {
+                T entity = data.get(i - 1);
+                Row row = sheet.createRow(i);
+                for (int k = 0; k < excelEnumMap.size(); k++) {
+                    Cell cell = row.createCell(k);
+                    ExcelEnum excelEnum = excelEnumMap.get(k);
+                    String attr = excelEnum.getAttr();
+                    Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);
+                    if (matcher.find()) {
+                        int index = Integer.parseInt(matcher.group(0).substring(1, 2));
+                        String firstAttr = attr.substring(0, matcher.start());
+                        String secondAttr = attr.substring(matcher.end());
+                        Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                        Object object = firstAttrGetMethod.invoke(entity);
+                        if (object == null) {
+                            continue;
+                        }
+                        List subList = (List) firstAttrGetMethod.invoke(entity);
+                        if(subList.size() == 0 || index <= subList.size()) {
+                            continue;
+                        }
+                        Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
+                        Object obj = secondAttrSetMethod.invoke(subList.get(index));
+                        setCellValue(obj, cell, excelEnum.getAttrClazz()[1]);
+                    } else {
+                        matcher = Pattern.compile("\\.").matcher(attr);
+                        if (matcher.find()) {
+                            String firstAttr = attr.substring(0, matcher.start());
+                            String secondAttr = attr.substring(matcher.end());
+                            Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                            Object object = firstAttrGetMethod.invoke(entity);
+                            if (object == null) {
+                                continue;
+                            }
+                            Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
+                            Object obj = secondAttrSetMethod.invoke(object);
+                            setCellValue(obj, cell, excelEnum.getAttrClazz()[1]);
+                        } else {
+                            Method method = entity.getClass().getMethod("get" + attr.substring(0, 1).toUpperCase() + attr.substring(1));
+                            setCellValue(method.invoke(entity), cell, excelEnum.getAttrClazz()[0]);
+                        }
+                    }
+                }
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                logger.error("excel解析错误：{}", e);
+            }
+        }
+        //下载的文件携带这个名称
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        logger.info(response.getHeader("Content-Disposition"));
+        //文件下载类型--二进制文件
+        response.setContentType("application/octet-stream");
+        ServletOutputStream servletOutputStream = response.getOutputStream();
+
+        workbook.write(servletOutputStream);
+        servletOutputStream.flush();
+        servletOutputStream.close();
+    }
+
+    private static void setCellValue(Object value, Cell cell, Class clazz) {
+        if(value == null) {
+            return;
+        }
+        if(String.class == clazz) {
+            String stringValue = (String) value;
+            cell.setCellValue(stringValue);
+        } else if(Date.class == clazz) {
+            Date dateValue = (Date) value;
+            cell.setCellValue(dateValue);
+        } else if(Double.class == clazz) {
+            Double doubleValue = (Double) value;
+            cell.setCellValue(doubleValue);
+        } else if(Integer.class == clazz) {
+            Integer intValue = (Integer) value;
+            cell.setCellValue(intValue);
+        } else if(BigDecimal.class == clazz) {
+            BigDecimal dateValue = (BigDecimal) value;
+            cell.setCellValue(dateValue.doubleValue());
+        } else {
+            String toStringValue = value.toString();
+            cell.setCellValue(toStringValue);
+        }
+    }
+
+
 
 }
