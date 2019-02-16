@@ -97,9 +97,6 @@ public class OperationLogFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(requestWrapper, responseWrapper);
             if(arrayContainsContent(DOWNLOAD_FILE_URL, operationLog.getUrl())) {
-                httpServletResponse.setHeader("Content-Disposition", responseWrapper.getHeader("Content-Disposition"));
-                logger.info(httpServletResponse.getHeader("Content-Disposition"));
-                httpServletResponse.setContentType("application/octet-stream");
                 httpServletResponse.setHeader("Access-Control-Expose-Headers","Content-Disposition");
                 ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
                 servletOutputStream.write(responseWrapper.getResponseData());
