@@ -28,6 +28,7 @@ public class CollectionStatistic extends CommonEntity {
     private int sType;
     private String dept;
     private String odv;
+    private String area;//催收区域
 
     //委托方
     private String client;
@@ -76,6 +77,15 @@ public class CollectionStatistic extends CommonEntity {
 
     //对象姓名
     private String  targetName;
+
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
 
     public String getTargetName() {
         return targetName;

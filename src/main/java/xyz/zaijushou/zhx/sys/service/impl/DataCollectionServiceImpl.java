@@ -144,7 +144,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.isEmpty(user)){
             return colList;
         }
-        // dataCollectionEntity.setTargetName(user.getUserName());//当前用户
+        // dataCollectionEntity.setObv(user.getUserName());//当前用户
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd ");
