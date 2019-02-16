@@ -1,5 +1,7 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import com.github.pagehelper.PageInfo;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 
 /**
@@ -7,6 +9,9 @@ import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
  */
 public interface DataCollectionTelService {
 
-    public void getCollectionDay(DataCollectionEntity dataCollectionEntity);
+    public PageInfo<CollectionStatistic> pageCollectionDay(CollectionStatistic dataCollectionEntity);
 
+    public PageInfo<CollectionStatistic> pageCollectionMonth(CollectionStatistic dataCollectionEntity);
+
+    public PageInfo<CollectionStatistic> pageCollectionDayAction(CollectionStatistic dataCollectionEntity);
 }

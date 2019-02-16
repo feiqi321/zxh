@@ -1,15 +1,13 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
-import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
-import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
@@ -36,7 +34,20 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
     private SysUserService sysUserService;//用户业务控制层
 
     @Override
-    public void getCollectionDay(DataCollectionEntity dataCollectionEntity){
+    public PageInfo<CollectionStatistic> pageCollectionDay(CollectionStatistic bean){
+        PageInfo<CollectionStatistic> list = dataCollectionTelMapper.pageCollectionDay(bean);
+        return  list;
+    }
 
+    @Override
+    public PageInfo<CollectionStatistic> pageCollectionMonth(CollectionStatistic bean){
+        PageInfo<CollectionStatistic> list = dataCollectionTelMapper.pageCollectionMonth(bean);
+        return  list;
+    }
+
+    @Override
+    public PageInfo<CollectionStatistic> pageCollectionDayAction(CollectionStatistic bean){
+        PageInfo<CollectionStatistic> list = dataCollectionTelMapper.pageCollectionDayAction(bean);
+        return  list;
     }
 }
