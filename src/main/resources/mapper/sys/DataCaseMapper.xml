@@ -676,7 +676,7 @@
     <select id="pageCaseTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,t.case_date as caseDate,t.collect_status as collectStatus,t.collect_date as collectDate,
-        t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv
+        t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv,l.name
         from data_case t LEFT JOIN data_case_tel l on t.id = l.case_id
                       LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
