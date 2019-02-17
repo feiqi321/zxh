@@ -98,7 +98,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user.getUserName());
+            temp.setOdv(user==null?"":user.getUserName());
             resultList.add(temp);
         }
         webResponse.setData(list);
@@ -122,7 +122,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user.getUserName());
+            temp.setOdv(user==null?"":user.getUserName());
             resultList.add(temp);
         }
         webResponse.setData(list);
