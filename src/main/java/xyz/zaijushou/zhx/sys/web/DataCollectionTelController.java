@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
 
 /**
@@ -27,7 +28,7 @@ public class DataCollectionTelController {
     @PostMapping("/day")
     public Object getCollectionDay(@RequestBody CollectionStatistic bean) {
 
-        PageInfo<CollectionStatistic> list = dataCollectionTelService.pageCollectionDay(bean);
+        PageInfo<StatisticReturn> list = dataCollectionTelService.pageCollectionDay(bean);
         return WebResponse.success(list);
     }
 
@@ -35,7 +36,7 @@ public class DataCollectionTelController {
     @PostMapping("/month")
     public Object getCollectionMonth(@RequestBody CollectionStatistic bean) {
 
-        PageInfo<CollectionStatistic> list = dataCollectionTelService.pageCollectionMonth(bean);
+        PageInfo<StatisticReturn> list = dataCollectionTelService.pageCollectionMonth(bean);
         return WebResponse.success(list);
     }
 

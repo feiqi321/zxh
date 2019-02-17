@@ -12,9 +12,9 @@ import java.util.List;
  * 角色实体类
  */
 public class CollectionStatistic extends CommonEntity {
-    @JSONField(format="HH:mm")//页面显示时间范围
+    @JSONField(format="yyyy-MM-dd HH:mm")//页面显示时间范围
     private Date dateStart ;
-    @JSONField(format="HH:mm")
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date dateEnd;
     @JSONField(format="yyyy-MM-dd")
     private Date dateSearchStart;//时间搜索
@@ -28,6 +28,7 @@ public class CollectionStatistic extends CommonEntity {
     private int sType;
     private String dept;
     private String odv;
+    private List<String> odvAttr;//催收员数组
     private String area;//催收区域
 
     //委托方
@@ -78,6 +79,7 @@ public class CollectionStatistic extends CommonEntity {
     //对象姓名
     private String  targetName;
 
+    List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
 
     public String getArea() {
         return area;
@@ -95,7 +97,13 @@ public class CollectionStatistic extends CommonEntity {
         this.targetName = targetName;
     }
 
-    List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+    public List<String> getOdvAttr() {
+        return odvAttr;
+    }
+
+    public void setOdvAttr(List<String> odvAttr) {
+        this.odvAttr = odvAttr;
+    }
 
     public String getOdv() {
         return odv;

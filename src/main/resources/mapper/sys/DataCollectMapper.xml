@@ -636,7 +636,7 @@
         </if>
     </select>
 
-    <select id="statisticsCollectionBatch" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+    <select id="statisticsCollectionBatch" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
         dc.batch_no as batchNo,sum(dc.en_repay_amt) as paidMoney,sum(dc.money) as commisionMoney,
         count(DISTINCT(dc.case_id)) as sumCase
