@@ -20,6 +20,10 @@ public interface DataBatchService {
 
     public WebResponse pageDataBatch(DataBatchEntity bean);
 
+    public WebResponse totalDataBatch(DataBatchEntity bean);
+
+    public WebResponse selectDataBatch(List<DataBatchEntity> list);
+
     public DataBatchEntity getDataById(DataBatchEntity bean);
 
     public WebResponse selectBatchNo(DataBatchEntity bean);

@@ -1,16 +1,26 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelBatchConstant;
+import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
+import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -85,6 +95,49 @@ public class DataBatchController {
         WebResponse webResponse = dataCaseService.selectBatchNo(dataBatchEntity);
         return webResponse;
 
+    }
+
+
+    @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
+    @PostMapping("/dataCollect/pageDataCollectExport")
+    public Object pageDataCollectExport(DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCaseService.pageDataBatch(bean);
+        PageInfo<DataBatchEntity> pageInfo = (PageInfo<DataBatchEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(pageInfo.getList(),
+                ExcelBatchConstant.BatchMemorize.values(),
+                "批次管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
+    @PostMapping("/dataCollect/totalDataCollectExport")
+    public Object totalDataCollectExport(DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCaseService.totalDataBatch(bean);
+        List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(list,
+                ExcelBatchConstant.BatchMemorize.values(),
+                "批次管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
+    @PostMapping("/dataCollect/selectDataCollectExport")
+    public Object selectDataCollectExport(List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCaseService.selectDataBatch(list);
+        List<DataBatchEntity> resultList = (List<DataBatchEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(resultList,
+                ExcelBatchConstant.BatchMemorize.values(),
+                "批次管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return WebResponse.success();
     }
 
 }
