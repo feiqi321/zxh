@@ -73,8 +73,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.isEmpty(user)){
             return webResponse;
         }
+
         if (dataCollectionEntity.getsType() == 0){//查询个人
-            dataCollectionEntity.setOdv(user.getUserName());
+            dataCollectionEntity.setOdv(user.getId()+"");
         }
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
         int count = dataCollectionMapper.countDataCollect(dataCollectionEntity);
