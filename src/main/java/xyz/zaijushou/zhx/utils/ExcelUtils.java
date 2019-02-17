@@ -13,9 +13,7 @@ import xyz.zaijushou.zhx.constant.ExcelEnum;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -139,6 +137,7 @@ public class ExcelUtils {
         Map<Integer, ExcelEnum> excelEnumMap = new HashMap<>();
         for (ExcelEnum value : enums) {
             excelEnumMap.put(excelEnumMap.size(), value);
+
         }
         Row header = sheet.createRow(0);
         for(int i = 0; i < excelEnumMap.size(); i ++) {
@@ -194,14 +193,21 @@ public class ExcelUtils {
             }
         }
         //下载的文件携带这个名称
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        /*response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
-        ServletOutputStream servletOutputStream = response.getOutputStream();
+        ServletOutputStream servletOutputStream = response.getOutputStream();*/
 
-        workbook.write(servletOutputStream);
-        servletOutputStream.flush();
-        servletOutputStream.close();
+        //workbook.write(servletOutputStream);
+        File file = new File(fileName);
+        if (!file.exists()){
+            file.mkdir();
+        }
+        FileOutputStream out = new FileOutputStream("C:\\fileDownload\\"+fileName);
+        workbook.write(out);
+        out.close();
+        /*servletOutputStream.flush();
+        servletOutputStream.close();*/
     }
 
     private static void setCellValue(Object value, Cell cell, Class clazz) {

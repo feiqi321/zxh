@@ -51,7 +51,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setOdv(user==null?"":user.getUserName());
             resultList.add(temp);
         }
-        webResponse.setData(PageInfo.of(list));
+        webResponse.setData(PageInfo.of(resultList));
 
         return webResponse;
     }
@@ -77,7 +77,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setOdv(user==null?"":user.getUserName());
             resultList.add(temp);
         }
-        webResponse.setData(list);
+        webResponse.setData(resultList);
 
         return webResponse;
     }
@@ -101,7 +101,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setOdv(user==null?"":user.getUserName());
             resultList.add(temp);
         }
-        webResponse.setData(list);
+        webResponse.setData(resultList);
 
         return webResponse;
     }
@@ -125,7 +125,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setOdv(user==null?"":user.getUserName());
             resultList.add(temp);
         }
-        webResponse.setData(list);
+        webResponse.setData(resultList);
 
         return webResponse;
     }
