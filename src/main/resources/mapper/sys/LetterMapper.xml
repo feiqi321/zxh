@@ -211,4 +211,43 @@
       create_date = #{createDate,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="pageDataLetter" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter" >
+
+        select *
+        from letter t LEFT  JOIN data_case d on t.case_id = d.id
+        <where>
+          <trim suffixOverrides=",">
+            <if test="collectArea != null and collectArea!=''">
+              AND  d.collection_area like CONCAT('%',#{collectArea},'%')
+            </if>
+            <if test="client != null and client!=''">
+              AND  d.client like CONCAT('%',#{client},'%')
+            </if>
+            <if test="batchNo != null and batchNo!=''">
+              AND  d.batch_no like CONCAT('%',#{batchNo},'%')
+            </if>
+            <if test="batchNo != null and batchNo!=''">
+              AND  d.batch_no like CONCAT('%',#{batchNo},'%')
+            </if>
+            <if test="seqno != null and seqno!=''">
+              AND  d.seq_no like CONCAT('%',#{seqno},'%')
+            </if>
+            <if test="module != null and module!=''">
+              AND  t.module like CONCAT('%',#{module},'%')
+            </if>
+            <if test="name != null and name!=''">
+              AND  t.name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="caseAmtStart != null and caseAmtStart!=''">
+              <![CDATA[   and d.caseAmt>=  #{caseAmtStart}  ]]>
+            </if>
+            <if test="caseAmtEnd != null and caseAmtEnd!=''" >
+              <![CDATA[   and d.caseAmt <=  #{caseAmtEnd}   ]]>
+            </if>
+          </trim>
+        </where>
+
+
+  </select>
 </mapper>

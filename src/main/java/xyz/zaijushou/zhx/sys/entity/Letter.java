@@ -36,7 +36,7 @@ public class Letter extends CommonEntity {
     private String createDate;
 
     private String collectArea;
-
+    //委托方
     private String client;
 
     private String batchNo;
@@ -46,7 +46,11 @@ public class Letter extends CommonEntity {
     private String caseStatus;
     //委案金额
     private BigDecimal caseAmt;
-
+    //委案金额 开始
+    private BigDecimal caseAmtStart;
+    //委案金额 结束
+    private BigDecimal caseAmtEnd;
+    //催收状态
     private String collectStatus;
     //催收员
     private String odv;
@@ -58,8 +62,75 @@ public class Letter extends CommonEntity {
     private BigDecimal repayAmt;
 
     private int times;
-
+    //信函模板
     private String module;
+    //信函状态(0待发 1确认申请  2撤销)
+    private String status;
+
+    private String seqno;
+
+    private String applyDate;
+
+    private String applyDateStart;
+
+    private String applyDateEnd;
+
+
+    public String getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(String applyDate) {
+        this.applyDate = applyDate;
+    }
+
+    public String getApplyDateStart() {
+        return applyDateStart;
+    }
+
+    public void setApplyDateStart(String applyDateStart) {
+        this.applyDateStart = applyDateStart;
+    }
+
+    public String getApplyDateEnd() {
+        return applyDateEnd;
+    }
+
+    public void setApplyDateEnd(String applyDateEnd) {
+        this.applyDateEnd = applyDateEnd;
+    }
+
+    public BigDecimal getCaseAmtStart() {
+        return caseAmtStart;
+    }
+
+    public void setCaseAmtStart(BigDecimal caseAmtStart) {
+        this.caseAmtStart = caseAmtStart;
+    }
+
+    public BigDecimal getCaseAmtEnd() {
+        return caseAmtEnd;
+    }
+
+    public void setCaseAmtEnd(BigDecimal caseAmtEnd) {
+        this.caseAmtEnd = caseAmtEnd;
+    }
+
+    public String getSeqno() {
+        return seqno;
+    }
+
+    public void setSeqno(String seqno) {
+        this.seqno = seqno;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getCollectArea() {
         return collectArea;

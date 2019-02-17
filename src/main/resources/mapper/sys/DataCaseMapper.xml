@@ -180,10 +180,10 @@
                     <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and da.money>=  #{moneyStart}  ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
 
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
