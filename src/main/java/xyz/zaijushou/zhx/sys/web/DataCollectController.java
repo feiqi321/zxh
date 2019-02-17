@@ -65,7 +65,7 @@ public class DataCollectController {
 
     @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
     @PostMapping("/dataCollect/pageDataCollectExport")
-    public Object pageDataCollectExport(DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object pageDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCollectService.pageDataCollect(bean);
         PageInfo<DataCollectionEntity> pageInfo = (PageInfo<DataCollectionEntity>) webResponse.getData();
@@ -79,7 +79,7 @@ public class DataCollectController {
 
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
     @PostMapping("/dataCollect/totalDataCollectExport")
-    public Object totalDataCollectExport(DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object totalDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCollectService.totalDataCollect(bean);
        List<DataCollectionEntity> list = (List<DataCollectionEntity>) webResponse.getData();
@@ -93,7 +93,7 @@ public class DataCollectController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataCollect/selectDataCollectExport")
-    public Object selectDataCollectExport(List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataCollectExport(@RequestBody List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCollectService.selectDataCollect(list);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();

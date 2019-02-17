@@ -103,7 +103,7 @@ public class DataBatchController {
 
     @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
     @PostMapping("/dataBatch/pageDataBatchExport")
-    public Object pageDataBatchExport(DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object pageDataBatchExport(@RequestBody DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCaseService.pageDataBatch(bean);
         PageInfo<DataBatchEntity> pageInfo = (PageInfo<DataBatchEntity>) webResponse.getData();
@@ -117,7 +117,7 @@ public class DataBatchController {
 
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
     @PostMapping("/dataBatch/totalDataBatchExport")
-    public Object totalDataBatchExport(DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object totalDataBatchExport(@RequestBody DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCaseService.totalDataBatch(bean);
         List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
@@ -131,7 +131,7 @@ public class DataBatchController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataBatch/selectDataBatchExport")
-    public Object selectDataBatchExport(List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataBatchExport(@RequestBody List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCaseService.selectDataBatch(list);
         List<DataBatchEntity> resultList = (List<DataBatchEntity>) webResponse.getData();
@@ -146,7 +146,7 @@ public class DataBatchController {
 
     @ApiOperation(value = "查询导出所选批次的催收记录", notes = "查询导出所选批次的催收记录")
     @PostMapping("/dataBatch/selectDataCollectExportByBatch")
-    public Object selectDataCollectExportByBatch(List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataCollectExportByBatch(@RequestBody List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(list);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
