@@ -18,7 +18,7 @@
                         userId="${jdbc_username}"
                         password="${jdbc_password}" />
 
-    <!-- 指定生成pojo的包和此包在项目中的地址； -->
+    <!-- 指定生成pojo的包和此包在项目中的地址；-->
     <javaModelGenerator targetPackage="xyz.zaijushou.zhx.sys.entity"
                         targetProject="src\main\java" />
 
@@ -26,14 +26,15 @@
     <sqlMapGenerator targetPackage="mapper.sys"
                      targetProject="src\main\resources" />
 
-    <!-- 指定生成访问映射xml文件的接口所在包和此包在项目中的地址； -->
+    <!-- 指定生成访问映射xml文件的接口所在包和此包在项目中的地址；-->
     <javaClientGenerator type="XMLMAPPER"
                          targetPackage="xyz.zaijushou.zhx.sys.dao"
                          targetProject="src\main\java">
     </javaClientGenerator>
 
+
     <!-- 配置表名跟pojo名  该table节点可以多个 -->
-    <table tableName="synergy" domainObjectName="Synergy" enableCountByExample="false" enableUpdateByExample="false"
+    <table tableName="legal_handle" domainObjectName="LegalHandle" enableCountByExample="false" enableUpdateByExample="false"
            enableDeleteByExample="false" enableSelectByExample="false"
            selectByExampleQueryId="false">
         <property name="useActualColumnNames" value="false" />

@@ -54,6 +54,9 @@
       <if test="cstName != null" >
         cst_name = #{cstName,jdbcType=VARCHAR},
       </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
       <if test="legalStatus != null" >
         legal_status = #{legalStatus,jdbcType=INTEGER},
       </if>
@@ -429,4 +432,9 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="checkLegal" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
+    update legal set status = #{status},owner = #{owner},checker=#{checker},check_date=now()
+    where id = #{id}
+  </delete>
 </mapper>

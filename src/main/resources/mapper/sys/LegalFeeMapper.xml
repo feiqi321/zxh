@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.LegalFeeMapper" >
+  <resultMap id="BaseResultMap" type="xyz.zaijushou.zhx.sys.entity.LegalFee" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="legal_id" property="legalId" jdbcType="INTEGER" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="charge_date" property="chargeDate" jdbcType="VARCHAR" />
+    <result column="fee_type" property="feeType" jdbcType="VARCHAR" />
+    <result column="fee_target" property="feeTarget" jdbcType="VARCHAR" />
+    <result column="pay_method" property="payMethod" jdbcType="VARCHAR" />
+    <result column="payee" property="payee" jdbcType="VARCHAR" />
+    <result column="voucher" property="voucher" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, legal_id, fee, charge_date, fee_type, fee_target, pay_method, payee, voucher, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from legal_fee
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update legal_fee set delete_flag = 1 where id  = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.LegalFee" >
+    insert into legal_fee (id, legal_id, fee, 
+      charge_date, fee_type, fee_target, 
+      pay_method, payee, voucher, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{legalId,jdbcType=INTEGER}, #{fee,jdbcType=DECIMAL}, 
+      #{chargeDate,jdbcType=VARCHAR}, #{feeType,jdbcType=VARCHAR}, #{feeTarget,jdbcType=VARCHAR}, 
+      #{payMethod,jdbcType=VARCHAR}, #{payee,jdbcType=VARCHAR}, #{voucher,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalFee" >
+    insert into legal_fee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="legalId != null" >
+        legal_id,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="chargeDate != null" >
+        charge_date,
+      </if>
+      <if test="feeType != null" >
+        fee_type,
+      </if>
+      <if test="feeTarget != null" >
+        fee_target,
+      </if>
+      <if test="payMethod != null" >
+        pay_method,
+      </if>
+      <if test="payee != null" >
+        payee,
+      </if>
+      <if test="voucher != null" >
+        voucher,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="legalId != null" >
+        #{legalId,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="chargeDate != null" >
+        #{chargeDate,jdbcType=VARCHAR},
+      </if>
+      <if test="feeType != null" >
+        #{feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="feeTarget != null" >
+        #{feeTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="payMethod != null" >
+        #{payMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="payee != null" >
+        #{payee,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher != null" >
+        #{voucher,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalFee" >
+    update legal_fee
+    <set >
+      <if test="legalId != null" >
+        legal_id = #{legalId,jdbcType=INTEGER},
+      </if>
+      <if test="fee != null" >
+        fee = #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="chargeDate != null" >
+        charge_date = #{chargeDate,jdbcType=VARCHAR},
+      </if>
+      <if test="feeType != null" >
+        fee_type = #{feeType,jdbcType=VARCHAR},
+      </if>
+      <if test="feeTarget != null" >
+        fee_target = #{feeTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="payMethod != null" >
+        pay_method = #{payMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="payee != null" >
+        payee = #{payee,jdbcType=VARCHAR},
+      </if>
+      <if test="voucher != null" >
+        voucher = #{voucher,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.zaijushou.zhx.sys.entity.LegalFee" >
+    update legal_fee
+    set legal_id = #{legalId,jdbcType=INTEGER},
+      fee = #{fee,jdbcType=DECIMAL},
+      charge_date = #{chargeDate,jdbcType=VARCHAR},
+      fee_type = #{feeType,jdbcType=VARCHAR},
+      fee_target = #{feeTarget,jdbcType=VARCHAR},
+      pay_method = #{payMethod,jdbcType=VARCHAR},
+      payee = #{payee,jdbcType=VARCHAR},
+      voucher = #{voucher,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findAllLegalFee" resultType="xyz.zaijushou.zhx.sys.entity.LegalFee" parameterType="xyz.zaijushou.zhx.sys.entity.LegalFee" >
+    select
+    <include refid="Base_Column_List" />
+    from legal_fee
+    where legal_id = #{legalId}
+  </select>
+</mapper>

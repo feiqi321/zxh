@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.LegalHandleMapper" >
+  <resultMap id="BaseResultMap" type="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="legal_id" property="legalId" jdbcType="INTEGER" />
+    <result column="progress" property="progress" jdbcType="VARCHAR" />
+    <result column="handle_date" property="handleDate" jdbcType="VARCHAR" />
+    <result column="preservation_date" property="preservationDate" jdbcType="VARCHAR" />
+    <result column="preservation_list" property="preservationList" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, legal_id, progress, handle_date, preservation_date, preservation_list, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from legal_handle
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    update legal_handle set delete_flag = 1
+    where  id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
+    insert into legal_handle (id, legal_id, progress, 
+      handle_date, preservation_date, preservation_list, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{legalId,jdbcType=INTEGER}, #{progress,jdbcType=VARCHAR}, 
+      #{handleDate,jdbcType=VARCHAR}, #{preservationDate,jdbcType=VARCHAR}, #{preservationList,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
+    insert into legal_handle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="legalId != null" >
+        legal_id,
+      </if>
+      <if test="progress != null" >
+        progress,
+      </if>
+      <if test="handleDate != null" >
+        handle_date,
+      </if>
+      <if test="preservationDate != null" >
+        preservation_date,
+      </if>
+      <if test="preservationList != null" >
+        preservation_list,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="legalId != null" >
+        #{legalId,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null" >
+        #{progress,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDate != null" >
+        #{handleDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationDate != null" >
+        #{preservationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationList != null" >
+        #{preservationList,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
+    update legal_handle
+    <set >
+      <if test="legalId != null" >
+        legal_id = #{legalId,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null" >
+        progress = #{progress,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDate != null" >
+        handle_date = #{handleDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationDate != null" >
+        preservation_date = #{preservationDate,jdbcType=VARCHAR},
+      </if>
+      <if test="preservationList != null" >
+        preservation_list = #{preservationList,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
+    update legal_handle
+    set legal_id = #{legalId,jdbcType=INTEGER},
+      progress = #{progress,jdbcType=VARCHAR},
+      handle_date = #{handleDate,jdbcType=VARCHAR},
+      preservation_date = #{preservationDate,jdbcType=VARCHAR},
+      preservation_list = #{preservationList,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <select id="findALlLegalHandle" resultType="xyz.zaijushou.zhx.sys.entity.LegalHandle" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
+    select
+    <include refid="Base_Column_List" />
+    from legal_handle
+    where legal_id = #{legalId}
+  </select>
+</mapper>

@@ -60,4 +60,29 @@ public class LegalController {
 
     }
 
+    @ApiOperation(value = "我的诉讼案件分頁查询", notes = "我的诉讼案件分頁查询")
+    @PostMapping("/legal/pageMyDataCase")
+    public Object pageMyDataCase(@RequestBody LegalEntity legalEntity) {
+
+        WebResponse webResponse = legalService.pageDataLegal(legalEntity);
+        return WebResponse.success(webResponse);
+
+    }
+
+    @ApiOperation(value = "审核", notes = "审核")
+    @PostMapping("/legal/check")
+    public Object check(@RequestBody LegalEntity legalEntity) {
+        legalService.checkLegal(legalEntity);
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "查看详情", notes = "查看详情")
+    @PostMapping("/legal/detail")
+    public Object detail(@RequestBody LegalEntity legalEntity) {
+        legalService.checkLegal(legalEntity);
+        return WebResponse.success();
+
+    }
+
 }

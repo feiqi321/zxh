@@ -15,5 +15,11 @@ public interface LegalService {
 
     public WebResponse pageDataLegal(LegalEntity bean);
 
+    public WebResponse pageMyDataLegal(LegalEntity bean);
+
     public void deleteLegal(LegalEntity bean);
+
+    public void checkLegal(LegalEntity bean);
+
+    public WebResponse detail(LegalEntity bean);
 }

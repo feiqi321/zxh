@@ -68,6 +68,26 @@ public class LegalEntity extends CommonEntity {
 
     private Date createTime;
 
+    private String checker;
+
+    private String checkDate;
+
+    public String getChecker() {
+        return checker;
+    }
+
+    public void setChecker(String checker) {
+        this.checker = checker;
+    }
+
+    public String getCheckDate() {
+        return checkDate;
+    }
+
+    public void setCheckDate(String checkDate) {
+        this.checkDate = checkDate;
+    }
+
     public Integer getId() {
         return id;
     }

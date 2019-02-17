@@ -21,4 +21,6 @@ public interface LegalMapper {
     int updateByPrimaryKeySelective(LegalEntity record);
 
     int updateByPrimaryKey(LegalEntity record);
+
+    void checkLegal(LegalEntity record);
 }
