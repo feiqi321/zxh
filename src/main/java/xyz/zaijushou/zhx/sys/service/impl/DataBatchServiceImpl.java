@@ -83,6 +83,8 @@ public class DataBatchServiceImpl implements DataBatchService {
                 dataBatchEntity.setStatusMsg("未导入");
             }
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
+            dataBatchEntity.setUserCount(0);
+            dataBatchEntity.setTotalAmt(new BigDecimal(0));
 
             dataCaseEntities.set(i,dataBatchEntity);
         }
