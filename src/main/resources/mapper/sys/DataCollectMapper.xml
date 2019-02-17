@@ -445,8 +445,8 @@
         repay_amt as repayAmt,reduce_amt as reduceAmt,collect_status collectStatus,reduce_status as reduceStatus,
         account_age as accountAge,case_date as caseDate,card_no as cardNo,ident_no as identNo,
         money,balance,bank_amt as bankAmt,collect_info as collectInfo,
-        en_repay_amt as enRepayAmt,next_foll_date as nextFollDate,leave_days as leaveDays,
-        last_phone_time as lastPhoneTime,remind,count_follow as countFollow
+        en_repay_amt as enRepayAmt,next_foll_date as nextFollDate,leave_days as leaveDays,new_money as moneyStart,
+        last_phone_time as lastPhoneTime,remind,count_follow as countFollow,collection_type as collectionType
         from data_collection
         <where>
             delete_flag = 0
