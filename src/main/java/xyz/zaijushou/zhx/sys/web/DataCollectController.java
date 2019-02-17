@@ -71,10 +71,38 @@ public class DataCollectController {
         PageInfo<DataCollectionEntity> pageInfo = (PageInfo<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(pageInfo.getList(),
                 ExcelCollectConstant.CollectMemorize.values(),
-                "催记管理导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                "催记管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return null;
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
+    @PostMapping("/dataCollect/totalDataCollectExport")
+    public Object totalDataCollectExport(DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCollectService.totalDataCollect(bean);
+       List<DataCollectionEntity> list = (List<DataCollectionEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(list,
+                ExcelCollectConstant.CollectMemorize.values(),
+                "催记管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
+    @PostMapping("/dataCollect/selectDataCollectExport")
+    public Object selectDataCollectExport(List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCollectService.selectDataCollect(list);
+        List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(resultList,
+                ExcelCollectConstant.CollectMemorize.values(),
+                "催记管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return WebResponse.success();
     }
 
     @ApiOperation(value = "催收记录导入", notes = "催收记录导入")

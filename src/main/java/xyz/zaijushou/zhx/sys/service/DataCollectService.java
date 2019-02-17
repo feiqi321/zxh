@@ -14,4 +14,8 @@ public interface DataCollectService {
 
     public WebResponse pageDataCollect(DataCollectionEntity bean);
 
+    public WebResponse totalDataCollect(DataCollectionEntity bean);
+
+    public WebResponse selectDataCollect(List<DataCollectionEntity> list);
+
 }
