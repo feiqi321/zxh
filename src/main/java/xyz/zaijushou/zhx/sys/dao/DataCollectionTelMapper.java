@@ -1,10 +1,9 @@
 package xyz.zaijushou.zhx.sys.dao;
 
-import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
 
 import java.util.List;
 
@@ -27,9 +26,9 @@ public interface DataCollectionTelMapper {
 
     public int statisticsCollectionCase(CollectionStatistic bean);
 
-    public PageInfo<CollectionStatistic> pageCollectionDay(CollectionStatistic entity);
+    public List<StatisticReturn> pageCollectionDay(CollectionStatistic entity);
 
-    public PageInfo<CollectionStatistic> pageCollectionMonth(CollectionStatistic entity);
+    public List<StatisticReturn> pageCollectionMonth(CollectionStatistic entity);
 
-    public PageInfo<CollectionStatistic> pageCollectionDayAction(CollectionStatistic entity);
+    public List<CollectionStatistic> pageCollectionDayAction(CollectionStatistic entity);
 }
