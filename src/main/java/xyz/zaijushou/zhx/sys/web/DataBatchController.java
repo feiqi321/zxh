@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
+import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +33,8 @@ public class DataBatchController {
 
     @Autowired
     private DataBatchService dataCaseService;
+    @Autowired
+    private DataCollectService dataCollectService;
 
     @ApiOperation(value = "新增批次", notes = "新增批次")
     @PostMapping("/dataBatch/save")
@@ -99,7 +102,7 @@ public class DataBatchController {
 
 
     @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
-    @PostMapping("/dataCollect/pageDataCollectExport")
+    @PostMapping("/dataBatch/pageDataCollectExport")
     public Object pageDataCollectExport(DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCaseService.pageDataBatch(bean);
@@ -113,7 +116,7 @@ public class DataBatchController {
     }
 
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
-    @PostMapping("/dataCollect/totalDataCollectExport")
+    @PostMapping("/dataBatch/totalDataCollectExport")
     public Object totalDataCollectExport(DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCaseService.totalDataBatch(bean);
@@ -127,7 +130,7 @@ public class DataBatchController {
     }
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
-    @PostMapping("/dataCollect/selectDataCollectExport")
+    @PostMapping("/dataBatch/selectDataCollectExport")
     public Object selectDataCollectExport(List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCaseService.selectDataBatch(list);
@@ -140,4 +143,18 @@ public class DataBatchController {
         return WebResponse.success();
     }
 
+
+    @ApiOperation(value = "查询导出所选批次的催收记录", notes = "查询导出所选批次的催收记录")
+    @PostMapping("/dataBatch/selectDataCollectExportByBatch")
+    public Object selectDataCollectExportByBatch(List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(list);
+        List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(resultList,
+                ExcelCollectConstant.CollectMemorize.values(),
+                "批次管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return WebResponse.success();
+    }
 }

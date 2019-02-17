@@ -27,6 +27,8 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> totalDataCollect(DataCollectionEntity bean);
 
+    public List<DataCollectionEntity> selectDataCollectByBatch(DataCollectionEntity bean);
+
     public DataCollectionEntity selectDataCollect(DataCollectionEntity bean);
 
     public int countDataCollect(DataCollectionEntity bean);
