@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
@@ -8,6 +9,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -38,6 +40,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private SysUserService sysUserService;//用户业务控制层
+    @Autowired
+    private SysDictionaryService sysDictionaryService;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -273,6 +277,10 @@ public class DataCaseServiceImpl implements DataCaseService {
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user.getUserName());
+            SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
+            dictionary2.setId(temp.getCollectStatus());
+            SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
+            temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
             list.set(i,temp);
         }
         webResponse.setData(PageInfo.of(list));

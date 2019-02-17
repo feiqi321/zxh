@@ -62,6 +62,7 @@ public class DataCaseEntity extends CommonEntity {
     private String cardNo;//卡号 查询条件
     private String collectInfo;//催收小结（催收表） 催收记录 查询条件
     private int collectStatus; //催收状态   列表
+    private String collectStatusMsg;//催收状态中文说明s
     private int collectTimes; // 跟进次数 列表
     private String distributeTime;//分配時間   列表
 
@@ -208,6 +209,14 @@ public class DataCaseEntity extends CommonEntity {
     private String brand;   //品牌
     private String engineNo;    //发动机号
 
+
+    public String getCollectStatusMsg() {
+        return collectStatusMsg;
+    }
+
+    public void setCollectStatusMsg(String collectStatusMsg) {
+        this.collectStatusMsg = collectStatusMsg;
+    }
 
     public void setBatchBonds(boolean batchBonds) {
         this.batchBonds = batchBonds;
