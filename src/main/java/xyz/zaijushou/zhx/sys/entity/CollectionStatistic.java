@@ -75,11 +75,198 @@ public class CollectionStatistic extends CommonEntity {
     private BigDecimal thisRepaidBankAmt;//月银行查账金额的提成金额（M）
 
     private String opeType ;//0-还款记录，1-CP记录，2-PTP记录
+    //1-114查询无效,2-DX1,3-DX2,4-DX3,5-DX4,6-承诺还款,7-可联本人,8-可联村委,
+    // 9-可联第三人,10-可联家人,11-空号错号,12-网搜无效,13-无人接听,14-无效电话
+    private int countSearchNo;
+    private int countDX1;
+    private int countDX2;
+    private int countDX3;
+    private int countDX4;
+    private int countRepay;
+    private int countConSelf;
+    private int countConVillage;
+    private int countConThird;
+    private int countConFamily;
 
+    private int countDeadNumber;
+    private int countSearchInvalid;
+    private int countNoAnswer;
+    private int countInvalidCall;
+
+    private String collectionResult;
+    private int countResult;
     //对象姓名
     private String  targetName;
 
+    private String content;
+
+    private String connectionType;
+
+    private String phone;
+
+    private String phoneTime;
+
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getConnectionType() {
+        return connectionType;
+    }
+
+    public void setConnectionType(String connectionType) {
+        this.connectionType = connectionType;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPhoneTime() {
+        return phoneTime;
+    }
+
+    public void setPhoneTime(String phoneTime) {
+        this.phoneTime = phoneTime;
+    }
+
+    public String getCollectionResult() {
+        return collectionResult;
+    }
+
+    public void setCollectionResult(String collectionResult) {
+        this.collectionResult = collectionResult;
+    }
+
+    public int getCountResult() {
+        return countResult;
+    }
+
+    public void setCountResult(int countResult) {
+        this.countResult = countResult;
+    }
+
+    public int getCountSearchNo() {
+        return countSearchNo;
+    }
+
+    public void setCountSearchNo(int countSearchNo) {
+        this.countSearchNo = countSearchNo;
+    }
+
+    public int getCountDX1() {
+        return countDX1;
+    }
+
+    public void setCountDX1(int countDX1) {
+        this.countDX1 = countDX1;
+    }
+
+    public int getCountDX2() {
+        return countDX2;
+    }
+
+    public void setCountDX2(int countDX2) {
+        this.countDX2 = countDX2;
+    }
+
+    public int getCountDX3() {
+        return countDX3;
+    }
+
+    public void setCountDX3(int countDX3) {
+        this.countDX3 = countDX3;
+    }
+
+    public int getCountDX4() {
+        return countDX4;
+    }
+
+    public void setCountDX4(int countDX4) {
+        this.countDX4 = countDX4;
+    }
+
+    public int getCountRepay() {
+        return countRepay;
+    }
+
+    public void setCountRepay(int countRepay) {
+        this.countRepay = countRepay;
+    }
+
+    public int getCountConSelf() {
+        return countConSelf;
+    }
+
+    public void setCountConSelf(int countConSelf) {
+        this.countConSelf = countConSelf;
+    }
+
+    public int getCountConVillage() {
+        return countConVillage;
+    }
+
+    public void setCountConVillage(int countConVillage) {
+        this.countConVillage = countConVillage;
+    }
+
+    public int getCountConThird() {
+        return countConThird;
+    }
+
+    public void setCountConThird(int countConThird) {
+        this.countConThird = countConThird;
+    }
+
+    public int getCountConFamily() {
+        return countConFamily;
+    }
+
+    public void setCountConFamily(int countConFamily) {
+        this.countConFamily = countConFamily;
+    }
+
+    public int getCountDeadNumber() {
+        return countDeadNumber;
+    }
+
+    public void setCountDeadNumber(int countDeadNumber) {
+        this.countDeadNumber = countDeadNumber;
+    }
+
+    public int getCountSearchInvalid() {
+        return countSearchInvalid;
+    }
+
+    public void setCountSearchInvalid(int countSearchInvalid) {
+        this.countSearchInvalid = countSearchInvalid;
+    }
+
+    public int getCountNoAnswer() {
+        return countNoAnswer;
+    }
+
+    public void setCountNoAnswer(int countNoAnswer) {
+        this.countNoAnswer = countNoAnswer;
+    }
+
+    public int getCountInvalidCall() {
+        return countInvalidCall;
+    }
+
+    public void setCountInvalidCall(int countInvalidCall) {
+        this.countInvalidCall = countInvalidCall;
+    }
 
     public String getArea() {
         return area;

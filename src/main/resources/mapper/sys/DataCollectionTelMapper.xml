@@ -97,14 +97,14 @@
         SELECT
         distinct(dct.odv)
         from
-        data_collection_tel dct LEFT JOIN data_collection dc on dc.id = dct.collection_id
+        data_collection_tel dct
         where dct.delete_flag = 0
 
         <if test="dateStart != null">
-            and DATE_FORMAT(start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
         </if>
         <if test="area != null and area!=''">
             AND area like CONCAT('%',#{area},'%')
@@ -125,11 +125,11 @@
         from
         data_collection_tel dct
         where dct.delete_flag = 0
-        <if test="dateStart != null">
-            and start_time &gt;= #{dateStart}
+        <if test="monthStart != null and monthStart!=''">
+            <![CDATA[   and DATE_FORMAT(start_time, '%Y-%m')>=  DATE_FORMAT(#{monthStart}, '%Y-%m')   ]]>
         </if>
-        <if test="dateEnd != null" >
-            and start_time &lt;= #{dateEnd}
+        <if test="monthEnd != null and monthEnd!=''" >
+            <![CDATA[   and DATE_FORMAT(start_time, '%Y-%m')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m')   ]]>
         </if>
         <if test="area != null and area!=''">
             AND area like CONCAT('%',#{area},'%')
@@ -146,9 +146,61 @@
 
     <select id="pageCollectionDayAction" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        dct.odv
+        distinct(dct.odv)
         from
         data_collection_tel dct
         where dct.delete_flag = 0
+        <if test="dateStart != null">
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+        </if>
+        <if test="dateEnd != null" >
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+        </if>
+        <if test="area != null and area!=''">
+            AND area like CONCAT('%',#{area},'%')
+        </if>
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
+        </if>
+        <if test="odvAttr != null">
+            <foreach collection="odvAttr" item="item" separator="," open="and odv in (" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="countCollectionDayAction" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+        result as collectionResult,COUNT(result) as countResult
+        from
+        data_collection_tel dct
+        where dct.delete_flag = 0
+        <if test="odv != null and odv!=''">
+            AND odv like CONCAT('%',#{odv},'%')
+        </if>
+        <if test="dateStart != null">
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+        </if>
+        <if test="dateEnd != null" >
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+        </if>
+        GROUP BY result
+    </select>
+
+    <select id="pageCollectionTelInfo" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        SELECT
+        start_time as phoneTime,name as targetName,tel as phone,type as connectionType,content,result as collectionResult,
+        repay_time as repayTime,repay_amt as repayAmtP,odv
+        from data_collection_tel dct
+        where dct.delete_flag = 0
+        <if test="dateStart != null">
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+        </if>
+        <if test="dateEnd != null" >
+            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+        </if>
+        <if test="odv != null and odv!=''">
+            AND odv like CONCAT('%',#{odv},'%')
+        </if>
     </select>
 </mapper>
