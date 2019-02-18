@@ -125,11 +125,11 @@
         from
         data_collection_tel dct
         where dct.delete_flag = 0
-        <if test="dateStart != null">
-            and start_time &gt;= #{dateStart}
+        <if test="monthStart != null and monthStart!=''">
+            <![CDATA[   and DATE_FORMAT(start_time, '%Y-%m')>=  DATE_FORMAT(#{monthStart}, '%Y-%m')   ]]>
         </if>
-        <if test="dateEnd != null" >
-            and start_time &lt;= #{dateEnd}
+        <if test="monthEnd != null and monthEnd!=''" >
+            <![CDATA[   and DATE_FORMAT(start_time, '%Y-%m')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m')   ]]>
         </if>
         <if test="area != null and area!=''">
             AND area like CONCAT('%',#{area},'%')

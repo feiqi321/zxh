@@ -88,64 +88,88 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
     @Override
     public PageInfo<StatisticReturn> pageCollectionMonth(CollectionStatistic bean){
-        if (StringUtils.isEmpty(bean.getDateSearchStart())){
-            bean.setDateSearchStart(new Date());
-        }
-        if (StringUtils.isEmpty(bean.getDateSearchEnd())){
-            bean.setDateSearchEnd(new Date());
-        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM");
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+        if (StringUtils.isEmpty(bean.getMonthStart())){
+            bean.setMonthStart(sdf.format(new Date()));
+        }else {
+            bean.setMonthStart(bean.getMonthStart()+"-01");
+        }
+        if (StringUtils.isEmpty(bean.getMonthEnd())){
+            bean.setMonthEnd(sdf.format(new Date()));
+        }else{
+            bean.setMonthEnd(bean.getMonthEnd()+"-01");
+        }
         List<StatisticReturn> list = dataCollectionTelMapper.pageCollectionMonth(bean);;
 
         if (StringUtils.isEmpty(list)){
             return new PageInfo<>();
         }
-
-        try {
-            for (StatisticReturn conInfo:list) {
-                int sumConPhoneNum = 0;//接通电话数
-                int sumPhoneNum = 0;//总通话数
-                int sumCasePhoneNum = 0;//通话涉及到的案件数
-                List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
-                Calendar dTime = Calendar.getInstance();
-                dTime.setTime(bean.getDateSearchStart());
+        for (StatisticReturn conInfo:list) {
+            int sumConPhoneNum = 0;//接通电话数
+            int sumPhoneNum = 0;//总通话数
+            int sumCasePhoneNum = 0;//通话涉及到的案件数
+            List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
+            Calendar dTime = Calendar.getInstance();
+            Date dateEnd = new Date() ;
+            try {
+                dTime.setTime(sdf1.parse(bean.getMonthStart()));
+                dateEnd = sdf1.parse(bean.getMonthEnd());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            while(!dTime.getTime().after(dateEnd)){
                 CollectionStatistic col = new CollectionStatistic();
                 col.setOdv(conInfo.getOdv());
-                while(!dTime.getTime().after(bean.getDateSearchEnd())){
-                    col.setDateStart(sdf.parse(sdf1.format(dTime.getTime())));
-                    col.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())));
-                    int telNum = dataCollectionTelMapper.statisticsCollectionSum(col);
-                    int conNum = dataCollectionTelMapper.statisticsCollectionCon(col);
-                    int caseNum = dataCollectionTelMapper.statisticsCollectionCase(col);
-                    col.setCountPhoneNum(col.getCountPhoneNum()+telNum);
-                    col.setCountConPhoneNum(col.getCountConPhoneNum()+conNum);
-                    col.setCountCasePhoneNum(col.getCountCasePhoneNum()+caseNum);
-                    sumPhoneNum += telNum;
-                    sumConPhoneNum += conNum;
-                    sumCasePhoneNum += caseNum;
-                    dTime.add(Calendar.MONTH,1);
-                }
+                col.setDateStart(getDateInfo(dTime.getTime(),1));
+                col.setDateEnd(getDateInfo(dTime.getTime(),0));
+                int telNum = dataCollectionTelMapper.statisticsCollectionSum(col);
+                int conNum = dataCollectionTelMapper.statisticsCollectionCon(col);
+                int caseNum = dataCollectionTelMapper.statisticsCollectionCase(col);
+                col.setCountPhoneNum(col.getCountPhoneNum()+telNum);
+                col.setCountConPhoneNum(col.getCountConPhoneNum()+conNum);
+                col.setCountCasePhoneNum(col.getCountCasePhoneNum()+caseNum);
+                sumPhoneNum += telNum;
+                sumConPhoneNum += conNum;
+                sumCasePhoneNum += caseNum;
+                col.setArea(sdf1.format(dTime.getTime()));
                 colList.add(col);
-                conInfo.setList(colList);
-                conInfo.setSumCasePhoneNum(sumCasePhoneNum);
-                conInfo.setSumConPhoneNum(sumConPhoneNum);
-                conInfo.setSumPhoneNum(sumPhoneNum);
+                dTime.add(Calendar.MONTH,1);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+            conInfo.setList(colList);
+            conInfo.setSumCasePhoneNum(sumCasePhoneNum);
+            conInfo.setSumConPhoneNum(sumConPhoneNum);
+            conInfo.setSumPhoneNum(sumPhoneNum);
         }
         return  PageInfo.of(list);
     }
 
+    private Date getDateInfo(Date date,int type){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM");
+        try {
+            if (type == 1){
+               return sdf.parse(getFirstDayOfMonth(sdf1.format(date))+" 00:00");
+            }else{
+               return sdf.parse(getLastDayOfMonth(sdf1.format(date))+" 23:59");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
+    }
+
     /**
      * 获得该月第一天
-     * @param year
-     * @param month
+     * @param timeStr
      * @return
      */
-    private static String getFirstDayOfMonth(int year,int month){
+    private static String getFirstDayOfMonth(String timeStr){
+        String[] strAttr= timeStr.split("-");
+        int year = Integer.valueOf(strAttr[0]);
+        int month = Integer.valueOf(strAttr[1]);
         Calendar cal = Calendar.getInstance();
         //设置年份
         cal.set(Calendar.YEAR,year);
@@ -163,11 +187,14 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
     /**
      * 获得该月最后一天
-     * @param year
-     * @param month
+     * @param timeStr
      * @return
      */
-    private static String getLastDayOfMonth(int year,int month){
+    private static String getLastDayOfMonth(String timeStr){
+        String[] strAttr= timeStr.split("-");
+        int year = Integer.valueOf(strAttr[0]);
+        int month = Integer.valueOf(strAttr[1]);
+
         Calendar cal = Calendar.getInstance();
         //设置年份
         cal.set(Calendar.YEAR,year);
