@@ -66,7 +66,9 @@ public class DataCollectController {
     @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
     @PostMapping("/dataCollect/pageDataCollectExport")
     public Object pageDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
-
+        if(bean.getId() == null) {
+            throw new IOException("测试错误信息");
+        }
         WebResponse webResponse = dataCollectService.pageDataCollect(bean);
         PageInfo<DataCollectionEntity> pageInfo = (PageInfo<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(pageInfo.getList(),
@@ -74,7 +76,7 @@ public class DataCollectController {
                 "催记管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")

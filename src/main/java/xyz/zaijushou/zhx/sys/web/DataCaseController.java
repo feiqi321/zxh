@@ -2,27 +2,30 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelAddressConstant;
+import xyz.zaijushou.zhx.constant.ExcelCaseConstant;
 import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.constant.ExcelTelConstant;
-import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -291,6 +294,58 @@ public class DataCaseController {
         List<DataCaseEntity> dataCaseEntities = ExcelUtils.importExcel(file, ExcelInterestConstant.CaseInterest.values(), DataCaseEntity.class);
         WebResponse webResponse =fileManageService.batchCaseComment(dataCaseEntities);
         return webResponse;
+    }
+
+    @ApiOperation(value = "导入更新案件", notes = "导入更新案件")
+    @PostMapping("/dataCase/updateCase/import")
+    public Object dataCaseUpdateCaseImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        logger.info(fileName);
+        InputStream inputStream = file.getInputStream();
+        Workbook workbook = new XSSFWorkbook(inputStream);
+        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+        List<DataCaseEntity> dataCaseEntities;
+        if(Math.abs(ExcelCaseConstant.StandardCase.values().length - cols) <= Math.abs(ExcelCaseConstant.CardLoanCase.values().length - cols)) {
+            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
+        } else {
+            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
+            for(int i = 0; i < dataCaseEntities.size(); i ++) {
+                DataCaseEntity entity = dataCaseEntities.get(i);
+                if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().get(0) != null) {
+                    dataCaseEntities.get(i).getContacts().get(0).setRelation("配偶");
+                }
+//                if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().size() >= 2 && entity.getContacts().get(1) != null) {
+//                    dataCaseEntities.get(i).getContacts().get(1).setRelation("担保人");
+//                }
+            }
+        }
+        if(dataCaseEntities.size() == 0) {
+            return WebResponse.success("更新0条数据");
+        }
+        //todo 判断个案序列号是不是不存在
+        Set<String> seqNoSet = new HashSet<>();
+        for(int i = 0; i < dataCaseEntities.size(); i ++) {
+            if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
+                return WebResponse.success("第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
+            }
+            seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
+        }
+        DataCaseEntity queryEntity = new DataCaseEntity();
+        queryEntity.setSeqNoSet(seqNoSet);
+        List<DataCaseEntity> existCaseList = dataCaseService.listBySeqNoSet(queryEntity);
+        Map<String, DataCaseEntity> existCaseMap = new HashMap<>();
+        for(DataCaseEntity entity : existCaseList) {
+            existCaseMap.put(entity.getSeqNo(), entity);
+        }
+        for(int i = 0; i < dataCaseEntities.size(); i ++) {
+            DataCaseEntity entity = dataCaseEntities.get(i);
+            if(!existCaseMap.containsKey(entity.getSeqNo())) {
+                return WebResponse.success("个案序列号:" + entity.getSeqNo() + "不存在，请修改后重新上传");
+            }
+            dataCaseEntities.get(i).setId(existCaseMap.get(entity.getSeqNo()).getId());
+        }
+        dataCaseService.updateCaseList(dataCaseEntities);
+        return WebResponse.success();
     }
 
 

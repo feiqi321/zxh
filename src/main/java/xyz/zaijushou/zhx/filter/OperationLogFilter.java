@@ -38,6 +38,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
 
     private static final String[] IMPORT_FILE_URL = {
             "/dataCase/tel/import", //案件电话导入
+            "/dataCase/updateCase/import", //更新案件导入
     };
 
     private static final String[] DOWNLOAD_FILE_URL = {
@@ -108,10 +109,17 @@ public class OperationLogFilter extends OncePerRequestFilter {
             result = new String(responseWrapper.getResponseData(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             logger.error("后台错误：{}", e);
-            result = JSONObject.toJSONString(WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "后台错误：" + e.getMessage()));
+            result = JSONObject.toJSONString(WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "后台错误error：" + e.getMessage()));
+            if(arrayContainsContent(DOWNLOAD_FILE_URL, operationLog.getUrl())) {
+                httpServletResponse.setHeader("Access-Control-Expose-Headers","Content-Disposition");
+                httpServletResponse.setHeader("Content-Disposition", URLEncoder.encode(result, "UTF-8"));
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                servletOutputStream.write(result.getBytes(StandardCharsets.UTF_8));
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                return;
+            }
         }
-
-
 
         httpServletResponse.setContentLength(-1);
         httpServletResponse.setCharacterEncoding("UTF-8");

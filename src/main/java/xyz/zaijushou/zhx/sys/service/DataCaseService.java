@@ -49,4 +49,10 @@ public interface DataCaseService {
     public WebResponse pageSynergyInfo(DataCaseEntity dataCaseEntity);
 
     public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity);
+
+    List<DataCaseEntity> listBySeqNoSet(DataCaseEntity queryEntity);
+
+    void updateBySeqNo(DataCaseEntity entity);
+
+    void updateCaseList(List<DataCaseEntity> dataCaseEntities);
 }

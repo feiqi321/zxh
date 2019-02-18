@@ -48,4 +48,12 @@ public class DataCollectionTelController {
         return WebResponse.success(list);
     }
 
+    @ApiOperation(value = "统计-查询催收员电催详情", notes = "统计-查询催收员电催详情")
+    @PostMapping("/tel/info")
+    public Object getCollectionTelInfo(@RequestBody CollectionStatistic bean) {
+
+        PageInfo<CollectionStatistic> list = dataCollectionTelService.pageCollectionTelInfo(bean);
+        return WebResponse.success(list);
+    }
+
 }

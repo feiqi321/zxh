@@ -15,4 +15,6 @@ public interface DataCollectionTelService {
     public PageInfo<StatisticReturn> pageCollectionMonth(CollectionStatistic dataCollectionEntity);
 
     public PageInfo<CollectionStatistic> pageCollectionDayAction(CollectionStatistic dataCollectionEntity);
+
+    public PageInfo<CollectionStatistic> pageCollectionTelInfo(CollectionStatistic dataCollectionEntity);
 }

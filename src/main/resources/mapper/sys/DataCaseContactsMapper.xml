@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseContactsMapper">
+
+    <update id="deleteCaseContactsBatchByCaseIds" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseContactsEntity">
+        update data_case_contact
+        set delete_flag = 1,
+            update_user = #{updateUser.id}
+        where delete_flag = 0
+        and case_id in
+        <foreach collection="caseIdsSet" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </update>
+
+    <insert id="insertCaseContactsBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        insert into data_case_contact
+            (
+             case_id,
+             name,
+             ident_no,
+             ident_type,
+             relation,
+             home_tel,
+             unit_tel,
+             mobile,
+             address,
+             unit,
+             sort,
+             create_user,
+             update_user
+            )
+            values
+            <foreach collection="contacts" open="(" close=")" separator="," item="item">
+                #{item.caseId},
+                #{item.name},
+                #{item.identNo},
+                #{item.identType},
+                #{item.relation},
+                #{item.homeTel},
+                #{item.unitTel},
+                #{item.mobile},
+                #{item.address},
+                #{item.unit},
+                #{item.sort},
+                #{createUser.id},
+                #{updateUser.id}
+            </foreach>
+    </insert>
+
+</mapper>

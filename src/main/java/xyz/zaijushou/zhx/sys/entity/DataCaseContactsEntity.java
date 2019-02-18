@@ -2,6 +2,8 @@ package xyz.zaijushou.zhx.sys.entity;
 
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
+import java.util.Set;
+
 public class DataCaseContactsEntity extends CommonEntity {
 
     private Integer caseId; //案件id
@@ -25,6 +27,8 @@ public class DataCaseContactsEntity extends CommonEntity {
     private String unit;    //联系人单位
 
     private Integer sort;
+
+    private Set<Integer> caseIdsSet;
 
     public String getName() {
         return name;
@@ -112,5 +116,13 @@ public class DataCaseContactsEntity extends CommonEntity {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public Set<Integer> getCaseIdsSet() {
+        return caseIdsSet;
+    }
+
+    public void setCaseIdsSet(Set<Integer> caseIdsSet) {
+        this.caseIdsSet = caseIdsSet;
     }
 }

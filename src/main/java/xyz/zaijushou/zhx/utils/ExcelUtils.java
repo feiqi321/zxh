@@ -193,21 +193,22 @@ public class ExcelUtils {
             }
         }
         //下载的文件携带这个名称
-        /*response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
-        ServletOutputStream servletOutputStream = response.getOutputStream();*/
+        ServletOutputStream servletOutputStream = response.getOutputStream();
 
-        //workbook.write(servletOutputStream);
-        File file = new File(fileName);
-        if (!file.exists()){
-            file.mkdir();
-        }
-        FileOutputStream out = new FileOutputStream("C:\\fileDownload\\"+fileName);
-        workbook.write(out);
-        out.close();
-        /*servletOutputStream.flush();
-        servletOutputStream.close();*/
+        workbook.write(servletOutputStream);
+
+        servletOutputStream.flush();
+        servletOutputStream.close();
+//        File file = new File(fileName);
+//        if (!file.exists()){
+//            file.mkdir();
+//        }
+//        FileOutputStream out = new FileOutputStream("C:\\fileDownload\\"+fileName);
+//        workbook.write(out);
+//        out.close();
     }
 
     private static void setCellValue(Object value, Cell cell, Class clazz) {
