@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
@@ -43,6 +44,10 @@ public class DataCaseServiceImpl implements DataCaseService {
     private SysDictionaryService sysDictionaryService;
     @Resource
     private SysDictionaryMapper sysDictionaryMapper;
+    @Resource
+    private DataCaseContactsMapper dataCaseContactsMapper;
+    @Resource
+    private DataCaseRemarkMapper dataCaseRemarkMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -301,6 +306,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.updateBySeqNo(entity);
     }
 
+    @Transactional
     @Override
     public void updateCaseList(List<DataCaseEntity> dataCaseEntities) {
         List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
@@ -326,6 +332,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }
         Set<Integer> caseIdsSet = new HashSet<>();
+        DataCaseEntity updateCaseEntity = new DataCaseEntity();
         List<DataCaseRemarkEntity> remarks = new ArrayList<>();
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
         for(DataCaseEntity entity : dataCaseEntities) {
@@ -342,12 +349,20 @@ public class DataCaseServiceImpl implements DataCaseService {
                 contact.setSort((i ++) * 10);
             }
         }
+        updateCaseEntity.setCaseRemarks(remarks);
+        updateCaseEntity.setContacts(contacts);
         //批量删除备注
         DataCaseRemarkEntity remarkEntity = new DataCaseRemarkEntity();
-
+        remarkEntity.setCaseIdsSet(caseIdsSet);
+        dataCaseRemarkMapper.deleteCaseRemarkBatchByCaseIds(remarkEntity);
         //批量新增备注
+        dataCaseRemarkMapper.insertCaseRemarkBatch(updateCaseEntity);
         //批量删除联系人
+        DataCaseContactsEntity contactsEntity = new DataCaseContactsEntity();
+        contactsEntity.setCaseIdsSet(caseIdsSet);
+        dataCaseContactsMapper.deleteCaseContactsBatchByCaseIds(contactsEntity);
         //批量新增联系人
+        dataCaseRemarkMapper.insertCaseRemarkBatch(updateCaseEntity);
     }
 
 }

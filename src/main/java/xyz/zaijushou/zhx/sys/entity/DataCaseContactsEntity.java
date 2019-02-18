@@ -117,4 +117,12 @@ public class DataCaseContactsEntity extends CommonEntity {
     public void setUnit(String unit) {
         this.unit = unit;
     }
+
+    public Set<Integer> getCaseIdsSet() {
+        return caseIdsSet;
+    }
+
+    public void setCaseIdsSet(Set<Integer> caseIdsSet) {
+        this.caseIdsSet = caseIdsSet;
+    }
 }
