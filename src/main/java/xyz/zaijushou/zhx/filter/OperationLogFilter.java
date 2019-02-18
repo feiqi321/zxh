@@ -99,6 +99,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
             filterChain.doFilter(requestWrapper, responseWrapper);
             if(arrayContainsContent(DOWNLOAD_FILE_URL, operationLog.getUrl())) {
                 httpServletResponse.setHeader("Access-Control-Expose-Headers","Content-Disposition");
+                httpServletResponse.setHeader("Content-Disposition",JSONObject.toJSONString(WebResponse.success(responseWrapper.getHeader("Content-Disposition"))));
                 ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
                 servletOutputStream.write(responseWrapper.getResponseData());
                 servletOutputStream.flush();
