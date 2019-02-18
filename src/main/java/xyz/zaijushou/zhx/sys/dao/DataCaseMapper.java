@@ -62,4 +62,7 @@ public interface DataCaseMapper {
 
     public void updateComment(DataCaseEntity bean);
 
+    List<DataCaseEntity> listBySeqNoSet(DataCaseEntity queryEntity);
+
+    void updateBySeqNo(DataCaseEntity entity);
 }

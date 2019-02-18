@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -208,6 +209,9 @@ public class DataCaseEntity extends CommonEntity {
     private String cardModel;   //车型
     private String brand;   //品牌
     private String engineNo;    //发动机号
+
+    //查询条件
+    private Set<String> seqNoSet;
 
 
     public String getCollectStatusMsg() {
@@ -1569,5 +1573,13 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setEngineNo(String engineNo) {
         this.engineNo = engineNo;
+    }
+
+    public Set<String> getSeqNoSet() {
+        return seqNoSet;
+    }
+
+    public void setSeqNoSet(Set<String> seqNoSet) {
+        this.seqNoSet = seqNoSet;
     }
 }

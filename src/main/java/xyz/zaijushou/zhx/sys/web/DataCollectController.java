@@ -74,7 +74,7 @@ public class DataCollectController {
                 "催记管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")

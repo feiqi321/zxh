@@ -16,8 +16,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -42,6 +41,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private SysUserService sysUserService;//用户业务控制层
     @Autowired
     private SysDictionaryService sysDictionaryService;
+    @Resource
+    private SysDictionaryMapper sysDictionaryMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -288,6 +289,65 @@ public class DataCaseServiceImpl implements DataCaseService {
         webResponse.setData(PageInfo.of(list));
 
         return webResponse;
+    }
+
+    @Override
+    public List<DataCaseEntity> listBySeqNoSet(DataCaseEntity queryEntity) {
+        return dataCaseMapper.listBySeqNoSet(queryEntity);
+    }
+
+    @Override
+    public void updateBySeqNo(DataCaseEntity entity) {
+        dataCaseMapper.updateBySeqNo(entity);
+    }
+
+    @Override
+    public void updateCaseList(List<DataCaseEntity> dataCaseEntities) {
+        List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
+        Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
+        for(SysDictionaryEntity entity : dictionaryList) {
+            dictMap.put(entity.getName(), entity);
+        }
+        //下面这段代码逻辑，判断导入的省份是否在字典里，如果存在，则更新案件省份的id，并相应继续判断地市和区县
+        for(int i = 0; i < dataCaseEntities.size(); i ++) {
+            DataCaseEntity entity = dataCaseEntities.get(i);
+            if(entity.getProvince() != null && !StringUtils.isEmpty(entity.getProvince().getName()) && dictMap.containsKey(entity.getProvince().getName())) {
+                dataCaseEntities.get(i).getProvince().setId(dictMap.get(entity.getProvince().getName()).getId());
+                if(entity.getCity() != null && !StringUtils.isEmpty(entity.getCity().getName()) && dictMap.containsKey(entity.getCity().getName())) {
+                    if(dictMap.get(entity.getProvince().getName()).getId().equals(dictMap.get(entity.getCity().getName()).getParent().getId())) {
+                        dataCaseEntities.get(i).getCity().setId(dictMap.get(entity.getCity().getName()).getId());
+                        if(entity.getCounty() != null && !StringUtils.isEmpty(entity.getCounty().getName()) && dictMap.containsKey(entity.getCounty().getName())) {
+                            if(dictMap.get(entity.getCity().getName()).getId().equals(dictMap.get(entity.getCounty().getName()).getParent().getId())) {
+                                dataCaseEntities.get(i).getCounty().setId(dictMap.get(entity.getCounty().getName()).getId());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Set<Integer> caseIdsSet = new HashSet<>();
+        List<DataCaseRemarkEntity> remarks = new ArrayList<>();
+        List<DataCaseContactsEntity> contacts = new ArrayList<>();
+        for(DataCaseEntity entity : dataCaseEntities) {
+            dataCaseMapper.updateBySeqNo(entity);
+            caseIdsSet.add(entity.getId());
+            for(DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
+                remark.setCaseId(entity.getId());
+                remarks.add(remark);
+            }
+            int i = 0;
+            for(DataCaseContactsEntity contact : entity.getContacts()) {
+                contact.setCaseId(entity.getId());
+                contacts.add(contact);
+                contact.setSort((i ++) * 10);
+            }
+        }
+        //批量删除备注
+        DataCaseRemarkEntity remarkEntity = new DataCaseRemarkEntity();
+
+        //批量新增备注
+        //批量删除联系人
+        //批量新增联系人
     }
 
 }
