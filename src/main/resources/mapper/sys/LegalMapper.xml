@@ -51,17 +51,18 @@
     <include refid="Base_Column_List" />
     from legal
     <where>
+      delete_flag = 0
       <if test="cstName != null" >
-        cst_name = #{cstName,jdbcType=VARCHAR},
+         and cst_name = #{cstName,jdbcType=VARCHAR},
       </if>
       <if test="owner != null" >
-        owner = #{owner,jdbcType=VARCHAR},
+        and owner = #{owner,jdbcType=VARCHAR},
       </if>
       <if test="legalStatus != null" >
-        legal_status = #{legalStatus,jdbcType=INTEGER},
+        and  legal_status = #{legalStatus,jdbcType=INTEGER},
       </if>
       <if test="legal_no != null" >
-        ident_no = #{legalNo,jdbcType=VARCHAR},
+        and ident_no = #{legalNo,jdbcType=VARCHAR},
       </if>
     </where>
   </select>

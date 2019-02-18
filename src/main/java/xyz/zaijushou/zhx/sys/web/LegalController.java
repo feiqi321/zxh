@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.LegalEntity;
+import xyz.zaijushou.zhx.sys.entity.LegalFee;
+import xyz.zaijushou.zhx.sys.entity.LegalHandle;
 import xyz.zaijushou.zhx.sys.service.LegalService;
 
 import java.util.List;
@@ -64,7 +66,7 @@ public class LegalController {
     @PostMapping("/legal/pageMyDataCase")
     public Object pageMyDataCase(@RequestBody LegalEntity legalEntity) {
 
-        WebResponse webResponse = legalService.pageDataLegal(legalEntity);
+        WebResponse webResponse = legalService.pageMyDataLegal(legalEntity);
         return WebResponse.success(webResponse);
 
     }
@@ -80,9 +82,67 @@ public class LegalController {
     @ApiOperation(value = "查看详情", notes = "查看详情")
     @PostMapping("/legal/detail")
     public Object detail(@RequestBody LegalEntity legalEntity) {
-        legalService.checkLegal(legalEntity);
+        WebResponse webResponse = legalService.detail(legalEntity);
+        return webResponse;
+
+    }
+
+    @ApiOperation(value = "新增办理信息", notes = "新增办理信息")
+    @PostMapping("/legal/saveHandle")
+    public Object saveHandle(@RequestBody LegalHandle bean) {
+
+        legalService.saveLegalHandle(bean);
+
         return WebResponse.success();
 
     }
 
+    @ApiOperation(value = "修改办理信息", notes = "修改办理信息")
+    @PostMapping("/legal/updateHandle")
+    public Object update(@RequestBody LegalHandle bean) {
+
+        legalService.updateLegalHandle(bean);
+
+        return WebResponse.success();
+
+    }
+
+
+    @ApiOperation(value = "刪除办理信息", notes = "刪除办理信息")
+    @PostMapping("/legal/deleteHandle")
+    public Object delete(@RequestBody LegalHandle bean) {
+        legalService.deleteLegalHandle(bean);
+        return WebResponse.success();
+
+    }
+
+
+    @ApiOperation(value = "新增费用信息", notes = "新增诉讼信息")
+    @PostMapping("/legal/saveFee")
+    public Object save(@RequestBody LegalFee bean) {
+
+        legalService.saveLegalFee(bean);
+
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "修改费用信息", notes = "修改费用信息")
+    @PostMapping("/legal/updateFee")
+    public Object update(@RequestBody LegalFee bean) {
+
+        legalService.updateLegalFee(bean);
+
+        return WebResponse.success();
+
+    }
+
+
+    @ApiOperation(value = "刪除费用信息", notes = "刪除费用信息")
+    @PostMapping("/legal/deleteFee")
+    public Object delete(@RequestBody LegalFee bean) {
+        legalService.deleteLegalFee(bean);
+        return WebResponse.success();
+
+    }
 }

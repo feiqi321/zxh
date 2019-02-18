@@ -4,15 +4,15 @@ public class LegalHandle {
     private Integer id;
 
     private Integer legalId;
-
+    //办案进度
     private String progress;
-
+    //办理时间
     private String handleDate;
-
+    //保全费缴纳时间
     private String preservationDate;
-
+    //保全资产清单
     private String preservationList;
-
+    //备注
     private String remark;
 
     public Integer getId() {
