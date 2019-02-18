@@ -12,7 +12,10 @@ import xyz.zaijushou.zhx.utils.StringUtils;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -212,7 +215,93 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
     @Override
     public PageInfo<CollectionStatistic> pageCollectionDayAction(CollectionStatistic bean){
+        if (StringUtils.isEmpty(bean.getDateSearchStart())){
+            bean.setDateStart(new Date());
+        }else {
+            bean.setDateStart(bean.getDateSearchStart());
+        }
+        if (StringUtils.isEmpty(bean.getDateSearchEnd())){
+            bean.setDateEnd(new Date());
+        }else {
+            bean.setDateEnd(bean.getDateSearchEnd());
+        }
         List<CollectionStatistic> list = dataCollectionTelMapper.pageCollectionDayAction(bean);
+        if (StringUtils.isEmpty(list)){
+            return new PageInfo<>();
+        }
+        for (CollectionStatistic col : list){
+            bean.setOdv(col.getOdv());
+            List<CollectionStatistic> colData = dataCollectionTelMapper.countCollectionDayAction(bean);
+            if (StringUtils.notEmpty(colData)){
+                ConnectionListToInfo(colData,col);
+            }
+        }
+        return  PageInfo.of(list);
+    }
+    //1-114查询无效,2-DX1,3-DX2,4-DX3,5-DX4,6-承诺还款,7-可联本人,8-可联村委,
+    // 9-可联第三人,10-可联家人,11-空号错号,12-网搜无效,13-无人接听,14-无效电话
+    private void ConnectionListToInfo(List<CollectionStatistic> colData,CollectionStatistic col){
+        for (CollectionStatistic colInfo : colData){
+            switch (colInfo.getCollectionResult()){
+                case "114查询无效":
+                    col.setCountSearchNo(colInfo.getCountResult());
+                    break;
+                case "DX1":
+                    col.setCountDX1(colInfo.getCountResult());
+                    break;
+                case "DX2":
+                    col.setCountDX2(colInfo.getCountResult());
+                    break;
+                case "DX3":
+                    col.setCountDX3(colInfo.getCountResult());
+                    break;
+                case "DX4":
+                    col.setCountDX4(colInfo.getCountResult());
+                    break;
+
+                case "承诺还款":
+                    col.setCountRepay(colInfo.getCountResult());
+                    break;
+                case "可联本人":
+                    col.setCountConSelf(colInfo.getCountResult());
+                    break;
+                case "可联村委":
+                    col.setCountConVillage(colInfo.getCountResult());
+                    break;
+                case "可联第三人":
+                    col.setCountConVillage(colInfo.getCountResult());
+                    break;
+                case "可联家人":
+                    col.setCountConFamily(colInfo.getCountResult());
+                    break;
+
+                case "空号错号":
+                    col.setCountDeadNumber(colInfo.getCountResult());
+                    break;
+                case "网搜无效":
+                    col.setCountSearchInvalid(colInfo.getCountResult());
+                    break;
+                case "无人接听":
+                    col.setCountNoAnswer(colInfo.getCountResult());
+                    break;
+                case "无效电话":
+                    col.setCountInvalidCall(colInfo.getCountResult());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+
+    @Override
+    public PageInfo<CollectionStatistic> pageCollectionTelInfo(CollectionStatistic bean){
+        if (StringUtils.isEmpty(bean.getDateStart())){
+            bean.setDateStart(new Date());
+        }else {
+            bean.setDateStart(bean.getDateStart());
+        }
+        List<CollectionStatistic> list = dataCollectionTelMapper.pageCollectionTelInfo(bean);
         if (StringUtils.isEmpty(list)){
             return new PageInfo<>();
         }

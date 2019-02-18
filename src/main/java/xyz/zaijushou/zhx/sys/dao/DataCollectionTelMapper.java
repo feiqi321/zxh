@@ -31,4 +31,8 @@ public interface DataCollectionTelMapper {
     public List<StatisticReturn> pageCollectionMonth(CollectionStatistic entity);
 
     public List<CollectionStatistic> pageCollectionDayAction(CollectionStatistic entity);
+
+    public List<CollectionStatistic> countCollectionDayAction(CollectionStatistic entity);
+
+    public List<CollectionStatistic> pageCollectionTelInfo(CollectionStatistic entity);
 }
