@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
@@ -38,21 +39,23 @@ public class LegalServiceImpl implements LegalService {
     public void updateLegal(LegalEntity bean){
         legalMapper.updateByPrimaryKeySelective(bean);
     }
-
+    //1 已经审核 2审核中 0未申请
     public WebResponse pageDataLegal(LegalEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         List<LegalEntity> dataCaseEntities = legalMapper.pageDataLegal(bean);
-        int count = legalMapper.countDataLegal(bean);
+        for (int i=0;i<dataCaseEntities.size();i++){
+            LegalEntity legalEntity = dataCaseEntities.get(i);
+            if (legalEntity.getLegalStatus()==1){
+                legalEntity.setLegalStatusMsg("已审核");
+            }else if(legalEntity.getLegalStatus()==2){
+                legalEntity.setLegalStatusMsg("申请中");
+            }else{
+                legalEntity.setLegalStatusMsg("未审核");
+            }
 
-        int totalPageNum = 0 ;
-        if (count%bean.getPageSize()>0){
-            totalPageNum = count/bean.getPageSize()+1;
-        }else{
-            totalPageNum = count/bean.getPageSize();
         }
-        webResponse.setData(dataCaseEntities);
-        webResponse.setTotalPageNum(totalPageNum);
-        webResponse.setTotalNum(count);
+
+        webResponse.setData(PageInfo.of(dataCaseEntities));
         return webResponse;
     }
 
@@ -107,6 +110,31 @@ public class LegalServiceImpl implements LegalService {
         legalDetail.setHandleList(handleList);
         webResponse.setData(legalDetail);
         return webResponse;
+    }
+
+
+    public void saveLegalFee(LegalFee bean){
+        legalFeeMapper.insertSelective(bean);
+    }
+
+    public void updateLegalFee(LegalFee bean){
+        legalFeeMapper.updateByPrimaryKeySelective(bean);
+    }
+
+    public void deleteLegalFee(LegalFee bean){
+        legalFeeMapper.deleteByPrimaryKey(bean.getId());
+    }
+
+    public void saveLegalHandle(LegalHandle bean){
+        legalHandleMapper.insertSelective(bean);
+    }
+
+    public void updateLegalHandle(LegalHandle bean){
+        legalHandleMapper.updateByPrimaryKeySelective(bean);
+    }
+
+    public void deleteLegalHandle(LegalHandle bean){
+        legalHandleMapper.deleteByPrimaryKey(bean.getId());
     }
 
 }

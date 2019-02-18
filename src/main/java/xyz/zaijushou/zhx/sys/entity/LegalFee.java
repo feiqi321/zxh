@@ -6,21 +6,21 @@ public class LegalFee {
     private Integer id;
 
     private Integer legalId;
-
+    //收费金额
     private BigDecimal fee;
-
+    //收费日期
     private String chargeDate;
-
+    //款项类别
     private String feeType;
-
+    //收费对象
     private String feeTarget;
-
+    //付款方式
     private String payMethod;
-
+    //收费人
     private String payee;
-
+    //凭证号
     private String voucher;
-
+    //备注
     private String remark;
 
     public Integer getId() {

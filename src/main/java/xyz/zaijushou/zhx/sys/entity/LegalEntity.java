@@ -7,63 +7,65 @@ import java.util.Date;
 
 public class LegalEntity extends CommonEntity {
     private Integer id;
-
+    //姓名
     private String cstName;
-
+    //案件状态
     private Integer legalStatus;
-
+    //案件状态说明
+    private String legalStatusMsg;
+    //证件号码
     private String identNo;
-
+    //办案进度
     private String progress;
-
+    //案件類型
     private Integer legalType;
-
+    //标的
     private String tital;
-
+    //委托人
     private String clientele;
-
+    //被告人
     private String accused;
-
+    //所属人
     private String owner;
-
+    //代理律师
     private String agent;
-
+    //律师联系方式
     private String agentTel;
-
+    //立案日期
     private String filingDate;
-
+    //委案日期
     private String legalDate;
 
     private BigDecimal cost;
-
+    //法官联系方式
     private String judgeTel;
-
+    //办案法官
     private String judge;
-
+    //受案法院
     private String court;
-
+    //诉讼费缴纳日期
     private String costDate;
-
+    //保全费缴纳日期
     private String preservationDate;
-
+    //保全资产清单
     private String preservationList;
-
+    //执行终结日期
     private String exeEndDate;
-
+    //申请执行日期
     private String exeDate;
-
+    //案号
     private String legalNo;
-
+    //申请执行案号
     private String exeNo;
-
+    //首次开庭日期
     private String firstDate;
-
+    //判决日期
     private String judgeDate;
-
+    //送达情况
     private String arriveInfo;
-
+    //判决书
     private String judgment;
-
+    //备注
     private String remark;
 
     private Date createTime;
@@ -71,6 +73,14 @@ public class LegalEntity extends CommonEntity {
     private String checker;
 
     private String checkDate;
+
+    public String getLegalStatusMsg() {
+        return legalStatusMsg;
+    }
+
+    public void setLegalStatusMsg(String legalStatusMsg) {
+        this.legalStatusMsg = legalStatusMsg;
+    }
 
     public String getChecker() {
         return checker;
