@@ -297,7 +297,7 @@
         <if test="userName != null and userName!=''">
             AND  username like CONCAT('%',#{userName},'%')
         </if>
-        order by id desc
+        order by ${orderBy} ${sort}
         limit ${pageNum},${pageSize}
         )su
         LEFT JOIN sys_user_role sur on su.id = sur.user_id
