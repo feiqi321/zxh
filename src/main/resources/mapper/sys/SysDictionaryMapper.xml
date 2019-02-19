@@ -127,7 +127,11 @@
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
         where dictionary_id = (
-        select id from sys_data_dictionary where name = #{name}
+        select id from sys_data_dictionary
+        where 1 = 1
+        <if test="name != null and name!=''">
+            AND  name like CONCAT('%',#{name},'%')
+        </if>
         LIMIT 1
         )
     </select>
