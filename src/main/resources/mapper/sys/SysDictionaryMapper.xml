@@ -94,9 +94,6 @@
         <if test="parent != null and parent.id != null">
             AND  dictionary_id = #{parent.id,jdbcType=INTEGER}
         </if>
-        <if test="name != null and name!=''">
-            AND name like CONCAT('%',#{name},'%')
-        </if>
         order by id desc
     </select>
 
@@ -133,6 +130,9 @@
         select id from sys_data_dictionary where name = #{name}
         LIMIT 1
         )
+        <if test="currentName != null and currentName!=''">
+            AND name like CONCAT('%',#{currentName},'%')
+        </if>
     </select>
 
     <select id="listDataByDName" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
