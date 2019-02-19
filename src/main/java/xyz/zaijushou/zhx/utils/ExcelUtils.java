@@ -193,7 +193,7 @@ public class ExcelUtils {
             }
         }
         //下载的文件携带这个名称
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        response.setHeader("Content-Disposition", URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
         ServletOutputStream servletOutputStream = response.getOutputStream();

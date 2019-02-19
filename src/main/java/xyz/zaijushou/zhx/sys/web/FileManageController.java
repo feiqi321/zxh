@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.URLEncoder;
 
 /**
  * Created by looyer on 2019/1/30.
@@ -45,7 +46,7 @@ public class FileManageController {
 
 
         //下载的文件携带这个名称
-        response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
 
