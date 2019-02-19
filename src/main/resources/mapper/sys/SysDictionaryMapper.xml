@@ -94,6 +94,9 @@
         <if test="parent != null and parent.id != null">
             AND  dictionary_id = #{parent.id,jdbcType=INTEGER}
         </if>
+        <if test="name != null and name!=''">
+            AND name like CONCAT('%',#{name},'%')
+        </if>
         order by id desc
     </select>
 
