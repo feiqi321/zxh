@@ -28,13 +28,19 @@ public class CollectionStatistic extends CommonEntity {
     private int sType;
     private String dept;
     private String odv;
+    private String[] odvs;
+    private String odvFlag;
     private List<String> odvAttr;//催收员数组
     private String area;//催收区域
 
     //委托方
     private String client;
+    private String[] clients;
+    private String clientFlag;
 
     private String batchNo;
+    private String[] batchNos;
+    private String batchFlag;
     private String accountAge;//逾期账龄
     private int collectStatus ; // 催收状态
     private BigDecimal paidMoney;//已还款金额
@@ -107,6 +113,54 @@ public class CollectionStatistic extends CommonEntity {
     private String phoneTime;
 
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+
+    public String[] getBatchNos() {
+        return batchNos;
+    }
+
+    public void setBatchNos(String[] batchNos) {
+        this.batchNos = batchNos;
+    }
+
+    public String getBatchFlag() {
+        return batchFlag;
+    }
+
+    public void setBatchFlag(String batchFlag) {
+        this.batchFlag = batchFlag;
+    }
+
+    public String[] getOdvs() {
+        return odvs;
+    }
+
+    public void setOdvs(String[] odvs) {
+        this.odvs = odvs;
+    }
+
+    public String getOdvFlag() {
+        return odvFlag;
+    }
+
+    public void setOdvFlag(String odvFlag) {
+        this.odvFlag = odvFlag;
+    }
+
+    public String[] getClients() {
+        return clients;
+    }
+
+    public void setClients(String[] clients) {
+        this.clients = clients;
+    }
+
+    public String getClientFlag() {
+        return clientFlag;
+    }
+
+    public void setClientFlag(String clientFlag) {
+        this.clientFlag = clientFlag;
+    }
 
     public String getContent() {
         return content;

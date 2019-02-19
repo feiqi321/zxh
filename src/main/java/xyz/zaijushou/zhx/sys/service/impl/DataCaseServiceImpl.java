@@ -287,6 +287,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     //部门案件 --- 来电查询
     public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = dataCaseEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
         if (StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
             dataCaseEntity.setOrderBy("id");
             dataCaseEntity.setSort("desc");

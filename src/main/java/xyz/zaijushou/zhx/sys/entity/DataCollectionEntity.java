@@ -42,6 +42,10 @@ public class DataCollectionEntity extends CommonEntity {
     private String measure;
     //委托方
     private String client;
+
+    private String[] clients;
+
+    private String clientFlag;
     //催收时间
     private String collectTime;
     //催收时间  开始时间
@@ -87,6 +91,10 @@ public class DataCollectionEntity extends CommonEntity {
     private int caseStatus;
 
     private String batchNo;
+
+    private String[] batchNos;
+
+    private String batchFlag;
 
     private String identNo;
 
@@ -168,6 +176,38 @@ public class DataCollectionEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String[] getBatchNos() {
+        return batchNos;
+    }
+
+    public void setBatchNos(String[] batchNos) {
+        this.batchNos = batchNos;
+    }
+
+    public String getBatchFlag() {
+        return batchFlag;
+    }
+
+    public void setBatchFlag(String batchFlag) {
+        this.batchFlag = batchFlag;
+    }
+
+    public String[] getClients() {
+        return clients;
+    }
+
+    public void setClients(String[] clients) {
+        this.clients = clients;
+    }
+
+    public String getClientFlag() {
+        return clientFlag;
+    }
+
+    public void setClientFlag(String clientFlag) {
+        this.clientFlag = clientFlag;
+    }
 
     public String getOrderBy() {
         return orderBy;

@@ -121,17 +121,24 @@
                 <if test="collectMeasure != null and collectMeasure!=''">
                     AND measure like CONCAT('%',#{collectMeasure},'%')
                 </if>
-                <if test="client != null and client!=''">
-                    AND client like CONCAT('%',#{client},'%')
+                <if test="clientFlag != null and clientFlag!=''">
+                    and client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
+                <if test="batchFlag != null and batchFlag!=''">
+                    and batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
                 <if test="caseStatus != null and caseStatus!=''">
                     AND case_status like CONCAT('%',#{caseStatus},'%')
                 </if>
                 <if test="result != null and result!=''">
                     AND result like CONCAT('%',#{result},'%')
-                </if>
-                <if test="batchNo != null and batchNo!=''">
-                    AND batch_no like CONCAT('%',#{batchNo},'%')
                 </if>
                 <if test="identNo != null and identNo!=''">
                     AND ident_no like CONCAT('%',#{identNo},'%')
@@ -466,17 +473,24 @@
                 <if test="collectMeasure != null and collectMeasure!=''">
                     AND measure like CONCAT('%',#{collectMeasure},'%')
                 </if>
-                <if test="client != null and client!=''">
-                    AND client like CONCAT('%',#{client},'%')
+                <if test="clientFlag != null and clientFlag!=''">
+                    and client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
+                <if test="batchFlag != null and batchFlag!=''">
+                    and batchNo in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
                 <if test="caseStatus != null and caseStatus!=''">
                     AND case_status like CONCAT('%',#{caseStatus},'%')
                 </if>
                 <if test="result != null and result!=''">
                     AND result like CONCAT('%',#{result},'%')
-                </if>
-                <if test="batchNo != null and batchNo!=''">
-                    AND batch_no like CONCAT('%',#{batchNo},'%')
                 </if>
                 <if test="identNo != null and identNo!=''">
                     AND ident_no like CONCAT('%',#{identNo},'%')
@@ -606,11 +620,17 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+        <if test="clientFlag != null and clientFlag!=''">
+            and client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
+        <if test="batchFlag != null and batchFlag!=''">
+            and batchNo in
+            <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
@@ -625,11 +645,17 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+        <if test="clientFlag != null and clientFlag!=''">
+            and client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
+        <if test="batchFlag != null and batchFlag!=''">
+            and batchNo in
+            <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
@@ -644,11 +670,17 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+        <if test="clientFlag != null and clientFlag!=''">
+            and client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
+        <if test="batchFlag != null and batchFlag!=''">
+            and batchNo in
+            <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
@@ -657,8 +689,11 @@
         <if test="dept != null and dept!=''">
             AND  dept like CONCAT('%',#{dept},'%')
         </if>
-        <if test="odv != null and odv!=''">
-            AND odv  like CONCAT('%',#{odv},'%')
+        <if test="odvFlag != null and odvFlag!=''">
+            and odv in
+            <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
             AND target_name like CONCAT('%',#{targetName},'%')
@@ -672,11 +707,17 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+        <if test="clientFlag != null and clientFlag!=''">
+            and client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
+        <if test="batchFlag != null and batchFlag!=''">
+            and batchNo in
+            <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
@@ -685,8 +726,11 @@
         <if test="dept != null and dept!=''">
             AND  dept like CONCAT('%',#{dept},'%')
         </if>
-        <if test="odv != null and odv!=''">
-            AND odv  like CONCAT('%',#{odv},'%')
+        <if test="odvFlag != null and odvFlag!=''">
+            and odv in
+            <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
             AND target_name like CONCAT('%',#{targetName},'%')
@@ -710,14 +754,23 @@
         <if test="dept != null and dept!=''">
             AND  dept like CONCAT('%',#{dept},'%')
         </if>
-        <if test="odv != null and odv!=''">
-            AND odv  like CONCAT('%',#{odv},'%')
+        <if test="odvFlag != null and odvFlag!=''">
+            and odv in
+            <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+        <if test="clientFlag != null and clientFlag!=''">
+            and da.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
+        <if test="batchFlag != null and batchFlag!=''">
+            and batch_no in
+            <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
@@ -757,14 +810,23 @@
         <if test="dept != null and dept!=''">
             AND  dept like CONCAT('%',#{dept},'%')
         </if>
-        <if test="odv != null and odv!=''">
-            AND odv  like CONCAT('%',#{odv},'%')
+        <if test="odvFlag != null and odvFlag!=''">
+            and odv in
+            <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+        <if test="clientFlag != null and clientFlag!=''">
+            and da.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
+        <if test="batchFlag != null and batchFlag!=''">
+            and batchNo in
+            <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">

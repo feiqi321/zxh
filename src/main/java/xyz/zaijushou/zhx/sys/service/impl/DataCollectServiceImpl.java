@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
@@ -34,6 +35,18 @@ public class DataCollectServiceImpl implements DataCollectService {
 
     public WebResponse pageDataCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = bean.getClients();
+        if (clients == null || clients.length==0 || StringUtils.isEmpty(clients[0])){
+            bean.setClientFlag(null);
+        }else{
+            bean.setClientFlag("1");
+        }
+        String[] batchs = bean.getBatchNos();
+        if (batchs == null || batchs.length==0 || StringUtils.isEmpty(batchs[0])){
+            bean.setBatchFlag(null);
+        }else{
+            bean.setBatchFlag("1");
+        }
         bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         List<DataCollectionEntity> list = dataCollectionMapper.pageDataCollect(bean);
         List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();

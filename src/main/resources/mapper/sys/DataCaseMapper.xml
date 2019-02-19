@@ -85,7 +85,7 @@
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and da.client in
-                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
@@ -688,9 +688,9 @@
                       LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
             <trim suffixOverrides=",">
-                <if test="clientFlag != null and clientFlag!=''">
+                <if test="clientFlag != null and clientFlag!='' and queryMethod=='1'.toString()" >
                     and t.client in
-                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
@@ -712,9 +712,11 @@
                 <if test="tel != null and tel!='' and queryMethod=='1'.toString()">
                     and l.tel = #{tel}
                 </if>
-
-                <if test="client != null and client!='' and queryMethod=='2'.toString()">
-                    AND t.client like CONCAT('%',#{client},'%')
+                <if test="clientFlag != null and clientFlag!='' and queryMethod=='2'.toString()" >
+                    and t.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="name != null and name!='' and queryMethod=='2'.toString()">
                     AND t.name like CONCAT('%',#{name},'%')

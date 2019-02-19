@@ -61,6 +61,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity){
+        String[] clients = dataCollectionEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCollectionEntity.setClientFlag(null);
+        }else{
+            dataCollectionEntity.setClientFlag("1");
+        }
+        String[] batchs = dataCollectionEntity.getBatchNos();
+        if (batchs == null || batchs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchs[0])){
+            dataCollectionEntity.setBatchFlag(null);
+        }else{
+            dataCollectionEntity.setBatchFlag("1");
+        }
         if (StringUtils.isEmpty(dataCollectionEntity.getColor())) {
 
         }else{
@@ -211,6 +223,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionState(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = beanInfo.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            beanInfo.setClientFlag(null);
+        }else{
+            beanInfo.setClientFlag("1");
+        }
+        String[] batchs = beanInfo.getBatchNos();
+        if (batchs == null || batchs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchs[0])){
+            beanInfo.setBatchFlag(null);
+        }else{
+            beanInfo.setBatchFlag("1");
+        }
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionState(beanInfo);
@@ -234,6 +258,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = beanInfo.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            beanInfo.setClientFlag(null);
+        }else{
+            beanInfo.setClientFlag("1");
+        }
+        String[] batchs = beanInfo.getBatchNos();
+        if (batchs == null || batchs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchs[0])){
+            beanInfo.setBatchFlag(null);
+        }else{
+            beanInfo.setBatchFlag("1");
+        }
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){
@@ -265,6 +301,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionPay(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = beanInfo.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            beanInfo.setClientFlag(null);
+        }else{
+            beanInfo.setClientFlag("1");
+        }
+        String[] odvs = beanInfo.getOdvs();
+        if (odvs == null || odvs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(odvs[0])){
+            beanInfo.setOdvFlag(null);
+        }else{
+            beanInfo.setOdvFlag("1");
+        }
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){

@@ -83,7 +83,7 @@
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and client in
-                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
