@@ -823,10 +823,10 @@
             card_no = #{cardNo},
             ident_no = #{identNo},
             ident_type = #{identType},
-            <if test="collection_user != null and collection_user.id != null">
+            <if test="collectionUser != null and collectionUser.id != null">
                 collection_user = #{collectionUser.id},
             </if>
-            <if test="collection_area != null and collection_area.id != null">
+            <if test="collectionArea != null and collectionArea.id != null">
                 collection_area = #{collectionArea.id},
             </if>
             summary = #{collectInfo},
@@ -924,7 +924,7 @@
             license = #{license},
             brand = #{brand},
             vin = #{vin},
-            engine_no = #{engineNo},
+            engine_no = #{engineNo}
             where seq_no = #{seqNo}
     </update>
 
@@ -1050,7 +1050,7 @@
         vin,
         engine_no,
 
-        batchNo
+        batch_no
         )
         values
         (

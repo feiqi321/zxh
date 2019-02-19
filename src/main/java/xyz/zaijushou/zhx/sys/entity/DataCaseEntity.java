@@ -570,6 +570,14 @@ public class DataCaseEntity extends CommonEntity {
         this.mVal = mVal;
     }
 
+    public String getMVal() {
+        return mVal;
+    }
+
+    public void setMVal(String mVal) {
+        this.mVal = mVal;
+    }
+
     public String getImportant() {
         return important;
     }
