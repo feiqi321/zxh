@@ -33,6 +33,8 @@ public interface SysDictionaryService {
      */
     List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary);
 
+    List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary);
+
     /**
      *  根据Id查询数据
      * @param dictionary

@@ -42,10 +42,17 @@ public class SysDictionaryController {
         return WebResponse.success(dictionaryEntityList);
     }
 
-    @ApiOperation(value = "根据名称查询数据列表", notes = "根据名称查询数据列表")
+    @ApiOperation(value = "根据父级名称查询数据列表", notes = "根据父级名称查询数据列表")
     @PostMapping("/select/list/name")
     public Object listDataByName(@RequestBody SysDictionaryEntity dictionary) {
         List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.listDataByName(dictionary);
+        return WebResponse.success(dictionaryEntityList);
+    }
+
+    @ApiOperation(value = "根据名称模糊查询数据", notes = "根据名称查询数据")
+    @PostMapping("/select/name")
+    public Object listDataByDName(@RequestBody SysDictionaryEntity dictionary) {
+        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.listDataByDName(dictionary);
         return WebResponse.success(dictionaryEntityList);
     }
 
