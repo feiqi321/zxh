@@ -10,11 +10,20 @@ import java.util.List;
 @Mapper
 public interface SysDictionaryMapper {
     void saveDataDictionary(SysDictionaryEntity dictionary);
+
     void saveDataAfter(SysDictionaryEntity dictionary);
+
     void updateDataDictionary(SysDictionaryEntity dictionary);
+
     List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
+
     List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary);
+
+    List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary);
+
     List<SysDictionaryEntity> getDataById(Integer id);
+
     List<SysDictionaryEntity> getDataByParentId(Integer parentId);
+
     void deleteById(SysDictionaryEntity dictionary);
 }

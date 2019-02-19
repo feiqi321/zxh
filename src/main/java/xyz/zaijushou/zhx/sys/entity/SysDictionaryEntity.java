@@ -14,6 +14,8 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      */
     private String name;
 
+    private String currentName;
+
     /**
      * 描述
      */

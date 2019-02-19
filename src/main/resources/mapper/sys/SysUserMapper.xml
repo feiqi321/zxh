@@ -360,6 +360,9 @@
         <if test="role != null and role!=''">
             AND  sr.role_name = #{role}
         </if>
+        <if test="userName != null and userName!=''">
+            AND username like CONCAT('%',#{username},'%')
+        </if>
     </select>
 
     <!--通过Id删除数据信息-->
