@@ -61,7 +61,7 @@
       <if test="legalStatus != null" >
         and  legal_status = #{legalStatus,jdbcType=INTEGER},
       </if>
-      <if test="legal_no != null" >
+      <if test="legalNo != null" >
         and ident_no = #{legalNo,jdbcType=VARCHAR},
       </if>
     </where>
