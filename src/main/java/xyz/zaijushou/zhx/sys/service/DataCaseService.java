@@ -55,4 +55,6 @@ public interface DataCaseService {
     void updateBySeqNo(DataCaseEntity entity);
 
     void updateCaseList(List<DataCaseEntity> dataCaseEntities);
+
+    void saveCaseList(List<DataCaseEntity> dataCaseEntities);
 }

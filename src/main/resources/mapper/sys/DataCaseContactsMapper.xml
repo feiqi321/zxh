@@ -33,20 +33,22 @@
              update_user
             )
             values
-            <foreach collection="contacts" open="(" close=")" separator="," item="item">
-                #{item.caseId},
-                #{item.name},
-                #{item.identNo},
-                #{item.identType},
-                #{item.relation},
-                #{item.homeTel},
-                #{item.unitTel},
-                #{item.mobile},
-                #{item.address},
-                #{item.unit},
-                #{item.sort},
-                #{createUser.id},
-                #{updateUser.id}
+            <foreach collection="contacts" open="" close="" separator="," item="item">
+                (
+                    #{item.caseId},
+                    #{item.name},
+                    #{item.identNo},
+                    #{item.identType},
+                    #{item.relation},
+                    #{item.homeTel},
+                    #{item.unitTel},
+                    #{item.mobile},
+                    #{item.address},
+                    #{item.unit},
+                    #{item.sort},
+                    #{createUser.id},
+                    #{updateUser.id}
+                )
             </foreach>
     </insert>
 

@@ -16,7 +16,7 @@
     </update>
 
     <insert id="insertCaseRemarkBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        insert into data_case_contact
+        insert into data_case_remark
             (
              case_id,
              remark,
@@ -24,11 +24,13 @@
              update_user
             )
             values
-            <foreach collection="caseRemarks" open="(" close=")" separator="," item="item">
-                #{item.caseId},
-                #{item.remark},
-                #{createUser.id},
-                #{updateUser.id}
+            <foreach collection="caseRemarks" open="" close="" separator="," item="item">
+                (
+                    #{item.caseId},
+                    #{item.remark},
+                    #{createUser.id},
+                    #{updateUser.id}
+                )
             </foreach>
     </insert>
 
