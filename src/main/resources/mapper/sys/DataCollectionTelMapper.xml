@@ -89,7 +89,7 @@
             and start_time &lt;= #{dateEnd}
         </if>
         <if test="odv != null and odv!=''">
-            AND odv like CONCAT('%',#{odv},'%')
+            AND dct.odv like CONCAT('%',#{odv},'%')
         </if>
     </select>
 
