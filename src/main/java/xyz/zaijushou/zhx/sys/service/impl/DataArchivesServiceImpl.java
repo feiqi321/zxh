@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ArchiveSortEnum;
 import xyz.zaijushou.zhx.sys.dao.DataArchiveAddressMapper;
 import xyz.zaijushou.zhx.sys.dao.DataArchiveMapper;
 import xyz.zaijushou.zhx.sys.dao.DataArchiveTelMapper;
@@ -104,23 +105,24 @@ public class DataArchivesServiceImpl implements DataArchiveService {
     @Override
     public WebResponse pageDataArchiveList(DataArchiveEntity dataArchiveEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-       List<DataArchiveEntity> list =  dataArchiveMapper.pageDataArchive(dataArchiveEntity);
-       //int count = dataArchiveMapper.countDataArchive(dataArchiveEntity);
-       for (int i=0;i<list.size();i++){
-           DataArchiveEntity temp = list.get(i);
-           DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
-           dataArchiveAddressEntity.setArchiveId(temp.getId());
-           List<DataArchiveAddressEntity> addressEntityList = dataArchiveAddressMapper.findAll(dataArchiveAddressEntity);
-           temp.setAddressList(addressEntityList);
-           DataArchiveTelEntity dataArchiveTelEntity = new DataArchiveTelEntity();
-           dataArchiveTelEntity.setArchiveId(temp.getId());
-           List<DataArchiveTelEntity> telEntityList = dataArchiveTelMapper.findAll(dataArchiveTelEntity);
-           temp.setTelList(telEntityList);
-           list.set(i,temp);
-       }
+        dataArchiveEntity.setOrderBy(ArchiveSortEnum.getEnumByKey(dataArchiveEntity.getOrderBy()).getValue());
+        List<DataArchiveEntity> list =  dataArchiveMapper.pageDataArchive(dataArchiveEntity);
+        //int count = dataArchiveMapper.countDataArchive(dataArchiveEntity);
+        for (int i=0;i<list.size();i++){
+            DataArchiveEntity temp = list.get(i);
+            DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
+            dataArchiveAddressEntity.setArchiveId(temp.getId());
+            List<DataArchiveAddressEntity> addressEntityList = dataArchiveAddressMapper.findAll(dataArchiveAddressEntity);
+            temp.setAddressList(addressEntityList);
+            DataArchiveTelEntity dataArchiveTelEntity = new DataArchiveTelEntity();
+            dataArchiveTelEntity.setArchiveId(temp.getId());
+            List<DataArchiveTelEntity> telEntityList = dataArchiveTelMapper.findAll(dataArchiveTelEntity);
+            temp.setTelList(telEntityList);
+            list.set(i,temp);
+        }
 
         webResponse.setData(PageInfo.of(list));
 
-       return webResponse;
+        return webResponse;
     }
 }

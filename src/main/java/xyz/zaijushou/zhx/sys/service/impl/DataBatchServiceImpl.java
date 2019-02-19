@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.BatchSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
@@ -53,6 +54,7 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public WebResponse pageDataBatch(DataBatchEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
+        bean.setOrderBy(BatchSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);

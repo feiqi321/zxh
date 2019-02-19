@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.CaseSortEnum;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.constant.SynergySortEnum;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
@@ -122,6 +124,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity){
+        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
@@ -278,6 +281,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     //部门案件 --- 来电查询
     public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+        dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);

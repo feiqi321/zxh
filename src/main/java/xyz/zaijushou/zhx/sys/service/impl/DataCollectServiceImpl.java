@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
@@ -33,6 +34,7 @@ public class DataCollectServiceImpl implements DataCollectService {
 
     public WebResponse pageDataCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
+        bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         List<DataCollectionEntity> list = dataCollectionMapper.pageDataCollect(bean);
         List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();
         for (int i=0;i<list.size();i++){
