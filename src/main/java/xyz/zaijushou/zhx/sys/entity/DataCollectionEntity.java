@@ -165,6 +165,27 @@ public class DataCollectionEntity extends CommonEntity {
     private String contractDate;//联系时间
     private String resultId;//催收结果id
 
+    private String orderBy;
+
+    private String sort;
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+
     List<DataCollectionTelEntity> collTelList = new ArrayList<DataCollectionTelEntity>();
 
     public BigDecimal getRepaidAmtM() {

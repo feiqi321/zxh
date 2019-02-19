@@ -102,7 +102,13 @@
                 </if>
             </trim>
         </where>
-        order by upload_time asc,create_time desc
+        <if test="orderBy != null and orderBy!=''" >
+            order by #{orderBy} #{sort}
+        </if>
+        <if test="orderBy == null and orderBy==''.toString()" >
+            order by upload_time asc,create_time desc
+        </if>
+
     </select>
 
     <select id="countDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="java.lang.Integer">

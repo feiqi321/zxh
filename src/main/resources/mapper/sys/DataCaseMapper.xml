@@ -194,6 +194,7 @@
                 </if>
             </trim>
         </where>
+        order by #{orderBy} #{sort}
     </select>
 
     <select id="pageBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
