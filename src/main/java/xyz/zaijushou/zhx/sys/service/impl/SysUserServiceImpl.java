@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import xyz.zaijushou.zhx.constant.UserSortEnum;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
@@ -131,6 +132,8 @@ public class SysUserServiceImpl implements SysUserService {
         }
         if(StringUtils.isEmpty(userEntity.getOrderBy())){
             userEntity.setOrderBy("id");
+        }else {
+            userEntity.setOrderBy(UserSortEnum.getEnumByKey(userEntity.getOrderBy()).getValue());
         }
         if (StringUtils.isEmpty(userEntity.getSort())){
             userEntity.setSort(" desc");
