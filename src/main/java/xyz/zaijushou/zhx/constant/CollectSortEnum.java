@@ -4,7 +4,7 @@ package xyz.zaijushou.zhx.constant;
  * Created by looyer on 2019/2/19.
  */
 public enum CollectSortEnum {
-
+    COLUMN0("id","id"),
     COLUMN1("seqno","seqno"),
     COLUMN2("name","name"),
     COLUMN3("measure","measure"),
@@ -32,11 +32,11 @@ public enum CollectSortEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static ColorEnum getEnumByKey(String key){
+    public static CollectSortEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(ColorEnum temp:ColorEnum.values()){
+        for(CollectSortEnum temp:CollectSortEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }

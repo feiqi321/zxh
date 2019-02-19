@@ -4,7 +4,7 @@ package xyz.zaijushou.zhx.constant;
  * Created by looyer on 2019/2/19.
  */
 public enum CaseSortEnum {
-
+    COLUMN0("id","id"),
     COLUMN1("area","area"),
     COLUMN2("collectStatus","collect_status"),
     COLUMN3("batchNo","batch_no"),
@@ -37,11 +37,11 @@ public enum CaseSortEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static ColorEnum getEnumByKey(String key){
+    public static CaseSortEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(ColorEnum temp:ColorEnum.values()){
+        for(CaseSortEnum temp:CaseSortEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }

@@ -26,11 +26,11 @@ public enum SynergySortEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static ColorEnum getEnumByKey(String key){
+    public static SynergySortEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(ColorEnum temp:ColorEnum.values()){
+        for(SynergySortEnum temp:SynergySortEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }

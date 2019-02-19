@@ -4,7 +4,7 @@ package xyz.zaijushou.zhx.constant;
  * Created by looyer on 2019/2/19.
  */
 public enum ArchiveSortEnum {
-
+    COLUMN0("id","id"),
     COLUMN1("identNo","ident_no"),
     COLUMN2("name","name"),
     COLUMN3("updateTime","update_time"),
@@ -19,11 +19,11 @@ public enum ArchiveSortEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static ColorEnum getEnumByKey(String key){
+    public static ArchiveSortEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(ColorEnum temp:ColorEnum.values()){
+        for(ArchiveSortEnum temp:ArchiveSortEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }

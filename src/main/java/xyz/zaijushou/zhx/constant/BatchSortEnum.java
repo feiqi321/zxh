@@ -5,7 +5,7 @@ package xyz.zaijushou.zhx.constant;
  */
 public enum BatchSortEnum {
 
-
+    COLUMN0("id","id"),
     COLUMN1("batchNo","batch_no"),
     COLUMN2("client","client"),
     COLUMN3("statusMsg","batch_status"),
@@ -31,11 +31,11 @@ public enum BatchSortEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static ColorEnum getEnumByKey(String key){
+    public static BatchSortEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(ColorEnum temp:ColorEnum.values()){
+        for(BatchSortEnum temp:BatchSortEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }
