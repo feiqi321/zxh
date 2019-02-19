@@ -213,6 +213,25 @@ public class DataCaseEntity extends CommonEntity {
     //查询条件
     private Set<String> seqNoSet;
 
+    private String orderBy;
+
+    private String sort;
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
     public String getCollectStatusMsg() {
         return collectStatusMsg;

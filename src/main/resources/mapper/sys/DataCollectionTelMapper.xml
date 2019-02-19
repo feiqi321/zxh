@@ -53,8 +53,8 @@
         <if test="dateEnd != null" >
             and start_time &lt;= #{dateEnd}
         </if>
-        <if test="odv != null and odv!=''" >
-            and odv = #{odv}
+        <if test="odv != null and odv!=''">
+            AND odv like CONCAT('%',#{odv},'%')
         </if>
     </select>
 
@@ -70,8 +70,8 @@
             and start_time &lt;= #{dateEnd}
         </if>
 
-        <if test="odv != null and odv!=''" >
-            and odv = #{odv}
+        <if test="odv != null and odv!=''">
+            AND odv like CONCAT('%',#{odv},'%')
         </if>
     </select>
 
@@ -88,8 +88,8 @@
         <if test="dateEnd != null" >
             and start_time &lt;= #{dateEnd}
         </if>
-        <if test="odv != null and odv!=''" >
-            and dct.odv = #{odv}
+        <if test="odv != null and odv!=''">
+            AND odv like CONCAT('%',#{odv},'%')
         </if>
     </select>
 
