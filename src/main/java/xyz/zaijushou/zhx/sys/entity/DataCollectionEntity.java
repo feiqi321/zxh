@@ -38,6 +38,10 @@ public class DataCollectionEntity extends CommonEntity {
     private String dept;
     //催收员
     private String odv;
+
+    private String[] odvs;
+
+    private String odvFlag;
     //催收措施
     private String measure;
     //委托方
@@ -176,6 +180,22 @@ public class DataCollectionEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String[] getOdvs() {
+        return odvs;
+    }
+
+    public void setOdvs(String[] odvs) {
+        this.odvs = odvs;
+    }
+
+    public String getOdvFlag() {
+        return odvFlag;
+    }
+
+    public void setOdvFlag(String odvFlag) {
+        this.odvFlag = odvFlag;
+    }
 
     public String[] getBatchNos() {
         return batchNos;

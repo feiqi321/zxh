@@ -41,6 +41,12 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else{
             bean.setClientFlag("1");
         }
+        String[] odvs = bean.getOdvs();
+        if (odvs == null || odvs.length==0 || StringUtils.isEmpty(odvs[0])){
+            bean.setOdvFlag(null);
+        }else{
+            bean.setOdvFlag("1");
+        }
         String[] batchs = bean.getBatchNos();
         if (batchs == null || batchs.length==0 || StringUtils.isEmpty(batchs[0])){
             bean.setBatchFlag(null);

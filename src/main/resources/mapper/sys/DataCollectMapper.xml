@@ -464,8 +464,11 @@
                 <if test="area != null and area!=''">
                     AND area like CONCAT('%',#{area},'%')
                 </if>
-                <if test="odv != null and odv!=''">
-                    AND odv  like CONCAT('%',#{odv},'%')
+                <if test="odvFlag != null and odvFlag!=''">
+                    and odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="measure != null and measure!=''">
                     AND measure like CONCAT('%',#{measure},'%')
