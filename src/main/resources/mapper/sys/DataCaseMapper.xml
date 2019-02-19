@@ -194,7 +194,7 @@
                 </if>
             </trim>
         </where>
-        order by #{orderBy} #{sort}
+        order by ${orderBy} ${sort}
     </select>
 
     <select id="pageBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -727,7 +727,7 @@
                 </if>
             </trim>
         </where>
-        order by #{orderBy} #{sort}
+        order by ${orderBy} ${sort}
     </select>
 
     <select id="countCaseTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="java.lang.Integer">

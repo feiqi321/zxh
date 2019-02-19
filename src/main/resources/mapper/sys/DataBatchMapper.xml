@@ -103,7 +103,7 @@
             </trim>
         </where>
         <if test="orderBy != null and orderBy!=''" >
-            order by #{orderBy} #{sort}
+            order by ${orderBy} ${sort}
         </if>
         <if test="orderBy == null and orderBy==''.toString()" >
             order by upload_time asc,create_time desc
