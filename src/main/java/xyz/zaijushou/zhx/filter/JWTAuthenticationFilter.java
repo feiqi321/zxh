@@ -58,7 +58,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if(!"POST".equals(request.getMethod())) {
+        if (!"POST".equals(request.getMethod())) {
             chain.doFilter(request, response);
             return;
         }
@@ -98,10 +98,9 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                 Set<String> redisKeys = new HashSet<>();
                 for (int i = 0; i < roles.size(); i++) {
                     SysRoleEntity role = JSONObject.parseObject(roles.getString(i), SysRoleEntity.class);
-                    if(role != null) {
-                        authorities.add(new GrantedAuthorityImpl(role.getRoleAuthSymbol()));
-                        redisKeys.add(RedisKeyPrefix.ROLE_AUTHORITY + role.getId());
-                    }
+                    authorities.add(new GrantedAuthorityImpl(role.getRoleAuthSymbol()));
+                    redisKeys.add(RedisKeyPrefix.ROLE_AUTHORITY + role.getId());
+
                 }
                 if (redisKeys.size() > 0) {
                     List<String> values = stringRedisTemplate.opsForValue().multiGet(redisKeys);

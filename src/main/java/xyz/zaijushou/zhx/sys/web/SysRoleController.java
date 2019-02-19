@@ -234,7 +234,7 @@ public class SysRoleController {
                 continue;
             }
             if(menu.isSelect()) {
-                while (menu.getParent() != null && menu.getParent().getId() != null && menu.getParent().getId() != 0 && menu.getId().equals(menu.getParent().getId())) {
+                while (menu.getParent() != null && menu.getParent().getId() != null && menu.getParent().getId() != 0 && !menu.getId().equals(menu.getParent().getId())) {
                     menuMap.get(menu.getParent().getId()).setSelect(true);
                     menu = menuMap.get(menu.getParent().getId());
                 }

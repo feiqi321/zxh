@@ -606,8 +606,8 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client !=''">
-            and client = #{client}
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and batch_no = #{batchNo}
@@ -625,8 +625,8 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client !=''">
-            and client = #{client}
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and batch_no = #{batchNo}
@@ -644,8 +644,8 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client !=''">
-            and client = #{client}
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and batch_no = #{batchNo}
@@ -672,8 +672,8 @@
         from
         data_collection dc
         where dc.delete_flag = 0
-        <if test="client != null and client !=''">
-            and client = #{client}
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and batch_no = #{batchNo}
@@ -713,8 +713,8 @@
         <if test="odv != null and odv!=''">
             AND odv  like CONCAT('%',#{odv},'%')
         </if>
-        <if test="client != null and client !=''">
-            and client = #{client}
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and batch_no = #{batchNo}
@@ -760,8 +760,8 @@
         <if test="odv != null and odv!=''">
             AND odv  like CONCAT('%',#{odv},'%')
         </if>
-        <if test="client != null and client !=''">
-            and client = #{client}
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and batch_no = #{batchNo}
@@ -814,8 +814,8 @@
         <if test="odv != null and odv!=''">
             AND odv  like CONCAT('%',#{odv},'%')
         </if>
-        <if test="client != null and client !=''">
-            and client = #{client}
+        <if test="client != null and client!=''">
+            AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and batch_no = #{batchNo}

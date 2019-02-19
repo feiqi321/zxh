@@ -132,7 +132,9 @@ public class SysRoleServiceImpl implements SysRoleService {
                 user.setRoles(new ArrayList<>());
                 userRolesMap.put(userRole.getUser().getId(), user);
             }
-            userRolesMap.get(userRole.getUser().getId()).getRoles().add(roleMap.get(userRole.getRole().getId()));
+            if(roleMap.containsKey(userRole.getRole().getId())) {
+                userRolesMap.get(userRole.getUser().getId()).getRoles().add(roleMap.get(userRole.getRole().getId()));
+            }
         }
         RedisUtils.deleteKeysWihtPrefix(RedisKeyPrefix.USER_ROLE);
         for (Map.Entry<Integer, SysUserEntity> entry : userRolesMap.entrySet()) {
