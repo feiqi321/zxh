@@ -14,6 +14,8 @@ import java.util.Set;
 public class DataCaseEntity extends CommonEntity {
     private String batchNo; //批次编号 查询条件  列表
     private String client;//委托方 查询条件
+    private String[] clients;
+    private String clientFlag;
     private BigDecimal money;//委案金额 查询条件    列表
     private BigDecimal moneyStart;//委案金额  查询条件
     private BigDecimal moneyEnd;//委案金额  查询条件
@@ -216,6 +218,22 @@ public class DataCaseEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String[] getClients() {
+        return clients;
+    }
+
+    public void setClients(String[] clients) {
+        this.clients = clients;
+    }
+
+    public String getClientFlag() {
+        return clientFlag;
+    }
+
+    public void setClientFlag(String clientFlag) {
+        this.clientFlag = clientFlag;
+    }
 
     public String getOrderBy() {
         return orderBy;

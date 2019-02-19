@@ -83,8 +83,11 @@
                 <if test="cardNo != null and cardNo!=''">
                     and da.card_no = #{cardNo}
                 </if>
-                <if test="client != null and client!=''">
-                    and da.client = #{client}
+                <if test="clientFlag != null and clientFlag!=''">
+                    and da.client in
+                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="batchNo != null and batchNo!=''">
                     and da.batch_no = #{batchNo}
@@ -210,8 +213,11 @@
                 <if test="cardNo != null and cardNo!=''">
                     and da.card_no = #{cardNo}
                 </if>
-                <if test="client != null and client!=''">
-                    and da.client = #{client}
+                <if test="clientFlag != null and clientFlag!=''">
+                    and da.client in
+                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="batchNo != null and batchNo!=''">
                     and da.batch_no = #{batchNo}
@@ -682,8 +688,11 @@
                       LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
             <trim suffixOverrides=",">
-                <if test="client != null and client!='' and queryMethod=='1'.toString()">
-                    and t.client = #{client}
+                <if test="clientFlag != null and clientFlag!=''">
+                    and t.client in
+                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="name != null and name!='' and queryMethod=='1'.toString()">
                     and t.name = #{name}

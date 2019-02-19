@@ -144,6 +144,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = dataCaseEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
@@ -281,6 +287,11 @@ public class DataCaseServiceImpl implements DataCaseService {
     //部门案件 --- 来电查询
     public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+        if (StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setSort("desc");
+        }
+
         dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
         for (int i=0;i<list.size();i++){

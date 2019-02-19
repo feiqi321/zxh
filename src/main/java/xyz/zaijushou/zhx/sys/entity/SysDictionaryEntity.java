@@ -8,6 +8,7 @@ import xyz.zaijushou.zhx.common.entity.TreeEntity;
  */
 public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
 
+    private String currentName;
     /**
      * 名称
      */
@@ -27,6 +28,14 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      * 1-地区，0-其他
      */
     private Integer type;
+
+    public String getCurrentName() {
+        return currentName;
+    }
+
+    public void setCurrentName(String currentName) {
+        this.currentName = currentName;
+    }
 
     public Integer getType() {
         return type;

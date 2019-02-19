@@ -13,6 +13,10 @@ public class DataBatchEntity extends CommonEntity {
     private String batchNo;
     //委托方
     private String client;
+
+    private String[] clients;
+
+    private String clientFlag;
     //催款区域
     private String area;
     //委案日期
@@ -48,6 +52,22 @@ public class DataBatchEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getClientFlag() {
+        return clientFlag;
+    }
+
+    public void setClientFlag(String clientFlag) {
+        this.clientFlag = clientFlag;
+    }
+
+    public String[] getClients() {
+        return clients;
+    }
+
+    public void setClients(String[] clients) {
+        this.clients = clients;
+    }
 
     public String getOrderBy() {
         return orderBy;

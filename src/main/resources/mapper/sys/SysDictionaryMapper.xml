@@ -130,5 +130,8 @@
         select id from sys_data_dictionary where name = #{name}
         LIMIT 1
         )
+        <if test="currentName != null and currentName != null">
+            AND  name like CONCAT('%',#{currentName},'%')
+        </if>
     </select>
 </mapper>

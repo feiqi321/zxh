@@ -81,12 +81,16 @@
                 <if test="batchNo != null and batchNo!=''">
                     AND  batch_no like CONCAT('%',#{batchNo},'%')
                 </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and client in
+                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
                 <if test="batchStatus != null and batchStatus!=''">
                     AND  batch_status like CONCAT('%',#{batchStatus},'%')
                 </if>
-                <if test="client != null and client!=''">
-                    AND client like CONCAT('%',#{client},'%')
-                </if>
+
                 <if test="area != null and area!=''">
                     AND area  like CONCAT('%',#{area},'%')
                 </if>
