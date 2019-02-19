@@ -97,7 +97,7 @@
       exe_end_date, exe_date, legal_no, 
       exe_no, first_date, judge_date, 
       arrive_info, judgment, remark, 
-      create_time)
+      create_time,delete_flag)
     values (#{id,jdbcType=INTEGER}, #{cstName,jdbcType=VARCHAR}, #{legalStatus,jdbcType=INTEGER}, 
       #{identNo,jdbcType=VARCHAR}, #{progress,jdbcType=VARCHAR}, #{legalType,jdbcType=INTEGER}, 
       #{tital,jdbcType=VARCHAR}, #{clientele,jdbcType=VARCHAR}, #{accused,jdbcType=VARCHAR}, 
@@ -108,7 +108,7 @@
       #{exeEndDate,jdbcType=VARCHAR}, #{exeDate,jdbcType=VARCHAR}, #{legalNo,jdbcType=VARCHAR}, 
       #{exeNo,jdbcType=VARCHAR}, #{firstDate,jdbcType=VARCHAR}, #{judgeDate,jdbcType=VARCHAR}, 
       #{arriveInfo,jdbcType=VARCHAR}, #{judgment,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP},0)
   </insert>
   <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     insert into legal

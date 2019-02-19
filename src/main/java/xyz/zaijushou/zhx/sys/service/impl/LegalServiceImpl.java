@@ -47,8 +47,6 @@ public class LegalServiceImpl implements LegalService {
             LegalEntity legalEntity = dataCaseEntities.get(i);
             if (legalEntity.getLegalStatus()==1){
                 legalEntity.setLegalStatusMsg("已审核");
-            }else if(legalEntity.getLegalStatus()==2){
-                legalEntity.setLegalStatusMsg("申请中");
             }else{
                 legalEntity.setLegalStatusMsg("未审核");
             }
