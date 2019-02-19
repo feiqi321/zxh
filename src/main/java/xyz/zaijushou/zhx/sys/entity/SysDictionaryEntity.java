@@ -8,7 +8,6 @@ import xyz.zaijushou.zhx.common.entity.TreeEntity;
  */
 public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
 
-    private String currentName;
     /**
      * 名称
      */
