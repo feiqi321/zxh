@@ -764,7 +764,7 @@
             </foreach>
         </if>
         <if test="clientFlag != null and clientFlag!=''">
-            and da.client in
+            and client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -820,7 +820,7 @@
             </foreach>
         </if>
         <if test="clientFlag != null and clientFlag!=''">
-            and da.client in
+            and client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
