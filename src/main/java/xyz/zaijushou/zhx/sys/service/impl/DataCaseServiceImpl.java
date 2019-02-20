@@ -144,12 +144,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-         int totalCaseNum=0;
-         BigDecimal totalAmt=new BigDecimal(0);
-         int repayNum=0;
-         BigDecimal repayTotalAmt=new BigDecimal(0);
-         BigDecimal totalCp=new BigDecimal(0);
-         BigDecimal totalPtp=new BigDecimal(0);
+        int totalCaseNum=0;
+        BigDecimal totalAmt=new BigDecimal(0);
+        int repayNum=0;
+        BigDecimal repayTotalAmt=new BigDecimal(0);
+        BigDecimal totalCp=new BigDecimal(0);
+        BigDecimal totalPtp=new BigDecimal(0);
         dataCaseEntity.setOrderBy(BatchSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
@@ -269,13 +269,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 totalCaseNum = totalCaseNum+1;
-                totalAmt = totalAmt.add(temp.getMoney());
-                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
+                totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
+                if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
                     repayNum = repayNum+1;
                     repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
                 }
-                totalCp = totalCp.add(temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt());
+                totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
+                totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
                 if (temp.getCollectStatus()==0){
                     temp.setCollectStatusMsg("");
                 }else{
