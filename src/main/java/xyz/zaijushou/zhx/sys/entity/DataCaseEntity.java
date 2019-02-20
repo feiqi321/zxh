@@ -16,6 +16,8 @@ public class DataCaseEntity extends CommonEntity {
     private String idFlag;
     private String[] ids;
     private String batchNo; //批次编号 查询条件  列表
+    private String batchNoFlag;
+    private String[] batchNos;
     private String client;//委托方 查询条件
     private String[] clients;
     private String clientFlag;
@@ -233,6 +235,22 @@ public class DataCaseEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getBatchNoFlag() {
+        return batchNoFlag;
+    }
+
+    public void setBatchNoFlag(String batchNoFlag) {
+        this.batchNoFlag = batchNoFlag;
+    }
+
+    public String[] getBatchNos() {
+        return batchNos;
+    }
+
+    public void setBatchNos(String[] batchNos) {
+        this.batchNos = batchNos;
+    }
 
     public String getIdStr() {
         return idStr;

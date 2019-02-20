@@ -150,6 +150,12 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseEntity.setClientFlag("1");
         }
+        String[] batchNos = dataCaseEntity.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            dataCaseEntity.setBatchNoFlag(null);
+        }else{
+            dataCaseEntity.setBatchNoFlag("1");
+        }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdStr())){
             dataCaseEntity.setIdFlag(null);
         }else{
