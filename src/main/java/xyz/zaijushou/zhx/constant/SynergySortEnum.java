@@ -4,7 +4,7 @@ package xyz.zaijushou.zhx.constant;
  * Created by looyer on 2019/2/19.
  */
 public enum SynergySortEnum {
-    COLUMN0("id","da.id"),
+    COLUMN0("id","id"),
     COLUMN1("seqNo","seq_no"),
     COLUMN2("name","name"),
     COLUMN3("cardNo","card_no"),
