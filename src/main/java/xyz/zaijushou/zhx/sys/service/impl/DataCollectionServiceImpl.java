@@ -7,10 +7,8 @@ import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
-import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
-import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -34,6 +32,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private DataCollectionTelMapper dataCollectionTelMapper;
+
+    @Resource
+    private SysDictionaryMapper dictionaryMapper;
 
     @Resource
     private SysUserService sysUserService;//用户业务控制层
@@ -111,6 +112,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return  webResponse;
         }
         for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+            if (dictList.size() > 0) {
+                SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+            }
+            list.set(i,temp);
             for (DataCollectionEntity collection : list){
                 if(!caseIds.contains(collection.getCaseId())){
                     caseIds.add(collection.getCaseId());
