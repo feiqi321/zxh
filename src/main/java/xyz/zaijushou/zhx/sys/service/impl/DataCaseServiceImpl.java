@@ -50,6 +50,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseContactsMapper dataCaseContactsMapper;
     @Resource
     private DataCaseRemarkMapper dataCaseRemarkMapper;
+    @Resource
+    private SysDictionaryMapper dictionaryMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -153,8 +155,34 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
+            for(int i=0;i<list.size();i++){
+                DataCaseEntity temp = list.get(i);
+                if (temp.getCollectStatus()==0){
+                    temp.setCollectStatusMsg("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                    }
+                }
+                list.set(i,temp);
+            }
         }else {
             list = dataCaseMapper.pageCaseList(dataCaseEntity);
+            for(int i=0;i<list.size();i++){
+                DataCaseEntity temp = list.get(i);
+                if (temp.getCollectStatus()==0){
+                    temp.setCollectStatusMsg("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                    }
+                }
+                list.set(i,temp);
+            }
         }
         webResponse.setData(PageInfo.of(list));
         return webResponse;
