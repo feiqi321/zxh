@@ -16,6 +16,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -143,6 +144,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+         int totalCaseNum=0;
+         BigDecimal totalAmt=new BigDecimal(0);
+         int repayNum=0;
+         BigDecimal repayTotalAmt=new BigDecimal(0);
+         BigDecimal totalCp=new BigDecimal(0);
+         BigDecimal totalPtp=new BigDecimal(0);
         dataCaseEntity.setOrderBy(BatchSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
@@ -238,6 +245,14 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
+                totalCaseNum = totalCaseNum+1;
+                totalAmt = totalAmt.add(temp.getMoney());
+                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
+                    repayNum = repayNum+1;
+                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
+                }
+                totalCp = totalCp.add(temp.getBankAmt());
+                totalPtp = totalPtp.add(temp.getProRepayAmt());
                 if (temp.getCollectStatus()==0){
                     temp.setCollectStatusMsg("");
                 }else{
@@ -253,6 +268,14 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
+                totalCaseNum = totalCaseNum+1;
+                totalAmt = totalAmt.add(temp.getMoney());
+                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
+                    repayNum = repayNum+1;
+                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
+                }
+                totalCp = totalCp.add(temp.getBankAmt());
+                totalPtp = totalPtp.add(temp.getProRepayAmt());
                 if (temp.getCollectStatus()==0){
                     temp.setCollectStatusMsg("");
                 }else{
@@ -265,7 +288,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i,temp);
             }
         }
-        webResponse.setData(PageInfo.of(list));
+        CaseResponse caseResponse = new CaseResponse();
+        caseResponse.setTotalCaseNum(totalCaseNum);
+        caseResponse.setTotalAmt(totalAmt);
+        caseResponse.setRepayNum(repayNum);
+        caseResponse.setRepayTotalAmt(repayTotalAmt);
+        caseResponse.setTotalCp(totalCp);
+        caseResponse.setTotalPtp(totalPtp);
+        caseResponse.setPageInfo(PageInfo.of(list));
+        webResponse.setData(caseResponse);
         return webResponse;
     }
 

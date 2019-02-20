@@ -55,6 +55,8 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public WebResponse pageDataBatch(DataBatchEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
+        int userCount = 0;
+        BigDecimal totalAmt = new BigDecimal(0);
         bean.setOrderBy(BatchSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         String[] clients = bean.getClients();
         if (clients == null || clients.length==0 || StringUtils.isEmpty(clients[0])){
@@ -71,6 +73,7 @@ public class DataBatchServiceImpl implements DataBatchService {
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
+
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
                 dataBatchEntity.setClient("");
@@ -100,14 +103,15 @@ public class DataBatchServiceImpl implements DataBatchService {
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
             dataBatchEntity.setUserCount(2);
             dataBatchEntity.setTotalAmt(new BigDecimal(125));
-
+            userCount =userCount+dataBatchEntity.getUserCount();
+            totalAmt = totalAmt.add(dataBatchEntity.getTotalAmt());
             dataCaseEntities.set(i,dataBatchEntity);
         }
 
         BatchResponse batchResponse = new BatchResponse();
         batchResponse.setPageInfo(PageInfo.of(dataCaseEntities));
         batchResponse.setTotalAmt(new BigDecimal(0));
-        batchResponse.setUserCount(0);
+        batchResponse.setUserCount(userCount);
         webResponse.setData(batchResponse);
 
         return webResponse;

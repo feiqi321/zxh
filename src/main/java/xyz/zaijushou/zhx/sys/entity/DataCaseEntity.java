@@ -95,7 +95,7 @@ public class DataCaseEntity extends CommonEntity {
     private BigDecimal enRepayAmt;//已还金额  列表
     private BigDecimal bankAmt;//待銀行查账金额-CP 列表
     private String proRepayDate;//承诺还款时间-PTP   列表
-    private String proRepayAmt;//承诺还款金额-PTP   列表
+    private BigDecimal proRepayAmt;//承诺还款金额-PTP   列表
 
     private String realRepayDate;
     private String realRepayDateStart;
@@ -500,11 +500,11 @@ public class DataCaseEntity extends CommonEntity {
         this.collectEndDate = collectEndDate;
     }
 
-    public String getProRepayAmt() {
+    public BigDecimal getProRepayAmt() {
         return proRepayAmt;
     }
 
-    public void setProRepayAmt(String proRepayAmt) {
+    public void setProRepayAmt(BigDecimal proRepayAmt) {
         this.proRepayAmt = proRepayAmt;
     }
 
