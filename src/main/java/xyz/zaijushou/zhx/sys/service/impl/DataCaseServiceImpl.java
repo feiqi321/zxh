@@ -154,50 +154,78 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setIdFlag(null);
         }else{
             String[] ids = dataCaseEntity.getIdStr().split(",");
-            dataCaseEntity.setIdFlag("1");
-            dataCaseEntity.setIds(ids);
+            if (ids == null || ids.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(ids[0])){
+                dataCaseEntity.setIdFlag(null);
+            }else {
+                dataCaseEntity.setIdFlag("1");
+                dataCaseEntity.setIds(ids);
+            }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getName())){
             dataCaseEntity.setNameFlag(null);
         }else{
             String[] names = dataCaseEntity.getName().split(",");
-            dataCaseEntity.setNameFlag("1");
-            dataCaseEntity.setNames(names);
+            if (names == null || names.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(names[0])){
+                dataCaseEntity.setNameFlag(null);
+            }else {
+                dataCaseEntity.setNameFlag("1");
+                dataCaseEntity.setNames(names);
+            }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getArchiveNo())){
             dataCaseEntity.setArchiveNoFlag(null);
         }else{
             String[] archiveNos = dataCaseEntity.getArchiveNo().split(",");
-            dataCaseEntity.setArchiveNoFlag("1");
-            dataCaseEntity.setArchiveNos(archiveNos);
+            if (archiveNos == null || archiveNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(archiveNos[0])){
+                dataCaseEntity.setArchiveNoFlag(null);
+            }else {
+                dataCaseEntity.setArchiveNoFlag("1");
+                dataCaseEntity.setArchiveNos(archiveNos);
+            }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getAccount())){
             dataCaseEntity.setAccountFlag(null);
         }else{
             String[] accounts = dataCaseEntity.getAccount().split(",");
-            dataCaseEntity.setAccountFlag("1");
-            dataCaseEntity.setAccounts(accounts);
+            if (accounts == null || accounts.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(accounts[0])){
+                dataCaseEntity.setAccountFlag(null);
+            }else {
+                dataCaseEntity.setAccountFlag("1");
+                dataCaseEntity.setAccounts(accounts);
+            }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getCardNo())){
             dataCaseEntity.setCardNoFlag(null);
         }else{
             String[] cardNos = dataCaseEntity.getCardNo().split(",");
-            dataCaseEntity.setCardNoFlag("1");
-            dataCaseEntity.setCardNos(cardNos);
+            if (cardNos == null || cardNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(cardNos[0])){
+                dataCaseEntity.setCardNoFlag(null);
+            }else {
+                dataCaseEntity.setCardNoFlag("1");
+                dataCaseEntity.setCardNos(cardNos);
+            }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
             dataCaseEntity.setSeqNoFlag(null);
         }else{
             String[] seqNos = dataCaseEntity.getSeqNo().split(",");
-            dataCaseEntity.setSeqNoFlag("1");
-            dataCaseEntity.setSeqNos(seqNos);
+            if (seqNos == null || seqNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(seqNos[0])){
+                dataCaseEntity.setSeqNoFlag(null);
+            }else {
+                dataCaseEntity.setSeqNoFlag("1");
+                dataCaseEntity.setSeqNos(seqNos);
+            }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdentNo())){
             dataCaseEntity.setIdentNoFlag(null);
         }else{
             String[] identNos = dataCaseEntity.getIdentNo().split(",");
-            dataCaseEntity.setIdentNoFlag("1");
-            dataCaseEntity.setIdentNos(identNos);
+            if (identNos == null || identNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(identNos[0])){
+                dataCaseEntity.setIdentNoFlag(null);
+            }else {
+                dataCaseEntity.setIdentNoFlag("1");
+                dataCaseEntity.setIdentNos(identNos);
+            }
         }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
