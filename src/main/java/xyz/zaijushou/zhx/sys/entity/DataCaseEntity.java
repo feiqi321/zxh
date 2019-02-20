@@ -12,6 +12,9 @@ import java.util.Set;
  * Created by looyer on 2019/1/25.
  */
 public class DataCaseEntity extends CommonEntity {
+    private String idStr;
+    private String idFlag;
+    private String[] ids;
     private String batchNo; //批次编号 查询条件  列表
     private String client;//委托方 查询条件
     private String[] clients;
@@ -51,8 +54,14 @@ public class DataCaseEntity extends CommonEntity {
     private String realReturnStartTime;
     private String realReturnEndTime;
     private String archiveNo; //档案号 查询条件
+    private String archiveNoFlag;
+    private String[] archiveNos;
     private String name; //姓名 查询条件   列表
+    private String nameFlag;
+    private String[] names;
     private String account;//账号 查询条件
+    private String accountFlag;
+    private String[] accounts;
 
     private String bank; //开户行 查询条件
     //最后一次跟进时间(催收时间) 查询条件
@@ -61,8 +70,14 @@ public class DataCaseEntity extends CommonEntity {
     private String collectEndDate;
     private int overDays;//逾期天数 查询条件
     private String identNo;//证件号 查询条件    列表
+    private String[] identNos;
+    private String identNoFlag;
     private String seqNo;//个案序列号 查询条件  列表
+    private String seqNoFlag;
+    private String[] seqNos;
     private String cardNo;//卡号 查询条件
+    private String[] cardNos;
+    private String cardNoFlag;
     private String collectInfo;//催收小结（催收表） 催收记录 查询条件
     private int collectStatus; //催收状态   列表
     private String collectStatusMsg;//催收状态中文说明s
@@ -218,6 +233,126 @@ public class DataCaseEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getIdStr() {
+        return idStr;
+    }
+
+    public void setIdStr(String idStr) {
+        this.idStr = idStr;
+    }
+
+    public String getIdFlag() {
+        return idFlag;
+    }
+
+    public void setIdFlag(String idFlag) {
+        this.idFlag = idFlag;
+    }
+
+    public String[] getIds() {
+        return ids;
+    }
+
+    public void setIds(String[] ids) {
+        this.ids = ids;
+    }
+
+    public String getArchiveNoFlag() {
+        return archiveNoFlag;
+    }
+
+    public void setArchiveNoFlag(String archiveNoFlag) {
+        this.archiveNoFlag = archiveNoFlag;
+    }
+
+    public String[] getArchiveNos() {
+        return archiveNos;
+    }
+
+    public void setArchiveNos(String[] archiveNos) {
+        this.archiveNos = archiveNos;
+    }
+
+    public String getNameFlag() {
+        return nameFlag;
+    }
+
+    public void setNameFlag(String nameFlag) {
+        this.nameFlag = nameFlag;
+    }
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public void setNames(String[] names) {
+        this.names = names;
+    }
+
+    public String getAccountFlag() {
+        return accountFlag;
+    }
+
+    public void setAccountFlag(String accountFlag) {
+        this.accountFlag = accountFlag;
+    }
+
+    public String[] getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(String[] accounts) {
+        this.accounts = accounts;
+    }
+
+    public String[] getIdentNos() {
+        return identNos;
+    }
+
+    public void setIdentNos(String[] identNos) {
+        this.identNos = identNos;
+    }
+
+    public String getIdentNoFlag() {
+        return identNoFlag;
+    }
+
+    public void setIdentNoFlag(String identNoFlag) {
+        this.identNoFlag = identNoFlag;
+    }
+
+    public String getSeqNoFlag() {
+        return seqNoFlag;
+    }
+
+    public void setSeqNoFlag(String seqNoFlag) {
+        this.seqNoFlag = seqNoFlag;
+    }
+
+    public String[] getSeqNos() {
+        return seqNos;
+    }
+
+    public void setSeqNos(String[] seqNos) {
+        this.seqNos = seqNos;
+    }
+
+    public String[] getCardNos() {
+        return cardNos;
+    }
+
+    public void setCardNos(String[] cardNos) {
+        this.cardNos = cardNos;
+    }
+
+    public String getCardNoFlag() {
+        return cardNoFlag;
+    }
+
+    public void setCardNoFlag(String cardNoFlag) {
+        this.cardNoFlag = cardNoFlag;
+    }
 
     public String[] getClients() {
         return clients;
