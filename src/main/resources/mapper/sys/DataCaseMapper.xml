@@ -125,8 +125,11 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="batchNo != null and batchNo!=''">
-                    and da.batch_no = #{batchNo}
+                <if test="batchNoFlag != null and batchNoFlag!=''">
+                    and da.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="odv != null and odv!=''">
                     and da.odv = #{odv}
