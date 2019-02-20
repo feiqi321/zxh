@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataArchiveRemarkMapper">
+
+    <!--插入数据信息-->
+    <insert id="saveRemark" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveRemarkEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_archive_remark
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="remark != null">remark,</if>
+            <if test="archiveId != null">archive_id,</if>
+            delete_flag,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="remark != null">#{remark},</if>
+            <if test="archiveId != null">#{archiveId},</if>
+            0,
+        </trim>
+    </insert>
+
+
+
+    <!--通过Id删除数据信息-->
+    <delete id="deleteRemark" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveRemarkEntity">
+        update data_archive_remark set delete_flag=1
+        where archive_id = #{archiveId}
+    </delete>
+
+    <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveRemarkEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveRemarkEntity">
+        select id,address,archive_id as archiveId
+        from data_archive_remark where archive_id = #{archiveId} and delete_flag=0
+    </select>
+
+</mapper>

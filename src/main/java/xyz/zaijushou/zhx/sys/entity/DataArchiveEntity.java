@@ -21,6 +21,8 @@ public class DataArchiveEntity extends CommonEntity {
 
     private List<DataArchiveAddressEntity> addressList;
 
+    private List<DataArchiveRemarkEntity> remarkList;
+
     private String startTime;
 
     private String endTime;
@@ -32,6 +34,14 @@ public class DataArchiveEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public List<DataArchiveRemarkEntity> getRemarkList() {
+        return remarkList;
+    }
+
+    public void setRemarkList(List<DataArchiveRemarkEntity> remarkList) {
+        this.remarkList = remarkList;
+    }
 
     public String getOrderBy() {
         return orderBy;
