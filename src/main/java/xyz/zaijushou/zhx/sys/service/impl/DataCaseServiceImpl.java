@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.CaseSortEnum;
-import xyz.zaijushou.zhx.constant.ColorEnum;
-import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.constant.SynergySortEnum;
+import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
@@ -146,6 +143,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+        dataCaseEntity.setOrderBy(BatchSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
             dataCaseEntity.setClientFlag(null);

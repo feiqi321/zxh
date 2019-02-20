@@ -6,7 +6,7 @@ package xyz.zaijushou.zhx.constant;
 public enum CaseSortEnum {
     COLUMN0("id","id"),
     COLUMN1("area","area"),
-    COLUMN2("collectStatus","collect_status"),
+    COLUMN2("collectStatusMsg","collect_status"),
     COLUMN3("batchNo","batch_no"),
     COLUMN4("seqNo","seq_no"),
     COLUMN5("caseDate","case_date"),
