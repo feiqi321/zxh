@@ -62,6 +62,12 @@ public class DataBatchServiceImpl implements DataBatchService {
         }else{
             bean.setClientFlag("1");
         }
+        String[] batchNos = bean.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || StringUtils.isEmpty(batchNos[0])){
+            bean.setBatchNoFlag(null);
+        }else{
+            bean.setBatchNoFlag("1");
+        }
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);

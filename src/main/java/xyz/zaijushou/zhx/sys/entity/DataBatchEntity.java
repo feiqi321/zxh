@@ -11,6 +11,9 @@ public class DataBatchEntity extends CommonEntity {
 
     //批次编号
     private String batchNo;
+
+    private String batchNoFlag;
+    private String[] batchNos;
     //委托方
     private String client;
 
@@ -52,6 +55,22 @@ public class DataBatchEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getBatchNoFlag() {
+        return batchNoFlag;
+    }
+
+    public void setBatchNoFlag(String batchNoFlag) {
+        this.batchNoFlag = batchNoFlag;
+    }
+
+    public String[] getBatchNos() {
+        return batchNos;
+    }
+
+    public void setBatchNos(String[] batchNos) {
+        this.batchNos = batchNos;
+    }
 
     public String getClientFlag() {
         return clientFlag;
