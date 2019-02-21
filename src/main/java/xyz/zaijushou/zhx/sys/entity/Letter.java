@@ -38,8 +38,12 @@ public class Letter extends CommonEntity {
     private String collectArea;
     //委托方
     private String client;
+    private String clientFlag;
+    private String[] clients;
     //批次编号
     private String batchNo;
+    private String batchNoFlag;
+    private String[] batchNos;
     //协催类型
     private  Integer synergyType;
     //案件状态
@@ -51,7 +55,8 @@ public class Letter extends CommonEntity {
     //委案金额 结束
     private BigDecimal caseAmtEnd;
     //催收状态
-    private String collectStatus;
+    private int collectStatus;
+    private String collectStatusMsg;
     //催收员
     private String odv;
 
@@ -74,6 +79,46 @@ public class Letter extends CommonEntity {
     private String applyer;
 
     private String relationer;
+
+    public String getCollectStatusMsg() {
+        return collectStatusMsg;
+    }
+
+    public void setCollectStatusMsg(String collectStatusMsg) {
+        this.collectStatusMsg = collectStatusMsg;
+    }
+
+    public String getClientFlag() {
+        return clientFlag;
+    }
+
+    public void setClientFlag(String clientFlag) {
+        this.clientFlag = clientFlag;
+    }
+
+    public String[] getClients() {
+        return clients;
+    }
+
+    public void setClients(String[] clients) {
+        this.clients = clients;
+    }
+
+    public String getBatchNoFlag() {
+        return batchNoFlag;
+    }
+
+    public void setBatchNoFlag(String batchNoFlag) {
+        this.batchNoFlag = batchNoFlag;
+    }
+
+    public String[] getBatchNos() {
+        return batchNos;
+    }
+
+    public void setBatchNos(String[] batchNos) {
+        this.batchNos = batchNos;
+    }
 
     public String getApplyer() {
         return applyer;
@@ -195,11 +240,11 @@ public class Letter extends CommonEntity {
         this.caseAmt = caseAmt;
     }
 
-    public String getCollectStatus() {
+    public int getCollectStatus() {
         return collectStatus;
     }
 
-    public void setCollectStatus(String collectStatus) {
+    public void setCollectStatus(int collectStatus) {
         this.collectStatus = collectStatus;
     }
 

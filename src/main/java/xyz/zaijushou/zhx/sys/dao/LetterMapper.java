@@ -11,9 +11,18 @@ public interface LetterMapper {
 
     int insertSelective(Letter record);
 
+    void confirmSynergy(Letter record);
+
+    void cancelLetter(Letter record);
+
+    void confirmLetter(Letter record);
+
     Letter selectByPrimaryKey(Integer id);
 
     List<Letter> pageDataLetter(Letter record);
+
+    List<Letter> pageDataLetter2(Letter record);
+
 
     int updateByPrimaryKeySelective(Letter record);
 
