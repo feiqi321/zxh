@@ -77,20 +77,65 @@
         <where>
             1 = 1
             <trim suffixOverrides=",">
-                <if test="id != null and id!=''">
-                    and da.id = #{id}
+                <if test="idFlag != null and idFlag!=''">
+                    and da.id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="cardNo != null and cardNo!=''">
-                    and da.card_no = #{cardNo}
+                <if test="cardNoFlag != null and cardNoFlag!=''">
+                    and da.card_no in
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="client != null and client!=''">
-                    and da.client = #{client}
+                <if test="seqNoFlag != null and seqNoFlag!=''">
+                    and da.seq_no in
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="batchNo != null and batchNo!=''">
-                    and da.batch_no = #{batchNo}
+                <if test="identNoFlag != null and identNoFlag!=''">
+                    and da.ident_no in
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="odv != null and odv!=''">
-                    and da.odv = #{odv}
+                <if test="nameFlag != null and identNoFlag!=''">
+                    and da.name in
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="accountFlag != null and accountFlag!=''">
+                    and da.account in
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="archiveNoFlag != null and archiveNoFlag!=''">
+                    and da.archive_no in
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and da.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="batchNoFlag != null and batchNoFlag!=''">
+                    and da.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="odvFlag != null and odvFlag!=''">
+                    and da.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}
@@ -99,9 +144,7 @@
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
                 </if>
-                <if test="seqNo != null and seqNo!=''">
-                    and da.seq_no = #{seqNo}
-                </if>
+
                 <if test="collectArea != null and collectArea!=''">
                     and da.collect_area = #{collectArea}
                 </if>
@@ -127,15 +170,11 @@
                 <if test="distributeStatus != null and distributeStatus!=''">
                     and da.distribute_status = #{distributeStatus}
                 </if>
-                <if test="identNo != null and identNo!=''">
-                    and da.identNo = #{identNo}
-                </if>
+
                 <if test="vin != null and vin!=''">
                     and da.vin = #{vin}
                 </if>
-                <if test="name != null and name!=''">
-                    and da.name = #{name}
-                </if>
+
                 <if test="status != null and status!=''">
                     and da.status = #{status}
                 </if>
@@ -159,12 +198,6 @@
                 </if>
                 <if test="color != null and color!=''">
                     and da.color = #{color}
-                </if>
-                <if test="account != null and cardNo!=''">
-                    and da.account = #{account}
-                </if>
-                <if test="archiveNo != null and archiveNo!=''">
-                    and da.archive_no = #{archiveNo}
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
@@ -204,20 +237,65 @@
         <where>
             1 = 1
             <trim suffixOverrides=",">
-                <if test="id != null and id!=''">
-                    and da.id = #{id}
+                <if test="idFlag != null and idFlag!=''">
+                    and da.id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="cardNo != null and cardNo!=''">
-                    and da.card_no = #{cardNo}
+                <if test="cardNoFlag != null and cardNoFlag!=''">
+                    and da.card_no in
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="client != null and client!=''">
-                    and da.client = #{client}
+                <if test="seqNoFlag != null and seqNoFlag!=''">
+                    and da.seq_no in
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="batchNo != null and batchNo!=''">
-                    and da.batch_no = #{batchNo}
+                <if test="identNoFlag != null and identNoFlag!=''">
+                    and da.ident_no in
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-                <if test="odv != null and odv!=''">
-                    and da.odv = #{odv}
+                <if test="nameFlag != null and identNoFlag!=''">
+                    and da.name in
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="accountFlag != null and accountFlag!=''">
+                    and da.account in
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="archiveNoFlag != null and archiveNoFlag!=''">
+                    and da.archive_no in
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and da.client in
+                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="batchNoFlag != null and batchNoFlag!=''">
+                    and da.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="odvFlag != null and odvFlag!=''">
+                    and da.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}
@@ -226,14 +304,11 @@
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
                 </if>
-                <if test="seqNo != null and seqNo!=''">
-                    and da.seq_no = #{seqNo}
-                </if>
                 <if test="collectArea != null and collectArea!=''">
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="overDays != null and overDays!=''">
-                    and da.overDays = #{overDays}
+                    and da.over_days = #{overDays}
                 </if>
                 <if test="area != null and area!=''">
                     and da.area = #{area}
@@ -254,14 +329,8 @@
                 <if test="distributeStatus != null and distributeStatus!=''">
                     and da.distribute_status = #{distributeStatus}
                 </if>
-                <if test="identNo != null and identNo!=''">
-                    and da.identNo = #{identNo}
-                </if>
                 <if test="vin != null and vin!=''">
                     and da.vin = #{vin}
-                </if>
-                <if test="name != null and name!=''">
-                    and da.name = #{name}
                 </if>
                 <if test="status != null and status!=''">
                     and da.status = #{status}
@@ -286,12 +355,6 @@
                 </if>
                 <if test="color != null and color!=''">
                     and da.color = #{color}
-                </if>
-                <if test="account != null and cardNo!=''">
-                    and da.account = #{account}
-                </if>
-                <if test="archiveNo != null and archiveNo!=''">
-                    and da.archive_no = #{archiveNo}
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
@@ -321,6 +384,7 @@
                 </if>
             </trim>
         </where>
+        order by ${orderBy} ${sort}
         )
     </select>
 
@@ -682,8 +746,11 @@
                       LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
             <trim suffixOverrides=",">
-                <if test="client != null and client!='' and queryMethod=='1'.toString()">
-                    and t.client = #{client}
+                <if test="clientFlag != null and clientFlag!='' and queryMethod=='1'.toString()" >
+                    and t.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="name != null and name!='' and queryMethod=='1'.toString()">
                     and t.name = #{name}
@@ -703,9 +770,11 @@
                 <if test="tel != null and tel!='' and queryMethod=='1'.toString()">
                     and l.tel = #{tel}
                 </if>
-
-                <if test="client != null and client!='' and queryMethod=='2'.toString()">
-                    AND t.client like CONCAT('%',#{client},'%')
+                <if test="clientFlag != null and clientFlag!='' and queryMethod=='2'.toString()" >
+                    and t.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="name != null and name!='' and queryMethod=='2'.toString()">
                     AND t.name like CONCAT('%',#{name},'%')

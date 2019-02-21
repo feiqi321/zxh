@@ -13,6 +13,8 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      */
     private String name;
 
+    private String currentName;
+
     /**
      * 描述
      */
@@ -27,6 +29,14 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      * 1-地区，0-其他
      */
     private Integer type;
+
+    public String getCurrentName() {
+        return currentName;
+    }
+
+    public void setCurrentName(String currentName) {
+        this.currentName = currentName;
+    }
 
     public Integer getType() {
         return type;

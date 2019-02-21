@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.ColorEnum;
-import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
@@ -17,6 +16,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -48,6 +48,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseContactsMapper dataCaseContactsMapper;
     @Resource
     private DataCaseRemarkMapper dataCaseRemarkMapper;
+    @Resource
+    private SysDictionaryMapper dictionaryMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -122,6 +124,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity){
+        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         List<DataCaseEntity> list =  dataCaseMapper.pageDataCase(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
@@ -141,13 +144,170 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+        int totalCaseNum=0;
+        BigDecimal totalAmt=new BigDecimal(0);
+        int repayNum=0;
+        BigDecimal repayTotalAmt=new BigDecimal(0);
+        BigDecimal totalCp=new BigDecimal(0);
+        BigDecimal totalPtp=new BigDecimal(0);
+        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        String[] clients = dataCaseEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
+        String[] odvs = dataCaseEntity.getOdvs();
+        if (odvs == null || odvs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(odvs[0])){
+            dataCaseEntity.setOdvFlag(null);
+        }else{
+            dataCaseEntity.setOdvFlag("1");
+        }
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
+        String[] batchNos = dataCaseEntity.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            dataCaseEntity.setBatchNoFlag(null);
+        }else{
+            dataCaseEntity.setBatchNoFlag("1");
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdStr())){
+            dataCaseEntity.setIdFlag(null);
+        }else{
+            String[] ids = dataCaseEntity.getIdStr().split(",");
+            if (ids == null || ids.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(ids[0])){
+                dataCaseEntity.setIdFlag(null);
+            }else {
+                dataCaseEntity.setIdFlag("1");
+                dataCaseEntity.setIds(ids);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getName())){
+            dataCaseEntity.setNameFlag(null);
+        }else{
+            String[] names = dataCaseEntity.getName().split(",");
+            if (names == null || names.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(names[0])){
+                dataCaseEntity.setNameFlag(null);
+            }else {
+                dataCaseEntity.setNameFlag("1");
+                dataCaseEntity.setNames(names);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getArchiveNo())){
+            dataCaseEntity.setArchiveNoFlag(null);
+        }else{
+            String[] archiveNos = dataCaseEntity.getArchiveNo().split(",");
+            if (archiveNos == null || archiveNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(archiveNos[0])){
+                dataCaseEntity.setArchiveNoFlag(null);
+            }else {
+                dataCaseEntity.setArchiveNoFlag("1");
+                dataCaseEntity.setArchiveNos(archiveNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getAccount())){
+            dataCaseEntity.setAccountFlag(null);
+        }else{
+            String[] accounts = dataCaseEntity.getAccount().split(",");
+            if (accounts == null || accounts.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(accounts[0])){
+                dataCaseEntity.setAccountFlag(null);
+            }else {
+                dataCaseEntity.setAccountFlag("1");
+                dataCaseEntity.setAccounts(accounts);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getCardNo())){
+            dataCaseEntity.setCardNoFlag(null);
+        }else{
+            String[] cardNos = dataCaseEntity.getCardNo().split(",");
+            if (cardNos == null || cardNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(cardNos[0])){
+                dataCaseEntity.setCardNoFlag(null);
+            }else {
+                dataCaseEntity.setCardNoFlag("1");
+                dataCaseEntity.setCardNos(cardNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
+            dataCaseEntity.setSeqNoFlag(null);
+        }else{
+            String[] seqNos = dataCaseEntity.getSeqNo().split(",");
+            if (seqNos == null || seqNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(seqNos[0])){
+                dataCaseEntity.setSeqNoFlag(null);
+            }else {
+                dataCaseEntity.setSeqNoFlag("1");
+                dataCaseEntity.setSeqNos(seqNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdentNo())){
+            dataCaseEntity.setIdentNoFlag(null);
+        }else{
+            String[] identNos = dataCaseEntity.getIdentNo().split(",");
+            if (identNos == null || identNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(identNos[0])){
+                dataCaseEntity.setIdentNoFlag(null);
+            }else {
+                dataCaseEntity.setIdentNoFlag("1");
+                dataCaseEntity.setIdentNos(identNos);
+            }
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
+            for(int i=0;i<list.size();i++){
+                DataCaseEntity temp = list.get(i);
+                totalCaseNum = totalCaseNum+1;
+                totalAmt = totalAmt.add(temp.getMoney());
+                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
+                    repayNum = repayNum+1;
+                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
+                }
+                totalCp = totalCp.add(temp.getBankAmt());
+                totalPtp = totalPtp.add(temp.getProRepayAmt());
+                if (temp.getCollectStatus()==0){
+                    temp.setCollectStatusMsg("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                    }
+                }
+                list.set(i,temp);
+            }
         }else {
             list = dataCaseMapper.pageCaseList(dataCaseEntity);
+            for(int i=0;i<list.size();i++){
+                DataCaseEntity temp = list.get(i);
+                totalCaseNum = totalCaseNum+1;
+                totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
+                if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
+                    repayNum = repayNum+1;
+                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
+                }
+                totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
+                totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
+                if (temp.getCollectStatus()==0){
+                    temp.setCollectStatusMsg("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                    }
+                }
+                list.set(i,temp);
+            }
         }
-        webResponse.setData(PageInfo.of(list));
+        CaseResponse caseResponse = new CaseResponse();
+        caseResponse.setTotalCaseNum(totalCaseNum);
+        caseResponse.setTotalAmt(totalAmt);
+        caseResponse.setRepayNum(repayNum);
+        caseResponse.setRepayTotalAmt(repayTotalAmt);
+        caseResponse.setTotalCp(totalCp);
+        caseResponse.setTotalPtp(totalPtp);
+        caseResponse.setPageInfo(PageInfo.of(list));
+        webResponse.setData(caseResponse);
         return webResponse;
     }
 
@@ -278,13 +438,25 @@ public class DataCaseServiceImpl implements DataCaseService {
     //部门案件 --- 来电查询
     public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = dataCaseEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
+        if (StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setSort("desc");
+        }
+
+        dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user.getUserName());
+            temp.setOdv(user==null?"":user.getUserName());
             SysUserEntity user2 = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getName(), SysUserEntity.class);
-            temp.setName(user2.getUserName());
+            temp.setName(user2==null?"":user2.getUserName());
             SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
             dictionary2.setId(temp.getCollectStatus());
             SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);

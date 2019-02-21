@@ -130,5 +130,21 @@
         select id from sys_data_dictionary where name = #{name}
         LIMIT 1
         )
+        <if test="currentName != null and currentName!=''">
+            AND name like CONCAT('%',#{currentName},'%')
+        </if>
+    </select>
+
+    <select id="listDataByDName" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+        select
+        <include refid="dataDictionaryInfo"/>
+        from sys_data_dictionary
+        where delete_flag = 0
+        <if test="name != null and name!=''">
+            AND name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="parent != null and parent.id != null">
+            AND  dictionary_id = #{parent.id}
+        </if>
     </select>
 </mapper>

@@ -3,13 +3,12 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
-import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
-import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -33,6 +32,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private DataCollectionTelMapper dataCollectionTelMapper;
+
+    @Resource
+    private SysDictionaryMapper dictionaryMapper;
 
     @Resource
     private SysUserService sysUserService;//用户业务控制层
@@ -60,6 +62,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity){
+        String[] clients = dataCollectionEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCollectionEntity.setClientFlag(null);
+        }else{
+            dataCollectionEntity.setClientFlag("1");
+        }
+        String[] batchs = dataCollectionEntity.getBatchNos();
+        if (batchs == null || batchs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchs[0])){
+            dataCollectionEntity.setBatchFlag(null);
+        }else{
+            dataCollectionEntity.setBatchFlag("1");
+        }
         if (StringUtils.isEmpty(dataCollectionEntity.getColor())) {
 
         }else{
@@ -79,6 +93,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");
+        }else {
+            dataCollectionEntity.setOrderBy(CollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy()).getValue());
         }
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort(" desc");
@@ -96,6 +112,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return  webResponse;
         }
         for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+            if (dictList.size() > 0) {
+                SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+            }
+            list.set(i,temp);
             for (DataCollectionEntity collection : list){
                 if(!caseIds.contains(collection.getCaseId())){
                     caseIds.add(collection.getCaseId());
@@ -208,6 +231,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionState(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = beanInfo.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            beanInfo.setClientFlag(null);
+        }else{
+            beanInfo.setClientFlag("1");
+        }
+        String[] batchs = beanInfo.getBatchNos();
+        if (batchs == null || batchs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchs[0])){
+            beanInfo.setBatchFlag(null);
+        }else{
+            beanInfo.setBatchFlag("1");
+        }
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionState(beanInfo);
@@ -231,6 +266,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = beanInfo.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            beanInfo.setClientFlag(null);
+        }else{
+            beanInfo.setClientFlag("1");
+        }
+        String[] batchs = beanInfo.getBatchNos();
+        if (batchs == null || batchs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchs[0])){
+            beanInfo.setBatchFlag(null);
+        }else{
+            beanInfo.setBatchFlag("1");
+        }
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){
@@ -262,6 +309,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public WebResponse pageStatisticsCollectionPay(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = beanInfo.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            beanInfo.setClientFlag(null);
+        }else{
+            beanInfo.setClientFlag("1");
+        }
+        String[] odvs = beanInfo.getOdvs();
+        if (odvs == null || odvs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(odvs[0])){
+            beanInfo.setOdvFlag(null);
+        }else{
+            beanInfo.setOdvFlag("1");
+        }
         //获取当前用户名
         SysUserEntity user = getUserInfo();
         if (StringUtils.isEmpty(user)){

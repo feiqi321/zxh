@@ -242,6 +242,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
     // 9-可联第三人,10-可联家人,11-空号错号,12-网搜无效,13-无人接听,14-无效电话
     private void ConnectionListToInfo(List<CollectionStatistic> colData,CollectionStatistic col){
         for (CollectionStatistic colInfo : colData){
+            col.setCountResult(col.getCountResult()+colInfo.getCountResult());
             switch (colInfo.getCollectionResult()){
                 case "114查询无效":
                     col.setCountSearchNo(colInfo.getCountResult());

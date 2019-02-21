@@ -156,4 +156,9 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     public  List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary){
         return dictionaryMapper.listDataByName(dictionary);
     }
+
+    @Override
+    public  List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary){
+        return dictionaryMapper.listDataByDName(dictionary);
+    }
 }
