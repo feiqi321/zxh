@@ -112,7 +112,7 @@ public class DataBatchController {
                 "批次管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
@@ -126,7 +126,7 @@ public class DataBatchController {
                 "批次管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
@@ -140,7 +140,7 @@ public class DataBatchController {
                 "批次管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 
 
@@ -155,6 +155,6 @@ public class DataBatchController {
                 "批次管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 }

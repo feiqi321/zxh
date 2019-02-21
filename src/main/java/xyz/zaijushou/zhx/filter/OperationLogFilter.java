@@ -43,7 +43,13 @@ public class OperationLogFilter extends OncePerRequestFilter {
 
     private static final String[] DOWNLOAD_FILE_URL = {
             "/fileManage/download", //下载附件
+            "/dataBatch/pageDataBatchExport",
+            "/dataBatch/totalDataBatchExport",
+            "/dataBatch/selectDataBatchExport",
+            "/dataBatch/selectDataCollectExportByBatch",
             "/dataCollect/pageDataCollectExport", //催记导出
+            "/dataCollect/totalDataCollectExport",
+            "/dataCollect/selectDataCollectExport", //查询导出所选批次的催收记录
     };
 
     @Override
@@ -113,8 +119,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             logger.error("后台错误：{}", e);
             result = JSONObject.toJSONString(WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "后台错误error：" + e.getMessage()));
             if(arrayContainsContent(DOWNLOAD_FILE_URL, operationLog.getUrl())) {
-                httpServletResponse.setHeader("Access-Control-Expose-Headers","Content-Disposition");
-                httpServletResponse.setHeader("Content-Disposition", URLEncoder.encode(result, "UTF-8"));
+                httpServletResponse.setHeader("Access-Control-Expose-Headers","response-msg-info");
+                httpServletResponse.setHeader("response-msg-info", URLEncoder.encode(result, "UTF-8"));
                 ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
                 servletOutputStream.write(result.getBytes(StandardCharsets.UTF_8));
                 servletOutputStream.flush();

@@ -87,7 +87,7 @@ public class DataCollectController {
                 "催记管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
@@ -101,7 +101,7 @@ public class DataCollectController {
                 "催记管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
-        return WebResponse.success();
+        return null;
     }
 
     @ApiOperation(value = "催收记录导入", notes = "催收记录导入")
