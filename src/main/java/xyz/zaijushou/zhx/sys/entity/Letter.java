@@ -6,25 +6,25 @@ import java.math.BigDecimal;
 
 public class Letter extends CommonEntity {
     private Integer id;
-
+    //案件id
     private Integer caseId;
-
+    //卡号
     private String cardNo;
 
     private String identNo;
 
     private String caseDate;
-
+    //地址
     private String address;
-
+    //姓名
     private String name;
 
     private String relation;
 
     private String addressType;
-
+    //协催结果
     private String synergyResult;
-
+    //申请内容
     private String applyContext;
 
     private String synergyDate;
@@ -34,15 +34,15 @@ public class Letter extends CommonEntity {
     private Integer deleteFlag;
 
     private String createDate;
-
+    //催收区域
     private String collectArea;
     //委托方
     private String client;
-
+    //批次编号
     private String batchNo;
     //协催类型
     private  Integer synergyType;
-
+    //案件状态
     private String caseStatus;
     //委案金额
     private BigDecimal caseAmt;
@@ -55,26 +55,41 @@ public class Letter extends CommonEntity {
     //催收员
     private String odv;
 
-    private String applyStartDate;
-
-    private String applyEndDate;
-
     private BigDecimal repayAmt;
-
+    //信函次数
     private int times;
     //信函模板
     private String module;
     //信函状态(0待发 1确认申请  2撤销)
     private String status;
-
+    //个案序列号
     private String seqno;
-
+    //申请时间
     private String applyDate;
 
     private String applyDateStart;
 
     private String applyDateEnd;
 
+    private String applyer;
+
+    private String relationer;
+
+    public String getApplyer() {
+        return applyer;
+    }
+
+    public void setApplyer(String applyer) {
+        this.applyer = applyer;
+    }
+
+    public String getRelationer() {
+        return relationer;
+    }
+
+    public void setRelationer(String relationer) {
+        this.relationer = relationer;
+    }
 
     public String getApplyDate() {
         return applyDate;
@@ -196,21 +211,6 @@ public class Letter extends CommonEntity {
         this.odv = odv;
     }
 
-    public String getApplyStartDate() {
-        return applyStartDate;
-    }
-
-    public void setApplyStartDate(String applyStartDate) {
-        this.applyStartDate = applyStartDate;
-    }
-
-    public String getApplyEndDate() {
-        return applyEndDate;
-    }
-
-    public void setApplyEndDate(String applyEndDate) {
-        this.applyEndDate = applyEndDate;
-    }
 
     public BigDecimal getRepayAmt() {
         return repayAmt;

@@ -33,7 +33,12 @@ public class LegalServiceImpl implements LegalService {
     private SysUserService sysUserService;//用户业务控制层
 
     public void saveLegal(LegalEntity bean){
-        legalMapper.insertSelective(bean);
+        if (bean.getId()==0){
+            legalMapper.insertSelective(bean);
+        }else{
+            legalMapper.updateByPrimaryKeySelective(bean);
+        }
+
     }
 
     public void updateLegal(LegalEntity bean){
