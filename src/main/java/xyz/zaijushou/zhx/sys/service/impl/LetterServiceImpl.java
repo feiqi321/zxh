@@ -1,14 +1,17 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.LetterMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.dao.SysModuleMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.Letter;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
+import xyz.zaijushou.zhx.sys.entity.SysModule;
 import xyz.zaijushou.zhx.sys.service.LetterService;
 
 import javax.annotation.Resource;
@@ -29,6 +32,8 @@ public class LetterServiceImpl implements LetterService {
     private SysDictionaryMapper dictionaryMapper;
     @Resource
     private DataCaseMapper dataCaseMapper;
+    @Resource
+    private SysModuleMapper sysModuleMapper;
 
     public WebResponse pageDataLetter(Letter letter){
         WebResponse webResponse = WebResponse.buildResponse();
@@ -60,6 +65,14 @@ public class LetterServiceImpl implements LetterService {
                     SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
                     temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                 }
+            }
+            if(StringUtils.isEmpty(temp.getModule())){
+                temp.setModule("");
+            }else{
+                SysModule sysModule = new SysModule();
+                sysModule.setId(Integer.parseInt(temp.getModule()));
+                SysModule moduleTemp = sysModuleMapper.selectModuleById(sysModule);
+                temp.setModule(moduleTemp==null?"":moduleTemp.getTitle());
             }
             list.set(i,temp);
         }
