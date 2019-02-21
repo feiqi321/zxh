@@ -157,6 +157,17 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseEntity.setClientFlag("1");
         }
+        String[] odvs = dataCaseEntity.getOdvs();
+        if (odvs == null || odvs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(odvs[0])){
+            dataCaseEntity.setOdvFlag(null);
+        }else{
+            dataCaseEntity.setOdvFlag("1");
+        }
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
         String[] batchNos = dataCaseEntity.getBatchNos();
         if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
             dataCaseEntity.setBatchNoFlag(null);

@@ -131,8 +131,11 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="odv != null and odv!=''">
-                    and da.odv = #{odv}
+                <if test="odvFlag != null and odvFlag!=''">
+                    and da.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}
@@ -288,9 +291,11 @@
                         #{item}
                     </foreach>
                 </if>
-
-                <if test="odv != null and odv!=''">
-                    and da.odv = #{odv}
+                <if test="odvFlag != null and odvFlag!=''">
+                    and da.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}

@@ -33,6 +33,8 @@ public class DataCaseEntity extends CommonEntity {
     private String dept;  //部门 查询条件
 
     private String odv;//催收员 查询条件     列表
+    private String[] odvs;
+    private String odvFlag;
     private BigDecimal rate;
     private int status; //案件状态 查询条件
     private String accountAge;//逾期账龄 查询条件
@@ -235,6 +237,22 @@ public class DataCaseEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String[] getOdvs() {
+        return odvs;
+    }
+
+    public void setOdvs(String[] odvs) {
+        this.odvs = odvs;
+    }
+
+    public String getOdvFlag() {
+        return odvFlag;
+    }
+
+    public void setOdvFlag(String odvFlag) {
+        this.odvFlag = odvFlag;
+    }
 
     public String getBatchNoFlag() {
         return batchNoFlag;
