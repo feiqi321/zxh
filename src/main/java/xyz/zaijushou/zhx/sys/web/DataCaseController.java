@@ -373,12 +373,23 @@ public class DataCaseController {
         if(dataCaseEntities.size() == 0) {
             return WebResponse.success("添加0条数据");
         }
+        Map<String, Integer> countMap = new HashMap<>();
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
             seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
+            countMap.put(dataCaseEntities.get(i).getSeqNo(), countMap.get(dataCaseEntities.get(i).getSeqNo()) == null ? 1 : countMap.get(dataCaseEntities.get(i).getSeqNo()) + 1);
+        }
+        StringBuilder builder = new StringBuilder();
+        for(Map.Entry<String, Integer> entry : countMap.entrySet()) {
+            if(entry.getValue() > 1) {
+                builder.append(entry.getKey()).append(" ");
+            }
+        }
+        if(StringUtils.isNoneEmpty(builder.toString())) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "存在重复的个案序列号：" + builder.toString());
         }
         DataCaseEntity queryEntity = new DataCaseEntity();
         queryEntity.setSeqNoSet(seqNoSet);
