@@ -231,7 +231,7 @@
             t.module,t.relationer,d.synergy_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
         from letter t LEFT  JOIN data_case d on t.case_id = d.id
         <where>
-          status = #{status}
+          t.status = #{status}
           <trim suffixOverrides=",">
             <if test="collectArea != null and collectArea!=''">
               AND  d.collection_area = #{collectArea}
@@ -272,7 +272,7 @@
             <if test="applyDateStart != null and applyDateStart!=''">
               <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
             </if>
-            <if test="expectEndTime != null and expectEndTime!=''" >
+            <if test="applyDateEnd != null and applyDateEnd!=''" >
               <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
             </if>
           </trim>
@@ -289,7 +289,7 @@
     t.module,t.relationer,d.synergy_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
     from letter t LEFT  JOIN data_case d on t.case_id = d.id
     <where>
-      status in (1,2)
+      t.status in (1,2)
       <trim suffixOverrides=",">
         <if test="collectArea != null and collectArea!=''">
           AND  d.collection_area = #{collectArea}
@@ -330,7 +330,7 @@
         <if test="applyDateStart != null and applyDateStart!=''">
           <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
         </if>
-        <if test="expectEndTime != null and expectEndTime!=''" >
+        <if test="applyDateEnd != null and applyDateEnd!=''" >
           <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
         </if>
       </trim>
