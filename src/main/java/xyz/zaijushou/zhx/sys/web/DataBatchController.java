@@ -106,8 +106,8 @@ public class DataBatchController {
     public Object pageDataBatchExport(@RequestBody DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCaseService.pageDataBatchExport(bean);
-        PageInfo<DataBatchEntity> pageInfo = (PageInfo<DataBatchEntity>) webResponse.getData();
-        ExcelUtils.exportExcel(pageInfo.getList(),
+        List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(list,
                 ExcelBatchConstant.BatchMemorize.values(),
                 "批次管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
