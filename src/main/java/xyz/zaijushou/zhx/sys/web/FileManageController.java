@@ -76,8 +76,9 @@ public class FileManageController {
     public Object downloadArchive(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 
-        File imageFile = new File(filePath);
+        File imageFile = new File(archivePath);
         if (!imageFile.exists()) {
+            System.out.println("文件不存在");
             return null;
         }
         String fileName = "案人数据导入模板.xlsx";
