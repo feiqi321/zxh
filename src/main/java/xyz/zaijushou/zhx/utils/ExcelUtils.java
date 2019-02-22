@@ -232,7 +232,7 @@ public class ExcelUtils {
             return;
         }
         if (String.class == clazz) {
-            String stringValue = (String) value;
+            String stringValue =  value==null?"":String.valueOf(value);
             cell.setCellValue(stringValue);
         } else if (Date.class == clazz) {
             Date dateValue = (Date) value;
