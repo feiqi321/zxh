@@ -28,4 +28,6 @@ public interface DataBatchService {
 
     public WebResponse selectBatchNo(DataBatchEntity bean);
 
+    public WebResponse pageDataBatchExport(DataBatchEntity bean);
+
 }
