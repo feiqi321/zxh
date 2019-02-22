@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/csrf",
             "/fileManage/download",
+            "/fileManage/downloadArchive",
             "/webjars/**"
             // other public endpoints of your API may be appended to this array
     };
