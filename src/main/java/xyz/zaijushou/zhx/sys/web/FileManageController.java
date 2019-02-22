@@ -23,6 +23,8 @@ public class FileManageController {
 
     @Value(value = "${rar_path}")
     private String filePath;
+    @Value(value="${archive_path}")
+    private String archivePath;
 
 
     @ApiOperation(value = "下载压缩包", notes = "下载压缩包")
@@ -52,6 +54,41 @@ public class FileManageController {
 
         try {
             FileInputStream fis = new FileInputStream(filePath);
+            byte[] content = new byte[fis.available()];
+            fis.read(content);
+            fis.close();
+
+            ServletOutputStream sos = response.getOutputStream();
+            sos.write(content);
+
+            sos.flush();
+            sos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    @ApiOperation(value = "下载案人模板", notes = "下载案人模板")
+    @PostMapping("/fileManage/downloadArchive")
+    public Object downloadArchive(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        File imageFile = new File(filePath);
+        if (!imageFile.exists()) {
+            return null;
+        }
+        String fileName = "案人数据导入模板.xlsx";
+
+        //下载的文件携带这个名称
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        //文件下载类型--二进制文件
+        response.setContentType("application/octet-stream");
+
+        try {
+            FileInputStream fis = new FileInputStream(archivePath);
             byte[] content = new byte[fis.available()];
             fis.read(content);
             fis.close();
