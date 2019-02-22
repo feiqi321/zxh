@@ -83,4 +83,13 @@ public class DataArchivesController {
         return webResponse;
     }
 
+    @ApiOperation(value = "查询详情", notes = "查询详情")
+    @PostMapping("/dataArchive/detail")
+    public Object detail(@RequestBody DataArchiveEntity bean) {
+
+        WebResponse webResponse = dataArchiveService.detail(bean);
+        return webResponse;
+
+    }
+
 }

@@ -18,4 +18,6 @@ public interface DataArchiveService {
 
     public WebResponse pageDataArchiveList(DataArchiveEntity dataArchiveEntity);
 
+    public WebResponse detail(DataArchiveEntity dataArchiveEntity);
+
 }

@@ -148,11 +148,30 @@ public class DataArchivesServiceImpl implements DataArchiveService {
             dataArchiveTelEntity.setArchiveId(temp.getId());
             List<DataArchiveTelEntity> telEntityList = dataArchiveTelMapper.findAll(dataArchiveTelEntity);
             temp.setTelList(telEntityList);
+            DataArchiveRemarkEntity dataArchiveRemarkEntity = new DataArchiveRemarkEntity();
+            dataArchiveRemarkEntity.setArchiveId(temp.getId());
+            List<DataArchiveRemarkEntity> remarkEntityList = dataArchiveRemarkMapper.findAll(dataArchiveRemarkEntity);
+            temp.setRemarkList(remarkEntityList);
             list.set(i,temp);
         }
 
         webResponse.setData(PageInfo.of(list));
 
+        return webResponse;
+    }
+
+    public WebResponse detail(DataArchiveEntity dataArchiveEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
+        DataArchiveEntity temp = new DataArchiveEntity();
+        DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
+        dataArchiveAddressEntity.setArchiveId(temp.getId());
+        List<DataArchiveAddressEntity> addressEntityList = dataArchiveAddressMapper.findAll(dataArchiveAddressEntity);
+        temp.setAddressList(addressEntityList);
+        DataArchiveTelEntity dataArchiveTelEntity = new DataArchiveTelEntity();
+        dataArchiveTelEntity.setArchiveId(temp.getId());
+        List<DataArchiveTelEntity> telEntityList = dataArchiveTelMapper.findAll(dataArchiveTelEntity);
+        temp.setTelList(telEntityList);
+        webResponse.setData(temp);
         return webResponse;
     }
 }

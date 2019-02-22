@@ -1,11 +1,12 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 /**
  * Created by looyer on 2019/1/26.
  */
-public class DataArchiveTelEntity {
+public class DataArchiveTelEntity extends CommonEntity {
 
-    private int id;
 
     private int archiveId;
 
@@ -29,13 +30,7 @@ public class DataArchiveTelEntity {
         this.archiveId = archiveId;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTel() {
         return tel;
