@@ -28,7 +28,7 @@ public class LetterAction {
     public Object pageDataLetter(@RequestBody Letter bean) {
 
         WebResponse webResponse = letterService.pageDataLetter(bean);
-        return WebResponse.success(webResponse);
+        return webResponse;
 
     }
     @ApiOperation(value = "同意协催", notes = "同意协催")
