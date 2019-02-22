@@ -277,7 +277,7 @@
             </if>
           </trim>
         </where>
-
+    order by ${orderBy} ${sort}
 
   </select>
 
@@ -335,7 +335,7 @@
         </if>
       </trim>
     </where>
-
+    order by ${orderBy} ${sort}
 
   </select>
 </mapper>
