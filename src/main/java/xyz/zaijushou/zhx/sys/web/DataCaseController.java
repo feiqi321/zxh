@@ -18,6 +18,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
@@ -40,6 +41,8 @@ public class DataCaseController {
     private DataCaseService dataCaseService;
     @Autowired
     private FileManageService fileManageService;
+    @Autowired
+    private DataCollectService dataCollectService;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -447,6 +450,21 @@ public class DataCaseController {
         ExcelUtils.exportExcel(list,
                 ExcelBatchConstant.BatchMemorize.values(),
                 "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+
+    @ApiOperation(value = "查询导出所选案件的催收记录", notes = "查询导出所选案件的催收记录")
+    @PostMapping("/dataBatch/selectDataCollectExportByBatch")
+    public Object selectDataCollectExportByCase(@RequestBody String[] caseIds, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse webResponse = dataCollectService.selectDataCollectExportByCase(caseIds);
+        List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
+        ExcelUtils.exportExcel(resultList,
+                ExcelCollectExportConstant.CollectMemorize.values(),
+                "案件管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
         return null;

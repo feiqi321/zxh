@@ -26,11 +26,16 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> pageDataCollect(DataCollectionEntity bean);
 
+    public List<DataCollectExportEntity> pageDataCollectExport(DataCollectionEntity bean);
+
     public List<DataCollectionEntity> totalDataCollect(DataCollectionEntity bean);
 
     public List<DataCollectExportEntity> selectDataCollectByBatch(String[] batchs);
 
-    public DataCollectionEntity selectDataCollect(DataCollectionEntity bean);
+    public List<DataCollectExportEntity> selectDataCollectExportByCase(String[] caseIds);
+
+
+    public List<DataCollectExportEntity> selectDataCollect(int[] batchs);
 
     public int countDataCollect(DataCollectionEntity bean);
 

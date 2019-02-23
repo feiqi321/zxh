@@ -14,10 +14,14 @@ public interface DataCollectService {
 
     public WebResponse pageDataCollect(DataCollectionEntity bean);
 
+    public WebResponse pageDataCollectExport(DataCollectionEntity bean);
+
     public WebResponse totalDataCollect(DataCollectionEntity bean);
 
-    public WebResponse selectDataCollect(List<DataCollectionEntity> list);
+    public WebResponse selectDataCollect(int[] ids);
 
     public WebResponse selectDataCollectExportByBatch(String[] batchs);
+
+    public WebResponse selectDataCollectExportByCase(String[] caseIds);
 
 }

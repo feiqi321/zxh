@@ -92,9 +92,9 @@ public class DataCollectController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataCollect/selectDataCollectExport")
-    public Object selectDataCollectExport(@RequestBody List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataCollectExport(@RequestBody int[] ids, HttpServletResponse response) throws IOException, InvalidFormatException {
 
-        WebResponse webResponse = dataCollectService.selectDataCollect(list);
+        WebResponse webResponse = dataCollectService.selectDataCollect(ids);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
                 ExcelCollectConstant.CollectMemorize.values(),
