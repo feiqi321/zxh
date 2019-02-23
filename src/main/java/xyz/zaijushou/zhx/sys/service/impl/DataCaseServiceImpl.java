@@ -896,13 +896,19 @@ public class DataCaseServiceImpl implements DataCaseService {
         return list;
     }
 
+    public List<DataCaseTelExport> selectCaseTelListExport(int[] ids){
+        List<DataCaseTelExport> list = new ArrayList<DataCaseTelExport>();
 
+        list = dataCaseMapper.selectCaseTelListExport(ids);
 
-    public List<DataCaseEntity> selectCaseListExport(DataCaseEntity dataCaseEntity){
+        return list;
+    }
+
+    public List<DataCaseEntity> selectCaseListExport(int[] ids){
 
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
 
-        list = dataCaseMapper.selectCaseList(dataCaseEntity);
+        list = dataCaseMapper.selectCaseList(ids);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 if (temp.getCollectStatus()==0){

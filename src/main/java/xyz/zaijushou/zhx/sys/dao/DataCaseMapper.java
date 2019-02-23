@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseTelExport;
 
 import java.util.List;
 
@@ -29,7 +30,9 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> totalBatchBoundsCaseList(DataCaseEntity bean);
 
-    public List<DataCaseEntity> selectCaseList(DataCaseEntity bean);
+    public List<DataCaseEntity> selectCaseList(int[] ids);
+
+    public List<DataCaseTelExport> selectCaseTelListExport(int[] ids);
 
     public void sumCaseMoney(DataCaseEntity bean);
 

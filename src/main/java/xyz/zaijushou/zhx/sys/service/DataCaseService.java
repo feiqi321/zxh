@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service;
 
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseTelExport;
 
 import java.util.List;
 
@@ -60,7 +61,9 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> pageCaseListExport(DataCaseEntity dataCaseEntity);
 
-    public List<DataCaseEntity> selectCaseListExport(DataCaseEntity dataCaseEntity);
+    public List<DataCaseEntity> selectCaseListExport(int[] ids);
+
+    public List<DataCaseTelExport> selectCaseTelListExport(int[] ids);
 
     public List<DataCaseEntity> totalCaseListExport(DataCaseEntity dataCaseEntity);
 }

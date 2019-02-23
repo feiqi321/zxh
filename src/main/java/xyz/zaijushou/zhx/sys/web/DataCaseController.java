@@ -444,9 +444,9 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataCase/selectDataCaseExport")
-    public Object selectDataCaseExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataCaseExport(@RequestBody int[] ids, HttpServletResponse response) throws IOException, InvalidFormatException {
 
-        List<DataCaseEntity> list = dataCaseService.selectCaseListExport(bean);
+        List<DataCaseEntity> list = dataCaseService.selectCaseListExport(ids);
         ExcelUtils.exportExcel(list,
                 ExcelBatchConstant.BatchMemorize.values(),
                 "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
@@ -465,6 +465,19 @@ public class DataCaseController {
         ExcelUtils.exportExcel(resultList,
                 ExcelCollectExportConstant.CollectMemorize.values(),
                 "案件管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+    @ApiOperation(value = "查询导出所选案件的电话", notes = "查询导出所选案件的电话")
+    @PostMapping("/dataBatch/selectDataCaseTel")
+    public Object selectDataCaseTel(@RequestBody int[] ids, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List<DataCaseTelExport> list = dataCaseService.selectCaseTelListExport(ids);
+        ExcelUtils.exportExcel(list,
+                ExcelCollectExportConstant.CollectMemorize.values(),
+                "案件管理电话选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
         return null;
