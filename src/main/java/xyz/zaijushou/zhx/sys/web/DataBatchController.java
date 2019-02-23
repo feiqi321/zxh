@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelBatchConstant;
+import xyz.zaijushou.zhx.constant.ExcelBatchExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
+import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
@@ -108,7 +110,7 @@ public class DataBatchController {
         WebResponse webResponse = dataCaseService.pageDataBatchExport(bean);
         List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
         ExcelUtils.exportExcel(list,
-                ExcelBatchConstant.BatchMemorize.values(),
+                ExcelBatchExportConstant.BatchMemorize.values(),
                 "批次管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -122,7 +124,7 @@ public class DataBatchController {
         WebResponse webResponse = dataCaseService.totalDataBatch(bean);
         List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
         ExcelUtils.exportExcel(list,
-                ExcelBatchConstant.BatchMemorize.values(),
+                ExcelBatchExportConstant.BatchMemorize.values(),
                 "批次管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -136,7 +138,7 @@ public class DataBatchController {
         WebResponse webResponse = dataCaseService.selectDataBatch(list);
         List<DataBatchEntity> resultList = (List<DataBatchEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
-                ExcelBatchConstant.BatchMemorize.values(),
+                ExcelBatchExportConstant.BatchMemorize.values(),
                 "批次管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -146,12 +148,12 @@ public class DataBatchController {
 
     @ApiOperation(value = "查询导出所选批次的催收记录", notes = "查询导出所选批次的催收记录")
     @PostMapping("/dataBatch/selectDataCollectExportByBatch")
-    public Object selectDataCollectExportByBatch(@RequestBody List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataCollectExportByBatch(@RequestBody String[] batchs, HttpServletResponse response) throws IOException, InvalidFormatException {
 
-        WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(list);
+        WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(batchs);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CollectMemorize.values(),
                 "批次管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );

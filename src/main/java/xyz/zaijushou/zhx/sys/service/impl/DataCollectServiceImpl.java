@@ -127,11 +127,11 @@ public class DataCollectServiceImpl implements DataCollectService {
         return webResponse;
     }
 
-    public WebResponse selectDataCollectExportByBatch(List<DataCollectionEntity> list){
+    public WebResponse selectDataCollectExportByBatch(String[] batchs){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();
-        for (int i=0;i<list.size();i++){
-            DataCollectionEntity temp = dataCollectionMapper.selectDataCollect(list.get(i));
+        List<DataCollectionEntity> resultList = dataCollectionMapper.selectDataCollectByBatch(batchs);
+        for (int i=0;i<resultList.size();i++){
+            DataCollectionEntity temp = resultList.get(i);
             SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
             dictionary1.setId(temp.getReduceStatus());
             SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);

@@ -18,6 +18,6 @@ public interface DataCollectService {
 
     public WebResponse selectDataCollect(List<DataCollectionEntity> list);
 
-    public WebResponse selectDataCollectExportByBatch(List<DataCollectionEntity> list);
+    public WebResponse selectDataCollectExportByBatch(String[] batchs);
 
 }

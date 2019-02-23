@@ -181,6 +181,16 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String sort;
 
+    private BigDecimal newMoney;
+
+    public BigDecimal getNewMoney() {
+        return newMoney;
+    }
+
+    public void setNewMoney(BigDecimal newMoney) {
+        this.newMoney = newMoney;
+    }
+
     public String[] getOdvs() {
         return odvs;
     }
