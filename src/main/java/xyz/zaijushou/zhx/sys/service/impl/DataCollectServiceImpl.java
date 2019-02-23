@@ -216,10 +216,9 @@ public class DataCollectServiceImpl implements DataCollectService {
             bean.setBatchFlag("1");
         }
         bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
-        List<DataCollectionEntity> list = dataCollectionMapper.pageDataCollect(bean);
-        List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();
+        List<DataCollectExportEntity> list = dataCollectionMapper.pageDataCollectExport(bean);
         for (int i=0;i<list.size();i++){
-            DataCollectionEntity temp = list.get(i);
+            DataCollectExportEntity temp = list.get(i);
             SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
             dictionary1.setId(temp.getReduceStatus());
             SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
@@ -231,10 +230,10 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user==null?"":user.getUserName());
-            resultList.add(temp);
+            temp.setOdvName(user==null?"":user.getUserName());
+            list.set(i,temp);
         }
-        webResponse.setData(PageInfo.of(resultList));
+        webResponse.setData(PageInfo.of(list));
 
         return webResponse;
     }

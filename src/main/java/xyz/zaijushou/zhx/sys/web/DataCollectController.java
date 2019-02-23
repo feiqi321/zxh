@@ -66,7 +66,7 @@ public class DataCollectController {
     @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
     @PostMapping("/dataCollect/pageDataCollectExport")
     public Object pageDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
-        WebResponse webResponse = dataCollectService.pageDataCollect(bean);
+        WebResponse webResponse = dataCollectService.pageDataCollectExport(bean);
         PageInfo<DataCollectionEntity> pageInfo = (PageInfo<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(pageInfo.getList(),
                 ExcelCollectConstant.CollectMemorize.values(),
