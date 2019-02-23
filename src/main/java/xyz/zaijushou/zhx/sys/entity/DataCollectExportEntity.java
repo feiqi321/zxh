@@ -21,12 +21,13 @@ public class DataCollectExportEntity {
     private String result;
     private String odvName;
     private String method;
-    private int collecttStatus;
+    private int collectStatus;
     private String collectStatusMsg;
     private String proRepayDate;
     private String proRepayAmt;
     private String reduceAmt;
     private String reduceStatusMsg;
+    private int reduceStatus;
     private String collectInfo;
     private String overDays;
     private String batchNo;
@@ -41,19 +42,17 @@ public class DataCollectExportEntity {
     private String overdueMoney;
     private String remark;
     private String odv;
-    private String collectStatus;
     private String nextFollDate;
     private String minimumPayment;
     private String creditLine;
     private String module;
 
-
-    public int getCollecttStatus() {
-        return collecttStatus;
+    public int getReduceStatus() {
+        return reduceStatus;
     }
 
-    public void setCollecttStatus(int collecttStatus) {
-        this.collecttStatus = collecttStatus;
+    public void setReduceStatus(int reduceStatus) {
+        this.reduceStatus = reduceStatus;
     }
 
     public String getName() {
@@ -336,11 +335,11 @@ public class DataCollectExportEntity {
         this.odv = odv;
     }
 
-    public String getCollectStatus() {
+    public int getCollectStatus() {
         return collectStatus;
     }
 
-    public void setCollectStatus(String collectStatus) {
+    public void setCollectStatus(int collectStatus) {
         this.collectStatus = collectStatus;
     }
 

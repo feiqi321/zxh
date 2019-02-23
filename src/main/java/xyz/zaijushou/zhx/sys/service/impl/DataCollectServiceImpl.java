@@ -8,6 +8,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
+import xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
@@ -129,9 +130,9 @@ public class DataCollectServiceImpl implements DataCollectService {
 
     public WebResponse selectDataCollectExportByBatch(String[] batchs){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataCollectionEntity> resultList = dataCollectionMapper.selectDataCollectByBatch(batchs);
+        List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectByBatch(batchs);
         for (int i=0;i<resultList.size();i++){
-            DataCollectionEntity temp = resultList.get(i);
+            DataCollectExportEntity temp = resultList.get(i);
             SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
             dictionary1.setId(temp.getReduceStatus());
             SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
@@ -143,7 +144,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user==null?"":user.getUserName());
+            temp.setOdvName(user==null?"":user.getUserName());
             resultList.add(temp);
         }
         webResponse.setData(resultList);
