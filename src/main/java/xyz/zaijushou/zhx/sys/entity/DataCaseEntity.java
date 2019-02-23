@@ -50,7 +50,7 @@ public class DataCaseEntity extends CommonEntity {
     private String repayDateEnd;//还款日期
     private int distributeStatus;//分配状态  查询条件
     private String license; //牌照号  查询条件
-    private String  expectTime;// 预计退案日 查询条件   列表
+    private String  expectTime;// 预计退案日期 查询条件   列表
     private String expectStartTime;
     private String expectEndTime;
     private String collectHand;//催收手别（0-90天） 查询条件
@@ -118,6 +118,7 @@ public class DataCaseEntity extends CommonEntity {
     private String synergyStartTime;//协催申请开始时间
     private String synergyEndTime;//协催申请结束时间
     private String synergyContext; //协催申请内容
+    private String synergyType;
 
     private String queryMethod; //精确查询1 模糊查询2
 
@@ -237,6 +238,14 @@ public class DataCaseEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getSynergyType() {
+        return synergyType;
+    }
+
+    public void setSynergyType(String synergyType) {
+        this.synergyType = synergyType;
+    }
 
     public String[] getOdvs() {
         return odvs;

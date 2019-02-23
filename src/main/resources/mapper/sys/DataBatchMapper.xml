@@ -223,7 +223,10 @@
         batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,create_user as creatUser,real_time as realReturnTime,
         batch_remark as batchRemark
         from data_batch
-         where id= #{id}
+         where  id in
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         order by upload_time asc,create_time desc
     </select>
 </mapper>

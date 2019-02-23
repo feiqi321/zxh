@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class LegalEntity extends CommonEntity {
-    private Integer id;
     //姓名
     private String cstName;
     //案件状态
@@ -96,14 +95,6 @@ public class LegalEntity extends CommonEntity {
 
     public void setCheckDate(String checkDate) {
         this.checkDate = checkDate;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getCstName() {

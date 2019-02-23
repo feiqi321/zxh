@@ -53,16 +53,16 @@
     <where>
       delete_flag = 0
       <if test="cstName != null" >
-         and cst_name = #{cstName,jdbcType=VARCHAR},
+         and cst_name = #{cstName,jdbcType=VARCHAR}
       </if>
       <if test="owner != null" >
-        and owner = #{owner,jdbcType=VARCHAR},
+        and owner = #{owner,jdbcType=VARCHAR}
       </if>
       <if test="legalStatus != null" >
-        and  legal_status = #{legalStatus,jdbcType=INTEGER},
+        and  legal_status = #{legalStatus,jdbcType=INTEGER}
       </if>
       <if test="legalNo != null" >
-        and ident_no = #{legalNo,jdbcType=VARCHAR},
+        and ident_no = #{legalNo,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
@@ -71,14 +71,15 @@
     count(id) as cout
     from legal
     <where>
+      1=1
       <if test="cstName != null" >
-        cst_name = #{cstName,jdbcType=VARCHAR},
+        and cst_name = #{cstName,jdbcType=VARCHAR}
       </if>
       <if test="legalStatus != null" >
-        legal_status = #{legalStatus,jdbcType=INTEGER},
+        and legal_status = #{legalStatus,jdbcType=INTEGER}
       </if>
       <if test="legal_no != null" >
-        ident_no = #{legalNo,jdbcType=VARCHAR},
+        and ident_no = #{legalNo,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
@@ -206,6 +207,7 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      delete_flag,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -301,11 +303,13 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      0,
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     update legal
     <set >
+      <trim suffixOverrides=",">
       <if test="cstName != null" >
         cst_name = #{cstName,jdbcType=VARCHAR},
       </if>
@@ -396,6 +400,7 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      </trim>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

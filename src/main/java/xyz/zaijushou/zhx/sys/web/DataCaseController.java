@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.web;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -20,8 +21,10 @@ import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -407,6 +410,46 @@ public class DataCaseController {
         }
         dataCaseService.saveCaseList(dataCaseEntities);
         return WebResponse.success();
+    }
+
+    @ApiOperation(value = "数据模块-案件管理查询导出", notes = "数据模块-案件管理查询导出")
+    @PostMapping("/dataCase/pageCaseListExport")
+    public Object pageCaseListExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException{
+
+        List<DataCaseEntity> list = dataCaseService.pageCaseListExport(bean);
+        ExcelUtils.exportExcel(list,
+                ExcelBatchConstant.BatchMemorize.values(),
+                "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+
+    @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
+    @PostMapping("/dataCase/totalDataBatchExport")
+    public Object totalDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
+        ExcelUtils.exportExcel(list,
+                ExcelBatchConstant.BatchMemorize.values(),
+                "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+    @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
+    @PostMapping("/dataCase/selectDataCaseExport")
+    public Object selectDataCaseExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List<DataCaseEntity> list = dataCaseService.selectCaseListExport(bean);
+        ExcelUtils.exportExcel(list,
+                ExcelBatchConstant.BatchMemorize.values(),
+                "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
     }
 
 }

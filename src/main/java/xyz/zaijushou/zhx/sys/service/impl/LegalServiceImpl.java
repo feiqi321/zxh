@@ -33,7 +33,7 @@ public class LegalServiceImpl implements LegalService {
     private SysUserService sysUserService;//用户业务控制层
 
     public void saveLegal(LegalEntity bean){
-        if (bean.getId()==0){
+        if (bean.getId()==null || bean.getId()==0){
             legalMapper.insertSelective(bean);
         }else{
             legalMapper.updateByPrimaryKeySelective(bean);
@@ -55,7 +55,7 @@ public class LegalServiceImpl implements LegalService {
             }else{
                 legalEntity.setLegalStatusMsg("未审核");
             }
-
+            dataCaseEntities.set(i,legalEntity);
         }
 
         webResponse.setData(PageInfo.of(dataCaseEntities));
@@ -67,17 +67,8 @@ public class LegalServiceImpl implements LegalService {
         SysUserEntity user = getUserInfo();
         bean.setOwner(user.getId()+"");
         List<LegalEntity> dataCaseEntities = legalMapper.pageDataLegal(bean);
-        int count = legalMapper.countDataLegal(bean);
 
-        int totalPageNum = 0 ;
-        if (count%bean.getPageSize()>0){
-            totalPageNum = count/bean.getPageSize()+1;
-        }else{
-            totalPageNum = count/bean.getPageSize();
-        }
-        webResponse.setData(dataCaseEntities);
-        webResponse.setTotalPageNum(totalPageNum);
-        webResponse.setTotalNum(count);
+        webResponse.setData(PageInfo.of(dataCaseEntities));
         return webResponse;
     }
 

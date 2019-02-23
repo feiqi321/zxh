@@ -9,6 +9,7 @@ import java.math.BigDecimal;
  */
 public class DataBatchEntity extends CommonEntity {
 
+    private int[] ids;
     //批次编号
     private String batchNo;
 
@@ -55,6 +56,14 @@ public class DataBatchEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public int[] getIds() {
+        return ids;
+    }
+
+    public void setIds(int[] ids) {
+        this.ids = ids;
+    }
 
     public String getBatchNoFlag() {
         return batchNoFlag;

@@ -57,4 +57,10 @@ public interface DataCaseService {
     void updateCaseList(List<DataCaseEntity> dataCaseEntities);
 
     void saveCaseList(List<DataCaseEntity> dataCaseEntities);
+
+    public List<DataCaseEntity> pageCaseListExport(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseEntity> selectCaseListExport(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseEntity> totalCaseListExport(DataCaseEntity dataCaseEntity);
 }
