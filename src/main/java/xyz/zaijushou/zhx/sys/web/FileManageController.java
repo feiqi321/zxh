@@ -39,14 +39,6 @@ public class FileManageController {
             return null;
         }
         String fileName = "枫软催收系统导入模板.rar";
-//        String userAgent = request.getHeader("User-Agent");
-//        if (userAgent.contains("MSIE") || userAgent.contains("Trident")) {
-//            //IE浏览器处理
-//            fileName = java.net.URLEncoder.encode(fileName, "UTF-8");
-//        } else {
-//            // 非IE浏览器的处理：
-//            fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-//        }
 
 
         //下载的文件携带这个名称

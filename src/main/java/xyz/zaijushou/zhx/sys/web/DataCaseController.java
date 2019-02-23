@@ -457,7 +457,7 @@ public class DataCaseController {
 
 
     @ApiOperation(value = "查询导出所选案件的催收记录", notes = "查询导出所选案件的催收记录")
-    @PostMapping("/dataBatch/selectDataCollectExportByBatch")
+    @PostMapping("/dataCase/selectDataCollectExportByBatch")
     public Object selectDataCollectExportByCase(@RequestBody String[] caseIds, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCollectService.selectDataCollectExportByCase(caseIds);
@@ -471,7 +471,7 @@ public class DataCaseController {
     }
 
     @ApiOperation(value = "查询导出所选案件的电话", notes = "查询导出所选案件的电话")
-    @PostMapping("/dataBatch/selectDataCaseTel")
+    @PostMapping("/dataCase/selectDataCaseTel")
     public Object selectDataCaseTel(@RequestBody int[] ids, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         List<DataCaseTelExport> list = dataCaseService.selectCaseTelListExport(ids);
