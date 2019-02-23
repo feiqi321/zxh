@@ -56,11 +56,11 @@ public class LegalServiceImpl implements LegalService {
                 legalEntity.setLegalStatusMsg("未审核");
             }
             if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("1")){
-                legalEntity.setLegalStatusMsg("判决");
+                legalEntity.setProgressMsg("判决");
             }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("2")){
-                legalEntity.setLegalStatusMsg("收案");
+                legalEntity.setProgressMsg("收案");
             }else{
-                legalEntity.setLegalStatusMsg("未判决");
+                legalEntity.setProgressMsg("未判决");
             }
             dataCaseEntities.set(i,legalEntity);
         }

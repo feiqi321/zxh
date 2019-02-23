@@ -16,6 +16,8 @@ public class LegalEntity extends CommonEntity {
     private String identNo;
     //办案进度
     private String progress;
+
+    private String progressMsg;
     //案件類型
     private Integer legalType;
     //标的
@@ -72,6 +74,14 @@ public class LegalEntity extends CommonEntity {
     private String checker;
 
     private String checkDate;
+
+    public String getProgressMsg() {
+        return progressMsg;
+    }
+
+    public void setProgressMsg(String progressMsg) {
+        this.progressMsg = progressMsg;
+    }
 
     public String getLegalStatusMsg() {
         return legalStatusMsg;
