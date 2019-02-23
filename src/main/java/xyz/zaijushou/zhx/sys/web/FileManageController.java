@@ -25,6 +25,8 @@ public class FileManageController {
     private String filePath;
     @Value(value="${archive_path}")
     private String archivePath;
+    @Value(value="${case_path}")
+    private String casePath;
 
 
     @ApiOperation(value = "下载压缩包", notes = "下载压缩包")
@@ -70,6 +72,40 @@ public class FileManageController {
         return null;
     }
 
+    @ApiOperation(value = "下载案件导入模板", notes = "下载案件导入模板")
+    @PostMapping("/fileManage/downloadCase")
+    public Object downloadCase(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        File imageFile = new File(casePath);
+        if (!imageFile.exists()) {
+            System.out.println("文件不存在");
+            return null;
+        }
+        String fileName = "案件导入模板.rar";
+
+        //下载的文件携带这个名称
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        //文件下载类型--二进制文件
+        response.setContentType("application/octet-stream");
+
+        try {
+            FileInputStream fis = new FileInputStream(casePath);
+            byte[] content = new byte[fis.available()];
+            fis.read(content);
+            fis.close();
+
+            ServletOutputStream sos = response.getOutputStream();
+            sos.write(content);
+
+            sos.flush();
+            sos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     @ApiOperation(value = "下载案人模板", notes = "下载案人模板")
     @PostMapping("/fileManage/downloadArchive")
