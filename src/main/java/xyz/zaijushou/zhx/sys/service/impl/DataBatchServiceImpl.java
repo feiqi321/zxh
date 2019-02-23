@@ -187,7 +187,7 @@ public class DataBatchServiceImpl implements DataBatchService {
     }
     public WebResponse totalDataBatch(DataBatchEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
+        List<DataBatchEntity> dataCaseEntities = dataBatchMapper.totalDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
