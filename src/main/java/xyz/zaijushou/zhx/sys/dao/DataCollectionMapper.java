@@ -28,7 +28,7 @@ public interface DataCollectionMapper {
 
     public List<DataCollectExportEntity> pageDataCollectExport(DataCollectionEntity bean);
 
-    public List<DataCollectionEntity> totalDataCollect(DataCollectionEntity bean);
+    public List<DataCollectExportEntity> totalDataCollect(DataCollectionEntity bean);
 
     public List<DataCollectExportEntity> selectDataCollectByBatch(String[] batchs);
 
