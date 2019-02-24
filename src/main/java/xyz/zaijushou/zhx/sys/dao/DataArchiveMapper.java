@@ -21,4 +21,6 @@ public interface DataArchiveMapper {
 
     public int countDataArchive(DataArchiveEntity bean);
 
+    public DataArchiveEntity selectById(DataArchiveEntity bean);
+
 }

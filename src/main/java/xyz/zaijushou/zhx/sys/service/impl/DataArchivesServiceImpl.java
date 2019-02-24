@@ -162,7 +162,7 @@ public class DataArchivesServiceImpl implements DataArchiveService {
 
     public WebResponse detail(DataArchiveEntity dataArchiveEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-        DataArchiveEntity temp = new DataArchiveEntity();
+        DataArchiveEntity temp = dataArchiveMapper.selectById(dataArchiveEntity);
         DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
         dataArchiveAddressEntity.setArchiveId(temp.getId());
         List<DataArchiveAddressEntity> addressEntityList = dataArchiveAddressMapper.findAll(dataArchiveAddressEntity);
@@ -171,6 +171,10 @@ public class DataArchivesServiceImpl implements DataArchiveService {
         dataArchiveTelEntity.setArchiveId(temp.getId());
         List<DataArchiveTelEntity> telEntityList = dataArchiveTelMapper.findAll(dataArchiveTelEntity);
         temp.setTelList(telEntityList);
+        DataArchiveRemarkEntity dataArchiveRemarkEntity = new DataArchiveRemarkEntity();
+        dataArchiveRemarkEntity.setArchiveId(temp.getId());
+        List<DataArchiveRemarkEntity> remarkEntityList = dataArchiveRemarkMapper.findAll(dataArchiveRemarkEntity);
+        temp.setRemarkList(remarkEntityList);
         webResponse.setData(temp);
         return webResponse;
     }

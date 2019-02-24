@@ -444,10 +444,14 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataCase/selectDataCaseExport")
-    public Object selectDataCaseExport(@RequestBody int[] ids, HttpServletResponse response) throws IOException, InvalidFormatException {
-
-        List<DataCaseEntity> list = dataCaseService.selectCaseListExport(ids);
-        ExcelUtils.exportExcel(list,
+    public Object selectDataCaseExport(@RequestBody List<DataCaseEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+        int[] ids = new int[list.size()];
+        for(int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            ids[i] = temp.getId();
+        }
+        List<DataCaseEntity> resultList = dataCaseService.selectCaseListExport(ids);
+        ExcelUtils.exportExcel(resultList,
                 ExcelBatchConstant.BatchMemorize.values(),
                 "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
@@ -458,8 +462,12 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出所选案件的催收记录", notes = "查询导出所选案件的催收记录")
     @PostMapping("/dataCase/selectDataCollectExportByBatch")
-    public Object selectDataCollectExportByCase(@RequestBody String[] caseIds, HttpServletResponse response) throws IOException, InvalidFormatException {
-
+    public Object selectDataCollectExportByCase(@RequestBody List<DataCaseEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+        String[] caseIds = new String[list.size()];
+        for(int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            caseIds[i] = temp.getId()+"";
+        }
         WebResponse webResponse = dataCollectService.selectDataCollectExportByCase(caseIds);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
@@ -472,10 +480,15 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出所选案件的电话", notes = "查询导出所选案件的电话")
     @PostMapping("/dataCase/selectDataCaseTel")
-    public Object selectDataCaseTel(@RequestBody int[] ids, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataCaseTel(@RequestBody List<DataCaseEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
 
-        List<DataCaseTelExport> list = dataCaseService.selectCaseTelListExport(ids);
-        ExcelUtils.exportExcel(list,
+        int[] ids = new int[list.size()];
+        for(int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            ids[i] = temp.getId();
+        }
+        List<DataCaseTelExport> resultList = dataCaseService.selectCaseTelListExport(ids);
+        ExcelUtils.exportExcel(resultList,
                 ExcelCollectExportConstant.CollectMemorize.values(),
                 "案件管理电话选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
