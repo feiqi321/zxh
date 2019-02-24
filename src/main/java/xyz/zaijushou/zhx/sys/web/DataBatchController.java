@@ -135,7 +135,12 @@ public class DataBatchController {
     @PostMapping("/dataBatch/selectDataBatchExport")
     public Object selectDataBatchExport(@RequestBody List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
 
-        WebResponse webResponse = dataCaseService.selectDataBatch(list);
+        int [] ids = new int[list.size()];
+        for(int i=0;i<list.size();i++){
+            DataBatchEntity dataBatchEntity = list.get(i);
+            ids[i] = dataBatchEntity.getId();
+        }
+        WebResponse webResponse = dataCaseService.selectDataBatch(ids);
         List<DataBatchEntity> resultList = (List<DataBatchEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
                 ExcelBatchExportConstant.BatchMemorize.values(),

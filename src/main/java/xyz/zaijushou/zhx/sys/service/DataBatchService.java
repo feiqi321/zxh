@@ -22,7 +22,7 @@ public interface DataBatchService {
 
     public WebResponse totalDataBatch(DataBatchEntity bean);
 
-    public WebResponse selectDataBatch(List<DataBatchEntity> list);
+    public WebResponse selectDataBatch(int[] ids);
 
     public DataBatchEntity getDataById(DataBatchEntity bean);
 

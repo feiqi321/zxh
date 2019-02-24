@@ -23,7 +23,7 @@ public interface DataBatchMapper {
 
     public List<DataBatchEntity> totalDataBatch(DataBatchEntity bean);
 
-    public DataBatchEntity selectDataBatch(DataBatchEntity bean);
+    public List<DataBatchEntity> selectDataBatch(int[] ids);
 
     public int countDataBatch(DataBatchEntity bean);
 

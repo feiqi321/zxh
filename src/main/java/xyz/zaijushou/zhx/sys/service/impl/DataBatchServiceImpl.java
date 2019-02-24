@@ -230,11 +230,11 @@ public class DataBatchServiceImpl implements DataBatchService {
 
 
 
-    public WebResponse selectDataBatch(List<DataBatchEntity> list){
+    public WebResponse selectDataBatch(int[] ids){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataBatchEntity> resultList = new ArrayList<DataBatchEntity>();
-        for (int i=0;i<list.size();i++){
-            DataBatchEntity dataBatchEntity = dataBatchMapper.selectDataBatch(list.get(i));
+        List<DataBatchEntity> resultList = dataBatchMapper.selectDataBatch(ids);
+        for (int i=0;i<resultList.size();i++){
+            DataBatchEntity dataBatchEntity = resultList.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
                 dataBatchEntity.setClient("");
@@ -263,7 +263,7 @@ public class DataBatchServiceImpl implements DataBatchService {
             }
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
 
-            resultList.add(dataBatchEntity);
+            resultList.set(i,dataBatchEntity);
         }
 
         webResponse.setData(resultList);
