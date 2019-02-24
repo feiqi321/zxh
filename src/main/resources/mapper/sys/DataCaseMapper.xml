@@ -1587,8 +1587,8 @@
           SELECT d.seq_no as seqno,d.name,d.card_no as cardNo,d.ident_no as identNo,d.archive_no as archiveNo,d.account,d.account_age as accountAge,
               d.case_date as caseDate,t.name as telName,t.status as telStatusMsg,t.tel,t.tel_type as telType,t.relation,t.remark
           from data_case_tel t LEFT  JOIN data_case d on t.case_id = d.id
-          where t.id in
-        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+          where d.id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>
