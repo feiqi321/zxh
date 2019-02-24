@@ -489,7 +489,7 @@ public class DataCaseController {
         }
         List<DataCaseTelExport> resultList = dataCaseService.selectCaseTelListExport(ids);
         ExcelUtils.exportExcel(resultList,
-                ExcelCaseTelConstant.CollectMemorize.values(),
+                ExcelCaseTelConstant.CaseTel.values(),
                 "案件管理电话选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
