@@ -571,9 +571,9 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseRemarkEntity> remarks = new ArrayList<>();
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
         for(DataCaseEntity entity : dataCaseEntities) {
+            dataCaseMapper.saveCase(entity);
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
-            dataCaseMapper.saveCase(entity);
             for(DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
                 remark.setCaseId(entity.getId());
                 remarks.add(remark);

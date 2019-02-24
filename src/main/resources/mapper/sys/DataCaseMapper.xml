@@ -861,7 +861,7 @@
 
 
     <select id="listAllCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select
+        select da.id,
         da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,da.case_date as caseDate,
         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardo,da.ident_no as identNo,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,

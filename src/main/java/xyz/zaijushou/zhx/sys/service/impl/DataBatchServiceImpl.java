@@ -40,8 +40,8 @@ public class DataBatchServiceImpl implements DataBatchService {
     public void save(DataBatchEntity bean){
         JSONObject tokenData = JwtTokenUtil.tokenData();
         bean.setCreatUser(tokenData.getInteger("userId")==null?"":tokenData.getInteger("userId").toString());
-        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_BATCH + bean.getBatchNo(), JSONObject.toJSONString(bean));
         dataBatchMapper.saveBatch(bean);
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_BATCH + bean.getBatchNo(), JSONObject.toJSONString(bean));
     }
 
     public void update(DataBatchEntity bean){
