@@ -496,4 +496,14 @@ public class DataCaseController {
         return null;
     }
 
+
+    @ApiOperation(value = "查询案件明细", notes = "查询案件明细")
+    @PostMapping("/dataCase/detail")
+    public Object detail(@RequestBody DataCaseEntity bean) {
+        DataCaseDetail detail = dataCaseService.detail(bean);
+
+        return WebResponse.success(detail);
+
+    }
+
 }

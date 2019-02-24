@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import xyz.zaijushou.zhx.sys.entity.DataCaseDetail;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseTelExport;
 
@@ -17,6 +18,8 @@ public interface DataCaseMapper {
     public void updateCase(DataCaseEntity bean);
 
     public void deleteById(Integer id);
+
+    public DataCaseDetail detail(DataCaseEntity bean);
 
     public List<DataCaseEntity> pageDataCase(DataCaseEntity bean);
 

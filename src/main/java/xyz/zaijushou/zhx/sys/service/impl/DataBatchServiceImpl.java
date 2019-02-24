@@ -34,7 +34,7 @@ public class DataBatchServiceImpl implements DataBatchService {
     @Resource
     private SysDictionaryMapper dictionaryMapper;
     @Resource
-    private static StringRedisTemplate stringRedisTemplate;
+    private  StringRedisTemplate stringRedisTemplate;
 
 
     public void save(DataBatchEntity bean){

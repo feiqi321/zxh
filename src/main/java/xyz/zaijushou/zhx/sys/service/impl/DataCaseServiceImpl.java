@@ -53,7 +53,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Resource
     private SysDictionaryMapper dictionaryMapper;
     @Resource
-    private static StringRedisTemplate stringRedisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -936,5 +936,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
         return list;
+    }
+
+
+    public DataCaseDetail detail(DataCaseEntity bean){
+        DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        return dataCaseDetail;
     }
 }
