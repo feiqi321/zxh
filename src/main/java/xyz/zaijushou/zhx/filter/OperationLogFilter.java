@@ -52,6 +52,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/dataCollect/totalDataCollectExport",
             "/dataCollect/selectDataCollectExport", //查询导出所选批次的催收记录
             "/fileManage/downloadCase",
+            "/dataCase/selectDataCollectExportByBatch",
+            "/dataCase/selectDataCaseTel",
     };
 
     @Override
