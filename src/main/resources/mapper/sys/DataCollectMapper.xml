@@ -260,7 +260,7 @@
     </select>
 
     <select id="totalDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
-        select c.name,c.account,c.cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.accountAge,c.money,t.residual_principle as residualPrinciple,
+        select c.name,c.account,c.card_no as cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.account_age as accountAge,c.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
         c.result,c.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,c.over_days as overDays,c.batch_no as batchNo,
@@ -301,7 +301,7 @@
                 <if test="result != null and result!=''">
                     AND c.result like CONCAT('%',#{result},'%')
                 </if>
-                <if test="batchNoFlag != null and batchNoFlag!=''">
+                <if test="batchFlag != null and batchFlag!=''">
                     and da.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
@@ -420,7 +420,7 @@
                 </if>
             </trim>
         </where>
-        order by ${orderBy} ${sort}
+        order by c.${orderBy} ${sort}
     </select>
 
 
@@ -440,7 +440,7 @@
     </select>
 
     <select id="pageDataCollectExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
-        select c.name,c.account,c.cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.accountAge,c.money,t.residual_principle as residualPrinciple,
+        select c.name,c.account,c.card_no as cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.account_age as accountAge,c.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
         c.result,c.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,c.over_days as overDays,c.batch_no as batchNo,
@@ -481,7 +481,7 @@
                 <if test="result != null and result!=''">
                     AND c.result like CONCAT('%',#{result},'%')
                 </if>
-                <if test="batchNoFlag != null and batchNoFlag!=''">
+                <if test="batchFlag != null and batchFlag!=''">
                     and da.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
@@ -600,7 +600,7 @@
                 </if>
             </trim>
         </where>
-        order by ${orderBy} ${sort}
+        order by c.${orderBy} ${sort}
     </select>
 
     <select id="selectDataCollectByBatch" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">

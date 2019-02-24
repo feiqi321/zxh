@@ -207,7 +207,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      legal_status,
       delete_flag,
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -303,6 +305,7 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      0,
       0,
     </trim>
   </insert>
