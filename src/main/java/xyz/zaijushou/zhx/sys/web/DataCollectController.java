@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
+import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
@@ -67,9 +69,9 @@ public class DataCollectController {
     @PostMapping("/dataCollect/pageDataCollectExport")
     public Object pageDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
         WebResponse webResponse = dataCollectService.pageDataCollectExport(bean);
-        PageInfo<DataCollectionEntity> pageInfo = (PageInfo<DataCollectionEntity>) webResponse.getData();
+        PageInfo<DataCollectExportEntity> pageInfo = (PageInfo<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(pageInfo.getList(),
-                ExcelCollectConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CollectMemorize.values(),
                 "催记管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -81,9 +83,9 @@ public class DataCollectController {
     public Object totalDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse webResponse = dataCollectService.totalDataCollect(bean);
-       List<DataCollectionEntity> list = (List<DataCollectionEntity>) webResponse.getData();
+       List<DataCollectExportEntity> list = (List<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(list,
-                ExcelCollectConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CollectMemorize.values(),
                 "催记管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -99,9 +101,9 @@ public class DataCollectController {
             ids[i] = temp.getId();
         }
         WebResponse webResponse = dataCollectService.selectDataCollect(ids);
-        List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
+        List<DataCollectExportEntity> resultList = (List<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CollectMemorize.values(),
                 "催记管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
