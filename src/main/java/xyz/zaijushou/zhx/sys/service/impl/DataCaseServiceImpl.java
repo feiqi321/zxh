@@ -268,6 +268,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
+                    temp.setColor("BLACK");
+                }
                 list.set(i,temp);
             }
         }else {
@@ -290,6 +293,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                         SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
+                    temp.setColor("BLACK");
                 }
                 list.set(i,temp);
             }
