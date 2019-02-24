@@ -1,7 +1,9 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
@@ -50,6 +52,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseRemarkMapper dataCaseRemarkMapper;
     @Resource
     private SysDictionaryMapper dictionaryMapper;
+    @Resource
+    private static StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -567,6 +571,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseRemarkEntity> remarks = new ArrayList<>();
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
         for(DataCaseEntity entity : dataCaseEntities) {
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
             dataCaseMapper.saveCase(entity);
             for(DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
                 remark.setCaseId(entity.getId());

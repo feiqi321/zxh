@@ -33,10 +33,14 @@ public class DataBatchServiceImpl implements DataBatchService {
     private DataBatchMapper dataBatchMapper;
     @Resource
     private SysDictionaryMapper dictionaryMapper;
+    @Resource
+    private static StringRedisTemplate stringRedisTemplate;
+
 
     public void save(DataBatchEntity bean){
         JSONObject tokenData = JwtTokenUtil.tokenData();
         bean.setCreatUser(tokenData.getInteger("userId")==null?"":tokenData.getInteger("userId").toString());
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_BATCH + bean.getBatchNo(), JSONObject.toJSONString(bean));
         dataBatchMapper.saveBatch(bean);
     }
 
