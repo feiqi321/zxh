@@ -71,7 +71,7 @@ public class DataCollectController {
         WebResponse webResponse = dataCollectService.pageDataCollectExport(bean);
         PageInfo<DataCollectExportEntity> pageInfo = (PageInfo<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(pageInfo.getList(),
-                ExcelCollectExportConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CaseCollectExport.values(),
                 "催记管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -85,7 +85,7 @@ public class DataCollectController {
         WebResponse webResponse = dataCollectService.totalDataCollect(bean);
        List<DataCollectExportEntity> list = (List<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(list,
-                ExcelCollectExportConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CaseCollectExport.values(),
                 "催记管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -103,7 +103,7 @@ public class DataCollectController {
         WebResponse webResponse = dataCollectService.selectDataCollect(ids);
         List<DataCollectExportEntity> resultList = (List<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectExportConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CaseCollectExport.values(),
                 "催记管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );

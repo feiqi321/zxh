@@ -471,7 +471,7 @@ public class DataCaseController {
         WebResponse webResponse = dataCollectService.selectDataCollectExportByCase(caseIds);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectExportConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CaseCollectExport.values(),
                 "案件管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -489,7 +489,7 @@ public class DataCaseController {
         }
         List<DataCaseTelExport> resultList = dataCaseService.selectCaseTelListExport(ids);
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectExportConstant.CollectMemorize.values(),
+                ExcelCaseTelConstant.CollectMemorize.values(),
                 "案件管理电话选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
