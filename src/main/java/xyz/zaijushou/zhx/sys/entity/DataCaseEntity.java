@@ -239,6 +239,31 @@ public class DataCaseEntity extends CommonEntity {
 
     private String sort;
 
+    //缺少字段
+    private String inteviewStatus;    //外访状态
+
+    private BigDecimal latestOverdueMoney;  //最新欠款
+
+    private String lastCall;    //最后通电
+
+    private BigDecimal repayMoney;  //已还款
+
+    private Date distributeDate;    //分配时间
+
+    private Date nextFollowDate;    //下次跟进日期
+
+    private BigDecimal totalOverdueMoney;   //总欠款（委案金融+公司佣金）
+
+    private BigDecimal overdueBalance;  //欠款余额
+
+    private String mainCard;    //是否主卡
+
+    private String warning; //警告
+
+    private String selfInfo;    //自定义信息
+
+    private String latestCollectMomorize;   //最新催记
+
     public String getSynergyType() {
         return synergyType;
     }
@@ -1806,5 +1831,101 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setSeqNoSet(Set<String> seqNoSet) {
         this.seqNoSet = seqNoSet;
+    }
+
+    public String getInteviewStatus() {
+        return inteviewStatus;
+    }
+
+    public void setInteviewStatus(String inteviewStatus) {
+        this.inteviewStatus = inteviewStatus;
+    }
+
+    public BigDecimal getLatestOverdueMoney() {
+        return latestOverdueMoney;
+    }
+
+    public void setLatestOverdueMoney(BigDecimal latestOverdueMoney) {
+        this.latestOverdueMoney = latestOverdueMoney;
+    }
+
+    public String getLastCall() {
+        return lastCall;
+    }
+
+    public void setLastCall(String lastCall) {
+        this.lastCall = lastCall;
+    }
+
+    public BigDecimal getRepayMoney() {
+        return repayMoney;
+    }
+
+    public void setRepayMoney(BigDecimal repayMoney) {
+        this.repayMoney = repayMoney;
+    }
+
+    public Date getDistributeDate() {
+        return distributeDate;
+    }
+
+    public void setDistributeDate(Date distributeDate) {
+        this.distributeDate = distributeDate;
+    }
+
+    public Date getNextFollowDate() {
+        return nextFollowDate;
+    }
+
+    public void setNextFollowDate(Date nextFollowDate) {
+        this.nextFollowDate = nextFollowDate;
+    }
+
+    public BigDecimal getTotalOverdueMoney() {
+        return totalOverdueMoney;
+    }
+
+    public void setTotalOverdueMoney(BigDecimal totalOverdueMoney) {
+        this.totalOverdueMoney = totalOverdueMoney;
+    }
+
+    public BigDecimal getOverdueBalance() {
+        return overdueBalance;
+    }
+
+    public void setOverdueBalance(BigDecimal overdueBalance) {
+        this.overdueBalance = overdueBalance;
+    }
+
+    public String getMainCard() {
+        return mainCard;
+    }
+
+    public void setMainCard(String mainCard) {
+        this.mainCard = mainCard;
+    }
+
+    public String getWarning() {
+        return warning;
+    }
+
+    public void setWarning(String warning) {
+        this.warning = warning;
+    }
+
+    public String getSelfInfo() {
+        return selfInfo;
+    }
+
+    public void setSelfInfo(String selfInfo) {
+        this.selfInfo = selfInfo;
+    }
+
+    public String getLatestCollectMomorize() {
+        return latestCollectMomorize;
+    }
+
+    public void setLatestCollectMomorize(String latestCollectMomorize) {
+        this.latestCollectMomorize = latestCollectMomorize;
     }
 }
