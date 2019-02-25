@@ -10,6 +10,8 @@ import java.util.List;
  * Created by looyer on 2019/1/29.
  */
 public class DataCollectionEntity extends CommonEntity {
+    private int[] ids;//催收数组
+
     //案件id
     private String caseId;
 
@@ -191,12 +193,12 @@ public class DataCollectionEntity extends CommonEntity {
     private String completeTimeEnd;
 
     //减免提交时间
-    private String reduceReferime;
+    private String reduceReferTime;
     private String reduceReferTimeStart;
     private String reduceReferTimeEnd;
 
     //减免有效时间
-    private String reduceValidime;
+    private String reduceValidTime;
     private String reduceValidTimeStart;
     private String reduceValidTimeEnd;
 
@@ -206,7 +208,7 @@ public class DataCollectionEntity extends CommonEntity {
     //减免更新状态时间
     private String reduceUpdateTime;
 
-    // 减免状态
+    // 减免标识（0-减免结果有效，1-减免无效（删除）,2-已撤销）
     private String reduceFlag;
 
     //批复还款金额
@@ -216,6 +218,16 @@ public class DataCollectionEntity extends CommonEntity {
     private String caseAllotTime;
     private String caseAllotTimeStart;
     private String caseAllotTimeEnd;
+
+
+
+    public int[] getIds() {
+        return ids;
+    }
+
+    public void setIds(int[] ids) {
+        this.ids = ids;
+    }
 
     public String getCaseAllotTime() {
         return caseAllotTime;
@@ -273,12 +285,12 @@ public class DataCollectionEntity extends CommonEntity {
         this.completeTimeEnd = completeTimeEnd;
     }
 
-    public String getReduceReferime() {
-        return reduceReferime;
+    public String getReduceReferTime() {
+        return reduceReferTime;
     }
 
-    public void setReduceReferime(String reduceReferime) {
-        this.reduceReferime = reduceReferime;
+    public void setReduceReferTime(String reduceReferTime) {
+        this.reduceReferTime = reduceReferTime;
     }
 
     public String getReduceReferTimeStart() {
@@ -297,12 +309,12 @@ public class DataCollectionEntity extends CommonEntity {
         this.reduceReferTimeEnd = reduceReferTimeEnd;
     }
 
-    public String getReduceValidime() {
-        return reduceValidime;
+    public String getReduceValidTime() {
+        return reduceValidTime;
     }
 
-    public void setReduceValidime(String reduceValidime) {
-        this.reduceValidime = reduceValidime;
+    public void setReduceValidTime(String reduceValidTime) {
+        this.reduceValidTime = reduceValidTime;
     }
 
     public String getReduceValidTimeStart() {
