@@ -183,6 +183,176 @@ public class DataCollectionEntity extends CommonEntity {
 
     private BigDecimal newMoney;
 
+    //完成人
+    private String completeUser;
+    //完成时间
+    private String completeTime;
+    private String completeTimeStart;
+    private String completeTimeEnd;
+
+    //减免提交时间
+    private String reduceReferime;
+    private String reduceReferTimeStart;
+    private String reduceReferTimeEnd;
+
+    //减免有效时间
+    private String reduceValidime;
+    private String reduceValidTimeStart;
+    private String reduceValidTimeEnd;
+
+    //减免结果
+    private String reduceResult;
+
+    //减免更新状态时间
+    private String reduceUpdateTime;
+
+    // 减免状态
+    private String reduceFlag;
+
+    //批复还款金额
+    private BigDecimal approveRepayAmt;
+
+    //案件分配时间
+    private String caseAllotTime;
+    private String caseAllotTimeStart;
+    private String caseAllotTimeEnd;
+
+    public String getCaseAllotTime() {
+        return caseAllotTime;
+    }
+
+    public void setCaseAllotTime(String caseAllotTime) {
+        this.caseAllotTime = caseAllotTime;
+    }
+
+    public String getCaseAllotTimeStart() {
+        return caseAllotTimeStart;
+    }
+
+    public void setCaseAllotTimeStart(String caseAllotTimeStart) {
+        this.caseAllotTimeStart = caseAllotTimeStart;
+    }
+
+    public String getCaseAllotTimeEnd() {
+        return caseAllotTimeEnd;
+    }
+
+    public void setCaseAllotTimeEnd(String caseAllotTimeEnd) {
+        this.caseAllotTimeEnd = caseAllotTimeEnd;
+    }
+
+    public String getCompleteUser() {
+        return completeUser;
+    }
+
+    public void setCompleteUser(String completeUser) {
+        this.completeUser = completeUser;
+    }
+
+    public String getCompleteTime() {
+        return completeTime;
+    }
+
+    public void setCompleteTime(String completeTime) {
+        this.completeTime = completeTime;
+    }
+
+    public String getCompleteTimeStart() {
+        return completeTimeStart;
+    }
+
+    public void setCompleteTimeStart(String completeTimeStart) {
+        this.completeTimeStart = completeTimeStart;
+    }
+
+    public String getCompleteTimeEnd() {
+        return completeTimeEnd;
+    }
+
+    public void setCompleteTimeEnd(String completeTimeEnd) {
+        this.completeTimeEnd = completeTimeEnd;
+    }
+
+    public String getReduceReferime() {
+        return reduceReferime;
+    }
+
+    public void setReduceReferime(String reduceReferime) {
+        this.reduceReferime = reduceReferime;
+    }
+
+    public String getReduceReferTimeStart() {
+        return reduceReferTimeStart;
+    }
+
+    public void setReduceReferTimeStart(String reduceReferTimeStart) {
+        this.reduceReferTimeStart = reduceReferTimeStart;
+    }
+
+    public String getReduceReferTimeEnd() {
+        return reduceReferTimeEnd;
+    }
+
+    public void setReduceReferTimeEnd(String reduceReferTimeEnd) {
+        this.reduceReferTimeEnd = reduceReferTimeEnd;
+    }
+
+    public String getReduceValidime() {
+        return reduceValidime;
+    }
+
+    public void setReduceValidime(String reduceValidime) {
+        this.reduceValidime = reduceValidime;
+    }
+
+    public String getReduceValidTimeStart() {
+        return reduceValidTimeStart;
+    }
+
+    public void setReduceValidTimeStart(String reduceValidTimeStart) {
+        this.reduceValidTimeStart = reduceValidTimeStart;
+    }
+
+    public String getReduceValidTimeEnd() {
+        return reduceValidTimeEnd;
+    }
+
+    public void setReduceValidTimeEnd(String reduceValidTimeEnd) {
+        this.reduceValidTimeEnd = reduceValidTimeEnd;
+    }
+
+    public String getReduceResult() {
+        return reduceResult;
+    }
+
+    public void setReduceResult(String reduceResult) {
+        this.reduceResult = reduceResult;
+    }
+
+    public String getReduceUpdateTime() {
+        return reduceUpdateTime;
+    }
+
+    public void setReduceUpdateTime(String reduceUpdateTime) {
+        this.reduceUpdateTime = reduceUpdateTime;
+    }
+
+    public String getReduceFlag() {
+        return reduceFlag;
+    }
+
+    public void setReduceFlag(String reduceFlag) {
+        this.reduceFlag = reduceFlag;
+    }
+
+    public BigDecimal getApproveRepayAmt() {
+        return approveRepayAmt;
+    }
+
+    public void setApproveRepayAmt(BigDecimal approveRepayAmt) {
+        this.approveRepayAmt = approveRepayAmt;
+    }
+
     public BigDecimal getNewMoney() {
         return newMoney;
     }
