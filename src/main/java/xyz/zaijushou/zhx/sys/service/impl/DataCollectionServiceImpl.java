@@ -119,19 +119,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 temp.setCollectStatusMsg(sysDictionaryEntity.getName());
             }
             list.set(i,temp);
-            for (DataCollectionEntity collection : list){
-                if(!caseIds.contains(collection.getCaseId())){
-                    caseIds.add(collection.getCaseId());
-                    ++countCase;
-                    sumMoney = sumMoney.add(collection.getMoney());
-                    if (collection.getCaseStatus() == 1){
-                        ++countCasePay;
-                        sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt());
-                    }
+        }
+        for (DataCollectionEntity collection : list){
+            if(!caseIds.contains(collection.getCaseId())){
+                caseIds.add(collection.getCaseId());
+                ++countCase;
+                sumMoney = sumMoney.add(collection.getMoney());
+                if (collection.getCaseStatus() == 1){
+                    ++countCasePay;
+                    sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt());
                 }
-                sumRepay = sumRepay.add(collection.getRepayAmt());
-                sumBank = sumBank.add(collection.getBankAmt());
             }
+            sumRepay = sumRepay.add(collection.getRepayAmt());
+            sumBank = sumBank.add(collection.getBankAmt());
         }
         int totalPageNum = 0 ;
         if (count%dataCollectionEntity.getPageSize()>0){
@@ -143,9 +143,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setList(list);
         collectionReturn.setCountCase(countCase);
         collectionReturn.setCountCasePay(countCasePay);
-        collectionReturn.setSumBank(sumBank);
+        collectionReturn.setSumBank(sumRepay);
         collectionReturn.setSumMoney(sumMoney);
-        collectionReturn.setSumRepay(sumRepay);
+        collectionReturn.setSumRepay(sumBank);
         collectionReturn.setSumPayMoney(sumPayMoney);
         webResponse.setData(collectionReturn);
         webResponse.setTotalNum(count);
