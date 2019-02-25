@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.*;
@@ -13,6 +14,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
@@ -760,7 +762,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }
 
-        return PageInfo.of(list).getList();
+        return combineData(PageInfo.of(list).getList());
     }
 
 
@@ -917,8 +919,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i,temp);
             }
         }
-
-        return list;
+        return combineData(list);
     }
 
     public List<DataCaseTelExport> selectCaseTelListExport(int[] ids){
@@ -948,7 +949,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             list.set(i,temp);
         }
 
-        return list;
+        return combineData(list);
     }
 
 
@@ -1016,5 +1017,74 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public void delCaseAddress(DataCaseAddressEntity bean){
         dataCaseAddressMapper.deleteAddress(bean);
+    }
+
+    private List<DataCaseEntity> combineData(List<DataCaseEntity> list) {
+        if(CollectionUtils.isEmpty(list)) {
+            return list;
+        }
+
+        List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
+        Map<Integer, SysDictionaryEntity> dictMap = new HashMap<>();
+        for(SysDictionaryEntity entity : dictionaryList) {
+            dictMap.put(entity.getId(), entity);
+        }
+
+        //组装省市县
+        Set<Integer> caseIdsSet = new HashSet<>();
+        Set<String> userIdsSet = new HashSet<>();
+        for(int i = 0; i < list.size(); i ++) {
+            DataCaseEntity entity = list.get(i);
+            caseIdsSet.add(entity.getId());
+            if(entity.getProvince() != null && entity.getProvince().getId() != null && dictMap.containsKey(entity.getProvince().getId())) {
+                list.get(i).getProvince().setName(dictMap.get(entity.getProvince().getId()).getName());
+            }
+            if(entity.getCity() != null && entity.getCity().getId() != null && dictMap.containsKey(entity.getCity().getId())) {
+                list.get(i).getCity().setName(dictMap.get(entity.getCity().getId()).getName());
+            }
+            if(entity.getCounty() != null && entity.getCounty().getId() != null && dictMap.containsKey(entity.getCounty().getId())) {
+                list.get(i).getCounty().setName(dictMap.get(entity.getCounty().getId()).getName());
+            }
+            if(entity.getCollectionUser() != null &&entity.getCollectionUser().getId() != null) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getCollectionUser().getId());
+            }
+        }
+        List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
+        Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
+//        DataCaseEntity queryCaseEntity = new DataCaseEntity();
+        DataCaseContactsEntity queryContactsEntity = new DataCaseContactsEntity();
+        queryContactsEntity.setCaseIdsSet(caseIdsSet);
+        List<DataCaseContactsEntity> contacts = dataCaseContactsMapper.listByCaseIds(queryContactsEntity);
+        Map<Integer, List<DataCaseContactsEntity>> contactMap = new HashMap<>();
+        for(DataCaseContactsEntity entity : contacts) {
+            if(!contactMap.containsKey(entity.getCaseId())) {
+                contactMap.put(entity.getCaseId(), new ArrayList<>());
+            }
+            contactMap.get(entity.getCaseId()).add(entity);
+        }
+
+        DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
+        queryRemarks.setCaseIdsSet(caseIdsSet);
+        List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
+        Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
+        for(DataCaseRemarkEntity entity : remarks) {
+            if(!remarkMap.containsKey(entity.getCaseId())) {
+                remarkMap.put(entity.getCaseId(), new ArrayList<>());
+            }
+            remarkMap.get(entity.getCaseId()).add(entity);
+        }
+        for(int i = 0; i < list.size(); i ++) {
+            DataCaseEntity entity = list.get(i);
+            if(entity.getCollectionUser() != null && entity.getCollectionUser().getId() != null && userMap.containsKey(entity.getCollectionUser().getId())) {
+                list.get(i).getCollectionUser().setUserName(userMap.get(entity.getCollectionUser().getId()).getUserName());
+            }
+            if(contactMap.containsKey(entity.getId())) {
+                list.get(i).setContacts(contactMap.get(entity.getId()));
+            }
+            if(remarkMap.containsKey(entity.getId())) {
+                list.get(i).setCaseRemarks(remarkMap.get(entity.getId()));
+            }
+        }
+        return list;
     }
 }

@@ -179,7 +179,7 @@ public class ExcelUtils {
                             continue;
                         }
                         List subList = (List) firstAttrGetMethod.invoke(entity);
-                        if (subList.size() == 0 || index <= subList.size()) {
+                        if (subList.size() == 0 || index >= subList.size()) {
                             continue;
                         }
                         Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));

@@ -8,7 +8,7 @@ spring:
     druid:
       filters: stat,wall
   redis:
-    host: 116.62.124.251
+    host: 127.0.0.1
     port: 6379
     password: redis
 
@@ -34,6 +34,6 @@ xyz:
         admin-judge: true #管理员权限开关，打开时，代码中需要判断是否有管理员权限
 
 
-rar_path: d:/枫软催收系统导入模板.rar
-archive_path: d:/案人数据导入模板.xlsx
-case_path: d:/案件导入模板.rar
+rar_path: C:\Users\Jack\Documents\WeChat Files\jingmenqiuyiping\Files\枫软催收系统导入模板.rar
+archive_path: c:/案人数据导入模板.xlsx
+case_path: c:/案件导入模板.rar

@@ -124,14 +124,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             if(!caseIds.contains(collection.getCaseId())){
                 caseIds.add(collection.getCaseId());
                 ++countCase;
-                sumMoney = sumMoney.add(collection.getMoney());
+                sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
                 if (collection.getCaseStatus() == 1){
                     ++countCasePay;
-                    sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt());
+                    sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
                 }
             }
-            sumRepay = sumRepay.add(collection.getRepayAmt());
-            sumBank = sumBank.add(collection.getBankAmt());
+            sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
+            sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
         }
         int totalPageNum = 0 ;
         if (count%dataCollectionEntity.getPageSize()>0){

@@ -432,7 +432,7 @@ public class DataCaseController {
 
         List<DataCaseEntity> list = dataCaseService.pageCaseListExport(bean);
         ExcelUtils.exportExcel(list,
-                ExcelBatchConstant.BatchMemorize.values(),
+                ExcelCaseConstant.CaseExportCase.values(),
                 "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -446,7 +446,7 @@ public class DataCaseController {
 
         List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
         ExcelUtils.exportExcel(list,
-                ExcelBatchConstant.BatchMemorize.values(),
+                ExcelCaseConstant.CaseExportCase.values(),
                 "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -463,7 +463,7 @@ public class DataCaseController {
         }
         List<DataCaseEntity> resultList = dataCaseService.selectCaseListExport(ids);
         ExcelUtils.exportExcel(resultList,
-                ExcelBatchConstant.BatchMemorize.values(),
+                ExcelCaseConstant.CaseExportCase.values(),
                 "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );

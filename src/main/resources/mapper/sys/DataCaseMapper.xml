@@ -4,6 +4,136 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseMapper">
 
+    <sql id="colSql">
+        da.id as id,
+        da.case_date as caseDate,
+        da.money as money,
+        da.case_deadline as caseDeadline,
+        da.collect_hand as collectHand,
+        da.rmb as rmb,
+        da.hkd as hkd,
+        da.foreign_currency as foreignCurrency,
+        da.gender as gender,
+        da.name as name,
+        da.card_no as cardNo,
+        da.ident_no as identNo,
+        da.ident_type as identType,
+        da.collection_user as 'collectionUser.id',
+        da.collection_area as 'collectionArea.id',
+        da.summary as collectInfo,
+        da.m_val as mVal,
+        da.commission_rate as commissionRate,
+        da.commission_money as commissionMoney,
+        da.home_tel_number as homeTelNumber,
+        da.unti_tel_number as unitTelNumber,
+        da.tel as tel,
+        da.unit_name as unitName,
+        da.case_user_position as caseUserPosition,
+        da.case_user_depart as caseUserDepart,
+        da.unit_address as unitAddress,
+        da.unit_zip_code as unitZipCode,
+        da.home_address as homeAddress,
+        da.home_zip_code as homeZipCode,
+        da.statement_address as statementAddress,
+        da.statement_zip_code as statementZipCode,
+        da.census_register_address as censusRegisterAddress,
+        da.census_register_zip_code as censusRegisterZipCode,
+        da.qq as qq,
+        da.email as email,
+        da.birthday as birthday,
+        da.age as age,
+        da.province as 'province.id',
+        da.city as 'city.id',
+        da.county as 'county.id',
+        da.expect_retire_case_date as expectRetireCaseDate,
+        da.goods as goods,
+        da.commercial_tenant as commercialTenant,
+        da.archive_no as archiveNo,
+        da.apply_order_no as applyOrderNo,
+        da.social_security_computer_no as socialSecurityComputerNo,
+        da.social_security_card_no as socialSecurityCardNo,
+        da.bank as bank,
+        da.account_no as accountNo,
+        da.account_name as accountName,
+        da.card_type as cardType,
+        da.principle as principle,
+        da.loan_rate as loanRate,
+        da.residual_principle as residualPrinciple,
+        da.monthly_repayments as monthlyRepayments,
+        da.minimum_payment as minimumPayment,
+        da.credit_line as creditLine,
+        da.fixed_quota as fixedQuota,
+        da.default_level as defaultLevel,
+        da.last_repay_money as lastRepayMoney,
+        da.last_repay_date as lastRepayDate,
+        da.last_consume_date as lastConsumeDate,
+        da.last_withdraw_date as lastWithdrawDate,
+        da.stop_card_date as stopCardDate,
+        da.active_card_date as activeCardDate,
+        da.bill_date as billDate,
+        da.bill_cycle as billCycle,
+        da.outstanding_amount as outstandingAmount,
+        da.main_deputy_card as mainDeputyCard,
+        da.deputy_card_user_name as deputyCardUserName,
+        da.loan_date as loanDate,
+        da.loan_deadline as loanDeadline,
+        da.overdue_date as overdueDate,
+        da.overdue_periods as overduePeriods,
+        da.overdue_days as overdueDays,
+        da.overdue_times as overdueTimes,
+        da.entrust_periods as entrustPeriods,
+        da.repay_deadline as repayDeadline,
+        da.repaid_periods as repaidPeriods,
+        da.loan_type as loanType,
+        da.collection_type as collectionType,
+        da.overdue_money as overdueMoney,
+        da.overdue_principle as overduePrinciple,
+        da.overdue_interest as overdueInterest,
+        da.overdue_management_cost as overdueManagementCost,
+        da.overdue_default_interest as overdueDefaultInterest,
+        da.penalty as penalty,
+        da.late_fee as lateFee,
+        da.overrun_fee as overrunFee,
+        da.bail as bail,
+        da.currency_type as currencyType,
+        da.last_collection_record as lastCollectionRecord,
+        da.overdue_bill_time as overdueBillTime,
+        da.contract_no as contractNo,
+        da.over_days as overDays,
+        da.dealer as dealer,
+        da.apply_date as applyDate,
+        da.repay_date as repayDate,
+        da.policy_expiry_date as policyExpiryDate,
+        da.card_price as cardPrice,
+        da.card_model as cardModel,
+        da.license as license,
+        da.brand as brand,
+        da.vin as vin,
+        da.engine_no as engineNo,
+        da.batch_no as batchNo,
+        da.client as client,
+        da.collect_area as collectArea,
+        da.dept as dept,
+        da.odv as odv,
+        da.status as status,
+        da.area as area,
+        da.expect_time as expectTime,
+        da.color as color,
+        da.collect_status as collectStatus ,
+        da.collect_date as collectDate,
+        da.account_age as accountAge ,
+        da.seq_no as seqNo,
+        da.real_repay_date as realRepayDate ,
+        DATE_FORMAT(da.distribute_time, '%Y-%m-%d') as distributeTime,
+        da.balance as balance,
+        da.pro_repay_date as proPepayDate,
+        da.distribute_history as distributeHistory,
+        da.bank_amt as bankAmt,
+        da.en_repay_amt as enRepayAmt,
+        da.pro_repay_amt as proRepayAmt,
+        da.comment as comment
+    </sql>
+
     <!--插入数据信息-->
     <insert id="saveArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -68,11 +198,15 @@
 
     <!--数据模块-管理列表查询-->
     <select id="pageCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,da.color,
+        select
+               <!--
+               da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,da.color,
         da.collect_status as collectStatus , da.collect_date as collectDate,  da.account_age as accountAge ,da.seq_no as seqNo,da.case_date as caseDate,da.collect_hand as collectHand,
         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,DATE_FORMAT(da.distribute_time,'%Y-%m-%d') as distributeTime,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
         da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,da.area,da.pro_repay_amt as proRepayAmt
+        -->
+        <include refid="colSql"/>
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
             1 = 1
@@ -1248,11 +1382,15 @@
     </insert>
 
     <select id="selectCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,
+        select
+               <!--
+               da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,
         da.collect_status as collectStatus , da.collect_date as collectDate,  da.account_age as accountAge ,da.seq_no as seqNo,da.case_date as caseDate,da.collect_hand as collectHand,
         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,DATE_FORMAT(da.distribute_time,'%Y-%m-%d') as distributeTime,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
         da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,da.area,da.pro_repay_amt as proRepayAmt
+        -->
+        <include refid="colSql"/>
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         where   da.id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
@@ -1261,11 +1399,15 @@
     </select>
 
     <select id="totalCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,
+        select
+               <!--
+               da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,
         da.collect_status as collectStatus , da.collect_date as collectDate,  da.account_age as accountAge ,da.seq_no as seqNo,da.case_date as caseDate,da.collect_hand as collectHand,
         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,DATE_FORMAT(da.distribute_time,'%Y-%m-%d') as distributeTime,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
         da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,da.area,da.pro_repay_amt as proRepayAmt
+        -->
+        <include refid="colSql"/>
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
             1 = 1
@@ -1425,7 +1567,9 @@
 
 
     <select id="totalBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select * from data_case where ident_no in (
+        select
+         <include refid="colSql"/>
+         from data_case where ident_no in (
         select da.ident_no
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
