@@ -18,6 +18,8 @@ public class DataBatchEntity extends CommonEntity {
     //委托方
     private String client;
 
+    private String clientMsg;
+
     private String[] clients;
 
     private String clientFlag;
@@ -27,6 +29,8 @@ public class DataBatchEntity extends CommonEntity {
     private String caseTime;
     //案件类型
     private String caseType;
+
+    private String caseTypeMsg;
     //预计退案日期
     private String returnTime;
     //目标回款率
@@ -56,6 +60,22 @@ public class DataBatchEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getClientMsg() {
+        return clientMsg;
+    }
+
+    public void setClientMsg(String clientMsg) {
+        this.clientMsg = clientMsg;
+    }
+
+    public String getCaseTypeMsg() {
+        return caseTypeMsg;
+    }
+
+    public void setCaseTypeMsg(String caseTypeMsg) {
+        this.caseTypeMsg = caseTypeMsg;
+    }
 
     public int[] getIds() {
         return ids;

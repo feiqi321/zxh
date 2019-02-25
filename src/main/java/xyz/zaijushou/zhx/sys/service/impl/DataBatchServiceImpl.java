@@ -151,21 +151,21 @@ public class DataBatchServiceImpl implements DataBatchService {
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
-                dataBatchEntity.setClient("");
+                dataBatchEntity.setClientMsg("");
             }else {
                 List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
                 if (dictList.size() > 0) {
                     SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                    dataBatchEntity.setClient(sysDictionaryEntity.getName());
+                    dataBatchEntity.setClientMsg(sysDictionaryEntity.getName());
                 }
             }
             if (dataBatchEntity.getCaseType()==null || dataBatchEntity.getCaseType().equals("")){
-                dataBatchEntity.setCaseType("");
+                dataBatchEntity.setCaseTypeMsg("");
             }else {
                 List<SysDictionaryEntity> caseTypeList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getCaseType()));
                 if (caseTypeList.size() > 0) {
                     SysDictionaryEntity sysDictionaryEntity = caseTypeList.get(0);
-                    dataBatchEntity.setCaseType(sysDictionaryEntity.getName());
+                    dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity.getName());
                 }
             }
             if(dataBatchEntity.getBatchStatus()==1){
