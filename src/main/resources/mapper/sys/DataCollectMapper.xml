@@ -642,7 +642,8 @@
         account_age as accountAge,case_date as caseDate,card_no as cardNo,ident_no as identNo,
         money,balance,bank_amt as bankAmt,collect_info as collectInfo,over_days as overDays,
         en_repay_amt as enRepayAmt,next_foll_date as nextFollDate,leave_days as leaveDays,new_money as moneyStart,
-        last_phone_time as lastPhoneTime,remind,count_follow as countFollow,collection_type as collectionType
+        last_phone_time as lastPhoneTime,remind,count_follow as countFollow,collection_type as collectionType,
+        case_allot_time as caseAllotTime
         from data_collection
         <where>
             delete_flag = 0
@@ -744,6 +745,13 @@
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
                     AND tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                </if>
+
+                <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
+                    <![CDATA[   and DATE_FORMAT(case_allot_time, '%Y-%m-%d')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(case_allot_time, '%Y-%m-%d')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
