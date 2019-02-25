@@ -277,10 +277,14 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
-                SysUserEntity tempuser = new SysUserEntity();
-                tempuser.setId(Integer.valueOf(temp.getOdv()));
-                SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
-                temp.setOdv(user==null?"":user.getUserName());
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
@@ -307,10 +311,14 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
-                SysUserEntity tempuser = new SysUserEntity();
-                tempuser.setId(Integer.valueOf(temp.getOdv()));
-                SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
-                temp.setOdv(user==null?"":user.getUserName());
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
@@ -743,6 +751,14 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
                 list.set(i,temp);
             }
         }else {
@@ -765,6 +781,14 @@ public class DataCaseServiceImpl implements DataCaseService {
                         SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 list.set(i,temp);
             }
@@ -901,6 +925,14 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
                 list.set(i,temp);
             }
         }else {
@@ -923,6 +955,14 @@ public class DataCaseServiceImpl implements DataCaseService {
                         SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 list.set(i,temp);
             }
