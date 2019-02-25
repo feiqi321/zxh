@@ -421,7 +421,7 @@ public class DataCaseController {
             }
             dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
         }
-        dataCaseService.saveCaseList(dataCaseEntities);
+        dataCaseService.saveCaseList(dataCaseEntities,batch.getBatchNo());
         return WebResponse.success();
     }
 

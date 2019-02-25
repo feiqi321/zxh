@@ -19,6 +19,7 @@ import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -52,6 +53,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseRemarkMapper dataCaseRemarkMapper;
     @Resource
     private SysDictionaryMapper dictionaryMapper;
+    @Resource
+    private DataBatchMapper dataBatchMapper;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -544,7 +547,8 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     @Transactional
     @Override
-    public void saveCaseList(List<DataCaseEntity> dataCaseEntities) {
+    public void saveCaseList(List<DataCaseEntity> dataCaseEntities,String batchNo) {
+        BigDecimal totalAmt = new BigDecimal(0);
         List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
         Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
         for(SysDictionaryEntity entity : dictionaryList) {
@@ -572,6 +576,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
         for(DataCaseEntity entity : dataCaseEntities) {
             dataCaseMapper.saveCase(entity);
+            totalAmt = totalAmt.add(entity.getMoney());
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
             for(DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
@@ -591,6 +596,14 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseRemarkMapper.insertCaseRemarkBatch(updateCaseEntity);
         //批量新增联系人
         dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
+        //修改批次信息
+        DataBatchEntity dataBatchEntity = new DataBatchEntity();
+        dataBatchEntity.setBatchNo(batchNo);
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        dataBatchEntity.setUploadTime(sdf.format(new Date()));
+        dataBatchEntity.setTotalAmt(totalAmt);
+        dataBatchEntity.setUserCount(dataCaseEntities.size());
+        dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
 
 

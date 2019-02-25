@@ -73,7 +73,7 @@
     <select id="pageDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select id,
         batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,create_user as creatUser,real_time as realReturnTime,
-        batch_remark as batchRemark,upload_time as uploadTime
+        batch_remark as batchRemark,upload_time as uploadTime,total_amt as totalAmt,user_count as userCount
         from data_batch
         <where>
             delete_flag = 0
@@ -229,4 +229,8 @@
             </foreach>
         order by upload_time asc,create_time desc
     </select>
+
+    <update id="updateUploadTimeByBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+          update data_batch set upload_time = #{uploadTime},batch_status=1,total_amt = #{totalAmt},user_count=#{userCount} where batch_no = #{batchNo}
+    </update>
 </mapper>

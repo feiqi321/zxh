@@ -59,7 +59,7 @@ public interface DataCaseService {
 
     void updateCaseList(List<DataCaseEntity> dataCaseEntities);
 
-    void saveCaseList(List<DataCaseEntity> dataCaseEntities);
+    void saveCaseList(List<DataCaseEntity> dataCaseEntities,String batchNo);
 
     public List<DataCaseEntity> pageCaseListExport(DataCaseEntity dataCaseEntity);
 
