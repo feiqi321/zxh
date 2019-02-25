@@ -113,7 +113,6 @@ public class LegalController {
     public Object delete(@RequestBody LegalHandle bean) {
         legalService.deleteLegalHandle(bean);
         return WebResponse.success();
-
     }
 
 

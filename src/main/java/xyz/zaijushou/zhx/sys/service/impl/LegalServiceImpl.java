@@ -115,7 +115,12 @@ public class LegalServiceImpl implements LegalService {
 
 
     public void saveLegalFee(LegalFee bean){
-        legalFeeMapper.insertSelective(bean);
+        if (bean.getId()==null || bean.getId()==0) {
+            legalFeeMapper.insertSelective(bean);
+        }else{
+            legalFeeMapper.updateByPrimaryKeySelective(bean);
+        }
+
     }
 
     public void updateLegalFee(LegalFee bean){
@@ -127,7 +132,12 @@ public class LegalServiceImpl implements LegalService {
     }
 
     public void saveLegalHandle(LegalHandle bean){
-        legalHandleMapper.insertSelective(bean);
+        if (bean.getId()==null || bean.getId()==0){
+            legalHandleMapper.insertSelective(bean);
+        }else{
+            legalHandleMapper.updateByPrimaryKeySelective(bean);
+        }
+
     }
 
     public void updateLegalHandle(LegalHandle bean){
