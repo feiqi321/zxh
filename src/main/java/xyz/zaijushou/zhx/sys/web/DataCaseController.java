@@ -64,6 +64,16 @@ public class DataCaseController {
 
     }
 
+    @ApiOperation(value = "修改自定义信息", notes = "修改自定义信息")
+    @PostMapping("/dataCase/updateRemak")
+    public Object updateRemark(@RequestBody DataCaseEntity bean) {
+
+        dataCaseService.updateRemark(bean);
+
+        return WebResponse.success();
+
+    }
+
     @ApiOperation(value = "刪除案件", notes = "刪除案件")
     @PostMapping("/dataCase/delete")
     public Object delete(@RequestBody List<DataCaseEntity> list) {

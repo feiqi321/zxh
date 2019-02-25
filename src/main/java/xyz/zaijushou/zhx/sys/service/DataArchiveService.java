@@ -20,4 +20,6 @@ public interface DataArchiveService {
 
     public WebResponse detail(DataArchiveEntity dataArchiveEntity);
 
+    public WebResponse findAll();
+
 }

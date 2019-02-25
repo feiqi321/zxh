@@ -19,6 +19,15 @@ public class DataCaseAddressEntity extends CommonEntity {
     private String cardNo;
     private String identNo;
     private String caseDate;
+    private int letterCount;
+
+    public int getLetterCount() {
+        return letterCount;
+    }
+
+    public void setLetterCount(int letterCount) {
+        this.letterCount = letterCount;
+    }
 
     public String getName() {
         return name;

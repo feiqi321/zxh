@@ -48,8 +48,9 @@
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">
-        select id,address,case_id as caseId
-        from data_case_address where case_id = #{caseId}
+        select t.id,t.address,t.case_id as caseId,(select count(id) from letter where address = t.address) as letterCount,
+        t.name,t.address_type as type,t.relation,t.remark
+        from data_case_address t where t.case_id = #{caseId}
     </select>
 
 </mapper>

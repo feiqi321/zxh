@@ -118,7 +118,13 @@
 
     <select id="selectById" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
         select
-        id,name,ident_no as identNo,mobile,address,remark,create_time as createTime,update_time as updateTime
+        id,name,ident_no as identNo,mobile,address,remark,msg_type as msgType,msg_context as msgContext,create_time as createTime,update_time as updateTime
         from data_archive where id=#{id}
+    </select>
+
+    <select id="selectAll" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveEntity">
+        select
+        id,name,ident_no as identNo,mobile,address,remark,msg_type as msgType,msg_context as msgContext,create_time as createTime,update_time as updateTime
+        from data_archive
     </select>
 </mapper>

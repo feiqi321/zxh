@@ -178,4 +178,11 @@ public class DataArchivesServiceImpl implements DataArchiveService {
         webResponse.setData(temp);
         return webResponse;
     }
+
+    public WebResponse findAll(){
+        WebResponse webResponse = WebResponse.buildResponse();
+        List<DataArchiveEntity> list= dataArchiveMapper.selectAll();
+        webResponse.setData(list);
+        return webResponse;
+    }
 }

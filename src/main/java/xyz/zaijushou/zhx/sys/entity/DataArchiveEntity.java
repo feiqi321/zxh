@@ -8,7 +8,7 @@ import java.util.List;
  * Created by looyer on 2019/1/25.
  */
 public class DataArchiveEntity extends CommonEntity {
-
+    //姓名
     private String name;
 
     private String identNo;
@@ -26,9 +26,9 @@ public class DataArchiveEntity extends CommonEntity {
     private String startTime;
 
     private String endTime;
-
+    //信息类型
     private String msgType;
-
+    //信息内容
     private String msgContext;
 
     private String orderBy;

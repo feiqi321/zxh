@@ -941,6 +941,28 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public DataCaseDetail detail(DataCaseEntity bean){
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        //电话
+        DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
+        dataCaseTelEntity.setCaseId(bean.getId());
+        List<DataCaseTelEntity> dataCaseTelEntityList = dataCaseTelMapper.findAll(dataCaseTelEntity);
+        dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
+
+
+
+
         return dataCaseDetail;
+    }
+    //地址
+    public List<DataCaseAddressEntity> findAddressListByCaseId(DataCaseEntity bean){
+        DataCaseAddressEntity addressEntity = new DataCaseAddressEntity();
+        addressEntity.setCaseId(bean.getId());
+        List<DataCaseAddressEntity> addressEntityList = dataCaseAddressMapper.findAll(addressEntity);
+        return addressEntityList;
+    }
+
+
+
+    public void updateRemark(DataCaseEntity bean){
+        dataCaseMapper.updateRemark(bean);
     }
 }

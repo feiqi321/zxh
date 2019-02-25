@@ -32,6 +32,8 @@ public class FileManageServiceImpl implements FileManageService {
     private DataArchiveMapper dataArchiveMapper;
     @Resource
     private DataCollectionMapper dataCollectionMapper;
+    @Resource
+    private DataCaseCommentMapper dataCaseCommentMapper;
 
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
@@ -119,6 +121,10 @@ public class FileManageServiceImpl implements FileManageService {
                         dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
                     }
                     dateCaseMapper.updateComment(dataCaseEntity);
+                    DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+                    dataCaseCommentEntity.setCaseId(dataCaseEntity.getId());
+                    dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
+                    dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
                     DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
                     dataCollectionEntity.setColor(dataCaseEntity.getColor());
                     dataCollectionEntity.setCaseId(temp.getId()+"");

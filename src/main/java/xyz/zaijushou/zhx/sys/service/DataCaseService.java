@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service;
 
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseDetail;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseTelExport;
@@ -69,4 +70,9 @@ public interface DataCaseService {
     public List<DataCaseEntity> totalCaseListExport(DataCaseEntity dataCaseEntity);
 
     public DataCaseDetail detail(DataCaseEntity bean);
+
+    //地址
+    public List<DataCaseAddressEntity> findAddressListByCaseId(DataCaseEntity bean);
+
+    public void updateRemark(DataCaseEntity bean);
 }
