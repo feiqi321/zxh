@@ -106,7 +106,7 @@ public class DataBatchServiceImpl implements DataBatchService {
             }
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
             userCount =userCount+dataBatchEntity.getUserCount();
-            totalAmt = totalAmt.add(dataBatchEntity.getTotalAmt());
+            totalAmt = totalAmt.add(dataBatchEntity.getTotalAmt()==null?new BigDecimal(0):dataBatchEntity.getTotalAmt());
             dataCaseEntities.set(i,dataBatchEntity);
         }
 
