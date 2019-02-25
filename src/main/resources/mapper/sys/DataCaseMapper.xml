@@ -635,7 +635,7 @@
     </select>
 
     <update id="sendOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set odv = #{odv},distribute_time=now()
+        update data_case set odv = #{odv},distribute_history=#{distributeHistory},distribute_time=now()
         where id = #{id}
     </update>
 
@@ -687,7 +687,7 @@
 
     <!--数据模块-按照查询分配业务员-->
     <select id="sendOdvByProperty" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set odv = #{odv}
+        update data_case set odv = #{odv},distribute_history=#{distributeHistory},distribute_time=now()
         where id  in( select a.id from (select da.id
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
