@@ -34,4 +34,24 @@
             </foreach>
     </insert>
 
+    <select id="listByCaseIds" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRemarkEntity"
+            resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRemarkEntity">
+        select
+        id as id,
+        case_id as caseId,
+        remark as remark,
+        create_user as 'createUser.id',
+        update_user as 'updateUser.id',
+        create_time as createTime,
+        update_time as updateTime,
+        delete_flag as deleteFlag
+        from data_case_remark
+        where delete_flag = 0
+        and case_id in
+        <foreach collection="caseIdsSet" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        order by id asc
+    </select>
+
 </mapper>

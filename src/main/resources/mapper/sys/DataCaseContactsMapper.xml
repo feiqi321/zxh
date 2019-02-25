@@ -7,7 +7,7 @@
     <update id="deleteCaseContactsBatchByCaseIds" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseContactsEntity">
         update data_case_contact
         set delete_flag = 1,
-            update_user = #{updateUser.id}
+        update_user = #{updateUser.id}
         where delete_flag = 0
         and case_id in
         <foreach collection="caseIdsSet" open="(" close=")" separator="," item="item">
@@ -17,39 +17,69 @@
 
     <insert id="insertCaseContactsBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         insert into data_case_contact
+        (
+        case_id,
+        name,
+        ident_no,
+        ident_type,
+        relation,
+        home_tel,
+        unit_tel,
+        mobile,
+        address,
+        unit,
+        sort,
+        create_user,
+        update_user
+        )
+        values
+        <foreach collection="contacts" open="" close="" separator="," item="item">
             (
-             case_id,
-             name,
-             ident_no,
-             ident_type,
-             relation,
-             home_tel,
-             unit_tel,
-             mobile,
-             address,
-             unit,
-             sort,
-             create_user,
-             update_user
+            #{item.caseId},
+            #{item.name},
+            #{item.identNo},
+            #{item.identType},
+            #{item.relation},
+            #{item.homeTel},
+            #{item.unitTel},
+            #{item.mobile},
+            #{item.address},
+            #{item.unit},
+            #{item.sort},
+            #{createUser.id},
+            #{updateUser.id}
             )
-            values
-            <foreach collection="contacts" open="" close="" separator="," item="item">
-                (
-                    #{item.caseId},
-                    #{item.name},
-                    #{item.identNo},
-                    #{item.identType},
-                    #{item.relation},
-                    #{item.homeTel},
-                    #{item.unitTel},
-                    #{item.mobile},
-                    #{item.address},
-                    #{item.unit},
-                    #{item.sort},
-                    #{createUser.id},
-                    #{updateUser.id}
-                )
-            </foreach>
+        </foreach>
     </insert>
+
+    <select id="listByCaseIds" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseContactsEntity"
+            resultType="xyz.zaijushou.zhx.sys.entity.DataCaseContactsEntity">
+        select
+        id as id,
+        case_id as caseId,
+        name as name,
+        ident_no as identNo,
+        ident_type as identType,
+        relation as relation,
+        home_tel as homeTel,
+        unit_tel as unitTel,
+        mobile as mobile,
+        address as address,
+        unit as unit,
+        sort as sort,
+        remark as remark,
+        create_user as 'createUser.id',
+        update_user as 'updateUser.id',
+        create_time as createTime,
+        update_time as updateTime,
+        delete_flag as deleteFlag
+        from data_case_contact
+        where delete_flag = 0
+        and case_id in
+        <foreach collection="caseIdsSet" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        order by id asc
+    </select>
 
 </mapper>
