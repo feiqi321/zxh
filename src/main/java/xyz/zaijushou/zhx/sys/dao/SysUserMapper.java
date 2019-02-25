@@ -16,6 +16,8 @@ public interface SysUserMapper {
 
     SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user);
 
+    SysUserEntity findUserInfoWithoutStatusById(SysUserEntity user);
+
     List<SysToUserRole> listAllUserRoles(SysToUserRole sysToUserRole);
 
     List<SysUserEntity> listAllUsers(SysUserEntity userEntity);

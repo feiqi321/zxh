@@ -157,6 +157,13 @@
         and id = #{id}
     </select>
 
+    <select id="findUserInfoWithoutStatusById" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        select
+        <include refid="colSqlWithoutPassword"/>
+        from sys_user
+        where  id = #{id}
+    </select>
+
     <select id="listAllUserRoles" parameterType="xyz.zaijushou.zhx.sys.entity.SysToUserRole" resultType="xyz.zaijushou.zhx.sys.entity.SysToUserRole">
         select
             user_id as 'user.id',

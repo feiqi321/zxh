@@ -35,6 +35,11 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public SysUserEntity findUserInfoWithoutStatusById(SysUserEntity user) {
+        return sysUserMapper.findUserInfoWithoutStatusById(user);
+    }
+
+    @Override
     public List<SysToUserRole> listAllUserRoles(SysToUserRole sysToUserRole) {
         return sysUserMapper.listAllUserRoles(sysToUserRole);
     }

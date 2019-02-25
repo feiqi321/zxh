@@ -282,7 +282,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else {
                     SysUserEntity tempuser = new SysUserEntity();
                     tempuser.setId(Integer.valueOf(temp.getOdv()));
-                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
@@ -316,7 +316,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else {
                     SysUserEntity tempuser = new SysUserEntity();
                     tempuser.setId(Integer.valueOf(temp.getOdv()));
-                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
@@ -366,7 +366,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
-        return sysUserService.findUserInfoWithoutPasswordById(user);
+        return sysUserService.findUserInfoWithoutStatusById(user);
     }
 
     /**
@@ -756,7 +756,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else {
                     SysUserEntity tempuser = new SysUserEntity();
                     tempuser.setId(Integer.valueOf(temp.getOdv()));
-                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 list.set(i,temp);
@@ -787,7 +787,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else {
                     SysUserEntity tempuser = new SysUserEntity();
                     tempuser.setId(Integer.valueOf(temp.getOdv()));
-                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 list.set(i,temp);
@@ -930,7 +930,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else {
                     SysUserEntity tempuser = new SysUserEntity();
                     tempuser.setId(Integer.valueOf(temp.getOdv()));
-                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 list.set(i,temp);
@@ -961,7 +961,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else {
                     SysUserEntity tempuser = new SysUserEntity();
                     tempuser.setId(Integer.valueOf(temp.getOdv()));
-                    SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
                 list.set(i,temp);
