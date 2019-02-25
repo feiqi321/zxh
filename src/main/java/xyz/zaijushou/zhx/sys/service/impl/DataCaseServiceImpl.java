@@ -277,6 +277,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
+                SysUserEntity tempuser = new SysUserEntity();
+                tempuser.setId(Integer.valueOf(temp.getOdv()));
+                SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                temp.setOdv(user==null?"":user.getUserName());
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
@@ -303,6 +307,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
+                SysUserEntity tempuser = new SysUserEntity();
+                tempuser.setId(Integer.valueOf(temp.getOdv()));
+                SysUserEntity user = sysUserService.findUserInfoWithoutPasswordById(tempuser);
+                temp.setOdv(user==null?"":user.getUserName());
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
