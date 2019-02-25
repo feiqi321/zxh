@@ -77,4 +77,6 @@ public interface DataCaseMapper {
     List<DataCaseEntity> listBySeqNoSet(DataCaseEntity queryEntity);
 
     void updateBySeqNo(DataCaseEntity entity);
+
+    void updateRemark(DataCaseEntity entity);
 }

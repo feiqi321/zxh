@@ -91,5 +91,12 @@ public class DataArchivesController {
         return webResponse;
 
     }
+    @ApiOperation(value = "查询所有案人信息", notes = "查询所有案人信息")
+    @PostMapping("/dataArchive/findAll")
+    public Object findAll() {
 
+        WebResponse webResponse = dataArchiveService.findAll();
+        return webResponse;
+
+    }
 }

@@ -10,6 +10,15 @@ import java.math.BigDecimal;
 public class DataCaseCommentEntity extends CommonEntity {
     private int caseId;
     private String comment;
+    private int creatUser;
+
+    public int getCreatUser() {
+        return creatUser;
+    }
+
+    public void setCreatUser(int creatUser) {
+        this.creatUser = creatUser;
+    }
 
     public int getCaseId() {
         return caseId;

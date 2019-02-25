@@ -1744,9 +1744,17 @@
           name,client,
           <!--隐藏部分-->
           DATE_FORMAT(distribute_time,'%Y-%m-%d') as distributeTime,
-          distribute_history as distributeHistory
+          distribute_history as distributeHistory,
+
+          remark as selfInfo
 
           from data_case where id = #{id}
     </select>
+    
+    <update id="updateRemark" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" >
+
+          update data_case set remark = #{remark} where id = #{id}
+
+    </update>
 
 </mapper>
