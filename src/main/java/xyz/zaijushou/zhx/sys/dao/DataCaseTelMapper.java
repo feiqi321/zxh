@@ -13,8 +13,12 @@ public interface DataCaseTelMapper {
 
     public void saveTel(DataCaseTelEntity entity);
 
+    public void updateTel(DataCaseTelEntity entity);
+
     public void deleteTel(DataCaseTelEntity entity);
 
     public List<DataCaseTelEntity> findAll(DataCaseTelEntity entity);
+
+    public void updateCaseTelStatus(DataCaseTelEntity bean);
 
 }

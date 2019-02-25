@@ -39,7 +39,12 @@
         </trim>
     </insert>
 
+    <update id="updateTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
 
+        update data_case_tel set name =#{name},relation=#{relation},tel=#{tel},type=#{type},status=#{status},remark=#{remark}
+        where id = #{id}
+
+    </update>
 
     <!--通过Id删除数据信息-->
     <delete id="deleteTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
@@ -52,5 +57,9 @@
         name,tel_type as type,relation,remark,status as telStatusMsg
         from data_case_tel where case_id = #{caseId}
     </select>
+
+    <update id="updateCaseTelStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" >
+        update data_case_tel set status=#{status} where id=#{id}
+    </update>
 
 </mapper>

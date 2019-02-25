@@ -934,18 +934,18 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
 
         list = dataCaseMapper.selectCaseList(ids);
-            for(int i=0;i<list.size();i++){
-                DataCaseEntity temp = list.get(i);
-                if (temp.getCollectStatus()==0){
-                    temp.setCollectStatusMsg("");
-                }else{
-                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
-                    if (dictList.size() > 0) {
-                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                        temp.setCollectStatusMsg(sysDictionaryEntity.getName());
-                    }
+        for(int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            if (temp.getCollectStatus()==0){
+                temp.setCollectStatusMsg("");
+            }else{
+                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                if (dictList.size() > 0) {
+                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                    temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                 }
-                list.set(i,temp);
+            }
+            list.set(i,temp);
         }
 
         return list;
@@ -954,16 +954,31 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public DataCaseDetail detail(DataCaseEntity bean){
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
         dataCaseTelEntity.setCaseId(bean.getId());
         List<DataCaseTelEntity> dataCaseTelEntityList = dataCaseTelMapper.findAll(dataCaseTelEntity);
+
+        SysDictionaryEntity dictionary = new SysDictionaryEntity();
+        dictionary.setName("电话类型");
+        List<SysDictionaryEntity> dictList = sysDictionaryService.listDataByName(dictionary);
+        Map map = new HashMap();
+        for (int i=0;i<dictList.size();i++){
+            SysDictionaryEntity temp = dictList.get(i);
+            map.put(temp.getId(),temp.getName());
+        }
+        for (int i=0;i<dataCaseTelEntityList.size();i++){
+            DataCaseTelEntity temp = dataCaseTelEntityList.get(i);
+            temp.setType(temp.getType()==null?"":(map.get(temp.getType())==null?"":map.get(temp.getType()).toString()));
+            dataCaseTelEntityList.set(i,temp);
+        }
         dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
-
-
-
-
         return dataCaseDetail;
+    }
+
+    public void updateCaseTelStatus(DataCaseTelEntity bean){
+        dataCaseTelMapper.updateCaseTelStatus(bean);
     }
     //地址
     public List<DataCaseAddressEntity> findAddressListByCaseId(DataCaseEntity bean){
@@ -974,8 +989,32 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
 
-
+    //有效 无效 未知
     public void updateRemark(DataCaseEntity bean){
         dataCaseMapper.updateRemark(bean);
+    }
+    //单位电话 家庭电话 电话 联系人电话 其他电话(类型)
+    public void saveCaseTel(DataCaseTelEntity bean){
+        if(bean.getId()==null || bean.getId()==0) {
+            dataCaseTelMapper.saveTel(bean);
+        }else{
+            dataCaseTelMapper.updateTel(bean);
+        }
+    }
+
+    public void delCaseTel(DataCaseTelEntity bean){
+        dataCaseTelMapper.deleteTel(bean);
+    }
+
+    public void saveCaseAddress(DataCaseAddressEntity bean){
+        if(bean.getId()==null || bean.getId()==0) {
+            dataCaseAddressMapper.saveAddress(bean);
+        }else{
+            dataCaseAddressMapper.updateAddress(bean);
+        }
+    }
+
+    public void delCaseAddress(DataCaseAddressEntity bean){
+        dataCaseAddressMapper.deleteAddress(bean);
     }
 }
