@@ -30,7 +30,7 @@ public class DataBatchEntity extends CommonEntity {
     //预计退案日期
     private String returnTime;
     //目标回款率
-    private BigDecimal targetRate;
+    private String targetRate;
     //备注
 
     private String uploadTime;
@@ -242,12 +242,11 @@ public class DataBatchEntity extends CommonEntity {
         this.returnTime = returnTime;
     }
 
-    public BigDecimal getTargetRate() {
+    public String getTargetRate() {
         return targetRate;
     }
 
-    public void setTargetRate(BigDecimal targetRate) {
+    public void setTargetRate(String targetRate) {
         this.targetRate = targetRate;
     }
-
 }
