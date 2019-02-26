@@ -20,6 +20,15 @@ public class DataCaseAddressEntity extends CommonEntity {
     private String identNo;
     private String caseDate;
     private int letterCount;
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getLetterCount() {
         return letterCount;

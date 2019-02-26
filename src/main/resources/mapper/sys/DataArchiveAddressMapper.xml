@@ -32,8 +32,9 @@
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveAddressEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataArchiveAddressEntity">
-        select id,address,archive_id as archiveId
-        from data_archive_address where archive_id = #{archiveId} and delete_flag=0
+        select id,address,case_id as caseId,seq_no as seqNo,archive_no as archiveNo, card_no as cardNo,ident_no as identNo,case_date as caseDate,
+        name,address_type as type,relation,remark,status
+        from data_archive_address where    case_id = #{caseId}
     </select>
 
 </mapper>
