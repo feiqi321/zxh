@@ -1393,7 +1393,7 @@
         <include refid="colSql"/>
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         where   da.id in
-        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

@@ -58,6 +58,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/dataCase/selectDataCaseTel",
             "/dataCase/totalDataBatchExport",
             "/synergistic/queryDataExport",
+            "/dataCase/selectDataCaseExport",
     };
 
     @Override
