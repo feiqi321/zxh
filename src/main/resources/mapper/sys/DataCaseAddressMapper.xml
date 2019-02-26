@@ -54,7 +54,7 @@
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">
         select t.id,t.address,t.case_id as caseId,(select count(id) from letter where address = t.address) as letterCount,
-        t.name,t.address_type as type,t.relation,t.remark
+        t.name,t.address_type as type,t.relation,t.remark,status
         from data_case_address t where t.case_id = #{caseId}
     </select>
     <update id="updateCaseAddressStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" >
