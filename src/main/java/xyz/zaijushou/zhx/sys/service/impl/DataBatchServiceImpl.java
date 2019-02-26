@@ -97,6 +97,15 @@ public class DataBatchServiceImpl implements DataBatchService {
                     dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity.getName());
                 }
             }
+            if (dataBatchEntity.getArea()==null || dataBatchEntity.getArea().equals("")){
+                dataBatchEntity.setAreaMsg("");
+            }else {
+                List<SysDictionaryEntity> areaList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getArea()));
+                if (areaList.size() > 0) {
+                    SysDictionaryEntity sysDictionaryEntity = areaList.get(0);
+                    dataBatchEntity.setAreaMsg(sysDictionaryEntity.getName());
+                }
+            }
             if(dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
             }else if (dataBatchEntity.getBatchStatus()==2){

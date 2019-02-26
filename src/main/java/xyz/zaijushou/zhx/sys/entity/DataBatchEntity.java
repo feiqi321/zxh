@@ -25,6 +25,8 @@ public class DataBatchEntity extends CommonEntity {
     private String clientFlag;
     //催款区域
     private String area;
+
+    private String areaMsg;
     //委案日期
     private String caseTime;
     //案件类型
@@ -60,6 +62,14 @@ public class DataBatchEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getAreaMsg() {
+        return areaMsg;
+    }
+
+    public void setAreaMsg(String areaMsg) {
+        this.areaMsg = areaMsg;
+    }
 
     public String getClientMsg() {
         return clientMsg;
