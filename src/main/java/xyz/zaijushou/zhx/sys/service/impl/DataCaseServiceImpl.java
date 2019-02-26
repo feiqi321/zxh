@@ -420,6 +420,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public void addComment(DataCaseEntity bean){
+        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+        dataCaseCommentEntity.setCaseId(bean.getId());
+        dataCaseCommentEntity.setComment(bean.getComment());
         dataCaseMapper.addComment(bean);
     }
     @Override
