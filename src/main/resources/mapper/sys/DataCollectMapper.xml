@@ -833,7 +833,7 @@
         count(DISTINCT(dc.case_id)) as sumCase
         from
         data_collection dc
-        where c.reduce_flag is null and dc.delete_flag = 0
+        where dc.reduce_flag is null and dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
             and client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
