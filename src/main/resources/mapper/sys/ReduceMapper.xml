@@ -68,7 +68,7 @@
         dc.complete_time as completeTime,dcr.seqno,dc.odv,dc.create_time as reduceReferTime,dc.reduce_status as reduceStatus,
         dcr.reduce_valid_time as reduceValidTime,dc.complete_user as completeUser,dcr.approve_repay_amt as approveRepayAmt,
         dcr.reduce_result as reduceResult,dc.en_repay_amt as enRepayAmt,dc.reduce_update_time as reduceUpdateTime,
-        dc.collect_status as collectStatus
+        dc.collect_status as collectStatus,dcr.id
         from
         data_case_reduce dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
         where dcr.reduce_flag !=1
