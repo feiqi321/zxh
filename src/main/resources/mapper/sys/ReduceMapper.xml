@@ -7,72 +7,32 @@
 
     <!--插入数据信息-->
     <insert id="saveReduce" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
-        insert into data_collection
+        insert into data_case_reduce
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="area != null">area,</if>
-            <if test="client != null">client,</if>
-            <if test="batchNo != null">batch_no,</if>
             <if test="seqno != null">seqno,</if>
-            <if test="targetName != null">target_name,</if>
-            <if test="accountAge != null">account_age,</if>
-            <if test="odv != null">odv,</if>
-            <if test="collectStatus != null">collect_status,</if>
-            <if test="money != null">money,</if>
             <if test="approveRepayAmt != null">approve_repay_amt,</if>
             <if test="reduceValidTime != null">reduce_valid_time,</if>
-            <if test="reduceReferTime != null">reduce_refer_time,</if>
-            <if test="reduceStatus != null">reduce_status,</if>
             <if test="reduceResult != null">reduce_result,</if>
-            <if test="enRepayAmt != null">en_repay_amt,</if>
-            <if test="reduceUpdateTime != null">reduce_update_time,</if>
-            delete_flag,
-            create_time,
             reduce_flag,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="area != null">area,</if>
-            <if test="client != null">#{client},</if>
-            <if test="batchNo != null">#{batchNo},</if>
             <if test="seqno != null">#{seqno},</if>
-            <if test="targetName != null">#{targetName},</if>
-            <if test="accountAge != null">#{accountAge},</if>
-            <if test="odv != null">#{odv},</if>
-            <if test="collectStatus != null">#{collectStatus},</if>
-            <if test="money != null">#{money},</if>
             <if test="approveRepayAmt != null">#{approveRepayAmt},</if>
             <if test="reduceValidTime != null">#{reduceValidTime},</if>
-            <if test="reduceReferTime != null">#{reduceReferTime},</if>
-            <if test="reduceStatus != null">#{reduceStatus},</if>
             <if test="reduceResult != null">#{reduceResult},</if>
-            <if test="enRepayAmt != null">#{enRepayAmt},</if>
-            <if test="reduceUpdateTime != null">#{reduceUpdateTime},</if>
-            0,
-            now(),
             0,
         </trim>
     </insert>
 
     <update id="updateReduce" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-      update data_collection
+      update data_case_reduce
        set
         <trim suffixOverrides=",">
-        <if test="area != null">area = #{area},</if>
-        <if test="client != null">client = #{client},</if>
-        <if test="batchNo != null">batch_no = #{batchNo},</if>
         <if test="seqno != null">seqno = #{seqno},</if>
-        <if test="targetName != null">target_name = #{targetName},</if>
-        <if test="accountAge != null">account_age = #{accountAge},</if>
-        <if test="odv != null">odv = #{odv},</if>
-        <if test="collectStatus != null">collect_status = #{collectStatus},</if>
-        <if test="money != null">money = #{money},</if>
         <if test="approveRepayAmt != null">approve_repay_amt = #{approveRepayAmt},</if>
         <if test="reduceValidTime != null">reduce_valid_time = #{reduceValidTime},</if>
-        <if test="reduceReferTime != null">reduce_refer_time = #{reduceReferTime},</if>
-        <if test="reduceStatus != null">reduce_status = #{reduceStatus},</if>
         <if test="reduceResult != null">reduce_result = #{reduceResult},</if>
-        <if test="enRepayAmt != null">en_repay_amt = #{enRepayAmt},</if>
-        <if test="reduceUpdateTime != null">reduce_update_time = #{reduceUpdateTime},</if>
         <if test="reduceFlag != null">reduce_flag = #{reduceFlag},</if>
         </trim>
         where
@@ -80,7 +40,7 @@
     </update>
 
     <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        update data_collection
+        update data_case_reduce
         set reduce_flag = #{reduceFlag}
         where
         id in
@@ -90,34 +50,39 @@
     </update>
 
     <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select
-         seqno,target_name as targetName,collect_status as collectStatus,account_age as accountAge ,
-        complete_time as completeTime,complete_user as completeUser,approve_repay_amt,reduce_valid_time as reduceValidTime,
-        reduce_status as reduceStatus,reduce_result as reduceResult,en_repay_amt as enRepayAmt,
-        reduce_update_time as reduceUpdateTime,money,area,client,batch_no as batchNo,odv
-        from data_collection
-        where id = #{id}
+         select
+        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.overdue_bill_time as accountAge,
+        dc.complete_time as completeTime,dcr.seqno,dc.odv,dc.create_time as reduceReferTime,dc.reduce_status as reduceStatus,
+        dcr.reduce_valid_time as reduceValidTime,dc.complete_user as completeUser,dcr.approve_repay_amt as approveRepayAmt,
+        dcr.reduce_result as reduceResult,dc.en_repay_amt as enRepayAmt,dc.reduce_update_time as reduceUpdateTime,
+        dc.collect_status as collectStatus
+        from
+        data_case_reduce dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
+        where dcr.reduce_flag !=1
+        and dcr.id = #{id}
     </select>
 
     <select id="pageReduce" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select
-        seqno,target_name as targetName,collect_status as collectStatus,account_age as accountAge ,
-        complete_time as completeTime,complete_user as completeUser,approve_repay_amt,reduce_valid_time as reduceValidTime,
-        reduce_status as reduceStatus,reduce_result as reduceResult,en_repay_amt as enRepayAmt,
-        reduce_update_time as reduceUpdateTime,money,area,client,batch_no as batchNo,odv
-        from data_collection
-        where delete_flag = 0 and reduce_flag != 1
+        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.overdue_bill_time as accountAge,
+        dc.complete_time as completeTime,dcr.seqno,dc.odv,dc.create_time as reduceReferTime,dc.reduce_status as reduceStatus,
+        dcr.reduce_valid_time as reduceValidTime,dc.complete_user as completeUser,dcr.approve_repay_amt as approveRepayAmt,
+        dcr.reduce_result as reduceResult,dc.en_repay_amt as enRepayAmt,dc.reduce_update_time as reduceUpdateTime,
+        dc.collect_status as collectStatus
+        from
+        data_case_reduce dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
+        where dcr.reduce_flag !=1
         <if test="area != null and area!=''">
-            AND area like CONCAT('%',#{area},'%')
+            AND dc.collect_area like CONCAT('%',#{area},'%')
         </if>
         <if test="seqno != null and seqno!=''">
             AND seqno like CONCAT('%',#{seqno},'%')
         </if>
         <if test="targetName != null and targetName!=''">
-            AND target_name like CONCAT('%',#{targetName},'%')
+            AND name like CONCAT('%',#{targetName},'%')
         </if>
-        <if test="identNo != null and identNo!=''">
-            and ident_no = #{identNo}
+        <if test="batchNo != null and batchNo!=''">
+            and batch_no = #{batchNo}
         </if>
         <if test="collectStatus != null and collectStatus!=''">
             and collect_status = #{collectStatus}
@@ -125,11 +90,8 @@
         <if test="client != null and client!=''">
             AND client like CONCAT('%',#{client},'%')
         </if>
-        <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
-        </if>
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and overdue_bill_time = #{accountAge}
         </if>
         <if test="odv != null and odv!=''">
             AND odv  like CONCAT('%',#{odv},'%')
@@ -146,10 +108,10 @@
         </if>
 
         <if test="reduceReferTimeStart != null and reduceReferTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(reduce_refer_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceReferTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceReferTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="reduceReferTimeEnd != null and reduceReferTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(reduce_refer_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceReferTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceReferTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
         <if test="reduceValidTimeStart != null and reduceValidTimeStart!=''">

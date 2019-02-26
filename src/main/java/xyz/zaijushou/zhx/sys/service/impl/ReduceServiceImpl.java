@@ -34,17 +34,20 @@ public class ReduceServiceImpl implements ReduceService {
         reduceMapper.updateStatus(bean);
     }
     public void saveReduce(DataCollectionEntity bean){
-        reduceMapper.saveReduce(bean);
+        if(StringUtils.isEmpty(bean.getId()) || bean.getId() == 0){//保存
+            reduceMapper.saveReduce(bean);
+        }else{//更新
+            DataCollectionEntity beanInfo = reduceMapper.findById(bean);
+            if (StringUtils.isEmpty(beanInfo)){
+                return ;
+            }
+            bean.setReduceFlag(beanInfo.getReduceFlag());
+            bean.setUpdateTime(new Date());
+            reduceMapper.updateReduce(bean);
+        }
     }
     public void updateReduce(DataCollectionEntity bean){
-        DataCollectionEntity beanInfo = reduceMapper.findById(bean);
-        if (StringUtils.isEmpty(beanInfo)){
-            return ;
-        }
-        bean.setReduceFlag(beanInfo.getReduceFlag());
-        bean.setUpdateTime(new Date());
-        reduceMapper.updateReduce(bean);
+        return;
     }
-
 
 }
