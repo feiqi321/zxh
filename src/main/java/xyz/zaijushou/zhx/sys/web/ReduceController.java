@@ -21,8 +21,6 @@ public class ReduceController {
 
     @Autowired
     private ReduceService reduceService;
-    @Autowired
-    private FileManageService fileManageService;
 
     @ApiOperation(value = "减免分页查询", notes = "减免分页查询")
     @PostMapping("/reduce/page/all")
