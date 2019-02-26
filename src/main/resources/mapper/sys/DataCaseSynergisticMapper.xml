@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseSynergisticMapper">
+
+    <sql id="colSql">
+        s.id as id,
+        s.case_id as 'dataCase.id',
+        c.collect_status as 'dataCase.collectStatus',
+        c.seq_no as 'dataCase.seqNo',
+        c.ident_no as 'dataCase.identNo',
+        c.name as 'dataCase.name',
+        c.money as 'dataCase.money',
+        c.en_repay_amt as 'dataCase.enRepayAmt',
+        s.synergistic_type as synergisticType,
+        s.apply_content as applyContent,
+        s.apply_time as applyTime,
+        s.apply_user as 'applyUser.id',
+        s.synergistic_time as synergisticTime,
+        s.synergistic_user as 'synergisticUser.id',
+        s.synergistic_result as synergisticResult,
+        s.synergistic_apply_status as 'synergisticApplyStatus',
+        s.synergistic_finish_status as 'synergisticFinishStatus',
+        s.remark as remark,
+        s.create_user as 'createUser.id',
+        s.update_user as 'updateUser.id',
+        s.create_time as createTime,
+        s.update_time as updateTime,
+        s.delete_flag as deleteFlag
+    </sql>
+
+    <select id="pageSynergisticList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+        select
+        <include refid="colSql"/>
+        from data_case_synergistic s
+        left join data_case c on s.case_id = c.id
+        where s.delete_flag = 0
+    </select>
+
+    <select id="listSynergistic" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+        select
+        <include refid="colSql"/>
+        from data_case_synergistic s
+        left join data_case c on s.case_id = c.id
+        where s.delete_flag = 0
+    </select>
+
+    <update id="updateApplyStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+        update data_case_synergistic
+        set synergistic_apply_status = #{synergisticApplyStatus}
+        where
+              delete_flag = 0
+              and id in
+              <foreach collection="ids" item="item" open="(" close=")" separator=",">
+                  #{item}
+              </foreach>
+    </update>
+
+    <update id="updateFinishStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+        update data_case_synergistic
+        set synergistic_finish_status = #{synergisticFinishStatus}
+        where
+        delete_flag = 0
+        and id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

@@ -110,7 +110,7 @@
         case_allot_time as caseAllotTime,case_status as caseStatus
         from data_collection
         <where>
-            delete_flag = 0 and reduce_flag is null
+            delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  dept like CONCAT('%',#{dept},'%')
@@ -284,7 +284,7 @@
         count(id) as sum
         from data_collection
         <where>
-            delete_flag = 0 and reduce_flag is null
+            delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  dept like CONCAT('%',#{dept},'%')
@@ -456,7 +456,7 @@
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
-            c.delete_flag = 0 and c.reduce_flag is null
+            c.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  c.dept like CONCAT('%',#{dept},'%')
@@ -623,7 +623,7 @@
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
-         where c.reduce_flag is null and c.id in
+         where c.id in
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -639,7 +639,7 @@
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
-            c.delete_flag = 0 and c.reduce_flag is null
+            c.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  c.dept like CONCAT('%',#{dept},'%')
@@ -805,7 +805,7 @@
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
-        where c.reduce_flag is null and  c.batch_no in
+        where  c.batch_no in
                 <foreach item="item" index="index" collection="batchs" open="(" separator="," close=")">
                     #{item}
                 </foreach>
@@ -821,7 +821,7 @@
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
-        where c.reduce_flag is null and c.case_id in
+        where c.case_id in
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -833,7 +833,7 @@
         count(DISTINCT(dc.case_id)) as sumCase
         from
         data_collection dc
-        where dc.reduce_flag is null and dc.delete_flag = 0
+        where dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
             and client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -861,7 +861,7 @@
         count(DISTINCT(dc.collect_status)) as sum
         from
         data_collection dc
-        where dc.reduce_flag is null and dc.delete_flag = 0
+        where dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
             and client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -889,7 +889,7 @@
         count(DISTINCT(dc.case_id)) as sumCase
         from
         data_collection dc
-        where dc.reduce_flag is null and dc.delete_flag = 0
+        where  dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
             and client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -929,7 +929,7 @@
         count(DISTINCT(dc.batch_no)) as sum
         from
         data_collection dc
-        where dc.reduce_flag is null and dc.delete_flag = 0
+        where  dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
             and client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -974,7 +974,7 @@
         dc.confim_time as confimTime
         from
         data_collection dc
-        where dc.reduce_flag is null and dc.delete_flag = 0
+        where  dc.delete_flag = 0
         <if test="targetName != null and targetName!=''">
             AND target_name like CONCAT('%',#{targetName},'%')
         </if>
@@ -1033,7 +1033,7 @@
        count(1) as sum
         from
         data_collection dc
-        where dc.reduce_flag is null and dc.delete_flag = 0
+        where  dc.delete_flag = 0
         <if test="targetName != null and targetName!=''">
             AND target_name like CONCAT('%',#{targetName},'%')
         </if>
@@ -1094,7 +1094,7 @@
         IFNULL(sum(dc.en_repay_amt*dc.m_val),0) as repaidAmt,IFNULL(sum(dc.bank_amt*dc.m_val),0) as repaidBankAmt
         from
         data_collection dc
-        where dc.reduce_flag is null and dc.delete_flag = 0
+        where dc.delete_flag = 0
 
         <if test="monthStart != null and monthStart!=''">
             <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{monthStart}, '%Y-%m-%d')   ]]>
