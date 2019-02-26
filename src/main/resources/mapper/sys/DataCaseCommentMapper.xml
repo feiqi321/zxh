@@ -9,7 +9,7 @@
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into data_case_address
+        insert into data_case_comment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="comment != null">comment,</if>
             <if test="caseId != null">case_id,</if>
@@ -29,13 +29,13 @@
 
     <!--通过Id删除数据信息-->
     <delete id="deleteComment" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity">
-        delete from data_case_address
+        delete from data_case_comment
         where case_id = #{caseId}
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity">
         select id,comment,case_id,create_time as createTime,create_user as creatUser
-        from data_case_address where case_id = #{caseId}
+        from data_case_comment where case_id = #{caseId}
     </select>
 
 </mapper>
