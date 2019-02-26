@@ -50,6 +50,16 @@ public class SysUserEntity extends CommonEntity {
      */
     private Integer loginFailTimes;
 
+    private int loginNameCount;
+
+    public int getLoginNameCount() {
+        return loginNameCount;
+    }
+
+    public void setLoginNameCount(int loginNameCount) {
+        this.loginNameCount = loginNameCount;
+    }
+
     public String getUserName() {
         return userName;
     }

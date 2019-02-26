@@ -213,14 +213,14 @@
         `mobile`,
         `office_phone`,
          `login_name`, `password`, `enable`,
-        `delete_flag`, `status`, `position`)
+        `delete_flag`, `status`, `position`,login_name_count)
         VALUES (
         #{userName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
         #{joinTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP},
         #{mobile,jdbcType=VARCHAR},
         #{officePhone,jdbcType=VARCHAR},
          #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},  #{enable,jdbcType=INTEGER},
-        0, #{status,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR})
+        0, #{status,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR},#{loginNameCount})
     </insert>
 
     <!--更新用户数据信息-->
@@ -426,5 +426,9 @@
             last_login_fail_time = #{lastLoginFailTime}
         where id = #{id}
     </update>
+    
+    <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="java.lang.Integer">
+          select login_name_count as loginNameCount from sys_user where login_name = #{loginName}
+    </select>
 
 </mapper>

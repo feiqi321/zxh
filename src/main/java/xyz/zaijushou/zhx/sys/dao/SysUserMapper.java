@@ -72,4 +72,6 @@ public interface SysUserMapper {
     void updateLoginFailTimes(SysUserEntity user);
 
     void updateLoginFailInfo(SysUserEntity user);
+
+    int countByLoginName(SysUserEntity user);
 }

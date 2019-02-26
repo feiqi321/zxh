@@ -152,5 +152,15 @@ public class SysUserController {
     }
 
 
+    @PostMapping("/getLoginName")
+    public Object getLoginName(@RequestBody SysUserEntity user)  {
+        try {
+            user =  sysUserService.getLoginName(user);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return WebResponse.success(user);
+    }
+
 
 }

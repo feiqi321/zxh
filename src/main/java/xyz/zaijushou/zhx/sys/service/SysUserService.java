@@ -74,4 +74,6 @@ public interface SysUserService {
     void passwordResetByAdmin(SysNewUserEntity user);
 
     void updateLoginFailTimes(SysUserEntity user);
+
+    public SysUserEntity getLoginName(SysUserEntity user) throws Exception;
 }

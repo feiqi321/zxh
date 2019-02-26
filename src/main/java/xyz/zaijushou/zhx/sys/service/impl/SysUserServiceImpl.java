@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.PinyinTool;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -213,5 +214,16 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserMapper.updateLoginFailTimes(user);
     }
 
+    public SysUserEntity getLoginName(SysUserEntity user) throws Exception{
+        PinyinTool tool = new PinyinTool();
+        user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE));
+        int count = sysUserMapper.countByLoginName(user);
+        if (count ==0){
+            return user;
+        }else{
+            user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count+1));
+            return user;
+        }
+    }
 
 }
