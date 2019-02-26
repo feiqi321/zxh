@@ -12,7 +12,7 @@
         replace  into data_case_interest
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="interest != null">interest,</if>
-            <if test="caseId != null">#{case_id},</if>
+            <if test="caseId != null">case_id,</if>
             <if test="seqNo != null">seq_no,</if>
             <if test="cardNo != null">card_no,</if>
             <if test="caseDate != null">case_date,</if>
@@ -22,9 +22,9 @@
             <if test="endDate != null">end_date,</if>
             <if test="principal != null">principal,</if>
             <if test="penalty != null">penalty,</if>
-            <if test="lasteFee != null">late_fee,</if>
+            <if test="lateFee != null">late_fee,</if>
             <if test="overrunFee != null">overrun_fee,</if>
-            <if test="serviceFee != null">service_fee,</if>
+            <if test="serivceFee != null">service_fee,</if>
             <if test="yearFee != null">year_fee,</if>
             <if test="elseFee != null">else_fee,</if>
             <if test="sheetFee != null">sheet_fee,</if>
@@ -44,9 +44,9 @@
             <if test="endDate != null">#{endDate},</if>
             <if test="principal != null">#{principal},</if>
             <if test="penalty != null">#{penalty},</if>
-            <if test="lasteFee != null">#{lasteFee},</if>
+            <if test="lateFee != null">#{lateFee},</if>
             <if test="overrunFee != null">#{overrunFee},</if>
-            <if test="serviceFee != null">#{serviceFee},</if>
+            <if test="serivceFee != null">#{serivceFee},</if>
             <if test="yearFee != null">#{yearFee},</if>
             <if test="elseFee != null">#{elseFee},</if>
             <if test="sheetFee != null">#{sheetFee},</if>
