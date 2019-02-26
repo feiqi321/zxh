@@ -219,9 +219,11 @@ public class SysUserServiceImpl implements SysUserService {
         user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE));
         int count = sysUserMapper.countByLoginName(user);
         if (count ==0){
+            user.setLoginNameCount(1);
             return user;
         }else{
-            user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count+1));
+            user.setLoginNameCount(count+1);
+            user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count));
             return user;
         }
     }

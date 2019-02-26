@@ -83,9 +83,19 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private Integer loginFailTimes;
 
+    private int loginNameCount;
+
     private String orderBy;
 
     private String sort;
+
+    public int getLoginNameCount() {
+        return loginNameCount;
+    }
+
+    public void setLoginNameCount(int loginNameCount) {
+        this.loginNameCount = loginNameCount;
+    }
 
     public String getOrderBy() {
         return orderBy;

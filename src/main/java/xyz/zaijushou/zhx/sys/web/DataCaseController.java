@@ -305,7 +305,7 @@ public class DataCaseController {
     public Object dataCaseCommentImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         logger.info(fileName);
-        List<DataCaseEntity> dataCaseEntities = ExcelUtils.importExcel(file, ExcelInterestConstant.CaseInterest.values(), DataCaseEntity.class);
+        List<DataCaseEntity> dataCaseEntities = ExcelUtils.importExcel(file, ExcelInterestConstant.CaseColor.values(), DataCaseEntity.class);
         WebResponse webResponse =fileManageService.batchCaseComment(dataCaseEntities);
         return webResponse;
     }

@@ -122,7 +122,7 @@ public class FileManageServiceImpl implements FileManageService {
                     }
                     dateCaseMapper.updateComment(dataCaseEntity);
                     DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
-                    dataCaseCommentEntity.setCaseId(dataCaseEntity.getId());
+                    dataCaseCommentEntity.setCaseId(temp.getId());
                     dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
                     dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
                     DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
