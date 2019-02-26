@@ -1,8 +1,9 @@
 package xyz.zaijushou.zhx.sys.dao;
 
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 
 import java.util.List;
 
@@ -21,5 +22,4 @@ public interface DataCaseAddressMapper {
     public List<DataCaseAddressEntity> findAll(DataCaseAddressEntity entity);
 
     public void updateCaseAddressStatus(DataCaseAddressEntity bean);
-
 }
