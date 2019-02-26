@@ -836,7 +836,12 @@ public class DataCaseServiceImpl implements DataCaseService {
         BigDecimal repayTotalAmt=new BigDecimal(0);
         BigDecimal totalCp=new BigDecimal(0);
         BigDecimal totalPtp=new BigDecimal(0);
-        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        if(org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setSort("desc");
+        }else {
+            dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        }
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
             dataCaseEntity.setClientFlag(null);
