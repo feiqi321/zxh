@@ -680,7 +680,7 @@
         where id = #{id}
     </update>
     <update id="addSynergy" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set synergy = 2,synergy_date = now(),synergy_context =#{synergyContext}
+        update data_case set synergy = 2,synergy_date = now(),synergy_context =#{synergyContext},synergy_type=#{synergyType}
         where id = #{id}
     </update>
 
