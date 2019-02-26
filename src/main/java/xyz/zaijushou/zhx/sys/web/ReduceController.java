@@ -28,7 +28,7 @@ public class ReduceController {
     @PostMapping("/reduce/page/all")
     public Object pageDataCase(@RequestBody DataCollectionEntity bean) {
         PageInfo<DataCollectionEntity> list = reduceService.pageReduce(bean);
-        return list;
+        return WebResponse.success(list);
     }
 
     @ApiOperation(value = "增加减免信息", notes = "增加减免信息")
