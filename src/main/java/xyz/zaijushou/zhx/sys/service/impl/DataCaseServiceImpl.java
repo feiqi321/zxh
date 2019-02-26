@@ -320,6 +320,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                         temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                     }
                 }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
+                    temp.setCollectArea("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(temp.getCollectArea()));
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectArea(sysDictionaryEntity.getName());
+                    }
+                }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
                     temp.setOdv("");
                 }else {
