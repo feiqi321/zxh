@@ -21,7 +21,7 @@
             <if test="comment != null">#{comment},</if>
             <if test="caseId != null">#{caseId},</if>
             now(),
-            creatUser,
+            #{creatUser},
         </trim>
     </insert>
 
