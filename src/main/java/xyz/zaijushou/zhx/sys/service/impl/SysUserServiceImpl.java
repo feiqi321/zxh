@@ -63,6 +63,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     @Transactional
     public void saveUser(SysNewUserEntity userEntity){
+        if (userEntity.getLoginNameCount()==0){
+            userEntity.setLoginNameCount(1);
+        }
         userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
         userEntity.setPassword(delegatingPasswordEncoder.encode("admin".trim()));//保存加密密码
         userEntity.setCreateTime(new Date());

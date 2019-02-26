@@ -1,5 +1,7 @@
 package xyz.zaijushou.zhx.constant;
 
+import java.math.BigDecimal;
+
 public class ExcelInterestConstant {
 
     public enum CaseInterest implements ExcelEnum{
@@ -9,17 +11,17 @@ public class ExcelInterestConstant {
         COL50(50, "*委案日期", "caseDate", String.class),
         COL70(60, "*姓名", "name", String.class),
         COL60(70, "*币种", "currency",  String.class),
-        COL80(80, "*最新欠款金额", "lastestDebt", String.class),
+        COL80(80, "*最新欠款金额", "lastestDebt", BigDecimal.class),
         COL90(90, "截止日期", "endDate", String.class),
-        COL100(100, "本金", "principal", String.class),
-        COL110(110, "利息", "interest", String.class),
-        COL120(120, "违约金", "penalty", String.class),
-        COL130(130, "滞纳金", "lateFee", String.class),
-        COL140(140, "超限费", "overrunFee", String.class),
-        COL150(150, "服务费", "serivceFee", String.class),
-        COL160(160, "年费", "yearFee", String.class),
-        COL170(170, "其他费用", "elseFee", String.class),
-        COL180(180, "表外息", "sheetFee", String.class),
+        COL100(100, "本金", "principal", BigDecimal.class),
+        COL110(110, "利息", "interest", BigDecimal.class),
+        COL120(120, "违约金", "penalty", BigDecimal.class),
+        COL130(130, "滞纳金", "lateFee", BigDecimal.class),
+        COL140(140, "超限费", "overrunFee", BigDecimal.class),
+        COL150(150, "服务费", "serivceFee", BigDecimal.class),
+        COL160(160, "年费", "yearFee", BigDecimal.class),
+        COL170(170, "其他费用", "elseFee", BigDecimal.class),
+        COL180(180, "表外息", "sheetFee", BigDecimal.class),
         ;
 
         private Integer sort;

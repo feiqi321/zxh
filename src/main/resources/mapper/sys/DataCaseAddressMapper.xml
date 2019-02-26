@@ -27,7 +27,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="address != null">#{address},</if>
             <if test="caseId != null">#{caseId},</if>
-            <if test="seqNo != null">#{caseId},</if>
+            <if test="seqNo != null">#{seqNo},</if>
             <if test="archiveNo != null">#{archiveNo},</if>
             <if test="cardNo != null">#{cardNo},</if>
             <if test="identNo != null">#{identNo},</if>

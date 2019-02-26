@@ -68,11 +68,13 @@ public class FileManageServiceImpl implements FileManageService {
             if (StringUtils.isEmpty(dataCaseAddressEntity.getSeqNo())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getCardNo()+"@"+dataCaseAddressEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
+                    dataCaseAddressEntity.setCaseId(temp.getId());
                     dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getSeqNo(),DataCaseEntity.class);
                 if (temp!=null){
+                    dataCaseAddressEntity.setCaseId(temp.getId());
                     dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
                 }
             }
