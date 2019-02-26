@@ -423,7 +423,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
         dataCaseCommentEntity.setCaseId(bean.getId());
         dataCaseCommentEntity.setComment(bean.getComment());
-        dataCaseMapper.addComment(bean);
+        dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
     }
     @Override
     public void addColor(DataCaseEntity bean){
