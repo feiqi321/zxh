@@ -116,15 +116,15 @@ public class ExcelUtils {
         switch (cell.getCellType()) {
             case STRING:
                 result = cell.getStringCellValue();
-                if(result == null) {
+                if (result == null) {
 
-                } else if(clazz.equals(BigDecimal.class)) {
+                } else if (clazz.equals(BigDecimal.class)) {
                     result = new BigDecimal((String) result);
                 } else if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
                     result = Integer.parseInt((String) result);
-                } else if(clazz.equals(Double.class) || clazz.equals(double.class)) {
+                } else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
                     result = Double.parseDouble((String) result);
-                } else if(clazz.equals(Date.class)) {
+                } else if (clazz.equals(Date.class)) {
                     result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
                 }
                 break;
@@ -132,7 +132,9 @@ public class ExcelUtils {
                 if (clazz.equals(Date.class)) {
                     result = cell.getNumericCellValue();
                 } else {
-                    if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
+                    if (clazz.equals(BigDecimal.class)) {
+                        result = new BigDecimal(cell.getNumericCellValue());
+                    } else if (clazz.equals(Integer.class) || clazz.equals(int.class)) {
                         result = new Double(cell.getNumericCellValue()).intValue();
                     } else {
                         result = cell.getNumericCellValue();
@@ -142,6 +144,7 @@ public class ExcelUtils {
             default:
                 result = null;
         }
+        logger.info("result:{}", result);
         return result;
     }
 
@@ -232,7 +235,7 @@ public class ExcelUtils {
             return;
         }
         if (String.class == clazz) {
-            String stringValue =  value==null?"":String.valueOf(value);
+            String stringValue = value == null ? "" : String.valueOf(value);
             cell.setCellValue(stringValue);
         } else if (Date.class == clazz) {
             Date dateValue = (Date) value;
