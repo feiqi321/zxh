@@ -39,6 +39,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
     private static final String[] IMPORT_FILE_URL = {
             "/dataCase/tel/import", //案件电话导入
             "/dataCase/updateCase/import", //更新案件导入
+            "/synergistic/finishedSynergisticImport",
+            "/synergistic/synergisticRecordImport",
     };
 
     private static final String[] DOWNLOAD_FILE_URL = {
@@ -54,7 +56,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/fileManage/downloadCase",
             "/dataCase/selectDataCollectExportByBatch",
             "/dataCase/selectDataCaseTel",
-            "/dataCase/totalDataBatchExport"
+            "/dataCase/totalDataBatchExport",
+            "/synergistic/queryDataExport",
     };
 
     @Override

@@ -29,6 +29,8 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private String finishStatus;    //完成状态
 
+    private Integer ids[];  //id列表集合
+
     public DataCaseEntity getDataCase() {
         return dataCase;
     }
@@ -107,5 +109,13 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     public void setFinishStatus(String finishStatus) {
         this.finishStatus = finishStatus;
+    }
+
+    public Integer[] getIds() {
+        return ids;
+    }
+
+    public void setIds(Integer[] ids) {
+        this.ids = ids;
     }
 }
