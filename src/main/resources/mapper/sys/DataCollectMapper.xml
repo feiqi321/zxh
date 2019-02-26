@@ -1149,4 +1149,10 @@
         update data_collection set collect_status = #{collectStatus}
         where case_id = #{caseId}
     </update>
+
+    <select id="selectAllByCaseId" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select id,measure,collect_time as collectTime,target_name as targetName,relation,tel_phone as telPhone,collection_type as collectionType,
+        result,target_name as targetName,method,repay_time as repayTime,repay_amt as repayAmt,reduce_status as reduceStatus,odv,collect_status as collectStatus
+        from data_collection where case_id = #{caseId}
+    </select>
 </mapper>

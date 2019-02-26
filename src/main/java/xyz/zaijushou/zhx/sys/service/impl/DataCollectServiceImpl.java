@@ -34,6 +34,12 @@ public class DataCollectServiceImpl implements DataCollectService {
         dataCollectionMapper.deleteCollect(bean);
     }
 
+    public WebResponse selectAllByCaseId(DataCollectionEntity bean){
+        List<DataCollectionEntity> list = dataCollectionMapper.selectAllByCaseId(bean);
+
+        return WebResponse.success(list);
+    }
+
     public WebResponse pageDataCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = bean.getClients();

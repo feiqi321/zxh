@@ -14,6 +14,8 @@ public interface DataCollectService {
 
     public WebResponse pageDataCollect(DataCollectionEntity bean);
 
+    public WebResponse selectAllByCaseId(DataCollectionEntity bean);
+
     public WebResponse pageDataCollectExport(DataCollectionEntity bean);
 
     public WebResponse totalDataCollect(DataCollectionEntity bean);

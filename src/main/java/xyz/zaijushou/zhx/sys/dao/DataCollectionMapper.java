@@ -56,4 +56,6 @@ public interface DataCollectionMapper {
     public void addColor(DataCollectionEntity dataCollectionEntity);
 
     public void addCollectStatus(DataCollectionEntity dataCollectionEntity);
+
+    public List<DataCollectionEntity> selectAllByCaseId(DataCollectionEntity dataCollectionEntity);
 }

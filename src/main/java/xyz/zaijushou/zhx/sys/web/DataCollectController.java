@@ -78,6 +78,13 @@ public class DataCollectController {
         return null;
     }
 
+    @ApiOperation(value = "根据案件id查询协催", notes = "根据案件id查询协催")
+    @PostMapping("/dataCollect/selectAllByCaseId")
+    public Object selectAllByCaseId(@RequestBody DataCollectionEntity bean) throws IOException, InvalidFormatException {
+        WebResponse webResponse = dataCollectService.selectAllByCaseId(bean);
+        return webResponse;
+    }
+
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
     @PostMapping("/dataCollect/totalDataCollectExport")
     public Object totalDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
