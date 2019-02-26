@@ -1,5 +1,7 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 public class LegalHandle {
     private Integer id;
 

@@ -551,8 +551,8 @@
                 <if test="name != null and name!=''">
                     and da.name = #{name}
                 </if>
-                <if test="idenNo != null and idenNo!=''">
-                    and da.iden_no = #{idenNo}
+                <if test="identNo != null and identNo!=''">
+                    and da.iden_no = #{identNo}
                 </if>
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
@@ -635,7 +635,7 @@
     </select>
 
     <update id="sendOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set odv = #{odv},distribute_time=now()
+        update data_case set odv = #{odv},distribute_history=#{distributeHistory},distribute_time=now()
         where id = #{id}
     </update>
 
@@ -687,8 +687,8 @@
 
     <!--数据模块-按照查询分配业务员-->
     <select id="sendOdvByProperty" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set odv = #{odv}
-        where id  in (select da.id
+        update data_case set odv = #{odv},distribute_history=#{distributeHistory},distribute_time=now()
+        where id  in( select a.id from (select da.id
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
             1 = 1
@@ -745,8 +745,8 @@
                 <if test="name != null and name!=''">
                     and da.name = #{name}
                 </if>
-                <if test="idenNo != null and idenNo!=''">
-                    and da.iden_no = #{idenNo}
+                <if test="identNo != null and identNo!=''">
+                    and da.iden_no = #{identNo}
                 </if>
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
@@ -812,7 +812,7 @@
                 </if>
             </trim>
         </where>
-        )
+        ) a)
     </select>
 
 

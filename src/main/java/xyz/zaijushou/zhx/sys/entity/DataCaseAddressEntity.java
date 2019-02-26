@@ -11,7 +11,7 @@ public class DataCaseAddressEntity extends CommonEntity {
     private int caseId;
     private String address;
     private String name;
-    private String type;
+    private String type; //单位地址 家庭地址 对账单地址 户籍地址  其他地址
     private String relation;
     private String remark;
     private String seqNo;

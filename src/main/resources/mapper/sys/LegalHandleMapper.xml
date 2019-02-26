@@ -26,10 +26,10 @@
   <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
     insert into legal_handle (id, legal_id, progress, 
       handle_date, preservation_date, preservation_list, 
-      remark)
+      remark,delete_flag)
     values (#{id,jdbcType=INTEGER}, #{legalId,jdbcType=INTEGER}, #{progress,jdbcType=VARCHAR}, 
       #{handleDate,jdbcType=VARCHAR}, #{preservationDate,jdbcType=VARCHAR}, #{preservationList,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR},0)
   </insert>
   <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >
     insert into legal_handle
@@ -55,6 +55,7 @@
       <if test="remark != null" >
         remark,
       </if>
+      delete_flag,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -78,6 +79,7 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+      0,
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalHandle" >

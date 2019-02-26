@@ -18,19 +18,25 @@ public class DataBatchEntity extends CommonEntity {
     //委托方
     private String client;
 
+    private String clientMsg;
+
     private String[] clients;
 
     private String clientFlag;
     //催款区域
     private String area;
+
+    private String areaMsg;
     //委案日期
     private String caseTime;
     //案件类型
     private String caseType;
+
+    private String caseTypeMsg;
     //预计退案日期
     private String returnTime;
     //目标回款率
-    private BigDecimal targetRate;
+    private String targetRate;
     //备注
 
     private String uploadTime;
@@ -56,6 +62,30 @@ public class DataBatchEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getAreaMsg() {
+        return areaMsg;
+    }
+
+    public void setAreaMsg(String areaMsg) {
+        this.areaMsg = areaMsg;
+    }
+
+    public String getClientMsg() {
+        return clientMsg;
+    }
+
+    public void setClientMsg(String clientMsg) {
+        this.clientMsg = clientMsg;
+    }
+
+    public String getCaseTypeMsg() {
+        return caseTypeMsg;
+    }
+
+    public void setCaseTypeMsg(String caseTypeMsg) {
+        this.caseTypeMsg = caseTypeMsg;
+    }
 
     public int[] getIds() {
         return ids;
@@ -242,12 +272,11 @@ public class DataBatchEntity extends CommonEntity {
         this.returnTime = returnTime;
     }
 
-    public BigDecimal getTargetRate() {
+    public String getTargetRate() {
         return targetRate;
     }
 
-    public void setTargetRate(BigDecimal targetRate) {
+    public void setTargetRate(String targetRate) {
         this.targetRate = targetRate;
     }
-
 }

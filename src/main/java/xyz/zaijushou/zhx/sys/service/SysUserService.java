@@ -13,6 +13,8 @@ public interface SysUserService {
 
     SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user);
 
+    public SysUserEntity findUserInfoWithoutStatusById(SysUserEntity user);
+
     List<SysToUserRole> listAllUserRoles(SysToUserRole sysToUserRole);
 
     List<SysUserEntity> listAllUsers(SysUserEntity userEntity);

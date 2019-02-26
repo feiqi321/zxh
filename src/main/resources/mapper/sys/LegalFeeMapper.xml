@@ -30,11 +30,11 @@
     insert into legal_fee (id, legal_id, fee, 
       charge_date, fee_type, fee_target, 
       pay_method, payee, voucher, 
-      remark)
+      remark,delete_flag)
     values (#{id,jdbcType=INTEGER}, #{legalId,jdbcType=INTEGER}, #{fee,jdbcType=DECIMAL}, 
       #{chargeDate,jdbcType=VARCHAR}, #{feeType,jdbcType=VARCHAR}, #{feeTarget,jdbcType=VARCHAR}, 
       #{payMethod,jdbcType=VARCHAR}, #{payee,jdbcType=VARCHAR}, #{voucher,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR},0)
   </insert>
   <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalFee" >
     insert into legal_fee
@@ -69,6 +69,7 @@
       <if test="remark != null" >
         remark,
       </if>
+      delete_flag,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,6 +102,7 @@
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
+      0,
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.LegalFee" >

@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -514,6 +515,51 @@ public class DataCaseController {
 
         return WebResponse.success(detail);
 
+    }
+
+    @ApiOperation(value = "修改案件电话状态", notes = "修改案件电话状态")
+    @PostMapping("/tel/updateStatus")
+    public Object updateStatus(@RequestBody DataCaseTelEntity bean) {
+
+        dataCaseService.updateCaseTelStatus(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查询案件详情地址列表", notes = "查询案件详情地址列表")
+    @PostMapping("/dataCase/detail/addressList")
+    public Object addressList(@RequestBody DataCaseEntity bean) {
+        List<DataCaseAddressEntity> list = dataCaseService.findAddressListByCaseId(bean);
+
+        return WebResponse.success(list);
+
+    }
+
+    @ApiOperation(value = "更新案件电话", notes = "更新案件电话")
+    @PostMapping("/dataCase/saveCaseTel")
+    public Object updateCaseTel(@RequestBody DataCaseTelEntity bean) {
+        dataCaseService.saveCaseTel(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "删除案件电话", notes = "删除案件电话")
+    @PostMapping("/dataCase/delCaseTel")
+    public Object delCaseTel(@RequestBody DataCaseTelEntity bean) {
+        dataCaseService.delCaseTel(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "更新案件地址", notes = "更新案件地址")
+    @PostMapping("/dataCase/saveCaseAddress")
+    public Object saveCaseAddress(@RequestBody DataCaseAddressEntity bean) {
+        dataCaseService.saveCaseAddress(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "删除案件地址", notes = "删除案件地址")
+    @PostMapping("/dataCase/delCaseAddress")
+    public Object delCaseAddress(@RequestBody DataCaseAddressEntity bean) {
+        dataCaseService.delCaseAddress(bean);
+        return WebResponse.success();
     }
 
 }
