@@ -62,14 +62,10 @@
         update data_collection
         set
         <trim suffixOverrides=",">
-            <if test="dept != null">name = #{dept},</if>
-            <if test="area != null">area = #{area},</if>
-            <if test="mobile != null">mobile = #{mobile},</if>
-            <if test="odv != null">odv = #{odv},</if>
-            <if test="remark != null">remark = #{remark},</if>
+            <if test="caseAllotTime != null">case_allot_time = #{caseAllotTime},</if>
         </trim>
         where
-        id = #{id}
+        case_id = #{caseId}
     </update>
 
     <!--通过Id删除数据信息-->

@@ -122,4 +122,86 @@
         </if>
         order by dcr.id desc
     </select>
+
+
+    <!--插入数据信息-->
+    <insert id="saveReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity" >
+        insert into data_reduce_apply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
+            <if test="payer != null">payer,</if>
+            <if test="relation != null">relation,</if>
+            <if test="contactWay != null">contact_way,</if>
+            <if test="sex != null">sex,</if>
+            <if test="age != null">age,</if>
+            <if test="visitFlag != null">visit_flag,</if>
+            <if test="joinFlag != null">join_flag,</if>
+            <if test="connectFlag != null">connect_flag,</if>
+            <if test="enRepayAmt != null">en_repay_amt,</if>
+            <if test="repayAmt != null">repay_amt,</if>
+            <if test="repayTime != null">repay_time,</if>
+            <if test="reduceReason != null">reduce_reason,</if>
+            <if test="reduceData != null">reduce_data,</if>
+            <if test="remark != null">remark,</if>
+            delete_flag,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">#{caseId},</if>
+            <if test="payer != null">#{payer},</if>
+            <if test="relation != null">#{relation},</if>
+            <if test="contactWay != null">#{contactWay},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="age != null">#{age},</if>
+            <if test="visitFlag != null">#{visitFlag},</if>
+            <if test="joinFlag != null">#{joinFlag},</if>
+            <if test="connectFlag != null">#{connectFlag},</if>
+            <if test="enRepayAmt != null">#{enRepayAmt},</if>
+            <if test="repayAmt != null">#{repayAmt},</if>
+            <if test="repayTime != null">#{repayTime},</if>
+            <if test="reduceReason != null">#{reduceReason},</if>
+            <if test="reduceData != null">#{reduceData},</if>
+            <if test="remark != null">#{remark},</if>
+            0,
+        </trim>
+    </insert>
+
+    <update id="updateReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity">
+        update data_reduce_apply
+        set
+        <trim suffixOverrides=",">
+            <if test="caseId != null"> case_id = #{caseId},</if>
+            <if test="payer != null"> payer = #{payer},</if>
+            <if test="relation != null"> relation = #{relation},</if>
+            <if test="contactWay != null"> contact_way = #{contactWay},</if>
+            <if test="sex != null"> sex = #{sex},</if>
+            <if test="age != null"> age = #{age},</if>
+            <if test="visitFlag != null"> visit_flag = #{visitFlag},</if>
+            <if test="joinFlag != null"> join_flag = #{joinFlag},</if>
+            <if test="connectFlag != null"> connect_flag = #{connectFlag},</if>
+            <if test="enRepayAmt != null"> en_repay_amt = #{enRepayAmt},</if>
+            <if test="repayAmt != null"> repay_amt = #{repayAmt},</if>
+            <if test="repayTime != null"> repay_time = #{repayTime},</if>
+            <if test="reduceReason != null"> reduce_reason = #{reduceReason},</if>
+            <if test="reduceData != null"> reduce_data = #{reduceData},</if>
+            <if test="remark != null"> remark = #{remark},</if>
+        </trim>
+        where
+        id = #{id}
+    </update>
+
+    <update id="updateApplyStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity">
+        update data_reduce_apply
+        set delete_flag = 1
+        where
+        id = #{id}
+    </update>
+
+    <select id="findApplyById" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity">
+        select
+        *
+        from
+        data_reduce_apply
+        where id = #{id}
+    </select>
 </mapper>

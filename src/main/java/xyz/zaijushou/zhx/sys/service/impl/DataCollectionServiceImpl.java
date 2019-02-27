@@ -46,6 +46,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public void update(DataCollectionEntity dataCollectionEntity){
     }
+
+    @Override
+    public void updateCollection(DataCollectionEntity dataCollectionEntity){
+        dataCollectionMapper.updateCollection(dataCollectionEntity);
+    }
     @Override
     public void delete(DataCollectionEntity dataCollectionEntity){
 

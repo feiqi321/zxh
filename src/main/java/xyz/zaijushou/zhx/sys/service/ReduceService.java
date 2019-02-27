@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service;
 
 import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.DataReduceEntity;
 
 import java.util.List;
 
@@ -23,4 +24,11 @@ public interface ReduceService {
     public DataCollectionEntity findById(DataCollectionEntity bean);
 
     public void updateStatus(DataCollectionEntity bean);
+
+
+    public void saveReduceApply(DataReduceEntity bean);
+
+    public DataReduceEntity findApplyById(DataReduceEntity bean);
+
+    public void updateApplyStatus(DataReduceEntity bean);
 }

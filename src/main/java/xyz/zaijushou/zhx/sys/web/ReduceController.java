@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelReduceConstant;
 import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.DataReduceEntity;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
@@ -101,5 +102,34 @@ public class ReduceController {
                 response
         );
         return null;
+    }
+
+
+    @ApiOperation(value = "增加减免申请信息", notes = "增加减免申请信息")
+    @PostMapping("/reduce/apply/add")
+    public Object saveReduceApply(@RequestBody DataReduceEntity bean) {
+        reduceService.saveReduceApply(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "修改减免申请信息", notes = "修改减免申请信息")
+    @PostMapping("/reduce/apply/update")
+    public Object updateReduceApply(@RequestBody DataReduceEntity bean) {
+        reduceService.saveReduceApply(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "操作减免申请状态", notes = "操作减免申请状态")
+    @PostMapping("/reduce/apply/update/status")
+    public Object updateApplyStatus(@RequestBody DataReduceEntity bean) {
+        reduceService.updateApplyStatus(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查找减免申请详情", notes = "查找减免申请详情")
+    @PostMapping("/reduce/apply/select/id")
+    public Object findApplyById(@RequestBody DataReduceEntity bean) {
+        DataReduceEntity entity = reduceService.findApplyById(bean);
+        return WebResponse.success(entity);
     }
 }
