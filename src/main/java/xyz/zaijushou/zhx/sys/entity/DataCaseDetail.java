@@ -6,6 +6,8 @@ import java.util.List;
  * Created by looyer on 2019/2/24.
  */
 public class DataCaseDetail {
+
+    private  int id;
         //主要部分
     private String name;//名称
     private String client;//委托方
@@ -21,6 +23,14 @@ public class DataCaseDetail {
     private List<DataCaseAddressEntity> dataCaseAddressEntityList;
 
     private List<DataCaseCommentEntity> dataCaseCommentEntityList;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public List<DataCaseCommentEntity> getDataCaseCommentEntityList() {
         return dataCaseCommentEntityList;
