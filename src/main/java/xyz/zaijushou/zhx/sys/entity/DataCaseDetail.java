@@ -20,6 +20,16 @@ public class DataCaseDetail {
 
     private List<DataCaseAddressEntity> dataCaseAddressEntityList;
 
+    private List<DataCaseCommentEntity> dataCaseCommentEntityList;
+
+    public List<DataCaseCommentEntity> getDataCaseCommentEntityList() {
+        return dataCaseCommentEntityList;
+    }
+
+    public void setDataCaseCommentEntityList(List<DataCaseCommentEntity> dataCaseCommentEntityList) {
+        this.dataCaseCommentEntityList = dataCaseCommentEntityList;
+    }
+
     public List<DataCaseAddressEntity> getDataCaseAddressEntityList() {
         return dataCaseAddressEntityList;
     }

@@ -1075,6 +1075,19 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setType(temp.getType()==null?"":(map.get(temp.getType())==null?"":map.get(temp.getType()).toString()));
             dataCaseTelEntityList.set(i,temp);
         }
+
+        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+        dataCaseCommentEntity.setCaseId(bean.getId());
+        List<DataCaseCommentEntity> commentList = dataCaseCommentMapper.findAll(dataCaseCommentEntity);
+        for (int i=0;i<commentList.size();i++){
+            DataCaseCommentEntity temp = commentList.get(i);
+            SysUserEntity tempuser = new SysUserEntity();
+            tempuser.setId(Integer.valueOf(temp.getCreatUser()));
+            SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+            temp.setCreatUserName(user == null ? "" : user.getUserName());
+            commentList.set(i,temp);
+        }
+        dataCaseDetail.setDataCaseCommentEntityList(commentList);
         dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
         return dataCaseDetail;
     }
