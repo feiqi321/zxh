@@ -17,6 +17,8 @@ public interface DataCollectionService {
 
     public void update(DataCollectionEntity dataCollectionEntity);
 
+    public void updateCollection(DataCollectionEntity dataCollectionEntity);
+
     public void delete(DataCollectionEntity dataCollectionEntity);
 
     public List<DataCollectionEntity> pageDataCollectionList(DataCollectionEntity dataCollectionEntity);
