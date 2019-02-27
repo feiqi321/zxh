@@ -242,4 +242,21 @@ public class DataCollectServiceImpl implements DataCollectService {
 
         return webResponse;
     }
+
+
+    public WebResponse detailCollect(DataCollectionEntity bean){
+        WebResponse webResponse = WebResponse.buildResponse();
+        List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+        if (StringUtils.isEmpty(bean.getDetaiType()) || bean.getDetaiType().equals("1")){
+            list = dataCollectionMapper.detailCollect1(bean);
+        }else if (bean.getDetaiType().equals("2")){
+            list = dataCollectionMapper.detailCollect2(bean);
+        }else if (bean.getDetaiType().equals("3")){
+            list = dataCollectionMapper.detailCollect3(bean);
+        }else if (bean.getDetaiType().equals("4")){
+            list = dataCollectionMapper.detailCollect4(bean);
+        }
+         webResponse.setData(list);
+        return webResponse;
+    }
 }

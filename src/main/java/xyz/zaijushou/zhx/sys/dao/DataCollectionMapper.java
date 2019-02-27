@@ -58,4 +58,12 @@ public interface DataCollectionMapper {
     public void addCollectStatus(DataCollectionEntity dataCollectionEntity);
 
     public List<DataCollectionEntity> selectAllByCaseId(DataCollectionEntity dataCollectionEntity);
+
+    public List<DataCollectionEntity> detailCollect1(DataCollectionEntity bean);
+
+    public List<DataCollectionEntity> detailCollect2(DataCollectionEntity bean);
+
+    public List<DataCollectionEntity> detailCollect3(DataCollectionEntity bean);
+
+    public List<DataCollectionEntity> detailCollect4(DataCollectionEntity bean);
 }

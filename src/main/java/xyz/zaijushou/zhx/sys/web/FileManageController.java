@@ -38,7 +38,7 @@ public class FileManageController {
         if (!imageFile.exists()) {
             return null;
         }
-        String fileName = "枫软催收系统导入模板.rar";
+        String fileName = "众汇信催收系统导入模板.rar";
 
 
         //下载的文件携带这个名称

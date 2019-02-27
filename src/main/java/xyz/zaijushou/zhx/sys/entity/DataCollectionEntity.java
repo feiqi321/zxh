@@ -219,7 +219,15 @@ public class DataCollectionEntity extends CommonEntity {
     private String caseAllotTimeStart;
     private String caseAllotTimeEnd;
 
+    private String detaiType;//1 本案催记  2 同批次公债催记 3共债催记 4 同卡催记
 
+    public String getDetaiType() {
+        return detaiType;
+    }
+
+    public void setDetaiType(String detaiType) {
+        this.detaiType = detaiType;
+    }
 
     public int[] getIds() {
         return ids;
