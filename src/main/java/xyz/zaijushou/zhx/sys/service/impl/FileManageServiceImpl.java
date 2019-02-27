@@ -66,7 +66,7 @@ public class FileManageServiceImpl implements FileManageService {
         }
         if (code==500){
             webResponse.setCode("500");
-            webResponse.setMsg(errorStr.substring(0,errorStr.length()-1));
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
             return webResponse;
         }
         for (int i=0;i<list.size();i++){
@@ -118,7 +118,7 @@ public class FileManageServiceImpl implements FileManageService {
         }
         if (code==500){
             webResponse.setCode("500");
-            webResponse.setMsg(errorStr.substring(0,errorStr.length()-1));
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
             return webResponse;
         }
         for (int i=0;i<list.size();i++){
@@ -169,7 +169,7 @@ public class FileManageServiceImpl implements FileManageService {
         }
         if (code==500){
             webResponse.setCode("500");
-            webResponse.setMsg(errorStr.substring(0,errorStr.length()-1));
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
             return webResponse;
         }
         for (int i=0;i<list.size();i++){
@@ -220,7 +220,7 @@ public class FileManageServiceImpl implements FileManageService {
         }
         if (code==500){
             webResponse.setCode("500");
-            webResponse.setMsg(errorStr.substring(0,errorStr.length()-1));
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
             return webResponse;
         }
         for (int i=0;i<list.size();i++){
