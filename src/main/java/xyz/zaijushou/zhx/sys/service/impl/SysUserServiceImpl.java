@@ -229,8 +229,8 @@ public class SysUserServiceImpl implements SysUserService {
             return user;
         }else{
             user.setLoginNameCount(count+1);
+            user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count+1));
             user.setUserName(user.getUserName()+(count+1));
-            user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count));
             return user;
         }
     }

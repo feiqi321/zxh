@@ -50,8 +50,10 @@ public class ExcelUtils {
         Row header = sheet.getRow(0);
         Map<Integer, ExcelEnum> colMap = new HashMap<>();
         for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
-            String cell = header.getCell(i).getStringCellValue();
-            colMap.put(i, excelEnumMap.get(cell));
+            if (header.getCell(i)!=null) {
+                String cell = header.getCell(i).getStringCellValue();
+                colMap.put(i, excelEnumMap.get(cell));
+            }
         }
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             try {
