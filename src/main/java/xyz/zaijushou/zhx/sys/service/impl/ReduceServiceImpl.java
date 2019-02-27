@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.DataReduceEntity;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -57,7 +58,22 @@ public class ReduceServiceImpl implements ReduceService {
        }
     }
     public void updateReduce(DataCollectionEntity bean){
-        return;
+        return ;
     }
 
+
+    public void saveReduceApply(DataReduceEntity bean){
+        if (StringUtils.isEmpty(bean.getId())){
+            reduceMapper.saveReduceApply(bean);
+        }else {
+            reduceMapper.updateReduceApply(bean);
+        }
+    }
+    public DataReduceEntity findApplyById(DataReduceEntity bean){
+        DataReduceEntity info = reduceMapper.findApplyById(bean);
+        return info;
+    }
+    public void updateApplyStatus(DataReduceEntity bean){
+        reduceMapper.updateApplyStatus(bean);
+    }
 }
