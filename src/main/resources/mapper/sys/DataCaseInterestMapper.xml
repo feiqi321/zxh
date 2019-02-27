@@ -44,7 +44,7 @@
             <if test="endDate != null">#{endDate},</if>
             <if test="principal != null">#{principal},</if>
             <if test="penalty != null">#{penalty},</if>
-            <if test="lasteFee != null">#{lasteFee},</if>
+            <if test="lasteFee != null">#{lateFee},</if>
             <if test="overrunFee != null">#{overrunFee},</if>
             <if test="serviceFee != null">#{serviceFee},</if>
             <if test="yearFee != null">#{yearFee},</if>
