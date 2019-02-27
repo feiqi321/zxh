@@ -79,4 +79,6 @@ public interface DataCaseMapper {
     void updateBySeqNo(DataCaseEntity entity);
 
     void updateRemark(DataCaseEntity entity);
+
+    List<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
 }

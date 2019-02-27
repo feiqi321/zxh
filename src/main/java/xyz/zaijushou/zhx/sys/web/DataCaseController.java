@@ -562,4 +562,11 @@ public class DataCaseController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "个案序列号模糊查询", notes = "个案序列号模糊查询")
+    @PostMapping("/dataCase/pageSeqNos")
+    public Object pageSeqNos(@RequestBody DataCaseEntity dataCaseEntity) {
+        PageInfo<DataCaseEntity> pageInfo = dataCaseService.pageSeqNos(dataCaseEntity);
+        return WebResponse.success(pageInfo);
+    }
+
 }

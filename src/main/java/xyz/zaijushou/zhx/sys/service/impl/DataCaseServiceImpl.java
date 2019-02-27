@@ -1101,6 +1101,12 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseAddressMapper.deleteAddress(bean);
     }
 
+    @Override
+    public PageInfo<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity) {
+        List<DataCaseEntity> list = dataCaseMapper.pageSeqNos(dataCaseEntity);
+        return PageInfo.of(list);
+    }
+
     private List<DataCaseEntity> combineData(List<DataCaseEntity> list) {
         if(CollectionUtils.isEmpty(list)) {
             return list;

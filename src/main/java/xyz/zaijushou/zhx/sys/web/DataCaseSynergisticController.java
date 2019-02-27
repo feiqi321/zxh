@@ -28,11 +28,17 @@ public class DataCaseSynergisticController {
 
     @PostMapping("/types")
     public Object types() {
-        JSONArray typeList = JSONArray.parseArray(JSONArray.toJSONString(SynergisticTypeEnum.values()));
+        JSONArray typeList = new JSONArray();
         JSONObject typeAll = new JSONObject();
         typeAll.put("key", "");
         typeAll.put("typeName", "全部");
-        typeList.add(0, typeAll);
+        typeList.add(typeAll);
+        for(SynergisticTypeEnum value : SynergisticTypeEnum.values()) {
+            JSONObject type = new JSONObject();
+            type.put("key", value.getKey());
+            type.put("typeName", value.getTypeName());
+            typeList.add(type);
+        }
         return WebResponse.success(typeList);
     }
 

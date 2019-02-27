@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.*;
 
@@ -82,4 +83,6 @@ public interface DataCaseService {
     public void saveCaseAddress(DataCaseAddressEntity bean);
 
     public void delCaseAddress(DataCaseAddressEntity bean);
+
+    PageInfo<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
 }

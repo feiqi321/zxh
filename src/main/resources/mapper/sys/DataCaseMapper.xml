@@ -1757,4 +1757,14 @@
 
     </update>
 
+    <select id="pageSeqNos" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select
+        <include refid="colSql"/>
+        from data_case da
+        where da.delete_flag = 0
+        <if test="seqNo != null and seqNo != ''">
+            and da.seq_no like concat('%', #{seqNo}, '%')
+        </if>
+    </select>
+
 </mapper>
