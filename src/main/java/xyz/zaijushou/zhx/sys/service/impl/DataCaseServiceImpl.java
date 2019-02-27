@@ -423,6 +423,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
         dataCaseCommentEntity.setCaseId(bean.getId());
         dataCaseCommentEntity.setComment(bean.getComment());
+        SysUserEntity user = this.getUserInfo();
+        dataCaseCommentEntity.setCreatUser(user.getId());
         dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
     }
     @Override
@@ -457,7 +459,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.addMValue(bean);
     }
 
-    //2 申请中  1 最终同意申请  3待协催 4撤销申请
+    //2 待审核  1 最终同意申请  3代办 4撤销申请
     @Override
     public void addSynergy(DataCaseEntity bean){
         dataCaseMapper.addSynergy(bean);
@@ -1175,4 +1177,63 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         return list;
     }
+
+    public List<DataCaseCommentEntity> listComment(DataCaseEntity dataCaseEntity){
+        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+        dataCaseCommentEntity.setCaseId(dataCaseEntity.getId());
+        List<DataCaseCommentEntity> list = dataCaseCommentMapper.findAll(dataCaseCommentEntity);
+        for (int i=0;i<list.size();i++){
+            DataCaseCommentEntity temp = list.get(i);
+            SysUserEntity tempuser = new SysUserEntity();
+            tempuser.setId(Integer.valueOf(temp.getCreatUser()));
+            SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+            temp.setCreatUserName(user == null ? "" : user.getUserName());
+            list.set(i,temp);
+        }
+        return list;
+    }
+    public List<DataCaseInterestEntity> listInterest(DataCaseEntity dataCaseEntity){
+        DataCaseInterestEntity dataCaseInterestEntity = new DataCaseInterestEntity();
+        dataCaseInterestEntity.setCaseId(dataCaseEntity.getId());
+        List<DataCaseInterestEntity> list = dataCaseInterestMapper.findAll(dataCaseInterestEntity);
+
+        return list;
+    }
+    //2 待审核  1 最终同意申请  3代办 4撤销申请
+    public List<DataCaseEntity> listSynergy(DataCaseEntity dataCaseEntity){
+        List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+        if (dataCaseEntity.getSynergy()==0){
+            int[] status = new int[4];
+            status[0]=1;
+            status[1]=2;
+            status[2]=3;
+            status[3]=4;
+            list = dataCaseMapper.listSynergy(status);
+        }else{
+            int[] status = new int[1];
+            status[0]=dataCaseEntity.getSynergy();
+            list = dataCaseMapper.listSynergy(status);
+        }
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            SysUserEntity tempuser = new SysUserEntity();
+            if (StringUtils.isEmpty(temp.getOdv())){
+                temp.setOdv("");
+            }else {
+                tempuser.setId(Integer.valueOf(temp.getOdv()));
+                SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                temp.setOdv(user == null ? "" : user.getUserName());
+            }
+            if (temp.getSynerCkecker()==0){
+                temp.setSynergyCkeckerName("");
+            }else {
+                tempuser.setId(temp.getSynerCkecker());
+                SysUserEntity user2 = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                temp.setSynergyCkeckerName(user2 == null ? "" : user2.getUserName());
+            }
+            list.set(i,temp);
+        }
+        return list;
+    }
+
 }

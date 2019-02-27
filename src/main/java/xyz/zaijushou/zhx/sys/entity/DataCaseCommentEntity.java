@@ -11,6 +11,15 @@ public class DataCaseCommentEntity extends CommonEntity {
     private int caseId;
     private String comment;
     private int creatUser;
+    private String creatUserName;
+
+    public String getCreatUserName() {
+        return creatUserName;
+    }
+
+    public void setCreatUserName(String creatUserName) {
+        this.creatUserName = creatUserName;
+    }
 
     public int getCreatUser() {
         return creatUser;

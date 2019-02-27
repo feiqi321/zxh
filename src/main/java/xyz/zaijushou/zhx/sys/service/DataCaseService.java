@@ -85,4 +85,10 @@ public interface DataCaseService {
     public void delCaseAddress(DataCaseAddressEntity bean);
 
     PageInfo<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseCommentEntity> listComment(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseInterestEntity> listInterest(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseEntity> listSynergy(DataCaseEntity dataCaseEntity);
 }

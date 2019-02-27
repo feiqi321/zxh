@@ -81,4 +81,6 @@ public interface DataCaseMapper {
     void updateRemark(DataCaseEntity entity);
 
     List<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
+
+    List<DataCaseEntity> listSynergy(int[] status);
 }

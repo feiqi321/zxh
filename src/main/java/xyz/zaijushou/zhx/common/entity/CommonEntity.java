@@ -35,7 +35,7 @@ public class CommonEntity {
     /**
      * 创建时间
      */
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date createTime;
 
     /**

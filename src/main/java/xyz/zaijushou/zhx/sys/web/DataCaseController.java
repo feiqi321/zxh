@@ -10,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,6 +46,8 @@ public class DataCaseController {
     private FileManageService fileManageService;
     @Autowired
     private DataCollectService dataCollectService;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -569,4 +573,24 @@ public class DataCaseController {
         return WebResponse.success(pageInfo);
     }
 
+    @ApiOperation(value = "查询案件评语", notes = "查询案件评语")
+    @PostMapping("/dataCase/listComment")
+    public Object listComment(@RequestBody DataCaseEntity dataCaseEntity) {
+        List<DataCaseCommentEntity> list = dataCaseService.listComment(dataCaseEntity);
+        return WebResponse.success(list);
+    }
+
+    @ApiOperation(value = "查询利息更新", notes = "查询利息更新")
+    @PostMapping("/dataCase/listInterest")
+    public Object listInterest(@RequestBody DataCaseEntity dataCaseEntity) {
+        List<DataCaseInterestEntity> list = dataCaseService.listInterest(dataCaseEntity);
+        return WebResponse.success(list);
+    }
+
+    @ApiOperation(value = "查询协催", notes = "查询协催")
+    @PostMapping("/dataCase/listSynergy")
+    public Object listSynergy(@RequestBody DataCaseEntity dataCaseEntity) {
+        List<DataCaseEntity> list = dataCaseService.listSynergy(dataCaseEntity);
+        return WebResponse.success(list);
+    }
 }
