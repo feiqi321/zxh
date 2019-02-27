@@ -26,4 +26,6 @@ public interface DataCollectService {
 
     public WebResponse selectDataCollectExportByCase(String[] caseIds);
 
+    public WebResponse detailCollect(DataCollectionEntity bean);
+
 }

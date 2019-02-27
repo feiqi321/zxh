@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.DataReduceEntity;
 
 import java.util.List;
 
@@ -21,4 +22,12 @@ public interface ReduceMapper {
     public DataCollectionEntity findById(DataCollectionEntity bean);
 
     public List<DataCollectionEntity> pageReduce(DataCollectionEntity bean);
+
+    public void saveReduceApply(DataReduceEntity bean);
+
+    public void updateReduceApply(DataReduceEntity bean);
+
+    public void updateApplyStatus(DataReduceEntity bean);
+
+    public DataReduceEntity findApplyById(DataReduceEntity bean);
 }

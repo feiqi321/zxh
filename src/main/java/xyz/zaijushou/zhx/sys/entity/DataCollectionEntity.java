@@ -58,7 +58,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String collectStartTime;
     //催收时间  结束
     private String collectEndTime;
-    //查询类型：1-部门，0-个人
+    //查询类型：1-部门，0-个人(0-导出全部，1-导出当前页)
     private int sType;
     //对象姓名
     private String  targetName;
@@ -219,7 +219,15 @@ public class DataCollectionEntity extends CommonEntity {
     private String caseAllotTimeStart;
     private String caseAllotTimeEnd;
 
+    private String detaiType;//1 本案催记  2 同批次公债催记 3共债催记 4 同卡催记
 
+    public String getDetaiType() {
+        return detaiType;
+    }
+
+    public void setDetaiType(String detaiType) {
+        this.detaiType = detaiType;
+    }
 
     public int[] getIds() {
         return ids;

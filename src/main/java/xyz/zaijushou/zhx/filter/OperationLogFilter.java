@@ -41,6 +41,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/dataCase/updateCase/import", //更新案件导入
             "/synergistic/finishedSynergisticImport",
             "/synergistic/synergisticRecordImport",
+            "/reduce/import",//减免导入
     };
 
     private static final String[] DOWNLOAD_FILE_URL = {
@@ -59,6 +60,10 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/dataCase/totalDataBatchExport",
             "/synergistic/queryDataExport",
             "/dataCase/selectDataCaseExport",
+            "/reduce/dataExport",//减免导出
+            "/statistics/collection/day/export",//电催员电催单日统计导出
+            "/statistics/collection/month/export",//电催员电催月度统计导出
+            "/statistics/collection/day/action/export",//电催员每日动作统计导出
     };
 
     @Override
