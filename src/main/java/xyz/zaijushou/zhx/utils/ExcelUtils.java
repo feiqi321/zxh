@@ -61,6 +61,9 @@ public class ExcelUtils {
                 T entity = entityClazz.getConstructor().newInstance();
                 for (int k = 0; k < row.getPhysicalNumberOfCells(); k++) {
                     Cell cell = row.getCell(k);
+                    if (cell == null){
+                        continue;
+                    }
                     ExcelEnum excelEnum = colMap.get(k);
                     if (excelEnum == null) {
                         continue;
