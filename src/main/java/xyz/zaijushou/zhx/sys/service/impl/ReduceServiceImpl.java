@@ -27,6 +27,10 @@ public class ReduceServiceImpl implements ReduceService {
             return PageInfo.of(list);
         }
     }
+
+    public List<DataCollectionEntity> listReduce(DataCollectionEntity bean){
+        return  reduceMapper.pageReduce(bean);
+    }
     public DataCollectionEntity findById(DataCollectionEntity bean){
         return reduceMapper.findById(bean);
     }
@@ -45,6 +49,12 @@ public class ReduceServiceImpl implements ReduceService {
             bean.setUpdateTime(new Date());
             reduceMapper.updateReduce(bean);
         }
+    }
+
+    public void saveReduceInfo(List<DataCollectionEntity> list){
+       for (DataCollectionEntity bean: list){
+           reduceMapper.saveReduce(bean);
+       }
     }
     public void updateReduce(DataCollectionEntity bean){
         return;

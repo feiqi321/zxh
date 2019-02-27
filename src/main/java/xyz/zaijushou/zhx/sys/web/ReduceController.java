@@ -3,14 +3,28 @@ package xyz.zaijushou.zhx.sys.web;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelReduceConstant;
+import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
+import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.StringUtils;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by looyer on 2019/2/25.
@@ -18,6 +32,7 @@ import xyz.zaijushou.zhx.sys.service.ReduceService;
 @Api("减免管理")
 @RestController
 public class ReduceController {
+    private static Logger logger = LoggerFactory.getLogger(ReduceController.class);
 
     @Autowired
     private ReduceService reduceService;
@@ -57,5 +72,34 @@ public class ReduceController {
         return WebResponse.success(entity);
     }
 
+    @ApiOperation(value = "减免管理导入", notes = "减免管理导入")
+    @PostMapping("/reduce/import")
+    public Object reduceInfoImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        logger.info(fileName);
+        List<DataCollectionEntity> bean = ExcelUtils.importExcel(file, ExcelReduceConstant.ReduceInfo.values(), DataCollectionEntity.class);
+        reduceService.saveReduceInfo(bean);
+        return WebResponse.success();
+    }
 
+    @ApiOperation(value = "减免管理导出", notes = "减免管理导出")
+    @PostMapping("/reduce/dataExport")
+    public Object pageDataBatchExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+        if (bean.getsType() == 0){//导出全部
+            list = reduceService.listReduce(bean);
+        }else {//导出当前页
+            PageInfo<DataCollectionEntity> pageInfo = reduceService.pageReduce(bean);
+            list = pageInfo.getList();
+        }
+        if (StringUtils.isEmpty(list)){
+            return null;
+        }
+        ExcelUtils.exportExcel(list,
+                ExcelReduceExportConstant.ReduceList.values(),
+                "减免管理导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
 }
