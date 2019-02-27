@@ -1,5 +1,7 @@
 package xyz.zaijushou.zhx.utils;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -33,7 +35,13 @@ public class ExcelUtils {
     public static <T> List<T> importExcel(MultipartFile file, ExcelEnum[] enums, Class<T> entityClazz) throws IOException {
         List<T> resultList = new ArrayList<>();
         InputStream inputStream = file.getInputStream();
-        Workbook workbook = new XSSFWorkbook(inputStream);
+        String fileName = file.getOriginalFilename();
+        Workbook workbook;
+        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else {
+            workbook = new HSSFWorkbook(inputStream);
+        }
         Map<String, ExcelEnum> excelEnumMap = new HashMap<>();
         for (ExcelEnum value : enums) {
             excelEnumMap.put(value.getCol(), value);

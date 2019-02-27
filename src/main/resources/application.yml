@@ -22,4 +22,3 @@ pagehelper:
 
 logging:
   config: classpath:logging/logback-${spring.profiles.active}.xml
-
