@@ -59,7 +59,7 @@
     </select>
 
     <update id="updateCaseTelStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" >
-        update data_case_tel set status=#{telStatus} where id=#{id}
+        update data_case_tel set status=#{telStatusMsg} where id=#{id}
     </update>
 
 </mapper>
