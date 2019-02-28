@@ -12,9 +12,12 @@
         </selectKey>
         insert into data_collection
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
             <if test="caseId != null">case_id,</if>
+            <if test="expectTime != null">expect_time,</if>
             <if test="dept != null">dept,</if>
             <if test="seqno != null">seqno,</if>
+            <if test="caseType != null">case_type,</if>
             <if test="archiveNo != null">archive_no,</if>
             <if test="cardNo != null">card_no,</if>
             <if test="account != null">account,</if>
@@ -24,6 +27,7 @@
             <if test="targetName != null">target_name,</if>
             <if test="relation != null">relation,</if>
             <if test="collectInfo != null">collect_info,</if>
+            <if test="collectTime != null">collect_time,</if>
             <if test="mobile != null">mobile,</if>
             <if test="telType != null">tel_type,</if>
             <if test="area != null">area,</if>
@@ -35,9 +39,12 @@
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
             <if test="caseId != null">#{caseId},</if>
+            <if test="expectTime != null">#{expectTime},</if>
             <if test="dept != null">#{dept},</if>
             <if test="seqno != null">#{seqno},</if>
+            <if test="caseType != null">#{caseType},</if>
             <if test="archiveNo != null">#{archiveNo},</if>
             <if test="cardNo != null">#{cardNo},</if>
             <if test="account != null">#{account},</if>
@@ -47,6 +54,7 @@
             <if test="targetName != null">#{targetName},</if>
             <if test="relation != null">#{relation},</if>
             <if test="collectInfo != null">#{collectInfo},</if>
+            <if test="collectTime != null">#{collectTime},</if>
             <if test="mobile != null">#{mobile},</if>
             <if test="telType != null">#{telType},</if>
             <if test="area != null">#{area},</if>

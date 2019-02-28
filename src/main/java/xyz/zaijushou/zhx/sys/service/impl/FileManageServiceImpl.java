@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -357,7 +358,34 @@ public class FileManageServiceImpl implements FileManageService {
             if (StringUtils.isEmpty(dataCollectionEntity.getSeqno())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getCardNo()+"@"+dataCollectionEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
+                    dataCollectionEntity.setName(temp.getName());
                     dataCollectionEntity.setCaseId(temp.getId()+"");
+                    dataCollectionEntity.setExpectTime(temp.getExpectTime());
+                    dataCollectionEntity.setCollectTime(temp.getCollectDate());
+                    dataCollectionEntity.setCollectInfo(temp.getCollectInfo());
+                    dataCollectionEntity.setCaseType(temp.getCaseType());
+                    dataCollectionEntity.setNewCase(temp.getNewCase());
+                    dataCollectionEntity.setCaseAllotTime(temp.getSynergyDate());
+                    dataCollectionEntity.setBailDate(temp.getCaseDate());
+                    dataCollectionEntity.setCaseStatus(temp.getStatus());
+                    dataCollectionEntity.setAccountAge(temp.getAccountAge());
+                    dataCollectionEntity.setEnRepayAmt(temp.getEnRepayAmt());
+                    dataCollectionEntity.setPayName("");
+                    dataCollectionEntity.setPayMethod("");
+                    dataCollectionEntity.setConfimName("");
+                    dataCollectionEntity.setConfimTime("");
+                    dataCollectionEntity.setMoney(temp.getMoney());
+                    dataCollectionEntity.setBalance(temp.getBalance());
+                    dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()));
+                    dataCollectionEntity.setLastFollDate(temp.getCollectDate());
+                    dataCollectionEntity.setNextFollDate(temp.getNextFollowDate()==null?"":temp.getNextFollowDate().toString());
+                    dataCollectionEntity.setCountFollow(temp.getCollectTimes()+"");
+                    dataCollectionEntity.setLastPhoneTime(temp.getLastCall());
+                    dataCollectionEntity.setLeaveDays("");
+                    dataCollectionEntity.setReduceAmt(new BigDecimal(0));
+                    dataCollectionEntity.setReduceStatus(temp.getReduceStatus());
+                    dataCollectionEntity.setReduceUpdateTime("");
+                    dataCollectionEntity.setReduceReferTime("");
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
                     sucessCount =sucessCount+1;
                 }
@@ -365,6 +393,33 @@ public class FileManageServiceImpl implements FileManageService {
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCollectionEntity.setCaseId(temp.getId()+"");
+                    dataCollectionEntity.setName(temp.getName());
+                    dataCollectionEntity.setExpectTime(temp.getExpectTime());
+                    dataCollectionEntity.setCollectTime(temp.getCollectDate());
+                    dataCollectionEntity.setCollectInfo(temp.getCollectInfo());
+                    dataCollectionEntity.setCaseType(temp.getCaseType());
+                    dataCollectionEntity.setNewCase(temp.getNewCase());
+                    dataCollectionEntity.setCaseAllotTime(temp.getSynergyDate());
+                    dataCollectionEntity.setBailDate(temp.getCaseDate());
+                    dataCollectionEntity.setCaseStatus(temp.getStatus());
+                    dataCollectionEntity.setAccountAge(temp.getAccountAge());
+                    dataCollectionEntity.setEnRepayAmt(temp.getEnRepayAmt());
+                    dataCollectionEntity.setPayName("");
+                    dataCollectionEntity.setPayMethod("");
+                    dataCollectionEntity.setConfimName("");
+                    dataCollectionEntity.setConfimTime("");
+                    dataCollectionEntity.setMoney(temp.getMoney());
+                    dataCollectionEntity.setBalance(temp.getBalance());
+                    dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()));
+                    dataCollectionEntity.setLastFollDate(temp.getCollectDate());
+                    dataCollectionEntity.setNextFollDate(temp.getNextFollowDate()==null?"":temp.getNextFollowDate().toString());
+                    dataCollectionEntity.setCountFollow(temp.getCollectTimes()+"");
+                    dataCollectionEntity.setLastPhoneTime(temp.getLastCall());
+                    dataCollectionEntity.setLeaveDays("");
+                    dataCollectionEntity.setReduceAmt(new BigDecimal(0));
+                    dataCollectionEntity.setReduceStatus(temp.getReduceStatus());
+                    dataCollectionEntity.setReduceUpdateTime("");
+                    dataCollectionEntity.setReduceReferTime("");
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
                     sucessCount =sucessCount+1;
                 }
