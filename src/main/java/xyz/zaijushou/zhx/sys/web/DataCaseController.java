@@ -568,6 +568,15 @@ public class DataCaseController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "查询案件详情电话列表", notes = "查询案件详情电话列表")
+    @PostMapping("/dataCase/detail/telList")
+    public Object telList(@RequestBody DataCaseEntity bean) {
+        List<DataCaseTelEntity> list = dataCaseService.findTelListByCaseId(bean);
+
+        return WebResponse.success(list);
+
+    }
+
     @ApiOperation(value = "查询案件详情地址列表", notes = "查询案件详情地址列表")
     @PostMapping("/dataCase/detail/addressList")
     public Object addressList(@RequestBody DataCaseEntity bean) {

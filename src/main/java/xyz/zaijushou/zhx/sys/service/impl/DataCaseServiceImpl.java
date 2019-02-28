@@ -1123,7 +1123,12 @@ public class DataCaseServiceImpl implements DataCaseService {
         return addressEntityList;
     }
 
-
+    public List<DataCaseTelEntity> findTelListByCaseId(DataCaseEntity bean){
+        DataCaseTelEntity telEntity = new DataCaseTelEntity();
+        telEntity.setCaseId(bean.getId());
+        List<DataCaseTelEntity> telEntityList = dataCaseTelMapper.findAll(telEntity);
+        return telEntityList;
+    }
     //有效 无效 未知
     public void updateRemark(DataCaseEntity bean){
         dataCaseMapper.updateRemark(bean);

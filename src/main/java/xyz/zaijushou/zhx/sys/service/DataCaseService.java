@@ -76,6 +76,8 @@ public interface DataCaseService {
     //地址
     public List<DataCaseAddressEntity> findAddressListByCaseId(DataCaseEntity bean);
 
+    public List<DataCaseTelEntity> findTelListByCaseId(DataCaseEntity bean);
+
     public void updateRemark(DataCaseEntity bean);
 
     public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean);
