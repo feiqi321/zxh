@@ -376,7 +376,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setConfimTime("");
                     dataCollectionEntity.setMoney(temp.getMoney());
                     dataCollectionEntity.setBalance(temp.getBalance());
-                    dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()));
+                    dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()==null?"0":temp.getMVal()));
                     dataCollectionEntity.setLastFollDate(temp.getCollectDate());
                     dataCollectionEntity.setNextFollDate(temp.getNextFollowDate()==null?"":temp.getNextFollowDate().toString());
                     dataCollectionEntity.setCountFollow(temp.getCollectTimes()+"");
@@ -410,7 +410,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setConfimTime("");
                     dataCollectionEntity.setMoney(temp.getMoney());
                     dataCollectionEntity.setBalance(temp.getBalance());
-                    dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()));
+                    dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()==null?"0":temp.getMVal()));
                     dataCollectionEntity.setLastFollDate(temp.getCollectDate());
                     dataCollectionEntity.setNextFollDate(temp.getNextFollowDate()==null?"":temp.getNextFollowDate().toString());
                     dataCollectionEntity.setCountFollow(temp.getCollectTimes()+"");
