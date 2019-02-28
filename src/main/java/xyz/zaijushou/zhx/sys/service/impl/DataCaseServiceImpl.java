@@ -1127,6 +1127,19 @@ public class DataCaseServiceImpl implements DataCaseService {
         DataCaseTelEntity telEntity = new DataCaseTelEntity();
         telEntity.setCaseId(bean.getId());
         List<DataCaseTelEntity> telEntityList = dataCaseTelMapper.findAll(telEntity);
+        SysDictionaryEntity dictionary = new SysDictionaryEntity();
+        dictionary.setName("电话类型");
+        List<SysDictionaryEntity> dictList = sysDictionaryService.listDataByName(dictionary);
+        Map map = new HashMap();
+        for (int i=0;i<dictList.size();i++){
+            SysDictionaryEntity temp = dictList.get(i);
+            map.put(temp.getId(),temp.getName());
+        }
+        for (int i=0;i<telEntityList.size();i++){
+            DataCaseTelEntity temp = telEntityList.get(i);
+            temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
+            telEntityList.set(i,temp);
+        }
         return telEntityList;
     }
     //有效 无效 未知
