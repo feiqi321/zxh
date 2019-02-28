@@ -44,7 +44,9 @@ public class FileManageServiceImpl implements FileManageService {
         WebResponse webResponse = WebResponse.buildResponse();
         int code = 200;
         int lineCount=0;
+        int sucessCount =0;
         StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
         for (int i=0;i<list.size();i++){
             DataCaseTelEntity dataCaseTelEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseTelEntity.getSeqNo())){
@@ -80,18 +82,23 @@ public class FileManageServiceImpl implements FileManageService {
                 if (dataCaseEntity!=null){
                     dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
                     dataCaseTelMapper.saveTel(dataCaseTelEntity);
+                    sucessCount =sucessCount+1;
                 }
             }else{
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getSeqNo(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
                     dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
                     dataCaseTelMapper.saveTel(dataCaseTelEntity);
+                    sucessCount =sucessCount+1;
+
                 }
             }
 
         }
-
+        sucessStr.append(sucessCount);
+        webResponse.setMsg(sucessStr.toString());
         webResponse.setCode("100");
+
         return webResponse;
     }
 
@@ -101,6 +108,8 @@ public class FileManageServiceImpl implements FileManageService {
         int code = 200;
         int lineCount=0;
         StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
+        int sucessCount =0;
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
         for (int i=0;i<list.size();i++){
             DataCaseAddressEntity temp = list.get(i);
             if (StringUtils.isEmpty(temp.getSeqNo())){
@@ -136,17 +145,20 @@ public class FileManageServiceImpl implements FileManageService {
                 if (temp!=null){
                     dataCaseAddressEntity.setCaseId(temp.getId());
                     dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
+                    sucessCount =sucessCount+1;
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getSeqNo(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseAddressEntity.setCaseId(temp.getId());
                     dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
+                    sucessCount =sucessCount+1;
                 }
             }
 
         }
-
+        sucessStr.append(sucessCount);
+        webResponse.setMsg(sucessStr.toString());
         webResponse.setCode("100");
         return webResponse;
     }
@@ -156,6 +168,8 @@ public class FileManageServiceImpl implements FileManageService {
         int code = 200;
         int lineCount=0;
         StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
+        int sucessCount =0;
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
         for (int i=0;i<list.size();i++){
             DataCaseInterestEntity temp = list.get(i);
             if (StringUtils.isEmpty(temp.getSeqNo())){
@@ -191,17 +205,20 @@ public class FileManageServiceImpl implements FileManageService {
                 if (temp!=null){
                     dataCaseInterestEntity.setCaseId(temp.getId());
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
+                    sucessCount =sucessCount+1;
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getSeqNo(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseInterestEntity.setCaseId(temp.getId());
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
+                    sucessCount =sucessCount+1;
                 }
             }
 
         }
-
+        sucessStr.append(sucessCount);
+        webResponse.setMsg(sucessStr.toString());
         webResponse.setCode("100");
         return webResponse;
     }
@@ -211,6 +228,8 @@ public class FileManageServiceImpl implements FileManageService {
         int code = 200;
         int lineCount=0;
         StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
+        int sucessCount =0;
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             if (StringUtils.isEmpty(temp.getSeqNo())){
@@ -262,6 +281,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setColor(dataCaseEntity.getColor());
                     dataCollectionEntity.setCaseId(temp.getId()+"");
                     dataCollectionMapper.addColor(dataCollectionEntity);
+                    sucessCount =sucessCount+1;
                 }
             }else{
 
@@ -269,7 +289,8 @@ public class FileManageServiceImpl implements FileManageService {
 
         }
 
-
+        sucessStr.append(sucessCount);
+        webResponse.setMsg(sucessStr.toString());
         webResponse.setCode("100");
         return webResponse;
     }
