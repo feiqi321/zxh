@@ -34,6 +34,62 @@
             <if test="mobile != null">mobile,</if>
             <if test="odv != null">odv,</if>
             <if test="remark != null">remark,</if>
+
+            <if test="expectTime != null">expect_time,</if>
+            <if test="caseType != null">case_type,</if>
+            <if test="newCase != null">new_case,</if>
+            <if test="caseAllotTime != null">case_allot_time,</if>
+            <if test="caseStatus != null">case_status,</if>
+
+            <if test="accountAge != null">account_age,</if>
+            <if test="enRepayAmt != null">en_repay_amt,</if>
+            <if test="payName != null">pay_name,</if>
+            <if test="payMethod != null">pay_method,</if>
+            <if test="confimName != null">confim_name,</if>
+
+            <if test="confimTime != null">confim_time,</if>
+            <if test="money != null">money,</if>
+            <if test="balance != null">balance,</if>
+            <if test="mVal != null">m_val,</if>
+            <if test="nextFollDate != null">next_foll_date,</if>
+
+            <if test="lastFollDate != null">last_foll_date,</if>
+            <if test="countFollow != null">count_follow,</if>
+            <if test="lastPhoneTime != null">last_phone_time,</if>
+            <if test="leaveDays != null">leave_days,</if>
+
+            <if test="reduceAmt != null">reduce_amt,</if>
+            <if test="reduceStatus != null">reduce_status,</if>
+            <if test="reduceUpdateTime != null">reduce_update_time,</if>
+            <if test="reduceReferTime != null">reduce_refer_time,</if>
+
+            <if test="color != null">color,</if>
+            <if test="bailDate != null">bail_date,</if>
+            <if test="measure != null">measure,</if>
+            <if test="method != null">method,</if>
+            <if test="repayTime != null">repay_time,</if>
+
+            <if test="bankTime != null">bank_time,</if>
+            <if test="bankAmt != null">bank_amt,</if>
+            <if test="repayAmt != null">repay_amt,</if>
+            <if test="collectStatus != null">collect_status,</if>
+            <if test="completeUser != null">complete_user,</if>
+
+            <if test="completeTime != null">complete_time,</if>
+            <if test="client != null">client,</if>
+            <if test="batchNo != null">batch_no,</if>
+            <if test="identNo != null">ident_no,</if>
+            <if test="collectionType != null">collection_type,</if>
+
+            <if test="repayStatus != null">repay_status,</if>
+            <if test="overDays != null">over_days,</if>
+            <if test="remind != null">remind,</if>
+
+            <if test="telPhone != null">tel_phone,</if>
+
+            <if test="telName != null">tel_name,</if>
+            <if test="newMoney != null">new_money,</if>
+            <if test="module != null">module,</if>
             delete_flag,
             create_time,
         </trim>
@@ -61,6 +117,62 @@
             <if test="mobile != null">#{mobile},</if>
             <if test="odv != null">#{odv},</if>
             <if test="remark != null">#{remark},</if>
+
+            <if test="expectTime != null">#{expectTime},</if>
+            <if test="caseType != null">#{caseType},</if>
+            <if test="newCase != null">#{newCase},</if>
+            <if test="caseAllotTime != null">#{caseAllotTime},</if>
+            <if test="caseStatus != null">#{caseStatus},</if>
+
+            <if test="accountAge != null">#{accountAge},</if>
+            <if test="enRepayAmt != null">#{enRepayAmt},</if>
+            <if test="payName != null">#{payName},</if>
+            <if test="payMethod != null">#{payMethod},</if>
+            <if test="confimName != null">#{confimName},</if>
+
+            <if test="confimTime != null">#{confimTime},</if>
+            <if test="money != null">#{money},</if>
+            <if test="balance != null">#{balance},</if>
+            <if test="mVal != null">#{mVal},</if>
+            <if test="nextFollDate != null">#{nextFollDate},</if>
+
+            <if test="lastFollDate != null">#{lastFollDate},</if>
+            <if test="countFollow != null">#{countFollow},</if>
+            <if test="lastPhoneTime != null">#{lastPhoneTime},</if>
+            <if test="leaveDays != null">#{leaveDays},</if>
+
+            <if test="reduceAmt != null">#{reduceAmt},</if>
+            <if test="reduceStatus != null">#{reduceStatus},</if>
+            <if test="reduceUpdateTime != null">#{reduceUpdateTime},</if>
+            <if test="reduceReferTime != null">#{reduceReferTime},</if>
+
+            <if test="color != null">#{color},</if>
+            <if test="bailDate != null">#{bailDate},</if>
+            <if test="measure != null">#{measure},</if>
+            <if test="method != null">#{method},</if>
+            <if test="repayTime != null">#{repayTime},</if>
+
+            <if test="bankTime != null">#{bankTime},</if>
+            <if test="bankAmt != null">#{bankAmt},</if>
+            <if test="repayAmt != null">#{repayAmt},</if>
+            <if test="collectStatus != null">#{collectStatus},</if>
+            <if test="completeUser != null">#{completeUser},</if>
+
+            <if test="completeTime != null">#{completeTime},</if>
+            <if test="client != null">#{client},</if>
+            <if test="batchNo != null">#{batchNo},</if>
+            <if test="identNo != null">#{identNo},</if>
+            <if test="collectionType != null">#{collectionType},</if>
+
+            <if test="repayStatus != null">#{repayStatus},</if>
+            <if test="overDays != null">#{overDays},</if>
+            <if test="remind != null">#{remind},</if>
+
+            <if test="telPhone != null">#{telPhone},</if>
+
+            <if test="telName != null">#{telName},</if>
+            <if test="newMoney != null">#{newMoney},</if>
+            <if test="module != null">#{module},</if>
             0,
             now(),
         </trim>
