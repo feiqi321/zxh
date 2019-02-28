@@ -182,10 +182,11 @@
         update data_collection
         set
         <trim suffixOverrides=",">
-            <if test="caseAllotTime != null">case_allot_time = #{caseAllotTime},</if>
+            <if test="collectTime != null">collect_time = #{collectTime},</if>
+            <if test="result != null">result = #{result},</if>
         </trim>
         where
-        case_id = #{caseId}
+        id = #{id}
     </update>
 
     <!--通过Id删除数据信息-->

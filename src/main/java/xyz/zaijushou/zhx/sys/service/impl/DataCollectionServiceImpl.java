@@ -45,6 +45,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
     @Override
     public void update(DataCollectionEntity dataCollectionEntity){
+
+        dataCollectionMapper.updateCollection(dataCollectionEntity);
+
     }
 
     @Override
