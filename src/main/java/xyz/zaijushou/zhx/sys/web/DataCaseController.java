@@ -374,14 +374,21 @@ public class DataCaseController {
         for(DataCaseEntity entity : existCaseList) {
             existCaseMap.put(entity.getSeqNo(), entity);
         }
+        int succesLines = 0;
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
             if(!existCaseMap.containsKey(entity.getSeqNo())) {
                 return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "不存在，请修改后重新上传");
             }
             dataCaseEntities.get(i).setId(existCaseMap.get(entity.getSeqNo()).getId());
+            succesLines = succesLines+1;
         }
         dataCaseService.updateCaseList(dataCaseEntities);
+        WebResponse webResponse = WebResponse.buildResponse();
+        webResponse.setCode("100");
+        sucessStr.append(succesLines);
+        webResponse.setMsg(sucessStr.toString());
         return WebResponse.success();
     }
 
@@ -454,14 +461,21 @@ public class DataCaseController {
         for(DataCaseEntity entity : existCaseList) {
             existCaseMap.put(entity.getSeqNo(), entity);
         }
+        int succesLines = 0;
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
             if(existCaseMap.containsKey(entity.getSeqNo())) {
                 return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "已存在，请确认后重新上传");
             }
             dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
+            succesLines =succesLines+1;
         }
         dataCaseService.saveCaseList(dataCaseEntities,batch.getBatchNo());
+        WebResponse webResponse = WebResponse.buildResponse();
+        webResponse.setCode("100");
+        sucessStr.append(succesLines);
+        webResponse.setMsg(sucessStr.toString());
         return WebResponse.success();
     }
 
@@ -609,6 +623,13 @@ public class DataCaseController {
     @ApiOperation(value = "批量新增案件电话", notes = "批量新增案件电话")
     @PostMapping("/dataCase/addBatchCaseTel")
     public Object addBatchCaseTel(@RequestBody DataCaseTelEntity bean) {
+        if (StringUtils.isEmpty(bean.getRemark())){
+            WebResponse webResponse = WebResponse.buildResponse();
+            webResponse.setMsg("内容不能为空");
+            webResponse.setCode("500");
+            return webResponse;
+
+        }
         dataCaseService.addBatchCaseTel(bean);
         return WebResponse.success();
     }

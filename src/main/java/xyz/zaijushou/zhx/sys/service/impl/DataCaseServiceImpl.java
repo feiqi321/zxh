@@ -1157,8 +1157,26 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     public void addBatchCaseTel(DataCaseTelEntity bean){
-        String telMsg = bean.getRemark();
-
+        String telMsgs = bean.getRemark();
+        String[] telMsg = telMsgs.split("/");
+        for (int i=0;i<telMsg.length;i++){
+            String telInfos = telMsg[i];
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(telInfos)){
+                for (int j=0;j<telInfos.length();j++){
+                    String[] telInfo = telInfos.split("-");
+                    String relation = telInfo[0];
+                    String name = telInfo[1];
+                    String tel = telInfo[2];
+                    DataCaseTelEntity temp = new DataCaseTelEntity();
+                    temp.setCaseId(bean.getCaseId());
+                    temp.setRelation(relation);
+                    temp.setName(name);
+                    temp.setTel(tel);
+                    temp.setTelStatusMsg("有效");
+                    dataCaseTelMapper.saveTel(bean);
+                }
+            }
+        }
 
     }
 

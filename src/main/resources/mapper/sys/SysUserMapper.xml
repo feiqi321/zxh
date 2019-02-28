@@ -240,11 +240,11 @@
             </if>
 
             <if test="department != null and userName != ''">
-                department = #{department},
+                department = #{departId},
             </if>
 
             <if test="sex != null and sex != ''">
-                sex = #{department},
+                sex = #{sex},
             </if>
 
             <if test="officePhone != null and officePhone != ''">
