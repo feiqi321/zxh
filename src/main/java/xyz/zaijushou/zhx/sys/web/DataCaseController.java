@@ -336,9 +336,9 @@ public class DataCaseController {
         String modelType = "";
         for (int i=0;i<cols;i++){
             Cell cell = row.getCell(i);
-            if (cell.getStringCellValue()!=null && cell.getStringCellValue().equals("")){
+            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("")){
                 modelType = "biaozhun";
-            }else{
+            }else if(cell!=null && cell.getStringCellValue()!=null){
                 modelType = "chedai";
             }
         }
