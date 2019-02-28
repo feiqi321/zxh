@@ -562,9 +562,12 @@ public class DataCaseController {
 
     @ApiOperation(value = "修改案件电话状态", notes = "修改案件电话状态")
     @PostMapping("/tel/updateStatus")
-    public Object updateStatus(@RequestBody DataCaseTelEntity bean) {
+    public Object updateTelStatus(@RequestBody List<DataCaseTelEntity> list) {
+        for(int i=0;i< list.size();i++){
+            DataCaseTelEntity bean = list.get(i);
+            dataCaseService.updateCaseTelStatus(bean);
+        }
 
-        dataCaseService.updateCaseTelStatus(bean);
         return WebResponse.success();
     }
 
