@@ -82,6 +82,8 @@ public interface DataCaseService {
 
     public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean);
 
+    public void addBatchCaseTel(DataCaseTelEntity bean);
+
     public void delCaseTel(DataCaseTelEntity bean);
 
     public void saveCaseAddress(DataCaseAddressEntity bean);

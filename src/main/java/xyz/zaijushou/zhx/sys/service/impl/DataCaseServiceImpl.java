@@ -1156,6 +1156,12 @@ public class DataCaseServiceImpl implements DataCaseService {
         return bean;
     }
 
+    public void addBatchCaseTel(DataCaseTelEntity bean){
+        String telMsg = bean.getRemark();
+
+
+    }
+
     public void delCaseTel(DataCaseTelEntity bean){
         dataCaseTelMapper.deleteTel(bean);
     }

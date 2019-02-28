@@ -401,8 +401,18 @@ public class DataCaseController {
             workbook = new HSSFWorkbook(inputStream);
         }
         int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+        Row row = workbook.getSheetAt(0).getRow(0);
+        String modelType = "";
+        for (int i=0;i<cols;i++){
+            Cell cell = row.getCell(i);
+            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("配偶姓名")){
+                modelType = "chedai";
+            }else if(cell!=null && cell.getStringCellValue()!=null){
+                modelType = "biaozhun";
+            }
+        }
         List<DataCaseEntity> dataCaseEntities;
-        if(Math.abs(ExcelCaseConstant.StandardCase.values().length - cols) <= Math.abs(ExcelCaseConstant.CardLoanCase.values().length - cols)) {
+        if(modelType.equals("biaozhun")) {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
         } else {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
@@ -594,6 +604,13 @@ public class DataCaseController {
     public Object updateCaseTel(@RequestBody DataCaseTelEntity bean) {
         DataCaseTelEntity dataCaseTelEntity = dataCaseService.saveCaseTel(bean);
         return WebResponse.success(dataCaseTelEntity);
+    }
+
+    @ApiOperation(value = "批量新增案件电话", notes = "批量新增案件电话")
+    @PostMapping("/dataCase/addBatchCaseTel")
+    public Object addBatchCaseTel(@RequestBody DataCaseTelEntity bean) {
+        dataCaseService.addBatchCaseTel(bean);
+        return WebResponse.success();
     }
 
     @ApiOperation(value = "删除案件电话", notes = "删除案件电话")
