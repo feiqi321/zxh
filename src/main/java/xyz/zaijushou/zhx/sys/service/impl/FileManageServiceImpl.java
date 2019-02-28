@@ -318,7 +318,39 @@ public class FileManageServiceImpl implements FileManageService {
     public WebResponse batchCollect(List<DataCollectionEntity> list){
 
         WebResponse webResponse = WebResponse.buildResponse();
+        int code = 200;
+        int lineCount=0;
+        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
+        int sucessCount =0;
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            if (StringUtils.isEmpty(temp.getSeqno())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                }else{
+                  /*  errorStr.append(i+2);*/
+                    lineCount = lineCount+1;
+                    code = 500;
+                }
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqno(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
 
+                }else{
+                    //errorStr.append(i+2);
+                    lineCount = lineCount+1;
+                    code = 500;
+                }
+            }
+
+        }
+        if (code==500){
+            webResponse.setCode("500");
+            errorStr.append(lineCount);
+            webResponse.setMsg(errorStr.toString());
+            return webResponse;
+        }
         for (int i=0;i<list.size();i++){
             DataCollectionEntity dataCollectionEntity = list.get(i);
 
@@ -327,19 +359,22 @@ public class FileManageServiceImpl implements FileManageService {
                 if (temp!=null){
                     dataCollectionEntity.setCaseId(temp.getId()+"");
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
+                    sucessCount =sucessCount+1;
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCollectionEntity.setCaseId(temp.getId()+"");
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
+                    sucessCount =sucessCount+1;
                 }
             }
 
 
         }
 
-
+        sucessStr.append(sucessCount);
+        webResponse.setMsg(sucessStr.toString());
         webResponse.setCode("100");
         return webResponse;
 
