@@ -193,7 +193,7 @@
          `address`, `login_name`, `password`, `remark`, `enable`,
         `create_time`, `delete_flag`, `status`)
         VALUES (
-        #{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+        #{username,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{departId,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
         #{highEdu,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{posiTitle,jdbcType=VARCHAR}, #{comeResource,jdbcType=VARCHAR},
         #{joinTime,jdbcType=TIMESTAMP}, #{internship,jdbcType=INTEGER}, #{planTime,jdbcType=TIMESTAMP}, #{actualTime,jdbcType=TIMESTAMP}, #{creditTime,jdbcType=TIMESTAMP},
         #{leaveTime,jdbcType=TIMESTAMP}, #{yearlySalary,jdbcType=DECIMAL}, #{securityNumber,jdbcType=VARCHAR}, #{fundNumber,jdbcType=VARCHAR}, #{benefit,jdbcType=VARCHAR},
@@ -369,6 +369,18 @@
         </if>
         <if test="userName != null and userName!=''">
             AND username like CONCAT('%',#{username},'%')
+        </if>
+    </select>
+
+    <select id="getDataListByRoleName" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        select
+        DISTINCT  su.id , su.username as userName
+        from
+        sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
+        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        where su.delete_flag = 0
+        <if test="role != null and role!=''">
+            AND  sr.role_name = #{role}
         </if>
     </select>
 

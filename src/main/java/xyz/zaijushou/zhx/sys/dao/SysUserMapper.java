@@ -43,6 +43,8 @@ public interface SysUserMapper {
 
     List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity);
 
+    List<SysNewUserEntity> getDataListByRoleName(SysNewUserEntity userEntity);
+
 
     /**
      * 查询用户信息

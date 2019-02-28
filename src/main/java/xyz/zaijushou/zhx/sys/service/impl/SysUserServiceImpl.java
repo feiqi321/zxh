@@ -181,7 +181,10 @@ public class SysUserServiceImpl implements SysUserService {
         List<SysNewUserEntity> userInfoEntity = sysUserMapper.getDataByRoleName(userEntity);
         return userInfoEntity;
     }
-
+    public List<SysNewUserEntity> getDataByRoleNameForList(SysNewUserEntity userEntity){
+        List<SysNewUserEntity> userInfoEntity = sysUserMapper.getDataListByRoleName(userEntity);
+        return userInfoEntity;
+    }
     /**
      * 根据用户属性查询用户列表
      * 属性：姓名

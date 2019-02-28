@@ -101,6 +101,13 @@ public class SysUserController {
         return WebResponse.success(userInfoEntity);
     }
 
+    @ApiOperation(value = "通过角色查询员工下拉列表", notes = "通过角色查询员工下拉列表")
+    @PostMapping("/select/roleList")
+    public Object getDataByRoleNameForList(@RequestBody SysNewUserEntity userEntity) {
+        List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
+        return WebResponse.success(userInfoEntity);
+    }
+
     @ApiOperation(value = "获取职位列表", notes = "获取职位列表")
     @PostMapping("/select/position")
     public Object getPosition() {

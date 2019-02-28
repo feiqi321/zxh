@@ -21,7 +21,7 @@ public class SysOperationUserEntity extends CommonEntity {
   private String posiTitle;
   private String comeResource;
   private String password;
-
+private String departId;
   @JSONField(format="yyyy-MM-dd HH:mm:ss")
   private Date joinTime;
   private int internship;
@@ -68,6 +68,14 @@ public class SysOperationUserEntity extends CommonEntity {
   private int enable;
 
   private int status;
+
+  public String getDepartId() {
+    return departId;
+  }
+
+  public void setDepartId(String departId) {
+    this.departId = departId;
+  }
 
   public String getPassword() {
     return password;
