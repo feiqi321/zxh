@@ -5,7 +5,7 @@
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseMapper">
 
     <sql id="colSql">
-        da.id as id,
+        DISTINCT da.id as id,
         da.case_date as caseDate,
         da.money as money,
         da.case_deadline as caseDeadline,
