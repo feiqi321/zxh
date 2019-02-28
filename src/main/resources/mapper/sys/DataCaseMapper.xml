@@ -1749,7 +1749,7 @@
     <select id="detail" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseDetail">
           select
         <include refid="colSql"/>
-          from data_case where id = #{id}
+          from data_case da where da.id = #{id}
     </select>
     
     <update id="updateRemark" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" >
