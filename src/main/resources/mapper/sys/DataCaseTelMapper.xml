@@ -43,7 +43,7 @@
 
     <update id="updateTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
 
-        update data_case_tel set name =#{name},relation=#{relation},tel=#{tel},type=#{type},status=#{status},remark=#{remark}
+        update data_case_tel set name =#{name},relation=#{relation},tel=#{tel},type=#{type},status=#{telStatusMsg},remark=#{remark}
         where id = #{id}
 
     </update>

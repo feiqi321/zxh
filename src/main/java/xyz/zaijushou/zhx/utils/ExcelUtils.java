@@ -259,8 +259,16 @@ public class ExcelUtils {
             String stringValue = value == null ? "" : String.valueOf(value);
             cell.setCellValue(stringValue);
         } else if (Date.class == clazz) {
-            Date dateValue = (Date) value;
-            cell.setCellValue(dateValue);
+            try {
+                Date dateValue = (Date) value;
+                cell.setCellValue(dateValue);
+            }catch(Exception e){
+                if (value==null){
+                    cell.setCellValue("");
+                }else {
+                    cell.setCellValue(value.toString());
+                }
+            }
         } else if (Double.class == clazz) {
             Double doubleValue = (Double) value;
             cell.setCellValue(doubleValue);
