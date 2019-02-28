@@ -200,7 +200,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysNewUserEntity queryUser = selectPasswordInfoById(user);
         if(delegatingPasswordEncoder.matches(DigestUtils.md5Hex(user.getOldPassword()), queryUser.getPassword())) {
             user.setId(userId);
-            user.setPassword(delegatingPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex(user.getPassword())));
             sysUserMapper.passwordReset(user);
         } else {
             throw new BadCredentialsException("密码错误");
