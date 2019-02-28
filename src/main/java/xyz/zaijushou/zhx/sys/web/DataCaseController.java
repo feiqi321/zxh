@@ -499,6 +499,20 @@ public class DataCaseController {
         return null;
     }
 
+    @ApiOperation(value = "查询导出批次案件", notes = "查询导出批次案件")
+    @PostMapping("/dataCase/selectDataCaseExportByBatch")
+    public Object selectDataCaseExportByBatch(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List<DataCaseEntity> resultList = dataCaseService.selectDataCaseExportByBatch(bean);
+        ExcelUtils.exportExcel(resultList,
+                ExcelCaseConstant.CaseExportCase.values(),
+                "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+
 
     @ApiOperation(value = "查询导出所选案件的催收记录", notes = "查询导出所选案件的催收记录")
     @PostMapping("/dataCase/selectDataCollectExportByBatch")

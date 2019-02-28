@@ -35,6 +35,8 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> selectCaseList(int[] ids);
 
+    public List<DataCaseEntity> selectDataCaseExportByBatch(DataCaseEntity bean);
+
     public List<DataCaseTelExport> selectCaseTelListExport(int[] ids);
 
     public void sumCaseMoney(DataCaseEntity bean);

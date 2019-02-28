@@ -1053,6 +1053,26 @@ public class DataCaseServiceImpl implements DataCaseService {
         return combineData(list);
     }
 
+    public List<DataCaseEntity> selectDataCaseExportByBatch(DataCaseEntity dataCaseEntity){
+        List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+
+        list = dataCaseMapper.selectDataCaseExportByBatch(dataCaseEntity);
+        for(int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            if (temp.getCollectStatus()==0){
+                temp.setCollectStatusMsg("");
+            }else{
+                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                if (dictList.size() > 0) {
+                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                    temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                }
+            }
+            list.set(i,temp);
+        }
+
+        return combineData(list);
+    }
 
     public DataCaseDetail detail(DataCaseEntity bean){
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
@@ -1111,9 +1131,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     //单位电话 家庭电话 电话 联系人电话 其他电话(类型)
     public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean){
         if(bean.getId()==null || bean.getId()==0) {
-            bean = dataCaseTelMapper.saveTel(bean);
+            dataCaseTelMapper.saveTel(bean);
         }else{
-            bean = dataCaseTelMapper.updateTel(bean);
+            dataCaseTelMapper.updateTel(bean);
         }
         return bean;
     }

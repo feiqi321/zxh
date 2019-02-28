@@ -63,6 +63,8 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> selectCaseListExport(int[] ids);
 
+    public List<DataCaseEntity> selectDataCaseExportByBatch(DataCaseEntity dataCaseEntity);
+
     public List<DataCaseTelExport> selectCaseTelListExport(int[] ids);
 
     public List<DataCaseEntity> totalCaseListExport(DataCaseEntity dataCaseEntity);
