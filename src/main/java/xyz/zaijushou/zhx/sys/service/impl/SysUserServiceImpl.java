@@ -1,11 +1,13 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import sun.security.provider.MD5;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
@@ -196,7 +198,7 @@ public class SysUserServiceImpl implements SysUserService {
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         user.setId(userId);
         SysNewUserEntity queryUser = selectPasswordInfoById(user);
-        if(delegatingPasswordEncoder.matches(user.getOldPassword(), queryUser.getPassword())) {
+        if(delegatingPasswordEncoder.matches(DigestUtils.md5Hex(user.getOldPassword()), queryUser.getPassword())) {
             user.setId(userId);
             user.setPassword(delegatingPasswordEncoder.encode(user.getPassword()));
             sysUserMapper.passwordReset(user);
