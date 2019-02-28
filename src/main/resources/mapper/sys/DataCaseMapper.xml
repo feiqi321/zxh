@@ -1739,7 +1739,7 @@
 
 
     <select id="detail" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseDetail">
-          select
+          select id,
           <!--主要部分-->
           name,client,
           <!--隐藏部分-->
@@ -1765,6 +1765,17 @@
         <if test="seqNo != null and seqNo != ''">
             and da.seq_no like concat('%', #{seqNo}, '%')
         </if>
+    </select>
+
+    <select id="listSynergy" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+          SELECT
+            t.id,t.synergy,t.synergy_type as synergyType,t.synergy_context as synergyContext,t.synergy_date as synergyDate,t.odv,t.synergy_checker as synerCkecker,t.synergy_context as synerCheckContext,t.syner_check_time as synergyCheckTime
+          from data_case t
+          where t.synergy in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
     </select>
 
 </mapper>

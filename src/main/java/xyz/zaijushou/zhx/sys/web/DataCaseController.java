@@ -6,11 +6,15 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.formula.functions.Rows;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +28,9 @@ import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -45,6 +51,8 @@ public class DataCaseController {
     private FileManageService fileManageService;
     @Autowired
     private DataCollectService dataCollectService;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -317,15 +325,25 @@ public class DataCaseController {
         String fileName = file.getOriginalFilename();
         logger.info(fileName);
         InputStream inputStream = file.getInputStream();
-        Workbook workbook;
+        Workbook workbook = null;
         if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
             workbook = new XSSFWorkbook(inputStream);
         } else {
             workbook = new HSSFWorkbook(inputStream);
         }
         int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+        Row row = workbook.getSheetAt(0).getRow(0);
+        String modelType = "";
+        for (int i=0;i<cols;i++){
+            Cell cell = row.getCell(i);
+            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("")){
+                modelType = "biaozhun";
+            }else if(cell!=null && cell.getStringCellValue()!=null){
+                modelType = "chedai";
+            }
+        }
         List<DataCaseEntity> dataCaseEntities;
-        if(Math.abs(ExcelCaseConstant.StandardCase.values().length - cols) <= Math.abs(ExcelCaseConstant.CardLoanCase.values().length - cols)) {
+        if(modelType.equals("biaozhun")) {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
         } else {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
@@ -376,7 +394,12 @@ public class DataCaseController {
         String fileName = file.getOriginalFilename();
         logger.info(fileName);
         InputStream inputStream = file.getInputStream();
-        Workbook workbook = new XSSFWorkbook(inputStream);
+        Workbook workbook = null;
+        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else {
+            workbook = new HSSFWorkbook(inputStream);
+        }
         int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
         List<DataCaseEntity> dataCaseEntities;
         if(Math.abs(ExcelCaseConstant.StandardCase.values().length - cols) <= Math.abs(ExcelCaseConstant.CardLoanCase.values().length - cols)) {
@@ -543,8 +566,8 @@ public class DataCaseController {
     @ApiOperation(value = "更新案件电话", notes = "更新案件电话")
     @PostMapping("/dataCase/saveCaseTel")
     public Object updateCaseTel(@RequestBody DataCaseTelEntity bean) {
-        dataCaseService.saveCaseTel(bean);
-        return WebResponse.success();
+        DataCaseTelEntity dataCaseTelEntity = dataCaseService.saveCaseTel(bean);
+        return WebResponse.success(dataCaseTelEntity);
     }
 
     @ApiOperation(value = "删除案件电话", notes = "删除案件电话")
@@ -575,4 +598,24 @@ public class DataCaseController {
         return WebResponse.success(pageInfo);
     }
 
+    @ApiOperation(value = "查询案件评语", notes = "查询案件评语")
+    @PostMapping("/dataCase/listComment")
+    public Object listComment(@RequestBody DataCaseEntity dataCaseEntity) {
+        List<DataCaseCommentEntity> list = dataCaseService.listComment(dataCaseEntity);
+        return WebResponse.success(list);
+    }
+
+    @ApiOperation(value = "查询利息更新", notes = "查询利息更新")
+    @PostMapping("/dataCase/listInterest")
+    public Object listInterest(@RequestBody DataCaseEntity dataCaseEntity) {
+        List<DataCaseInterestEntity> list = dataCaseService.listInterest(dataCaseEntity);
+        return WebResponse.success(list);
+    }
+
+    @ApiOperation(value = "查询协催", notes = "查询协催")
+    @PostMapping("/dataCase/listSynergy")
+    public Object listSynergy(@RequestBody DataCaseEntity dataCaseEntity) {
+        List<DataCaseEntity> list = dataCaseService.listSynergy(dataCaseEntity);
+        return WebResponse.success(list);
+    }
 }

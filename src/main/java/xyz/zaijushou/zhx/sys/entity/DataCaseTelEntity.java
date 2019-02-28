@@ -22,7 +22,6 @@ public class DataCaseTelEntity extends CommonEntity {
     private String caseDate;
     private int telStatus;
     private String telStatusMsg;
-
     public String getTelStatusMsg() {
         return telStatusMsg;
     }

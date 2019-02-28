@@ -76,7 +76,7 @@ public interface DataCaseService {
 
     public void updateRemark(DataCaseEntity bean);
 
-    public void saveCaseTel(DataCaseTelEntity bean);
+    public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean);
 
     public void delCaseTel(DataCaseTelEntity bean);
 
@@ -85,4 +85,10 @@ public interface DataCaseService {
     public void delCaseAddress(DataCaseAddressEntity bean);
 
     PageInfo<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseCommentEntity> listComment(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseInterestEntity> listInterest(DataCaseEntity dataCaseEntity);
+
+    public List<DataCaseEntity> listSynergy(DataCaseEntity dataCaseEntity);
 }

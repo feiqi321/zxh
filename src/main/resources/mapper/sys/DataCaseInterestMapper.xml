@@ -63,8 +63,9 @@
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity">
-        select id,interest,case_id
-        from data_case_interest where case_id = #{caseId}
+        select id,interest,case_id as caseId,currency,lastest_debt as lastestDebt,end_date as endDate,principal,penalty,late_fee as lateFee,overrun_fee as overrunFee,service_fee as serivceFee,
+        year_fee as yearFee,else_fee as elseFee,sheet_fee as sheetFee,create_time as createTime
+        from data_case_interest where case_id = #{caseId} and delete_flag=0
     </select>
 
 </mapper>

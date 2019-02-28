@@ -119,6 +119,10 @@ public class DataCaseEntity extends CommonEntity {
     private String synergyEndTime;//协催申请结束时间
     private String synergyContext; //协催申请内容
     private String synergyType;
+    private int synerCkecker; //协催人
+    private String synergyCkeckerName;
+    private String synergyCheckTime;//协催时间
+    private String synerCheckContext;//协催内容
 
     private String queryMethod; //精确查询1 模糊查询2
 
@@ -263,6 +267,38 @@ public class DataCaseEntity extends CommonEntity {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    public int getSynerCkecker() {
+        return synerCkecker;
+    }
+
+    public void setSynerCkecker(int synerCkecker) {
+        this.synerCkecker = synerCkecker;
+    }
+
+    public String getSynergyCkeckerName() {
+        return synergyCkeckerName;
+    }
+
+    public void setSynergyCkeckerName(String synergyCkeckerName) {
+        this.synergyCkeckerName = synergyCkeckerName;
+    }
+
+    public String getSynergyCheckTime() {
+        return synergyCheckTime;
+    }
+
+    public void setSynergyCheckTime(String synergyCheckTime) {
+        this.synergyCheckTime = synergyCheckTime;
+    }
+
+    public String getSynerCheckContext() {
+        return synerCheckContext;
+    }
+
+    public void setSynerCheckContext(String synerCheckContext) {
+        this.synerCheckContext = synerCheckContext;
+    }
 
     public String getSynergyType() {
         return synergyType;

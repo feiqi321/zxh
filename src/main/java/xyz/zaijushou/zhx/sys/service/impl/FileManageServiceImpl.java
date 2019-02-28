@@ -9,6 +9,8 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
+import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
@@ -34,10 +36,39 @@ public class FileManageServiceImpl implements FileManageService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private DataCaseCommentMapper dataCaseCommentMapper;
+    @Resource
+    private SysUserService sysUserService;//用户业务控制层
 
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
+        int code = 200;
+        StringBuffer errorStr = new StringBuffer("导入失败，错误行数为:");
+        for (int i=0;i<list.size();i++){
+            DataCaseTelEntity dataCaseTelEntity = list.get(i);
+            if (StringUtils.isEmpty(dataCaseTelEntity.getSeqNo())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getCardNo()+"@"+dataCaseTelEntity.getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getSeqNo(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }
+
+        }
+        if (code==500){
+            webResponse.setCode("500");
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
+            return webResponse;
+        }
         for (int i=0;i<list.size();i++){
             DataCaseTelEntity dataCaseTelEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseTelEntity.getSeqNo())){
@@ -63,6 +94,33 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchCaseAddress(List<DataCaseAddressEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
+        int code = 200;
+        StringBuffer errorStr = new StringBuffer("导入失败，错误行数为:");
+        for (int i=0;i<list.size();i++){
+            DataCaseAddressEntity temp = list.get(i);
+            if (StringUtils.isEmpty(temp.getSeqNo())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqNo(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }
+
+        }
+        if (code==500){
+            webResponse.setCode("500");
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
+            return webResponse;
+        }
         for (int i=0;i<list.size();i++){
             DataCaseAddressEntity dataCaseAddressEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseAddressEntity.getSeqNo())){
@@ -87,6 +145,33 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchCaseInterest(List<DataCaseInterestEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
+        int code = 200;
+        StringBuffer errorStr = new StringBuffer("导入失败，错误行数为:");
+        for (int i=0;i<list.size();i++){
+            DataCaseInterestEntity temp = list.get(i);
+            if (StringUtils.isEmpty(temp.getSeqNo())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqNo(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }
+
+        }
+        if (code==500){
+            webResponse.setCode("500");
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
+            return webResponse;
+        }
         for (int i=0;i<list.size();i++){
             DataCaseInterestEntity dataCaseInterestEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseInterestEntity.getSeqNo())){
@@ -111,7 +196,33 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchCaseComment(List<DataCaseEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
+        int code = 200;
+        StringBuffer errorStr = new StringBuffer("导入失败，错误行数为:");
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            if (StringUtils.isEmpty(temp.getSeqNo())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqNo(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
 
+                }else{
+                    errorStr.append(i+2);
+                    code = 500;
+                }
+            }
+
+        }
+        if (code==500){
+            webResponse.setCode("500");
+            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
+            return webResponse;
+        }
         for (int i=0;i<list.size();i++){
             DataCaseEntity dataCaseEntity = list.get(i);
             if (StringUtils.isNotEmpty(dataCaseEntity.getSeqNo())){
@@ -128,6 +239,8 @@ public class FileManageServiceImpl implements FileManageService {
                     DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
                     dataCaseCommentEntity.setCaseId(temp.getId());
                     dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
+                    SysUserEntity user = this.getUserInfo();
+                    dataCaseCommentEntity.setCreatUser(user.getId());
                     dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
                     DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
                     dataCollectionEntity.setColor(dataCaseEntity.getColor());
@@ -144,7 +257,12 @@ public class FileManageServiceImpl implements FileManageService {
         webResponse.setCode("100");
         return webResponse;
     }
-
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity user = new SysUserEntity();
+        user.setId(userId);
+        return sysUserService.findUserInfoWithoutStatusById(user);
+    }
     public WebResponse batchArchive(List<DataArchiveEntity> list){
 
         WebResponse webResponse = WebResponse.buildResponse();
