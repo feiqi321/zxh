@@ -196,7 +196,7 @@ public class DataCaseEntity extends CommonEntity {
     private Date lastWithdrawDate;  //最后提现日
     private Date stopCardDate;  //停卡日
     private Date activeCardDate;    //开卡日
-    private Date billDate;  //账单日
+    private String billDate;  //账单日
     private String billCycle;   //账单周期
     private BigDecimal outstandingAmount;  //未出账金额
     private String mainDeputyCard;  //是否主副卡
@@ -462,6 +462,14 @@ public class DataCaseEntity extends CommonEntity {
 
     public String[] getClients() {
         return clients;
+    }
+
+    public String getBillDate() {
+        return billDate;
+    }
+
+    public void setBillDate(String billDate) {
+        this.billDate = billDate;
     }
 
     public void setClients(String[] clients) {
@@ -1563,14 +1571,6 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setActiveCardDate(Date activeCardDate) {
         this.activeCardDate = activeCardDate;
-    }
-
-    public Date getBillDate() {
-        return billDate;
-    }
-
-    public void setBillDate(Date billDate) {
-        this.billDate = billDate;
     }
 
     public String getBillCycle() {

@@ -82,7 +82,7 @@ public class ExcelCaseConstant {
         COL690(690, "最后提现日", "lastWithdrawDate", Date.class),
         COL700(700, "停卡日", "stopCardDate", Date.class),
         COL710(710, "开卡日", "activeCardDate", Date.class),
-        COL720(720, "账单日", "billDate", Date.class),
+        COL720(720, "账单日", "billDate", String.class),
         COL730(730, "账单周期", "billCycle", String.class),
         COL740(740, "未出账金额", "outstandingAmount", BigDecimal.class),
         COL750(750, "是否主副卡", "mainDeputyCard", String.class),

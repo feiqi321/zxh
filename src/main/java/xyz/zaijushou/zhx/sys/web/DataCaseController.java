@@ -336,10 +336,10 @@ public class DataCaseController {
         String modelType = "";
         for (int i=0;i<cols;i++){
             Cell cell = row.getCell(i);
-            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("")){
-                modelType = "biaozhun";
-            }else if(cell!=null && cell.getStringCellValue()!=null){
+            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("配偶姓名")){
                 modelType = "chedai";
+            }else if(cell!=null && cell.getStringCellValue()!=null){
+                modelType = "biaozhun";
             }
         }
         List<DataCaseEntity> dataCaseEntities;
