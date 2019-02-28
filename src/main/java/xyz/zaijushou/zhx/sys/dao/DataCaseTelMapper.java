@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper
 public interface DataCaseTelMapper {
 
-    public void saveTel(DataCaseTelEntity entity);
+    public DataCaseTelEntity saveTel(DataCaseTelEntity entity);
 
-    public void updateTel(DataCaseTelEntity entity);
+    public DataCaseTelEntity updateTel(DataCaseTelEntity entity);
 
     public void deleteTel(DataCaseTelEntity entity);
 

@@ -6,6 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.formula.functions.Rows;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -329,8 +332,18 @@ public class DataCaseController {
             workbook = new HSSFWorkbook(inputStream);
         }
         int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+        Row row = workbook.getSheetAt(0).getRow(0);
+        String modelType = "";
+        for (int i=0;i<cols;i++){
+            Cell cell = row.getCell(i);
+            if (cell.getStringCellValue()!=null && cell.getStringCellValue().equals("")){
+                modelType = "biaozhun";
+            }else{
+                modelType = "chedai";
+            }
+        }
         List<DataCaseEntity> dataCaseEntities;
-        if(Math.abs(ExcelCaseConstant.StandardCase.values().length - cols) <= Math.abs(ExcelCaseConstant.CardLoanCase.values().length - cols)) {
+        if(modelType.equals("biaozhun")) {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
         } else {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
@@ -553,8 +566,8 @@ public class DataCaseController {
     @ApiOperation(value = "更新案件电话", notes = "更新案件电话")
     @PostMapping("/dataCase/saveCaseTel")
     public Object updateCaseTel(@RequestBody DataCaseTelEntity bean) {
-        dataCaseService.saveCaseTel(bean);
-        return WebResponse.success();
+        DataCaseTelEntity dataCaseTelEntity = dataCaseService.saveCaseTel(bean);
+        return WebResponse.success(dataCaseTelEntity);
     }
 
     @ApiOperation(value = "删除案件电话", notes = "删除案件电话")

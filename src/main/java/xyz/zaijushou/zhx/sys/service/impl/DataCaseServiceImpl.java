@@ -1109,12 +1109,13 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.updateRemark(bean);
     }
     //单位电话 家庭电话 电话 联系人电话 其他电话(类型)
-    public void saveCaseTel(DataCaseTelEntity bean){
+    public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean){
         if(bean.getId()==null || bean.getId()==0) {
-            dataCaseTelMapper.saveTel(bean);
+            bean = dataCaseTelMapper.saveTel(bean);
         }else{
-            dataCaseTelMapper.updateTel(bean);
+            bean = dataCaseTelMapper.updateTel(bean);
         }
+        return bean;
     }
 
     public void delCaseTel(DataCaseTelEntity bean){

@@ -76,7 +76,7 @@ public interface DataCaseService {
 
     public void updateRemark(DataCaseEntity bean);
 
-    public void saveCaseTel(DataCaseTelEntity bean);
+    public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean);
 
     public void delCaseTel(DataCaseTelEntity bean);
 
