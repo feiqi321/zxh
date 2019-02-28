@@ -13,6 +13,10 @@ public class DataArchiveEntity extends CommonEntity {
 
     private String identNo;
 
+    private String cardNo;
+
+    private String addressType;
+
     private String mobile;
 
     private String address;
@@ -34,6 +38,22 @@ public class DataArchiveEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public String getAddressType() {
+        return addressType;
+    }
+
+    public void setAddressType(String addressType) {
+        this.addressType = addressType;
+    }
 
     public List<DataArchiveRemarkEntity> getRemarkList() {
         return remarkList;

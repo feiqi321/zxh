@@ -12,6 +12,8 @@
         replace  into data_archive
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">name,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="addressType != null">address_type,</if>
             <if test="identNo != null">ident_no,</if>
             <if test="mobile != null">mobile,</if>
             <if test="address != null">address,</if>
@@ -24,6 +26,8 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">#{name},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="addressType != null">#{addressType},</if>
             <if test="identNo != null">#{identNo},</if>
             <if test="mobile != null">#{mobile},</if>
             <if test="address != null">#{address},</if>
