@@ -215,7 +215,7 @@
          `login_name`, `password`, `enable`,
         `delete_flag`, `status`, `position`,login_name_count)
         VALUES (
-        #{userName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{department,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
+        #{userName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{departId,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
         #{joinTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP},
         #{mobile,jdbcType=VARCHAR},
         #{officePhone,jdbcType=VARCHAR},
