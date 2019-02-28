@@ -121,7 +121,7 @@ public class DataBatchServiceImpl implements DataBatchService {
 
         BatchResponse batchResponse = new BatchResponse();
         batchResponse.setPageInfo(PageInfo.of(dataCaseEntities));
-        batchResponse.setTotalAmt(new BigDecimal(0));
+        batchResponse.setTotalAmt(totalAmt);
         batchResponse.setUserCount(userCount);
         webResponse.setData(batchResponse);
 
