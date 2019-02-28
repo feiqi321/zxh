@@ -50,8 +50,13 @@ public class ExcelUtils {
         Row header = sheet.getRow(0);
         Map<Integer, ExcelEnum> colMap = new HashMap<>();
         for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
-            String cell = header.getCell(i).getStringCellValue();
-            colMap.put(i, excelEnumMap.get(cell));
+            Cell cell = header.getCell(i);
+            if(cell == null) {
+                colMap.put(i, null);
+                continue;
+            }
+            String cellValue = cell.getStringCellValue();
+            colMap.put(i, excelEnumMap.get(cellValue));
         }
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             try {
@@ -120,6 +125,9 @@ public class ExcelUtils {
     }
 
     private static Object cellValue(Cell cell, Class clazz) throws ParseException {
+        if(cell == null) {
+            return null;
+        }
         Object result;
         switch (cell.getCellType()) {
             case STRING:
@@ -139,6 +147,8 @@ public class ExcelUtils {
             case NUMERIC:
                 if (clazz.equals(Date.class)) {
                     result = cell.getNumericCellValue();
+                } else if(clazz.equals(String.class)) {
+                    result = "" + cell.getNumericCellValue();
                 } else {
                     if (clazz.equals(BigDecimal.class)) {
                         result = new BigDecimal(cell.getNumericCellValue());
