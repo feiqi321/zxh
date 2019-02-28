@@ -146,14 +146,16 @@ public class FileManageServiceImpl implements FileManageService {
     public WebResponse batchCaseInterest(List<DataCaseInterestEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
         int code = 200;
-        StringBuffer errorStr = new StringBuffer("导入失败，错误行数为:");
+        int lineCount=0;
+        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
         for (int i=0;i<list.size();i++){
             DataCaseInterestEntity temp = list.get(i);
             if (StringUtils.isEmpty(temp.getSeqNo())){
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
                 }else{
-                    errorStr.append(i+2);
+                    //errorStr.append(i+2);
+                    lineCount = lineCount+1;
                     code = 500;
                 }
             }else{
@@ -161,7 +163,8 @@ public class FileManageServiceImpl implements FileManageService {
                 if (dataCaseEntity!=null){
 
                 }else{
-                    errorStr.append(i+2);
+                    //errorStr.append(i+2);
+                    lineCount = lineCount+1;
                     code = 500;
                 }
             }
@@ -169,7 +172,8 @@ public class FileManageServiceImpl implements FileManageService {
         }
         if (code==500){
             webResponse.setCode("500");
-            webResponse.setMsg(errorStr.substring(0,errorStr.length()));
+            errorStr.append(lineCount);
+            webResponse.setMsg(errorStr.toString());
             return webResponse;
         }
         for (int i=0;i<list.size();i++){

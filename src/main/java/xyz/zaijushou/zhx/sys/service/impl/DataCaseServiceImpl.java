@@ -1092,7 +1092,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         for (int i=0;i<dataCaseTelEntityList.size();i++){
             DataCaseTelEntity temp = dataCaseTelEntityList.get(i);
-            temp.setType(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
+            temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
             dataCaseTelEntityList.set(i,temp);
         }
 

@@ -13,6 +13,7 @@ public class DataCaseTelEntity extends CommonEntity {
     private String name;
     private String telName;
     private String type;
+    private String typeMsg;
     private String relation;
     private String remark;
     private String seqNo;
@@ -22,6 +23,15 @@ public class DataCaseTelEntity extends CommonEntity {
     private String caseDate;
     private int telStatus;
     private String telStatusMsg;
+
+    public String getTypeMsg() {
+        return typeMsg;
+    }
+
+    public void setTypeMsg(String typeMsg) {
+        this.typeMsg = typeMsg;
+    }
+
     public String getTelStatusMsg() {
         return telStatusMsg;
     }

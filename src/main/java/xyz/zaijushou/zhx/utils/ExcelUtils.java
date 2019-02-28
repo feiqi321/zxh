@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -128,6 +129,7 @@ public class ExcelUtils {
         if(cell == null) {
             return null;
         }
+        System.out.println(cell);
         Object result;
         switch (cell.getCellType()) {
             case STRING:
@@ -145,10 +147,11 @@ public class ExcelUtils {
                 }
                 break;
             case NUMERIC:
+                DecimalFormat df = new DecimalFormat("0");
                 if (clazz.equals(Date.class)) {
                     result = cell.getNumericCellValue();
                 } else if(clazz.equals(String.class)) {
-                    result = "" + cell.getNumericCellValue();
+                    result = "" + df.format(cell.getNumericCellValue());
                 } else {
                     if (clazz.equals(BigDecimal.class)) {
                         result = new BigDecimal(cell.getNumericCellValue());
