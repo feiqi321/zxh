@@ -22,6 +22,7 @@
             <if test="type != null">tel_type,</if>
             <if test="relation != null">relation,</if>
             <if test="remark != null">remark,</if>
+            <if test="telStatusMsg != null">status,</if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -36,6 +37,7 @@
             <if test="type != null">#{type},</if>
             <if test="relation != null">#{relation},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="telStatusMsg != null">#{telStatusMsg},</if>
         </trim>
     </insert>
 
