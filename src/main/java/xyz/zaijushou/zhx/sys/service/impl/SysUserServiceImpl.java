@@ -192,7 +192,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public void passwordReset(SysNewUserEntity user) {
+    public void passwordReset(SysNewUserEntity user) throws BadCredentialsException {
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         user.setId(userId);
         SysNewUserEntity queryUser = selectPasswordInfoById(user);

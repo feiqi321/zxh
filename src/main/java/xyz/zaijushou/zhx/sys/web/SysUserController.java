@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.parameters.P;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -120,7 +122,12 @@ public class SysUserController {
         if(user == null || user.getOldPassword() == null || user.getPassword() == null) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "缺少参数");
         }
-        sysUserService.passwordReset(user);
+        try{
+            sysUserService.passwordReset(user);
+        }catch (BadCredentialsException e) {
+            return WebResponse.error("500",e.getMessage());
+        }
+
         return WebResponse.success();
     }
 

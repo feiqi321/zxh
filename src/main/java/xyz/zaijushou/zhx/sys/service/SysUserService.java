@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service;
 
 import com.github.pagehelper.PageInfo;
+import org.springframework.security.authentication.BadCredentialsException;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
@@ -65,7 +66,7 @@ public interface SysUserService {
      * 用户修改密码
      * @param user
      */
-    void passwordReset(SysNewUserEntity user);
+    void passwordReset(SysNewUserEntity user) throws BadCredentialsException;
 
     /**
      * 管理员修改用户密码

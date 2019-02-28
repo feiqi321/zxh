@@ -103,6 +103,7 @@
         da.over_days as overDays,
         da.dealer as dealer,
         da.apply_date as applyDate,
+        da.last_ov
         da.repay_date as repayDate,
         da.policy_expiry_date as policyExpiryDate,
         da.card_price as cardPrice,
