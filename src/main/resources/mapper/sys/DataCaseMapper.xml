@@ -40,6 +40,7 @@
         da.census_register_zip_code as censusRegisterZipCode,
         da.qq as qq,
         da.email as email,
+        da.remark as selfInfo,
         da.birthday as birthday,
         da.age as age,
         da.province as 'province.id',
@@ -1746,15 +1747,8 @@
 
 
     <select id="detail" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseDetail">
-          select id,
-          <!--主要部分-->
-          name,client,
-          <!--隐藏部分-->
-          DATE_FORMAT(distribute_time,'%Y-%m-%d') as distributeTime,
-          distribute_history as distributeHistory,
-
-          remark as selfInfo
-
+          select
+        <include refid="colSql"/>
           from data_case where id = #{id}
     </select>
     

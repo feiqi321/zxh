@@ -49,7 +49,7 @@
     <!--通过Id删除数据信息-->
     <delete id="deleteAddress" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">
         delete from data_case_address
-        where case_id = #{caseId}
+        where id = #{id}
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">

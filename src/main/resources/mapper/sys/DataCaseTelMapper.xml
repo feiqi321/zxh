@@ -51,7 +51,7 @@
     <!--通过Id删除数据信息-->
     <delete id="deleteTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
         delete from data_case_tel
-        where case_id = #{caseId}
+        where id = #{id}
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
