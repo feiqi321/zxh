@@ -221,6 +221,16 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String detaiType;//1 本案催记  2 同批次公债催记 3共债催记 4 同卡催记
 
+    private String module;
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
     public String getDetaiType() {
         return detaiType;
     }
