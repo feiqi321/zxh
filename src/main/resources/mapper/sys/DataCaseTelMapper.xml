@@ -64,4 +64,18 @@
         update data_case_tel set status=#{telStatusMsg} where id=#{id}
     </update>
 
+    <select id="findByCaseIds" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
+        select id,tel,case_id as caseId,seq_no as seqNo,archive_no as archiveNo, card_no as cardNo,ident_no as identNo,case_date as caseDate,
+        name,tel_type as type,relation,remark,status as telStatusMsg
+        from data_case_tel where case_id in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="updateSameTelStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
+        update data_case_tel set status=#{telStatusMsg}
+        where case_id = #{caseId} and tel = #{tel}
+    </update>
+
 </mapper>

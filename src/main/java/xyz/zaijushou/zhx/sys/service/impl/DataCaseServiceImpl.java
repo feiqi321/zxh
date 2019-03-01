@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -1207,8 +1208,50 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseTelMapper.deleteTel(bean);
     }
     //同步共债电话
-    public void synchroSameTel(DataCaseTelEntity bean){
+    public WebResponse synchroSameTel(DataCaseEntity bean){
+        WebResponse webResponse= WebResponse.buildResponse();
+        List<DataCaseEntity> list = dataCaseMapper.findSameCase(bean);
+        DataCaseTelEntity telEntity = new DataCaseTelEntity();
+        telEntity.setCaseId(bean.getId());
+        List<DataCaseTelEntity> mytelList = dataCaseTelMapper.findAll(telEntity);
+        int[] caseIds = new int[list.size()];
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            caseIds[i] = temp.getId();
+        }
+        List<DataCaseTelEntity> sameOthertelList = dataCaseTelMapper.findByCaseIds(caseIds);
+        for (int i=0;i<sameOthertelList.size();i++){
+            DataCaseTelEntity temp1 = sameOthertelList.get(i);
+            int flag = 0;
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp1.getTel())) {
+                for (int j = 0; j < mytelList.size(); j++) {
+                    DataCaseTelEntity temp2 = sameOthertelList.get(i);
+                    if (temp1.getTel() != null && temp1.getTel().equals(temp2.getTel())) {
+                        flag = 1;//本案件有共债案件的电话
+                    }
+                }
+                if (flag == 1) {//本案件有共债案件的电话
+                    DataCaseTelEntity updateTelBean = new DataCaseTelEntity();
+                    updateTelBean.setCaseId(bean.getId());
+                    updateTelBean.setTel(temp1.getTel());
+                    updateTelBean.setTelStatusMsg(temp1.getTelStatusMsg());
+                    dataCaseTelMapper.updateSameTelStatus(updateTelBean);
+                } else {
+                    DataCaseTelEntity  saveTelBean = new  DataCaseTelEntity();
+                    BeanUtils.copyProperties(temp1,saveTelBean);
+                    saveTelBean.setId(null);
+                    saveTelBean.setCaseId(bean.getId());
+                    dataCaseTelMapper.saveTel(saveTelBean);
+                }
+            }
+        }
 
+        return webResponse;
+    }
+
+    public List<DataCaseEntity> sameCaseList(DataCaseEntity bean){
+        List<DataCaseEntity> list = dataCaseMapper.findSameCase(bean);
+        return list;
     }
 
     public void saveCaseAddress(DataCaseAddressEntity bean){

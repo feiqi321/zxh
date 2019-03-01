@@ -643,9 +643,16 @@ public class DataCaseController {
 
     @ApiOperation(value = "同步共债电话", notes = "删除案件电话")
     @PostMapping("/dataCase/synchroSameTel")
-    public Object synchroSameTel(@RequestBody DataCaseTelEntity bean) {
-        dataCaseService.synchroSameTel(bean);
-        return WebResponse.success();
+    public Object synchroSameTel(@RequestBody DataCaseEntity bean) {
+        WebResponse webResponse = WebResponse.buildResponse();
+        webResponse = dataCaseService.synchroSameTel(bean);
+        return webResponse;
+    }
+
+    @ApiOperation(value = "查询共债案件", notes = "查询共债案件")
+    @PostMapping("/dataCase/sameCaseList")
+    public Object sameCaseList(@RequestBody DataCaseEntity bean) {
+        return WebResponse.success(dataCaseService.sameCaseList(bean));
     }
 
     @ApiOperation(value = "更新案件地址", notes = "更新案件地址")

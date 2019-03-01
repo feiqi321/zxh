@@ -88,7 +88,9 @@ public interface DataCaseService {
 
     public void delCaseTel(DataCaseTelEntity bean);
 
-    public void synchroSameTel(DataCaseTelEntity bean);
+    public WebResponse synchroSameTel(DataCaseEntity bean);
+
+    public List<DataCaseEntity> sameCaseList(DataCaseEntity bean);
 
     public void saveCaseAddress(DataCaseAddressEntity bean);
 

@@ -21,4 +21,8 @@ public interface DataCaseTelMapper {
 
     public void updateCaseTelStatus(DataCaseTelEntity bean);
 
+    public List<DataCaseTelEntity> findByCaseIds(int[] caseIds);
+
+    public void updateSameTelStatus(DataCaseTelEntity entity);
+
 }
