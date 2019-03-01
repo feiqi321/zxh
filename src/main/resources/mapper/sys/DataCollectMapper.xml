@@ -90,6 +90,7 @@
             <if test="telName != null">tel_name,</if>
             <if test="newMoney != null">new_money,</if>
             <if test="module != null">module,</if>
+            <if test="result != null">result,</if>
             delete_flag,
             create_time,
         </trim>
@@ -173,6 +174,7 @@
             <if test="telName != null">#{telName},</if>
             <if test="newMoney != null">#{newMoney},</if>
             <if test="module != null">#{module},</if>
+            <if test="result != null">#{result},</if>
             0,
             now(),
         </trim>
