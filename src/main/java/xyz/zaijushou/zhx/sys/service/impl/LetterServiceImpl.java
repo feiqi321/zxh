@@ -102,6 +102,16 @@ public class LetterServiceImpl implements LetterService {
 
 
     public void addLetter(Letter letter){
+        DataCaseEntity request = new DataCaseEntity();
+        request.setId(letter.getCaseId());
+        DataCaseEntity dataCaseEntity = dataCaseMapper.findById(request);
+        letter.setCardNo(dataCaseEntity.getCardNo());
+        letter.setIdentNo(dataCaseEntity.getIdentNo());
+        letter.setCaseDate(dataCaseEntity.getCaseDate());
+        letter.setName(dataCaseEntity.getName());
+        letter.setDeleteFlag(0);
+        letter.setStatus("0");
+
         letterMapper.insert(letter);
     }
 

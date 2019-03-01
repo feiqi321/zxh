@@ -23,7 +23,14 @@ public class LetterAction {
     @Autowired
     private LetterService letterService;
 
+    @ApiOperation(value = "新增信函", notes = "新增信函")
+    @PostMapping("/letter/addLetter")
+    public Object addLetter(@RequestBody Letter bean) {
 
+        letterService.addLetter(bean);
+        return WebResponse.success();
+
+    }
 
     @ApiOperation(value = "分頁查询", notes = "分頁查询")
     @PostMapping("/letter/pageDataLetter")
