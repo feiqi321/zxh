@@ -39,9 +39,17 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Resource
     private SysUserService sysUserService;//用户业务控制层
 
+    private DataCaseServiceImpl dataCaseService;//用户业务控制层
+
     @Override
     public void save(DataCollectionEntity dataCollectionEntity){
+        dataCollectionMapper.saveCollection(dataCollectionEntity);
+        if (StringUtils.notEmpty(dataCollectionEntity.getsType())){
+            if (dataCollectionEntity.getsType() == 1){
+                //状态同步到同批次下的同身份证号的所有催收信息的状态
 
+            }
+        }
     }
     @Override
     public void update(DataCollectionEntity dataCollectionEntity){

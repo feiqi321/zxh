@@ -17,6 +17,7 @@ import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -50,6 +51,9 @@ public class DataCollectionTelController {
 
         PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionDay(bean);
         List<StatisticReturn>  list = pageInfo.getList();
+        if (StringUtils.isEmpty(list)){
+            return null;
+        }
         ExcelUtils.exportExcel(list,
                 ExcelDayExportConstant.CollecionList.values(),
                 "电催单日统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
@@ -72,6 +76,9 @@ public class DataCollectionTelController {
 
         PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionMonth(bean);
         List<StatisticReturn>  list = pageInfo.getList();
+        if (StringUtils.isEmpty(list)){
+            return null;
+        }
         ExcelUtils.exportExcel(list,
                 ExcelMonthExportConstant.CollecionList.values(),
                 "电催月统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
@@ -94,6 +101,9 @@ public class DataCollectionTelController {
 
         PageInfo<CollectionStatistic> pageInfo = dataCollectionTelService.pageCollectionDayAction(bean);
         List<CollectionStatistic>  list = pageInfo.getList();
+        if (StringUtils.isEmpty(list)){
+            return null;
+        }
         ExcelUtils.exportExcel(list,
                 ExcelDayActionExportConstant.CollecionList.values(),
                 "每日动作统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
