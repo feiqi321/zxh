@@ -260,7 +260,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
                 totalAmt = totalAmt.add(temp.getMoney());
                 if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
                     repayNum = repayNum+1;
@@ -303,7 +302,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
                 totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
                 if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
                     repayNum = repayNum+1;
@@ -343,6 +341,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i,temp);
             }
         }
+        totalCaseNum = PageInfo.of(list).getSize();
         CaseResponse caseResponse = new CaseResponse();
         caseResponse.setTotalCaseNum(totalCaseNum);
         caseResponse.setTotalAmt(totalAmt);
@@ -539,6 +538,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void updateCaseList(List<DataCaseEntity> dataCaseEntities) {
         List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
+        BigDecimal totalAmt = new BigDecimal(0);
         Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
         for(SysDictionaryEntity entity : dictionaryList) {
             dictMap.put(entity.getName(), entity);
@@ -565,6 +565,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseRemarkEntity> remarks = new ArrayList<>();
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
         for(DataCaseEntity entity : dataCaseEntities) {
+            totalAmt = totalAmt.add(entity.getMoney());
             dataCaseMapper.updateBySeqNo(entity);
             caseIdsSet.add(entity.getId());
             if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
@@ -600,7 +601,14 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (contacts.size()>0){
             dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
         }
-
+        /*//修改批次信息
+        DataBatchEntity dataBatchEntity = new DataBatchEntity();
+        dataBatchEntity.setBatchNo(batchNo);
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        dataBatchEntity.setUploadTime(sdf.format(new Date()));
+        dataBatchEntity.setTotalAmt(totalAmt);
+        dataBatchEntity.setUserCount(dataCaseEntities.size());
+        dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);*/
     }
 
     @Transactional
