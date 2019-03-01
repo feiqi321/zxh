@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataOpLogMapper" >
+
+  <select id="listDataOpLog" resultType="xyz.zaijushou.zhx.sys.entity.DataOpLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
+    select 
+    id,type,context,op_time as opTime,oper,case_id as caseId
+    from data_op_log
+    where case_id = #{caseId}
+    <if test="type != null and type!=''">
+      AND  type = #{type}
+    </if>
+  </select>
+
+  <!--插入数据信息-->
+  <insert id="saveDataLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
+    <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert  into data_op_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="type != null">type,</if>
+      <if test="context != null">context,</if>
+      <if test="opTime != null">op_time,</if>
+      <if test="oper != null">oper,</if>
+      <if test="caseId != null">case_id,</if>
+    </trim>
+    values
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="type != null">#{type},</if>
+      <if test="context != null">#{context},</if>
+      <if test="opTime != null">#{opTime},</if>
+      <if test="oper != null">#{oper},</if>
+      <if test="caseId != null">#{caseId},</if>
+    </trim>
+  </insert>
+
+  <delete id="delDataLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog">
+    delete from data_op_log where id  = #{id}
+  </delete>
+
+  <update id="updateDataLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
+    update data_op_log
+    set context = #{context}
+    where id = #{id}
+  </update>
+
+</mapper>

@@ -1791,7 +1791,7 @@
     </select>
 
     <select id="findSameCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          select t.batch_no as batchNo,t.seq_no as seqNo,t.case_date caseDate,t.card_no as cardNo,t.name,t.client,t.money,t.collect_status as collectStatus,
+          select t.id,t.batch_no as batchNo,t.seq_no as seqNo,t.case_date caseDate,t.card_no as cardNo,t.name,t.client,t.money,t.collect_status as collectStatus,
           t.odv,t.en_repay_amt as enRepayAmt
           from data_case t where t.ident_no in
           (select ident_no from data_case where id = #{id}) and  <![CDATA[ t.id <> #{id} ]]>
