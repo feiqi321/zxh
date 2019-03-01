@@ -87,4 +87,6 @@ public interface DataCaseMapper {
     List<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
 
     List<DataCaseEntity> listSynergy(int[] status);
+
+    List<DataCaseEntity> findSameBatchCase(DataCaseEntity dataCaseEntity);
 }

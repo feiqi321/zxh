@@ -683,4 +683,6 @@ public class DataCaseController {
         List<DataCaseEntity> list = dataCaseService.listSynergy(dataCaseEntity);
         return WebResponse.success(list);
     }
+
+
 }

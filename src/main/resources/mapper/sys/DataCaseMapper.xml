@@ -1780,7 +1780,14 @@
     </select>
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          SELECT id,seq_no as seqNo,archive_no as archiveNo,card_no as cardNo,case_date as caseDate,name from data_case where id = #{id}
+          SELECT id,batch_no as batchNo,seq_no as seqNo,archive_no as archiveNo,card_no as cardNo,case_date as caseDate,name from data_case where id = #{id}
+    </select>
+
+    <select id="findSameBatchCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+          select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
+          pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
+          collect_date as collectDate
+          from   data_case  where batch_no = #{batchNo} and ident_no = #{identNo}
     </select>
 
 </mapper>

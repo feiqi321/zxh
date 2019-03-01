@@ -1115,6 +1115,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setCreatUserName(user == null ? "" : user.getUserName());
             commentList.set(i,temp);
         }
+        DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
+        List<DataCaseEntity> sameBatchCaseList = dataCaseMapper.findSameBatchCase(caseTemp);
+        dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
         dataCaseDetail.setDataCaseCommentEntityList(commentList);
         dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
         return dataCaseDetail;
@@ -1185,7 +1188,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 temp.setCardNo(dataCaseEntity.getCardNo());
                 temp.setIdentNo(dataCaseEntity.getIdentNo());
                 temp.setCaseDate(dataCaseEntity.getCaseDate());
-                temp.setName(dataCaseEntity.getName());
+                temp.setName(name);
                 temp.setRelation(relation);
                 temp.setTel(tel);
                 temp.setTelStatusMsg("有效");

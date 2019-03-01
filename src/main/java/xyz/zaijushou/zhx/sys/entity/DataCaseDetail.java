@@ -229,6 +229,16 @@ public class DataCaseDetail {
 
     private List<DataCaseCommentEntity> dataCaseCommentEntityList;
 
+    private List<DataCaseEntity> sameBatchCaseList;
+
+    public List<DataCaseEntity> getSameBatchCaseList() {
+        return sameBatchCaseList;
+    }
+
+    public void setSameBatchCaseList(List<DataCaseEntity> sameBatchCaseList) {
+        this.sameBatchCaseList = sameBatchCaseList;
+    }
+
     public int getId() {
         return id;
     }
