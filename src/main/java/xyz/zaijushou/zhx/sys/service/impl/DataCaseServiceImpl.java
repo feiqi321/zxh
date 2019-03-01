@@ -1126,6 +1126,10 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void updateCaseTelStatus(DataCaseTelEntity bean){
         dataCaseTelMapper.updateCaseTelStatus(bean);
     }
+
+    public void updateCaseAddressStatus(DataCaseAddressEntity bean){
+        dataCaseAddressMapper.updateCaseAddressStatus(bean);
+    }
     //地址
     public List<DataCaseAddressEntity> findAddressListByCaseId(DataCaseEntity bean){
         DataCaseAddressEntity addressEntity = new DataCaseAddressEntity();

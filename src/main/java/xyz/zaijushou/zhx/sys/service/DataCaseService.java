@@ -73,6 +73,8 @@ public interface DataCaseService {
 
     public void updateCaseTelStatus(DataCaseTelEntity bean);
 
+    public void updateCaseAddressStatus(DataCaseAddressEntity bean);
+
     //地址
     public List<DataCaseAddressEntity> findAddressListByCaseId(DataCaseEntity bean);
 

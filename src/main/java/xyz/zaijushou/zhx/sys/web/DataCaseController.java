@@ -648,6 +648,17 @@ public class DataCaseController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "修改案件地址状态", notes = "修改案件地址状态")
+    @PostMapping("/address/updateStatus")
+    public Object updateAddressStatus(@RequestBody List<DataCaseAddressEntity> list) {
+        for(int i=0;i< list.size();i++){
+            DataCaseAddressEntity bean = list.get(i);
+            dataCaseService.updateCaseAddressStatus(bean);
+        }
+
+        return WebResponse.success();
+    }
+
     @ApiOperation(value = "删除案件地址", notes = "删除案件地址")
     @PostMapping("/dataCase/delCaseAddress")
     public Object delCaseAddress(@RequestBody DataCaseAddressEntity bean) {
