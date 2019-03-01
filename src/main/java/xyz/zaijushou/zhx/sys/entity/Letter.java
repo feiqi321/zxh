@@ -84,6 +84,16 @@ public class Letter extends CommonEntity {
 
     private String sort;
 
+    private int periods;
+
+    public int getPeriods() {
+        return periods;
+    }
+
+    public void setPeriods(int periods) {
+        this.periods = periods;
+    }
+
     public String getOrderBy() {
         return orderBy;
     }

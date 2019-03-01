@@ -93,6 +93,9 @@
       <if test="createDate != null" >
         create_date,
       </if>
+      <if test="periods != null" >
+        periods,
+      </if>
 
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -141,7 +144,9 @@
       <if test="createDate != null" >
         #{createDate,jdbcType=INTEGER},
       </if>
-
+      <if test="periods != null" >
+        #{periods,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >

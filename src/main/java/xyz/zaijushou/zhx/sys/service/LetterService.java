@@ -17,4 +17,6 @@ public interface LetterService {
 
     public void confirmLetter(Letter letter);
 
+    public void addLetter(Letter letter);
+
 }

@@ -101,4 +101,8 @@ public class LetterServiceImpl implements LetterService {
     }
 
 
+    public void addLetter(Letter letter){
+        letterMapper.insert(letter);
+    }
+
 }
