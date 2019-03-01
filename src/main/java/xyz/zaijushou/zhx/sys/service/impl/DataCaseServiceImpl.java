@@ -341,7 +341,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i,temp);
             }
         }
-        totalCaseNum = PageInfo.of(list).getSize();
+        totalCaseNum = new Long(PageInfo.of(list).getTotal()).intValue();
         CaseResponse caseResponse = new CaseResponse();
         caseResponse.setTotalCaseNum(totalCaseNum);
         caseResponse.setTotalAmt(totalAmt);
