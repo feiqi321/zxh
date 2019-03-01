@@ -641,6 +641,13 @@ public class DataCaseController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "同步共债电话", notes = "删除案件电话")
+    @PostMapping("/dataCase/synchroSameTel")
+    public Object synchroSameTel(@RequestBody DataCaseTelEntity bean) {
+        dataCaseService.synchroSameTel(bean);
+        return WebResponse.success();
+    }
+
     @ApiOperation(value = "更新案件地址", notes = "更新案件地址")
     @PostMapping("/dataCase/saveCaseAddress")
     public Object saveCaseAddress(@RequestBody DataCaseAddressEntity bean) {

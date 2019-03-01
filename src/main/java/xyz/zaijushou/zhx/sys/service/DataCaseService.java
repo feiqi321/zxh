@@ -88,6 +88,8 @@ public interface DataCaseService {
 
     public void delCaseTel(DataCaseTelEntity bean);
 
+    public void synchroSameTel(DataCaseTelEntity bean);
+
     public void saveCaseAddress(DataCaseAddressEntity bean);
 
     public void delCaseAddress(DataCaseAddressEntity bean);

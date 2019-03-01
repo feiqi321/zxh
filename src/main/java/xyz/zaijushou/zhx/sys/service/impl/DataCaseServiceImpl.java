@@ -1206,6 +1206,10 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void delCaseTel(DataCaseTelEntity bean){
         dataCaseTelMapper.deleteTel(bean);
     }
+    //同步共债电话
+    public void synchroSameTel(DataCaseTelEntity bean){
+
+    }
 
     public void saveCaseAddress(DataCaseAddressEntity bean){
         DataCaseEntity request = new DataCaseEntity();
