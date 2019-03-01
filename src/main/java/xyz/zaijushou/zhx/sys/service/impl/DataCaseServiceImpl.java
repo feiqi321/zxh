@@ -1169,20 +1169,28 @@ public class DataCaseServiceImpl implements DataCaseService {
         String[] telMsg = telMsgs.split("/");
         for (int i=0;i<telMsg.length;i++){
             String telInfos = telMsg[i];
+
             if (org.apache.commons.lang3.StringUtils.isNotEmpty(telInfos)){
-                for (int j=0;j<telInfos.length();j++){
-                    String[] telInfo = telInfos.split("-");
-                    String relation = telInfo[0];
-                    String name = telInfo[1];
-                    String tel = telInfo[2];
-                    DataCaseTelEntity temp = new DataCaseTelEntity();
-                    temp.setCaseId(bean.getCaseId());
-                    temp.setRelation(relation);
-                    temp.setName(name);
-                    temp.setTel(tel);
-                    temp.setTelStatusMsg("有效");
-                    dataCaseTelMapper.saveTel(bean);
-                }
+                DataCaseTelEntity temp = new DataCaseTelEntity();
+                String[] telInfo = telInfos.split("-");
+                String relation = telInfo[0];
+                String name = telInfo[1];
+                String tel = telInfo[2];
+                DataCaseEntity request = new DataCaseEntity();
+                request.setId(bean.getCaseId());
+                DataCaseEntity dataCaseEntity = dataCaseMapper.findById(request);
+                temp.setCaseId(bean.getCaseId());
+                temp.setSeqNo(dataCaseEntity.getSeqNo());
+                temp.setArchiveNo(dataCaseEntity.getArchiveNo());
+                temp.setCardNo(dataCaseEntity.getCardNo());
+                temp.setIdentNo(dataCaseEntity.getIdentNo());
+                temp.setCaseDate(dataCaseEntity.getCaseDate());
+                temp.setName(dataCaseEntity.getName());
+                temp.setRelation(relation);
+                temp.setTel(tel);
+                temp.setTelStatusMsg("有效");
+
+                dataCaseTelMapper.saveTel(temp);
             }
         }
 
@@ -1193,6 +1201,16 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     public void saveCaseAddress(DataCaseAddressEntity bean){
+        DataCaseEntity request = new DataCaseEntity();
+        request.setId(bean.getCaseId());
+        DataCaseEntity dataCaseEntity = dataCaseMapper.findById(request);
+        bean.setCaseId(bean.getCaseId());
+        bean.setSeqNo(dataCaseEntity.getSeqNo());
+        bean.setArchiveNo(dataCaseEntity.getArchiveNo());
+        bean.setCardNo(dataCaseEntity.getCardNo());
+        bean.setIdentNo(dataCaseEntity.getIdentNo());
+        bean.setCaseDate(dataCaseEntity.getCaseDate());
+        bean.setName(dataCaseEntity.getName());
         if(bean.getId()==null || bean.getId()==0) {
             dataCaseAddressMapper.saveAddress(bean);
         }else{
