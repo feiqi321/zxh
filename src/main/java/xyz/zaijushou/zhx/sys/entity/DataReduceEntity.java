@@ -18,8 +18,8 @@ public class DataReduceEntity extends CommonEntity {
     private String contactWay;
     private String sex;
     private String age;
-    private int visitFlag;
-    private int joinFlag;
+    private String visitFlag;
+    private String joinFlag;
     private String connectFlag;
     private BigDecimal enRepayAmt;
     private BigDecimal repayAmt;
@@ -27,6 +27,90 @@ public class DataReduceEntity extends CommonEntity {
     private String reduceReason;
     private String reduceData;
     private String remark;
+
+    //减免有效时间
+    private String reduceValidTime;
+    private String reduceValidTimeStart;
+    private String reduceValidTimeEnd;
+
+    //个案序列号
+    private String seqno;
+
+    //批复还款金额
+    private BigDecimal approveRepayAmt;
+
+    //减免结果
+    private String reduceResult;
+
+    // 减免标识（0-减免结果有效，1-减免无效（删除）,2-已撤销）
+    private String reduceFlag;
+
+    //0-待审核，1-已审核，2-已完成
+    private String reduceStatus;
+
+    public String getReduceValidTime() {
+        return reduceValidTime;
+    }
+
+    public void setReduceValidTime(String reduceValidTime) {
+        this.reduceValidTime = reduceValidTime;
+    }
+
+    public String getReduceValidTimeStart() {
+        return reduceValidTimeStart;
+    }
+
+    public void setReduceValidTimeStart(String reduceValidTimeStart) {
+        this.reduceValidTimeStart = reduceValidTimeStart;
+    }
+
+    public String getReduceValidTimeEnd() {
+        return reduceValidTimeEnd;
+    }
+
+    public void setReduceValidTimeEnd(String reduceValidTimeEnd) {
+        this.reduceValidTimeEnd = reduceValidTimeEnd;
+    }
+
+    public String getSeqno() {
+        return seqno;
+    }
+
+    public void setSeqno(String seqno) {
+        this.seqno = seqno;
+    }
+
+    public BigDecimal getApproveRepayAmt() {
+        return approveRepayAmt;
+    }
+
+    public void setApproveRepayAmt(BigDecimal approveRepayAmt) {
+        this.approveRepayAmt = approveRepayAmt;
+    }
+
+    public String getReduceResult() {
+        return reduceResult;
+    }
+
+    public void setReduceResult(String reduceResult) {
+        this.reduceResult = reduceResult;
+    }
+
+    public String getReduceFlag() {
+        return reduceFlag;
+    }
+
+    public void setReduceFlag(String reduceFlag) {
+        this.reduceFlag = reduceFlag;
+    }
+
+    public String getReduceStatus() {
+        return reduceStatus;
+    }
+
+    public void setReduceStatus(String reduceStatus) {
+        this.reduceStatus = reduceStatus;
+    }
 
     public String getCaseId() {
         return caseId;
@@ -76,19 +160,19 @@ public class DataReduceEntity extends CommonEntity {
         this.age = age;
     }
 
-    public int getVisitFlag() {
+    public String getVisitFlag() {
         return visitFlag;
     }
 
-    public void setVisitFlag(int visitFlag) {
+    public void setVisitFlag(String visitFlag) {
         this.visitFlag = visitFlag;
     }
 
-    public int getJoinFlag() {
+    public String getJoinFlag() {
         return joinFlag;
     }
 
-    public void setJoinFlag(int joinFlag) {
+    public void setJoinFlag(String joinFlag) {
         this.joinFlag = joinFlag;
     }
 

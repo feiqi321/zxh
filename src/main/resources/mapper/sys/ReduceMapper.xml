@@ -5,73 +5,37 @@
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.ReduceMapper">
 
 
-    <!--插入数据信息-->
-    <insert id="saveReduce" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
-        insert into data_case_reduce
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="seqno != null">seqno,</if>
-            <if test="approveRepayAmt != null">approve_repay_amt,</if>
-            <if test="reduceValidTime != null">reduce_valid_time,</if>
-            <if test="reduceResult != null">reduce_result,</if>
-            reduce_flag,
-        </trim>
-        values
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="seqno != null">#{seqno},</if>
-            <if test="approveRepayAmt != null">#{approveRepayAmt},</if>
-            <if test="reduceValidTime != null">#{reduceValidTime},</if>
-            <if test="reduceResult != null">#{reduceResult},</if>
-            0,
-        </trim>
-    </insert>
-
-    <update id="updateReduce" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-      update data_case_reduce
-       set
-        <trim suffixOverrides=",">
-        <if test="seqno != null">seqno = #{seqno},</if>
-        <if test="approveRepayAmt != null">approve_repay_amt = #{approveRepayAmt},</if>
-        <if test="reduceValidTime != null">reduce_valid_time = #{reduceValidTime},</if>
-        <if test="reduceResult != null">reduce_result = #{reduceResult},</if>
-        <if test="reduceFlag != null">reduce_flag = #{reduceFlag},</if>
-        </trim>
-        where
-        id = #{id}
-    </update>
-
-    <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        update data_case_reduce
-        set reduce_flag = #{reduceFlag}
-        where
-        id in
-        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
-
     <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
          select
         dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.overdue_bill_time as accountAge,
-        dc.complete_time as completeTime,dcr.seqno,dc.odv,dc.create_time as reduceReferTime,dc.reduce_status as reduceStatus,
-        dcr.reduce_valid_time as reduceValidTime,dc.complete_user as completeUser,dcr.approve_repay_amt as approveRepayAmt,
-        dcr.reduce_result as reduceResult,dc.en_repay_amt as enRepayAmt,dc.reduce_update_time as reduceUpdateTime,
-        dc.collect_status as collectStatus,dcr.id
+        dc.complete_time as completeTime,dc.odv,dc.create_time as reduceReferTime,dc.reduce_status as reduceStatus,
+        dc.complete_user as completeUser,dc.collect_status as collectStatus,
+        dc.en_repay_amt as enRepayAmt,dc.reduce_update_time as reduceUpdateTime,
+        dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno,dcr.approve_repay_amt as approveRepayAmt,
+        dcr.reduce_result as reduceResult,
+        dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
+        dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
+        dcr.reduce_data as reduceData
         from
-        data_case_reduce dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
-        where dcr.reduce_flag !=1
+        data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
+        where dcr.delete_flag = 0
         and dcr.id = #{id}
     </select>
 
-    <select id="pageReduce" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+    <select id="pageReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select
         dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.overdue_bill_time as accountAge,
-        dc.complete_time as completeTime,dcr.seqno,dc.odv,dc.create_time as reduceReferTime,dc.reduce_status as reduceStatus,
-        dcr.reduce_valid_time as reduceValidTime,dc.complete_user as completeUser,dcr.approve_repay_amt as approveRepayAmt,
-        dcr.reduce_result as reduceResult,dc.en_repay_amt as enRepayAmt,dc.reduce_update_time as reduceUpdateTime,
-        dc.collect_status as collectStatus,dcr.id
+        dc.complete_time as completeTime,dc.odv,dc.create_time as reduceReferTime,dc.reduce_status as reduceStatus,
+        dc.complete_user as completeUser,dc.collect_status as collectStatus,
+        dc.en_repay_amt as enRepayAmt,dc.reduce_update_time as reduceUpdateTime,
+        dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno,dcr.approve_repay_amt as approveRepayAmt,
+        dcr.reduce_result as reduceResult,
+        dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
+        dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
+        dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag
         from
-        data_case_reduce dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
-        where dcr.reduce_flag !=1
+        data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
+        where dcr.delete_flag = 0
         <if test="area != null and area!=''">
             AND dc.collect_area like CONCAT('%',#{area},'%')
         </if>
@@ -99,6 +63,13 @@
         <if test="reduceStatus != null and reduceStatus!=''">
             and reduce_status = #{reduceStatus}
         </if>
+        <if test="reduceFlag != null and reduceFlag!=''">
+            and reduce_flag != #{reduceFlag}
+        </if>
+
+        <if test="applyStatus != null and applyStatus!=''">
+            and apply_status = #{applyStatus}
+        </if>
 
         <if test="completeTimeStart != null and completeTimeStart!=''">
             <![CDATA[   and DATE_FORMAT(complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
@@ -124,8 +95,10 @@
     </select>
 
 
+   
+
     <!--插入数据信息-->
-    <insert id="saveReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity" >
+    <insert id="saveReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
         insert into data_reduce_apply
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="caseId != null">case_id,</if>
@@ -143,6 +116,12 @@
             <if test="reduceReason != null">reduce_reason,</if>
             <if test="reduceData != null">reduce_data,</if>
             <if test="remark != null">remark,</if>
+
+            <if test="seqno != null">seqno,</if>
+            <if test="approveRepayAmt != null">approve_repay_amt,</if>
+            <if test="reduceValidTime != null">reduce_valid_time,</if>
+            <if test="reduceResult != null">reduce_result,</if>
+            <if test="reduceFlag != null">reduce_flag,</if>
             delete_flag,
         </trim>
         values
@@ -162,11 +141,17 @@
             <if test="reduceReason != null">#{reduceReason},</if>
             <if test="reduceData != null">#{reduceData},</if>
             <if test="remark != null">#{remark},</if>
+
+            <if test="seqno != null">#{seqno},</if>
+            <if test="approveRepayAmt != null">#{approveRepayAmt},</if>
+            <if test="reduceValidTime != null">#{reduceValidTime},</if>
+            <if test="reduceResult != null">#{reduceResult},</if>
+            <if test="reduceFlag != null">#{reduceFlag},</if>
             0,
         </trim>
     </insert>
 
-    <update id="updateReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity">
+    <update id="updateReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         update data_reduce_apply
         set
         <trim suffixOverrides=",">
@@ -185,23 +170,32 @@
             <if test="reduceReason != null"> reduce_reason = #{reduceReason},</if>
             <if test="reduceData != null"> reduce_data = #{reduceData},</if>
             <if test="remark != null"> remark = #{remark},</if>
+
+            <if test="seqno != null">seqno = #{seqno},</if>
+            <if test="approveRepayAmt != null">approve_repay_amt = #{approveRepayAmt},</if>
+            <if test="reduceValidTime != null">reduce_valid_time = #{reduceValidTime},</if>
+            <if test="reduceResult != null">reduce_result = #{reduceResult},</if>
+            <if test="reduceFlag != null">reduce_flag = #{reduceFlag},</if>
         </trim>
         where
         id = #{id}
     </update>
 
-    <update id="updateApplyStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity">
+    <update id="updateApplyStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         update data_reduce_apply
         set delete_flag = 1
         where
         id = #{id}
     </update>
 
-    <select id="findApplyById" parameterType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataReduceEntity">
-        select
-        *
-        from
-        data_reduce_apply
-        where id = #{id}
-    </select>
+    <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        update data_reduce_apply
+        set reduce_flag = #{reduceFlag}
+        where
+        id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
 </mapper>

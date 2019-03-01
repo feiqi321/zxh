@@ -13,11 +13,11 @@ public class ExcelReduceExportConstant {
         COL40(40, "委案金额", "accountAge",  String.class),
         COL50(50, "完成时间", "completeTime", String.class),
         COL60(60, "完成人", "completeUser",  String.class),
-        COL70(70, "批复还款金额", "approveRepayAmt",  String.class),
+        COL70(70, "批复还款金额", "approveRepayAmt",  BigDecimal.class),
         COL80(80, "有效日期", "reduceValidTime", String.class),
         COL90(90, "减免状态", "reduceStatus", String.class),
-        COL100(100, "减免结果", "reduceResult",  BigDecimal.class),
-        COL110(110, "实际还款金额", "enRepayAmt",  String.class),
+        COL100(100, "减免结果", "reduceResult",  String.class),
+        COL110(110, "实际还款金额", "enRepayAmt",  BigDecimal.class),
         COL120(120, "减免状态更新时间", "reduceUpdateTime",  String.class),
         ;
 

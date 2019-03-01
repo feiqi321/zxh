@@ -223,6 +223,98 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String module;
 
+    private String payer;
+    private String contactWay;
+    private String sex;
+    private String age;
+    private String visitFlag;
+    private String joinFlag;
+    private String connectFlag;
+    private String reduceReason;
+    private String reduceData;
+
+    private String applyStatus;
+
+    public String getApplyStatus() {
+        return applyStatus;
+    }
+
+    public void setApplyStatus(String applyStatus) {
+        this.applyStatus = applyStatus;
+    }
+
+    public String getPayer() {
+        return payer;
+    }
+
+    public void setPayer(String payer) {
+        this.payer = payer;
+    }
+
+    public String getContactWay() {
+        return contactWay;
+    }
+
+    public void setContactWay(String contactWay) {
+        this.contactWay = contactWay;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getVisitFlag() {
+        return visitFlag;
+    }
+
+    public void setVisitFlag(String visitFlag) {
+        this.visitFlag = visitFlag;
+    }
+
+    public String getJoinFlag() {
+        return joinFlag;
+    }
+
+    public void setJoinFlag(String joinFlag) {
+        this.joinFlag = joinFlag;
+    }
+
+    public String getConnectFlag() {
+        return connectFlag;
+    }
+
+    public void setConnectFlag(String connectFlag) {
+        this.connectFlag = connectFlag;
+    }
+
+    public String getReduceReason() {
+        return reduceReason;
+    }
+
+    public void setReduceReason(String reduceReason) {
+        this.reduceReason = reduceReason;
+    }
+
+    public String getReduceData() {
+        return reduceData;
+    }
+
+    public void setReduceData(String reduceData) {
+        this.reduceData = reduceData;
+    }
+
     public String getModule() {
         return module;
     }

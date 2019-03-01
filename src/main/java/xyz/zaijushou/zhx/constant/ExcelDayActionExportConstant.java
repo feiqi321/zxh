@@ -14,7 +14,7 @@ public class ExcelDayActionExportConstant {
         COL70(70, "可联本人", "countConSelf",  String.class),
         COL80(80, "可联村委", "countConVillage", String.class),
         COL90(90, "可联第三人", "countConThird", String.class),
-        COL100(100, "可联家人", "countConFamily",  BigDecimal.class),
+        COL100(100, "可联家人", "countConFamily",  String.class),
         COL110(110, "空号错号", "countDeadNumber",  String.class),
         COL120(120, "网搜无效", "countSearchInvalid",  String.class),
         COL130(120, "无人接听", "countNoAnswer",  String.class),

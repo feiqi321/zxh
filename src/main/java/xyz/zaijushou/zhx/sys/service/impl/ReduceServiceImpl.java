@@ -4,7 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.DataReduceEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -21,7 +21,17 @@ public class ReduceServiceImpl implements ReduceService {
     private ReduceMapper reduceMapper;
 
     public PageInfo<DataCollectionEntity> pageReduce(DataCollectionEntity bean){
-        List<DataCollectionEntity> list = reduceMapper.pageReduce(bean);
+        bean.setReduceFlag("1");//1为已删除
+        List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
+        if (StringUtils.isEmpty(list)){
+            return new PageInfo<>();
+        }else {
+            return PageInfo.of(list);
+        }
+    }
+
+    public PageInfo<DataCollectionEntity> pageReduceApply(DataCollectionEntity bean){
+        List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
         if (StringUtils.isEmpty(list)){
             return new PageInfo<>();
         }else {
@@ -30,7 +40,7 @@ public class ReduceServiceImpl implements ReduceService {
     }
 
     public List<DataCollectionEntity> listReduce(DataCollectionEntity bean){
-        return  reduceMapper.pageReduce(bean);
+        return  reduceMapper.pageReduceApply(bean);
     }
     public DataCollectionEntity findById(DataCollectionEntity bean){
         return reduceMapper.findById(bean);
@@ -40,7 +50,9 @@ public class ReduceServiceImpl implements ReduceService {
     }
     public void saveReduce(DataCollectionEntity bean){
         if(StringUtils.isEmpty(bean.getId()) || bean.getId() == 0){//保存
-            reduceMapper.saveReduce(bean);
+            bean.setReduceFlag("0");//0-减免结果有效
+            bean.setApplyStatus("1");//1-已审核，
+            reduceMapper.saveReduceApply(bean);
         }else{//更新
             DataCollectionEntity beanInfo = reduceMapper.findById(bean);
             if (StringUtils.isEmpty(beanInfo)){
@@ -48,13 +60,13 @@ public class ReduceServiceImpl implements ReduceService {
             }
             bean.setReduceFlag(beanInfo.getReduceFlag());
             bean.setUpdateTime(new Date());
-            reduceMapper.updateReduce(bean);
+            reduceMapper.updateReduceApply(bean);
         }
     }
 
     public void saveReduceInfo(List<DataCollectionEntity> list){
        for (DataCollectionEntity bean: list){
-           reduceMapper.saveReduce(bean);
+           reduceMapper.saveReduceApply(bean);
        }
     }
     public void updateReduce(DataCollectionEntity bean){
@@ -62,18 +74,21 @@ public class ReduceServiceImpl implements ReduceService {
     }
 
 
-    public void saveReduceApply(DataReduceEntity bean){
+    public void saveReduceApply(DataCollectionEntity bean){
         if (StringUtils.isEmpty(bean.getId())){
+            bean.setApplyStatus("0");
             reduceMapper.saveReduceApply(bean);
         }else {
             reduceMapper.updateReduceApply(bean);
         }
     }
-    public DataReduceEntity findApplyById(DataReduceEntity bean){
-        DataReduceEntity info = reduceMapper.findApplyById(bean);
+    public DataCollectionEntity findApplyById(DataCollectionEntity bean){
+        DataCollectionEntity info = reduceMapper.findById(bean);
         return info;
     }
-    public void updateApplyStatus(DataReduceEntity bean){
+    public void updateApplyStatus(DataCollectionEntity bean){
         reduceMapper.updateApplyStatus(bean);
     }
+
+
 }
