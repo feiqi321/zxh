@@ -22,6 +22,7 @@
             <if test="type != null">address_type,</if>
             <if test="relation != null">relation,</if>
             <if test="remark != null">remark,</if>
+            <if test="status != null">status,</if>
             letter_count,
         </trim>
         values
@@ -37,13 +38,14 @@
             <if test="type != null">#{type},</if>
             <if test="relation != null">#{relation},</if>
             <if test="remark != null">#{remark},</if>
+            <if test="status != null">#{status},</if>
             0,
         </trim>
     </insert>
 
     <update id="updateAddress" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">
 
-        update data_case_address set name =#{name},relation=#{relation},address=#{tel},type=#{type},status=#{status},remark=#{remark}
+        update data_case_address set name =#{name},relation=#{relation},address=#{address},address_type=#{type},remark=#{remark}
         where id = #{id}
 
     </update>
@@ -59,11 +61,11 @@
         t.name,t.address_type as type,t.relation,t.remark,status
         from data_case_address t where t.case_id = #{caseId}
     </select>
-    <update id="updateCaseAddressStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" >
+    <update id="updateCaseAddressStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity" >
         update data_case_address set status=#{status} where id=#{id}
     </update>
 
-    <update id="updateLetterCount" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
+    <update id="updateLetterCount" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">
         update data_case_address set letter_count = letter_count+1 where id = #{id}
     </update>
 </mapper>
