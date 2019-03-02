@@ -38,7 +38,7 @@ public class FileListController {
     }
 
     @ApiOperation(value = "保存附件信息", notes = "保存附件信息")
-    @PostMapping("/dataFile/save")
+    @PostMapping("/dataFile/save/import")
     public Object update(MultipartFile file, FileList bean ) throws IOException {
         String fileName = file.getOriginalFilename();
         file.transferTo(new File(detailFile+fileName));
