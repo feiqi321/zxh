@@ -8,6 +8,8 @@ public class Letter extends CommonEntity {
     private Integer id;
     //案件id
     private Integer caseId;
+
+    private int addressId;
     //卡号
     private String cardNo;
 
@@ -85,6 +87,14 @@ public class Letter extends CommonEntity {
     private String sort;
 
     private int periods;
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
 
     public int getPeriods() {
         return periods;

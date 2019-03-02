@@ -22,4 +22,6 @@ public interface DataCaseAddressMapper {
     public List<DataCaseAddressEntity> findAll(DataCaseAddressEntity entity);
 
     public void updateCaseAddressStatus(DataCaseAddressEntity bean);
+
+    public void updateLetterCount(DataCaseAddressEntity bean);
 }

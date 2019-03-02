@@ -1264,9 +1264,9 @@ public class DataCaseServiceImpl implements DataCaseService {
         bean.setCardNo(dataCaseEntity.getCardNo());
         bean.setIdentNo(dataCaseEntity.getIdentNo());
         bean.setCaseDate(dataCaseEntity.getCaseDate());
-        bean.setName(dataCaseEntity.getName());
         if(bean.getId()==null || bean.getId()==0) {
             dataCaseAddressMapper.saveAddress(bean);
+            bean.setName(dataCaseEntity.getName());
         }else{
             dataCaseAddressMapper.updateAddress(bean);
         }
