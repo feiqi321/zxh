@@ -38,4 +38,17 @@
         from data_case_comment where case_id = #{caseId}
     </select>
 
+    <select id="detail" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity">
+        select id,comment,case_id,create_time as createTime,create_user as creatUser
+        from data_case_comment where id = #{id}
+    </select>
+
+    <update id="updateComment" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity">
+        update data_case_comment set comment  = #{comment} where id=#{id}
+    </update>
+
+    <update id="delComment" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity">
+        delete from data_case_comment where id=#{id}
+    </update>
+
 </mapper>

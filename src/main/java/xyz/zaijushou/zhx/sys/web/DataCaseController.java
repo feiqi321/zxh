@@ -694,6 +694,27 @@ public class DataCaseController {
         return WebResponse.success(list);
     }
 
+    @ApiOperation(value = "根据评语id查询评语", notes = "查询案件评语")
+    @PostMapping("/dataCase/detailComment")
+    public Object detailComment(@RequestBody DataCaseCommentEntity bean) {
+        DataCaseCommentEntity dataCaseCommentEntity = dataCaseService.detailComment(bean);
+        return WebResponse.success(dataCaseCommentEntity);
+    }
+
+    @ApiOperation(value = "根据评语id修改评语", notes = "根据评语id修改评语")
+    @PostMapping("/dataCase/updateComment")
+    public Object updateComment(@RequestBody DataCaseCommentEntity bean) {
+        dataCaseService.updateComment(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "根据评语id删除评语", notes = "根据评语id删除评语")
+    @PostMapping("/dataCase/delComment")
+    public Object delComment(@RequestBody DataCaseCommentEntity bean) {
+        dataCaseService.delComment(bean);
+        return WebResponse.success();
+    }
+
 
     @ApiOperation(value = "查询利息更新", notes = "查询利息更新")
     @PostMapping("/dataCase/listInterest")

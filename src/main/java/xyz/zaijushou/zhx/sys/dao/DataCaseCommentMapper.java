@@ -17,4 +17,10 @@ public interface DataCaseCommentMapper {
 
     public List<DataCaseCommentEntity> findAll(DataCaseCommentEntity entity);
 
+    public DataCaseCommentEntity detail(DataCaseCommentEntity entity);
+
+    public void updateComment(DataCaseCommentEntity entity);
+
+    public void delComment(DataCaseCommentEntity entity);
+
 }

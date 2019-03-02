@@ -1365,6 +1365,18 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         return list;
     }
+
+    public DataCaseCommentEntity detailComment(DataCaseCommentEntity bean){
+        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+        dataCaseCommentEntity.setCaseId(bean.getId());
+        DataCaseCommentEntity detail = dataCaseCommentMapper.detail(dataCaseCommentEntity);
+        SysUserEntity tempuser = new SysUserEntity();
+        tempuser.setId(Integer.valueOf(detail.getCreatUser()));
+        SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+        detail.setCreatUserName(user == null ? "" : user.getUserName());
+        return detail;
+    }
+
     public List<DataCaseInterestEntity> listInterest(DataCaseEntity dataCaseEntity){
         DataCaseInterestEntity dataCaseInterestEntity = new DataCaseInterestEntity();
         dataCaseInterestEntity.setCaseId(dataCaseEntity.getId());
@@ -1372,6 +1384,15 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         return list;
     }
+
+    public void updateComment(DataCaseCommentEntity bean){
+        dataCaseCommentMapper.updateComment(bean);
+    }
+
+    public void delComment(DataCaseCommentEntity bean){
+
+    }
+
     //2 待审核  1 最终同意申请  3代办 4撤销申请
     public List<DataCaseEntity> listSynergy(DataCaseEntity dataCaseEntity){
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();

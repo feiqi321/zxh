@@ -100,6 +100,12 @@ public interface DataCaseService {
 
     public List<DataCaseCommentEntity> listComment(DataCaseEntity dataCaseEntity);
 
+    public DataCaseCommentEntity detailComment(DataCaseCommentEntity bean);
+
+    public void updateComment(DataCaseCommentEntity bean);
+
+    public void delComment(DataCaseCommentEntity bean);
+
     public List<DataCaseInterestEntity> listInterest(DataCaseEntity dataCaseEntity);
 
     public List<DataCaseEntity> listSynergy(DataCaseEntity dataCaseEntity);
