@@ -94,7 +94,7 @@ public class DataCollectionEntity extends CommonEntity {
 
    private String reduceStatusMsg;
     //案件状态
-    private int caseStatus;
+    private Integer caseStatus;
 
     private String batchNo;
 
@@ -945,11 +945,11 @@ public class DataCollectionEntity extends CommonEntity {
         this.identNo = identNo;
     }
 
-    public int getCaseStatus() {
+    public Integer getCaseStatus() {
         return caseStatus;
     }
 
-    public void setCaseStatus(int caseStatus) {
+    public void setCaseStatus(Integer caseStatus) {
         this.caseStatus = caseStatus;
     }
 

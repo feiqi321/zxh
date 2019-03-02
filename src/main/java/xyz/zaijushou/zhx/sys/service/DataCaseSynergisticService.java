@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service;
 
 import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
+import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 
 import java.util.List;
 
@@ -13,4 +14,12 @@ public interface DataCaseSynergisticService {
     void finish(DataCaseSynergisticEntity synergistic);
 
     List<DataCaseSynergisticEntity> listSynergistic(DataCaseSynergisticEntity synergistic);
+
+    List<SysDictionaryEntity> listAllTypes();
+
+    List<DataCaseSynergisticEntity> countNum(DataCaseSynergisticEntity synergistic);
+
+    List<DataCaseSynergisticEntity> listByIdsSet(DataCaseSynergisticEntity queryEntity);
+
+    void updateInfo(DataCaseSynergisticEntity entity);
 }

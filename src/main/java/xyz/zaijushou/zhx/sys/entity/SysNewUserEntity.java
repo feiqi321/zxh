@@ -6,6 +6,7 @@ import xyz.zaijushou.zhx.common.entity.CommonEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户实体类
@@ -88,6 +89,8 @@ public class SysNewUserEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    private Set<String> namesSet;
 
     public int getLoginNameCount() {
         return loginNameCount;
@@ -272,5 +275,13 @@ public class SysNewUserEntity extends CommonEntity {
 
     public void setLoginFailTimes(Integer loginFailTimes) {
         this.loginFailTimes = loginFailTimes;
+    }
+
+    public Set<String> getNamesSet() {
+        return namesSet;
+    }
+
+    public void setNamesSet(Set<String> namesSet) {
+        this.namesSet = namesSet;
     }
 }

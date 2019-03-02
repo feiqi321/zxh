@@ -36,7 +36,7 @@ public class DataCaseEntity extends CommonEntity {
     private String[] odvs;
     private String odvFlag;
     private BigDecimal rate;
-    private int status; //案件状态 查询条件
+    private Integer status; //案件状态 查询条件
     private String accountAge;//逾期账龄 查询条件
     //地区 查询条件   列表
     private String area;
@@ -1061,11 +1061,11 @@ public class DataCaseEntity extends CommonEntity {
         this.dept = dept;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

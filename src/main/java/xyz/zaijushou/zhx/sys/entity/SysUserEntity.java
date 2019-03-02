@@ -52,6 +52,8 @@ public class SysUserEntity extends CommonEntity {
 
     private int loginNameCount;
 
+    private List<Integer> idsList;
+
     public int getLoginNameCount() {
         return loginNameCount;
     }
@@ -122,5 +124,13 @@ public class SysUserEntity extends CommonEntity {
 
     public void setLoginFailTimes(Integer loginFailTimes) {
         this.loginFailTimes = loginFailTimes;
+    }
+
+    public List<Integer> getIdsList() {
+        return idsList;
+    }
+
+    public void setIdsList(List<Integer> idsList) {
+        this.idsList = idsList;
     }
 }

@@ -76,4 +76,6 @@ public interface SysUserMapper {
     void updateLoginFailInfo(SysUserEntity user);
 
     int countByLoginName(SysUserEntity user);
+
+    List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser);
 }

@@ -2,16 +2,23 @@ package xyz.zaijushou.zhx.sys.web;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RepayTypeEnum;
+import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
+import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
+
+import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/bankReconciliation")
 public class DataCaseBankReconciliationController {
 
+    @Resource
+    private DataCaseBankReconciliationService dataCaseBankReconciliationService;
 
     @PostMapping("/listRepayType")
     public Object listRepayType() {
@@ -27,6 +34,12 @@ public class DataCaseBankReconciliationController {
             typeList.add(type);
         }
         return WebResponse.success(typeList);
+    }
+
+    @PostMapping("/list")
+    public Object list(DataCaseBankReconciliationEntity entity) {
+        PageInfo<DataCaseBankReconciliationEntity> pageInfo = dataCaseBankReconciliationService.pageDataList(entity);
+        return WebResponse.success(pageInfo);
     }
 
 }

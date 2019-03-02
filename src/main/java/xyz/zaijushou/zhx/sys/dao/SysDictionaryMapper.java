@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 
 import java.util.List;

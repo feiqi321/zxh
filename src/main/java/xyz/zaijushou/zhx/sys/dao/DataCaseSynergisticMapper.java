@@ -14,4 +14,10 @@ public interface DataCaseSynergisticMapper {
     void updateFinishStatus(DataCaseSynergisticEntity synergistic);
 
     List<DataCaseSynergisticEntity> listSynergistic(DataCaseSynergisticEntity synergistic);
+
+    List<DataCaseSynergisticEntity> countNum(DataCaseSynergisticEntity synergistic);
+
+    List<DataCaseSynergisticEntity> listByIdsSet(DataCaseSynergisticEntity queryEntity);
+
+    void updateInfo(DataCaseSynergisticEntity entity);
 }
