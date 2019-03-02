@@ -69,6 +69,30 @@ public class LegalServiceImpl implements LegalService {
         return webResponse;
     }
 
+    public WebResponse listLegal(LegalEntity bean){
+        WebResponse webResponse = WebResponse.buildResponse();
+        List<LegalEntity> dataCaseEntities = legalMapper.listLegal(bean);
+        for (int i=0;i<dataCaseEntities.size();i++){
+            LegalEntity legalEntity = dataCaseEntities.get(i);
+            if (legalEntity.getLegalStatus()==1){
+                legalEntity.setLegalStatusMsg("已审核");
+            }else{
+                legalEntity.setLegalStatusMsg("未审核");
+            }
+            if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("1")){
+                legalEntity.setProgressMsg("判决");
+            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("2")){
+                legalEntity.setProgressMsg("收案");
+            }else{
+                legalEntity.setProgressMsg("未判决");
+            }
+            dataCaseEntities.set(i,legalEntity);
+        }
+
+        webResponse.setData(dataCaseEntities);
+        return webResponse;
+    }
+
     public WebResponse pageMyDataLegal(LegalEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         SysUserEntity user = getUserInfo();

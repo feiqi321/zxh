@@ -117,6 +117,9 @@
       <if test="id != null" >
         id,
       </if>
+      <if test="caseId != null" >
+        case_id,
+      </if>
       <if test="cstName != null" >
         cst_name,
       </if>
@@ -214,6 +217,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=INTEGER},
       </if>
       <if test="cstName != null" >
         #{cstName,jdbcType=VARCHAR},
@@ -446,4 +452,11 @@
     update legal set status = #{status},owner = #{owner},checker=#{checker},check_date=now()
     where id = #{id}
   </delete>
+
+  <select id="listLegal" resultMap="BaseResultMap" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
+    select
+    <include refid="Base_Column_List" />
+    from legal
+    where  delete_flag = 0 and case_id = #{caseId}
+  </select>
 </mapper>

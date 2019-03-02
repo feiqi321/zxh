@@ -62,6 +62,15 @@ public class LegalController {
 
     }
 
+    @ApiOperation(value = "案件详情对应的诉讼", notes = "案件详情对应的诉讼")
+    @PostMapping("/legal/listLegal")
+    public Object listLegal(@RequestBody LegalEntity legalEntity) {
+
+        WebResponse webResponse = legalService.listLegal(legalEntity);
+        return WebResponse.success(webResponse);
+
+    }
+
     @ApiOperation(value = "我的诉讼案件分頁查询", notes = "我的诉讼案件分頁查询")
     @PostMapping("/legal/pageMyDataCase")
     public Object pageMyDataCase(@RequestBody LegalEntity legalEntity) {

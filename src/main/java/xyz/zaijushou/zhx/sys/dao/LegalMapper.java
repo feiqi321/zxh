@@ -16,6 +16,8 @@ public interface LegalMapper {
 
     List<LegalEntity> pageDataLegal(LegalEntity record);
 
+    List<LegalEntity> listLegal(LegalEntity record);
+
     int countDataLegal(LegalEntity record);
 
     int updateByPrimaryKeySelective(LegalEntity record);
