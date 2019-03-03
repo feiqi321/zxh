@@ -92,6 +92,8 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> sameCaseList(DataCaseEntity bean);
 
+    public List<DataCaseEntity> sameBatchCaseList(DataCaseEntity bean);
+
     public void saveCaseAddress(DataCaseAddressEntity bean);
 
     public void delCaseAddress(DataCaseAddressEntity bean);

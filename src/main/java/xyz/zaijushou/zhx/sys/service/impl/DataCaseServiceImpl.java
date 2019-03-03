@@ -1254,6 +1254,12 @@ public class DataCaseServiceImpl implements DataCaseService {
         return list;
     }
 
+    public List<DataCaseEntity> sameBatchCaseList(DataCaseEntity bean){
+        DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
+        List<DataCaseEntity> list = dataCaseMapper.findSameBatchCase(caseTemp);
+        return list;
+    }
+
     public void saveCaseAddress(DataCaseAddressEntity bean){
         DataCaseEntity request = new DataCaseEntity();
         request.setId(bean.getCaseId());
