@@ -6,11 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
+import xyz.zaijushou.zhx.constant.ExcelLetterConstant;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.LegalEntity;
 import xyz.zaijushou.zhx.sys.entity.Letter;
+import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.sys.service.LetterService;
+import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -22,6 +29,8 @@ public class LetterAction {
 
     @Autowired
     private LetterService letterService;
+    @Autowired
+    private FileManageService fileManageService;
 
     @ApiOperation(value = "新增信函", notes = "新增信函")
     @PostMapping("/letter/addLetter")
@@ -74,5 +83,14 @@ public class LetterAction {
 
         return WebResponse.success();
 
+    }
+
+    @ApiOperation(value = "案件评语导入", notes = "案件评语导入")
+    @PostMapping("/dataCase/comment/import")
+    public Object dataCaseCommentImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        List<Letter> letterEntities = ExcelUtils.importExcel(file, ExcelLetterConstant.Letter.values(), Letter.class);
+        WebResponse webResponse =fileManageService.batchLetter(letterEntities);
+        return webResponse;
     }
 }

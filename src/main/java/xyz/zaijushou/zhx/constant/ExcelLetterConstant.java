@@ -1,15 +1,21 @@
 package xyz.zaijushou.zhx.constant;
 
-public class ExcelArchiveConstant {
+import java.math.BigDecimal;
 
-    public enum Archive implements ExcelEnum{
+public class ExcelLetterConstant {
+
+    public enum Letter implements ExcelEnum{
         COL10(10, "*卡号", "cardNo", String.class),
         COL20(20, "*证件号", "identNo", String.class),
         COL30(30, "*委案日期", "caseDate", String.class),
-        COL40(40, "*地址", "address", String.class),
-        COL50(50, "*姓名", "name", String.class),
-        COL60(60, "地址类型", "addressType", String.class),
-        COL70(70, "备注", "remark", String.class),
+        COL40(40, "*信函地址 ", "address", String.class),
+        COL50(50, "姓名", "name", String.class),
+        COL60(60, "关系", "relation",  String.class),
+        COL70(70, "地址类型", "addressType", BigDecimal.class),
+        COL80(80, "申请内容", "applyContext", String.class),
+        COL90(90, "协助结果", "synergyResult", BigDecimal.class),
+        COL100(100, "协催时间", "synergyDate", BigDecimal.class),
+        COL110(110, "协催人", "synergyer", BigDecimal.class),
         ;
 
         private Integer sort;
@@ -20,7 +26,7 @@ public class ExcelArchiveConstant {
 
         private Class[] attrClazz;
 
-        Archive(Integer sort, String col, String attr, Class... attrClazz) {
+        Letter(Integer sort, String col, String attr, Class... attrClazz) {
             this.sort = sort;
             this.col = col;
             this.attr = attr;
