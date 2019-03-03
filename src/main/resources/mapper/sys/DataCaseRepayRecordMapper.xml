@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseSynergisticMapper">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper">
 
     <sql id="colSql">
         s.id as id,
@@ -48,7 +48,7 @@
         s.delete_flag as deleteFlag
     </sql>
 
-    <select id="pageSynergisticList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+    <select id="pageRepayRecordList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
         <include refid="colSql"/>
         from data_case_synergistic s
@@ -111,27 +111,21 @@
         <if test="dataCase != null and dataCase.identNo != null and dataCase.identNo != ''">
             and c.ident_no = #{dataCase.identNo}
         </if>
-        <if test="dataCase != null and dataCase.names != null and dataCase.names != null and dataCase.names.length > 0">
+        <if test="dataCase != null and dataCase.names != null and dataCase.names != null dataCase.names.length > 0">
             and c.name in
             <foreach collection="dataCase.names" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
-        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
+        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
             and c.seq_no in
             <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
-        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos != null and dataCase.identNos.length > 0">
+        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos.length > 0">
             and c.ident_no in
             <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
-        </if>
-        <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts != null and dataCase.accounts.length > 0">
-            and c.account in
-            <foreach collection="dataCase.accounts" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
@@ -200,27 +194,21 @@
         <if test="dataCase != null and dataCase.identNo != null and dataCase.identNo != ''">
             and c.ident_no = #{dataCase.identNo}
         </if>
-        <if test="dataCase != null and dataCase.names != null and dataCase.names != null and dataCase.names.length > 0">
+        <if test="dataCase != null and dataCase.names != null and dataCase.names.length > 0">
             and c.name in
             <foreach collection="dataCase.names" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
-        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
+        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
             and c.seq_no in
             <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
-        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos != null and dataCase.identNos.length > 0">
+        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos.length > 0">
             and c.ident_no in
             <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
-        </if>
-        <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts != null and dataCase.accounts.length > 0">
-            and c.account in
-            <foreach collection="dataCase.accounts" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
@@ -232,85 +220,6 @@
         </if>
     </select>
 
-    <update id="updateApplyStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
-        update data_case_synergistic
-        set synergistic_apply_status = #{applyStatus}
-        where
-              delete_flag = 0
-              and id in
-              <foreach collection="ids" item="item" open="(" close=")" separator=",">
-                  #{item}
-              </foreach>
-    </update>
 
-    <update id="updateFinishStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
-        update data_case_synergistic
-        set synergistic_finish_status = #{finishStatus}
-        where
-        delete_flag = 0
-        and id in
-        <foreach collection="ids" item="item" open="(" close=")" separator=",">
-            #{item}
-        </foreach>
-    </update>
-
-    <select id="countNum"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
-
-        select
-        a.id as 'synergisticType.id', a.name as 'synergisticType.name', b.countNum as countNum
-        (select
-        id, name
-        from sys_data_dictionary
-        where dictionary_id in (
-            select id from sys_data_dictionary where name = '协催类型'
-        )
-        ) a
-        left join
-        (
-        select count(id) as countNum,synergistic_type from data_case_synergistic where delete_flag = 0 and synergistic_apply_status = #{applyStatus} and synergistic_finish_status = #{finishStatus} group by synergistic_type
-        ) b
-        on a.id = b.synergistic_type
-    </select>
-
-    <select id="listByIdsSet" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
-        select id
-        from data_case_synergistic
-        where id in
-        <foreach collection="idsSet" item="item" open="(" close=")" separator=",">
-            #{item}
-        </foreach>
-    </select>
-
-    <update id="updateInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
-        update data_case_synergistic
-        set
-        <if test="synergisticContent != null and synergisticContent != ''">
-            synergistic_content = #{synergisticContent},
-        </if>
-        synergistic_result = #{synergisticResult},
-        <if test="synergisticUser != null and synergisticUser.id != null">
-        synergistic_user = #{synergisticUser.id},
-        </if>
-        synergistic_time = #{synergisticTime},
-        synergistic_apply_status = #{applyStatus},
-        synergistic_finish_status = {finishStatus},
-        where id = #{id} and delete_flag = 0
-    </update>
-
-    <update id="updateInfoByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
-        update data_case_synergistic
-        set
-        <if test="synergisticContent != null and synergisticContent != ''">
-            synergistic_content = #{synergisticContent},
-        </if>
-        synergistic_result = #{synergisticResult},
-        <if test="synergisticUser != null and synergisticUser.id != null">
-            synergistic_user = #{synergisticUser.id},
-        </if>
-        synergistic_time = #{synergisticTime},
-        synergistic_apply_status = #{applyStatus},
-        synergistic_finish_status = {finishStatus},
-        where data_case #{dataCase.id} and delete_flag = 0
-    </update>
 
 </mapper>

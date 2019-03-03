@@ -20,4 +20,10 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         List<DataCaseBankReconciliationEntity> pageData = dataCaseBankReconciliationMapper.pageData(entity);
         return PageInfo.of(pageData);
     }
+
+    @Override
+    public void cancel(DataCaseBankReconciliationEntity entity) {
+        entity.setStatus("1");
+        dataCaseBankReconciliationMapper.updateStatus(entity);
+    }
 }

@@ -17,10 +17,7 @@ import xyz.zaijushou.zhx.constant.ExcelSynergisticConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.SynergisticTypeEnum;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
-import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
@@ -264,33 +261,41 @@ public class DataCaseSynergisticController {
         if(CollectionUtils.isEmpty(synergisticList)) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "上传了空模板");
         }
-        Map<Integer, Integer> idCountMap = new HashMap<>();
-        Set<Integer> idsSet = new HashSet<>();
+//        Map<Integer, Integer> idCountMap = new HashMap<>();
+//        Set<Integer> idsSet = new HashSet<>();
+        Set<String> redisKeySet = new HashSet<>();
+        Map<String, Integer> redisKeyCountMap = new HashMap<>();
         Set<String> userNamesSet = new HashSet<>();
         for(int i = 0; i < synergisticList.size(); i ++) {
             DataCaseSynergisticEntity entity = synergisticList.get(i);
-            if(entity.getId() == null) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "第" + (i + 2) + "行未填写ID，请填写后上传，并检查excel的ID是否均填写了");
+            if(entity == null || entity.getDataCase() == null || StringUtils.isEmpty(entity.getDataCase().getCardNo()) || entity.getDataCase().getCaseDate() == null) {
+                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "第" + (i + 2) + "行未填写完整的卡号和委案日期，请填写后上传，并检查excel的卡号和委案日期是否均填写了");
             }
-            idsSet.add(entity.getId());
-            if(!idCountMap.containsKey(entity.getId())) {
-                idCountMap.put(entity.getId(), 1);
+            String redisKey = RedisKeyPrefix.DATA_CASE + entity.getDataCase().getCardNo() + "@" + entity.getDataCase().getCaseDate();
+            redisKeySet.add(redisKey);
+            if(!redisKeyCountMap.containsKey(redisKey)) {
+                redisKeyCountMap.put(redisKey, 1);
             } else {
-                idCountMap.put(entity.getId(), idCountMap.get(entity.getId()) + 1);
+                redisKeyCountMap.put(redisKey, redisKeyCountMap.get(redisKey) + 1);
             }
             if(synergisticList.get(i).getSynergisticUser() != null && StringUtils.isNotEmpty(synergisticList.get(i).getSynergisticUser().getUserName()) ) {
                 userNamesSet.add(synergisticList.get(i).getSynergisticUser().getUserName());
             }
         }
-        for(Map.Entry<Integer, Integer> entry : idCountMap.entrySet()) {
+        for(Map.Entry<String, Integer> entry : redisKeyCountMap.entrySet()) {
             if(entry.getValue() > 1) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "ID:" + entry.getKey() + "重复，请检查后上传");
+                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "卡号@日期：" + entry.getKey() + "重复，请检查后上传");
             }
         }
-        DataCaseSynergisticEntity queryEntity = new DataCaseSynergisticEntity();
-        queryEntity.setIdsSet(idsSet);
-        List<DataCaseSynergisticEntity> existList = dataCaseSynergisticService.listByIdsSet(queryEntity);
-        Map<Integer, DataCaseSynergisticEntity> existMap = CollectionsUtils.listToMap(existList);
+//        DataCaseSynergisticEntity queryEntity = new DataCaseSynergisticEntity();
+//        queryEntity.setIdsSet(idsSet);
+//        List<DataCaseSynergisticEntity> existList = dataCaseSynergisticService.listByIdsSet(queryEntity);
+        List<DataCaseEntity> existCaseList = RedisUtils.scanEntityWithKeys(redisKeySet, DataCaseEntity.class);
+        Map<String, DataCaseEntity> existMap = new HashMap<>();
+        for(DataCaseEntity entity : existCaseList) {
+            existMap.put(entity.getCardNo() + "@" + entity.getCaseDate(), entity);
+        }
+
         SysNewUserEntity queryUser = new SysNewUserEntity();
         queryUser.setNamesSet(userNamesSet);
         List<SysNewUserEntity> uploadUserList = sysUserService.listByNameSet(queryUser);
@@ -299,9 +304,11 @@ public class DataCaseSynergisticController {
             uploadUserMap.put(user.getUserName(), user);
         }
         for (DataCaseSynergisticEntity entity : synergisticList) {
-            if (!existMap.containsKey(entity.getId())) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "ID: " + entity.getId() + " 有误，请检查后上传");
+            String redisKey = entity.getDataCase().getCardNo() + "@" + entity.getDataCase().getCaseDate();
+            if (!existMap.containsKey(redisKey)) {
+                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "卡号@日期：" + redisKey + " 有误，找不到对应的案件，请检查后上传");
             }
+            entity.setDataCase(existMap.get(redisKey));
             if (entity.getSynergisticTime() == null) {
                 entity.setSynergisticTime(new Date());
             }
@@ -316,7 +323,7 @@ public class DataCaseSynergisticController {
             entity.setFinishStatus("1");
         }
         for(DataCaseSynergisticEntity entity : synergisticList) {
-            dataCaseSynergisticService.updateInfo(entity);
+            dataCaseSynergisticService.updateInfoByCaseId(entity);
         }
 
         return WebResponse.success();

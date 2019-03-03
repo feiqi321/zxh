@@ -30,6 +30,8 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
 
     private Date submitTimeEnd; //提交时间 end
 
+    private Integer[] ids;
+
     public DataCaseEntity getDataCase() {
         return dataCase;
     }
@@ -108,5 +110,13 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
 
     public void setSubmitTimeEnd(Date submitTimeEnd) {
         this.submitTimeEnd = submitTimeEnd;
+    }
+
+    public Integer[] getIds() {
+        return ids;
+    }
+
+    public void setIds(Integer[] ids) {
+        this.ids = ids;
     }
 }

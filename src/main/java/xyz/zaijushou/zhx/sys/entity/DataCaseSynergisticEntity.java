@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.util.Date;
@@ -16,10 +17,12 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private String applyContent;    //申请内容
 
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date applyTime; //申请时间
 
     private SysUserEntity applyUser; //申请人
 
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date synergisticTime;   //协催时间
 
     private SysNewUserEntity synergisticUser;   //协催人

@@ -22,4 +22,6 @@ public interface DataCaseSynergisticService {
     List<DataCaseSynergisticEntity> listByIdsSet(DataCaseSynergisticEntity queryEntity);
 
     void updateInfo(DataCaseSynergisticEntity entity);
+
+    void updateInfoByCaseId(DataCaseSynergisticEntity entity);
 }

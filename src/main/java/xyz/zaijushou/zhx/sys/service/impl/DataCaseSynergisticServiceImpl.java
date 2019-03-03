@@ -11,10 +11,12 @@ import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticService {
@@ -41,6 +43,15 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
             }
         }
         List<DataCaseSynergisticEntity> synergisticList = dataCaseSynergisticMapper.pageSynergisticList(synergistic);
+        SysDictionaryEntity dict = new SysDictionaryEntity();
+        dict.setName("协催类型");
+        List<SysDictionaryEntity> typeList =  sysDictionaryMapper.listDataByName(dict);
+        Map<Integer, SysDictionaryEntity> typeMap = CollectionsUtils.listToMap(typeList);
+        for(DataCaseSynergisticEntity entity : synergisticList) {
+            if(entity != null && entity.getSynergisticType() != null && entity.getSynergisticType().getId() != null && typeMap.containsKey(entity.getSynergisticType().getId())) {
+                entity.setSynergisticType(typeMap.get(entity.getSynergisticType().getId()));
+            }
+        }
         return PageInfo.of(synergisticList);
     }
 
@@ -79,5 +90,10 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
     @Override
     public void updateInfo(DataCaseSynergisticEntity entity) {
         dataCaseSynergisticMapper.updateInfo(entity);
+    }
+
+    @Override
+    public void updateInfoByCaseId(DataCaseSynergisticEntity entity) {
+        dataCaseSynergisticMapper.updateInfoByCaseId(entity);
     }
 }

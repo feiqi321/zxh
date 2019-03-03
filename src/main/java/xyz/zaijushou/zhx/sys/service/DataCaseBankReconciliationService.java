@@ -5,4 +5,6 @@ import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
 
 public interface DataCaseBankReconciliationService {
     PageInfo<DataCaseBankReconciliationEntity> pageDataList(DataCaseBankReconciliationEntity entity);
+
+    void cancel(DataCaseBankReconciliationEntity entity);
 }

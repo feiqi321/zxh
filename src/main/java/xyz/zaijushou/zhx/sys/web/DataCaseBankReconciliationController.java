@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RepayTypeEnum;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
 
@@ -37,9 +39,18 @@ public class DataCaseBankReconciliationController {
     }
 
     @PostMapping("/list")
-    public Object list(DataCaseBankReconciliationEntity entity) {
+    public Object list(@RequestBody DataCaseBankReconciliationEntity entity) {
         PageInfo<DataCaseBankReconciliationEntity> pageInfo = dataCaseBankReconciliationService.pageDataList(entity);
         return WebResponse.success(pageInfo);
+    }
+
+    @PostMapping("/bankReconciliation/cancel")
+    public Object cancel(@RequestBody DataCaseBankReconciliationEntity entity) {
+        if(entity == null || entity.getIds() == null || entity.getIds().length == 0) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请输入ids");
+        }
+        dataCaseBankReconciliationService.cancel(entity);
+        return WebResponse.success();
     }
 
 }

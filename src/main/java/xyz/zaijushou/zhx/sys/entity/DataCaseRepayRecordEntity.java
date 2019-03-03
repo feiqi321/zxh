@@ -34,6 +34,8 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     private Date confirmTimeEnd;    //确认时间end
 
+    private Integer[] ids;
+
     public DataCaseEntity getDataCase() {
         return dataCase;
     }
@@ -112,5 +114,29 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     public void setRecordStatus(String recordStatus) {
         this.recordStatus = recordStatus;
+    }
+
+    public Date getConfirmTimeStart() {
+        return confirmTimeStart;
+    }
+
+    public void setConfirmTimeStart(Date confirmTimeStart) {
+        this.confirmTimeStart = confirmTimeStart;
+    }
+
+    public Date getConfirmTimeEnd() {
+        return confirmTimeEnd;
+    }
+
+    public void setConfirmTimeEnd(Date confirmTimeEnd) {
+        this.confirmTimeEnd = confirmTimeEnd;
+    }
+
+    public Integer[] getIds() {
+        return ids;
+    }
+
+    public void setIds(Integer[] ids) {
+        this.ids = ids;
     }
 }

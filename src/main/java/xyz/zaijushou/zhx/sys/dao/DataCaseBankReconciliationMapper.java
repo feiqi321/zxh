@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface DataCaseBankReconciliationMapper {
     List<DataCaseBankReconciliationEntity> pageData(DataCaseBankReconciliationEntity entity);
+
+    void updateStatus(DataCaseBankReconciliationEntity entity);
 }
