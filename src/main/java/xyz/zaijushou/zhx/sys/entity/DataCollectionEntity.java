@@ -235,6 +235,54 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String applyStatus;
 
+    private String reduceType;
+
+    private String applyTime;
+    private String applyUser;
+    private String auditUser;
+    private String auditTime;
+
+    public String getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(String applyTime) {
+        this.applyTime = applyTime;
+    }
+
+    public String getApplyUser() {
+        return applyUser;
+    }
+
+    public void setApplyUser(String applyUser) {
+        this.applyUser = applyUser;
+    }
+
+    public String getAuditUser() {
+        return auditUser;
+    }
+
+    public void setAuditUser(String auditUser) {
+        this.auditUser = auditUser;
+    }
+
+    public String getAuditTime() {
+        return auditTime;
+    }
+
+    public void setAuditTime(String auditTime) {
+        this.auditTime = auditTime;
+    }
+
+
+    public String getReduceType() {
+        return reduceType;
+    }
+
+    public void setReduceType(String reduceType) {
+        this.reduceType = reduceType;
+    }
+
     public String getApplyStatus() {
         return applyStatus;
     }
