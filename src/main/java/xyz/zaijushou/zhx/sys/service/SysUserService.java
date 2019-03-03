@@ -79,4 +79,6 @@ public interface SysUserService {
     void updateLoginFailTimes(SysUserEntity user);
 
     public SysUserEntity getLoginName(SysUserEntity user) throws Exception;
+
+    List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser);
 }

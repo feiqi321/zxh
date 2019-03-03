@@ -141,7 +141,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 caseIds.add(collection.getCaseId());
                 ++countCase;
                 sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
-                if (collection.getCaseStatus() == 1){
+                if (1 == collection.getCaseStatus()){
                     ++countCasePay;
                     sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
                 }

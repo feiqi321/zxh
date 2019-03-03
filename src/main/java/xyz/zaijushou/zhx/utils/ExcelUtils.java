@@ -210,6 +210,26 @@ public class ExcelUtils {
                         Object obj = secondAttrSetMethod.invoke(subList.get(index));
                         setCellValue(obj, cell, excelEnum.getAttrClazz()[1]);
                     } else {
+
+                        matcher = Pattern.compile("\\..+\\.").matcher(attr);
+                        if(matcher.find()) {
+                            String[] attrs = attr.split("\\.");
+                            Method firstAttrGetMethod = entity.getClass().getMethod("get" + attrs[0].substring(0, 1).toUpperCase() + attrs[0].substring(1));
+                            Object object = firstAttrGetMethod.invoke(entity);
+                            if (object == null) {
+                                continue;
+                            }
+                            Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + attrs[1].substring(0, 1).toUpperCase() + attrs[1].substring(1));
+                            Object secondObj = secondAttrSetMethod.invoke(object);
+                            if (secondObj == null) {
+                                continue;
+                            }
+                            Method thirdAttrSetMethod = excelEnum.getAttrClazz()[1].getMethod("get" + attrs[2].substring(0, 1).toUpperCase() + attrs[2].substring(1));
+                            Object thirdObj = thirdAttrSetMethod.invoke(secondObj);
+                            setCellValue(thirdObj, cell, excelEnum.getAttrClazz()[2]);
+                            continue;
+                        }
+
                         matcher = Pattern.compile("\\.").matcher(attr);
                         if (matcher.find()) {
                             String firstAttr = attr.substring(0, matcher.start());

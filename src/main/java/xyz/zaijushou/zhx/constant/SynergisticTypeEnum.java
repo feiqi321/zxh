@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.constant;
 
+@Deprecated
 public enum  SynergisticTypeEnum {
 
     TSYJ("10", "投诉预警"),

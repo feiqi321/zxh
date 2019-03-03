@@ -240,4 +240,12 @@ public class SysUserServiceImpl implements SysUserService {
         }
     }
 
+    @Override
+    public List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser) {
+        if(queryUser == null || CollectionUtils.isEmpty(queryUser.getNamesSet())) {
+            return new ArrayList<>();
+        }
+        return sysUserMapper.listByNameSet(queryUser);
+    }
+
 }

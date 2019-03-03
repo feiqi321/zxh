@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.entity;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * 协催实体
@@ -17,7 +18,7 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private Date applyTime; //申请时间
 
-    private SysNewUserEntity applyUser; //申请人
+    private SysUserEntity applyUser; //申请人
 
     private Date synergisticTime;   //协催时间
 
@@ -25,11 +26,19 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private String synergisticResult;   //协催结果
 
-    private String applyStatus; //申请状态
+    private String applyStatus; //申请状态 0 待审批，1 同意协催，-1 撤销协催
 
-    private String finishStatus;    //完成状态
+    private String finishStatus;    //完成状态 0-未完成，1-已完成
 
     private Integer ids[];  //id列表集合
+
+    private Date applyTimeStart;    //申请时间 start
+
+    private Date applyTimeEnd;  //申请时间 end
+
+    private Integer countNum;   //统计数量，用于页面显示协催类型数量
+
+    private Set<Integer> idsSet;
 
     public DataCaseEntity getDataCase() {
         return dataCase;
@@ -63,11 +72,11 @@ public class DataCaseSynergisticEntity extends CommonEntity {
         this.applyTime = applyTime;
     }
 
-    public SysNewUserEntity getApplyUser() {
+    public SysUserEntity getApplyUser() {
         return applyUser;
     }
 
-    public void setApplyUser(SysNewUserEntity applyUser) {
+    public void setApplyUser(SysUserEntity applyUser) {
         this.applyUser = applyUser;
     }
 
@@ -117,5 +126,37 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     public void setIds(Integer[] ids) {
         this.ids = ids;
+    }
+
+    public Date getApplyTimeStart() {
+        return applyTimeStart;
+    }
+
+    public void setApplyTimeStart(Date applyTimeStart) {
+        this.applyTimeStart = applyTimeStart;
+    }
+
+    public Date getApplyTimeEnd() {
+        return applyTimeEnd;
+    }
+
+    public void setApplyTimeEnd(Date applyTimeEnd) {
+        this.applyTimeEnd = applyTimeEnd;
+    }
+
+    public Integer getCountNum() {
+        return countNum;
+    }
+
+    public void setCountNum(Integer countNum) {
+        this.countNum = countNum;
+    }
+
+    public Set<Integer> getIdsSet() {
+        return idsSet;
+    }
+
+    public void setIdsSet(Set<Integer> idsSet) {
+        this.idsSet = idsSet;
     }
 }

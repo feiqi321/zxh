@@ -8,11 +8,29 @@
         s.id as id,
         s.case_id as 'dataCase.id',
         c.collect_status as 'dataCase.collectStatus',
+        c.batch_no as 'dataCase.batchNo',
+        c.client as 'dataCase.client',
         c.seq_no as 'dataCase.seqNo',
         c.ident_no as 'dataCase.identNo',
+        c.card_no as 'dataCase.cardNo',
+        c.card_type as 'dataCase.cardType',
+        c.accout as 'dataCase.account',
+        c.currency_type as 'dataCase.currencyType',
+        c.archive_no as 'dataCase.archiveNo',
         c.name as 'dataCase.name',
         c.money as 'dataCase.money',
         c.en_repay_amt as 'dataCase.enRepayAmt',
+        c.principle as 'dataCase.principle',
+        c.last_repay_date as 'dataCase.lastRepayDate',
+        c.case_date as 'dataCase.caseDate',
+        c.collection_user as 'dataCase.collectionUser.id',
+        c.credit_line as 'dataCase.creditLine',
+        c.home_address as 'dataCase.homeAddress',
+        c.home_tel_number as 'dataCase.homeTelNumber',
+        c.unit_name as 'dataCase.unitName',
+        c.unit_address as 'dataCase.unitAddress',
+        c.tel as 'dataCase.tel',
+        c.unit_tel_number as 'dataCase.unitTelNumber',
         s.synergistic_type as synergisticType,
         s.apply_content as applyContent,
         s.apply_time as applyTime,
@@ -20,8 +38,8 @@
         s.synergistic_time as synergisticTime,
         s.synergistic_user as 'synergisticUser.id',
         s.synergistic_result as synergisticResult,
-        s.synergistic_apply_status as 'synergisticApplyStatus',
-        s.synergistic_finish_status as 'synergisticFinishStatus',
+        s.synergistic_apply_status as 'applyStatus',
+        s.synergistic_finish_status as 'finishStatus',
         s.remark as remark,
         s.create_user as 'createUser.id',
         s.update_user as 'updateUser.id',
@@ -36,6 +54,63 @@
         from data_case_synergistic s
         left join data_case c on s.case_id = c.id
         where s.delete_flag = 0
+        <if test="synergisticType != null and synergisticType != ''">
+            and s.synergistic_type = #{synergisticType}
+        </if>
+        <if test="applyStatus != null and applyStatus != ''">
+            and s.apply_satus = #{applyStatus}
+        </if>
+        <if test="finishStatus != null and finishStatus != ''">
+            and s.finish_satus = #{finishStatus}
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.id != null">
+            and c.collection_area = #{dataCase.collectionArea.id}
+        </if>
+        <if test="dataCase != null and dataCase.client != null and dataCase.client != ''">
+            and c.client = #{dataCase.client}
+        </if>
+        <if test="dataCase != null and dataCase.batchNo != null and dataCase.batchNo != ''">
+            and c.batch_no = #{dataCase.batchNo}
+        </if>
+        <if test="dataCase != null and dataCase.status != null">
+            and c.status = #{dataCase.status}
+        </if>
+        <if test="dataCase != null and dataCase.moneyStart != null">
+            and c.money >= #{dataCase.moneyStart}
+        </if>
+        <if test="dataCase != null and dataCase.moneyEnd != null">
+            and c.money &lt;= #{dataCase.moneyEnd}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateStart != null">
+            and c.case_date >= #{dataCase.caseDateStart}
+        </if>
+        <if test="dataCase != null and dataCase.dateEnd != null">
+            and c.case_date &lt;= #{dataCase.caseDateEnd}
+        </if>
+        <if test="dataCase != null and dataCase.collectStatus != 0">
+            and c.collect_status = #{dataCase.collectStatus}
+        </if>
+        <if test="applyUser != null and applyUser.idsList != null and applyUser.idsList.size > 0">
+            and s.apply_user in
+            <foreach collection="applyUser.idsList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="applyTimeStart != null">
+            and s.apply_time >= #{applyTimeStart}
+        </if>
+        <if test="applyTimeEnd != null">
+            and s.apply_time &lt;= #{applyTimeEnd}
+        </if>
+        <if test="dataCase != null and dataCase.name ! = null and dataCase.name != ''">
+            and c.name = #{dataCase.name}
+        </if>
+        <if test="dataCase != null and dataCase.seqNo ! = null and dataCase.seqNo != ''">
+            and c.seq_no = #{dataCase.seqNo}
+        </if>
+        <if test="dataCase != null and dataCase.identNo ! = null and dataCase.identNo != ''">
+            and c.ident_no = #{dataCase.identNo}
+        </if>
     </select>
 
     <select id="listSynergistic" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
@@ -44,11 +119,74 @@
         from data_case_synergistic s
         left join data_case c on s.case_id = c.id
         where s.delete_flag = 0
+        <if test="synergisticType != null and synergisticType != ''">
+            and s.synergistic_type = #{synergisticType}
+        </if>
+        <if test="applyStatus != null and applyStatus != ''">
+            and s.apply_satus = #{applyStatus}
+        </if>
+        <if test="finishStatus != null and finishStatus != ''">
+            and s.finish_satus = #{finishStatus}
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.id != null">
+            and c.collection_area = #{dataCase.collectionArea.id}
+        </if>
+        <if test="dataCase != null and dataCase.client != null and dataCase.client != ''">
+            and c.client = #{dataCase.client}
+        </if>
+        <if test="dataCase != null and dataCase.batchNo != null and dataCase.batchNo != ''">
+            and c.batch_no = #{dataCase.batchNo}
+        </if>
+        <if test="dataCase != null and dataCase.status != null">
+            and c.status = #{dataCase.status}
+        </if>
+        <if test="dataCase != null and dataCase.moneyStart != null">
+            and c.money >= #{dataCase.moneyStart}
+        </if>
+        <if test="dataCase != null and dataCase.moneyEnd != null">
+            and c.money &lt;= #{dataCase.moneyEnd}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateStart != null">
+            and c.case_date >= #{dataCase.caseDateStart}
+        </if>
+        <if test="dataCase != null and dataCase.dateEnd != null">
+            and c.case_date &lt;= #{dataCase.caseDateEnd}
+        </if>
+        <if test="dataCase != null and dataCase.collectStatus != 0">
+            and c.collect_status = #{dataCase.collectStatus}
+        </if>
+        <if test="applyUser != null and applyUser.idsList != null and applyUser.idsList.size > 0">
+            and s.apply_user in
+            <foreach collection="applyUser.idsList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="applyTimeStart != null">
+            and s.apply_time >= #{applyTimeStart}
+        </if>
+        <if test="applyTimeEnd != null">
+            and s.apply_time &lt;= #{applyTimeEnd}
+        </if>
+        <if test="dataCase != null and dataCase.name ! = null and dataCase.name != ''">
+            and c.name = #{dataCase.name}
+        </if>
+        <if test="dataCase != null and dataCase.seqNo ! = null and dataCase.seqNo != ''">
+            and c.seq_no = #{dataCase.seqNo}
+        </if>
+        <if test="dataCase != null and dataCase.identNo ! = null and dataCase.identNo != ''">
+            and c.ident_no = #{dataCase.identNo}
+        </if>
+        <if test="ids != null and ids.size >0">
+            and s.id in
+            <foreach collection="ids" item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
     <update id="updateApplyStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
         update data_case_synergistic
-        set synergistic_apply_status = #{synergisticApplyStatus}
+        set synergistic_apply_status = #{applyStatus}
         where
               delete_flag = 0
               and id in
@@ -59,13 +197,56 @@
 
     <update id="updateFinishStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
         update data_case_synergistic
-        set synergistic_finish_status = #{synergisticFinishStatus}
+        set synergistic_finish_status = #{finishStatus}
         where
         delete_flag = 0
         and id in
         <foreach collection="ids" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
+    </update>
+
+    <select id="countNum"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+
+        select
+        a.id as 'synergisticType.id', a.name as 'synergisticType.name', b.countNum as countNum
+        (select
+        id, name
+        from sys_data_dictionary
+        where dictionary_id in (
+            select id from sys_data_dictionary where name = '协催类型'
+        )
+        ) a
+        left join
+        (
+        select count(id) as countNum,synergistic_type from data_case_synergistic where delete_flag = 0 and synergistic_apply_status = #{applyStatus} and synergistic_finish_status = #{finishStatus} group by synergistic_type
+        ) b
+        on a.id = b.synergistic_type
+    </select>
+
+    <select id="listByIdsSet" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+        select id
+        from data_case_synergistic
+        where id in
+        <foreach collection="idsSet" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="updateInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+        update data_case_synergistic
+        set
+        <if test="synergisticContent != null and synergisticContent != ''">
+            synergistic_content = #{synergisticContent},
+        </if>
+        synergistic_result = #{synergisticResult},
+        <if test="synergisticUser != null and synergisticUser.id != null">
+        synergistic_user = #{synergisticUser.id},
+        </if>
+        synergistic_time = #{synergisticTime},
+        synergistic_apply_status = #{applyStatus},
+        synergistic_finish_status = {finishStatus},
+        where id = #{id} and delete_flag = 0
     </update>
 
 </mapper>

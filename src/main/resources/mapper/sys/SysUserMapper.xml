@@ -443,4 +443,16 @@
           select login_name_count as loginNameCount from sys_user where login_name = #{loginName}
     </select>
 
+    <select id="listByNameSet" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        select
+        <include refid="colSqlWithoutPassword"/>
+        from sys_user
+        where
+        delete_flag = 0
+         and username in
+        <foreach collection="namesSet" open="(" close=")" separator="," item=",">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>
