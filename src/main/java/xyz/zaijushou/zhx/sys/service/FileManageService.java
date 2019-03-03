@@ -21,4 +21,7 @@ public interface FileManageService {
     public WebResponse batchArchive(List<DataArchiveEntity> list);
 
     public WebResponse batchCollect(List<DataCollectionEntity> list);
+
+    public WebResponse batchLetter(List<Letter> list);
+
 }
