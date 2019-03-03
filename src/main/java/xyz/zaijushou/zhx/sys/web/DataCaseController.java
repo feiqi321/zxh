@@ -649,6 +649,12 @@ public class DataCaseController {
         return webResponse;
     }
 
+    @ApiOperation(value = "查询同批次共债案件", notes = "查询同批次共债案件")
+    @PostMapping("/dataCase/sameBatchCaseList")
+    public Object sameBatchCaseList(@RequestBody DataCaseEntity bean) {
+        return WebResponse.success(dataCaseService.sameBatchCaseList(bean));
+    }
+
     @ApiOperation(value = "查询共债案件", notes = "查询共债案件")
     @PostMapping("/dataCase/sameCaseList")
     public Object sameCaseList(@RequestBody DataCaseEntity bean) {
