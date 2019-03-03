@@ -21,6 +21,10 @@ public class DataArchiveEntity extends CommonEntity {
 
     private String address;
 
+    private String remark;
+
+    private String caseDate;
+
     private List<DataArchiveTelEntity> telList;
 
     private List<DataArchiveAddressEntity> addressList;
@@ -38,6 +42,24 @@ public class DataArchiveEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    @Override
+    public String getRemark() {
+        return remark;
+    }
+
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCaseDate() {
+        return caseDate;
+    }
+
+    public void setCaseDate(String caseDate) {
+        this.caseDate = caseDate;
+    }
 
     public String getCardNo() {
         return cardNo;

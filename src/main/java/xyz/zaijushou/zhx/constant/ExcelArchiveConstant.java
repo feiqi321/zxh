@@ -5,6 +5,7 @@ public class ExcelArchiveConstant {
     public enum Archive implements ExcelEnum{
         COL10(10, "*卡号", "cardNo", String.class),
         COL20(20, "*证件号", "identNo", String.class),
+        COL30(30, "*委案日期", "caseDate", String.class),
         COL40(40, "*地址", "address", String.class),
         COL50(50, "*姓名", "name", String.class),
         COL60(60, "地址类型", "addressType", String.class),
