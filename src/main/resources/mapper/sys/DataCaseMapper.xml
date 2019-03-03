@@ -210,7 +210,7 @@
         <include refid="colSql"/>
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
-            1 = 1
+            da.delete_flag=0
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and da.id in
@@ -375,7 +375,7 @@
         select da.ident_no
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
-            1 = 1
+            da.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and da.id in
