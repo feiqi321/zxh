@@ -1121,6 +1121,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
         dataCaseDetail.setDataCaseCommentEntityList(commentList);
         dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
+
         return dataCaseDetail;
     }
 
