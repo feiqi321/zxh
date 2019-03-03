@@ -11,11 +11,11 @@ public class ExcelLetterConstant {
         COL40(40, "*信函地址 ", "address", String.class),
         COL50(50, "姓名", "name", String.class),
         COL60(60, "关系", "relation",  String.class),
-        COL70(70, "地址类型", "addressType", BigDecimal.class),
+        COL70(70, "地址类型", "addressType", String.class),
         COL80(80, "申请内容", "applyContext", String.class),
-        COL90(90, "协助结果", "synergyResult", BigDecimal.class),
-        COL100(100, "协催时间", "synergyDate", BigDecimal.class),
-        COL110(110, "协催人", "synergyer", BigDecimal.class),
+        COL90(90, "协助结果", "synergyResult", String.class),
+        COL100(100, "协催时间", "synergyDate", String.class),
+        COL110(110, "协催人", "synergyer", String.class),
         ;
 
         private Integer sort;

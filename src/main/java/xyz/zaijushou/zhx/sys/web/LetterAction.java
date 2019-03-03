@@ -85,9 +85,9 @@ public class LetterAction {
 
     }
 
-    @ApiOperation(value = "案件评语导入", notes = "案件评语导入")
-    @PostMapping("/dataCase/comment/import")
-    public Object dataCaseCommentImport(MultipartFile file) throws IOException {
+    @ApiOperation(value = "信函记录导入", notes = "信函记录导入")
+    @PostMapping("/letter/import")
+    public Object letterImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         List<Letter> letterEntities = ExcelUtils.importExcel(file, ExcelLetterConstant.Letter.values(), Letter.class);
         WebResponse webResponse =fileManageService.batchLetter(letterEntities);
