@@ -84,7 +84,7 @@
         <if test="dataCase != null and dataCase.caseDateStart != null">
             and c.case_date >= #{dataCase.caseDateStart}
         </if>
-        <if test="dataCase != null and dataCase.dateEnd != null">
+        <if test="dataCase != null and dataCase.caseDateEnd != null">
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.collectStatus != 0">
@@ -149,7 +149,7 @@
         <if test="dataCase != null and dataCase.caseDateStart != null">
             and c.case_date >= #{dataCase.caseDateStart}
         </if>
-        <if test="dataCase != null and dataCase.dateEnd != null">
+        <if test="dataCase != null and dataCase.caseDateEnd != null">
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.collectStatus != 0">
