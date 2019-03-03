@@ -1780,7 +1780,7 @@
     </select>
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          SELECT id,batch_no as batchNo,seq_no as seqNo,archive_no as archiveNo,card_no as cardNo,case_date as caseDate,name from data_case where id = #{id}
+          SELECT id,batch_no as batchNo,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,card_no as cardNo,case_date as caseDate,name from data_case where id = #{id}
     </select>
 
     <select id="findSameBatchCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
