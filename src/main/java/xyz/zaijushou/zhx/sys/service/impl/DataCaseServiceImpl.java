@@ -1121,6 +1121,156 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
         dataCaseDetail.setDataCaseCommentEntityList(commentList);
         dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
+        DataCaseEntity dataCaseEntity = new DataCaseEntity();
+        dataCaseEntity.setId(bean.getId());
+        List<DataCaseEntity> caseList = new ArrayList<DataCaseEntity>();
+        caseList.add(dataCaseEntity);
+        List<DataCaseEntity> resultCaseList = combineData(caseList);
+        List<DataCaseRemarkEntity> caseRemarks = resultCaseList.get(0).getCaseRemarks();
+        List<DataCaseContactsEntity> contacts = resultCaseList.get(0).getContacts();
+        for (int i=0;i<6;i++){
+            if (i==0) {
+                if (caseRemarks==null || i >= caseRemarks.size()) {
+                    dataCaseDetail.setRemark1("");
+                }else{
+                    dataCaseDetail.setRemark1(caseRemarks.get(i).getRemark());
+                }
+                if (contacts==null || i>=contacts.size()){
+                    dataCaseDetail.setContactName1("");
+                    dataCaseDetail.setContactAddress1("");
+                    dataCaseDetail.setContactHomeTel1("");
+                    dataCaseDetail.setContactIdentNo1("");
+                    dataCaseDetail.setContactUnit1("");
+                    dataCaseDetail.setContactUnitTel1("");
+                    dataCaseDetail.setContactMobile1("");
+                }else{
+                    dataCaseDetail.setContactName1(contacts.get(i).getName());
+                    dataCaseDetail.setContactAddress1(contacts.get(i).getAddress());
+                    dataCaseDetail.setContactHomeTel1(contacts.get(i).getHomeTel());
+                    dataCaseDetail.setContactIdentNo1(contacts.get(i).getIdentNo());
+                    dataCaseDetail.setContactUnit1(contacts.get(i).getUnit());
+                    dataCaseDetail.setContactUnitTel1(contacts.get(i).getUnitTel());
+                    dataCaseDetail.setContactMobile1(contacts.get(i).getMobile());
+                }
+            }else if (i==1){
+                if (caseRemarks==null || i >= caseRemarks.size()) {
+                    dataCaseDetail.setRemark2("");
+                }else{
+                    dataCaseDetail.setRemark2(caseRemarks.get(i).getRemark());
+                }
+                if (contacts==null || i>=contacts.size()){
+                    dataCaseDetail.setContactName2("");
+                    dataCaseDetail.setContactAddress2("");
+                    dataCaseDetail.setContactHomeTel2("");
+                    dataCaseDetail.setContactIdentNo2("");
+                    dataCaseDetail.setContactUnit2("");
+                    dataCaseDetail.setContactUnitTel2("");
+                    dataCaseDetail.setContactMobile2("");
+                }else{
+                    dataCaseDetail.setContactName2(contacts.get(i).getName());
+                    dataCaseDetail.setContactAddress2(contacts.get(i).getAddress());
+                    dataCaseDetail.setContactHomeTel2(contacts.get(i).getHomeTel());
+                    dataCaseDetail.setContactIdentNo2(contacts.get(i).getIdentNo());
+                    dataCaseDetail.setContactUnit2(contacts.get(i).getUnit());
+                    dataCaseDetail.setContactUnitTel2(contacts.get(i).getUnitTel());
+                    dataCaseDetail.setContactMobile2(contacts.get(i).getMobile());
+                }
+            }else if (i==2){
+                if (caseRemarks==null ||  i >= caseRemarks.size()) {
+                    dataCaseDetail.setRemark3("");
+                }else{
+                    dataCaseDetail.setRemark3(caseRemarks.get(i).getRemark());
+                }
+                if (contacts==null || i>=contacts.size()){
+                    dataCaseDetail.setContactName3("");
+                    dataCaseDetail.setContactAddress3("");
+                    dataCaseDetail.setContactHomeTel3("");
+                    dataCaseDetail.setContactIdentNo3("");
+                    dataCaseDetail.setContactUnit3("");
+                    dataCaseDetail.setContactUnitTel3("");
+                    dataCaseDetail.setContactMobile3("");
+                }else{
+                    dataCaseDetail.setContactName3(contacts.get(i).getName());
+                    dataCaseDetail.setContactAddress3(contacts.get(i).getAddress());
+                    dataCaseDetail.setContactHomeTel3(contacts.get(i).getHomeTel());
+                    dataCaseDetail.setContactIdentNo3(contacts.get(i).getIdentNo());
+                    dataCaseDetail.setContactUnit3(contacts.get(i).getUnit());
+                    dataCaseDetail.setContactUnitTel3(contacts.get(i).getUnitTel());
+                    dataCaseDetail.setContactMobile3(contacts.get(i).getMobile());
+                }
+            }else if(i==3){
+                if (caseRemarks==null ||  i >= caseRemarks.size()) {
+                    dataCaseDetail.setRemark4("");
+                }else{
+                    dataCaseDetail.setRemark4(caseRemarks.get(i).getRemark());
+                }
+                if (contacts==null || i>=contacts.size()){
+                    dataCaseDetail.setContactName4("");
+                    dataCaseDetail.setContactAddress4("");
+                    dataCaseDetail.setContactHomeTel4("");
+                    dataCaseDetail.setContactIdentNo4("");
+                    dataCaseDetail.setContactUnit4("");
+                    dataCaseDetail.setContactUnitTel4("");
+                    dataCaseDetail.setContactMobile4("");
+                }else{
+                    dataCaseDetail.setContactName4(contacts.get(i).getName());
+                    dataCaseDetail.setContactAddress4(contacts.get(i).getAddress());
+                    dataCaseDetail.setContactHomeTel4(contacts.get(i).getHomeTel());
+                    dataCaseDetail.setContactIdentNo4(contacts.get(i).getIdentNo());
+                    dataCaseDetail.setContactUnit4(contacts.get(i).getUnit());
+                    dataCaseDetail.setContactUnitTel4(contacts.get(i).getUnitTel());
+                    dataCaseDetail.setContactMobile4(contacts.get(i).getMobile());
+                }
+            }else if(i==4){
+                if (caseRemarks==null ||  i >= caseRemarks.size()) {
+                    dataCaseDetail.setRemark1("");
+                }else{
+                    dataCaseDetail.setRemark1(caseRemarks.get(i).getRemark());
+                }
+                if (contacts==null || i>=contacts.size()){
+                    dataCaseDetail.setContactName5("");
+                    dataCaseDetail.setContactAddress5("");
+                    dataCaseDetail.setContactHomeTel5("");
+                    dataCaseDetail.setContactIdentNo5("");
+                    dataCaseDetail.setContactUnit5("");
+                    dataCaseDetail.setContactUnitTel5("");
+                    dataCaseDetail.setContactMobile5("");
+                }else{
+                    dataCaseDetail.setContactName5(contacts.get(i).getName());
+                    dataCaseDetail.setContactAddress5(contacts.get(i).getAddress());
+                    dataCaseDetail.setContactHomeTel5(contacts.get(i).getHomeTel());
+                    dataCaseDetail.setContactIdentNo5(contacts.get(i).getIdentNo());
+                    dataCaseDetail.setContactUnit5(contacts.get(i).getUnit());
+                    dataCaseDetail.setContactUnitTel5(contacts.get(i).getUnitTel());
+                    dataCaseDetail.setContactMobile5(contacts.get(i).getMobile());
+                }
+            }else if(i==5){
+                if (caseRemarks==null || i >= caseRemarks.size()) {
+                    dataCaseDetail.setRemark6("");
+                }else{
+                    dataCaseDetail.setRemark6(caseRemarks.get(i).getRemark());
+                }
+                if (contacts==null || i>=contacts.size()){
+                    dataCaseDetail.setContactName6("");
+                    dataCaseDetail.setContactAddress6("");
+                    dataCaseDetail.setContactHomeTel6("");
+                    dataCaseDetail.setContactIdentNo6("");
+                    dataCaseDetail.setContactUnit6("");
+                    dataCaseDetail.setContactUnitTel6("");
+                    dataCaseDetail.setContactMobile6("");
+                }else{
+                    dataCaseDetail.setContactName6(contacts.get(i).getName());
+                    dataCaseDetail.setContactAddress6(contacts.get(i).getAddress());
+                    dataCaseDetail.setContactHomeTel6(contacts.get(i).getHomeTel());
+                    dataCaseDetail.setContactIdentNo6(contacts.get(i).getIdentNo());
+                    dataCaseDetail.setContactUnit6(contacts.get(i).getUnit());
+                    dataCaseDetail.setContactUnitTel6(contacts.get(i).getUnitTel());
+                    dataCaseDetail.setContactMobile6(contacts.get(i).getMobile());
+                }
+            }
+        }
+
+
 
         return dataCaseDetail;
     }

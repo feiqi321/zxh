@@ -231,6 +231,439 @@ public class DataCaseDetail {
 
     private List<DataCaseEntity> sameBatchCaseList;
 
+    private String remark1;
+    private String remark2;
+    private String remark3;
+    private String remark4;
+    private String remark5;
+    private String remark6;
+    private String contactName1;
+    private String contactIdentNo1;
+    private String contactHomeTel1;
+    private String contactUnitTel1;
+    private String contactMobile1;
+    private String contactUnit1;
+    private String contactAddress1;
+    private String contactName2;
+    private String contactIdentNo2;
+    private String contactHomeTel2;
+    private String contactUnitTel2;
+    private String contactMobile2;
+    private String contactUnit2;
+    private String contactAddress2;
+    private String contactName3;
+    private String contactIdentNo3;
+    private String contactHomeTel3;
+    private String contactUnitTel3;
+    private String contactMobile3;
+    private String contactUnit3;
+    private String contactAddress3;
+    private String contactName4;
+    private String contactIdentNo4;
+    private String contactHomeTel4;
+    private String contactUnitTel4;
+    private String contactMobile4;
+    private String contactUnit4;
+    private String contactAddress4;
+    private String contactName5;
+    private String contactIdentNo5;
+    private String contactHomeTel5;
+    private String contactUnitTel5;
+    private String contactMobile5;
+    private String contactUnit5;
+    private String contactAddress5;
+    private String contactName6;
+    private String contactIdentNo6;
+    private String contactHomeTel6;
+    private String contactUnitTel6;
+    private String contactMobile6;
+    private String contactUnit6;
+    private String contactAddress6;
+
+    public String getRemark1() {
+        return remark1;
+    }
+
+    public void setRemark1(String remark1) {
+        this.remark1 = remark1;
+    }
+
+    public String getRemark2() {
+        return remark2;
+    }
+
+    public void setRemark2(String remark2) {
+        this.remark2 = remark2;
+    }
+
+    public String getRemark3() {
+        return remark3;
+    }
+
+    public void setRemark3(String remark3) {
+        this.remark3 = remark3;
+    }
+
+    public String getRemark4() {
+        return remark4;
+    }
+
+    public void setRemark4(String remark4) {
+        this.remark4 = remark4;
+    }
+
+    public String getRemark5() {
+        return remark5;
+    }
+
+    public void setRemark5(String remark5) {
+        this.remark5 = remark5;
+    }
+
+    public String getRemark6() {
+        return remark6;
+    }
+
+    public void setRemark6(String remark6) {
+        this.remark6 = remark6;
+    }
+
+    public String getContactName1() {
+        return contactName1;
+    }
+
+    public void setContactName1(String contactName1) {
+        this.contactName1 = contactName1;
+    }
+
+    public String getContactIdentNo1() {
+        return contactIdentNo1;
+    }
+
+    public void setContactIdentNo1(String contactIdentNo1) {
+        this.contactIdentNo1 = contactIdentNo1;
+    }
+
+    public String getContactHomeTel1() {
+        return contactHomeTel1;
+    }
+
+    public void setContactHomeTel1(String contactHomeTel1) {
+        this.contactHomeTel1 = contactHomeTel1;
+    }
+
+    public String getContactUnitTel1() {
+        return contactUnitTel1;
+    }
+
+    public void setContactUnitTel1(String contactUnitTel1) {
+        this.contactUnitTel1 = contactUnitTel1;
+    }
+
+    public String getContactMobile1() {
+        return contactMobile1;
+    }
+
+    public void setContactMobile1(String contactMobile1) {
+        this.contactMobile1 = contactMobile1;
+    }
+
+    public String getContactUnit1() {
+        return contactUnit1;
+    }
+
+    public void setContactUnit1(String contactUnit1) {
+        this.contactUnit1 = contactUnit1;
+    }
+
+    public String getContactAddress1() {
+        return contactAddress1;
+    }
+
+    public void setContactAddress1(String contactAddress1) {
+        this.contactAddress1 = contactAddress1;
+    }
+
+    public String getContactName2() {
+        return contactName2;
+    }
+
+    public void setContactName2(String contactName2) {
+        this.contactName2 = contactName2;
+    }
+
+    public String getContactIdentNo2() {
+        return contactIdentNo2;
+    }
+
+    public void setContactIdentNo2(String contactIdentNo2) {
+        this.contactIdentNo2 = contactIdentNo2;
+    }
+
+    public String getContactHomeTel2() {
+        return contactHomeTel2;
+    }
+
+    public void setContactHomeTel2(String contactHomeTel2) {
+        this.contactHomeTel2 = contactHomeTel2;
+    }
+
+    public String getContactUnitTel2() {
+        return contactUnitTel2;
+    }
+
+    public void setContactUnitTel2(String contactUnitTel2) {
+        this.contactUnitTel2 = contactUnitTel2;
+    }
+
+    public String getContactMobile2() {
+        return contactMobile2;
+    }
+
+    public void setContactMobile2(String contactMobile2) {
+        this.contactMobile2 = contactMobile2;
+    }
+
+    public String getContactUnit2() {
+        return contactUnit2;
+    }
+
+    public void setContactUnit2(String contactUnit2) {
+        this.contactUnit2 = contactUnit2;
+    }
+
+    public String getContactAddress2() {
+        return contactAddress2;
+    }
+
+    public void setContactAddress2(String contactAddress2) {
+        this.contactAddress2 = contactAddress2;
+    }
+
+    public String getContactName3() {
+        return contactName3;
+    }
+
+    public void setContactName3(String contactName3) {
+        this.contactName3 = contactName3;
+    }
+
+    public String getContactIdentNo3() {
+        return contactIdentNo3;
+    }
+
+    public void setContactIdentNo3(String contactIdentNo3) {
+        this.contactIdentNo3 = contactIdentNo3;
+    }
+
+    public String getContactHomeTel3() {
+        return contactHomeTel3;
+    }
+
+    public void setContactHomeTel3(String contactHomeTel3) {
+        this.contactHomeTel3 = contactHomeTel3;
+    }
+
+    public String getContactUnitTel3() {
+        return contactUnitTel3;
+    }
+
+    public void setContactUnitTel3(String contactUnitTel3) {
+        this.contactUnitTel3 = contactUnitTel3;
+    }
+
+    public String getContactMobile3() {
+        return contactMobile3;
+    }
+
+    public void setContactMobile3(String contactMobile3) {
+        this.contactMobile3 = contactMobile3;
+    }
+
+    public String getContactUnit3() {
+        return contactUnit3;
+    }
+
+    public void setContactUnit3(String contactUnit3) {
+        this.contactUnit3 = contactUnit3;
+    }
+
+    public String getContactAddress3() {
+        return contactAddress3;
+    }
+
+    public void setContactAddress3(String contactAddress3) {
+        this.contactAddress3 = contactAddress3;
+    }
+
+    public String getContactName4() {
+        return contactName4;
+    }
+
+    public void setContactName4(String contactName4) {
+        this.contactName4 = contactName4;
+    }
+
+    public String getContactIdentNo4() {
+        return contactIdentNo4;
+    }
+
+    public void setContactIdentNo4(String contactIdentNo4) {
+        this.contactIdentNo4 = contactIdentNo4;
+    }
+
+    public String getContactHomeTel4() {
+        return contactHomeTel4;
+    }
+
+    public void setContactHomeTel4(String contactHomeTel4) {
+        this.contactHomeTel4 = contactHomeTel4;
+    }
+
+    public String getContactUnitTel4() {
+        return contactUnitTel4;
+    }
+
+    public void setContactUnitTel4(String contactUnitTel4) {
+        this.contactUnitTel4 = contactUnitTel4;
+    }
+
+    public String getContactMobile4() {
+        return contactMobile4;
+    }
+
+    public void setContactMobile4(String contactMobile4) {
+        this.contactMobile4 = contactMobile4;
+    }
+
+    public String getContactUnit4() {
+        return contactUnit4;
+    }
+
+    public void setContactUnit4(String contactUnit4) {
+        this.contactUnit4 = contactUnit4;
+    }
+
+    public String getContactAddress4() {
+        return contactAddress4;
+    }
+
+    public void setContactAddress4(String contactAddress4) {
+        this.contactAddress4 = contactAddress4;
+    }
+
+    public String getContactName5() {
+        return contactName5;
+    }
+
+    public void setContactName5(String contactName5) {
+        this.contactName5 = contactName5;
+    }
+
+    public String getContactIdentNo5() {
+        return contactIdentNo5;
+    }
+
+    public void setContactIdentNo5(String contactIdentNo5) {
+        this.contactIdentNo5 = contactIdentNo5;
+    }
+
+    public String getContactHomeTel5() {
+        return contactHomeTel5;
+    }
+
+    public void setContactHomeTel5(String contactHomeTel5) {
+        this.contactHomeTel5 = contactHomeTel5;
+    }
+
+    public String getContactUnitTel5() {
+        return contactUnitTel5;
+    }
+
+    public void setContactUnitTel5(String contactUnitTel5) {
+        this.contactUnitTel5 = contactUnitTel5;
+    }
+
+    public String getContactMobile5() {
+        return contactMobile5;
+    }
+
+    public void setContactMobile5(String contactMobile5) {
+        this.contactMobile5 = contactMobile5;
+    }
+
+    public String getContactUnit5() {
+        return contactUnit5;
+    }
+
+    public void setContactUnit5(String contactUnit5) {
+        this.contactUnit5 = contactUnit5;
+    }
+
+    public String getContactAddress5() {
+        return contactAddress5;
+    }
+
+    public void setContactAddress5(String contactAddress5) {
+        this.contactAddress5 = contactAddress5;
+    }
+
+    public String getContactName6() {
+        return contactName6;
+    }
+
+    public void setContactName6(String contactName6) {
+        this.contactName6 = contactName6;
+    }
+
+    public String getContactIdentNo6() {
+        return contactIdentNo6;
+    }
+
+    public void setContactIdentNo6(String contactIdentNo6) {
+        this.contactIdentNo6 = contactIdentNo6;
+    }
+
+    public String getContactHomeTel6() {
+        return contactHomeTel6;
+    }
+
+    public void setContactHomeTel6(String contactHomeTel6) {
+        this.contactHomeTel6 = contactHomeTel6;
+    }
+
+    public String getContactUnitTel6() {
+        return contactUnitTel6;
+    }
+
+    public void setContactUnitTel6(String contactUnitTel6) {
+        this.contactUnitTel6 = contactUnitTel6;
+    }
+
+    public String getContactMobile6() {
+        return contactMobile6;
+    }
+
+    public void setContactMobile6(String contactMobile6) {
+        this.contactMobile6 = contactMobile6;
+    }
+
+    public String getContactUnit6() {
+        return contactUnit6;
+    }
+
+    public void setContactUnit6(String contactUnit6) {
+        this.contactUnit6 = contactUnit6;
+    }
+
+    public String getContactAddress6() {
+        return contactAddress6;
+    }
+
+    public void setContactAddress6(String contactAddress6) {
+        this.contactAddress6 = contactAddress6;
+    }
+
     public List<DataCaseEntity> getSameBatchCaseList() {
         return sameBatchCaseList;
     }
