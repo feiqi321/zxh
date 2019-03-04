@@ -22,6 +22,8 @@ public class LegalEntity extends CommonEntity {
     private String progressMsg;
     //案件類型
     private Integer legalType;
+
+    private String legalTypeMsg;
     //标的
     private String tital;
     //委托人
@@ -76,6 +78,14 @@ public class LegalEntity extends CommonEntity {
     private String checker;
 
     private String checkDate;
+
+    public String getLegalTypeMsg() {
+        return legalTypeMsg;
+    }
+
+    public void setLegalTypeMsg(String legalTypeMsg) {
+        this.legalTypeMsg = legalTypeMsg;
+    }
 
     public int getCaseId() {
         return caseId;

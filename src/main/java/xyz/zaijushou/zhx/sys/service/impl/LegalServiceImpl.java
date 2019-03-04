@@ -44,7 +44,7 @@ public class LegalServiceImpl implements LegalService {
     public void updateLegal(LegalEntity bean){
         legalMapper.updateByPrimaryKeySelective(bean);
     }
-    //1 已经审核 2审核中 0未申请
+    //1 已经审核 2审核中 0未申请      未退案0/正常1/暂停2/关档3/退档4/全部5
     public WebResponse pageDataLegal(LegalEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         List<LegalEntity> dataCaseEntities = legalMapper.pageDataLegal(bean);
@@ -61,6 +61,17 @@ public class LegalServiceImpl implements LegalService {
                 legalEntity.setProgressMsg("收案");
             }else{
                 legalEntity.setProgressMsg("未判决");
+            }
+            if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals(0)){
+                legalEntity.setLegalTypeMsg("未退案");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("1")){
+                legalEntity.setLegalTypeMsg("正常");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("2")){
+                legalEntity.setLegalTypeMsg("暂停");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("3")){
+                legalEntity.setLegalTypeMsg("关档");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("4")){
+                legalEntity.setLegalTypeMsg("退档");
             }
             dataCaseEntities.set(i,legalEntity);
         }

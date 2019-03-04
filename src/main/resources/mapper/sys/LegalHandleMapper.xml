@@ -11,7 +11,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, legal_id, progress, handle_date, preservation_date, preservation_list, remark
+    id, legal_id as legalId, progress, handle_date as handleDate, preservation_date as preservationDate, preservation_list as preservationList, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
