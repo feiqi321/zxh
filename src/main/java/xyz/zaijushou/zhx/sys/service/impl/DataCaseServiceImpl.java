@@ -413,8 +413,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void sendOdvByProperty(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-
-        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setSort("desc");
+        }else {
+            dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        }
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
             dataCaseEntity.setClientFlag(null);
@@ -585,12 +589,15 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysUserEntity tempuser = new SysUserEntity();
         tempuser.setId(Integer.parseInt(dataCaseEntity.getOdv()));
         SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+        String[] ids = new String[list.size()];
         for (int i=0;i<list.size();i++){
             DataCaseEntity bean = list.get(i);
-            bean.setDistributeHistory("分配给"+user.getUserName());
-            dataCaseMapper.sendOdvByProperty(bean);
-        }
+            ids[i] =bean.getId()+"";
 
+        }
+        dataCaseEntity.setDistributeHistory("分配给"+user.getUserName());
+        dataCaseEntity.setIds(ids);
+        dataCaseMapper.sendOdvByProperty(dataCaseEntity);
     }
     @Override
     public void addComment(DataCaseEntity bean){
