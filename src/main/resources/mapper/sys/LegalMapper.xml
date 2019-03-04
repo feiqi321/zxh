@@ -35,7 +35,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, cst_name, legal_status as legalStatus, ident_no, progress, legal_type as legalType, tital, clientele, accused,
+    id, cst_name as cstName, legal_status as legalStatus, ident_no as identNo, progress, legal_type as legalType, tital, clientele, accused,
     owner, agent, agent_tel as agentTel, filing_date as filingDate, legal_date as legalDate, cost, judge_tel as judgeTel, judge, court,
     cost_date as costDate, preservation_date as preservationDate, preservation_list as preservationList, exe_end_date as exeEndDate, exe_date as exeDate, legal_no as legalNo,
     exe_no as exeNo, first_date as firstDate, judge_date as judgeDate, arrive_info as arriveInfo, judgment, remark, create_time as createTime
@@ -46,7 +46,7 @@
     from legal
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="pageDataLegal" resultMap="BaseResultMap" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
+  <select id="pageDataLegal" resultType="xyz.zaijushou.zhx.sys.entity.LegalEntity" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     select
     <include refid="Base_Column_List" />
     from legal

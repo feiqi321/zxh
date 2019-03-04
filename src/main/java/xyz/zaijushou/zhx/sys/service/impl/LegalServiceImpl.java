@@ -62,15 +62,15 @@ public class LegalServiceImpl implements LegalService {
             }else{
                 legalEntity.setProgressMsg("未判决");
             }
-            if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals(0)){
+            if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
                 legalEntity.setLegalTypeMsg("未退案");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("1")){
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==1){
                 legalEntity.setLegalTypeMsg("正常");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("2")){
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==2){
                 legalEntity.setLegalTypeMsg("暂停");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("3")){
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==3){
                 legalEntity.setLegalTypeMsg("关档");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("4")){
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==4){
                 legalEntity.setLegalTypeMsg("退档");
             }
 
