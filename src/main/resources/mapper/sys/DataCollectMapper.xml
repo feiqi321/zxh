@@ -338,10 +338,10 @@
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and DATE_FORMAT(c.case_allot_time, '%Y-%m-%d')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.case_allot_time, '%Y-%m-%d %H:%i')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(c.case_allot_time, '%Y-%m-%d')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.case_allot_time, '%Y-%m-%d %H:%i')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
@@ -769,7 +769,7 @@
 
 
     <select id="selectDataCollect" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
-         select c.name,c.account,c.card_no as cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.account_age as accountAge,c.money,t.residual_principle as residualPrinciple,
+        select c.name,c.account,c.card_no as cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.account_age as accountAge,c.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
         c.result,c.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,c.over_days as overDays,c.batch_no as batchNo,
@@ -777,7 +777,7 @@
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
-         where c.id in
+        where c.id in
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -960,9 +960,9 @@
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         where  c.batch_no in
-                <foreach item="item" index="index" collection="batchs" open="(" separator="," close=")">
-                    #{item}
-                </foreach>
+        <foreach item="item" index="index" collection="batchs" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 
@@ -1184,7 +1184,7 @@
 
     <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
         SELECT
-       count(1) as sum
+        count(1) as sum
         from
         data_collection dc
         where  dc.delete_flag = 0
@@ -1310,7 +1310,7 @@
         batch_no as batchNo,ident_no as identNo
         from data_collection where case_id = #{caseId}
     </select>
-    
+
     <select id="detailCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select id,measure,collect_time as collectTime,target_name as targetName,relation,tel_phone as telPhone,collection_type as collectionType,
         result,target_name as targetName,method,repay_time as repayTime,repay_amt as repayAmt,reduce_amt as reduceAmt,reduce_status as reduceStatus,odv,collect_status as collectStatus

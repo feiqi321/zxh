@@ -8,7 +8,7 @@ public class ExcelBatchExportConstant {
 
     public enum BatchMemorize implements ExcelEnum{
         COL10(10, "批次号", "batchNo", String.class),
-        COL20(20, "批次状态", "batchStatus", String.class),
+        COL20(20, "批次状态", "statusMsg", String.class),
         COL30(30, "委托方", "client", String.class),
         COL40(40, "案件类型", "caseType",  String.class),
         COL50(50, "委托日期", "caseTime", String.class),
