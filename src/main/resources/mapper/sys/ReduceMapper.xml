@@ -136,6 +136,15 @@
             <if test="reduceValidTime != null">reduce_valid_time,</if>
             <if test="reduceResult != null">reduce_result,</if>
             <if test="reduceFlag != null">reduce_flag,</if>
+            <if test="applyStatus != null">apply_status,</if>
+            <if test="reduceType != null">reduce_type,</if>
+
+            <if test="applyUser != null">apply_user,</if>
+            <if test="applyTime != null">apply_time,</if>
+            <if test="auditUser != null">audit_user,</if>
+            <if test="auditTime != null">audit_time,</if>
+            <if test="completeUser != null">complete_user,</if>
+            <if test="completeTime != null">complete_time,</if>
             delete_flag,
         </trim>
         values
@@ -161,6 +170,15 @@
             <if test="reduceValidTime != null">#{reduceValidTime},</if>
             <if test="reduceResult != null">#{reduceResult},</if>
             <if test="reduceFlag != null">#{reduceFlag},</if>
+            <if test="applyStatus != null">#{applyStatus},</if>
+            <if test="reduceType != null">#{reduceType},</if>
+
+            <if test="applyUser != null">#{applyUser},</if>
+            <if test="applyTime != null">#{applyTime},</if>
+            <if test="auditUser != null">#{auditUser},</if>
+            <if test="auditTime != null">#{auditTime},</if>
+            <if test="completeUser != null">#{completeUser},</if>
+            <if test="completeTime != null">#{completeTime},</if>
             0,
         </trim>
     </insert>
@@ -204,7 +222,15 @@
 
     <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         update data_reduce_apply
-        set reduce_flag = #{reduceFlag}
+        set
+        <trim suffixOverrides=",">
+            <if test="applyStatus != null">apply_status = #{applyStatus},</if>
+            <if test="reduceFlag != null">reduce_flag = #{reduceFlag},</if>
+            <if test="auditTime != null">audit_time = #{auditTime},</if>
+            <if test="completeUser != null">complete_user = #{completeUser},</if>
+            <if test="completeTime != null">complete_time = #{completeTime},</if>
+            <if test="deleteFlag != null">delete_flag = #{deleteFlag},</if>
+        </trim>
         where
         id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">

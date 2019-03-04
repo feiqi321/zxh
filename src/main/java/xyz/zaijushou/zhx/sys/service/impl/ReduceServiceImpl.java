@@ -9,6 +9,7 @@ import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -46,19 +47,32 @@ public class ReduceServiceImpl implements ReduceService {
         return reduceMapper.findById(bean);
     }
     public void updateStatus(DataCollectionEntity bean){
+        switch (bean.getReduceFlag()){
+            case "1"://删除
+                bean.setDeleteFlag(1);
+            case "2"://撤销
+                bean.setApplyStatus("2");
+            case "3"://审核通过
+                bean.setApplyStatus("1");
+                bean.setAuditTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            case "4"://已完成
+                bean.setApplyStatus("2");
+                bean.setCompleteUser("系统管理员");
+                bean.setCompleteTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        }
         reduceMapper.updateStatus(bean);
     }
     public void saveReduce(DataCollectionEntity bean){
         if(StringUtils.isEmpty(bean.getId()) || bean.getId() == 0){//保存
             bean.setReduceFlag("0");//0-减免结果有效
             bean.setApplyStatus("1");//1-已审核，
+            bean.setAuditTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));//审核时间
             reduceMapper.saveReduceApply(bean);
         }else{//更新
             DataCollectionEntity beanInfo = reduceMapper.findById(bean);
             if (StringUtils.isEmpty(beanInfo)){
                 return ;
             }
-            bean.setReduceFlag(beanInfo.getReduceFlag());
             bean.setUpdateTime(new Date());
             reduceMapper.updateReduceApply(bean);
         }
@@ -77,6 +91,9 @@ public class ReduceServiceImpl implements ReduceService {
     public void saveReduceApply(DataCollectionEntity bean){
         if (StringUtils.isEmpty(bean.getId())){
             bean.setApplyStatus("0");
+            bean.setReduceFlag("0");
+            bean.setApplyUser("系统管理员");//申请人
+            bean.setApplyTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));//申请时间
             reduceMapper.saveReduceApply(bean);
         }else {
             reduceMapper.updateReduceApply(bean);
