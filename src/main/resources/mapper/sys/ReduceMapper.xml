@@ -208,6 +208,8 @@
             <if test="reduceValidTime != null">reduce_valid_time = #{reduceValidTime},</if>
             <if test="reduceResult != null">reduce_result = #{reduceResult},</if>
             <if test="reduceFlag != null">reduce_flag = #{reduceFlag},</if>
+
+            <if test="fileName != null">file_name = #{fileName},</if>
         </trim>
         where
         id = #{id}
