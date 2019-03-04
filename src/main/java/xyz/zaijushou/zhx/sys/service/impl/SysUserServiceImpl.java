@@ -145,7 +145,7 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setPageNum(1);
         }
         if(StringUtils.isEmpty(userEntity.getOrderBy())){
-            userEntity.setOrderBy("id");
+            userEntity.setOrderBy("userName");
         }else {
             userEntity.setOrderBy(UserSortEnum.getEnumByKey(userEntity.getOrderBy()).getValue());
         }

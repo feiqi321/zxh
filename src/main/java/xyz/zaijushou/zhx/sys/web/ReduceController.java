@@ -7,6 +7,7 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,11 +17,13 @@ import xyz.zaijushou.zhx.constant.ExcelReduceConstant;
 import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.FileList;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +37,8 @@ import java.util.List;
 @RestController
 public class ReduceController {
     private static Logger logger = LoggerFactory.getLogger(ReduceController.class);
-
+    @Value(value = "${detailFile_path}")
+    private String detailFile;
     @Autowired
     private ReduceService reduceService;
 
@@ -138,5 +142,15 @@ public class ReduceController {
     public Object pageDataApply(@RequestBody DataCollectionEntity bean) {
         PageInfo<DataCollectionEntity> list = reduceService.pageReduceApply(bean);
         return WebResponse.success(list);
+    }
+
+    @ApiOperation(value = "保存附件信息", notes = "保存附件信息")
+    @PostMapping("/reduce/save/import")
+    public Object reduceImport(MultipartFile file, DataCollectionEntity bean ) throws IOException {
+        String fileName = file.getOriginalFilename();
+        file.transferTo(new File(detailFile+fileName));
+        bean.setFileName(fileName);
+        reduceService.saveReduceApply(bean);
+        return WebResponse.success();
     }
 }

@@ -160,7 +160,7 @@ public class DataCaseSynergisticController {
             ExcelUtils.exportExcel(
                     new ArrayList<>(),
                     ExcelSynergisticConstant.SynergisticExport.values(),
-                    "导出协催当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                    "导出协催选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                     response
             );
             return null;
@@ -185,7 +185,7 @@ public class DataCaseSynergisticController {
         ExcelUtils.exportExcel(
                 list,
                 ExcelSynergisticConstant.SynergisticExport.values(),
-                "导出协催当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                "导出协催选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
         return null;

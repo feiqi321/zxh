@@ -20,6 +20,7 @@ import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -105,6 +106,13 @@ public class SysRoleController {
     public Object delete(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || roleEntity.getId() == null) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色id未传");
+        }
+        SysRoleEntity queryRole = RedisUtils.entityGet(RedisKeyPrefix.ROLE_INFO + roleEntity.getId(), SysRoleEntity.class);
+        if(queryRole == null) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "上传角色id有误");
+        }
+        if("系统管理员 催收员 项目经理 项目总监".contains(queryRole.getRoleName())) {
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员 催收员 项目经理 项目总监 角色不得删除");
         }
         sysRoleService.deleteRole(roleEntity);
         sysRoleService.refreshRoleRedis();

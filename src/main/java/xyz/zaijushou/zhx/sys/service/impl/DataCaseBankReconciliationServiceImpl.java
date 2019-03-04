@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.DataCaseBankReconciliationMapper;
+import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
 
@@ -29,4 +30,13 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         entity.setStatus("1");
         dataCaseBankReconciliationMapper.updateStatus(entity);
     }
+
+    @Override
+    public List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity) {
+        if(bankReconciliationEntity != null && bankReconciliationEntity.getDataCase() != null && bankReconciliationEntity.getDataCase().getCollectStatus() == 0) {
+            bankReconciliationEntity.getDataCase().setCollectStatusMsg("");
+        }
+        return dataCaseBankReconciliationMapper.listBankReconciliation(bankReconciliationEntity);
+    }
+
 }
