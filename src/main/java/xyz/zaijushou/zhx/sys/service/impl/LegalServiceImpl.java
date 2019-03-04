@@ -94,7 +94,7 @@ public class LegalServiceImpl implements LegalService {
         List<LegalEntity> dataCaseEntities = legalMapper.listLegal(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             LegalEntity legalEntity = dataCaseEntities.get(i);
-            if (legalEntity.getLegalStatus()==1){
+            if (legalEntity!=null && legalEntity.getLegalStatus()!=null && legalEntity.getLegalStatus()==1){
                 legalEntity.setLegalStatusMsg("已审核");
             }else{
                 legalEntity.setLegalStatusMsg("未审核");
@@ -105,6 +105,26 @@ public class LegalServiceImpl implements LegalService {
                 legalEntity.setProgressMsg("收案");
             }else{
                 legalEntity.setProgressMsg("未判决");
+            }
+            if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
+                legalEntity.setLegalTypeMsg("未退案");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==1){
+                legalEntity.setLegalTypeMsg("正常");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==2){
+                legalEntity.setLegalTypeMsg("暂停");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==3){
+                legalEntity.setLegalTypeMsg("关档");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==4){
+                legalEntity.setLegalTypeMsg("退档");
+            }
+
+            if (StringUtils.isNotEmpty(legalEntity.getOwner())){
+                SysUserEntity tempuser = new SysUserEntity();
+                tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
+                SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                legalEntity.setOwner(user.getUserName());
+            }else{
+                legalEntity.setOwner("");
             }
             dataCaseEntities.set(i,legalEntity);
         }
@@ -118,7 +138,42 @@ public class LegalServiceImpl implements LegalService {
         SysUserEntity user = getUserInfo();
         bean.setOwner(user.getId()+"");
         List<LegalEntity> dataCaseEntities = legalMapper.pageDataLegal(bean);
+        for (int i=0;i<dataCaseEntities.size();i++){
+            LegalEntity legalEntity = dataCaseEntities.get(i);
+            if (legalEntity!=null && legalEntity.getLegalStatus()!=null && legalEntity.getLegalStatus()==1){
+                legalEntity.setLegalStatusMsg("已审核");
+            }else{
+                legalEntity.setLegalStatusMsg("未审核");
+            }
+            if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("1")){
+                legalEntity.setProgressMsg("判决");
+            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("2")){
+                legalEntity.setProgressMsg("收案");
+            }else{
+                legalEntity.setProgressMsg("未判决");
+            }
+            if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
+                legalEntity.setLegalTypeMsg("未退案");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==1){
+                legalEntity.setLegalTypeMsg("正常");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==2){
+                legalEntity.setLegalTypeMsg("暂停");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==3){
+                legalEntity.setLegalTypeMsg("关档");
+            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==4){
+                legalEntity.setLegalTypeMsg("退档");
+            }
 
+            if (StringUtils.isNotEmpty(legalEntity.getOwner())){
+                SysUserEntity tempuser = new SysUserEntity();
+                tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
+                SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                legalEntity.setOwner(user.getUserName());
+            }else{
+                legalEntity.setOwner("");
+            }
+            dataCaseEntities.set(i,legalEntity);
+        }
         webResponse.setData(PageInfo.of(dataCaseEntities));
         return webResponse;
     }
