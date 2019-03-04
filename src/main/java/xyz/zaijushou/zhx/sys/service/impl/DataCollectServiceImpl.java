@@ -14,6 +14,7 @@ import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
@@ -77,6 +78,8 @@ public class DataCollectServiceImpl implements DataCollectService {
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user==null?"":user.getUserName());
+            temp.setRepayAmtMsg(temp.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
+            temp.setReduceAmtMsg(temp.getReduceAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getReduceAmt()+""));
             resultList.add(temp);
         }
         webResponse.setData(PageInfo.of(resultList));

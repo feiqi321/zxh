@@ -15,10 +15,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
-import xyz.zaijushou.zhx.utils.CollectionsUtils;
-import xyz.zaijushou.zhx.utils.JwtTokenUtil;
-import xyz.zaijushou.zhx.utils.RedisUtils;
-import xyz.zaijushou.zhx.utils.StringUtils;
+import xyz.zaijushou.zhx.utils.*;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -1026,6 +1023,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
+                temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
                 list.set(i,temp);
             }
         }

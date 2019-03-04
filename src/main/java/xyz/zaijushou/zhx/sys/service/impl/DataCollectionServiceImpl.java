@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -168,6 +169,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
+            collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
+            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
+            collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
+            collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
+            collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
+            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
         }
         int totalPageNum = 0 ;
         if (count%dataCollectionEntity.getPageSize()>0){

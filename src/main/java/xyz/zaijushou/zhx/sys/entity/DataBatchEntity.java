@@ -53,6 +53,8 @@ public class DataBatchEntity extends CommonEntity {
 
     private BigDecimal totalAmt;
 
+    private String totalAmtMsg;
+
     private String startTime;
 
     private String endTime;
@@ -64,6 +66,14 @@ public class DataBatchEntity extends CommonEntity {
     private String sort;
 
     private String creatTime;
+
+    public String getTotalAmtMsg() {
+        return totalAmtMsg;
+    }
+
+    public void setTotalAmtMsg(String totalAmtMsg) {
+        this.totalAmtMsg = totalAmtMsg;
+    }
 
     public String getCreatTime() {
         return creatTime;

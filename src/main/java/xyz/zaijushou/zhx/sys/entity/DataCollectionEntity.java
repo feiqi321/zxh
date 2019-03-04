@@ -79,12 +79,16 @@ public class DataCollectionEntity extends CommonEntity {
 
     //承诺还款金额
     private BigDecimal repayAmt;
+    private String repayAmtMsg;
     //待銀行对账金额
     private BigDecimal bankAmt;
+    private String bankAmtMsg;
     //银行对账时间
     private String bankTime;
     //减免金额
     private BigDecimal reduceAmt;
+
+    private String reduceAmtMsg;
     //催收状态
     private int collectStatus;
 
@@ -159,10 +163,13 @@ public class DataCollectionEntity extends CommonEntity {
     private String repayTimeEnd;
 
     private BigDecimal money;//委案金额
+    private String moneyMsg;
     private BigDecimal moneyStart;//委案金额
     private BigDecimal moneyEnd;//委案金额
     private BigDecimal balance;//委案余额
+    private String balanceMsg;
     private BigDecimal enRepayAmt;//已还金额
+    private String enRepayAmtMsg;
 
     private BigDecimal repaidAmtM;//已还款金额的提成金额（M）
     private BigDecimal repaidBankAmtM;//银行查账金额的提成金额（M）
@@ -184,6 +191,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String sort;
 
     private BigDecimal newMoney;
+    private String newMoneyMsg;
 
     //完成人
     private String completeUser;
@@ -241,6 +249,62 @@ public class DataCollectionEntity extends CommonEntity {
     private String applyUser;
     private String auditUser;
     private String auditTime;
+
+    public String getBankAmtMsg() {
+        return bankAmtMsg;
+    }
+
+    public void setBankAmtMsg(String bankAmtMsg) {
+        this.bankAmtMsg = bankAmtMsg;
+    }
+
+    public String getMoneyMsg() {
+        return moneyMsg;
+    }
+
+    public void setMoneyMsg(String moneyMsg) {
+        this.moneyMsg = moneyMsg;
+    }
+
+    public String getBalanceMsg() {
+        return balanceMsg;
+    }
+
+    public void setBalanceMsg(String balanceMsg) {
+        this.balanceMsg = balanceMsg;
+    }
+
+    public String getEnRepayAmtMsg() {
+        return enRepayAmtMsg;
+    }
+
+    public void setEnRepayAmtMsg(String enRepayAmtMsg) {
+        this.enRepayAmtMsg = enRepayAmtMsg;
+    }
+
+    public String getNewMoneyMsg() {
+        return newMoneyMsg;
+    }
+
+    public void setNewMoneyMsg(String newMoneyMsg) {
+        this.newMoneyMsg = newMoneyMsg;
+    }
+
+    public String getRepayAmtMsg() {
+        return repayAmtMsg;
+    }
+
+    public void setRepayAmtMsg(String repayAmtMsg) {
+        this.repayAmtMsg = repayAmtMsg;
+    }
+
+    public String getReduceAmtMsg() {
+        return reduceAmtMsg;
+    }
+
+    public void setReduceAmtMsg(String reduceAmtMsg) {
+        this.reduceAmtMsg = reduceAmtMsg;
+    }
 
     public String getApplyTime() {
         return applyTime;
