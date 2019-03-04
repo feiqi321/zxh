@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.ColorEnum;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
@@ -39,15 +40,34 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Resource
     private SysUserService sysUserService;//用户业务控制层
 
+    @Resource
+    private DataCollectionMapper collectionMapper;//催收数据层
+
+    @Resource
+    private DataCaseMapper caseMapper;//案件数据层
+
     private DataCaseServiceImpl dataCaseService;//用户业务控制层
 
     @Override
-    public void save(DataCollectionEntity dataCollectionEntity){
-        dataCollectionMapper.saveCollection(dataCollectionEntity);
-        if (StringUtils.notEmpty(dataCollectionEntity.getsType())){
-            if (dataCollectionEntity.getsType() == 1){
+    public void save(DataCollectionEntity beanInfo){
+        dataCollectionMapper.saveCollection(beanInfo);
+        if (StringUtils.notEmpty(beanInfo.getsType())){
+            if (beanInfo.getsType() == 1){
                 //状态同步到同批次下的同身份证号的所有催收信息的状态
-
+                DataCaseEntity caseInfo = new DataCaseEntity();
+                if (StringUtils.isEmpty(beanInfo.getCaseId())){
+                    return ;
+                }
+                caseInfo.setId(Integer.valueOf(beanInfo.getCaseId()));
+                List<DataCaseEntity> listInfo = caseMapper.listAllCaseInfo(caseInfo);
+                if (StringUtils.isEmpty(listInfo)){
+                    return ;
+                }
+                DataCollectionEntity bean = new DataCollectionEntity();
+                bean.setBatchNo(listInfo.get(0).getBatchNo());
+                bean.setIdentNo(listInfo.get(0).getIdentNo());
+                bean.setCollectStatus(beanInfo.getCollectStatus());
+                collectionMapper.updateDataCollect(bean);
             }
         }
     }
@@ -167,6 +187,28 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         webResponse.setTotalNum(count);
         webResponse.setTotalPageNum(totalPageNum);
         return webResponse;
+    }
+
+    @Override
+    public List<DataCollectionEntity> listCaseBatchIdNo(DataCollectionEntity beanInfo){
+        DataCaseEntity caseInfo = new DataCaseEntity();
+        if (StringUtils.isEmpty(beanInfo.getCaseId())){
+            return new ArrayList<>();
+        }
+        caseInfo.setId(Integer.valueOf(beanInfo.getCaseId()));
+        List<DataCaseEntity> listInfo = caseMapper.listAllCaseInfo(caseInfo);
+        if (StringUtils.isEmpty(listInfo)){
+            return new ArrayList<>();
+        }
+        DataCollectionEntity bean = new DataCollectionEntity();
+        bean.setBatchNo(listInfo.get(0).getBatchNo());
+        bean.setIdentNo(listInfo.get(0).getIdentNo());
+        List<DataCollectionEntity> list = collectionMapper.listDataCollect(bean);
+        if (StringUtils.isEmpty(list)){
+            return new ArrayList<>();
+        }else {
+            return list;
+        }
     }
 
     private SysUserEntity getUserInfo (){

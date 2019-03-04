@@ -26,6 +26,10 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> pageDataCollect(DataCollectionEntity bean);
 
+    public List<DataCollectionEntity> listDataCollect(DataCollectionEntity bean);
+
+    public void updateDataCollect(DataCollectionEntity bean);
+
     public List<DataCollectExportEntity> pageDataCollectExport(DataCollectionEntity bean);
 
     public List<DataCollectExportEntity> totalDataCollect(DataCollectionEntity bean);
