@@ -12,7 +12,6 @@ public interface LetterService {
 
     public void confirmSynergy(Letter letter);
 
-
     public void cancelLetter(Letter letter);
 
     public void confirmLetter(Letter letter);
