@@ -5,7 +5,8 @@ public enum  WebResponseCode {
     SUCCESS("100", "success"),
     TOKEN_ERROR("400", "token无效"),
     NO_AUTH("403", "权限不足"),
-    COMMON_ERROR("500", "error");
+    COMMON_ERROR("500", "error"),
+   IMPORT_ERROR("800", "error");
 
     private String code;
 

@@ -242,6 +242,16 @@ public class DataCollectionEntity extends CommonEntity {
     private String auditUser;
     private String auditTime;
 
+    private String fileName;//附件
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
     public String getApplyTime() {
         return applyTime;
     }

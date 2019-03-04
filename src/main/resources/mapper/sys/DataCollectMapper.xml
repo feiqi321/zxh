@@ -218,184 +218,184 @@
     </select>
 
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,name,case_id as caseId,seqno,color,bail_date as bailDate,expect_time as expectTime,area,
-        dept,odv,measure,collect_time as collectTime,target_name as targetName,relation,tel_type as telType,
-        mobile,result,method,repay_time as repayTime,
-        repay_amt as repayAmt,reduce_amt as reduceAmtexpectTime,collect_status collectStatus,reduce_status as reduceStatus,
-        account_age as accountAge,case_date as caseDate,card_no as cardNo,ident_no as identNo,
-        money,balance,bank_amt as bankAmt,collect_info as collectInfo,over_days as overDays,
-        en_repay_amt as enRepayAmt,next_foll_date as nextFollDate,leave_days as leaveDays,new_money as moneyStart,
-        last_phone_time as lastPhoneTime,remind,count_follow as countFollow,collection_type as collectionType,
-        case_allot_time as caseAllotTime,case_status as caseStatus,tel_phone as telPhone
-        from data_collection
+        select c.id,c.name,c.case_id as caseId,c.seqno,c.color,c.bail_date as bailDate,c.expect_time as expectTime,c.area,
+        c.dept,c.odv,c.measure,c.collect_time as collectTime,c.target_name as targetName,c.relation,c.tel_type as telType,
+        c.mobile,c.result,c.method,c.repay_time as repayTime,
+        c.repay_amt as repayAmt,c.reduce_amt as reduceAmtexpectTime,c.collect_status collectStatus,c.reduce_status as reduceStatus,
+        c.account_age as accountAge,c.case_date as caseDate,c.card_no as cardNo,c.ident_no as identNo,
+        c.money,c.balance,c.bank_amt as bankAmt,c.collect_info as collectInfo,c.over_days as overDays,
+        c.en_repay_amt as enRepayAmt,c.next_foll_date as nextFollDate,c.leave_days as leaveDays,c.new_money as moneyStart,
+        c.last_phone_time as lastPhoneTime,c.remind,count_follow as countFollow,c.collection_type as collectionType,
+        DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,c.case_status as caseStatus,c.tel_phone as telPhone
+        from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
-            delete_flag = 0
+            c.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  dept like CONCAT('%',#{dept},'%')
+                    AND  c.dept like CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
-                    AND area like CONCAT('%',#{area},'%')
+                    AND c.area like CONCAT('%',#{area},'%')
                 </if>
                 <if test="odv != null and odv!=''">
-                    AND  odv like CONCAT('%',#{odv},'%')
+                    AND  c.odv like CONCAT('%',#{odv},'%')
                 </if>
                 <if test="odvFlag != null and odvFlag!=''">
-                    and odv in
+                    and c.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
                 <if test="measure != null and measure!=''">
-                    AND measure like CONCAT('%',#{measure},'%')
+                    AND c.measure like CONCAT('%',#{measure},'%')
                 </if>
                 <if test="collectMeasure != null and collectMeasure!=''">
-                    AND measure like CONCAT('%',#{collectMeasure},'%')
+                    AND c.measure like CONCAT('%',#{collectMeasure},'%')
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
-                    and client in
+                    and c.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
                 <if test="batchFlag != null and batchFlag!=''">
-                    and batchNo in
+                    and c.batchNo in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
 
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND case_status like CONCAT('%',#{caseStatus},'%')
+                    AND c.case_status like CONCAT('%',#{caseStatus},'%')
                 </if>
                 <if test="result != null and result!=''">
-                    AND result like CONCAT('%',#{result},'%')
+                    AND c.result like CONCAT('%',#{result},'%')
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    AND ident_no like CONCAT('%',#{identNo},'%')
+                    AND c.ident_no like CONCAT('%',#{identNo},'%')
                 </if>
 
                 <if test="cardNo != null and cardNo!=''">
-                    AND card_no like CONCAT('%',#{cardNo},'%')
+                    AND c.card_no like CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    AND collect_info like CONCAT('%',#{collectInfo},'%')
+                    AND c.collect_info like CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND color like CONCAT('%',#{color},'%')
+                    AND c.color like CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND seqno like CONCAT('%',#{seqno},'%')
+                    AND c.seqno like CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="targetName != null and targetName!=''">
-                    AND target_name like CONCAT('%',#{targetName},'%')
+                    AND c.target_name like CONCAT('%',#{targetName},'%')
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
-                    and account_age = #{accountAge}
+                    and c.account_age = #{accountAge}
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    and ident_no = #{identNo}
+                    and c.ident_no = #{identNo}
                 </if>
 
                 <if test="batchNo != null and batchNo!=''">
-                    and batch_no = #{batchNo}
+                    and c.batch_no = #{batchNo}
                 </if>
 
                 <if test="collectStatus != null and collectStatus!=''">
-                    and collect_status = #{collectStatus}
+                    and c.collect_status = #{collectStatus}
                 </if>
 
                 <if test="caseType != null and caseType!=''">
-                    and case_type = #{caseType}
+                    and c.case_type = #{caseType}
                 </if>
 
                 <if test="archiveNo != null and archiveNo!=''">
-                    and archive_no = #{archiveNo}
+                    and c.archive_no = #{archiveNo}
                 </if>
 
                 <if test="newCase != null and newCase!=''">
-                    and new_case = #{newCase}
+                    and c.new_case = #{newCase}
                 </if>
                 <if test="repayStatus != null and repayStatus!=''">
-                    and repay_status = #{repayStatus}
+                    and c.repay_status = #{repayStatus}
                 </if>
                 <if test="remark != null and remark!=''">
-                    and remark = #{remark}
+                    and c.remark = #{remark}
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND tel_name like CONCAT('%',#{telName},'%')
+                    AND c.tel_name like CONCAT('%',#{telName},'%')
                 </if>
 
                 <if test="telPhone != null and telPhone!=''">
-                    AND tel_phone like CONCAT('%',#{telPhone},'%')
+                    AND c.tel_phone like CONCAT('%',#{telPhone},'%')
                 </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                    AND c.tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and DATE_FORMAT(case_allot_time, '%Y-%m-%d')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(case_allot_time, '%Y-%m-%d')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and DATE_FORMAT(next_foll_date, '%Y-%m-%d')>=  DATE_FORMAT(#{nextFollDateStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.next_foll_date, '%Y-%m-%d')>=  DATE_FORMAT(#{nextFollDateStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(next_foll_date, '%Y-%m-%d')<=  DATE_FORMAT(#{nextFollDateEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.next_foll_date, '%Y-%m-%d')<=  DATE_FORMAT(#{nextFollDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="lastFollDateStart != null and lastFollDateStart!=''">
-                    <![CDATA[   and DATE_FORMAT(last_foll_date, '%Y-%m-%d')>=  DATE_FORMAT(#{lastFollDateStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.last_foll_date, '%Y-%m-%d')>=  DATE_FORMAT(#{lastFollDateStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(last_foll_date, '%Y-%m-%d')<=  DATE_FORMAT(#{lastFollDateEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.last_foll_date, '%Y-%m-%d')<=  DATE_FORMAT(#{lastFollDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{bailStartDate}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{bailStartDate}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')<=  DATE_FORMAT(#{bailEndDate}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.bail_date, '%Y-%m-%d')<=  DATE_FORMAT(#{bailEndDate}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
-                    <![CDATA[   and DATE_FORMAT(collect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartTime}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.collect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartTime}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="collectEndTime != null and collectEndTime!=''" >
-                    <![CDATA[   and DATE_FORMAT(collect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{collectEndTime}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.collect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{collectEndTime}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and DATE_FORMAT(case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and DATE_FORMAT(repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(c.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
                 </if>
             </trim>
         </where>
@@ -769,7 +769,7 @@
 
 
     <select id="selectDataCollect" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
-         select c.name,c.account,c.card_no as cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.account_age as accountAge,c.money,t.residual_principle as residualPrinciple,
+        select c.name,c.account,c.card_no as cardNo,c.ident_no as identNo,c.archive_no as archiveNo,c.seqno,c.account_age as accountAge,c.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
         c.result,c.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,c.over_days as overDays,c.batch_no as batchNo,
@@ -777,7 +777,7 @@
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
-         where c.id in
+        where c.id in
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -960,9 +960,9 @@
         t.credit_line as creditLine,c.module
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         where  c.batch_no in
-                <foreach item="item" index="index" collection="batchs" open="(" separator="," close=")">
-                    #{item}
-                </foreach>
+        <foreach item="item" index="index" collection="batchs" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
 
@@ -1184,7 +1184,7 @@
 
     <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
         SELECT
-       count(1) as sum
+        count(1) as sum
         from
         data_collection dc
         where  dc.delete_flag = 0
@@ -1310,7 +1310,7 @@
         batch_no as batchNo,ident_no as identNo
         from data_collection where case_id = #{caseId}
     </select>
-    
+
     <select id="detailCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select id,measure,collect_time as collectTime,target_name as targetName,relation,tel_phone as telPhone,collection_type as collectionType,
         result,target_name as targetName,method,repay_time as repayTime,repay_amt as repayAmt,reduce_amt as reduceAmt,reduce_status as reduceStatus,odv,collect_status as collectStatus

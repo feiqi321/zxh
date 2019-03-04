@@ -63,6 +63,16 @@ public class DataBatchEntity extends CommonEntity {
 
     private String sort;
 
+    private String creatTime;
+
+    public String getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(String creatTime) {
+        this.creatTime = creatTime;
+    }
+
     public String getAreaMsg() {
         return areaMsg;
     }

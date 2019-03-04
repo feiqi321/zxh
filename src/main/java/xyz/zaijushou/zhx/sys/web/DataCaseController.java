@@ -363,7 +363,7 @@ public class DataCaseController {
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
             seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
         }
@@ -379,7 +379,7 @@ public class DataCaseController {
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
             if(!existCaseMap.containsKey(entity.getSeqNo())) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "不存在，请修改后重新上传");
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "不存在，请修改后重新上传");
             }
             dataCaseEntities.get(i).setId(existCaseMap.get(entity.getSeqNo()).getId());
             succesLines = succesLines+1;
@@ -440,7 +440,7 @@ public class DataCaseController {
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
             seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
             countMap.put(dataCaseEntities.get(i).getSeqNo(), countMap.get(dataCaseEntities.get(i).getSeqNo()) == null ? 1 : countMap.get(dataCaseEntities.get(i).getSeqNo()) + 1);
@@ -452,7 +452,7 @@ public class DataCaseController {
             }
         }
         if(StringUtils.isNoneEmpty(builder.toString())) {
-            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "存在重复的个案序列号：" + builder.toString());
+            return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "存在重复的个案序列号：" + builder.toString());
         }
         DataCaseEntity queryEntity = new DataCaseEntity();
         queryEntity.setSeqNoSet(seqNoSet);
@@ -466,7 +466,7 @@ public class DataCaseController {
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
             if(existCaseMap.containsKey(entity.getSeqNo())) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "已存在，请确认后重新上传");
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "已存在，请确认后重新上传");
             }
             dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
             succesLines =succesLines+1;

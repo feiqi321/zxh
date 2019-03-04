@@ -134,4 +134,12 @@ public class DataCollectController {
         return webResponse;
     }
 
+    @ApiOperation(value = "案件详情电话催记", notes = "案件详情电话催记")
+    @PostMapping("/dataCollect/tel/detailTelCollect")
+    public Object detailTelCollect(@RequestBody DataCollectionEntity bean) {
+
+        WebResponse webResponse = dataCollectService.detailCollect(bean);
+        return webResponse;
+    }
+
 }

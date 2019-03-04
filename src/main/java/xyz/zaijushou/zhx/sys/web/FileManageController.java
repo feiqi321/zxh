@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.*;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * Created by looyer on 2019/1/30.
@@ -27,7 +30,8 @@ public class FileManageController {
     private String archivePath;
     @Value(value="${case_path}")
     private String casePath;
-
+    @Value(value = "${detailFile_path}")
+    private String detailFile;
 
     @ApiOperation(value = "下载压缩包", notes = "下载压缩包")
     @PostMapping("/fileManage/download")
@@ -134,5 +138,51 @@ public class FileManageController {
         return null;
     }
 
+
+    @ApiOperation(value = "下载案件附件", notes = "下载案件附件")
+    @PostMapping("/reduce/download")
+    public Object reduceDownload(HttpServletRequest request, HttpServletResponse response,String[] fileNames) throws Exception {
+        Map<String, byte[]> files = new HashMap<String, byte[]>();
+        for(String fileName:fileNames){
+            FileInputStream fis = new FileInputStream(detailFile+fileName);
+            byte[] f = new byte[fis.available()];
+            if (f != null){
+                files.put(detailFile+fileName,f);
+            }
+        }
+        if (files.size() == 0){
+            return null;
+        }
+        String fileTargetName = "减免附件下载.zip";
+
+        //下载的文件携带这个名称
+        response.setHeader("Content-Disposition", "attachment;fileTargetName=" + URLEncoder.encode(fileTargetName, "UTF-8"));
+        //文件下载类型--二进制文件
+        response.setContentType("application/octet-stream");
+        try {
+            ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
+            BufferedOutputStream bos = new BufferedOutputStream(zos);
+
+            for(Map.Entry<String, byte[]> entry : files.entrySet()) {
+                String fileName = entry.getKey();            //每个zip文件名
+                byte[] file = entry.getValue();            //这个zip文件的字节
+
+                BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(file));
+                zos.putNextEntry(new ZipEntry(fileName));
+
+                int len = 0;
+                byte[] buf = new byte[10 * 1024];
+                while ((len = bis.read(buf, 0, buf.length)) != -1) {
+                    bos.write(buf, 0, len);
+                }
+                bis.close();
+                bos.flush();
+            }
+            bos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

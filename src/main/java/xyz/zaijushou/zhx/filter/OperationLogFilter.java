@@ -46,6 +46,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
 
     private static final String[] DOWNLOAD_FILE_URL = {
             "/fileManage/download", //下载附件
+            "/reduce/download", //下载减免附件
             "/fileManage/downloadArchive", //下载附件
             "/dataBatch/pageDataBatchExport",
             "/dataBatch/totalDataBatchExport",
