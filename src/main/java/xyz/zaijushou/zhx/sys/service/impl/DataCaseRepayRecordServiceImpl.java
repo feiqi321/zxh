@@ -21,5 +21,16 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         return PageInfo.of(list);
     }
 
+    @Override
+    public void revoke(DataCaseRepayRecordEntity entity) {
+        entity.setRecordStatus("1");
+        dataCaseRepayRecordMapper.updateRecordStatus(entity);
+    }
+
+    @Override
+    public void save(DataCaseRepayRecordEntity entity) {
+        dataCaseRepayRecordMapper.save(entity);
+    }
+
 
 }

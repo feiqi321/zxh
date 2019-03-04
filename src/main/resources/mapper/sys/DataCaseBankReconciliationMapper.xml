@@ -72,7 +72,7 @@
         <if test="dataCase != null and dataCase.overdueBillTime != null">
             and c.overdue_bill_time = #{dataCase.overdueBillTime}
         </if>
-        <if test="dataCase != null and dataCase.collectStatus != null">
+        <if test="dataCase != null and dataCase.collectStatus != null and '' != dataCase.collectStatusMsg">
             and c.collect_status = #{dataCase.collectStatus}
         </if>
         <if test="dataCase != null and dataCase.caseDateStart != null">
@@ -97,25 +97,25 @@
         <if test="submitTimeEnd != null">
             and b.submit_time &lt;= #{submitTimeEnd}
         </if>
-        <if test="dataCase != null and dataCase.names != null and dataCase.names != null and dataCase.names.length > 0">
+        <if test="dataCase != null and dataCase.names != null and dataCase.names.length > 0">
             and c.name in
             <foreach collection="dataCase.names" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
-        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
+        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
             and c.seq_no in
             <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
-        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos != null and dataCase.identNos.length > 0">
+        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos.length > 0">
             and c.ident_no in
             <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
-        <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts != null and dataCase.accounts.length > 0">
+        <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts.length > 0">
             and c.account in
             <foreach collection="dataCase.accounts" open="(" close=")" separator=",">
                 #{item}

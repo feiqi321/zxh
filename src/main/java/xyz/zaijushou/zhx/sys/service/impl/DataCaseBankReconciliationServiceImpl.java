@@ -17,6 +17,9 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
 
     @Override
     public PageInfo<DataCaseBankReconciliationEntity> pageDataList(DataCaseBankReconciliationEntity entity) {
+        if(entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectStatus() == 0) {
+            entity.getDataCase().setCollectStatusMsg("");
+        }
         List<DataCaseBankReconciliationEntity> pageData = dataCaseBankReconciliationMapper.pageData(entity);
         return PageInfo.of(pageData);
     }

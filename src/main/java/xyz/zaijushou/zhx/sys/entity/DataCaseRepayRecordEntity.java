@@ -34,6 +34,10 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     private Date confirmTimeEnd;    //确认时间end
 
+    private Date repayDateStart;    //还款日期 start
+
+    private Date repayDateEnd;  //还款日期 end
+
     private Integer[] ids;
 
     public DataCaseEntity getDataCase() {
@@ -138,5 +142,21 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     public void setIds(Integer[] ids) {
         this.ids = ids;
+    }
+
+    public Date getRepayDateStart() {
+        return repayDateStart;
+    }
+
+    public void setRepayDateStart(Date repayDateStart) {
+        this.repayDateStart = repayDateStart;
+    }
+
+    public Date getRepayDateEnd() {
+        return repayDateEnd;
+    }
+
+    public void setRepayDateEnd(Date repayDateEnd) {
+        this.repayDateEnd = repayDateEnd;
     }
 }
