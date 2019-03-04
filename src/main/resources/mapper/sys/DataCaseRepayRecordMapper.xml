@@ -35,7 +35,7 @@
         r.repay_date as repayDate,
         r.repay_money as repayMoney,
         r.repay_user as repayUser,
-        r.repay_type as repayType,
+        r.repay_type as 'repayType.id',
         r.confirm_user as 'confirmUser.id',
         r.confirm_time as confirmTime,
         r.record_status as recordStatus,
@@ -176,7 +176,7 @@
             #{repayDate},
             #{repayMoney},
             #{repayUser},
-            #{repayType},
+            #{repayType.id},
             #{remark},
             #{createUser.id},
             #{updateUser.id}
