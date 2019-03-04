@@ -1,7 +1,6 @@
 package xyz.zaijushou.zhx.constant;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class ExcelBatchExportConstant {
 
@@ -18,7 +17,7 @@ public class ExcelBatchExportConstant {
         COL80(80, "上传时间", "uploadTime", String.class),
         COL90(90, "户数", "userCount", String.class),
         COL100(100, "总金额", "totalAmt",  BigDecimal.class),
-        COL110(110, "录入时间", "createTime",  Date.class),
+        COL110(110, "录入时间", "creatTime",  String.class),
         COL120(120, "录入人员", "creatUser",  String.class),
         COL130(130, "备注", "remark",  String.class),
         ;
