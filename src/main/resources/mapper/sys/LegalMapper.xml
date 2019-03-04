@@ -52,16 +52,16 @@
     from legal
     <where>
       delete_flag = 0
-      <if test="cstName != null" >
+      <if test="cstName != null and cstName!=''"  >
          and cst_name = #{cstName,jdbcType=VARCHAR}
       </if>
-      <if test="owner != null" >
+      <if test="owner != null and owner!=''" >
         and owner = #{owner,jdbcType=VARCHAR}
       </if>
-      <if test="legalStatus != null" >
+      <if test="legalStatus != null  and legalStatus!=''" >
         and  legal_status = #{legalStatus,jdbcType=INTEGER}
       </if>
-      <if test="legalNo != null" >
+      <if test="legalNo != null  and legalNo!=''" >
         and ident_no = #{legalNo,jdbcType=VARCHAR}
       </if>
     </where>
