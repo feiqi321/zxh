@@ -113,4 +113,14 @@ public class DataCollectionController {
         WebResponse webResponse = dataCollectionService.pageStatisticsCollectionPay(bean);
         return webResponse;
     }
+
+    @ApiOperation(value = "案件详情-查询同批次公债催记", notes = "减免详情-查询同批次公债催记")
+    @PostMapping("/case/batch/idno")
+    public Object listCaseBatchIdNo(@RequestBody DataCollectionEntity bean) {
+
+        List<DataCollectionEntity> list = dataCollectionService.listCaseBatchIdNo(bean);
+
+        return WebResponse.success(list);
+
+    }
 }

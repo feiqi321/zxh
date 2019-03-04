@@ -25,6 +25,8 @@ public interface DataCollectionService {
 
     public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity);
 
+    public List<DataCollectionEntity> listCaseBatchIdNo(DataCollectionEntity dataCollectionEntity);
+
     public List<CollectionStatistic> statisticsCollectionDay(CollectionStatistic dataCollectionEntity);
 
     public WebResponse pageStatisticsCollectionState(CollectionStatistic dataCollectionEntity);
