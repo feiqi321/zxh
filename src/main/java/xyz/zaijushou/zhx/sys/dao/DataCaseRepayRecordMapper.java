@@ -8,4 +8,8 @@ import java.util.List;
 @Mapper
 public interface DataCaseRepayRecordMapper {
     List<DataCaseRepayRecordEntity> pageRepayRecordList(DataCaseRepayRecordEntity entity);
+
+    void updateRecordStatus(DataCaseRepayRecordEntity entity);
+
+    void save(DataCaseRepayRecordEntity entity);
 }

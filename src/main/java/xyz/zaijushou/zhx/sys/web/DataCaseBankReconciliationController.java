@@ -44,7 +44,7 @@ public class DataCaseBankReconciliationController {
         return WebResponse.success(pageInfo);
     }
 
-    @PostMapping("/bankReconciliation/cancel")
+    @PostMapping("/cancel")
     public Object cancel(@RequestBody DataCaseBankReconciliationEntity entity) {
         if(entity == null || entity.getIds() == null || entity.getIds().length == 0) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请输入ids");
@@ -52,5 +52,9 @@ public class DataCaseBankReconciliationController {
         dataCaseBankReconciliationService.cancel(entity);
         return WebResponse.success();
     }
+
+    //todo 三种导出 导入
+
+    //todo caseArea
 
 }
