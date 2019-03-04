@@ -512,8 +512,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user==null?"":user.getUserName());
-            SysUserEntity user2 = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getName(), SysUserEntity.class);
-            temp.setName(user2==null?"":user2.getUserName());
             SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
             dictionary2.setId(temp.getCollectStatus());
             SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);

@@ -259,4 +259,14 @@ public class DataCollectServiceImpl implements DataCollectService {
          webResponse.setData(list);
         return webResponse;
     }
+    public WebResponse detailTelCollect(DataCollectionEntity bean){
+        WebResponse webResponse = WebResponse.buildResponse();
+        List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+        if(StringUtils.isEmpty(bean.getDetaiType()) || bean.getDetaiType().equals("1")){
+
+        }else if (bean.getDetaiType().equals("2")){
+
+        }
+        return webResponse;
+    }
 }
