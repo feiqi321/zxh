@@ -338,10 +338,10 @@
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and DATE_FORMAT(c.case_allot_time, '%Y-%m-%d %H:%i')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(c.case_allot_time, '%Y-%m-%d %H:%i')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
