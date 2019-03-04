@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
@@ -28,7 +29,6 @@ public class LegalServiceImpl implements LegalService {
     private LegalFeeMapper legalFeeMapper;
     @Resource
     private LegalHandleMapper legalHandleMapper;
-
     @Resource
     private SysUserService sysUserService;//用户业务控制层
 
@@ -50,7 +50,7 @@ public class LegalServiceImpl implements LegalService {
         List<LegalEntity> dataCaseEntities = legalMapper.pageDataLegal(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             LegalEntity legalEntity = dataCaseEntities.get(i);
-            if (legalEntity.getLegalStatus()==1){
+            if (legalEntity!=null && legalEntity.getLegalStatus()!=null && legalEntity.getLegalStatus()==1){
                 legalEntity.setLegalStatusMsg("已审核");
             }else{
                 legalEntity.setLegalStatusMsg("未审核");
@@ -72,6 +72,15 @@ public class LegalServiceImpl implements LegalService {
                 legalEntity.setLegalTypeMsg("关档");
             }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType().equals("4")){
                 legalEntity.setLegalTypeMsg("退档");
+            }
+
+            if (StringUtils.isNotEmpty(legalEntity.getOwner())){
+                SysUserEntity tempuser = new SysUserEntity();
+                tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
+                SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                legalEntity.setOwner(user.getUserName());
+            }else{
+                legalEntity.setOwner("");
             }
             dataCaseEntities.set(i,legalEntity);
         }
