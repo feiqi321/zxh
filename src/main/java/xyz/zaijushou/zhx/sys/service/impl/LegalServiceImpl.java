@@ -167,8 +167,8 @@ public class LegalServiceImpl implements LegalService {
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
                 SysUserEntity tempuser = new SysUserEntity();
                 tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
-                SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
-                legalEntity.setOwner(user.getUserName());
+                SysUserEntity userTemp = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                legalEntity.setOwner(userTemp.getUserName());
             }else{
                 legalEntity.setOwner("");
             }
