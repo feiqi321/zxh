@@ -19,4 +19,6 @@ public interface LetterService {
 
     public void addLetter(Letter letter);
 
+    public WebResponse findByCaseId(Letter letter);
+
 }

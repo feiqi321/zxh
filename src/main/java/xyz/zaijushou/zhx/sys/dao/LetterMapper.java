@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.dao;
 
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.Letter;
 
 import java.util.List;
@@ -22,6 +23,8 @@ public interface LetterMapper {
     List<Letter> pageDataLetter(Letter record);
 
     List<Letter> pageDataLetter2(Letter record);
+
+    List<Letter> findByCaseId(Letter letter);
 
 
     int updateByPrimaryKeySelective(Letter record);

@@ -19,8 +19,9 @@
     <result column="create_date" property="createDate" jdbcType="DATE" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, case_id, card_no, ident_no, case_date, address, name, relation, address_type, 
-    synergy_result, apply_context, synergy_date, synergyer, delete_flag, create_date, 
+    id, case_id as caseId, card_no as cardNo, ident_no as identNo, case_date as caseDate, address, name, relation, address_type as addressType,
+    apply_context as applyContext,applyer as applyer,apply_date as applyDate,
+    synergy_result as synergyResult, apply_context  as applyContext, synergy_date as synergyDate, synergyer, delete_flag as deleteFlag, create_date as createDate,
     create_user
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -343,5 +344,13 @@
     </where>
     order by ${orderBy} ${sort}
 
+  </select>
+
+
+  <select id="findByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter">
+    select
+    <include refid="Base_Column_List" />
+    from letter
+    where case_id = #{caseId}
   </select>
 </mapper>

@@ -93,4 +93,13 @@ public class LetterAction {
         WebResponse webResponse =fileManageService.batchLetter(letterEntities);
         return webResponse;
     }
+
+    @ApiOperation(value = "详情的信函", notes = "详情的信函")
+    @PostMapping("/letter/getLetterListByCaseId")
+    public Object getLetterListByCaseId(@RequestBody Letter bean) {
+
+        WebResponse webResponse = letterService.findByCaseId(bean);
+        return webResponse;
+
+    }
 }

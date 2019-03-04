@@ -114,4 +114,9 @@ public class LetterServiceImpl implements LetterService {
         letterMapper.insert(letter);
     }
 
+    public WebResponse findByCaseId(Letter letter){
+        List<Letter> list = letterMapper.findByCaseId(letter);
+        return WebResponse.success(list);
+    }
+
 }
