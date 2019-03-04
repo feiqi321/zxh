@@ -411,12 +411,186 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.sendOdv(bean);
     }
     @Override
-    public void sendOdvByProperty(DataCaseEntity bean){
+    public void sendOdvByProperty(DataCaseEntity dataCaseEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
+
+        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        String[] clients = dataCaseEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
+        String[] odvs = dataCaseEntity.getOdvs();
+        if (odvs == null || odvs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(odvs[0])){
+            dataCaseEntity.setOdvFlag(null);
+        }else{
+            dataCaseEntity.setOdvFlag("1");
+        }
+        String[] batchNos = dataCaseEntity.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            dataCaseEntity.setBatchNoFlag(null);
+        }else{
+            dataCaseEntity.setBatchNoFlag("1");
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdStr())){
+            dataCaseEntity.setIdFlag(null);
+        }else{
+            String[] ids = dataCaseEntity.getIdStr().split(",");
+            if (ids == null || ids.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(ids[0])){
+                dataCaseEntity.setIdFlag(null);
+            }else {
+                dataCaseEntity.setIdFlag("1");
+                dataCaseEntity.setIds(ids);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getName())){
+            dataCaseEntity.setNameFlag(null);
+        }else{
+            String[] names = dataCaseEntity.getName().split(",");
+            if (names == null || names.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(names[0])){
+                dataCaseEntity.setNameFlag(null);
+            }else {
+                dataCaseEntity.setNameFlag("1");
+                dataCaseEntity.setNames(names);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getArchiveNo())){
+            dataCaseEntity.setArchiveNoFlag(null);
+        }else{
+            String[] archiveNos = dataCaseEntity.getArchiveNo().split(",");
+            if (archiveNos == null || archiveNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(archiveNos[0])){
+                dataCaseEntity.setArchiveNoFlag(null);
+            }else {
+                dataCaseEntity.setArchiveNoFlag("1");
+                dataCaseEntity.setArchiveNos(archiveNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getAccount())){
+            dataCaseEntity.setAccountFlag(null);
+        }else{
+            String[] accounts = dataCaseEntity.getAccount().split(",");
+            if (accounts == null || accounts.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(accounts[0])){
+                dataCaseEntity.setAccountFlag(null);
+            }else {
+                dataCaseEntity.setAccountFlag("1");
+                dataCaseEntity.setAccounts(accounts);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getCardNo())){
+            dataCaseEntity.setCardNoFlag(null);
+        }else{
+            String[] cardNos = dataCaseEntity.getCardNo().split(",");
+            if (cardNos == null || cardNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(cardNos[0])){
+                dataCaseEntity.setCardNoFlag(null);
+            }else {
+                dataCaseEntity.setCardNoFlag("1");
+                dataCaseEntity.setCardNos(cardNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
+            dataCaseEntity.setSeqNoFlag(null);
+        }else{
+            String[] seqNos = dataCaseEntity.getSeqNo().split(",");
+            if (seqNos == null || seqNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(seqNos[0])){
+                dataCaseEntity.setSeqNoFlag(null);
+            }else {
+                dataCaseEntity.setSeqNoFlag("1");
+                dataCaseEntity.setSeqNos(seqNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdentNo())){
+            dataCaseEntity.setIdentNoFlag(null);
+        }else{
+            String[] identNos = dataCaseEntity.getIdentNo().split(",");
+            if (identNos == null || identNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(identNos[0])){
+                dataCaseEntity.setIdentNoFlag(null);
+            }else {
+                dataCaseEntity.setIdentNoFlag("1");
+                dataCaseEntity.setIdentNos(identNos);
+            }
+        }
+        List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+        if (dataCaseEntity.isBatchBonds()){
+            list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
+            for(int i=0;i<list.size();i++){
+                DataCaseEntity temp = list.get(i);
+                if (temp.getCollectStatus()==0){
+                    temp.setCollectStatusMsg("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                    }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
+                    temp.setCollectArea("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(temp.getCollectArea()));
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectArea(sysDictionaryEntity.getName());
+                    }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
+                    temp.setColor("BLACK");
+                }
+                list.set(i,temp);
+            }
+        }else {
+            list = dataCaseMapper.pageCaseList(dataCaseEntity);
+            for(int i=0;i<list.size();i++){
+                DataCaseEntity temp = list.get(i);
+                if (temp.getCollectStatus()==0){
+                    temp.setCollectStatusMsg("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                    }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
+                    temp.setCollectArea("");
+                }else{
+                    List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(temp.getCollectArea()));
+                    if (dictList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
+                        temp.setCollectArea(sysDictionaryEntity.getName());
+                    }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
+                    temp.setColor("BLACK");
+                }
+                list.set(i,temp);
+            }
+        }
         SysUserEntity tempuser = new SysUserEntity();
-        tempuser.setId(Integer.parseInt(bean.getOdv()));
+        tempuser.setId(Integer.parseInt(dataCaseEntity.getOdv()));
         SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
-        bean.setDistributeHistory("分配给"+user.getUserName());
-        dataCaseMapper.sendOdvByProperty(bean);
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity bean = list.get(i);
+            bean.setDistributeHistory("分配给"+user.getUserName());
+            dataCaseMapper.sendOdvByProperty(bean);
+        }
+
     }
     @Override
     public void addComment(DataCaseEntity bean){
