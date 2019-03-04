@@ -32,5 +32,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         dataCaseRepayRecordMapper.save(entity);
     }
 
+    @Override
+    public List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity) {
+        return dataCaseRepayRecordMapper.listRepayRecord(repayRecordEntity);
+    }
+
 
 }

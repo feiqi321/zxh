@@ -10,4 +10,6 @@ public interface DataCaseBankReconciliationMapper {
     List<DataCaseBankReconciliationEntity> pageData(DataCaseBankReconciliationEntity entity);
 
     void updateStatus(DataCaseBankReconciliationEntity entity);
+
+    List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity);
 }
