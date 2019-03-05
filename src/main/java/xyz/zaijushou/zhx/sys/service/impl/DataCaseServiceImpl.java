@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -16,6 +17,7 @@ import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.*;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -1275,6 +1277,14 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public DataCaseDetail detail(DataCaseEntity bean){
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+
+        SysUserEntity user = getUserInfo();
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !user.getId().equals(dataCaseDetail.getOdv())){
+            dataCaseDetail.setCurrentuser(false);
+        }else{
+            dataCaseDetail.setCurrentuser(true);
+        }
+
 
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
