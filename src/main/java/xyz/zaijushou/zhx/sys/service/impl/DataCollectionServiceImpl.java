@@ -137,7 +137,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             dataCollectionEntity.setSort(" desc");
         }
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
-        int count = dataCollectionMapper.countDataCollect(dataCollectionEntity);
+
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0.00");//列表金额
         int countCasePay = 0;//列表还款案量
@@ -176,12 +176,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
             collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
         }
-        int totalPageNum = 0 ;
-        if (count%dataCollectionEntity.getPageSize()>0){
-            totalPageNum = count/dataCollectionEntity.getPageSize()+1;
-        }else{
-            totalPageNum = count/dataCollectionEntity.getPageSize();
-        }
+        int count = new Long(PageInfo.of(list).getTotal()).intValue() ;
+
 
         collectionReturn.setList(list);
         collectionReturn.setCountCase(countCase);
@@ -192,7 +188,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setSumPayMoney(sumPayMoney);
         webResponse.setData(collectionReturn);
         webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
         return webResponse;
     }
 
