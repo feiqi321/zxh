@@ -383,10 +383,10 @@
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money>=  #{moneyStart}  ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money<=  #{moneyEnd}   ]]>
                 </if>
             </trim>
         </where>
@@ -582,10 +582,10 @@
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money>=  #{moneyStart}  ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money<=  #{moneyEnd}   ]]>
                 </if>
             </trim>
         </where>
@@ -739,10 +739,10 @@
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money>=  #{moneyStart}  ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money<=  #{moneyEnd}   ]]>
                 </if>
             </trim>
         </where>
@@ -912,10 +912,10 @@
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money>=  #{moneyStart}  ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and t.money<=  #{moneyEnd}   ]]>
                 </if>
             </trim>
         </where>
