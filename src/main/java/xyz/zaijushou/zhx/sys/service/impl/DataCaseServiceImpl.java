@@ -1278,8 +1278,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     public DataCaseDetail detail(DataCaseEntity bean){
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
 
-        SysUserEntity user = getUserInfo();
-        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !user.getId().equals(dataCaseDetail.getOdv())){
+        SysUserEntity curentuser = getUserInfo();
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !curentuser.getId().equals(dataCaseDetail.getOdv())){
             dataCaseDetail.setCurrentuser(false);
         }else{
             dataCaseDetail.setCurrentuser(true);
