@@ -607,13 +607,10 @@
                     AND  c.dept like CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
-                    AND c.area like CONCAT('%',#{area},'%')
-                </if>
-                <if test="odv != null and odv!=''">
-                    AND  c.odv like CONCAT('%',#{odv},'%')
+                    AND t.collect_area = #{area}
                 </if>
                 <if test="odvFlag != null and odvFlag!=''">
-                    and c.odv in
+                    and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         #{item}
                     </foreach>
@@ -621,11 +618,8 @@
                 <if test="measure != null and measure!=''">
                     AND c.measure like CONCAT('%',#{measure},'%')
                 </if>
-                <if test="collectMeasure != null and collectMeasure!=''">
-                    AND c.measure like CONCAT('%',#{collectMeasure},'%')
-                </if>
                 <if test="clientFlag != null and clientFlag!=''">
-                    and da.client in
+                    and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
@@ -637,22 +631,22 @@
                     AND c.result like CONCAT('%',#{result},'%')
                 </if>
                 <if test="batchFlag != null and batchFlag!=''">
-                    and da.batch_no in
+                    and t.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
                 <if test="cardNo != null and cardNo!=''">
-                    AND c.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no like CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     AND c.collect_info like CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND c.color like CONCAT('%',#{color},'%')
+                    AND t.color like CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND c.seqno like CONCAT('%',#{seqno},'%')
+                    AND t.seq_no like CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="targetName != null and targetName!=''">
@@ -660,10 +654,10 @@
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
-                    and c.account_age = #{accountAge}
+                    and t.account_age = #{accountAge}
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    and c.ident_no = #{identNo}
+                    and t.ident_no = #{identNo}
                 </if>
 
                 <if test="collectStatus != null and collectStatus!=''">
@@ -671,11 +665,11 @@
                 </if>
 
                 <if test="caseType != null and caseType!=''">
-                    and c.case_type = #{caseType}
+                    and t.case_type = #{caseType}
                 </if>
 
                 <if test="archiveNo != null and archiveNo!=''">
-                    and c.archive_no = #{archiveNo}
+                    and t.archive_no = #{archiveNo}
                 </if>
 
                 <if test="newCase != null and newCase!=''">
@@ -692,9 +686,6 @@
                     AND c.tel_name like CONCAT('%',#{telName},'%')
                 </if>
 
-                <if test="telPhone != null and telPhone!=''">
-                    AND tel_phone like CONCAT('%',#{telPhone},'%')
-                </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
                     AND c.tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
@@ -734,10 +725,10 @@
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and DATE_FORMAT(c.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(c.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="repayTimeStart != null and repayTimeStart!=''">
@@ -748,10 +739,10 @@
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(c.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(c.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
                 </if>
             </trim>
         </where>
@@ -790,13 +781,10 @@
                     AND  c.dept like CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
-                    AND c.area like CONCAT('%',#{area},'%')
-                </if>
-                <if test="odv != null and odv!=''">
-                    AND  c.odv like CONCAT('%',#{odv},'%')
+                    AND t.collect_area like CONCAT('%',#{area},'%')
                 </if>
                 <if test="odvFlag != null and odvFlag!=''">
-                    and c.odv in
+                    and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         #{item}
                     </foreach>
@@ -804,38 +792,35 @@
                 <if test="measure != null and measure!=''">
                     AND c.measure like CONCAT('%',#{measure},'%')
                 </if>
-                <if test="collectMeasure != null and collectMeasure!=''">
-                    AND c.measure like CONCAT('%',#{collectMeasure},'%')
-                </if>
                 <if test="clientFlag != null and clientFlag!=''">
-                    and da.client in
+                    and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND c.case_status like CONCAT('%',#{caseStatus},'%')
+                    AND t.status like CONCAT('%',#{caseStatus},'%')
                 </if>
                 <if test="result != null and result!=''">
                     AND c.result like CONCAT('%',#{result},'%')
                 </if>
                 <if test="batchFlag != null and batchFlag!=''">
-                    and da.batch_no in
+                    and t.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
                 <if test="cardNo != null and cardNo!=''">
-                    AND c.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no like CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     AND c.collect_info like CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND c.color like CONCAT('%',#{color},'%')
+                    AND t.color like CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND c.seqno like CONCAT('%',#{seqno},'%')
+                    AND t.seq_no like CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="targetName != null and targetName!=''">
@@ -843,10 +828,10 @@
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
-                    and c.account_age = #{accountAge}
+                    and t.account_age = #{accountAge}
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    and c.ident_no = #{identNo}
+                    and t.ident_no = #{identNo}
                 </if>
 
                 <if test="collectStatus != null and collectStatus!=''">
@@ -854,11 +839,11 @@
                 </if>
 
                 <if test="caseType != null and caseType!=''">
-                    and c.case_type = #{caseType}
+                    and t.case_type = #{caseType}
                 </if>
 
                 <if test="archiveNo != null and archiveNo!=''">
-                    and c.archive_no = #{archiveNo}
+                    and t.archive_no = #{archiveNo}
                 </if>
 
                 <if test="newCase != null and newCase!=''">
@@ -873,10 +858,6 @@
 
                 <if test="telName != null and telName!=''">
                     AND c.tel_name like CONCAT('%',#{telName},'%')
-                </if>
-
-                <if test="telPhone != null and telPhone!=''">
-                    AND tel_phone like CONCAT('%',#{telPhone},'%')
                 </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
@@ -917,10 +898,10 @@
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and DATE_FORMAT(c.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(c.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="repayTimeStart != null and repayTimeStart!=''">
@@ -931,10 +912,10 @@
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(c.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(c.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
                 </if>
             </trim>
         </where>
