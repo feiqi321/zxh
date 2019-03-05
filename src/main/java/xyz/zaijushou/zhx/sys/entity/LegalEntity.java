@@ -42,6 +42,8 @@ public class LegalEntity extends CommonEntity {
     private String legalDate;
 
     private BigDecimal cost;
+
+    private String costMsg;
     //法官联系方式
     private String judgeTel;
     //办案法官
@@ -78,6 +80,14 @@ public class LegalEntity extends CommonEntity {
     private String checker;
 
     private String checkDate;
+
+    public String getCostMsg() {
+        return costMsg;
+    }
+
+    public void setCostMsg(String costMsg) {
+        this.costMsg = costMsg;
+    }
 
     public String getLegalTypeMsg() {
         return legalTypeMsg;

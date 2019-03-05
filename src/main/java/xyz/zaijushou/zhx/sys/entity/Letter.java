@@ -54,6 +54,8 @@ public class Letter extends CommonEntity {
     private String caseStatus;
     //委案金额
     private BigDecimal caseAmt;
+
+    private String caseAmtMsg;
     //委案金额 开始
     private BigDecimal caseAmtStart;
     //委案金额 结束
@@ -65,6 +67,8 @@ public class Letter extends CommonEntity {
     private String odv;
 
     private BigDecimal repayAmt;
+
+    private String repayAmtMsg;
     //信函次数
     private int times;
     //信函模板
@@ -89,6 +93,22 @@ public class Letter extends CommonEntity {
     private String sort;
 
     private int periods;
+
+    public String getCaseAmtMsg() {
+        return caseAmtMsg;
+    }
+
+    public void setCaseAmtMsg(String caseAmtMsg) {
+        this.caseAmtMsg = caseAmtMsg;
+    }
+
+    public String getRepayAmtMsg() {
+        return repayAmtMsg;
+    }
+
+    public void setRepayAmtMsg(String repayAmtMsg) {
+        this.repayAmtMsg = repayAmtMsg;
+    }
 
     public String getLetterType() {
         return letterType;

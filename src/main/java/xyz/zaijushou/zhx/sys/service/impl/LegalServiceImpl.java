@@ -11,6 +11,7 @@ import xyz.zaijushou.zhx.sys.dao.LegalMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.LegalService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
@@ -82,6 +83,7 @@ public class LegalServiceImpl implements LegalService {
             }else{
                 legalEntity.setOwner("");
             }
+            legalEntity.setCostMsg(legalEntity.getCostMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCostMsg()+""));
             dataCaseEntities.set(i,legalEntity);
         }
 
@@ -172,6 +174,7 @@ public class LegalServiceImpl implements LegalService {
             }else{
                 legalEntity.setOwner("");
             }
+            legalEntity.setCostMsg(legalEntity.getCostMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCostMsg()+""));
             dataCaseEntities.set(i,legalEntity);
         }
         webResponse.setData(PageInfo.of(dataCaseEntities));

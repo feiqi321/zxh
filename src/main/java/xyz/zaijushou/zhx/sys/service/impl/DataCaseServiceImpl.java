@@ -336,6 +336,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
+                temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
                 list.set(i,temp);
             }
         }
