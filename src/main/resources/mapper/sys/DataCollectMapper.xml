@@ -225,7 +225,7 @@
         t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,c.collect_info as collectInfo,t.over_days as overDays,
         t.en_repay_amt as enRepayAmt,c.next_foll_date as nextFollDate,c.leave_days as leaveDays,c.new_money as moneyStart,
-        c.last_phone_time as lastPhoneTime,c.remind,count_follow as countFollow,c.collection_type as collectionType,
+        t.collect_date as lastPhoneTime,c.remind,count_follow as countFollow,c.collection_type as collectionType,
         DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,t.status as caseStatus,c.tel_phone as telPhone
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
