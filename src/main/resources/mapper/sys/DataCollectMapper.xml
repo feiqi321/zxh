@@ -279,8 +279,8 @@
                     AND t.seq_no like CONCAT('%',#{seqno},'%')
                 </if>
 
-                <if test="targetName != null and targetName!=''">
-                    AND c.target_name like CONCAT('%',#{targetName},'%')
+                <if test="name != null and targetName!=''">
+                    AND c.name like CONCAT('%',#{name},'%')
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
