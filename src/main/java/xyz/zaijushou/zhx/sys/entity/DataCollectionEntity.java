@@ -75,7 +75,9 @@ public class DataCollectionEntity extends CommonEntity {
     //催收记录
     private String collectInfo;
     //谈判方式
-    private String method;
+    private int method;
+
+    private String methodMsg;
 
     //承诺还款金额
     private BigDecimal repayAmt;
@@ -249,6 +251,14 @@ public class DataCollectionEntity extends CommonEntity {
     private String applyUser;
     private String auditUser;
     private String auditTime;
+
+    public String getMethodMsg() {
+        return methodMsg;
+    }
+
+    public void setMethodMsg(String methodMsg) {
+        this.methodMsg = methodMsg;
+    }
 
     public String getBankAmtMsg() {
         return bankAmtMsg;
@@ -1211,11 +1221,11 @@ public class DataCollectionEntity extends CommonEntity {
         this.collectInfo = collectInfo;
     }
 
-    public String getMethod() {
+    public int getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
+    public void setMethod(int method) {
         this.method = method;
     }
 

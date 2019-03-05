@@ -76,6 +76,11 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
+            SysDictionaryEntity dictionary3 = new SysDictionaryEntity();
+            dictionary2.setId(temp.getMethod());
+            SysDictionaryEntity sysDictionaryEntity3 = sysDictionaryService.getDataById(dictionary3);
+            temp.setMethodMsg(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
+
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user==null?"":user.getUserName());
             temp.setRepayAmtMsg(temp.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
