@@ -218,13 +218,13 @@
     </select>
 
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select c.id,c.name,c.case_id as caseId,c.seqno,c.color,c.bail_date as bailDate,c.expect_time as expectTime,c.area,
-        c.dept,c.odv,c.measure,c.collect_time as collectTime,c.target_name as targetName,c.relation,c.tel_type as telType,
+        select c.id,t.name,c.case_id as caseId,t.seq_no as seqNo,t.color,c.bail_date as bailDate,c.expect_time as expectTime,t.area,
+        t.dept,t.odv,c.measure,c.collect_time as collectTime,c.target_name as targetName,c.relation,c.tel_type as telType,
         c.mobile,c.result,c.method,c.repay_time as repayTime,
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmtexpectTime,c.collect_status collectStatus,c.reduce_status as reduceStatus,
         c.account_age as accountAge,c.case_date as caseDate,c.card_no as cardNo,c.ident_no as identNo,
-        c.money,c.balance,c.bank_amt as bankAmt,c.collect_info as collectInfo,c.over_days as overDays,
-        c.en_repay_amt as enRepayAmt,c.next_foll_date as nextFollDate,c.leave_days as leaveDays,c.new_money as moneyStart,
+        t.money,t.balance,t.bank_amt as bankAmt,c.collect_info as collectInfo,c.over_days as overDays,
+        t.en_repay_amt as enRepayAmt,c.next_foll_date as nextFollDate,c.leave_days as leaveDays,c.new_money as moneyStart,
         c.last_phone_time as lastPhoneTime,c.remind,count_follow as countFollow,c.collection_type as collectionType,
         DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,c.case_status as caseStatus,c.tel_phone as telPhone
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
@@ -232,16 +232,13 @@
             c.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  c.dept like CONCAT('%',#{dept},'%')
+                    AND  t.dept like CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
-                    AND c.area like CONCAT('%',#{area},'%')
-                </if>
-                <if test="odv != null and odv!=''">
-                    AND  c.odv like CONCAT('%',#{odv},'%')
+                    AND t.collect_area = #{area}
                 </if>
                 <if test="odvFlag != null and odvFlag!=''">
-                    and c.odv in
+                    and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         #{item}
                     </foreach>
@@ -249,17 +246,14 @@
                 <if test="measure != null and measure!=''">
                     AND c.measure like CONCAT('%',#{measure},'%')
                 </if>
-                <if test="collectMeasure != null and collectMeasure!=''">
-                    AND c.measure like CONCAT('%',#{collectMeasure},'%')
-                </if>
                 <if test="clientFlag != null and clientFlag!=''">
-                    and c.client in
+                    and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
                 <if test="batchFlag != null and batchFlag!=''">
-                    and c.batchNo in
+                    and t.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
                     </foreach>
@@ -271,21 +265,18 @@
                 <if test="result != null and result!=''">
                     AND c.result like CONCAT('%',#{result},'%')
                 </if>
-                <if test="identNo != null and identNo!=''">
-                    AND c.ident_no like CONCAT('%',#{identNo},'%')
-                </if>
 
                 <if test="cardNo != null and cardNo!=''">
-                    AND c.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no like CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     AND c.collect_info like CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND c.color like CONCAT('%',#{color},'%')
+                    AND t.color like CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND c.seqno like CONCAT('%',#{seqno},'%')
+                    AND t.seq_no like CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="targetName != null and targetName!=''">
@@ -293,14 +284,14 @@
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
-                    and c.account_age = #{accountAge}
+                    and t.account_age = #{accountAge}
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    and c.ident_no = #{identNo}
+                    and t.ident_no = #{identNo}
                 </if>
 
                 <if test="batchNo != null and batchNo!=''">
-                    and c.batch_no = #{batchNo}
+                    and t.batch_no = #{batchNo}
                 </if>
 
                 <if test="collectStatus != null and collectStatus!=''">
@@ -312,7 +303,7 @@
                 </if>
 
                 <if test="archiveNo != null and archiveNo!=''">
-                    and c.archive_no = #{archiveNo}
+                    and t.archive_no = #{archiveNo}
                 </if>
 
                 <if test="newCase != null and newCase!=''">
