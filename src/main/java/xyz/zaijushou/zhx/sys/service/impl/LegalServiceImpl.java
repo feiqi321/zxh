@@ -83,7 +83,7 @@ public class LegalServiceImpl implements LegalService {
             }else{
                 legalEntity.setOwner("");
             }
-            legalEntity.setCostMsg(legalEntity.getCostMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCostMsg()+""));
+            legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
             dataCaseEntities.set(i,legalEntity);
         }
 
@@ -174,7 +174,7 @@ public class LegalServiceImpl implements LegalService {
             }else{
                 legalEntity.setOwner("");
             }
-            legalEntity.setCostMsg(legalEntity.getCostMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCostMsg()+""));
+            legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
             dataCaseEntities.set(i,legalEntity);
         }
         webResponse.setData(PageInfo.of(dataCaseEntities));
