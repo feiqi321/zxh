@@ -383,10 +383,16 @@
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and t.money>=  #{moneyStart}  ]]>
-                </if>
+                <![CDATA[   and t.money>=  #{moneyStart}  ]]>
+            </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and t.money<=  #{moneyEnd}   ]]>
+                </if>
+                <if test="countFollowEnd != null and countFollowEnd!=''">
+                    <![CDATA[   and c.count_follow>=  #{countFollowEnd}  ]]>
+                </if>
+                <if test="countFollowStart != null and countFollowStart!=''" >
+                    <![CDATA[   and c.count_follow<=  #{countFollowStart}   ]]>
                 </if>
             </trim>
         </where>
@@ -916,6 +922,12 @@
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and t.money<=  #{moneyEnd}   ]]>
+                </if>
+                <if test="countFollowEnd != null and countFollowEnd!=''">
+                    <![CDATA[   and c.count_follow>=  #{countFollowStart}  ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''" >
+                    <![CDATA[   and c.count_follow<=  #{countFollowStart}   ]]>
                 </if>
             </trim>
         </where>
