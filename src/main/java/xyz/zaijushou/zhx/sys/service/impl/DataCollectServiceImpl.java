@@ -77,7 +77,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysDictionaryEntity dictionary3 = new SysDictionaryEntity();
-            dictionary2.setId(temp.getMethod());
+            dictionary3.setId(temp.getMethod());
             SysDictionaryEntity sysDictionaryEntity3 = sysDictionaryService.getDataById(dictionary3);
             temp.setMethodMsg(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
 
