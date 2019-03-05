@@ -222,7 +222,7 @@
         t.dept,t.odv,c.measure,c.collect_time as collectTime,c.target_name as targetName,c.relation,c.tel_type as telType,
         c.mobile,c.result,c.method,c.repay_time as repayTime,
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmtexpectTime,c.collect_status collectStatus,c.reduce_status as reduceStatus,
-        c.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
+        t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,c.collect_info as collectInfo,t.over_days as overDays,
         t.en_repay_amt as enRepayAmt,c.next_foll_date as nextFollDate,c.leave_days as leaveDays,c.new_money as moneyStart,
         c.last_phone_time as lastPhoneTime,c.remind,count_follow as countFollow,c.collection_type as collectionType,
