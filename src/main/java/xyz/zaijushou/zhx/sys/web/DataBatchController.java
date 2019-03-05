@@ -153,12 +153,16 @@ public class DataBatchController {
 
     @ApiOperation(value = "查询导出所选批次的催收记录", notes = "查询导出所选批次的催收记录")
     @PostMapping("/dataBatch/selectDataCollectExportByBatch")
-    public Object selectDataCollectExportByBatch(@RequestBody String[] batchs, HttpServletResponse response) throws IOException, InvalidFormatException {
-
+    public Object selectDataCollectExportByBatch(@RequestBody List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+        String[] batchs = new String[list.size()];
+        for(int i=0;i<list.size();i++){
+            DataBatchEntity temp = list.get(i);
+            batchs[i]=temp.getBatchNo();
+        }
         WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(batchs);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectExportConstant.CollectMemorize.values(),
+                ExcelCollectExportConstant.CaseCollectExport.values(),
                 "批次管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
