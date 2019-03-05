@@ -306,7 +306,7 @@
                     and t.archive_no = #{archiveNo}
                 </if>
 
-                <if test="newCase != null and newCase!=''">
+                <if test="newCase != null">
                     and c.new_case = #{newCase}
                 </if>
                 <if test="repayStatus != null and repayStatus!=''">
