@@ -871,13 +871,12 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public List<DataCaseEntity> pageCaseListExport(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-        int totalCaseNum=0;
-        BigDecimal totalAmt=new BigDecimal(0);
-        int repayNum=0;
-        BigDecimal repayTotalAmt=new BigDecimal(0);
-        BigDecimal totalCp=new BigDecimal(0);
-        BigDecimal totalPtp=new BigDecimal(0);
-        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        if(org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setSort("desc");
+        }else {
+            dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        }
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
             dataCaseEntity.setClientFlag(null);
@@ -978,14 +977,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
-                totalAmt = totalAmt.add(temp.getMoney());
-                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    repayNum = repayNum+1;
-                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
-                }
-                totalCp = totalCp.add(temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt());
                 if (temp.getCollectStatus()==0){
                     temp.setCollectStatusMsg("");
                 }else{
@@ -1009,14 +1000,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
-                totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
-                if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    repayNum = repayNum+1;
-                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
-                }
-                totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
                 if (temp.getCollectStatus()==0){
                     temp.setCollectStatusMsg("");
                 }else{
@@ -1034,11 +1017,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
-                temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
-                temp.setBalanceMsg(temp.getBalance()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
-                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
-                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
-                temp.setBankAmtMsg(temp.getBankAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
+                temp.setMoneyMsg(temp.getMoney()==null?"": FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"": FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"":FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
                 list.set(i,temp);
             }
         }

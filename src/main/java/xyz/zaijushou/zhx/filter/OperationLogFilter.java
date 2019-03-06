@@ -65,7 +65,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/statistics/collection/day/export",//电催员电催单日统计导出
             "/statistics/collection/month/export",//电催员电催月度统计导出
             "/statistics/collection/day/action/export",//电催员每日动作统计导出
-            "/dataCase/selectDataCaseExportByBatch"
+            "/dataCase/selectDataCaseExportByBatch",
+            "/dataCase/pageCaseListExport"
     };
 
     @Override

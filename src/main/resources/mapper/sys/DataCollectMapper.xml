@@ -234,6 +234,9 @@
                 <if test="dept != null and dept!=''">
                     AND  t.dept like CONCAT('%',#{dept},'%')
                 </if>
+                <if test="collectionType != null and collectionType!=''">
+                    AND c.collection_type = #{collectionType}
+                </if>
                 <if test="area != null and area!=''">
                     AND t.collect_area = #{area}
                 </if>
@@ -329,10 +332,10 @@
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d')<=  DATE_FORMAT(#{caseAllotTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
