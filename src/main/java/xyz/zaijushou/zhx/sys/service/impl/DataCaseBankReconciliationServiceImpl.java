@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.sys.dao.DataCaseBankReconciliationMapper;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
@@ -37,6 +38,14 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             bankReconciliationEntity.getDataCase().setCollectStatusMsg("");
         }
         return dataCaseBankReconciliationMapper.listBankReconciliation(bankReconciliationEntity);
+    }
+
+    @Override
+    public void addList(List<DataCaseBankReconciliationEntity> dataEntities) {
+        if(CollectionUtils.isEmpty(dataEntities)) {
+            return;
+        }
+        dataCaseBankReconciliationMapper.addList(dataEntities);
     }
 
 }

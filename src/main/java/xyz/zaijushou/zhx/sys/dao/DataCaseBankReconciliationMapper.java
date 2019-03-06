@@ -12,4 +12,6 @@ public interface DataCaseBankReconciliationMapper {
     void updateStatus(DataCaseBankReconciliationEntity entity);
 
     List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity);
+
+    void addList(List<DataCaseBankReconciliationEntity> dataEntities);
 }

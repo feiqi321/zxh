@@ -3,22 +3,25 @@ package xyz.zaijushou.zhx.sys.web;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelBankReconciliationConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.RepayTypeEnum;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
-import xyz.zaijushou.zhx.utils.CollectionsUtils;
-import xyz.zaijushou.zhx.utils.ExcelUtils;
-import xyz.zaijushou.zhx.utils.RedisUtils;
+import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.utils.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +35,9 @@ public class DataCaseBankReconciliationController {
 
     @Resource
     private DataCaseBankReconciliationService dataCaseBankReconciliationService;
+
+    @Resource
+    private DataCaseService dataCaseService;
 
     @PostMapping("/listRepayType")
     public Object listRepayType() {
@@ -64,7 +70,6 @@ public class DataCaseBankReconciliationController {
         return WebResponse.success();
     }
 
-    //todo 三种导出 导入
     @PostMapping("/queryDataExport")
     public Object queryDataExport(@RequestBody DataCaseBankReconciliationEntity bankReconciliationEntity, HttpServletResponse response) throws IOException {
         List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.listBankReconciliation(bankReconciliationEntity);
@@ -157,7 +162,53 @@ public class DataCaseBankReconciliationController {
                 response
         );
         return null;
-    }
+   }
     //todo caseArea
 
+    @ApiOperation(value = "导入CP", notes = "导入CP")
+    @PostMapping("/import")
+    public Object dataCaseNewCaseImport(MultipartFile file) throws IOException {
+        List<DataCaseBankReconciliationEntity> dataEntities = ExcelUtils.importExcel(file, ExcelBankReconciliationConstant.BankReconciliationImport.values(), DataCaseBankReconciliationEntity.class);;
+        if(dataEntities.size() == 0) {
+            return WebResponse.success("添加0条数据");
+        }
+        Map<String, Integer> countMap = new HashMap<>();
+        Set<String> seqNoSet = new HashSet<>();
+        for(int i = 0; i < dataEntities.size(); i ++) {
+            if(dataEntities.get(i).getDataCase() == null || StringUtils.isEmpty(dataEntities.get(i).getDataCase().getSeqNo())) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
+            }
+            seqNoSet.add(dataEntities.get(i).getDataCase().getSeqNo());
+            countMap.put(dataEntities.get(i).getDataCase().getSeqNo(), countMap.get(dataEntities.get(i).getDataCase().getSeqNo()) == null ? 1 : countMap.get(dataEntities.get(i).getDataCase().getSeqNo()) + 1);
+        }
+        StringBuilder builder = new StringBuilder();
+        for(Map.Entry<String, Integer> entry : countMap.entrySet()) {
+            if(entry.getValue() > 1) {
+                builder.append(entry.getKey()).append(" ");
+            }
+        }
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(builder.toString())) {
+            return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "存在重复的个案序列号：" + builder.toString());
+        }
+        DataCaseEntity queryEntity = new DataCaseEntity();
+        queryEntity.setSeqNoSet(seqNoSet);
+        List<DataCaseEntity> existCaseList = dataCaseService.listBySeqNoSet(queryEntity);
+        Map<String, DataCaseEntity> existCaseMap = new HashMap<>();
+        for(DataCaseEntity entity : existCaseList) {
+            existCaseMap.put(entity.getSeqNo(), entity);
+        }
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity user = new SysUserEntity();
+        user.setId(userId);
+        for (DataCaseBankReconciliationEntity entity : dataEntities) {
+            if (existCaseMap.containsKey(entity.getDataCase().getSeqNo())) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getDataCase().getSeqNo() + "已存在，请确认后重新上传");
+            }
+            entity.setDataCase(existCaseMap.get(entity.getDataCase().getSeqNo()));
+            entity.setCreateUser(user);
+            entity.setUpdateUser(user);
+        }
+        dataCaseBankReconciliationService.addList(dataEntities);
+        return WebResponse.success();
+    }
 }

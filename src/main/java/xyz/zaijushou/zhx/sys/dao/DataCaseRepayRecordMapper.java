@@ -14,4 +14,6 @@ public interface DataCaseRepayRecordMapper {
     void save(DataCaseRepayRecordEntity entity);
 
     List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity);
+
+    void addList(List<DataCaseRepayRecordEntity> dataEntities);
 }

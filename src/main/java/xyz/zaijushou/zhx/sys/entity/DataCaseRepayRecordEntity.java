@@ -38,6 +38,12 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     private Date repayDateEnd;  //还款日期 end
 
+    private BigDecimal latestOverdue;   //最新欠款
+
+    private String settleFlag;  //结清标志
+
+
+
     private Integer[] ids;
 
     public DataCaseEntity getDataCase() {
@@ -158,5 +164,21 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     public void setRepayDateEnd(Date repayDateEnd) {
         this.repayDateEnd = repayDateEnd;
+    }
+
+    public BigDecimal getLatestOverdue() {
+        return latestOverdue;
+    }
+
+    public void setLatestOverdue(BigDecimal latestOverdue) {
+        this.latestOverdue = latestOverdue;
+    }
+
+    public String getSettleFlag() {
+        return settleFlag;
+    }
+
+    public void setSettleFlag(String settleFlag) {
+        this.settleFlag = settleFlag;
     }
 }

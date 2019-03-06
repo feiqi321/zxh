@@ -288,4 +288,31 @@
         )
     </insert>
 
+    <insert id="addList" parameterType="java.util.List">
+        insert into data_case_bank_reconciliation
+        (
+        data_case,
+        collect_user,
+        repay_date,
+        repay_money,
+        repay_user,
+        remark,
+        create_user,
+        update_user
+        )
+        valuse
+        <foreach collection="list" separator="," item="item">
+            (
+            #{item.dataCase.id},
+            #{item.collectUser.id},
+            #{item.repayDate},
+            #{item.repayMoney},
+            #{item.repayUser},
+            #{item.remark},
+            #{item.createUser.id},
+            #{item.updateUser.id}
+            )
+        </foreach>
+    </insert>
+
 </mapper>

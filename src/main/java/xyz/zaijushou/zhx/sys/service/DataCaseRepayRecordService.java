@@ -13,4 +13,6 @@ public interface DataCaseRepayRecordService {
     void save(DataCaseRepayRecordEntity entity);
 
     List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity);
+
+    void addList(List<DataCaseRepayRecordEntity> dataEntities);
 }

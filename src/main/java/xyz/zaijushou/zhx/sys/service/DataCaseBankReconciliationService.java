@@ -12,4 +12,6 @@ public interface DataCaseBankReconciliationService {
     void cancel(DataCaseBankReconciliationEntity entity);
 
     List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity);
+
+    void addList(List<DataCaseBankReconciliationEntity> dataEntities);
 }

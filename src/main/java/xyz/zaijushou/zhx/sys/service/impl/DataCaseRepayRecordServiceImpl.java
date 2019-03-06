@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
@@ -35,6 +36,14 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     @Override
     public List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity) {
         return dataCaseRepayRecordMapper.listRepayRecord(repayRecordEntity);
+    }
+
+    @Override
+    public void addList(List<DataCaseRepayRecordEntity> dataEntities) {
+        if(CollectionUtils.isEmpty(dataEntities)) {
+            return;
+        }
+        dataCaseRepayRecordMapper.addList(dataEntities);
     }
 
 
