@@ -253,7 +253,7 @@ public class FileManageServiceImpl implements FileManageService {
             Letter temp = list.get(i);
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
-                    temp.setCaseId(temp.getId());
+                    temp.setCaseId(dataCaseEntity.getId());
                     letterMapper.insert(temp);
                     sucessCount =sucessCount+1;
                 }
