@@ -1251,6 +1251,23 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
                     temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                 }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
+                    temp.setCollectArea("");
+                }else {
+                    List<SysDictionaryEntity> areaList = dictionaryMapper.getDataById(Integer.parseInt(temp.getCollectArea()));
+                    if (areaList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = areaList.get(0);
+                        temp.setCollectArea(sysDictionaryEntity.getName());
+                    }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
             }
             list.set(i,temp);
         }
