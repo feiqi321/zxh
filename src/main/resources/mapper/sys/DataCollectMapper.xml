@@ -385,11 +385,11 @@
                     <![CDATA[   and DATE_FORMAT(c.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
                 </if>
 
-                <if test="moneyStart != null and moneyStart!=''">
-                <![CDATA[   and t.money>=  #{moneyStart}  ]]>
+                <if test="moneyEnd != null and moneyEnd!=''">
+                <![CDATA[   and t.money>=  #{moneyEnd}  ]]>
             </if>
-                <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and t.money<=  #{moneyEnd}   ]]>
+                <if test="moneyStart != null and moneyStart!=''" >
+                    <![CDATA[   and t.moneyStart<=  #{moneyStart}   ]]>
                 </if>
                 <if test="countFollowEnd != null and countFollowEnd!=''">
                     <![CDATA[   and c.count_follow>=  #{countFollowEnd}  ]]>
