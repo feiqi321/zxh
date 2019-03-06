@@ -157,7 +157,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             list.set(i,temp);
         }
-        for (DataCollectionEntity collection : list){
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity collection = list.get(i);
             if(!caseIds.contains(collection.getCaseId())){
                 caseIds.add(collection.getCaseId());
                 ++countCase;
@@ -399,7 +400,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             totalPageNum = count/beanInfo.getPageSize();
         }
-        for(DataCollectionEntity collection : colList){
+        for(int i=0;i<colList.size();i++){
+            DataCollectionEntity collection = colList.get(i);
             collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
             collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
             collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
