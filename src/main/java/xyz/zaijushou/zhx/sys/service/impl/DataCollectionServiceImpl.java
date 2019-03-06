@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -136,7 +137,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             dataCollectionEntity.setSort(" desc");
         }
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
-        int count = dataCollectionMapper.countDataCollect(dataCollectionEntity);
+
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0.00");//列表金额
         int countCasePay = 0;//列表还款案量
@@ -156,7 +157,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             list.set(i,temp);
         }
-        for (DataCollectionEntity collection : list){
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity collection = list.get(i);
             if(!caseIds.contains(collection.getCaseId())){
                 caseIds.add(collection.getCaseId());
                 ++countCase;
@@ -168,13 +170,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
+            collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
+            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
+            collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
+            collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
+            collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
+            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
         }
-        int totalPageNum = 0 ;
-        if (count%dataCollectionEntity.getPageSize()>0){
-            totalPageNum = count/dataCollectionEntity.getPageSize()+1;
-        }else{
-            totalPageNum = count/dataCollectionEntity.getPageSize();
-        }
+        int count = new Long(PageInfo.of(list).getTotal()).intValue() ;
+
 
         collectionReturn.setList(list);
         collectionReturn.setCountCase(countCase);
@@ -185,7 +189,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setSumPayMoney(sumPayMoney);
         webResponse.setData(collectionReturn);
         webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
         return webResponse;
     }
 
@@ -396,6 +399,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             totalPageNum = count/beanInfo.getPageSize()+1;
         }else{
             totalPageNum = count/beanInfo.getPageSize();
+        }
+        for(int i=0;i<colList.size();i++){
+            DataCollectionEntity collection = colList.get(i);
+            collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
+            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
+            collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
+            collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
+            collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
+            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
         }
         collectionReturn.setList(colList);
 

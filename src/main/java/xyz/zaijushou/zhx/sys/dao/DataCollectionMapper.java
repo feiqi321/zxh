@@ -70,4 +70,8 @@ public interface DataCollectionMapper {
     public List<DataCollectionEntity> detailCollect3(DataCollectionEntity bean);
 
     public List<DataCollectionEntity> detailCollect4(DataCollectionEntity bean);
+
+    public List<DataCollectionEntity> detailTelCurentCollect1(DataCollectionEntity bean);
+
+    public List<DataCollectionEntity> detailTelCurentCollect2(DataCollectionEntity bean);
 }

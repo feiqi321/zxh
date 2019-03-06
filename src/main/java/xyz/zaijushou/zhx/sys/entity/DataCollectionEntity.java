@@ -75,16 +75,22 @@ public class DataCollectionEntity extends CommonEntity {
     //催收记录
     private String collectInfo;
     //谈判方式
-    private String method;
+    private int method;
+
+    private String methodMsg;
 
     //承诺还款金额
     private BigDecimal repayAmt;
+    private String repayAmtMsg;
     //待銀行对账金额
     private BigDecimal bankAmt;
+    private String bankAmtMsg;
     //银行对账时间
     private String bankTime;
     //减免金额
     private BigDecimal reduceAmt;
+
+    private String reduceAmtMsg;
     //催收状态
     private int collectStatus;
 
@@ -109,7 +115,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String accountAge;//逾期账龄
 
     private int overDays;//逾期天数
-    private int newCase;//逾期天数
+    private String newCase;//逾期天数
 
     private String collectionType ; //催收类别
     private String caseType ; //案件类别
@@ -159,10 +165,13 @@ public class DataCollectionEntity extends CommonEntity {
     private String repayTimeEnd;
 
     private BigDecimal money;//委案金额
+    private String moneyMsg;
     private BigDecimal moneyStart;//委案金额
     private BigDecimal moneyEnd;//委案金额
     private BigDecimal balance;//委案余额
+    private String balanceMsg;
     private BigDecimal enRepayAmt;//已还金额
+    private String enRepayAmtMsg;
 
     private BigDecimal repaidAmtM;//已还款金额的提成金额（M）
     private BigDecimal repaidBankAmtM;//银行查账金额的提成金额（M）
@@ -184,6 +193,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String sort;
 
     private BigDecimal newMoney;
+    private String newMoneyMsg;
 
     //完成人
     private String completeUser;
@@ -241,6 +251,70 @@ public class DataCollectionEntity extends CommonEntity {
     private String applyUser;
     private String auditUser;
     private String auditTime;
+
+    public String getMethodMsg() {
+        return methodMsg;
+    }
+
+    public void setMethodMsg(String methodMsg) {
+        this.methodMsg = methodMsg;
+    }
+
+    public String getBankAmtMsg() {
+        return bankAmtMsg;
+    }
+
+    public void setBankAmtMsg(String bankAmtMsg) {
+        this.bankAmtMsg = bankAmtMsg;
+    }
+
+    public String getMoneyMsg() {
+        return moneyMsg;
+    }
+
+    public void setMoneyMsg(String moneyMsg) {
+        this.moneyMsg = moneyMsg;
+    }
+
+    public String getBalanceMsg() {
+        return balanceMsg;
+    }
+
+    public void setBalanceMsg(String balanceMsg) {
+        this.balanceMsg = balanceMsg;
+    }
+
+    public String getEnRepayAmtMsg() {
+        return enRepayAmtMsg;
+    }
+
+    public void setEnRepayAmtMsg(String enRepayAmtMsg) {
+        this.enRepayAmtMsg = enRepayAmtMsg;
+    }
+
+    public String getNewMoneyMsg() {
+        return newMoneyMsg;
+    }
+
+    public void setNewMoneyMsg(String newMoneyMsg) {
+        this.newMoneyMsg = newMoneyMsg;
+    }
+
+    public String getRepayAmtMsg() {
+        return repayAmtMsg;
+    }
+
+    public void setRepayAmtMsg(String repayAmtMsg) {
+        this.repayAmtMsg = repayAmtMsg;
+    }
+
+    public String getReduceAmtMsg() {
+        return reduceAmtMsg;
+    }
+
+    public void setReduceAmtMsg(String reduceAmtMsg) {
+        this.reduceAmtMsg = reduceAmtMsg;
+    }
 
     private String fileName;//附件
 
@@ -827,11 +901,11 @@ public class DataCollectionEntity extends CommonEntity {
         this.overDays = overDays;
     }
 
-    public int getNewCase() {
+    public String getNewCase() {
         return newCase;
     }
 
-    public void setNewCase(int newCase) {
+    public void setNewCase(String newCase) {
         this.newCase = newCase;
     }
 
@@ -1147,11 +1221,11 @@ public class DataCollectionEntity extends CommonEntity {
         this.collectInfo = collectInfo;
     }
 
-    public String getMethod() {
+    public int getMethod() {
         return method;
     }
 
-    public void setMethod(String method) {
+    public void setMethod(int method) {
         this.method = method;
     }
 

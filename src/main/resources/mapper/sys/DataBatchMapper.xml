@@ -171,7 +171,7 @@
 
 
     <select id="selectBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select  batch_no as batchNo
+        select  DISTINCT batch_no as batchNo
         from data_batch
         <where>
             <trim suffixOverrides=",">

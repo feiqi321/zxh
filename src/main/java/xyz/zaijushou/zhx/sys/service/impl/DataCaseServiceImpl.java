@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -15,9 +16,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
-import xyz.zaijushou.zhx.utils.CollectionsUtils;
-import xyz.zaijushou.zhx.utils.JwtTokenUtil;
-import xyz.zaijushou.zhx.utils.RedisUtils;
+import xyz.zaijushou.zhx.utils.*;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -339,6 +338,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
+                temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
                 list.set(i,temp);
             }
         }
@@ -697,6 +701,10 @@ public class DataCaseServiceImpl implements DataCaseService {
             dictionary2.setId(temp.getCollectStatus());
             SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
+
+            temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+            temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
             list.set(i,temp);
         }
         webResponse.setData(PageInfo.of(list));
@@ -863,13 +871,12 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public List<DataCaseEntity> pageCaseListExport(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-        int totalCaseNum=0;
-        BigDecimal totalAmt=new BigDecimal(0);
-        int repayNum=0;
-        BigDecimal repayTotalAmt=new BigDecimal(0);
-        BigDecimal totalCp=new BigDecimal(0);
-        BigDecimal totalPtp=new BigDecimal(0);
-        dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        if(org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setSort("desc");
+        }else {
+            dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        }
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
             dataCaseEntity.setClientFlag(null);
@@ -970,14 +977,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
-                totalAmt = totalAmt.add(temp.getMoney());
-                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    repayNum = repayNum+1;
-                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
-                }
-                totalCp = totalCp.add(temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt());
                 if (temp.getCollectStatus()==0){
                     temp.setCollectStatusMsg("");
                 }else{
@@ -1001,14 +1000,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.pageCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
-                totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
-                if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    repayNum = repayNum+1;
-                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
-                }
-                totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
                 if (temp.getCollectStatus()==0){
                     temp.setCollectStatusMsg("");
                 }else{
@@ -1026,6 +1017,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
+                temp.setMoneyMsg(temp.getMoney()==null?"": FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"": FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"":FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
                 list.set(i,temp);
             }
         }
@@ -1255,6 +1251,23 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
                     temp.setCollectStatusMsg(sysDictionaryEntity.getName());
                 }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
+                    temp.setCollectArea("");
+                }else {
+                    List<SysDictionaryEntity> areaList = dictionaryMapper.getDataById(Integer.parseInt(temp.getCollectArea()));
+                    if (areaList.size() > 0) {
+                        SysDictionaryEntity sysDictionaryEntity = areaList.get(0);
+                        temp.setCollectArea(sysDictionaryEntity.getName());
+                    }
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                    temp.setOdv("");
+                }else {
+                    SysUserEntity tempuser = new SysUserEntity();
+                    tempuser.setId(Integer.valueOf(temp.getOdv()));
+                    SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                    temp.setOdv(user == null ? "" : user.getUserName());
+                }
             }
             list.set(i,temp);
         }
@@ -1264,6 +1277,14 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public DataCaseDetail detail(DataCaseEntity bean){
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+
+        SysUserEntity curentuser = getUserInfo();
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !(curentuser.getId()+"").equals(dataCaseDetail.getOdv())){
+            dataCaseDetail.setCurrentuser(false);
+        }else{
+            dataCaseDetail.setCurrentuser(true);
+        }
+
 
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();

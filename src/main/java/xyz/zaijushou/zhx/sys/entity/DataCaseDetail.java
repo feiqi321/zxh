@@ -11,6 +11,7 @@ import java.util.Set;
  */
 public class DataCaseDetail {
     private  int id;
+    private boolean currentuser;
     private String batchNo; //批次编号 查询条件  列表
     private String client;//委托方 查询条件
     private BigDecimal money;//委案金额 查询条件    列表
@@ -279,6 +280,14 @@ public class DataCaseDetail {
     private String contactMobile6;
     private String contactUnit6;
     private String contactAddress6;
+
+    public boolean isCurrentuser() {
+        return currentuser;
+    }
+
+    public void setCurrentuser(boolean currentuser) {
+        this.currentuser = currentuser;
+    }
 
     public String getRemark1() {
         return remark1;

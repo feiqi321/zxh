@@ -233,12 +233,12 @@
 
   <select id="pageDataLetter" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter" >
 
-        select t.id,t.case_id as caseId,d.collect_status as collectStatus,d.seq_no as seqNo,t.name,d.money as caseAmt,d.en_repay_amt as repayAmt,
+        select t.id,t.case_id as caseId,d.collect_status as collectStatus,d.seq_no as seqNo,d.name,d.money as caseAmt,d.en_repay_amt as repayAmt,
              t.address,(select count(id) from letter where id=t.case_id ) as times,t.apply_context as applyContext,t.address_type as addressType,
             t.module,t.relationer,d.synergy_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
         from letter t LEFT  JOIN data_case d on t.case_id = d.id
         <where>
-          t.status = #{status}
+          t.status = #{status} and d.delete_flag=0
           <trim suffixOverrides=",">
             <if test="collectArea != null and collectArea!=''">
               AND  d.collection_area = #{collectArea}
@@ -352,5 +352,119 @@
     <include refid="Base_Column_List" />
     from letter
     where case_id = #{caseId}
+  </select>
+
+  <select id="totalExportList" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.LetterExportEntity">
+    select
+        t.id,d.batch_no as batchNo,d.client,d.seq_no as seqNo,d.name,t.address_type as addressType,t.address,t.applyer,t.apply_date as applyDate,t.apply_context as applyContext,
+    t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult,d.card_no as cardNo,d.card_type as cardType,d.ident_no as identNo,d.account,
+    d.currency_type as currencyType,d.archive_no as archiveNo,d.money,d.en_repay_amt as enRepayAmt,d.principle,d.last_repay_date as lastRepayDate,d.case_date as caseDate,
+    d.odv,d.credit_line as creditLine,d.home_address as homeAddress,d.home_tel_number as homeTelNumber,d.tel,d.unit_name as unitName,d.unit_address as unitAddress,
+    d.unit_tel_number as unitTelNumber
+    from letter t LEFT  JOIN data_case d on t.case_id = d.id
+    <where>
+      d.delete_flag=0
+      <trim suffixOverrides=",">
+        <if test="collectArea != null and collectArea!=''">
+          AND  d.collection_area = #{collectArea}
+        </if>
+        <if test="clientFlag != null and clientFlag!=''">
+          and d.client in
+          <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="batchNoFlag != null and batchNoFlag!=''">
+          and d.batch_no in
+          <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="seqno != null and seqno!=''">
+          AND  d.seq_no like CONCAT('%',#{seqno},'%')
+        </if>
+        <if test="module != null and module!=''">
+          AND  t.module = #{module}
+        </if>
+        <if test="name != null and name!=''">
+          AND  t.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="applyer != null and applyer!=''">
+          AND  d.odv = #{applyer}
+        </if>
+        <if test="caseStatus != null and caseStatus!=''">
+          AND  d.status  = #{caseStatus}
+        </if>
+        <if test="caseAmtStart != null and caseAmtStart!=''">
+          <![CDATA[   and d.money>=  #{caseAmtStart}  ]]>
+        </if>
+        <if test="caseAmtEnd != null and caseAmtEnd!=''" >
+          <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
+        </if>
+        <if test="applyDateStart != null and applyDateStart!=''">
+          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd!=''" >
+          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+        </if>
+      </trim>
+    </where>
+  </select>
+
+  <select id="pageExportList" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.LetterExportEntity">
+    select
+    t.id,d.batch_no as batchNo,d.client,d.seq_no as seqNo,d.name,t.address_type as addressType,t.address,t.applyer,t.apply_date as applyDate,t.apply_context as applyContext,
+    t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult,d.card_no as cardNo,d.card_type as cardType,d.ident_no as identNo,d.account,
+    d.currency_type as currencyType,d.archive_no as archiveNo,d.money,d.en_repay_amt as enRepayAmt,d.principle,d.last_repay_date as lastRepayDate,d.case_date as caseDate,
+    d.odv,d.credit_line as creditLine,d.home_address as homeAddress,d.home_tel_number as homeTelNumber,d.tel,d.unit_name as unitName,d.unit_address as unitAddress,
+    d.unit_tel_number as unitTelNumber
+    from letter t LEFT  JOIN data_case d on t.case_id = d.id
+    <where>
+      d.delete_flag=0
+      <trim suffixOverrides=",">
+        <if test="collectArea != null and collectArea!=''">
+          AND  d.collection_area = #{collectArea}
+        </if>
+        <if test="clientFlag != null and clientFlag!=''">
+          and d.client in
+          <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="batchNoFlag != null and batchNoFlag!=''">
+          and d.batch_no in
+          <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="seqno != null and seqno!=''">
+          AND  d.seq_no like CONCAT('%',#{seqno},'%')
+        </if>
+        <if test="module != null and module!=''">
+          AND  t.module = #{module}
+        </if>
+        <if test="name != null and name!=''">
+          AND  t.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="applyer != null and applyer!=''">
+          AND  d.odv = #{applyer}
+        </if>
+        <if test="caseStatus != null and caseStatus!=''">
+          AND  d.status  = #{caseStatus}
+        </if>
+        <if test="caseAmtStart != null and caseAmtStart!=''">
+          <![CDATA[   and d.money>=  #{caseAmtStart}  ]]>
+        </if>
+        <if test="caseAmtEnd != null and caseAmtEnd!=''" >
+          <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
+        </if>
+        <if test="applyDateStart != null and applyDateStart!=''">
+          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd!=''" >
+          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+        </if>
+      </trim>
+    </where>
   </select>
 </mapper>

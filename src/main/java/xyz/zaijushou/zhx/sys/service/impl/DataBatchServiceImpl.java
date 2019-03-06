@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
@@ -114,6 +115,7 @@ public class DataBatchServiceImpl implements DataBatchService {
             }else{
                 dataBatchEntity.setStatusMsg("未导入");
             }
+            dataBatchEntity.setTotalAmtMsg(dataBatchEntity.getTotalAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(dataBatchEntity.getTotalAmt()+""));
             dataBatchEntity.setCreatUser(user==null?"":user.getUserName());
             userCount =userCount+dataBatchEntity.getUserCount();
             totalAmt = totalAmt.add(dataBatchEntity.getTotalAmt()==null?new BigDecimal(0):dataBatchEntity.getTotalAmt());

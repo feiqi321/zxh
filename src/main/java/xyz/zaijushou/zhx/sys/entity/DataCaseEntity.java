@@ -22,9 +22,11 @@ public class DataCaseEntity extends CommonEntity {
     private String[] clients;
     private String clientFlag;
     private BigDecimal money;//委案金额 查询条件    列表
+    private String moneyMsg;
     private BigDecimal moneyStart;//委案金额  查询条件
     private BigDecimal moneyEnd;//委案金额  查询条件
     private BigDecimal balance;//委案余额    列表
+    private String balanceMsg;
     //委案日期 查询条件   列表
     private String caseDate;
     private String caseDateStart;
@@ -95,9 +97,12 @@ public class DataCaseEntity extends CommonEntity {
     private String comment;//评语
 
     private BigDecimal enRepayAmt;//已还金额  列表
+    private String enRepayAmtMsg;
     private BigDecimal bankAmt;//待銀行查账金额-CP 列表
+    private String bankAmtMsg;
     private String proRepayDate;//承诺还款时间-PTP   列表
     private BigDecimal proRepayAmt;//承诺还款金额-PTP   列表
+    private String proRepayAmtMsg;
 
     private String realRepayDate;
     private String realRepayDateStart;
@@ -105,13 +110,14 @@ public class DataCaseEntity extends CommonEntity {
 
     private String repayStatus;//还款状态
 
-    private int newCase;//是否新分配
+    private String newCase;//是否新分配
 
     private int reduceStatus;//减免状态
     private int reportStatus;//报备状态
 
     private int userCount;//用户数
     private BigDecimal totalAmt; //总金额
+    private String totalAmtMsg;
 
     private int synergy; //协催状态 2 申请中  1 最终同意申请  3待协催 4撤销申请
     private String synergyDate; //协催申请时间
@@ -267,6 +273,54 @@ public class DataCaseEntity extends CommonEntity {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    public String getEnRepayAmtMsg() {
+        return enRepayAmtMsg;
+    }
+
+    public void setEnRepayAmtMsg(String enRepayAmtMsg) {
+        this.enRepayAmtMsg = enRepayAmtMsg;
+    }
+
+    public String getBankAmtMsg() {
+        return bankAmtMsg;
+    }
+
+    public void setBankAmtMsg(String bankAmtMsg) {
+        this.bankAmtMsg = bankAmtMsg;
+    }
+
+    public String getProRepayAmtMsg() {
+        return proRepayAmtMsg;
+    }
+
+    public void setProRepayAmtMsg(String proRepayAmtMsg) {
+        this.proRepayAmtMsg = proRepayAmtMsg;
+    }
+
+    public String getMoneyMsg() {
+        return moneyMsg;
+    }
+
+    public void setMoneyMsg(String moneyMsg) {
+        this.moneyMsg = moneyMsg;
+    }
+
+    public String getBalanceMsg() {
+        return balanceMsg;
+    }
+
+    public void setBalanceMsg(String balanceMsg) {
+        this.balanceMsg = balanceMsg;
+    }
+
+    public String getTotalAmtMsg() {
+        return totalAmtMsg;
+    }
+
+    public void setTotalAmtMsg(String totalAmtMsg) {
+        this.totalAmtMsg = totalAmtMsg;
+    }
 
     public int getSynerCkecker() {
         return synerCkecker;
@@ -765,11 +819,11 @@ public class DataCaseEntity extends CommonEntity {
         this.collectInfo = collectInfo;
     }
 
-    public int getNewCase() {
+    public String getNewCase() {
         return newCase;
     }
 
-    public void setNewCase(int newCase) {
+    public void setNewCase(String newCase) {
         this.newCase = newCase;
     }
 

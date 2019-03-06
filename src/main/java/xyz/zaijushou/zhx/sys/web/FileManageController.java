@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -179,6 +180,39 @@ public class FileManageController {
                 bos.flush();
             }
             bos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    @ApiOperation(value = "信函下载", notes = "信函下载")
+    @PostMapping("/letter/download")
+    public Object letterDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String fileName = "信函.doc";
+
+        //下载的文件携带这个名称
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        //文件下载类型--二进制文件
+        response.setContentType("application/octet-stream");
+
+        try {
+            String content = "<html><head><title>这是个测试demo</title></head><body><font color='red'>这是个测试demo的内容</font></body></html>";
+            InputStream is = new ByteArrayInputStream(content.getBytes("GBK"));
+            ServletOutputStream out = response.getOutputStream();
+
+            int byteRead = 0;
+            byte[] buffer = new byte[512];
+            while ((byteRead = is.read(buffer)) != -1) {
+                out.write(buffer, 0, byteRead);
+            }
+
+            is.close();
+            out.flush();
+            out.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

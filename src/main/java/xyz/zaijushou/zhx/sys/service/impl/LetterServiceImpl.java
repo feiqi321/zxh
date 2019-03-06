@@ -7,6 +7,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.LetterService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -70,6 +71,8 @@ public class LetterServiceImpl implements LetterService {
                 SysModule moduleTemp = sysModuleMapper.selectModuleById(sysModule);
                 temp.setModule(moduleTemp==null?"":moduleTemp.getTitle());
             }
+            temp.setCaseAmtMsg(temp.getCaseAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCaseAmt()+""));
+            temp.setRepayAmtMsg(temp.getRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
             list.set(i,temp);
         }
         webResponse.setData(PageInfo.of(list));
@@ -117,6 +120,45 @@ public class LetterServiceImpl implements LetterService {
     public WebResponse findByCaseId(Letter letter){
         List<Letter> list = letterMapper.findByCaseId(letter);
         return WebResponse.success(list);
+    }
+
+
+    public List<LetterExportEntity> pageExportList(Letter letter){
+        String[] clients = letter.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            letter.setClientFlag(null);
+        }else{
+            letter.setClientFlag("1");
+        }
+        String[] batchNos = letter.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            letter.setBatchNoFlag(null);
+        }else{
+            letter.setBatchNoFlag("1");
+        }
+        List<LetterExportEntity> list = letterMapper.pageExportList(letter);
+        if (list.size()>0){
+            list = PageInfo.of(list).getList();
+        }
+        return list;
+    }
+
+    public List<LetterExportEntity> totalExportList(Letter letter){
+        String[] clients = letter.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            letter.setClientFlag(null);
+        }else{
+            letter.setClientFlag("1");
+        }
+        String[] batchNos = letter.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            letter.setBatchNoFlag(null);
+        }else{
+            letter.setBatchNoFlag("1");
+        }
+        List<LetterExportEntity> list = letterMapper.totalExportList(letter);
+
+        return list;
     }
 
 }

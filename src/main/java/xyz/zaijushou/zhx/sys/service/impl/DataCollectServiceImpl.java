@@ -14,6 +14,7 @@ import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
@@ -75,8 +76,15 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
+            SysDictionaryEntity dictionary3 = new SysDictionaryEntity();
+            dictionary3.setId(temp.getMethod());
+            SysDictionaryEntity sysDictionaryEntity3 = sysDictionaryService.getDataById(dictionary3);
+            temp.setMethodMsg(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
+
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user==null?"":user.getUserName());
+            temp.setRepayAmtMsg(temp.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
+            temp.setReduceAmtMsg(temp.getReduceAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getReduceAmt()+""));
             resultList.add(temp);
         }
         webResponse.setData(PageInfo.of(resultList));
@@ -256,17 +264,31 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else if (bean.getDetaiType().equals("4")){//同卡催记
             list = dataCollectionMapper.detailCollect4(bean);
         }
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
+        }
          webResponse.setData(list);
         return webResponse;
     }
-    public WebResponse detailTelCollect(DataCollectionEntity bean){
+    public WebResponse detailTelCurentCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
         if(StringUtils.isEmpty(bean.getDetaiType()) || bean.getDetaiType().equals("1")){
-
+            list = dataCollectionMapper.detailTelCurentCollect1(bean);
         }else if (bean.getDetaiType().equals("2")){
-
+            list = dataCollectionMapper.detailTelCurentCollect2(bean);
         }
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
+        }
+        webResponse.setCode("100");
+        webResponse.setData(list);
         return webResponse;
     }
 }
