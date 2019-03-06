@@ -264,6 +264,12 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else if (bean.getDetaiType().equals("4")){//同卡催记
             list = dataCollectionMapper.detailCollect4(bean);
         }
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
+        }
          webResponse.setData(list);
         return webResponse;
     }
@@ -274,6 +280,12 @@ public class DataCollectServiceImpl implements DataCollectService {
             list = dataCollectionMapper.detailTelCurentCollect1(bean);
         }else if (bean.getDetaiType().equals("2")){
             list = dataCollectionMapper.detailTelCurentCollect2(bean);
+        }
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
         }
         webResponse.setCode("100");
         webResponse.setData(list);
