@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.dao;
 
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.Letter;
+import xyz.zaijushou.zhx.sys.entity.LetterExportEntity;
 
 import java.util.List;
 
@@ -30,4 +31,8 @@ public interface LetterMapper {
     int updateByPrimaryKeySelective(Letter record);
 
     int updateByPrimaryKey(Letter record);
+
+    List<LetterExportEntity> pageExportList(Letter letter);
+
+    List<LetterExportEntity> totalExportList(Letter letter);
 }

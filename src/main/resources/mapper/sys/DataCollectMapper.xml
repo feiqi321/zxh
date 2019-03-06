@@ -1321,4 +1321,18 @@
         result,target_name as targetName,method,repay_time as repayTime,repay_amt as repayAmt,reduce_amt as reduceAmt,reduce_status as reduceStatus,odv,collect_status as collectStatus
         from data_collection
     </select>
+
+    <select id="detailTelCurentCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select id,collect_time as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
+        repay_time as repayTime,repay_amt as repayAmt,odv
+        from data_collection
+         where case_id=#{caseId} and mobile = #{mobile}
+    </select>
+
+    <select id="detailTelCurentCollect2" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select id,collect_time as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
+        repay_time as repayTime,repay_amt as repayAmt,odv
+        from data_collection
+        where mobile = #{mobile}
+    </select>
 </mapper>

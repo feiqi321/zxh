@@ -122,4 +122,43 @@ public class LetterServiceImpl implements LetterService {
         return WebResponse.success(list);
     }
 
+
+    public List<LetterExportEntity> pageExportList(Letter letter){
+        String[] clients = letter.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            letter.setClientFlag(null);
+        }else{
+            letter.setClientFlag("1");
+        }
+        String[] batchNos = letter.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            letter.setBatchNoFlag(null);
+        }else{
+            letter.setBatchNoFlag("1");
+        }
+        List<LetterExportEntity> list = letterMapper.pageExportList(letter);
+        if (list.size()>0){
+            list = PageInfo.of(list).getList();
+        }
+        return list;
+    }
+
+    public List<LetterExportEntity> totalExportList(Letter letter){
+        String[] clients = letter.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            letter.setClientFlag(null);
+        }else{
+            letter.setClientFlag("1");
+        }
+        String[] batchNos = letter.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            letter.setBatchNoFlag(null);
+        }else{
+            letter.setBatchNoFlag("1");
+        }
+        List<LetterExportEntity> list = letterMapper.totalExportList(letter);
+
+        return list;
+    }
+
 }

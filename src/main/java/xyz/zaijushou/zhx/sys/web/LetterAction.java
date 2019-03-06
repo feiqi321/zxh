@@ -2,22 +2,28 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelCaseConstant;
 import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.constant.ExcelLetterConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.LegalEntity;
 import xyz.zaijushou.zhx.sys.entity.Letter;
+import xyz.zaijushou.zhx.sys.entity.LetterExportEntity;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.sys.service.LetterService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -92,6 +98,30 @@ public class LetterAction {
         List<Letter> letterEntities = ExcelUtils.importExcel(file, ExcelLetterConstant.Letter.values(), Letter.class);
         WebResponse webResponse =fileManageService.batchLetter(letterEntities);
         return webResponse;
+    }
+
+    @ApiOperation(value = "当前页导出", notes = "当前页导出")
+    @PostMapping("/letter/pageExport")
+    public Object pageExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException , InvalidFormatException {
+        List<LetterExportEntity> list = letterService.pageExportList(bean);
+        ExcelUtils.exportExcel(list,
+                ExcelLetterConstant.LetterExport.values(),
+                "信函记录当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+    @ApiOperation(value = "信函记录全量导出", notes = "信函记录全量导出")
+    @PostMapping("/letter/totalExport")
+    public Object totalExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException, InvalidFormatException {
+        List<LetterExportEntity> list = letterService.totalExportList(bean);
+        ExcelUtils.exportExcel(list,
+                ExcelLetterConstant.LetterExport.values(),
+                "信函记录全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
     }
 
     @ApiOperation(value = "详情的信函", notes = "详情的信函")
