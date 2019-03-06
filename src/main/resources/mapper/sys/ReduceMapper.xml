@@ -85,6 +85,10 @@
             and apply_status = #{applyStatus}
         </if>
 
+        <if test="caseId != null and caseId!=''">
+            and case_id = #{caseId}
+        </if>
+
         <if test="completeTimeStart != null and completeTimeStart!=''">
             <![CDATA[   and DATE_FORMAT(complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
         </if>

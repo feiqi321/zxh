@@ -115,7 +115,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String accountAge;//逾期账龄
 
     private int overDays;//逾期天数
-    private int newCase;//逾期天数
+    private String newCase;//逾期天数
 
     private String collectionType ; //催收类别
     private String caseType ; //案件类别
@@ -901,11 +901,11 @@ public class DataCollectionEntity extends CommonEntity {
         this.overDays = overDays;
     }
 
-    public int getNewCase() {
+    public String getNewCase() {
         return newCase;
     }
 
-    public void setNewCase(int newCase) {
+    public void setNewCase(String newCase) {
         this.newCase = newCase;
     }
 
