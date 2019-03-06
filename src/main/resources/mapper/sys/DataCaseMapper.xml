@@ -272,80 +272,30 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="dept != null and dept!=''">
-                    and da.dept = #{dept}
-                </if>
-
-                <if test="accountAge != null and accountAge!=''">
-                    and da.account_age = #{accountAge}
-                </if>
-
-                <if test="collectArea != null and collectArea!=''">
-                    and da.collect_area = #{collectArea}
-                </if>
-                <if test="overDays != null and overDays!=''">
-                    and da.overDays = #{overDays}
-                </if>
-                <if test="area != null and area!=''">
-                    and da.area = #{area}
-                </if>
-                <if test="license != null and license!=''">
-                    and da.license = #{license}
-                </if>
-                <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectStartTime}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectEndTime}, '%Y-%m-%d')   ]]>
-                </if>
-
-                <if test="collectHand != null and collectHand!=''">
-                    and da.collect_hand = #{collectHand}
-                </if>
-                <if test="distributeStatus != null and distributeStatus!=''">
-                    and da.distribute_status = #{distributeStatus}
-                </if>
 
                 <if test="vin != null and vin!=''">
                     and da.vin = #{vin}
                 </if>
-
-                <if test="status != null and status!=''">
-                    and da.status = #{status}
+                <if test="license != null and license!=''">
+                    and da.license = #{license}
+                </if>
+                <if test="collectHand != null and collectHand!=''">
+                    and da.collect_hand = #{collectHand}
+                </if>
+                <if test="name != null and name!=''">
+                    and da.name = #{name}
+                </if>
+                <if test="archiveNo != null and archiveNo!=''">
+                    and da.archive_no = #{archiveNo}
+                </if>
+                <if test="account != null and account!=''">
+                    and da.account = #{account}
                 </if>
                 <if test="bank != null and bank!=''">
                     and da.bank = #{bank}
                 </if>
-                <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartDate}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectEndDate}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="collectInfo != null and collectInfo!=''">
-                    and dc.collectInfo = #{collectInfo}
-                </if>
-                <if test="collectStatus != null and collectStatus!=''">
-                    and dc.collect_status = #{collectStatus}
-                </if>
-                <if test="caseType != null and caseType!=''">
-                    and da.case_type = #{caseType}
-                </if>
-                <if test="color != null and color!=''">
-                    and da.color = #{color}
-                </if>
-
-                <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and DATE_FORMATd(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateStart}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayDateEnd}, '%Y-%m-%d')   ]]>
+                <if test="idStr != null and idStr!=''">
+                    and da.id = #{idStr}
                 </if>
                 <if test="moneyStart != null and moneyStart!=''">
                     <![CDATA[   and da.money>=  #{moneyStart}  ]]>
@@ -353,13 +303,86 @@
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
+                <if test="overDays != null and overDays!=''">
+                    and da.overDays = #{overDays}
+                </if>
+                <if test="cardNo != null and cardNo!=''">
+                    and da.card_no = #{cardNo}
+                </if>
+                <if test="seqNo != null and seqNo!=''">
+                    and da.seq_no = #{seqNo}
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    and da.iden_no = #{identNo}
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    and dc.collectInfo = #{collectInfo}
+                </if>
+                <if test="batchNo != null and batchNo!=''">
+                    and dc.batch_no = #{batchNo}
+                </if>
+                <if test="dept != null and dept!=''">
+                    and da.dept = #{dept}
+                </if>
+                <if test="reduceStatus != null and reduceStatus!=''">
+                    and da.reduce_status = #{reduceStatus}
+                </if>
+                <if test="status != null and status!=''">
+                    and da.status = #{status}
+                </if>
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
+                <if test="collectStatus != null and collectStatus!=''">
+                    and dc.collect_status = #{collectStatus}
+                </if>
+                <if test="color != null and color!=''">
+                    and da.color = #{color}
+                </if>
+                <if test="area != null and area!=''">
+                    and da.area = #{area}
+                </if>
+                <if test="caseType != null and caseType!=''">
+                    and da.case_type = #{caseType}
+                </if>
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and da.distribute_status = #{distributeStatus}
+                </if>
 
+                <if test="collectArea != null and collectArea!=''">
+                    and da.collect_area = #{collectArea}
+                </if>
+                <if test="repayDateStart != null and repayDateStart!=''">
+                    <![CDATA[   and DATE_FORMATd(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="repayDateEnd != null and repayDateEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectStartTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectEndTime}, '%Y-%m-%d')   ]]>
+                </if>
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
                     <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')>=  DATE_FORMAT(#{realReturnStartTime}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
                     <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')<=  DATE_FORMAT(#{realReturnEndTime}, '%Y-%m-%d')   ]]>
                 </if>
+                <if test="collectStartDate != null and collectStartDate!=''">
+                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartDate}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="collectEndDate != null and collectEndDate!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectEndDate}, '%Y-%m-%d')   ]]>
+                </if>
+
             </trim>
         </where>
         order by ${orderBy} ${sort}
@@ -437,71 +460,84 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="dept != null and dept!=''">
-                    and da.dept = #{dept}
-                </if>
-
-                <if test="accountAge != null and accountAge!=''">
-                    and da.account_age = #{accountAge}
-                </if>
-                <if test="collectArea != null and collectArea!=''">
-                    and da.collect_area = #{collectArea}
-                </if>
-                <if test="overDays != null and overDays!=''">
-                    and da.over_days = #{overDays}
-                </if>
-                <if test="area != null and area!=''">
-                    and da.area = #{area}
+                <if test="vin != null and vin!=''">
+                    and da.vin = #{vin}
                 </if>
                 <if test="license != null and license!=''">
                     and da.license = #{license}
                 </if>
-                <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectStartTime}, '%Y-%m-%d')   ]]>
-                </if>
-                <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectEndTime}, '%Y-%m-%d')   ]]>
-                </if>
-
                 <if test="collectHand != null and collectHand!=''">
                     and da.collect_hand = #{collectHand}
                 </if>
-                <if test="distributeStatus != null and distributeStatus!=''">
-                    and da.distribute_status = #{distributeStatus}
+                <if test="name != null and name!=''">
+                    and da.name = #{name}
                 </if>
-                <if test="vin != null and vin!=''">
-                    and da.vin = #{vin}
+                <if test="archiveNo != null and archiveNo!=''">
+                    and da.archive_no = #{archiveNo}
                 </if>
-                <if test="status != null and status!=''">
-                    and da.status = #{status}
+                <if test="account != null and account!=''">
+                    and da.account = #{account}
                 </if>
                 <if test="bank != null and bank!=''">
                     and da.bank = #{bank}
                 </if>
-                <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartDate}, '%Y-%m-%d')   ]]>
+                <if test="idStr != null and idStr!=''">
+                    and da.id = #{idStr}
                 </if>
-                <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectEndDate}, '%Y-%m-%d')   ]]>
+                <if test="moneyStart != null and moneyStart!=''">
+                    <![CDATA[   and da.money>=  #{moneyStart}  ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''" >
+                    <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
+                </if>
+                <if test="overDays != null and overDays!=''">
+                    and da.over_days = #{overDays}
+                </if>
+                <if test="cardNo != null and cardNo!=''">
+                    and da.card_no = #{cardNo}
+                </if>
+                <if test="seqNo != null and seqNo!=''">
+                    and da.seq_no = #{seqNo}
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    and da.iden_no = #{identNo}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
                 </if>
+                <if test="batchNo != null and batchNo!=''">
+                    and dc.batch_no = #{batchNo}
+                </if>
+                <if test="dept != null and dept!=''">
+                    and da.dept = #{dept}
+                </if>
+                <if test="reduceStatus != null and reduceStatus!=''">
+                    and da.reduce_status = #{reduceStatus}
+                </if>
+                <if test="status != null and status!=''">
+                    and da.status = #{status}
+                </if>
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
                 <if test="collectStatus != null and collectStatus!=''">
                     and dc.collect_status = #{collectStatus}
-                </if>
-                <if test="caseType != null and caseType!=''">
-                    and da.case_type = #{caseType}
                 </if>
                 <if test="color != null and color!=''">
                     and da.color = #{color}
                 </if>
-
-                <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
+                <if test="area != null and area!=''">
+                    and da.area = #{area}
                 </if>
-                <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
+                <if test="caseType != null and caseType!=''">
+                    and da.case_type = #{caseType}
+                </if>
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and da.distribute_status = #{distributeStatus}
+                </if>
+
+                <if test="collectArea != null and collectArea!=''">
+                    and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
                     <![CDATA[   and DATE_FORMATd(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateStart}, '%Y-%m-%d')   ]]>
@@ -509,18 +545,29 @@
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
                     <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
-                <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')>=  DATE_FORMAT(#{moneyStart}, '%Y-%m-%d')   ]]>
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')>=  DATE_FORMAT(#{caseDateStart}, '%Y-%m-%d')   ]]>
                 </if>
-                <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and DATE_FORMAT(da.money, '%Y-%m-%d')<=  DATE_FORMAT(#{moneyEnd}, '%Y-%m-%d')   ]]>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.case_date, '%Y-%m-%d')<=  DATE_FORMAT(#{caseDateEnd}, '%Y-%m-%d')   ]]>
                 </if>
-
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectStartTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectEndTime}, '%Y-%m-%d')   ]]>
+                </if>
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
                     <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')>=  DATE_FORMAT(#{realReturnStartTime}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
                     <![CDATA[   and DATE_FORMAT(da.real_return_time, '%Y-%m-%d')<=  DATE_FORMAT(#{realReturnEndTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="collectStartDate != null and collectStartDate!=''">
+                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectStartDate}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="collectEndDate != null and collectEndDate!=''" >
+                    <![CDATA[   and DATE_FORMAT(da.collect_date, '%Y-%m-%d')>=  DATE_FORMAT(#{collectEndDate}, '%Y-%m-%d')   ]]>
                 </if>
             </trim>
         </where>
@@ -1370,7 +1417,7 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="overDays != null and overDays!=''">
-                    and da.overDays = #{overDays}
+                    and da.over_days = #{overDays}
                 </if>
                 <if test="area != null and area!=''">
                     and da.area = #{area}
