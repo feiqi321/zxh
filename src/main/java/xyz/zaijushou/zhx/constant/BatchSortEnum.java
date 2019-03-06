@@ -11,7 +11,7 @@ public enum BatchSortEnum {
     COLUMN3("statusMsg","batch_status"),
     COLUMN4("caseTime","bail_date"),
     COLUMN5("userCount","user_count"),
-    COLUMN6("totalAmt","total_amt"),
+    COLUMN6("totalAmtMsg","total_amt"),
     COLUMN7("uploadTime","upload_time"),
     COLUMN8("area","area"),
     COLUMN9("caseType","case_type"),

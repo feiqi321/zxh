@@ -492,6 +492,19 @@ public class DataCaseController {
         return null;
     }
 
+    @ApiOperation(value = "查询导出当前页", notes = "查询导出当前页")
+    @PostMapping("/dataCase/pageDataBatchExport")
+    public Object pageDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        WebResponse result = dataCaseService.pageCaseList(bean);
+        List<DataCaseEntity> list = ((CaseResponse)result.getData()).getPageInfo().getList();
+                ExcelUtils.exportExcel(list,
+                ExcelCaseConstant.CaseExportCase.values(),
+                "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
 
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
     @PostMapping("/dataCase/totalDataBatchExport")

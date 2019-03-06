@@ -61,7 +61,12 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else{
             bean.setBatchFlag("1");
         }
-        bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        if(StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setSort("desc");
+            bean.setOrderBy("id");
+        }else {
+            bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
         List<DataCollectionEntity> list = dataCollectionMapper.pageDataCollect(bean);
         List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();
         for (int i=0;i<list.size();i++){
@@ -113,7 +118,12 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else{
             bean.setBatchFlag("1");
         }
-        bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        if (StringUtils.isEmpty(bean.getOrderBy())) {
+            bean.setOrderBy("id");
+            bean.setSort("desc");
+        }else{
+            bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
         List<DataCollectExportEntity> list = dataCollectionMapper.totalDataCollect(bean);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);

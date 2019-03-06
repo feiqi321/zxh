@@ -69,7 +69,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/dataCase/pageCaseListExport",
             "/letter/pageExport",
             "/letter/totalExport",
-            "/letter/download"
+            "/letter/download",
+            "/dataCase/pageDataBatchExport"
     };
 
     @Override
