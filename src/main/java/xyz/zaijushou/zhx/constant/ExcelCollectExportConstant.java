@@ -39,7 +39,7 @@ public class ExcelCollectExportConstant {
         COL320(320, "申请单号", "applyOrderNo", String.class),
         COL330(330, "逾期金额", "overdueMoney", String.class),
         COL340(340, "自定义信息", "remark", String.class),
-        COL350(350, "催收员id", "odv", String.class),
+        COL350(350, "催收员", "odv", String.class),
         COL360(360, "催收状态id", "collectStatus", String.class),
         COL370(370, "下次跟进日期", "nextFollDate", String.class),
         COL380(380, "最低还款额", "minimumPayment", String.class),
