@@ -176,6 +176,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
             collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
             collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
+
+             if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getCountFollow())){
+                 collection.setCountFollow("0");
+             }
+            list.set(i,collection);
         }
         int count = new Long(PageInfo.of(list).getTotal()).intValue() ;
 
