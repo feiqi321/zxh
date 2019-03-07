@@ -1482,7 +1482,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.updateRemark(bean);
         DataCaseEntity temp = dataCaseMapper.findById(bean);
         DataOpLog log = new DataOpLog();
-        log.setType("案件管理 ");
+        log.setType("案件管理");
         log.setContext("将自定义信息[ "+temp.getRemark()+" ]修改为[ "+bean+" ] ");
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());

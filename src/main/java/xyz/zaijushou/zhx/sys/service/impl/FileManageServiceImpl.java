@@ -438,7 +438,7 @@ public class FileManageServiceImpl implements FileManageService {
                     sucessCount =sucessCount+1;
                     dateCaseMapper.addCollectTimes(temp);
                     DataOpLog log = new DataOpLog();
-                    log.setType("电话催收  ");
+                    log.setType("电话催收");
                     log.setContext("联系人："+dataCollectionEntity.getTargetName()+"，电话号码："+dataCollectionEntity.getMobile()+"[手机]，通话内容："+dataCollectionEntity.getCollectInfo()+"，催收状态： 可联本人");
                     log.setOper(getUserInfo().getId());
                     log.setOperName(getUserInfo().getUserName());
@@ -482,7 +482,7 @@ public class FileManageServiceImpl implements FileManageService {
                     sucessCount =sucessCount+1;
                     dateCaseMapper.addCollectTimes(temp);
                     DataOpLog log = new DataOpLog();
-                    log.setType("电话催收  ");
+                    log.setType("电话催收");
                     log.setContext("联系人："+dataCollectionEntity.getTargetName()+"，电话号码："+dataCollectionEntity.getMobile()+"[手机]，通话内容："+dataCollectionEntity.getCollectInfo()+"，催收状态： 可联本人");
                     log.setOper(getUserInfo().getId());
                     log.setOperName(getUserInfo().getUserName());

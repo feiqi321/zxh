@@ -78,7 +78,7 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         for (int i=0;i<dataEntities.size();i++){
             DataCaseBankReconciliationEntity temp = dataEntities.get(i);
             DataOpLog log = new DataOpLog();
-            log.setType("CP管理 ");
+            log.setType("CP管理");
             log.setContext("[新增CP]还款金额："+temp.getCpMoney()+"，还款时间："+temp.getCpDate()+" ");
             log.setOper(getUserInfo().getId());
             log.setOperName(getUserInfo().getUserName());

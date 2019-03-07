@@ -45,7 +45,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     public void save(DataCaseRepayRecordEntity entity) {
         dataCaseRepayRecordMapper.save(entity);
         DataOpLog log = new DataOpLog();
-        log.setType("案件管理 ");
+        log.setType("案件管理");
         log.setContext("已还款："+entity.getRepayMoney()+"，还款日期："+entity.getRepayUser()+"，备注： "+entity.getRemark());
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
@@ -74,7 +74,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         for (int i=0;i<dataEntities.size();i++){
             DataCaseRepayRecordEntity entity = dataEntities.get(i);
             DataOpLog log = new DataOpLog();
-            log.setType("案件管理 ");
+            log.setType("案件管理");
             log.setContext("已还款："+entity.getRepayMoney()+"，还款日期："+entity.getRepayUser()+"，备注： "+entity.getRemark());
             log.setOper(getUserInfo().getId());
             log.setOperName(getUserInfo().getUserName());
