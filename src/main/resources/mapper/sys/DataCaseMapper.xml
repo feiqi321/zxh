@@ -125,7 +125,7 @@
         da.account_age as accountAge ,
         da.seq_no as seqNo,
         da.real_repay_date as realRepayDate ,
-        DATE_FORMAT(da.distribute_time, '%Y-%m-%d') as distributeTime,
+        DATE_FORMAT(da.distribute_time, '%Y-%m-%d %H:%i') as distributeTime,
         da.balance as balance,
         da.pro_repay_date as proPepayDate,
         da.distribute_history as distributeHistory,
@@ -391,7 +391,7 @@
     <select id="pageBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select id, batch_no as batchNo,client,collect_area as collectArea,dept,odv,status,area,expect_time as expectTime,color,
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,case_date as caseDate,collect_hand as collectHand,
-        real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,DATE_FORMAT(distribute_time,'%Y-%m-%d') as distributeTime,
+        real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,DATE_FORMAT(distribute_time,'%Y-%m-%d %H:%i') as distributeTime,
         money as money,balance as balance,over_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,
         bank_amt as bankAmt,en_repay_amt as enRepayAmt,pro_repay_amt as proRepayAmt,comment,area,pro_repay_amt as proRepayAmt
          from data_case where ident_no in (
