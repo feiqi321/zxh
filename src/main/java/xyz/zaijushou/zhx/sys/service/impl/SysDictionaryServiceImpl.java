@@ -7,15 +7,15 @@ import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
-import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class SysDictionaryServiceImpl implements SysDictionaryService {
@@ -44,6 +44,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             if (StringUtils.isEmpty(dictList.get(0).getType())){
                 for(SysDictionaryEntity org : dictList) {
                     dictionaryMapper.deleteById(org);
+                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + org.getId(), JSONArray.toJSONString(org));
                 }
             }
 
@@ -56,9 +57,11 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     private void modify(SysDictionaryEntity org) {
         if(org.getId() == null || org.getId() < 0) {
             dictionaryMapper.saveDataAfter(org);
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + org.getId(), JSONArray.toJSONString(org));
         } else {
             org.setDeleteFlag(0);
             dictionaryMapper.updateDataDictionary(org);
+            stringRedisTemplate.delete(RedisKeyPrefix.SYS_DIC + org.getId());
         }
         if(CollectionUtils.isEmpty(org.getChildren())) {
             return;
@@ -81,6 +84,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
        // dictionary.setUpdateUser(getUserInfo());//获取更新用户
         //保存更新数据
         dictionaryMapper.updateDataDictionary(dictionary);
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + dictionary.getId(), JSONArray.toJSONString(dictionary));
     }
 
     /**
@@ -145,6 +149,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Override
     public void deleteById(SysDictionaryEntity dictionary){
         dictionaryMapper.deleteById(dictionary);
+        stringRedisTemplate.delete(RedisKeyPrefix.SYS_DIC + dictionary.getId());
     }
 
     /**
