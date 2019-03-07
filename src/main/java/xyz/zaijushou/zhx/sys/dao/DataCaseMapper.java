@@ -91,4 +91,6 @@ public interface DataCaseMapper {
     List<DataCaseEntity> findSameBatchCase(DataCaseEntity dataCaseEntity);
     //共债案件
     List<DataCaseEntity> findSameCase(DataCaseEntity dataCaseEntity);
+
+    void addCollectTimes(DataCaseEntity dataCaseEntity);
 }

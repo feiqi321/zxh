@@ -132,6 +132,7 @@
         da.bank_amt as bankAmt,
         da.en_repay_amt as enRepayAmt,
         da.pro_repay_amt as proRepayAmt,
+        da.collect_times as collectTimes,
         da.comment as comment
     </sql>
 
@@ -393,7 +394,7 @@
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,case_date as caseDate,collect_hand as collectHand,
         real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,DATE_FORMAT(distribute_time,'%Y-%m-%d %H:%i') as distributeTime,
         money as money,balance as balance,over_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,
-        bank_amt as bankAmt,en_repay_amt as enRepayAmt,pro_repay_amt as proRepayAmt,comment,area,pro_repay_amt as proRepayAmt
+        bank_amt as bankAmt,en_repay_amt as enRepayAmt,pro_repay_amt as proRepayAmt,comment,area,pro_repay_amt as proRepayAmt,collect_times as collectTimes
          from data_case where ident_no in (
         select da.ident_no
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
@@ -1723,4 +1724,7 @@
           (select ident_no from data_case where id = #{id}) and  <![CDATA[ t.id <> #{id} ]]>
     </select>
 
+    <update id="addCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set collect_times = collect_times+1 where id =#{id}
+    </update>
 </mapper>

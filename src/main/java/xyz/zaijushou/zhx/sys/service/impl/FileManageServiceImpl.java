@@ -430,6 +430,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setReduceReferTime("");
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
                     sucessCount =sucessCount+1;
+                    dateCaseMapper.addCollectTimes(temp);
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
@@ -464,6 +465,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setReduceReferTime("");
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
                     sucessCount =sucessCount+1;
+                    dateCaseMapper.addCollectTimes(temp);
                 }
             }
 
