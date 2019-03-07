@@ -76,9 +76,7 @@ public class LegalServiceImpl implements LegalService {
             }
 
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
-                SysUserEntity tempuser = new SysUserEntity();
-                tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
-                SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
                 legalEntity.setOwner(user.getUserName());
             }else{
                 legalEntity.setOwner("");
@@ -121,9 +119,7 @@ public class LegalServiceImpl implements LegalService {
             }
 
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
-                SysUserEntity tempuser = new SysUserEntity();
-                tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
-                SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
                 legalEntity.setOwner(user.getUserName());
             }else{
                 legalEntity.setOwner("");
@@ -167,9 +163,7 @@ public class LegalServiceImpl implements LegalService {
             }
 
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
-                SysUserEntity tempuser = new SysUserEntity();
-                tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
-                SysUserEntity userTemp = sysUserService.findUserInfoWithoutStatusById(tempuser);
+                SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
                 legalEntity.setOwner(userTemp.getUserName());
             }else{
                 legalEntity.setOwner("");
@@ -228,9 +222,7 @@ public class LegalServiceImpl implements LegalService {
         }
 
         if (StringUtils.isNotEmpty(legalEntity.getOwner())){
-            SysUserEntity tempuser = new SysUserEntity();
-            tempuser.setId(Integer.valueOf(legalEntity.getOwner()));
-            SysUserEntity userTemp = sysUserService.findUserInfoWithoutStatusById(tempuser);
+            SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
             legalEntity.setOwner(userTemp.getUserName());
         }else{
             legalEntity.setOwner("");

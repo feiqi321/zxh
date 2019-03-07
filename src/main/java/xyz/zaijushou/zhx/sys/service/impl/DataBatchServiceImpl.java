@@ -11,10 +11,7 @@ import xyz.zaijushou.zhx.constant.CaseSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
-import xyz.zaijushou.zhx.sys.entity.BatchResponse;
-import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -34,8 +31,6 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     @Resource
     private DataBatchMapper dataBatchMapper;
-    @Resource
-    private SysDictionaryMapper dictionaryMapper;
     @Resource
     private  StringRedisTemplate stringRedisTemplate;
 
@@ -85,29 +80,20 @@ public class DataBatchServiceImpl implements DataBatchService {
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
                 dataBatchEntity.setClientMsg("");
             }else {
-                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
-                if (dictList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                    dataBatchEntity.setClientMsg(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getClient(),SysDictionaryEntity.class);
+                dataBatchEntity.setClientMsg(sysDictionaryEntity.getName());
             }
             if (dataBatchEntity.getCaseType()==null || dataBatchEntity.getCaseType().equals("")){
                 dataBatchEntity.setCaseTypeMsg("");
             }else {
-                List<SysDictionaryEntity> caseTypeList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getCaseType()));
-                if (caseTypeList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = caseTypeList.get(0);
-                    dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
+                dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity.getName());
             }
             if (dataBatchEntity.getArea()==null || dataBatchEntity.getArea().equals("")){
                 dataBatchEntity.setAreaMsg("");
             }else {
-                List<SysDictionaryEntity> areaList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getArea()));
-                if (areaList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = areaList.get(0);
-                    dataBatchEntity.setAreaMsg(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getArea(),SysDictionaryEntity.class);
+                dataBatchEntity.setAreaMsg(sysDictionaryEntity.getName());
             }
             if(dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
@@ -172,20 +158,14 @@ public class DataBatchServiceImpl implements DataBatchService {
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
                 dataBatchEntity.setClientMsg("");
             }else {
-                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
-                if (dictList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                    dataBatchEntity.setClientMsg(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getClient(),SysDictionaryEntity.class);
+                dataBatchEntity.setClientMsg(sysDictionaryEntity.getName());
             }
             if (dataBatchEntity.getCaseType()==null || dataBatchEntity.getCaseType().equals("")){
                 dataBatchEntity.setCaseTypeMsg("");
             }else {
-                List<SysDictionaryEntity> caseTypeList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getCaseType()));
-                if (caseTypeList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = caseTypeList.get(0);
-                    dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
+                dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity.getName());
             }
             if(dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
@@ -219,20 +199,14 @@ public class DataBatchServiceImpl implements DataBatchService {
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
                 dataBatchEntity.setClient("");
             }else {
-                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
-                if (dictList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                    dataBatchEntity.setClient(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getClient(),SysDictionaryEntity.class);
+                dataBatchEntity.setClient(sysDictionaryEntity.getName());
             }
             if (dataBatchEntity.getCaseType()==null || dataBatchEntity.getCaseType().equals("")){
                 dataBatchEntity.setCaseType("");
             }else {
-                List<SysDictionaryEntity> caseTypeList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getCaseType()));
-                if (caseTypeList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = caseTypeList.get(0);
-                    dataBatchEntity.setCaseType(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
+                dataBatchEntity.setCaseType(sysDictionaryEntity.getName());
             }
             if(dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
@@ -266,20 +240,14 @@ public class DataBatchServiceImpl implements DataBatchService {
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
                 dataBatchEntity.setClient("");
             }else {
-                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getClient()));
-                if (dictList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                    dataBatchEntity.setClient(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getClient(),SysDictionaryEntity.class);
+                dataBatchEntity.setClient(sysDictionaryEntity.getName());
             }
             if (dataBatchEntity.getCaseType()==null || dataBatchEntity.getCaseType().equals("")){
                 dataBatchEntity.setCaseType("");
             }else {
-                List<SysDictionaryEntity> caseTypeList = dictionaryMapper.getDataById(Integer.parseInt(dataBatchEntity.getCaseType()));
-                if (caseTypeList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = caseTypeList.get(0);
-                    dataBatchEntity.setCaseType(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
+                dataBatchEntity.setCaseType(sysDictionaryEntity.getName());
             }
             if(dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");

@@ -29,8 +29,6 @@ import java.util.List;
 public class DataCollectServiceImpl implements DataCollectService {
     @Resource
     private DataCollectionMapper dataCollectionMapper;
-    @Autowired
-    private SysDictionaryService sysDictionaryService;
 
     public void delete(DataCollectionEntity bean){
         dataCollectionMapper.deleteCollect(bean);
@@ -72,19 +70,13 @@ public class DataCollectServiceImpl implements DataCollectService {
         List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
-            SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
-            dictionary1.setId(temp.getReduceStatus());
-            SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
-            SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
-            dictionary2.setId(temp.getCollectStatus());
-            SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
-            SysDictionaryEntity dictionary3 = new SysDictionaryEntity();
-            dictionary3.setId(temp.getMethod());
-            SysDictionaryEntity sysDictionaryEntity3 = sysDictionaryService.getDataById(dictionary3);
+            SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMethod(),SysDictionaryEntity.class);
             temp.setMethodMsg(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
@@ -128,14 +120,10 @@ public class DataCollectServiceImpl implements DataCollectService {
         List<DataCollectExportEntity> list = dataCollectionMapper.totalDataCollect(bean);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);
-            SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
-            dictionary1.setId(temp.getReduceStatus());
-            SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
-            SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
-            dictionary2.setId(temp.getCollectStatus());
-            SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
@@ -152,14 +140,10 @@ public class DataCollectServiceImpl implements DataCollectService {
         List<DataCollectExportEntity> list = dataCollectionMapper.selectDataCollect(ids);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);
-            SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
-            dictionary1.setId(temp.getReduceStatus());
-            SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
-            SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
-            dictionary2.setId(temp.getCollectStatus());
-            SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
@@ -176,14 +160,11 @@ public class DataCollectServiceImpl implements DataCollectService {
         List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectByBatch(batchs);
         for (int i=0;i<resultList.size();i++){
             DataCollectExportEntity temp = resultList.get(i);
-            SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
-            dictionary1.setId(temp.getReduceStatus());
-            SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
+
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
-            SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
-            dictionary2.setId(temp.getCollectStatus());
-            SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
@@ -200,14 +181,11 @@ public class DataCollectServiceImpl implements DataCollectService {
         List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectExportByCase(caseIds);
         for (int i=0;i<resultList.size();i++){
             DataCollectExportEntity temp = resultList.get(i);
-            SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
-            dictionary1.setId(temp.getReduceStatus());
-            SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
+
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
-            SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
-            dictionary2.setId(temp.getCollectStatus());
-            SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
@@ -248,14 +226,11 @@ public class DataCollectServiceImpl implements DataCollectService {
         List<DataCollectExportEntity> list = dataCollectionMapper.pageDataCollectExport(bean);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);
-            SysDictionaryEntity dictionary1 = new SysDictionaryEntity();
-            dictionary1.setId(temp.getReduceStatus());
-            SysDictionaryEntity sysDictionaryEntity = sysDictionaryService.getDataById(dictionary1);
+
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
-            SysDictionaryEntity dictionary2 = new SysDictionaryEntity();
-            dictionary2.setId(temp.getCollectStatus());
-            SysDictionaryEntity sysDictionaryEntity2 = sysDictionaryService.getDataById(dictionary2);
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);

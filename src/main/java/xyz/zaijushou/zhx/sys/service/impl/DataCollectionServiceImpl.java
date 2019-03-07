@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.ColorEnum;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
@@ -14,6 +15,7 @@ import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -34,9 +36,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private DataCollectionTelMapper dataCollectionTelMapper;
-
-    @Resource
-    private SysDictionaryMapper dictionaryMapper;
 
     @Resource
     private SysUserService sysUserService;//用户业务控制层
@@ -150,11 +149,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
-            List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
-            if (dictList.size() > 0) {
-                SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                temp.setCollectStatusMsg(sysDictionaryEntity.getName());
-            }
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
+            temp.setCollectStatusMsg(sysDictionaryEntity.getName());
             list.set(i,temp);
         }
         for (int i=0;i<list.size();i++){

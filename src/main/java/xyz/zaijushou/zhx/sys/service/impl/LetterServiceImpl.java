@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.CaseSortEnum;
 import xyz.zaijushou.zhx.constant.LetterSortEnum;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.LetterService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -25,8 +27,6 @@ public class LetterServiceImpl implements LetterService {
 
     @Resource
     private LetterMapper letterMapper;
-    @Resource
-    private SysDictionaryMapper dictionaryMapper;
     @Resource
     private DataCaseMapper dataCaseMapper;
     @Resource
@@ -65,11 +65,8 @@ public class LetterServiceImpl implements LetterService {
             if (temp.getCollectStatus()==0){
                 temp.setCollectStatusMsg("");
             }else{
-                List<SysDictionaryEntity> dictList = dictionaryMapper.getDataById(temp.getCollectStatus());
-                if (dictList.size() > 0) {
-                    SysDictionaryEntity sysDictionaryEntity = dictList.get(0);
-                    temp.setCollectStatusMsg(sysDictionaryEntity.getName());
-                }
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
+                temp.setCollectStatusMsg(sysDictionaryEntity.getName());
             }
             if(StringUtils.isEmpty(temp.getModule())){
                 temp.setModule("");

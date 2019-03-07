@@ -25,8 +25,6 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
     @Resource
     private DataCollectionTelMapper dataCollectionTelMapper;
 
-    @Resource
-    private SysUserService sysUserService;//用户业务控制层
 
     @Override
     public PageInfo<StatisticReturn> pageCollectionDay(CollectionStatistic bean){
