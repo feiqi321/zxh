@@ -34,7 +34,7 @@
 
     <select id="listByCaseId" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseArchive">
         select
-        id,name,ident_no as identNo,mobile,address,remark,msg_type as msgType,msg_context as msgContext,create_time as createTime,update_time as updateTime
+        id,name,ident_no as identNo,remark,msg_type as msgType,msg_context as msgContext,create_time as createTime
         from data_case_archive where case_id = #{caseId}
     </select>
 </mapper>
