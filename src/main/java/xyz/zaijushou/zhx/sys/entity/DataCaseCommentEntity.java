@@ -10,8 +10,17 @@ import java.math.BigDecimal;
 public class DataCaseCommentEntity extends CommonEntity {
     private int caseId;
     private String comment;
+    private String commentColor;
     private int creatUser;
     private String creatUserName;
+
+    public String getCommentColor() {
+        return commentColor;
+    }
+
+    public void setCommentColor(String commentColor) {
+        this.commentColor = commentColor;
+    }
 
     public String getCreatUserName() {
         return creatUserName;

@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.CollectSortEnum;
@@ -12,6 +13,7 @@ import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
+import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -47,6 +49,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCaseMapper caseMapper;//案件数据层
 
     private DataCaseServiceImpl dataCaseService;//用户业务控制层
+    @Autowired
+    private DataLogService dataLogService;
 
     @Override
     public void save(DataCollectionEntity beanInfo){
@@ -70,6 +74,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 collectionMapper.updateDataCollect(bean);
             }
         }
+        SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getCollectStatus(),SysDictionaryEntity.class);
+        DataOpLog log = new DataOpLog();
+        log.setType("电话催收  ");
+        log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getTelPhone()+"[手机]，通话内容："+beanInfo.getCollectInfo()+"，催收状态： "+sysDictionaryEntity.getName());
+        log.setOper(getUserInfo().getId());
+        log.setOperName(getUserInfo().getUserName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        log.setOpTime(sdf.format(new Date()));
+        log.setCaseId(beanInfo.getCaseId()+"");
+        dataLogService.saveDataLog(log);
     }
     @Override
     public void update(DataCollectionEntity dataCollectionEntity){

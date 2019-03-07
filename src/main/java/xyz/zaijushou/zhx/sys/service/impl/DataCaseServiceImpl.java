@@ -14,6 +14,7 @@ import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.*;
@@ -57,6 +58,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataBatchMapper dataBatchMapper;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private DataLogService dataLogService;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -398,6 +401,15 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ bean.getOdv(), SysUserEntity.class);
         bean.setDistributeHistory("分配给"+user.getUserName());
         dataCaseMapper.sendOdv(bean);
+        DataOpLog log = new DataOpLog();
+        log.setType("案件管理");
+        log.setContext(bean.getDistributeHistory());
+        log.setOper(getUserInfo().getId());
+        log.setOperName(getUserInfo().getUserName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        log.setOpTime(sdf.format(new Date()));
+        log.setCaseId(bean.getId()+"");
+        dataLogService.saveDataLog(log);
     }
     @Override
     public void sendOdvByProperty(DataCaseEntity dataCaseEntity){
@@ -577,7 +589,25 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseCommentEntity.setComment(bean.getComment());
         SysUserEntity user = this.getUserInfo();
         dataCaseCommentEntity.setCreatUser(user.getId());
+        String color = "";
+        if(org.apache.commons.lang3.StringUtils.isEmpty(bean.getColor())){
+            color = "BLACK";
+        }else{
+            color = ColorEnum.getEnumByKey(bean.getColor()).getValue();
+            DataOpLog log = new DataOpLog();
+            log.setType("评语");
+            log.setContext(bean.getComment()+"["+color+"]");
+            log.setOper(getUserInfo().getId());
+            log.setOperName(getUserInfo().getUserName());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            log.setOpTime(sdf.format(new Date()));
+            log.setCaseId(bean.getId()+"");
+            dataLogService.saveDataLog(log);
+        }
+        dataCaseCommentEntity.setCommentColor(color);
         dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
+
+
     }
     @Override
     public void addColor(DataCaseEntity bean){
@@ -589,6 +619,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCollectionEntity.setColor(color);
         dataCollectionEntity.setCaseId(bean.getId()+"");
         dataCollectionMapper.addColor(dataCollectionEntity);
+
     }
     @Override
     public void addImportant(DataCaseEntity bean){
@@ -1449,6 +1480,16 @@ public class DataCaseServiceImpl implements DataCaseService {
     //有效 无效 未知
     public void updateRemark(DataCaseEntity bean){
         dataCaseMapper.updateRemark(bean);
+        DataCaseEntity temp = dataCaseMapper.findById(bean);
+        DataOpLog log = new DataOpLog();
+        log.setType("案件管理 ");
+        log.setContext("将自定义信息[ "+temp.getRemark()+" ]修改为[ "+bean+" ] ");
+        log.setOper(getUserInfo().getId());
+        log.setOperName(getUserInfo().getUserName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        log.setOpTime(sdf.format(new Date()));
+        log.setCaseId(bean.getId()+"");
+        dataLogService.saveDataLog(log);
     }
     //单位电话 家庭电话 电话 联系人电话 其他电话(类型)
     public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean){

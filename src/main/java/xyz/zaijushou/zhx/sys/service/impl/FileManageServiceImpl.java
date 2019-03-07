@@ -2,12 +2,14 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -16,6 +18,8 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import javax.annotation.Resource;
 import java.io.*;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,6 +45,8 @@ public class FileManageServiceImpl implements FileManageService {
     private SysUserService sysUserService;//用户业务控制层
     @Resource
     private LetterMapper letterMapper;
+    @Autowired
+    private DataLogService dataLogService;
 
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
@@ -431,6 +437,15 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
                     sucessCount =sucessCount+1;
                     dateCaseMapper.addCollectTimes(temp);
+                    DataOpLog log = new DataOpLog();
+                    log.setType("电话催收  ");
+                    log.setContext("联系人："+dataCollectionEntity.getTargetName()+"，电话号码："+dataCollectionEntity.getMobile()+"[手机]，通话内容："+dataCollectionEntity.getCollectInfo()+"，催收状态： 可联本人");
+                    log.setOper(getUserInfo().getId());
+                    log.setOperName(getUserInfo().getUserName());
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    log.setOpTime(sdf.format(new Date()));
+                    log.setCaseId(dataCollectionEntity.getCaseId()+"");
+                    dataLogService.saveDataLog(log);
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
@@ -466,6 +481,15 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionMapper.saveCollection(dataCollectionEntity);
                     sucessCount =sucessCount+1;
                     dateCaseMapper.addCollectTimes(temp);
+                    DataOpLog log = new DataOpLog();
+                    log.setType("电话催收  ");
+                    log.setContext("联系人："+dataCollectionEntity.getTargetName()+"，电话号码："+dataCollectionEntity.getMobile()+"[手机]，通话内容："+dataCollectionEntity.getCollectInfo()+"，催收状态： 可联本人");
+                    log.setOper(getUserInfo().getId());
+                    log.setOperName(getUserInfo().getUserName());
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    log.setOpTime(sdf.format(new Date()));
+                    log.setCaseId(dataCollectionEntity.getCaseId()+"");
+                    dataLogService.saveDataLog(log);
                 }
             }
 

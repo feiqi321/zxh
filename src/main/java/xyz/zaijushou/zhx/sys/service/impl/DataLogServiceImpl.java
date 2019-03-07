@@ -43,6 +43,11 @@ public class DataLogServiceImpl implements DataLogService {
         dataOpLogMapper.saveDataLog(log);
     }
 
+    public void saveDataLog(DataOpLog log){
+        dataOpLogMapper.saveDataLog(log);
+    }
+
+
     public void updateDataLog(DataOpLog log){
         dataOpLogMapper.updateDataLog(log);
     }

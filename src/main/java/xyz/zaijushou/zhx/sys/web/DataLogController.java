@@ -34,6 +34,15 @@ public class DataLogController {
 
     }
 
+    @ApiOperation(value = "新增日志信息", notes = "新增日志信息")
+    @PostMapping("/dataLog/add")
+    public Object add(@RequestBody DataOpLog log) {
+
+        dataLogService.saveDataLog(log);
+        return WebResponse.success();
+
+    }
+
     @ApiOperation(value = "修改日志信息", notes = "修改日志信息")
     @PostMapping("/dataLog/update")
     public Object update(@RequestBody DataOpLog log) {

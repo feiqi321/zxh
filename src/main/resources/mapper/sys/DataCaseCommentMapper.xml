@@ -12,6 +12,7 @@
         insert into data_case_comment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="comment != null">comment,</if>
+            <if test="commentColor != null">comment_color,</if>
             <if test="caseId != null">case_id,</if>
             create_time,
             create_user,
@@ -19,6 +20,7 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="comment != null">#{comment},</if>
+            <if test="commentColor != null">#{commentColor},</if>
             <if test="caseId != null">#{caseId},</if>
             now(),
             #{creatUser},
@@ -34,7 +36,7 @@
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity">
-        select id,comment,case_id,create_time as createTime,create_user as creatUser
+        select id,comment,comment_color as commentColor,case_id,create_time as createTime,create_user as creatUser
         from data_case_comment where case_id = #{caseId}
     </select>
 

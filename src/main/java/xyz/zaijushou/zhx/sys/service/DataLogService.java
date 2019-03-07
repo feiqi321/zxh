@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface DataLogService {
 
+    public void saveDataLog(DataOpLog log);
+
     public void updateDataLog(DataOpLog log);
 
     public void delDataLog(DataOpLog log);
