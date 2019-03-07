@@ -54,13 +54,13 @@ public class SysUserEntity extends CommonEntity {
 
     private List<Integer> idsList;
 
-    private String sameBatch;
+    private boolean sameBatch;
 
-    public String getSameBatch() {
+    public boolean isSameBatch() {
         return sameBatch;
     }
 
-    public void setSameBatch(String sameBatch) {
+    public void setSameBatch(boolean sameBatch) {
         this.sameBatch = sameBatch;
     }
 

@@ -41,7 +41,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysToUserRole sysToUserRole = new SysToUserRole();
         sysToUserRole.setUser(user);
         SysUserEntity resultUser = sysUserMapper.findUserInfoWithoutPasswordById(user);
-        resultUser.setSameBatch("");
+        resultUser.setSameBatch(false);
         List<SysToUserRole> roleList = sysUserMapper.listAllUserRolesByUserId(sysToUserRole);
         for (int i=0;i<roleList.size();i++){
             SysToUserRole tempUser = roleList.get(i);
@@ -53,7 +53,8 @@ public class SysUserServiceImpl implements SysUserService {
             for (int j=0;j<buttonList.size();j++){
                 SysToRoleButton tempButton = buttonList.get(j);
                 if (tempButton.getButton().getId()==102){
-                    resultUser.setSameBatch("共债数据");
+                    resultUser.setSameBatch(true);
+                    break;
                 }
             }
         }
