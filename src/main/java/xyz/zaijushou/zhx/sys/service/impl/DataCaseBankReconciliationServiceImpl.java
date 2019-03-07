@@ -1,9 +1,11 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import xyz.zaijushou.zhx.constant.ExcelBankReconciliationConstant;
 import xyz.zaijushou.zhx.sys.dao.DataCaseBankReconciliationMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
@@ -30,6 +32,9 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     public PageInfo<DataCaseBankReconciliationEntity> pageDataList(DataCaseBankReconciliationEntity entity) {
         if(entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectStatus() == 0) {
             entity.getDataCase().setCollectStatusMsg("");
+        }
+        if(!StringUtils.isEmpty(entity.getOrderBy())){
+            entity.setOrderBy(ExcelBankReconciliationConstant.BankReconciliationSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
         }
         List<DataCaseBankReconciliationEntity> pageData = dataCaseBankReconciliationMapper.pageData(entity);
         return PageInfo.of(pageData);

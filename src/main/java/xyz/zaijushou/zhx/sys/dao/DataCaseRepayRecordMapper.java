@@ -16,4 +16,8 @@ public interface DataCaseRepayRecordMapper {
     List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity);
 
     void addList(List<DataCaseRepayRecordEntity> dataEntities);
+
+    DataCaseRepayRecordEntity queryCaseSum(DataCaseRepayRecordEntity entity);
+
+    DataCaseRepayRecordEntity queryRepaySum(DataCaseRepayRecordEntity entity);
 }

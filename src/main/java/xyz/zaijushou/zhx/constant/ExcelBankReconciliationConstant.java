@@ -119,4 +119,55 @@ public class ExcelBankReconciliationConstant {
         }
     }
 
+    public enum BankReconciliationSortEnum {
+
+        COLUMN1("id","b.id"),
+        COLUMN2("dataCase.batchNo","c.batch_no"),
+        COLUMN3("dataCase.cardNo","c.card_no"),
+        COLUMN4("dataCase.identNo","c.ident_no"),
+        COLUMN5("dataCase.name","c.name"),
+        COLUMN6("dataCase.seqNo","c.seq_no"),
+        COLUMN7("dataCase.client","c.client"),
+        COLUMN8("dataCase.money","c.money"),
+        COLUMN9("dataCase.repayMoney",""),
+        COLUMN10("cpMoney","b.cp_money"),
+        COLUMN11("cpDate","b.cp_date"),
+        COLUMN12("repayUser","b.repay_user"),
+        COLUMN13("repayType","b.repay_type"),
+        COLUMN14("submitTime","b.submit_time"),
+        COLUMN15("remark","b.remark"),
+        ;
+        //防止字段值被修改，增加的字段也统一final表示常量
+        private final String key;
+        private final String value;
+
+        private BankReconciliationSortEnum(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        //根据key获取枚举
+        public static CollectSortEnum getEnumByKey(String key) {
+            if (null == key) {
+                return null;
+            }
+            for (CollectSortEnum temp : CollectSortEnum.values()) {
+                if (temp.getKey().equals(key)) {
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+    }
+
+
 }

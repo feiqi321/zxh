@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import xyz.zaijushou.zhx.constant.ExcelSynergisticConstant;
 import xyz.zaijushou.zhx.sys.dao.DataCaseSynergisticMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
@@ -41,6 +42,9 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
                 }
                 synergistic.getApplyUser().setIdsList(idsList);
             }
+        }
+        if(!StringUtils.isEmpty(synergistic.getOrderBy())){
+            synergistic.setOrderBy(ExcelSynergisticConstant.SynergisticSortEnum.getEnumByKey(synergistic.getOrderBy()).getValue());
         }
         List<DataCaseSynergisticEntity> synergisticList = dataCaseSynergisticMapper.pageSynergisticList(synergistic);
         SysDictionaryEntity dict = new SysDictionaryEntity();

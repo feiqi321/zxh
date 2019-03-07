@@ -46,6 +46,12 @@ public class DataCaseRepayRecordController {
         return WebResponse.success(pageInfo);
     }
 
+    @PostMapping("/querySum")
+    public Object querySum(@RequestBody DataCaseRepayRecordEntity entity) {
+        entity = dataCaseRepayRecordService.querySum(entity);
+        return WebResponse.success(entity);
+    }
+
     @PostMapping("/revoke")
     public Object revoke(@RequestBody DataCaseRepayRecordEntity entity) {
         if(entity == null || entity.getIds() == null || entity.getIds().length == 0) {

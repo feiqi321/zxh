@@ -135,6 +135,12 @@
                 #{item}
             </foreach>
         </if>
+        <if test="dataCase != null and dataCase.id != null">
+            and c.id = #{dataCase.id}
+        </if>
+        <if test="orderBy != null and orderBy != '' and sort != null and sort != ''">
+            order by #{orderBy} #{sort}
+        </if>
     </select>
 
     <select id="listSynergistic" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">

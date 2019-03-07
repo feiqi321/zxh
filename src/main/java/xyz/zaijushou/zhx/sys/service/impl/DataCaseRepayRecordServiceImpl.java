@@ -1,9 +1,11 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
 import xyz.zaijushou.zhx.sys.entity.DataOpLog;
@@ -31,6 +33,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
 
     @Override
     public PageInfo<DataCaseRepayRecordEntity> pageRepayRecordList(DataCaseRepayRecordEntity entity) {
+        if(!StringUtils.isEmpty(entity.getOrderBy())){
+            entity.setOrderBy(ExcelRepayRecordConstant.RepayRecordSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
+        }
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordMapper.pageRepayRecordList(entity);
         return PageInfo.of(list);
     }
@@ -83,6 +88,14 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             log.setCaseId(entity.getDataCase().getId()+"");
             dataLogService.saveDataLog(log);
         }
+    }
+
+    @Override
+    public DataCaseRepayRecordEntity querySum(DataCaseRepayRecordEntity entity) {
+        DataCaseRepayRecordEntity returnEntity = dataCaseRepayRecordMapper.queryCaseSum(entity);
+        DataCaseRepayRecordEntity repaySumEntity = dataCaseRepayRecordMapper.queryRepaySum(entity);
+        returnEntity.setRepayMoney(repaySumEntity.getRepayMoney());
+        return returnEntity;
     }
 
 

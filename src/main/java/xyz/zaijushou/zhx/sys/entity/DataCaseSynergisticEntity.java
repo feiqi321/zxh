@@ -43,6 +43,10 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private Set<Integer> idsSet;
 
+    private String orderBy;
+
+    private String sort;
+
     public DataCaseEntity getDataCase() {
         return dataCase;
     }
@@ -161,5 +165,21 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     public void setIdsSet(Set<Integer> idsSet) {
         this.idsSet = idsSet;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

@@ -125,4 +125,57 @@ public class ExcelRepayRecordConstant {
     }
 
 
+    public enum RepayRecordSortEnum {
+
+        COLUMN1("id","r.id"),
+        COLUMN2("dataCase.batchNo","c.batch_no"),
+        COLUMN3("dataCase.cardNo","c.card_no"),
+        COLUMN4("dataCase.identNo","c.ident_no"),
+        COLUMN5("dataCase.name","c.name"),
+        COLUMN6("dataCase.seqNo","c.seq_no"),
+        COLUMN7("dataCase.client","c.client"),
+        COLUMN8("dataCase.overdueBillTime","c.overdue_bill_time"),
+        COLUMN9("dataCase.money","c.money"),
+        COLUMN10("repayMoney","r.repay_money"),
+        COLUMN11("dataCase.overdueBalance",""),
+        COLUMN12("repayDate","r.repay_date"),
+        COLUMN13("repayUser","r.repay_user"),
+        COLUMN14("repayType","r.repay_type"),
+        COLUMN15("confirmUser.id",""),
+        COLUMN16("confirmTime","r.confirm_time"),
+        COLUMN17("remark","r.remark"),
+        COLUMN18("dataCase.mVal","c.m_val"),
+        ;
+        //防止字段值被修改，增加的字段也统一final表示常量
+        private final String key;
+        private final String value;
+
+        private RepayRecordSortEnum(String key, String value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        //根据key获取枚举
+        public static CollectSortEnum getEnumByKey(String key) {
+            if (null == key) {
+                return null;
+            }
+            for (CollectSortEnum temp : CollectSortEnum.values()) {
+                if (temp.getKey().equals(key)) {
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+    }
+
 }
