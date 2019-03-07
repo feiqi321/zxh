@@ -19,7 +19,7 @@ public class ExcelCollectExportConstant {
         COL120(120, "电话/地址", "collectPhoneAddr", String.class),
         COL130(130, "联络类型", "contractType", String.class),
         COL140(140, "催收结果", "result", String.class),
-        COL150(150, "催收人员", "odvName", String.class),
+        COL150(150, "催收人员", "odv", String.class),
         COL160(160, "谈判方式", "method", String.class),
         COL170(170, "催收状态", "collectStatusMsg", String.class),
         COL180(180, "承诺日期", "proRepayDate", String.class),

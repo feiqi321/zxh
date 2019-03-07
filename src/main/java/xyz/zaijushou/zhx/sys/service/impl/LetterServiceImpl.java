@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.CaseSortEnum;
+import xyz.zaijushou.zhx.constant.LetterSortEnum;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.LetterService;
@@ -45,6 +47,12 @@ public class LetterServiceImpl implements LetterService {
             letter.setBatchNoFlag(null);
         }else{
             letter.setBatchNoFlag("1");
+        }
+        if(org.apache.commons.lang3.StringUtils.isEmpty(letter.getOrderBy())){
+            letter.setOrderBy("id");
+            letter.setSort("desc");
+        }else {
+            letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
         }
         List<Letter> list = new ArrayList<Letter>();
         if (letter.getStatus().equals("3")){//查询未撤销的
@@ -136,6 +144,12 @@ public class LetterServiceImpl implements LetterService {
         }else{
             letter.setBatchNoFlag("1");
         }
+        if(org.apache.commons.lang3.StringUtils.isEmpty(letter.getOrderBy())){
+            letter.setOrderBy("t.id");
+            letter.setSort("t.desc");
+        }else {
+            letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
+        }
         List<LetterExportEntity> list = letterMapper.pageExportList(letter);
         if (list.size()>0){
             list = PageInfo.of(list).getList();
@@ -155,6 +169,12 @@ public class LetterServiceImpl implements LetterService {
             letter.setBatchNoFlag(null);
         }else{
             letter.setBatchNoFlag("1");
+        }
+        if(org.apache.commons.lang3.StringUtils.isEmpty(letter.getOrderBy())){
+            letter.setOrderBy("id");
+            letter.setSort("desc");
+        }else {
+            letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
         }
         List<LetterExportEntity> list = letterMapper.totalExportList(letter);
 
