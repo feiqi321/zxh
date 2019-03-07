@@ -66,7 +66,7 @@ public class LetterServiceImpl implements LetterService {
                 temp.setCollectStatusMsg("");
             }else{
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-                temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+                temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
             if(StringUtils.isEmpty(temp.getModule())){
                 temp.setModule("");

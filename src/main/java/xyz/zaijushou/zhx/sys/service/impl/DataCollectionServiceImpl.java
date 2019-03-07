@@ -150,7 +150,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-            temp.setCollectStatusMsg(sysDictionaryEntity.getName());
+            temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             list.set(i,temp);
         }
         for (int i=0;i<list.size();i++){
