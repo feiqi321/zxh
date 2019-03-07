@@ -54,6 +54,16 @@ public class SysUserEntity extends CommonEntity {
 
     private List<Integer> idsList;
 
+    private String sameBatch;
+
+    public String getSameBatch() {
+        return sameBatch;
+    }
+
+    public void setSameBatch(String sameBatch) {
+        this.sameBatch = sameBatch;
+    }
+
     public int getLoginNameCount() {
         return loginNameCount;
     }

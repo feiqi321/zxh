@@ -20,6 +20,8 @@ public interface SysUserMapper {
 
     List<SysToUserRole> listAllUserRoles(SysToUserRole sysToUserRole);
 
+    List<SysToUserRole> listAllUserRolesByUserId(SysToUserRole sysToUserRole);
+
     List<SysUserEntity> listAllUsers(SysUserEntity userEntity);
 
     int saveNewUser(SysNewUserEntity userEntity);

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import sun.security.provider.MD5;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
+import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
@@ -32,9 +33,31 @@ public class SysUserServiceImpl implements SysUserService {
     @Resource
     private DelegatingPasswordEncoder delegatingPasswordEncoder;
 
+    @Resource
+    private SysRoleMapper sysRoleMapper;
+
     @Override
     public SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user) {
-        return sysUserMapper.findUserInfoWithoutPasswordById(user);
+        SysToUserRole sysToUserRole = new SysToUserRole();
+        sysToUserRole.setUser(user);
+        SysUserEntity resultUser = sysUserMapper.findUserInfoWithoutPasswordById(user);
+        resultUser.setSameBatch("");
+        List<SysToUserRole> roleList = sysUserMapper.listAllUserRolesByUserId(sysToUserRole);
+        for (int i=0;i<roleList.size();i++){
+            SysToUserRole tempUser = roleList.get(i);
+            SysToRoleButton sysToRoleButton = new SysToRoleButton();
+            SysRoleEntity sysRoleEntity = new SysRoleEntity();
+            sysRoleEntity.setId(tempUser.getRole().getId());
+            sysToRoleButton.setRole(sysRoleEntity);
+            List<SysToRoleButton> buttonList = sysRoleMapper.listAllRoleButtonsByRoleId(sysToRoleButton);
+            for (int j=0;j<buttonList.size();j++){
+                SysToRoleButton tempButton = buttonList.get(j);
+                if (tempButton.getButton().getId()==102){
+                    resultUser.setSameBatch("共债数据");
+                }
+            }
+        }
+        return resultUser;
     }
 
     @Override

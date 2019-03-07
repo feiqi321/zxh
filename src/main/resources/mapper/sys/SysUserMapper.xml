@@ -172,6 +172,14 @@
         where delete_flag = '0'
     </select>
 
+    <select id="listAllUserRolesByUserId" parameterType="xyz.zaijushou.zhx.sys.entity.SysToUserRole" resultType="xyz.zaijushou.zhx.sys.entity.SysToUserRole">
+        select
+        user_id as 'user.id',
+        role_id as 'role.id'
+        from sys_user_role
+        where delete_flag = '0' and user_id = #{user.id}
+    </select>
+
     <select id="listAllUsers" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
         <include refid="colSqlWithoutPassword"/>

@@ -33,4 +33,6 @@ public interface SysRoleMapper {
     void saveRoleButtons(SysRoleEntity roleEntity);
 
     List<SysRoleEntity> listRoles(SysRoleEntity roleEntity);
+
+    List<SysToRoleButton> listAllRoleButtonsByRoleId(SysToRoleButton bean);
 }
