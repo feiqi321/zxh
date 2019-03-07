@@ -112,12 +112,7 @@
                 </if>
             </trim>
         </where>
-        <if test="orderBy != null and orderBy!=''" >
-            order by ${orderBy} ${sort}
-        </if>
-        <if test="orderBy == null and orderBy==''.toString()" >
-            order by upload_time asc,create_time desc
-        </if>
+        order by ${orderBy} ${sort}
 
     </select>
 
@@ -215,7 +210,7 @@
                 </if>
             </trim>
         </where>
-        order by upload_time asc,create_time desc
+        order by ${orderBy} ${sort}
     </select>
 
     <select id="selectDataBatch" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
@@ -227,7 +222,7 @@
             <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                 #{item}
             </foreach>
-        order by upload_time asc,create_time desc
+
     </select>
 
     <update id="updateUploadTimeByBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">

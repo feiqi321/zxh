@@ -7,6 +7,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.BatchSortEnum;
+import xyz.zaijushou.zhx.constant.CaseSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
@@ -157,6 +158,12 @@ public class DataBatchServiceImpl implements DataBatchService {
         }else{
             bean.setBatchNoFlag("1");
         }
+        if(org.apache.commons.lang3.StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setSort("desc");
+            bean.setOrderBy("id");
+        }else {
+            bean.setOrderBy(CaseSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
@@ -199,6 +206,12 @@ public class DataBatchServiceImpl implements DataBatchService {
     }
     public WebResponse totalDataBatch(DataBatchEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
+        if(org.apache.commons.lang3.StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setSort("desc");
+            bean.setOrderBy("id");
+        }else {
+            bean.setOrderBy(CaseSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.totalDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
@@ -245,6 +258,7 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public WebResponse selectDataBatch(int[] ids){
         WebResponse webResponse = WebResponse.buildResponse();
+
         List<DataBatchEntity> resultList = dataBatchMapper.selectDataBatch(ids);
         for (int i=0;i<resultList.size();i++){
             DataBatchEntity dataBatchEntity = resultList.get(i);

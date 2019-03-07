@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.CaseSortEnum;
 import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
@@ -238,7 +239,12 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else{
             bean.setBatchFlag("1");
         }
-        bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        if(org.apache.commons.lang3.StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setOrderBy("id");
+            bean.setSort("desc");
+        }else {
+            bean.setOrderBy(CaseSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
         List<DataCollectExportEntity> list = dataCollectionMapper.pageDataCollectExport(bean);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);

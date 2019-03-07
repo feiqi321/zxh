@@ -1244,7 +1244,12 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public List<DataCaseEntity> selectDataCaseExportByBatch(DataCaseEntity dataCaseEntity){
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
-
+        if(org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setSort("desc");
+            dataCaseEntity.setOrderBy("id");
+        }else {
+            dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        }
         list = dataCaseMapper.selectDataCaseExportByBatch(dataCaseEntity);
         for(int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);

@@ -1329,6 +1329,7 @@
         <include refid="colSql"/>
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         where   da.batch_no = #{batchNo}
+        order by ${orderBy} ${sort}
     </select>
 
     <select id="totalCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
