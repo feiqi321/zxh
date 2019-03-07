@@ -66,5 +66,7 @@ public class RedisKeyPrefix {
 
     //案件
     public static final String DATA_CASE = "data_case_";
+    //字典
+    public static final String SYS_DIC = "sys_dic_";
 
 }

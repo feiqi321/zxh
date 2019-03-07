@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,6 +45,14 @@ public class RedisUtils {
         for (Object object : list) {
             DataBatchEntity dataBatchEntity = (DataBatchEntity) object;
             stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataBatchEntity.getBatchNo(), JSONObject.toJSONString(object));
+        }
+    }
+
+    public static void refreshDicEntity(List list, String redisKeyPrefix) {
+        RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+        for (Object object : list) {
+            SysDictionaryEntity bean = (SysDictionaryEntity) object;
+            stringRedisTemplate.opsForValue().set(redisKeyPrefix + bean.getId(), JSONObject.toJSONString(object));
         }
     }
 

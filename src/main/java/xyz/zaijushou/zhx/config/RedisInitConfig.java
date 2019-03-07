@@ -5,6 +5,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.*;
 
@@ -38,6 +39,10 @@ public class RedisInitConfig implements ApplicationRunner {
     @Resource
     private DataCaseMapper dataCaseMapper;
 
+    @Resource
+
+    private SysDictionaryMapper sysDictionaryMapper;
+
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -54,6 +59,8 @@ public class RedisInitConfig implements ApplicationRunner {
 
         List<DataCaseEntity> allCase = dataCaseMapper.listAllCaseInfo(new DataCaseEntity());
 
+        List<SysDictionaryEntity> allDic = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
+
         initUserInfo(allUser);
         initMenuInfo(allMenu);
         initButtonInfo(allButton);
@@ -61,8 +68,11 @@ public class RedisInitConfig implements ApplicationRunner {
         initRoleInfo();
         initBatch(allBatch);
         initCase(allCase);
+        initDic(allDic);
     }
-
+    private void initDic(List<SysDictionaryEntity> allDic){
+        RedisUtils.refreshDicEntity(allDic, RedisKeyPrefix.SYS_DIC);
+    }
     private void initBatch(List<DataBatchEntity> allBatch) {
         RedisUtils.refreshBatchEntity(allBatch, RedisKeyPrefix.DATA_BATCH);
     }
