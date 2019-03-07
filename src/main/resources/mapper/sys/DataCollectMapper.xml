@@ -218,16 +218,15 @@
     </select>
 
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select c.id,t.name,c.case_id as caseId,t.seq_no as seqNo,t.color,c.bail_date as bailDate,t.expect_time as expectTime,t.area,
-        t.dept,t.odv,c.measure,c.collect_time as collectTime,c.target_name as targetName,c.relation,c.tel_type as telType,
-        c.mobile,c.result,c.method,c.repay_time as repayTime,
+        select c.id,c.case_id as caseId,c.bail_date as bailDate,c.relation,c.tel_type as telType,c.target_name as targetName,c.leave_days as leaveDays,
+        c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure,c.collect_time as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmtexpectTime,c.collect_status collectStatus,c.reduce_status as reduceStatus,
+        c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
+        t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
-        t.money,t.balance,t.bank_amt as bankAmt,c.collect_info as collectInfo,t.over_days as overDays,
-        t.en_repay_amt as enRepayAmt,c.next_foll_date as nextFollDate,c.leave_days as leaveDays,c.new_money as moneyStart,
-        t.collect_date as lastPhoneTime,c.remind,count_follow as countFollow,c.collection_type as collectionType,
-        DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,t.status as caseStatus,c.tel_phone as telPhone
-        from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
+        t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
+        DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,t.status as caseStatus
+        from data_case t LEFT  JOIN data_collection c on c.case_id = t.id
         <where>
             c.delete_flag = 0 and t.delete_flag = 0
             <trim suffixOverrides=",">
@@ -284,6 +283,10 @@
 
                 <if test="name != null and name!=''">
                     AND t.name like CONCAT('%',#{name},'%')
+                </if>
+
+                <if test="odv != null and odv!=''">
+                    AND t.odv = #{odv}
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
@@ -399,6 +402,7 @@
                 </if>
             </trim>
         </where>
+        GROUP BY t.id
         order by ${orderBy} ${sort}
     </select>
 

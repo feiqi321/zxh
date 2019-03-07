@@ -139,7 +139,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         if (dataCollectionEntity.getsType() == 0){//查询个人
-            dataCollectionEntity.setOdv(user.getUserName());
+            dataCollectionEntity.setOdv(user.getId()+"");
         }
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");
