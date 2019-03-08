@@ -30,7 +30,7 @@
     </select>
 
     <select id="pageReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select
+        select dc.id as caseId
         dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.overdue_bill_time as accountAge,
         dc.odv,dc.reduce_status as reduceStatus,
         dc.collect_status as collectStatus,
@@ -42,7 +42,7 @@
         dcr.apply_status as applyStatus,
         dcr.reduce_type as reduceType,
         dcr.repay_amt as repayAmt,dcr.create_time as createTime,
-        dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno,dcr.approve_repay_amt as approveRepayAmt,
+        dcr.id,dcr.reduce_valid_time as reduceValidTime,dc.seqno,dcr.approve_repay_amt as approveRepayAmt,
         dcr.reduce_result as reduceResult,
         dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
         dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
@@ -54,46 +54,46 @@
             AND dc.collect_area like CONCAT('%',#{area},'%')
         </if>
         <if test="seqno != null and seqno!=''">
-            AND seqno like CONCAT('%',#{seqno},'%')
+            AND dc.seqno like CONCAT('%',#{seqno},'%')
         </if>
         <if test="targetName != null and targetName!=''">
-            AND name like CONCAT('%',#{targetName},'%')
+            AND dc.name like CONCAT('%',#{targetName},'%')
         </if>
         <if test="batchNo != null and batchNo!=''">
-            and batch_no = #{batchNo}
+            and dc.batch_no = #{batchNo}
         </if>
         <if test="collectStatus != null and collectStatus!=''">
-            and collect_status = #{collectStatus}
+            and dc.collect_status = #{collectStatus}
         </if>
         <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+            AND dc.client like CONCAT('%',#{client},'%')
         </if>
         <if test="accountAge != null and accountAge !=''">
-            and overdue_bill_time = #{accountAge}
+            and dc.overdue_bill_time = #{accountAge}
         </if>
         <if test="odv != null and odv!=''">
-            AND odv  like CONCAT('%',#{odv},'%')
+            AND dc.odv  like CONCAT('%',#{odv},'%')
         </if>
         <if test="reduceStatus != null and reduceStatus!=''">
-            and reduce_status = #{reduceStatus}
+            and dcr.reduce_status = #{reduceStatus}
         </if>
         <if test="reduceFlag != null and reduceFlag!=''">
-            and reduce_flag != #{reduceFlag}
+            and dcr.reduce_flag != #{reduceFlag}
         </if>
 
         <if test="applyStatus != null and applyStatus!=''">
-            and apply_status = #{applyStatus}
+            and dcr.apply_status = #{applyStatus}
         </if>
 
         <if test="caseId != null and caseId!=''">
-            and case_id = #{caseId}
+            and dc.id = #{caseId}
         </if>
 
         <if test="completeTimeStart != null and completeTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="completeTimeEnd != null and completeTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(complete_time, '%Y-%m-%d')<=  DATE_FORMAT(#{completeTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')<=  DATE_FORMAT(#{completeTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
         <if test="reduceReferTimeStart != null and reduceReferTimeStart!=''">
@@ -104,10 +104,10 @@
         </if>
 
         <if test="reduceValidTimeStart != null and reduceValidTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(reduce_valid_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceValidTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceValidTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="reduceValidTimeEnd != null and reduceValidTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         order by dcr.id desc
     </select>
