@@ -114,7 +114,7 @@ public class FileManageController {
             System.out.println("文件不存在");
             return null;
         }
-        String fileName = "案人数据导入模板.xlsx";
+        String fileName = "案人数据导入模板.xls";
 
         //下载的文件携带这个名称
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
