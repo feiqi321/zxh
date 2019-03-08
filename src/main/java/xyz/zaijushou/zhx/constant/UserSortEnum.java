@@ -26,11 +26,11 @@ public enum UserSortEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static ColorEnum getEnumByKey(String key){
+    public static UserSortEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(ColorEnum temp:ColorEnum.values()){
+        for(UserSortEnum temp:UserSortEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }

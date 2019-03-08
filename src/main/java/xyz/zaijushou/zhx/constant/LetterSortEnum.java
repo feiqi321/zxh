@@ -13,7 +13,6 @@ public enum LetterSortEnum {
     COLUMN5("repayAmtMsg","repayAmt"),
     COLUMN6("address","address"),
     COLUMN7("times","times"),
-    COLUMN8("address","address"),
     COLUMN9("applyContext","applyContext"),
     COLUMN10("module","module"),
     COLUMN11("relationer","relationer"),
@@ -32,11 +31,11 @@ public enum LetterSortEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static CollectSortEnum getEnumByKey(String key){
+    public static LetterSortEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(CollectSortEnum temp:CollectSortEnum.values()){
+        for(LetterSortEnum temp:LetterSortEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }

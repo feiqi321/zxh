@@ -28,11 +28,11 @@ public enum ReduceApplyEnum {
         this.value = value;
     }
     //根据key获取枚举
-    public static ColorEnum getEnumByKey(String key){
+    public static ReduceApplyEnum getEnumByKey(String key){
         if(null == key){
             return null;
         }
-        for(ColorEnum temp:ColorEnum.values()){
+        for(ReduceApplyEnum temp:ReduceApplyEnum.values()){
             if(temp.getKey().equals(key)){
                 return temp;
             }
