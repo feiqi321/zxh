@@ -1721,7 +1721,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     public void delComment(DataCaseCommentEntity bean){
-
+        dataCaseCommentMapper.delComment(bean);
     }
 
     //2 待审核  1 最终同意申请  3代办 4撤销申请
