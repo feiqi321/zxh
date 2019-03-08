@@ -78,7 +78,7 @@
             and dcr.reduce_status = #{reduceStatus}
         </if>
         <if test="reduceFlag != null and reduceFlag!=''">
-            and dcr.reduce_flag != #{reduceFlag}
+            AND <![CDATA[ dcr.reduce_flag != #{reduceFlag} ]]>
         </if>
 
         <if test="applyStatus != null and applyStatus!=''">
