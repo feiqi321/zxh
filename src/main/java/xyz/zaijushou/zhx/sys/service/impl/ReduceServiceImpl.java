@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.constant.ReduceApplyEnum;
 import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
@@ -22,6 +23,14 @@ public class ReduceServiceImpl implements ReduceService {
     private ReduceMapper reduceMapper;
 
     public PageInfo<DataCollectionEntity> pageReduce(DataCollectionEntity bean){
+        if(StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setOrderBy("dcr.id");
+        }else {
+            bean.setOrderBy(ReduceApplyEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
+        if (StringUtils.isEmpty(bean.getSort())){
+            bean.setSort(" desc");
+        }
         bean.setReduceFlag("1");//1为已删除
         List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
         if (StringUtils.isEmpty(list)){

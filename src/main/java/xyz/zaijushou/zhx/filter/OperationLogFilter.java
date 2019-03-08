@@ -70,7 +70,13 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/letter/pageExport",
             "/letter/totalExport",
             "/letter/download",
-            "/dataCase/pageDataBatchExport"
+            "/dataCase/pageDataBatchExport",
+            "/repayRecord/queryDataExport",
+            "/repayRecord/pageDataExport",
+            "/repayRecord/selectDataExport",
+            "/bankReconciliation/queryDataExport",
+            "/bankReconciliation/pageDataExport",
+            "/bankReconciliation/selectDataExport",
     };
 
     @Override

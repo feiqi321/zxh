@@ -43,8 +43,11 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
     private String settleFlag;  //结清标志
 
 
-
     private Integer[] ids;
+
+    private String orderBy;
+
+    private String sort;
 
     public DataCaseEntity getDataCase() {
         return dataCase;
@@ -180,5 +183,21 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     public void setSettleFlag(String settleFlag) {
         this.settleFlag = settleFlag;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 }

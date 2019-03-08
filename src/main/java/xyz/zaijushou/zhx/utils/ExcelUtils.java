@@ -191,24 +191,51 @@ public class ExcelUtils {
                 for (int k = 0; k < excelEnumMap.size(); k++) {
                     Cell cell = row.createCell(k);
                     ExcelEnum excelEnum = excelEnumMap.get(k);
+                    if(excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
+                        continue;
+                    }
                     String attr = excelEnum.getAttr();
                     Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);
                     if (matcher.find()) {
-                        int index = Integer.parseInt(matcher.group(0).substring(1, 2));
-                        String firstAttr = attr.substring(0, matcher.start());
-                        String secondAttr = attr.substring(matcher.end());
-                        Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
-                        Object object = firstAttrGetMethod.invoke(entity);
-                        if (object == null) {
-                            continue;
+                        Matcher threeLevelMatcher = Pattern.compile("\\..+\\[\\d\\]\\.").matcher(attr);
+                        if(threeLevelMatcher.find()) {
+                            String[] attrs = attr.split("\\.");
+                            Method firstAttrGetMethod = entity.getClass().getMethod("get" + attrs[0].substring(0, 1).toUpperCase() + attrs[0].substring(1));
+                            Object object = firstAttrGetMethod.invoke(entity);
+                            if (object == null) {
+                                continue;
+                            }
+                            String secondAttr = attrs[1].substring(0, attrs[1].length() - 3);
+                            Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
+                            Object secondObj = secondAttrSetMethod.invoke(object);
+                            if (secondObj == null) {
+                                continue;
+                            }
+                            int index = Integer.parseInt(matcher.group(0).substring(1, 2));
+                            List list = (List) secondObj;
+                            if (list.size() == 0 || index >= list.size()) {
+                                continue;
+                            }
+                            Method thirdAttrSetMethod = excelEnum.getAttrClazz()[1].getMethod("get" + attrs[2].substring(0, 1).toUpperCase() + attrs[2].substring(1));
+                            Object thirdObj = thirdAttrSetMethod.invoke(list.get(index));
+                            setCellValue(thirdObj, cell, excelEnum.getAttrClazz()[2]);
+                        }else {
+                            int index = Integer.parseInt(matcher.group(0).substring(1, 2));
+                            String firstAttr = attr.substring(0, matcher.start());
+                            String secondAttr = attr.substring(matcher.end());
+                            Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                            Object object = firstAttrGetMethod.invoke(entity);
+                            if (object == null) {
+                                continue;
+                            }
+                            List subList = (List) firstAttrGetMethod.invoke(entity);
+                            if (subList.size() == 0 || index >= subList.size()) {
+                                continue;
+                            }
+                            Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
+                            Object obj = secondAttrSetMethod.invoke(subList.get(index));
+                            setCellValue(obj, cell, excelEnum.getAttrClazz()[1]);
                         }
-                        List subList = (List) firstAttrGetMethod.invoke(entity);
-                        if (subList.size() == 0 || index >= subList.size()) {
-                            continue;
-                        }
-                        Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
-                        Object obj = secondAttrSetMethod.invoke(subList.get(index));
-                        setCellValue(obj, cell, excelEnum.getAttrClazz()[1]);
                     } else {
 
                         matcher = Pattern.compile("\\..+\\.").matcher(attr);
