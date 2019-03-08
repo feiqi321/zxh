@@ -39,13 +39,13 @@
       ident_no, case_date, address, 
       name, relation, address_type, 
       synergy_result, apply_context, synergy_date, 
-      synergyer, delete_flag, create_date,status,module,applyer,relationer,periods)
+      synergyer, delete_flag, create_date,status,module,applyer,relationer,periods,status)
     values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, #{cardNo,jdbcType=VARCHAR}, 
       #{identNo,jdbcType=VARCHAR}, #{caseDate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, #{addressType,jdbcType=VARCHAR}, 
       #{synergyResult,jdbcType=VARCHAR}, #{applyContext,jdbcType=VARCHAR}, #{synergyDate,jdbcType=VARCHAR}, 
       #{synergyer,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{createDate,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
-       #{module,jdbcType=VARCHAR},#{applyer,jdbcType=VARCHAR},#{relationer,jdbcType=VARCHAR},#{periods,jdbcType=VARCHAR})
+       #{module,jdbcType=VARCHAR},#{applyer,jdbcType=VARCHAR},#{relationer,jdbcType=VARCHAR},#{periods,jdbcType=VARCHAR},0)
   </insert>
   <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
     insert into letter

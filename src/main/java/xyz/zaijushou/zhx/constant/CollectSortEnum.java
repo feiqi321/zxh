@@ -34,7 +34,7 @@ public enum CollectSortEnum {
     COLUMN27("identNo","ident_no"),
     COLUMN28("moneyMsg","money"),
     COLUMN29("balanceMsg","balance"),
-    COLUMN30("moneyStart","new_money"),
+    COLUMN30("moneyStartMsg","new_money"),
     COLUMN31("overDays","over_days"),
     COLUMN32("enRepayAmtMsg","en_repay_amt"),
     COLUMN33("repayAmtMsg","repay_amt"),
