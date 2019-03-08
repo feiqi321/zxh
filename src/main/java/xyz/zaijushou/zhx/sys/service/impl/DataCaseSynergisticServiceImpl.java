@@ -55,6 +55,15 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
             if(entity != null && entity.getSynergisticType() != null && entity.getSynergisticType().getId() != null && typeMap.containsKey(entity.getSynergisticType().getId())) {
                 entity.setSynergisticType(typeMap.get(entity.getSynergisticType().getId()));
             }
+            if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
+                entity.setStatusMsg("待审核");
+            }else if ("1".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
+                entity.setStatusMsg("待办");
+            }else if ("1".equals(entity.getApplyStatus()) && "1".equals(entity.getFinishStatus())){
+                entity.setStatusMsg("已完成");
+            }else if ("-1".equals(entity.getApplyStatus())){
+                entity.setStatusMsg("已撤销");
+            }
         }
         return PageInfo.of(synergisticList);
     }

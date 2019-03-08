@@ -33,6 +33,8 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private String finishStatus;    //完成状态 0-未完成，1-已完成
 
+    private String statusMsg;
+
     private Integer ids[];  //id列表集合
 
     private Date applyTimeStart;    //申请时间 start
@@ -46,6 +48,14 @@ public class DataCaseSynergisticEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getStatusMsg() {
+        return statusMsg;
+    }
+
+    public void setStatusMsg(String statusMsg) {
+        this.statusMsg = statusMsg;
+    }
 
     public DataCaseEntity getDataCase() {
         return dataCase;
