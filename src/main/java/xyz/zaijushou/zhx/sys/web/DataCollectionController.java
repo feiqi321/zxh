@@ -35,6 +35,16 @@ public class DataCollectionController {
 
     }
 
+    @ApiOperation(value = "详情新增辅助催收", notes = "详情新增辅助催收")
+    @PostMapping("/dataCollection/detailSave")
+    public Object detailSave(@RequestBody DataCollectionEntity bean) {
+
+        dataCollectionService.detailSave(bean);
+
+        return WebResponse.success();
+
+    }
+
     @ApiOperation(value = "修改催收", notes = "修改催收")
     @PostMapping("/dataCollection/update")
     public Object update(@RequestBody DataCollectionEntity bean) {

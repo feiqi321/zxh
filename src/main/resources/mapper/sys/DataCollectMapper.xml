@@ -31,12 +31,9 @@
             <if test="mobile != null">mobile,</if>
             <if test="telType != null">tel_type,</if>
             <if test="area != null">area,</if>
-            <if test="mobile != null">mobile,</if>
             <if test="odv != null">odv,</if>
             <if test="remark != null">remark,</if>
 
-            <if test="expectTime != null">expect_time,</if>
-            <if test="caseType != null">case_type,</if>
             <if test="newCase != null">new_case,</if>
             <if test="caseAllotTime != null">case_allot_time,</if>
             <if test="caseStatus != null">case_status,</if>
@@ -46,8 +43,6 @@
             <if test="payName != null">pay_name,</if>
             <if test="payMethod != null">pay_method,</if>
             <if test="confimName != null">confim_name,</if>
-
-            <if test="confimTime != null">confim_time,</if>
             <if test="money != null">money,</if>
             <if test="balance != null">balance,</if>
             <if test="mVal != null">m_val,</if>
@@ -115,12 +110,9 @@
             <if test="mobile != null">#{mobile},</if>
             <if test="telType != null">#{telType},</if>
             <if test="area != null">#{area},</if>
-            <if test="mobile != null">#{mobile},</if>
             <if test="odv != null">#{odv},</if>
             <if test="remark != null">#{remark},</if>
 
-            <if test="expectTime != null">#{expectTime},</if>
-            <if test="caseType != null">#{caseType},</if>
             <if test="newCase != null">#{newCase},</if>
             <if test="caseAllotTime != null">#{caseAllotTime},</if>
             <if test="caseStatus != null">#{caseStatus},</if>
@@ -130,8 +122,6 @@
             <if test="payName != null">#{payName},</if>
             <if test="payMethod != null">#{payMethod},</if>
             <if test="confimName != null">#{confimName},</if>
-
-            <if test="confimTime != null">#{confimTime},</if>
             <if test="money != null">#{money},</if>
             <if test="balance != null">#{balance},</if>
             <if test="mVal != null">#{mVal},</if>
@@ -1342,4 +1332,36 @@
         from data_collection
         where mobile = #{mobile}
     </select>
+
+
+    <!--插入数据信息-->
+    <insert id="detailSave" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_collection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
+            <if test="targetName != null">target_name,</if>
+            <if test="relation != null">relation,</if>
+            <if test="collectInfo != null">collect_info,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="measure != null">measure,</if>
+            <if test="telType != null">tel_type,</if>
+            delete_flag,
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">#{caseId},</if>
+            <if test="targetName != null">#{targetName},</if>
+            <if test="relation != null">#{relation},</if>
+            <if test="collectInfo != null">#{collectInfo},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="telType != null">#{telType},</if>
+            <if test="measure != null">#{measure},</if>
+            0,
+            now(),
+        </trim>
+    </insert>
 </mapper>

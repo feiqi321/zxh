@@ -85,6 +85,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         log.setCaseId(beanInfo.getCaseId()+"");
         dataLogService.saveDataLog(log);
     }
+
+    public void detailSave(DataCollectionEntity beanInfo){
+        dataCollectionMapper.detailSave(beanInfo);
+        /*SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getCollectStatus(),SysDictionaryEntity.class);
+        DataOpLog log = new DataOpLog();
+        log.setType("电话催收");
+        log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getTelPhone()+"[手机]，通话内容："+beanInfo.getCollectInfo()+"，催收状态： "+sysDictionaryEntity.getName());
+        log.setOper(getUserInfo().getId());
+        log.setOperName(getUserInfo().getUserName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        log.setOpTime(sdf.format(new Date()));
+        log.setCaseId(beanInfo.getCaseId()+"");
+        dataLogService.saveDataLog(log);*/
+    }
+
     @Override
     public void update(DataCollectionEntity dataCollectionEntity){
 
