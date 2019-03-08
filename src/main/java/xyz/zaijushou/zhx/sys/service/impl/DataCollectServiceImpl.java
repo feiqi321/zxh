@@ -278,8 +278,22 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysDictionaryEntity relationEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRelation(),SysDictionaryEntity.class);
             temp.setTelType(relationEntity==null?temp.getRelation():relationEntity.getName());
 
-            SysDictionaryEntity measureEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMeasure(),SysDictionaryEntity.class);
-            temp.setTelType(measureEntity==null?temp.getMeasure():measureEntity.getName());
+            SysDictionaryEntity collectStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
+            temp.setCollectStatusMsg(collectStatusEntity==null?"":collectStatusEntity.getName());
+
+            SysDictionaryEntity reduceStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
+            temp.setReduceStatusMsg(reduceStatusEntity==null?"":reduceStatusEntity.getName());
+
+            SysDictionaryEntity methodEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMethod(),SysDictionaryEntity.class);
+            temp.setMethodMsg(methodEntity==null?"":methodEntity.getName());
+
+            SysDictionaryEntity telTypeEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
+            temp.setTelType(telTypeEntity==null?"":telTypeEntity.getName());
+
+            SysDictionaryEntity resultEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getResult(),SysDictionaryEntity.class);
+            temp.setResult(resultEntity==null?temp.getResult():resultEntity.getName());
+
+
             list.set(i,temp);
         }
          webResponse.setData(list);
