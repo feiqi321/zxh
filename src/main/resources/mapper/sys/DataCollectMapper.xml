@@ -402,7 +402,6 @@
                 </if>
             </trim>
         </where>
-        GROUP BY t.id
         order by ${orderBy} ${sort}
     </select>
 

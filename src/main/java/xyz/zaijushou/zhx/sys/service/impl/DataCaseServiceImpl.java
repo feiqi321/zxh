@@ -1255,6 +1255,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setCurrentuser(true);
         }
 
+        SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseDetail.getOdv(),SysDictionaryEntity.class);
+        dataCaseDetail.setOdv(sysDictionaryEntity.getName());
 
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
