@@ -1607,16 +1607,36 @@ public class DataCaseServiceImpl implements DataCaseService {
         bean.setCardNo(dataCaseEntity.getCardNo());
         bean.setIdentNo(dataCaseEntity.getIdentNo());
         bean.setCaseDate(dataCaseEntity.getCaseDate());
+        DataOpLog log = new DataOpLog();
+        log.setType("地址管理");
+        log.setOper(getUserInfo().getId());
+        log.setOperName(getUserInfo().getUserName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        log.setOpTime(sdf.format(new Date()));
+        log.setCaseId(bean.getId()+"");
         if(bean.getId()==null || bean.getId()==0) {
             dataCaseAddressMapper.saveAddress(bean);
             bean.setName(dataCaseEntity.getName());
+            log.setContext("新增地址: "+bean.getAddress());
+
         }else{
             dataCaseAddressMapper.updateAddress(bean);
+            log.setContext("修改地址: "+bean.getAddress());
         }
+        dataLogService.saveDataLog(log);
     }
 
     public void delCaseAddress(DataCaseAddressEntity bean){
         dataCaseAddressMapper.deleteAddress(bean);
+        DataOpLog log = new DataOpLog();
+        log.setType("地址管理");
+        log.setOper(getUserInfo().getId());
+        log.setOperName(getUserInfo().getUserName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        log.setOpTime(sdf.format(new Date()));
+        log.setCaseId(bean.getId()+"");
+        log.setContext("删除地址: "+bean.getAddress());
+        dataLogService.saveDataLog(log);
     }
 
     @Override

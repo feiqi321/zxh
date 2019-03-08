@@ -6,10 +6,18 @@
     select 
     id,type,context,op_time as opTime,oper,case_id as caseId
     from data_op_log
-    where case_id = #{caseId}
+    where case_id = #{caseId} and  <![CDATA[ type <> '地址管理' ]]>
     <if test="type != null and type!=''">
       AND  type = #{type}
     </if>
+  </select>
+
+  <select id="listAddressDataOpLog" resultType="xyz.zaijushou.zhx.sys.entity.DataOpLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
+    select
+    id,type,context,op_time as opTime,oper,case_id as caseId
+    from data_op_log
+    where case_id = #{caseId} and  type = '地址管理'
+
   </select>
 
   <!--插入数据信息-->

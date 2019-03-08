@@ -69,4 +69,17 @@ public class DataLogServiceImpl implements DataLogService {
         return list;
     }
 
+    public List<DataOpLog> listDataAddressLog(DataOpLog log){
+        List<DataOpLog>  list = dataOpLogMapper.listAddressDataOpLog(log);
+        for (int i=0;i<list.size();i++){
+            DataOpLog temp = list.get(i);
+            SysUserEntity tempuser = new SysUserEntity();
+            tempuser.setId(Integer.valueOf(temp.getOper()));
+            SysUserEntity user = sysUserService.findUserInfoWithoutStatusById(tempuser);
+            temp.setOperName(user == null ? "" : user.getUserName());
+            list.set(i,temp);
+        }
+        return list;
+    }
+
 }

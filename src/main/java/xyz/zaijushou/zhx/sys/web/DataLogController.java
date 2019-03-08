@@ -60,4 +60,12 @@ public class DataLogController {
         return WebResponse.success(list);
     }
 
+    @ApiOperation(value = "查询案件对应的地址操作记录", notes = "查询案件对应的地址操作记录")
+    @PostMapping("/dataLog/listDataAddressLog")
+    public Object listDataAddressLog(@RequestBody DataOpLog log) {
+
+        List<DataOpLog> list = dataLogService.listDataAddressLog(log);
+        return WebResponse.success(list);
+    }
+
 }

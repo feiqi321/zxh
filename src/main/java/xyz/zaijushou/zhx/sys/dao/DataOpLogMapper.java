@@ -11,6 +11,8 @@ public interface DataOpLogMapper {
 
     public List<DataOpLog> listDataOpLog(DataOpLog dataOpLog);
 
+    public List<DataOpLog> listAddressDataOpLog(DataOpLog dataOpLog);
+
     public void saveDataLog(DataOpLog dataOpLog);
 
     public void updateDataLog(DataOpLog dataOpLog);

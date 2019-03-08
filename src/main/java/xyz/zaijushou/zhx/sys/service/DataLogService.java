@@ -17,4 +17,6 @@ public interface DataLogService {
 
     public List<DataOpLog> listDataOpLog(DataOpLog log);
 
+    public List<DataOpLog> listDataAddressLog(DataOpLog log);
+
 }
