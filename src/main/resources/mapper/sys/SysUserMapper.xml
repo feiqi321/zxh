@@ -318,6 +318,7 @@
         LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
+        where sur.delete_flag = 0
     </select>
 
     <select id="countUserData" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
