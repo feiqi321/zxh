@@ -1,9 +1,11 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by looyer on 2019/3/1.
  */
-public class DataOpLog {
+public class DataOpLog implements Serializable{
 
     private int id;
     private String type; //电话催收  电话管理  案件管理

@@ -1613,6 +1613,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         log.setOperName(getUserInfo().getUserName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         log.setOpTime(sdf.format(new Date()));
+        log.setCaseId(dataCaseEntity.getId()+"");
         log.setCaseId(bean.getId()+"");
         if(bean.getId()==null || bean.getId()==0) {
             dataCaseAddressMapper.saveAddress(bean);

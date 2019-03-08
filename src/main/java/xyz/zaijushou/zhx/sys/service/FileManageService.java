@@ -24,4 +24,6 @@ public interface FileManageService {
 
     public WebResponse batchLetter(List<Letter> list);
 
+    public String findDocString(SysModule sysModule);
+
 }

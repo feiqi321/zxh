@@ -47,6 +47,8 @@ public class FileManageServiceImpl implements FileManageService {
     private LetterMapper letterMapper;
     @Autowired
     private DataLogService dataLogService;
+    @Resource
+    private SysModuleMapper sysModuleMapper;
 
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
@@ -562,6 +564,15 @@ public class FileManageServiceImpl implements FileManageService {
             e.printStackTrace();
         }
 
+
+    }
+
+
+    public String findDocString(SysModule sysModule){
+
+        SysModule temp = sysModuleMapper.selectModuleById(sysModule);
+
+        return temp.getContext();
 
     }
 
