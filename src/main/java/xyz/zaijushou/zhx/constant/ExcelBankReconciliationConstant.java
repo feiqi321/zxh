@@ -202,11 +202,11 @@ public class ExcelBankReconciliationConstant {
         }
 
         //根据key获取枚举
-        public static CollectSortEnum getEnumByKey(String key) {
+        public static BankReconciliationSortEnum getEnumByKey(String key) {
             if (null == key) {
                 return null;
             }
-            for (CollectSortEnum temp : CollectSortEnum.values()) {
+            for (BankReconciliationSortEnum temp : BankReconciliationSortEnum.values()) {
                 if (temp.getKey().equals(key)) {
                     return temp;
                 }

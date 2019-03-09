@@ -210,11 +210,11 @@ public class ExcelRepayRecordConstant {
         }
 
         //根据key获取枚举
-        public static CollectSortEnum getEnumByKey(String key) {
+        public static RepayRecordSortEnum getEnumByKey(String key) {
             if (null == key) {
                 return null;
             }
-            for (CollectSortEnum temp : CollectSortEnum.values()) {
+            for (RepayRecordSortEnum temp : RepayRecordSortEnum.values()) {
                 if (temp.getKey().equals(key)) {
                     return temp;
                 }
