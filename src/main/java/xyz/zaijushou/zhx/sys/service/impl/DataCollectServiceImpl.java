@@ -230,7 +230,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             bean.setOrderBy("id");
             bean.setSort("desc");
         }else {
-            bean.setOrderBy(CaseSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+            bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         }
         List<DataCollectExportEntity> list = dataCollectionMapper.pageDataCollectExport(bean);
         for (int i=0;i<list.size();i++){
