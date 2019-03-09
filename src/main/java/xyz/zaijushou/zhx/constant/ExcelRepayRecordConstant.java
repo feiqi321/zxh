@@ -199,6 +199,11 @@ public class ExcelRepayRecordConstant {
         COLUMN16("confirmTime","r.confirm_time"),
         COLUMN17("remark","r.remark"),
         COLUMN18("dataCase.mVal","c.m_val"),
+        COLUMN19("bankReconciliation.cpMoneyMsg","r.repay_money"),
+        COLUMN20("bankReconciliation.cpDate","r.repay_date"),
+        COLUMN21("collectUser.name","r.collect_user"),
+        COLUMN22("repayType.name","r.repay_money"),
+        COLUMN23("confirmUser.name","r.confirm_user"),
         ;
         //防止字段值被修改，增加的字段也统一final表示常量
         private final String key;
