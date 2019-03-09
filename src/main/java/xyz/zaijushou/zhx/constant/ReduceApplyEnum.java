@@ -4,20 +4,20 @@ package xyz.zaijushou.zhx.constant;
  * Created by looyer on 2019/2/19.
  */
 public enum ReduceApplyEnum {
-
-    COLUMN1("applyStatus","apply_status"),
-    COLUMN2("seqno","seqno"),
-    COLUMN3("targetName","name"),
-    COLUMN4("collectStatus","collect_status"),
-    COLUMN5("accountAge","overdue_bill_time"),
-    COLUMN6("completeTime","complete_time"),
-    COLUMN7("completeUser","complete_user"),
-    COLUMN8("approveRepayAmt","approve_repay_amt"),
-    COLUMN9("reduceValidTime","reduce_valid_time"),
-    COLUMN10("reduceStatus","reduce_status"),
-    COLUMN11("reduceResult","reduce_result"),
-    COLUMN12("enRepayAmt","en_repay_amt"),
-    COLUMN13("reduceUpdateTime","reduce_update_time"),
+    COLUMN0("id","dcr.id"),
+    COLUMN1("applyStatus","dcr.apply_status"),
+    COLUMN2("seqno","dc.seq_no"),
+    COLUMN3("targetName","dc.name"),
+    COLUMN4("collectStatus","dc.collect_status"),
+    COLUMN5("accountAge","dc.overdue_bill_time"),
+    COLUMN6("completeTime","dcr.complete_time"),
+    COLUMN7("completeUser","dcr.complete_user"),
+    COLUMN8("approveRepayAmt","dcr.approve_repay_amt"),
+    COLUMN9("reduceValidTime","dcr.reduce_valid_time"),
+    COLUMN10("reduceStatus","dcr.reduce_status"),
+    COLUMN11("reduceResult","dcr.reduce_result"),
+    COLUMN12("enRepayAmt","dcr.en_repay_amt"),
+    COLUMN13("reduceUpdateTime","dc.reduce_update_time"),
     ;
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;
