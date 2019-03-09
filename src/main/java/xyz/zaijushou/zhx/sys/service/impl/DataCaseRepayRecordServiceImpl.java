@@ -42,9 +42,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         for (int i=0;i<list.size();i++){
             DataCaseRepayRecordEntity temp = list.get(i);
 
-            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
-            temp.getDataCase().setOverdueBalanceMsg(entity.getDataCase().getOverdueBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getOverdueBalance()+""));
-            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoneyMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoneyMsg()+""));
+            temp.getDataCase().setMoneyMsg(temp.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getMoney()+""));
+            temp.getDataCase().setOverdueBalanceMsg(temp.getDataCase().getOverdueBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getOverdueBalance()+""));
+            temp.getDataCase().setRepayMoneyMsg(temp.getDataCase().getRepayMoneyMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getRepayMoneyMsg()+""));
             temp.getBankReconciliation().setCpMoneyMsg(temp.getBankReconciliation().getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getBankReconciliation().getCpMoney()+""));
             list.set(i,temp);
         }
