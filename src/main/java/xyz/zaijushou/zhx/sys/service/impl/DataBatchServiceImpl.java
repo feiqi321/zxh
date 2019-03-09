@@ -132,7 +132,6 @@ public class DataBatchServiceImpl implements DataBatchService {
         WebResponse webResponse = WebResponse.buildResponse();
         int userCount = 0;
         BigDecimal totalAmt = new BigDecimal(0);
-        bean.setOrderBy(BatchSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         String[] clients = bean.getClients();
         if (clients == null || clients.length==0 || StringUtils.isEmpty(clients[0])){
             bean.setClientFlag(null);
@@ -149,7 +148,7 @@ public class DataBatchServiceImpl implements DataBatchService {
             bean.setSort("desc");
             bean.setOrderBy("id");
         }else {
-            bean.setOrderBy(CaseSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+            bean.setOrderBy(BatchSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         }
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
@@ -191,7 +190,7 @@ public class DataBatchServiceImpl implements DataBatchService {
             bean.setSort("desc");
             bean.setOrderBy("id");
         }else {
-            bean.setOrderBy(CaseSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+            bean.setOrderBy(BatchSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         }
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.totalDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
