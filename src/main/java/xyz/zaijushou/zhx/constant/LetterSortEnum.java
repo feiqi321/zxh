@@ -9,7 +9,7 @@ public enum LetterSortEnum {
     COLUMN1("seqno","seqno"),
     COLUMN2("name","name"),
     COLUMN3("collectStatusMsg","collectStatus"),
-    COLUMN4("caseAmtMsg","money"),
+    COLUMN4("caseAmtMsg","caseAmt"),
     COLUMN5("repayAmtMsg","repayAmt"),
     COLUMN6("address","address"),
     COLUMN7("times","times"),
