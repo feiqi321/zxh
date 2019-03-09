@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
@@ -13,6 +14,7 @@ import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -49,6 +51,14 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 DataCaseBankReconciliationEntity bean =  new DataCaseBankReconciliationEntity();
                 bean.setCpMoneyMsg(temp.getBankReconciliation()==null?"":(temp.getBankReconciliation().getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getBankReconciliation().getCpMoney()+"")));
                 temp.setBankReconciliation(bean);
+            }
+            if (temp.getRepayType()==null){
+                SysDictionaryEntity bean =  new SysDictionaryEntity();
+                bean.setName("");
+                temp.setRepayType(bean);
+            }else{
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRepayType().getId(),SysDictionaryEntity.class);
+                temp.getRepayType().setName(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
             list.set(i,temp);
         }
