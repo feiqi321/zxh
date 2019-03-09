@@ -58,7 +58,7 @@ public class LegalController {
     public Object pageDataCase(@RequestBody LegalEntity legalEntity) {
 
         WebResponse webResponse = legalService.pageDataLegal(legalEntity);
-        return WebResponse.success(webResponse);
+        return webResponse;
 
     }
 
@@ -67,7 +67,7 @@ public class LegalController {
     public Object listLegal(@RequestBody LegalEntity legalEntity) {
 
         WebResponse webResponse = legalService.listLegal(legalEntity);
-        return WebResponse.success(webResponse);
+        return webResponse;
 
     }
 
@@ -76,7 +76,7 @@ public class LegalController {
     public Object pageMyDataCase(@RequestBody LegalEntity legalEntity) {
 
         WebResponse webResponse = legalService.pageMyDataLegal(legalEntity);
-        return WebResponse.success(webResponse);
+        return webResponse;
 
     }
 
