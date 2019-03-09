@@ -72,6 +72,7 @@ public class DataBatchServiceImpl implements DataBatchService {
         }else{
             bean.setBatchNoFlag("1");
         }
+
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);

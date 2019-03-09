@@ -43,6 +43,8 @@ public class DataBatchEntity extends CommonEntity {
     //0 未导入 1未退案 2 已退案
     private Integer batchStatus;
 
+    private String batchStatusFlag;
+
     private String statusMsg;
     //真实退案时间
     private String realReturnTime;
@@ -66,6 +68,18 @@ public class DataBatchEntity extends CommonEntity {
     private String sort;
 
     private String creatTime;
+
+    public String getBatchStatusFlag() {
+        return batchStatusFlag;
+    }
+
+    public void setBatchStatusFlag(String batchStatusFlag) {
+        this.batchStatusFlag = batchStatusFlag;
+    }
+
+    public void setBatchStatus(Integer batchStatus) {
+        this.batchStatus = batchStatus;
+    }
 
     public String getTotalAmtMsg() {
         return totalAmtMsg;
@@ -163,6 +177,9 @@ public class DataBatchEntity extends CommonEntity {
         this.sort = sort;
     }
 
+    public Integer getBatchStatus() {
+        return batchStatus;
+    }
 
     public String getBatchRemark() {
         return batchRemark;
@@ -228,13 +245,6 @@ public class DataBatchEntity extends CommonEntity {
         this.uploadTime = uploadTime;
     }
 
-    public int getBatchStatus() {
-        return batchStatus;
-    }
-
-    public void setBatchStatus(int batchStatus) {
-        this.batchStatus = batchStatus;
-    }
 
     public String getStatusMsg() {
         return statusMsg;
