@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelSynergisticConstant;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseSynergisticMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
@@ -14,6 +15,7 @@ import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -48,14 +50,9 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
             synergistic.setOrderBy(ExcelSynergisticConstant.SynergisticSortEnum.getEnumByKey(synergistic.getOrderBy()).getValue());
         }
         List<DataCaseSynergisticEntity> synergisticList = dataCaseSynergisticMapper.pageSynergisticList(synergistic);
-        SysDictionaryEntity dict = new SysDictionaryEntity();
-        dict.setName("协催类型");
-        List<SysDictionaryEntity> typeList =  sysDictionaryMapper.listDataByName(dict);
-        Map<Integer, SysDictionaryEntity> typeMap = CollectionsUtils.listToMap(typeList);
         for(DataCaseSynergisticEntity entity : synergisticList) {
-            if(entity != null && entity.getSynergisticType() != null && entity.getSynergisticType().getId() != null && typeMap.containsKey(entity.getSynergisticType().getId())) {
-                entity.setSynergisticType(typeMap.get(entity.getSynergisticType().getId()));
-            }
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getSynergisticType().getId(),SysDictionaryEntity.class);
+            entity.setSynergisticType(sysDictionaryEntity);
             if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
                 entity.setStatusMsg("待审核");
             }else if ("1".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
