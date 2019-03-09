@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
-import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
-import xyz.zaijushou.zhx.sys.entity.DataOpLog;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
@@ -41,11 +38,18 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordMapper.pageRepayRecordList(entity);
         for (int i=0;i<list.size();i++){
             DataCaseRepayRecordEntity temp = list.get(i);
-
-            temp.getDataCase().setMoneyMsg(temp.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getMoney()+""));
-            temp.getDataCase().setOverdueBalanceMsg(temp.getDataCase().getOverdueBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getOverdueBalance()+""));
-            temp.getDataCase().setRepayMoneyMsg(temp.getDataCase().getRepayMoneyMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getRepayMoneyMsg()+""));
-            temp.getBankReconciliation().setCpMoneyMsg(temp.getBankReconciliation().getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getBankReconciliation().getCpMoney()+""));
+            if(temp.getDataCase()==null){
+                DataCaseEntity bean = new DataCaseEntity();
+                bean.setMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getMoney()+"")));
+                bean.setOverdueBalanceMsg(temp.getDataCase()==null?"":(temp.getDataCase().getOverdueBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getOverdueBalance()+"")));
+                bean.setRepayMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getRepayMoneyMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getRepayMoneyMsg()+"")));
+                temp.setDataCase(bean);
+            }
+            if (temp.getBankReconciliation()==null){
+                DataCaseBankReconciliationEntity bean =  new DataCaseBankReconciliationEntity();
+                bean.setCpMoneyMsg(temp.getBankReconciliation()==null?"":(temp.getBankReconciliation().getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getBankReconciliation().getCpMoney()+"")));
+                temp.setBankReconciliation(bean);
+            }
             list.set(i,temp);
         }
         return PageInfo.of(list);
