@@ -210,7 +210,7 @@
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select c.id,c.case_id as caseId,c.bail_date as bailDate,c.relation,c.tel_type as telType,c.target_name as targetName,c.leave_days as leaveDays,
         c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure,c.collect_time as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
-        c.repay_amt as repayAmt,c.reduce_amt as reduceAmtexpectTime,c.collect_status collectStatus,c.reduce_status as reduceStatus,
+        c.repay_amt as repayAmt,c.reduce_amt as reduceAmtexpectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
         c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
@@ -596,7 +596,7 @@
     <select id="totalDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
         select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
+        c.result,t.odv,c.method,c.collect_status  as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
         t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
@@ -755,7 +755,7 @@
     <select id="selectDataCollect" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
         select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
+        c.result,t.odv,c.method,c.collect_status  as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
         t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
@@ -770,7 +770,7 @@
     <select id="pageDataCollectExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
         select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
+        c.result,t.odv,c.method,c.collect_status as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
         t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
@@ -933,7 +933,7 @@
     <select id="selectDataCollectByBatch" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
         select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
+        c.result,t.odv,c.method,c.collect_status  as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
         t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
@@ -949,7 +949,7 @@
     <select id="selectDataCollectExportByCase" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
         select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
         c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
+        c.result,t.odv,c.method,c.collect_status  as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
         c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
         t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
         t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
