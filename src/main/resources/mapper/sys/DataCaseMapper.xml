@@ -314,7 +314,7 @@
                     and da.seq_no = #{seqNo}
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    and da.iden_no = #{identNo}
+                    and da.ident_no = #{identNo}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
@@ -500,9 +500,6 @@
                 <if test="seqNo != null and seqNo!=''">
                     and da.seq_no = #{seqNo}
                 </if>
-                <if test="identNo != null and identNo!=''">
-                    and da.iden_no = #{identNo}
-                </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
                 </if>
@@ -601,7 +598,7 @@
                     and da.name = #{name}
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    and da.iden_no = #{identNo}
+                    and da.ident_no = #{identNo}
                 </if>
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
