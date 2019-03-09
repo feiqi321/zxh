@@ -20,6 +20,7 @@
         c.name as 'dataCase.name',
         c.money as 'dataCase.money',
         c.en_repay_amt as 'dataCase.enRepayAmt',
+        c.account_age as 'dataCase.overdueBillTime',
         c.principle as 'dataCase.principle',
         c.last_repay_date as 'dataCase.lastRepayDate',
         c.case_date as 'dataCase.caseDate',
