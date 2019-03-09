@@ -258,6 +258,8 @@ public class DataCaseEntity extends CommonEntity {
 
     private BigDecimal repayMoney;  //已还款
 
+    private String repayMoneyMsg;
+
     private Date distributeDate;    //分配时间
 
     private Date nextFollowDate;    //下次跟进日期
@@ -266,6 +268,8 @@ public class DataCaseEntity extends CommonEntity {
 
     private BigDecimal overdueBalance;  //欠款余额
 
+    private String overdueBalanceMsg;
+
     private String mainCard;    //是否主卡
 
     private String warning; //警告
@@ -273,6 +277,22 @@ public class DataCaseEntity extends CommonEntity {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    public String getOverdueBalanceMsg() {
+        return overdueBalanceMsg;
+    }
+
+    public void setOverdueBalanceMsg(String overdueBalanceMsg) {
+        this.overdueBalanceMsg = overdueBalanceMsg;
+    }
+
+    public String getRepayMoneyMsg() {
+        return repayMoneyMsg;
+    }
+
+    public void setRepayMoneyMsg(String repayMoneyMsg) {
+        this.repayMoneyMsg = repayMoneyMsg;
+    }
 
     public String getEnRepayAmtMsg() {
         return enRepayAmtMsg;

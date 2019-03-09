@@ -216,13 +216,13 @@ public class ExcelSynergisticConstant {
         COLUMN4("dataCase.seqNo","c.seq_no"),
         COLUMN5("dataCase.identNo","c.ident_no"),
         COLUMN6("dataCase.name","c.name"),
-        COLUMN7("dataCase.money","c.money"),
-        COLUMN8("dataCase.repayMoney",""),
+        COLUMN7("dataCase.moneyMsg","c.money"),
+        COLUMN8("dataCase.repayMoneyMsg","c.en_repay_amt"),
         COLUMN9("applyContent","s.apply_content"),
         COLUMN10("applyTime","s.apply_time"),
         COLUMN11("applyUser.userName","s.apply_user"),
         COLUMN12("synergisticTime","s.synergistic_time"),
-        COLUMN13("synergisticUser.name",""),
+        COLUMN13("synergisticUser.name","s.synergistic_user"),
         COLUMN14("synergisticResult","s.synergistic_result"),
         ;
         //防止字段值被修改，增加的字段也统一final表示常量

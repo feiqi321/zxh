@@ -14,6 +14,8 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
 
     private BigDecimal cpMoney; //CP金额
 
+    private String cpMoneyMsg;
+
     private Date cpDate;    //CP日期
 
     private String repayUser;   //还款人
@@ -35,6 +37,14 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getCpMoneyMsg() {
+        return cpMoneyMsg;
+    }
+
+    public void setCpMoneyMsg(String cpMoneyMsg) {
+        this.cpMoneyMsg = cpMoneyMsg;
+    }
 
     public DataCaseEntity getDataCase() {
         return dataCase;

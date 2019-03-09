@@ -20,6 +20,8 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     private BigDecimal repayMoney;  //还款金额
 
+    private String repayMoneyMsg;
+
     private String repayUser;   //还款人
 
     private SysDictionaryEntity repayType;  //还款方式
@@ -48,6 +50,14 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getRepayMoneyMsg() {
+        return repayMoneyMsg;
+    }
+
+    public void setRepayMoneyMsg(String repayMoneyMsg) {
+        this.repayMoneyMsg = repayMoneyMsg;
+    }
 
     public DataCaseEntity getDataCase() {
         return dataCase;

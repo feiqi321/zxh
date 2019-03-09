@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
+import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
 import xyz.zaijushou.zhx.sys.entity.DataOpLog;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
@@ -37,6 +39,15 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             entity.setOrderBy(ExcelRepayRecordConstant.RepayRecordSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
         }
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordMapper.pageRepayRecordList(entity);
+        for (int i=0;i<list.size();i++){
+            DataCaseRepayRecordEntity temp = list.get(i);
+
+            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
+            temp.getDataCase().setOverdueBalanceMsg(entity.getDataCase().getOverdueBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getOverdueBalance()+""));
+            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoneyMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoneyMsg()+""));
+            temp.getBankReconciliation().setCpMoneyMsg(temp.getBankReconciliation().getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getBankReconciliation().getCpMoney()+""));
+            list.set(i,temp);
+        }
         return PageInfo.of(list);
     }
 

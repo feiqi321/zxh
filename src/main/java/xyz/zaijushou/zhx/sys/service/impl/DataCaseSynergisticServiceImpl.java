@@ -13,6 +13,7 @@ import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -64,6 +65,8 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
             }else if ("-1".equals(entity.getApplyStatus())){
                 entity.setStatusMsg("已撤销");
             }
+            entity.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
+            entity.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoneyMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoneyMsg()+""));
         }
         return PageInfo.of(synergisticList);
     }
