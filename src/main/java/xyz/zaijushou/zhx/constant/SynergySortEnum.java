@@ -8,12 +8,12 @@ public enum SynergySortEnum {
     COLUMN1("seqNo","seq_no"),
     COLUMN2("name","name"),
     COLUMN3("cardNo","card_no"),
-    COLUMN4("money","money"),
+    COLUMN4("moneyMsg","money"),
     COLUMN5("caseDate","case_date"),
     COLUMN6("collectStatusMsg","collect_status"),
     COLUMN7("collectDate","collect_date"),
-    COLUMN8("proRepayAmt","pro_repay_amt"),
-    COLUMN9("enRepayAmt","en_repay_amt"),
+    COLUMN8("proRepayAmtMsg","pro_repay_amt"),
+    COLUMN9("enRepayAmtMsg","en_repay_amt"),
     COLUMN10("accountAge","account_age"),
     COLUMN11("odv","odv")
     ;
