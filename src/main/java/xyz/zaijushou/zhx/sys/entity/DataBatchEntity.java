@@ -41,7 +41,7 @@ public class DataBatchEntity extends CommonEntity {
 
     private String uploadTime;
     //0 未导入 1未退案 2 已退案
-    private int batchStatus;
+    private Integer batchStatus;
 
     private String statusMsg;
     //真实退案时间

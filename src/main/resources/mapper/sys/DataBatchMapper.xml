@@ -94,7 +94,7 @@
                     </foreach>
                 </if>
                 <if test="batchStatus != null and batchStatus!=''">
-                    AND  batch_status like CONCAT('%',#{batchStatus},'%')
+                    AND  batch_status = #{batchStatus}
                 </if>
 
                 <if test="area != null and area!=''">
