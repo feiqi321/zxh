@@ -139,7 +139,7 @@
             and c.id = #{dataCase.id}
         </if>
         <if test="orderBy != null and orderBy != '' and sort != null and sort != ''">
-            order by #{orderBy} #{sort}
+            order by ${orderBy} ${sort}
         </if>
     </select>
 
