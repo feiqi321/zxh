@@ -174,6 +174,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         BigDecimal sumBank = new BigDecimal("0.00");//列表PTP值
         List<String> caseIds = new ArrayList<String>();//案件ID数组
         if(StringUtils.isEmpty(list)) {
+            collectionReturn.setCountCase(0);
+            collectionReturn.setCountCasePay(countCasePay);
+            collectionReturn.setSumBank(sumRepay);
+            collectionReturn.setSumMoney(sumMoney);
+            collectionReturn.setSumRepay(sumBank);
+            collectionReturn.setSumPayMoney(sumPayMoney);
+            webResponse.setData(collectionReturn);
             return  webResponse;
         }
         for (int i=0;i<list.size();i++){
