@@ -40,7 +40,7 @@
         dcr.apply_time as reduceReferTime,dcr.apply_time as applyTime,dcr.apply_user as applyUser,
         dcr.en_repay_amt as enRepayAmt,
         dcr.apply_status as applyStatus,
-        dcr.reduce_type as reduceType,
+        dcr.reduce_type as reduceType,dcr.relation,
         dcr.repay_amt as repayAmt,dcr.create_time as createTime,
         dcr.id,dcr.reduce_valid_time as reduceValidTime,dc.seq_no as seqno,dcr.approve_repay_amt as approveRepayAmt,
         dcr.reduce_result as reduceResult,

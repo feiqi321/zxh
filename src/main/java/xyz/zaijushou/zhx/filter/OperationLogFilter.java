@@ -133,7 +133,9 @@ public class OperationLogFilter extends OncePerRequestFilter {
             if(arrayContainsContent(DOWNLOAD_FILE_URL, operationLog.getUrl())) {
                 httpServletResponse.setHeader("Access-Control-Expose-Headers","Content-Disposition");
                 httpServletResponse.setHeader("Access-Control-Expose-Headers","response-msg-info");
-                httpServletResponse.setHeader("response-msg-info",JSONObject.toJSONString(WebResponse.success(responseWrapper.getHeader("Content-Disposition").replace("attachment;filename=", ""))));
+                if(responseWrapper.getHeader("Content-Disposition") != null){
+                    httpServletResponse.setHeader("response-msg-info",JSONObject.toJSONString(WebResponse.success(responseWrapper.getHeader("Content-Disposition").replace("attachment;filename=", ""))));
+                }
                 ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
                 servletOutputStream.write(responseWrapper.getResponseData());
                 servletOutputStream.flush();
