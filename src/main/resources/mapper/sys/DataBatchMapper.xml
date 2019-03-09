@@ -93,7 +93,7 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="batchStatusFlag != null  and batchStatusFlag!=''">
+                <if test="batchStatus != null">
                     AND  batch_status = #{batchStatus}
                 </if>
 
