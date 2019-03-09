@@ -46,7 +46,7 @@
         dcr.reduce_result as reduceResult,
         dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
         dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
-        dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag
+        dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName
         from
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
         where dcr.delete_flag = 0
