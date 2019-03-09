@@ -162,7 +162,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         BigDecimal totalPtp=new BigDecimal(0);
         if(org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
             dataCaseEntity.setSort("desc");
-            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setOrderBy("da.id");
         }else {
             dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         }

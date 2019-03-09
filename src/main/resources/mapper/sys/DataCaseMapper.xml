@@ -354,7 +354,7 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and DATE_FORMATd(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateStart}, '%Y-%m-%d')   ]]>
+                    <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayDateStart}, '%Y-%m-%d')   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
                     <![CDATA[   and DATE_FORMAT(da.repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayDateEnd}, '%Y-%m-%d')   ]]>
