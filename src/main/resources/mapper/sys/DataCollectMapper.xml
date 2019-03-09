@@ -1346,8 +1346,8 @@
             <if test="relation != null">relation,</if>
             <if test="collectInfo != null">collect_info,</if>
             <if test="mobile != null">mobile,</if>
-            <if test="measure != null">measure,</if>
             <if test="telType != null">tel_type,</if>
+            <if test="measure != null">measure,</if>
             delete_flag,
             create_time,
         </trim>
