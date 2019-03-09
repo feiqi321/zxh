@@ -220,7 +220,7 @@
   </update>
 
   <update id="confirmSynergy" parameterType="xyz.zaijushou.zhx.sys.entity.Letter">
-        update letter set synergy_date=#{synergyDate},synergy_result=#{synergyResult} where id =#{id}
+        update letter set synergy_date=#{synergyDate},synergy_result=#{synergyResult},status=1 where id =#{id}
   </update>
 
   <update id="cancelLetter" parameterType="xyz.zaijushou.zhx.sys.entity.Letter">
