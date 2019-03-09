@@ -235,11 +235,11 @@ public class ExcelSynergisticConstant {
         }
 
         //根据key获取枚举
-        public static CollectSortEnum getEnumByKey(String key) {
+        public static SynergisticSortEnum getEnumByKey(String key) {
             if (null == key) {
                 return null;
             }
-            for (CollectSortEnum temp : CollectSortEnum.values()) {
+            for (SynergisticSortEnum temp : SynergisticSortEnum.values()) {
                 if (temp.getKey().equals(key)) {
                     return temp;
                 }
