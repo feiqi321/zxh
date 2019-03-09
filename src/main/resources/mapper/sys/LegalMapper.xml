@@ -210,7 +210,6 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      legal_status,
       delete_flag,
 
     </trim>
@@ -311,7 +310,6 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      0,
       0,
     </trim>
   </insert>
@@ -453,7 +451,7 @@
     where id = #{id}
   </delete>
 
-  <select id="listLegal" resultMap="BaseResultMap" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
+  <select id="listLegal" resultType="xyz.zaijushou.zhx.sys.entity.LegalEntity" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     select
     <include refid="Base_Column_List" />
     from legal
