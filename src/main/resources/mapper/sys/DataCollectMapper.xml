@@ -1364,4 +1364,13 @@
             now(),
         </trim>
     </insert>
+
+    <update id="detailUpdate" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
+          update data_collection  set target_name =#{targetName},relation = #{relation},collect_info=#{collectInfo},mobile=#{mobile},tel_type=#{tel_type},
+          measure = #{measure} where id=#{id}
+    </update>
+
+    <delete id="detailDel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
+        update data_collection  set  delete_flag = 1 where id=#{id}
+    </delete>
 </mapper>

@@ -45,6 +45,16 @@ public class DataCollectionController {
 
     }
 
+    @ApiOperation(value = "详情刪除辅助催收", notes = "详情刪除辅助催收")
+    @PostMapping("/dataCollection/detailDel")
+    public Object detailDel(@RequestBody DataCollectionEntity bean) {
+
+        dataCollectionService.detailDel(bean);
+
+        return WebResponse.success();
+
+    }
+
     @ApiOperation(value = "修改催收", notes = "修改催收")
     @PostMapping("/dataCollection/update")
     public Object update(@RequestBody DataCollectionEntity bean) {

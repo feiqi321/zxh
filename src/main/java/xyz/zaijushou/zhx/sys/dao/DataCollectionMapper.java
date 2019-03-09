@@ -18,6 +18,10 @@ public interface DataCollectionMapper {
 
     public int detailSave(DataCollectionEntity bean);
 
+    public int detailUpdate(DataCollectionEntity bean);
+
+    public int detailDel(DataCollectionEntity bean);
+
     public void updateCollection(DataCollectionEntity bean);
 
     public void deleteById(Integer id);

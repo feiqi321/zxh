@@ -17,6 +17,8 @@ public interface DataCollectionService {
 
     public void detailSave(DataCollectionEntity dataCollectionEntity);
 
+    public void detailDel(DataCollectionEntity dataCollectionEntity);
+
     public void update(DataCollectionEntity dataCollectionEntity);
 
     public void updateCollection(DataCollectionEntity dataCollectionEntity);
