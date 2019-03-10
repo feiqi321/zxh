@@ -188,6 +188,15 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
+            SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getModule(),SysDictionaryEntity.class);
+            temp.setModule(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
+
+            SysDictionaryEntity sysDictionaryEntity4 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getResult(),SysDictionaryEntity.class);
+            temp.setResult(sysDictionaryEntity4==null?"":sysDictionaryEntity4.getName());
+
+            SysDictionaryEntity sysDictionaryEntity5 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMethod(),SysDictionaryEntity.class);
+            temp.setMethod(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
+
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdvName(user==null?"":user.getUserName());
             resultList.set(i,temp);
@@ -208,6 +217,15 @@ public class DataCollectServiceImpl implements DataCollectService {
 
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
+
+            SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getModule(),SysDictionaryEntity.class);
+            temp.setModule(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
+
+            SysDictionaryEntity sysDictionaryEntity4 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getResult(),SysDictionaryEntity.class);
+            temp.setResult(sysDictionaryEntity4==null?"":sysDictionaryEntity4.getName());
+
+            SysDictionaryEntity sysDictionaryEntity5 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMethod(),SysDictionaryEntity.class);
+            temp.setMethod(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdvName(user==null?"":user.getUserName());
