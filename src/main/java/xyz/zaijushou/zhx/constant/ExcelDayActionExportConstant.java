@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class ExcelDayActionExportConstant {
 
     public enum CollecionList implements ExcelEnum{
-        COL10(10, "114查询无效", "countSearchNo", String.class),
+        COL10(10, "催收员", "odv", String.class),
         COL20(20, "DX1", "countDX1", String.class),
         COL30(30, "DX2", "countDX2", String.class),
         COL40(40, "DX3", "countDX3",  String.class),
@@ -17,10 +17,10 @@ public class ExcelDayActionExportConstant {
         COL100(100, "可联家人", "countConFamily",  String.class),
         COL110(110, "空号错号", "countDeadNumber",  String.class),
         COL120(120, "网搜无效", "countSearchInvalid",  String.class),
-        COL130(120, "无人接听", "countNoAnswer",  String.class),
-        COL140(120, "无效电话", "countInvalidCall",  String.class),
-        COL150(120, "催收员", "odv",  String.class),
-        COL160(120, "催收员催收结果统计", "countResult",  String.class),
+        COL130(130, "无人接听", "countNoAnswer",  String.class),
+        COL140(140, "无效电话", "countInvalidCall",  String.class),
+        COL150(150, "114查询无效", "countSearchNo",  String.class),
+        COL160(160, "催收员催收结果统计", "countResult",  String.class),
         ;
 
         private Integer sort;

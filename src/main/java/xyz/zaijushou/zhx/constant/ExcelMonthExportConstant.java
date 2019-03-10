@@ -1,7 +1,5 @@
 package xyz.zaijushou.zhx.constant;
 
-import java.math.BigDecimal;
-
 public class ExcelMonthExportConstant {
 
 
@@ -12,9 +10,9 @@ public class ExcelMonthExportConstant {
         COL30(30, "总通电量", "countPhoneNum", String.class),
         COL40(40, "个案量", "countCasePhoneNum",  String.class),
         COL50(50, "催收员", "odv", String.class),
-        COL60(60, "催收员合计-有效通量", "sumConPhoneNum",  String.class),
-        COL70(70, "催收员合计-总通电量", "sumPhoneNum",  String.class),
-        COL80(80, "催收员合计-个案量", "sumCasePhoneNum", String.class),
+//        COL60(60, "催收员合计-有效通量", "sumConPhoneNum",  String.class),
+//        COL70(70, "催收员合计-总通电量", "sumPhoneNum",  String.class),
+//        COL80(80, "催收员合计-个案量", "sumCasePhoneNum", String.class),
         ;
 
         private Integer sort;
