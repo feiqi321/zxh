@@ -37,7 +37,7 @@
             0,
             <if test="remark != null">#{remark},</if>
             now(),
-            <if test="creatUser != null">create_user,</if>
+            <if test="creatUser != null">#{creatUser},</if>
         </trim>
     </insert>
 
