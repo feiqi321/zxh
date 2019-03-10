@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.ReduceApplyEnum;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
@@ -24,6 +26,8 @@ import java.util.List;
 public class ReduceServiceImpl implements ReduceService {
     @Resource
     private ReduceMapper reduceMapper;
+    @Resource
+    private DataCaseMapper caseMapper;
 
     public PageInfo<DataCollectionEntity> pageReduce(DataCollectionEntity bean){
         if(StringUtils.isEmpty(bean.getOrderBy())){
@@ -109,6 +113,12 @@ public class ReduceServiceImpl implements ReduceService {
 
 
     public void saveReduceApply(DataCollectionEntity bean){
+        if(StringUtils.notEmpty(bean.getCaseId())){
+            DataCaseEntity caseBean = new DataCaseEntity();
+            caseBean.setId(Integer.valueOf(bean.getCaseId()));
+            DataCaseEntity entity = caseMapper.findById(caseBean);
+            bean.setSeqno(entity.getSeqNo());
+        }
         if (StringUtils.isEmpty(bean.getId())){
             bean.setApplyStatus("0");
             bean.setReduceFlag("0");
