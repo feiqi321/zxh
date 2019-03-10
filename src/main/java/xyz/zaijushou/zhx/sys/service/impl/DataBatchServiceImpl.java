@@ -167,9 +167,9 @@ public class DataBatchServiceImpl implements DataBatchService {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
                 dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
-            if(dataBatchEntity.getBatchStatus()==1){
+            if(dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
-            }else if (dataBatchEntity.getBatchStatus()==2){
+            }else if (dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==2){
                 dataBatchEntity.setStatusMsg("已退案");
             }else{
                 dataBatchEntity.setStatusMsg("未导入");
@@ -208,9 +208,9 @@ public class DataBatchServiceImpl implements DataBatchService {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
                 dataBatchEntity.setCaseType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
-            if(dataBatchEntity.getBatchStatus()==1){
+            if(dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
-            }else if (dataBatchEntity.getBatchStatus()==2){
+            }else if (dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==2){
                 dataBatchEntity.setStatusMsg("已退案");
             }else{
                 dataBatchEntity.setStatusMsg("未导入");
@@ -249,9 +249,9 @@ public class DataBatchServiceImpl implements DataBatchService {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
                 dataBatchEntity.setCaseType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
-            if(dataBatchEntity.getBatchStatus()==1){
+            if(dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
-            }else if (dataBatchEntity.getBatchStatus()==2){
+            }else if (dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==2){
                 dataBatchEntity.setStatusMsg("已退案");
             }else{
                 dataBatchEntity.setStatusMsg("未导入");
