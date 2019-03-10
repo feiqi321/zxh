@@ -54,7 +54,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public void save(DataCollectionEntity beanInfo){
+        if(StringUtils.isEmpty(beanInfo.getCollectInfo())){
+            //获取催收模板的通话记录
+            SysDictionaryEntity sysBean =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getModule(),SysDictionaryEntity.class);
+            if (sysBean != null){
+                beanInfo.setCollectInfo(sysBean.getDescription());
+            }
+        }
+
         dataCollectionMapper.saveCollection(beanInfo);
+
         if (StringUtils.notEmpty(beanInfo.getsType())){
             if (beanInfo.getsType() == 1){
                 //状态同步到同批次下的同身份证号的所有催收信息的状态
