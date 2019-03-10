@@ -7,6 +7,8 @@ public class DataCaseSynergyDetailEntity {
 
     private int id;
 
+    private int caseId;
+
     private int opType;
 
     private int synergisticType;
@@ -22,6 +24,14 @@ public class DataCaseSynergyDetailEntity {
     private String synergisticApplyStatus;
 
     private String synergisticFinishStatus;
+
+    public int getCaseId() {
+        return caseId;
+    }
+
+    public void setCaseId(int caseId) {
+        this.caseId = caseId;
+    }
 
     public int getSynergisticUser() {
         return synergisticUser;
