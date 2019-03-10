@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: hangzhou
+    active: local
   servlet:
     multipart:
       max-file-size: 64MB

@@ -328,8 +328,8 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="caseId != null">case_id,</if>
             <if test="synergisticType != null">synergistic_type,</if>
-            <if test="applyer != null">applyer,</if>
-            <if test="applyContent != null">ident_no,</if>
+            <if test="applyer != null">apply_user,</if>
+            <if test="applyContent != null">apply_content,</if>
             apply_time,
             synergistic_apply_status,
             synergistic_finish_status,
@@ -339,7 +339,7 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="caseId != null">#{caseId},</if>
-            <if test="synergisticType null">#{synergisticType},</if>
+            <if test="synergisticType !=  null">#{synergisticType},</if>
             <if test="applyer != null">#{applyer},</if>
             <if test="applyContent != null">#{applyContent},</if>
             now(),

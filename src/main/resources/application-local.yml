@@ -9,7 +9,7 @@ spring:
       filters: stat,wall
   redis:
     host: 116.62.124.251
-    port: 6379
+    port: 7777
     password: redis
 
 
@@ -35,5 +35,6 @@ xyz:
 
 
 rar_path: d:/众汇信催收系统导入模板.rar
-archive_path: c:/案人数据导入模板.xlsx
-case_path: c:/案件导入模板.rar
+archive_path: d:/案人数据导入模板.xls
+case_path: d:/案件导入模板.rar
+detailFile_path: d:/detailFile/

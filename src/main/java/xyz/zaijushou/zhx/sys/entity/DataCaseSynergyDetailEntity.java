@@ -1,11 +1,11 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 /**
  * Created by looyer on 2019/3/10.
  */
-public class DataCaseSynergyDetailEntity {
-
-    private int id;
+public class DataCaseSynergyDetailEntity extends CommonEntity {
 
     private int caseId;
 
@@ -49,13 +49,6 @@ public class DataCaseSynergyDetailEntity {
         this.opType = opType;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public int getSynergisticType() {
         return synergisticType;
