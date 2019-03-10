@@ -26,9 +26,22 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
     private Integer status;
 
     /**
+     * 0有效，1-无效
+     */
+    private Integer sysFlag;
+
+    /**
      * 1-地区，0-其他
      */
     private Integer type;
+
+    public Integer getSysFlag() {
+        return sysFlag;
+    }
+
+    public void setSysFlag(Integer sysFlag) {
+        this.sysFlag = sysFlag;
+    }
 
     public String getCurrentName() {
         return currentName;

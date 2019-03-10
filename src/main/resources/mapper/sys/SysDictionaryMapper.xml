@@ -79,7 +79,10 @@
                 delete_flag = #{deleteFlag,jdbcType=INTEGER},
             </if>
             <if test="parent != null and parent.id != null">
-                dictionary_id = #{parent.id,jdbcType=INTEGER}
+                dictionary_id = #{parent.id,jdbcType=INTEGER},
+            </if>
+            <if test="sysFlag != null">
+                sys_flag = #{sysFlag,jdbcType=INTEGER}
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
