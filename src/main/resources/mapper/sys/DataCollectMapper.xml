@@ -216,7 +216,7 @@
         t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
         DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,t.status as caseStatus
-        from data_case t RIGHT  JOIN (select * from data_collection where delete_flag = 0) c on c.case_id = t.id
+        from data_case t LEFT  JOIN (select * from data_collection where delete_flag = 0) c on c.case_id = t.id
         <where>
            t.delete_flag = 0
             <trim suffixOverrides=",">
