@@ -13,14 +13,15 @@ import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
-import xyz.zaijushou.zhx.utils.CollectionsUtils;
+import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticService {
@@ -33,6 +34,9 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
 
     @Resource
     private SysDictionaryMapper sysDictionaryMapper;
+
+    @Resource
+    private SysUserService sysUserService;//用户业务控制层
 
     @Override
     public PageInfo<DataCaseSynergisticEntity> pageSynergisticList(DataCaseSynergisticEntity synergistic) {
@@ -71,6 +75,21 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
     @Override
     public void approve(DataCaseSynergisticEntity synergistic) {
         dataCaseSynergisticMapper.updateApplyStatus(synergistic);
+    }
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity user = new SysUserEntity();
+        user.setId(userId);
+        return sysUserService.findUserInfoWithoutStatusById(user);
+    }
+    public void saveApply(DataCaseSynergyDetailEntity bean){
+        SysUserEntity curentuser = getUserInfo();
+        bean.setApplyer(curentuser.getId());
+        dataCaseSynergisticMapper.saveApply(bean);
+    }
+
+    public void saveResult(DataCaseSynergyDetailEntity bean){
+        dataCaseSynergisticMapper.saveResult(bean);
     }
 
     @Override

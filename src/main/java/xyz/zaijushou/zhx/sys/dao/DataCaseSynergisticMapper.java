@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity;
 
 import java.util.List;
 
@@ -10,6 +11,10 @@ public interface DataCaseSynergisticMapper {
     List<DataCaseSynergisticEntity> pageSynergisticList(DataCaseSynergisticEntity synergistic);
 
     void updateApplyStatus(DataCaseSynergisticEntity synergistic);
+
+    void saveApply(DataCaseSynergyDetailEntity bean);
+
+    void saveResult(DataCaseSynergyDetailEntity bean);
 
     void updateFinishStatus(DataCaseSynergisticEntity synergistic);
 

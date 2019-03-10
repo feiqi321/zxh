@@ -319,4 +319,64 @@
         where data_case #{dataCase.id} and delete_flag = 0
     </update>
 
+    <!--插入数据信息-->
+    <insert id="saveApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert  into data_case_synergistic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
+            <if test="synergisticType != null">synergistic_type,</if>
+            <if test="applyer != null">applyer,</if>
+            <if test="applyContent != null">ident_no,</if>
+            apply_time,
+            synergistic_apply_status,
+            synergistic_finish_status,
+            delete_flag,
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">#{caseId},</if>
+            <if test="synergisticType null">#{synergisticType},</if>
+            <if test="applyer != null">#{applyer},</if>
+            <if test="applyContent != null">#{applyContent},</if>
+            now(),
+            0,
+            0,
+            0,
+            now(),
+        </trim>
+    </insert>
+    <!--插入数据信息-->
+    <insert id="saveResult" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert  into data_case_synergistic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
+            <if test="synergisticType != null">synergistic_type,</if>
+            <if test="synergisticUser != null">synergistic_user,</if>
+            <if test="synergisticResult != null">synergistic_result,</if>
+            synergistic_time,
+            synergistic_apply_status,
+            synergistic_finish_status,
+            delete_flag,
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">#{caseId},</if>
+            <if test="synergisticType null">#{synergisticType},</if>
+            <if test="synergisticUser != null">#{synergisticUser},</if>
+            <if test="synergisticResult != null">#{synergisticResult},</if>
+            now(),
+            1,
+            0,
+            0,
+            now(),
+        </trim>
+    </insert>
 </mapper>

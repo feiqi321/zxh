@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service;
 import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity;
 
 import java.util.List;
 
@@ -10,6 +11,10 @@ public interface DataCaseSynergisticService {
     PageInfo<DataCaseSynergisticEntity> pageSynergisticList(DataCaseSynergisticEntity synergistic);
 
     void approve(DataCaseSynergisticEntity synergistic);
+
+    void saveApply(DataCaseSynergyDetailEntity bean);
+
+    void saveResult(DataCaseSynergyDetailEntity bean);
 
     void finish(DataCaseSynergisticEntity synergistic);
 

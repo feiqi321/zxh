@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelSynergisticConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.constant.SynergisticTypeEnum;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
@@ -326,6 +324,19 @@ public class DataCaseSynergisticController {
             dataCaseSynergisticService.updateInfoByCaseId(entity);
         }
 
+        return WebResponse.success();
+    }
+
+
+    @PostMapping("/saveApply")
+    public Object saveApply(@RequestBody DataCaseSynergyDetailEntity bean) {
+        dataCaseSynergisticService.saveApply(bean);
+        return WebResponse.success();
+    }
+
+    @PostMapping("/saveResult")
+    public Object saveResult(@RequestBody DataCaseSynergyDetailEntity bean){
+        dataCaseSynergisticService.saveResult(bean);
         return WebResponse.success();
     }
 
