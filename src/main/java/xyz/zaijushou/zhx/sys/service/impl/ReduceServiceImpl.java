@@ -38,7 +38,7 @@ public class ReduceServiceImpl implements ReduceService {
         if (StringUtils.isEmpty(bean.getSort())){
             bean.setSort(" desc");
         }
-        bean.setReduceFlag("1");//1为已删除
+//        bean.setReduceFlag("1");//1为已删除
         List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
@@ -72,6 +72,8 @@ public class ReduceServiceImpl implements ReduceService {
     }
     public void updateStatus(DataCollectionEntity bean){
         switch (bean.getReduceFlag()){
+            case "0"://启动
+                bean.setReduceFlag("0");
             case "1"://删除
                 bean.setDeleteFlag(1);
             case "2"://撤销
@@ -83,6 +85,8 @@ public class ReduceServiceImpl implements ReduceService {
                 bean.setApplyStatus("2");
                 bean.setCompleteUser("系统管理员");
                 bean.setCompleteTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            case "5"://停用
+                bean.setReduceFlag("5");
         }
         reduceMapper.updateStatus(bean);
     }
