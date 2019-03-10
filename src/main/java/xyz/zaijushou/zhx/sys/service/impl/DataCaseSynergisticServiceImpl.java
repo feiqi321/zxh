@@ -57,6 +57,8 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
         for(DataCaseSynergisticEntity entity : synergisticList) {
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getSynergisticType().getId(),SysDictionaryEntity.class);
             entity.setSynergisticType(sysDictionaryEntity);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getApplyUser().getId(), SysUserEntity.class);
+            entity.setApplyUser(user);
             if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
                 entity.setStatusMsg("待审核");
             }else if ("1".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
