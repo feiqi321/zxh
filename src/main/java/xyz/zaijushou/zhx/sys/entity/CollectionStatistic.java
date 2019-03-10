@@ -25,6 +25,26 @@ public class CollectionStatistic extends CommonEntity {
     private int countConPhoneNum;//接通电话数
     private int countPhoneNum;//总通话数
     private int countCasePhoneNum;//通话涉及到的案件数
+
+    private String timeArea1 ; // 时间区域
+    private int countConPhoneNum1;//接通电话数
+    private int countPhoneNum1;//总通话数
+    private int countCasePhoneNum1;//通话涉及到的案件数
+
+    private String timeArea2 ; // 时间区域
+    private int countConPhoneNum2;//接通电话数
+    private int countPhoneNum2;//总通话数
+    private int countCasePhoneNum2;//通话涉及到的案件数
+
+    private String timeArea3 ; // 时间区域
+    private int countConPhoneNum3;//接通电话数
+    private int countPhoneNum3;//总通话数
+    private int countCasePhoneNum3;//通话涉及到的案件数
+
+    private int sumConPhoneNum;//接通电话数
+    private int sumPhoneNum;//总通话数
+    private int sumCasePhoneNum;//通话涉及到的案件数
+
     private int sType;
     private String dept;
     private String odv;
@@ -113,6 +133,126 @@ public class CollectionStatistic extends CommonEntity {
     private String phoneTime;
 
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+
+    public int getSumConPhoneNum() {
+        return sumConPhoneNum;
+    }
+
+    public void setSumConPhoneNum(int sumConPhoneNum) {
+        this.sumConPhoneNum = sumConPhoneNum;
+    }
+
+    public int getSumPhoneNum() {
+        return sumPhoneNum;
+    }
+
+    public void setSumPhoneNum(int sumPhoneNum) {
+        this.sumPhoneNum = sumPhoneNum;
+    }
+
+    public int getSumCasePhoneNum() {
+        return sumCasePhoneNum;
+    }
+
+    public void setSumCasePhoneNum(int sumCasePhoneNum) {
+        this.sumCasePhoneNum = sumCasePhoneNum;
+    }
+
+    public String getTimeArea1() {
+        return timeArea1;
+    }
+
+    public void setTimeArea1(String timeArea1) {
+        this.timeArea1 = timeArea1;
+    }
+
+    public int getCountConPhoneNum1() {
+        return countConPhoneNum1;
+    }
+
+    public void setCountConPhoneNum1(int countConPhoneNum1) {
+        this.countConPhoneNum1 = countConPhoneNum1;
+    }
+
+    public int getCountPhoneNum1() {
+        return countPhoneNum1;
+    }
+
+    public void setCountPhoneNum1(int countPhoneNum1) {
+        this.countPhoneNum1 = countPhoneNum1;
+    }
+
+    public int getCountCasePhoneNum1() {
+        return countCasePhoneNum1;
+    }
+
+    public void setCountCasePhoneNum1(int countCasePhoneNum1) {
+        this.countCasePhoneNum1 = countCasePhoneNum1;
+    }
+
+    public String getTimeArea2() {
+        return timeArea2;
+    }
+
+    public void setTimeArea2(String timeArea2) {
+        this.timeArea2 = timeArea2;
+    }
+
+    public int getCountConPhoneNum2() {
+        return countConPhoneNum2;
+    }
+
+    public void setCountConPhoneNum2(int countConPhoneNum2) {
+        this.countConPhoneNum2 = countConPhoneNum2;
+    }
+
+    public int getCountPhoneNum2() {
+        return countPhoneNum2;
+    }
+
+    public void setCountPhoneNum2(int countPhoneNum2) {
+        this.countPhoneNum2 = countPhoneNum2;
+    }
+
+    public int getCountCasePhoneNum2() {
+        return countCasePhoneNum2;
+    }
+
+    public void setCountCasePhoneNum2(int countCasePhoneNum2) {
+        this.countCasePhoneNum2 = countCasePhoneNum2;
+    }
+
+    public String getTimeArea3() {
+        return timeArea3;
+    }
+
+    public void setTimeArea3(String timeArea3) {
+        this.timeArea3 = timeArea3;
+    }
+
+    public int getCountConPhoneNum3() {
+        return countConPhoneNum3;
+    }
+
+    public void setCountConPhoneNum3(int countConPhoneNum3) {
+        this.countConPhoneNum3 = countConPhoneNum3;
+    }
+
+    public int getCountPhoneNum3() {
+        return countPhoneNum3;
+    }
+
+    public void setCountPhoneNum3(int countPhoneNum3) {
+        this.countPhoneNum3 = countPhoneNum3;
+    }
+
+    public int getCountCasePhoneNum3() {
+        return countCasePhoneNum3;
+    }
+
+    public void setCountCasePhoneNum3(int countCasePhoneNum3) {
+        this.countCasePhoneNum3 = countCasePhoneNum3;
+    }
 
     public String[] getBatchNos() {
         return batchNos;

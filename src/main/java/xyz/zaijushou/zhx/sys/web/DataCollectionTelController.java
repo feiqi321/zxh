@@ -22,6 +22,7 @@ import xyz.zaijushou.zhx.utils.StringUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,9 +55,33 @@ public class DataCollectionTelController {
         if (StringUtils.isEmpty(list)){
             return null;
         }
-        ExcelUtils.exportExcel(list,
+        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
+        for (StatisticReturn info : list){
+            CollectionStatistic col = new CollectionStatistic();
+            col.setOdv(info.getOdv());
+            col.setTimeArea1(info.getList().get(0).getArea());
+            col.setCountPhoneNum1(info.getList().get(0).getCountPhoneNum());
+            col.setCountConPhoneNum1(info.getList().get(0).getCountConPhoneNum());
+            col.setCountCasePhoneNum1(info.getList().get(0).getCountCasePhoneNum());
+
+            col.setTimeArea2(info.getList().get(1).getArea());
+            col.setCountPhoneNum2(info.getList().get(1).getCountPhoneNum());
+            col.setCountConPhoneNum2(info.getList().get(1).getCountConPhoneNum());
+            col.setCountCasePhoneNum2(info.getList().get(1).getCountCasePhoneNum());
+
+            col.setTimeArea3(info.getList().get(2).getArea());
+            col.setCountPhoneNum3(info.getList().get(2).getCountPhoneNum());
+            col.setCountConPhoneNum3(info.getList().get(2).getCountConPhoneNum());
+            col.setCountCasePhoneNum3(info.getList().get(2).getCountCasePhoneNum());
+
+            col.setSumConPhoneNum(info.getSumConPhoneNum());
+            col.setSumPhoneNum(info.getSumPhoneNum());
+            col.setSumCasePhoneNum(info.getSumCasePhoneNum());
+            colList.add(col);
+        }
+        ExcelUtils.exportExcel(colList,
                 ExcelDayExportConstant.CollecionList.values(),
-                "电催单日统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                "day-export-" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
         return null;
@@ -79,9 +104,22 @@ public class DataCollectionTelController {
         if (StringUtils.isEmpty(list)){
             return null;
         }
-        ExcelUtils.exportExcel(list,
+        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
+        for (StatisticReturn info : list){
+            for (CollectionStatistic sta : info.getList()){
+                CollectionStatistic col = new CollectionStatistic();
+                col.setOdv(info.getOdv());
+                col.setTimeArea(sta.getArea());
+                col.setCountConPhoneNum(sta.getCountConPhoneNum());
+                col.setCountPhoneNum(sta.getCountPhoneNum());
+                col.setCountCasePhoneNum(sta.getCountCasePhoneNum());
+                colList.add(col);
+            }
+
+        }
+        ExcelUtils.exportExcel(colList,
                 ExcelMonthExportConstant.CollecionList.values(),
-                "电催月统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                "month-export-" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
         return null;
