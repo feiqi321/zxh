@@ -99,7 +99,6 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
 
         //查询枚举数据
         List<SysDictionaryEntity> dictionaryList = dictionaryMapper.getDataList(dictionary);
-
         if (dictionary.getParent().getId() == 0){//只查询做菜单目录
             //将枚举数据存入缓存中
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_DICTIONARY + dictionary.getParent().getId(), JSONArray.toJSONString(dictionaryList));
