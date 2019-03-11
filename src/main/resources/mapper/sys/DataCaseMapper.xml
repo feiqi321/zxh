@@ -992,7 +992,7 @@
             <if test="county != null and county.id != null">
                 county = #{county.id},
             </if>
-            expect_retire_case_date = #{expectRetireCaseDate},
+            expect_time = #{expectTime},
             goods = #{goods},
             commercial_tenant = #{commercialTenant},
             archive_no = #{archiveNo},
@@ -1116,7 +1116,7 @@
         <if test="county != null and county.id != null">
             county,
         </if>
-        expect_retire_case_date,
+        expect_time,
         goods,
         commercial_tenant,
         archive_no,
@@ -1236,7 +1236,7 @@
         <if test="county != null and county.id != null">
             #{county.id},
         </if>
-        #{expectRetireCaseDate},
+        #{expectTime},
         #{goods},
         #{commercialTenant},
         #{archiveNo},
