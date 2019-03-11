@@ -53,6 +53,7 @@ public class RedisUtils {
         for (Object object : list) {
             SysDictionaryEntity bean = (SysDictionaryEntity) object;
             stringRedisTemplate.opsForValue().set(redisKeyPrefix + bean.getId(), JSONObject.toJSONString(object));
+            stringRedisTemplate.opsForValue().set(redisKeyPrefix + bean.getName(), JSONObject.toJSONString(object));
         }
     }
 

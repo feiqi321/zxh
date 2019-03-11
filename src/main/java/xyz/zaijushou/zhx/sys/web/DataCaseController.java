@@ -27,6 +27,7 @@ import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -365,6 +366,23 @@ public class DataCaseController {
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
+            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getAccountAge())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getAccountAge(),SysDictionaryEntity.class);
+                if (sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行逾期账龄值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的逾期账龄是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).setAccountAge(sysDictionaryEntity.getId()+"");
+                }
+            }
+            //语音 手机号 视频 留言
+            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getCollectionType())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getCollectionType(),SysDictionaryEntity.class);
+                if (sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收分类值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的催收分类是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).setCollectionType(sysDictionaryEntity.getId()+"");
+                }
+            }
             seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
         }
         DataCaseEntity queryEntity = new DataCaseEntity();
@@ -441,6 +459,22 @@ public class DataCaseController {
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
+            }
+            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getAccountAge())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getAccountAge(),SysDictionaryEntity.class);
+                if (sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行逾期账龄值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的逾期账龄是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).setAccountAge(sysDictionaryEntity.getId()+"");
+                }
+            }
+            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getCollectionType())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getCollectionType(),SysDictionaryEntity.class);
+                if (sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收分类值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的催收分类是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).setCollectionType(sysDictionaryEntity.getId()+"");
+                }
             }
             seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
             countMap.put(dataCaseEntities.get(i).getSeqNo(), countMap.get(dataCaseEntities.get(i).getSeqNo()) == null ? 1 : countMap.get(dataCaseEntities.get(i).getSeqNo()) + 1);

@@ -109,7 +109,7 @@ public class ExcelCaseConstant {
         COL960(960, "保证金", "bail", BigDecimal.class),
         COL970(970, "币种", "currencyType", String.class),
         COL980(980, "原催收记录", "lastCollectionRecord", String.class),
-        COL990(990, "逾期账龄", "overdueBillTime", String.class),
+        COL990(990, "逾期账龄", "accountAge", String.class),
         COL1000(1000, "联系人1姓名", "contacts[0].name", DataCaseContactsEntity.class, String.class),
         COL1010(1010, "联系人1证件号", "contacts[0].identNo", DataCaseContactsEntity.class, String.class),
         COL1020(1020, " 联系人1关系", "contacts[0].relation", DataCaseContactsEntity.class, String.class),

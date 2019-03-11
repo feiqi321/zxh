@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -45,6 +46,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
                 for(SysDictionaryEntity org : dictList) {
                     dictionaryMapper.deleteById(org);
                     stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + org.getId(), JSONArray.toJSONString(org));
+                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC  + org.getName(), JSONObject.toJSONString(org));
                 }
             }
 
