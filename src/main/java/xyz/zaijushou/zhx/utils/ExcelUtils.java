@@ -118,8 +118,12 @@ public class ExcelUtils {
                 resultList.add(entity);
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 logger.error("excel解析错误：{}", e);
+                throw new IOException("excel解析错误", e);
             } catch (ParseException e) {
                 logger.error("excel日期解析错误：{}", e);
+                throw new IOException("excel日期解析错误", e);
+            } catch (Exception e) {
+                throw new IOException("excel解析错误", e);
             }
         }
         return resultList;
