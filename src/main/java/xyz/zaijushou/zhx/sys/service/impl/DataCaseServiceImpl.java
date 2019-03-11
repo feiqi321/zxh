@@ -286,7 +286,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     temp.setCollectArea(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
                 }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getAccountAge())){
-                    temp.setCollectArea("");
+                    temp.setAccountAge("");
                 }else{
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
                     temp.setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
@@ -325,6 +325,12 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectArea(),SysDictionaryEntity.class);
                     temp.setCollectArea(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
                 }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getAccountAge())){
+                    temp.setAccountAge("");
+                }else{
+                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
+                    temp.setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+                }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
                     temp.setOdv("");
                 }else {
@@ -334,11 +340,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
-                temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
-                temp.setBankAmtMsg(temp.getBankAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
-                temp.setBalanceMsg(temp.getBalance()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
-                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
-                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+                temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
                 list.set(i,temp);
             }
         }
