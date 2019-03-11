@@ -217,6 +217,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setArchiveNos(archiveNos);
             }
         }
+
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getAccount())){
             dataCaseEntity.setAccountFlag(null);
         }else{
@@ -291,6 +292,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
                     temp.setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
                 }
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseEntity.getDistributeHistory())){
+                    dataCaseEntity.setDistributeHistory(dataCaseEntity.getDistributeHistory().substring(1));
+                }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
                     temp.setOdv("");
                 }else {
@@ -324,6 +328,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else{
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectArea(),SysDictionaryEntity.class);
                     temp.setCollectArea(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+                }
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseEntity.getDistributeHistory())){
+                    dataCaseEntity.setDistributeHistory(dataCaseEntity.getDistributeHistory().substring(1));
                 }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getAccountAge())){
                     temp.setAccountAge("");
