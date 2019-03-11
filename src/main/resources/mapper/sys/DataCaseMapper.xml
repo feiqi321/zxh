@@ -1182,8 +1182,8 @@
         brand,
         vin,
         engine_no,
-
-        batch_no
+        batch_no,
+        distribute_history
         )
         values
         (
@@ -1303,7 +1303,8 @@
         #{brand},
         #{vin},
         #{engineNo},
-        #{batchNo}
+        #{batchNo},
+        ''
         )
     </insert>
 
