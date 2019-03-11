@@ -81,6 +81,16 @@ public class LegalEntity extends CommonEntity {
 
     private String checkDate;
 
+    private boolean cuurentUser;
+
+    public boolean isCuurentUser() {
+        return cuurentUser;
+    }
+
+    public void setCuurentUser(boolean cuurentUser) {
+        this.cuurentUser = cuurentUser;
+    }
+
     public String getCostMsg() {
         return costMsg;
     }

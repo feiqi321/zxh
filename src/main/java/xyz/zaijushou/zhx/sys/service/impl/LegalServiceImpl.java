@@ -81,6 +81,13 @@ public class LegalServiceImpl implements LegalService {
             }else{
                 legalEntity.setOwner("");
             }
+            SysUserEntity user = getUserInfo();
+            if (StringUtils.isNotEmpty(legalEntity.getOwner()) && user.getId()==Integer.valueOf(legalEntity.getOwner())){
+                legalEntity.setCuurentUser(true);
+            }else{
+                legalEntity.setCuurentUser(false);
+            }
+
             legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
             dataCaseEntities.set(i,legalEntity);
         }
@@ -187,9 +194,8 @@ public class LegalServiceImpl implements LegalService {
 
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
-        SysUserEntity user = new SysUserEntity();
-        user.setId(userId);
-        return sysUserService.findUserInfoWithoutPasswordById(user);
+        SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return userTemp;
     }
 
     public WebResponse detail(LegalEntity bean){

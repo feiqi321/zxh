@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelBankReconciliationConstant;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseBankReconciliationMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
@@ -13,6 +14,7 @@ import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -71,9 +73,8 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     }
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
-        SysUserEntity user = new SysUserEntity();
-        user.setId(userId);
-        return sysUserService.findUserInfoWithoutStatusById(user);
+        SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return userTemp;
     }
     @Override
     public List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity) {

@@ -1,12 +1,14 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataOpLogMapper;
 import xyz.zaijushou.zhx.sys.entity.DataOpLog;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
@@ -26,9 +28,8 @@ public class DataLogServiceImpl implements DataLogService {
 
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
-        SysUserEntity user = new SysUserEntity();
-        user.setId(userId);
-        return sysUserService.findUserInfoWithoutStatusById(user);
+        SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return userTemp;
     }
 
     public void saveDataLog(String caseId,String type,String context){

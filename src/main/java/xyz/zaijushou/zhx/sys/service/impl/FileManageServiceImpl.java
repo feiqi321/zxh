@@ -347,9 +347,8 @@ public class FileManageServiceImpl implements FileManageService {
     }
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
-        SysUserEntity user = new SysUserEntity();
-        user.setId(userId);
-        return sysUserService.findUserInfoWithoutStatusById(user);
+        SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return userTemp;
     }
     public WebResponse batchArchive(List<DataArchiveEntity> list){
 
