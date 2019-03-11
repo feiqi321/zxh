@@ -1,13 +1,16 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import sun.security.provider.MD5;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
 import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
@@ -35,6 +38,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private SysRoleMapper sysRoleMapper;
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user) {
@@ -115,6 +121,11 @@ public class SysUserServiceImpl implements SysUserService {
                 sysToUserRoleMapper.saveUserRole(roleEntity);
             }
         }
+        //存入redis
+        SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());
+        if (StringUtils.notEmpty(newBean)){
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
+        }
     }
 
     /**
@@ -137,6 +148,11 @@ public class SysUserServiceImpl implements SysUserService {
                 roleEntity.setRoleId(role.getId());
                 sysToUserRoleMapper.saveUserRole(roleEntity);
             }
+        }
+        //存入redis
+        SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());
+        if (StringUtils.notEmpty(newBean)){
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
         }
     }
 
