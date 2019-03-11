@@ -410,7 +410,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void sendOdv(DataCaseEntity bean){
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ bean.getOdv(), SysUserEntity.class);
-        bean.setDistributeHistory("分配给"+user.getUserName());
+        bean.setDistributeHistory(",分配给"+user.getUserName());
         dataCaseMapper.sendOdv(bean);
         DataOpLog log = new DataOpLog();
         log.setType("案件管理");
@@ -589,7 +589,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             ids[i] =bean.getId()+"";
 
         }
-        dataCaseEntity.setDistributeHistory("分配给"+user.getUserName());
+        dataCaseEntity.setDistributeHistory(",分配给"+user.getUserName());
         dataCaseEntity.setIds(ids);
         dataCaseMapper.sendOdvByProperty(dataCaseEntity);
     }
