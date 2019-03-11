@@ -457,6 +457,8 @@ public class DataCaseController {
         Map<String, Integer> countMap = new HashMap<>();
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
+            DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+batch.getBatchNo(),DataBatchEntity.class);
+            dataCaseEntities.get(i).setClient(batchEntity.getClient());
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
