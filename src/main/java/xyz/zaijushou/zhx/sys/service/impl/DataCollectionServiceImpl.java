@@ -171,7 +171,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort(" desc");
         }
-        List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollect(dataCollectionEntity);
+        List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
 
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0.00");//列表金额
