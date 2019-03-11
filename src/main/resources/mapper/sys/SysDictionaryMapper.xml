@@ -11,6 +11,7 @@
         description,
         status,
         number,
+        sys_flag as sysFlag,
         dictionary_id as 'parent.id',
         create_user as 'createUser.id',
         update_user as 'updateUser.id',
