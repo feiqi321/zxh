@@ -238,6 +238,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
             collection.setTelType(telTypeDic==null?"":telTypeDic.getName());
+
+            SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getAccountAge(),SysDictionaryEntity.class);
+            collection.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
+
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
             collection.setBankAmtMsg(collection.getBankAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));

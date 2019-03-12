@@ -80,8 +80,8 @@ public class LetterServiceImpl implements LetterService {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getApplyer(), SysUserEntity.class);
             temp.setApplyer(user==null?"":user.getUserName());
 
-            temp.setCaseAmtMsg(temp.getCaseAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCaseAmt()+""));
-            temp.setRepayAmtMsg(temp.getRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
+            temp.setCaseAmtMsg(temp.getCaseAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCaseAmt()+""));
+            temp.setRepayAmtMsg(temp.getRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
             list.set(i,temp);
         }
         webResponse.setData(PageInfo.of(list));

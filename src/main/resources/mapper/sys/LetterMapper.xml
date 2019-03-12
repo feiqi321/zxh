@@ -294,7 +294,7 @@
     select * from (
     select t.id,d.collect_status as collectStatus,d.seq_no as seqNo,t.name,d.money as caseAmt,d.en_repay_amt as repayAmt,
     t.address,(select count(id) from letter where id=t.case_id ) as times,t.apply_context as applyContext,t.address_type as addressType,
-    t.module,t.relationer,d.synergy_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
+    t.module,t.relationer,t.apply_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
     from letter t LEFT  JOIN data_case d on t.case_id = d.id
     <where>
       t.status in (1,2)
