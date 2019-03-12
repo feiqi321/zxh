@@ -1741,7 +1741,7 @@
 
     <update id="updateDataCaseByCollectAdd" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set new_case=#{newCase},collect_status=#{collectStatus},summary=#{summary},
-        collect_times=collect_times+#{collectTimes}
+        collect_times=collect_times+1
          where id=#{id}
     </update>
 </mapper>
