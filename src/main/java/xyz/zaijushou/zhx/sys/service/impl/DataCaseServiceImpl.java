@@ -1610,8 +1610,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             DataCaseEntity temp = list.get(i);
             SysDictionaryEntity collectStatusDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getCollectStatus(), SysDictionaryEntity.class);
             temp.setCollectStatusMsg(collectStatusDic==null?"":collectStatusDic.getName());
-            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getClient(), SysUserEntity.class);
-            temp.setClient(user == null ? "" : user.getUserName());
+            SysDictionaryEntity clientDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getClient(), SysDictionaryEntity.class);
+            temp.setClient(clientDic==null?"":clientDic.getName());
             SysUserEntity odvUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(odvUser == null ? "" : odvUser.getUserName());
             temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
