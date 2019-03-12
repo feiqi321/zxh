@@ -130,7 +130,7 @@
         select
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
-        where dictionary_id = (
+        where delete_flag = 0 and dictionary_id = (
         select id from sys_data_dictionary where name = #{name}
         LIMIT 1
         )

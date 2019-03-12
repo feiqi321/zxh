@@ -101,7 +101,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         List<SysDictionaryEntity> dictionaryList = dictionaryMapper.getDataList(dictionary);
         if (dictionary.getParent().getId() == 0){//只查询做菜单目录
             //将枚举数据存入缓存中
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_DICTIONARY + dictionary.getParent().getId(), JSONArray.toJSONString(dictionaryList));
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + dictionary.getParent().getId(), JSONArray.toJSONString(dictionaryList));
             return dictionaryList;
         }else {
             List<SysDictionaryEntity> dictList = new ArrayList<SysDictionaryEntity>();
@@ -112,7 +112,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             }
             dictList = CollectionsUtils.listToTree(dictList);
             //将枚举数据存入缓存中
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_DICTIONARY + dictionary.getParent().getId(), JSONArray.toJSONString(dictList));
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + dictionary.getParent().getId(), JSONArray.toJSONString(dictList));
             return dictList;
         }
     }

@@ -57,10 +57,6 @@ public class RedisKeyPrefix {
      */
     public static final String ROLE_AUTHORITY = "role_authority_";
 
-    /**
-     * 枚举数据
-     */
-    public static final String DATA_DICTIONARY = "data_dictionary_";
     //批次
     public static final String DATA_BATCH = "data_batch_";
 

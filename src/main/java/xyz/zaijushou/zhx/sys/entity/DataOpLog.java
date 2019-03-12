@@ -1,13 +1,14 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 import java.io.Serializable;
 
 /**
  * Created by looyer on 2019/3/1.
  */
-public class DataOpLog implements Serializable{
+public class DataOpLog extends CommonEntity implements Serializable{
 
-    private int id;
     private String type; //电话催收  电话管理  案件管理
     private String context;
     private String opTime;
@@ -21,14 +22,6 @@ public class DataOpLog implements Serializable{
 
     public void setOperName(String operName) {
         this.operName = operName;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getType() {

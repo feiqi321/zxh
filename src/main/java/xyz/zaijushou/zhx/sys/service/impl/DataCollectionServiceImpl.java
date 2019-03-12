@@ -61,7 +61,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 beanInfo.setCollectInfo(sysBean.getDescription());
             }
         }
-
+        SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getCollectStatus(),SysDictionaryEntity.class);
         dataCollectionMapper.saveCollection(beanInfo);
 
         if (StringUtils.notEmpty(beanInfo.getsType())){
@@ -83,10 +83,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 collectionMapper.updateDataCollect(bean);
             }
         }
-        SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getCollectStatus(),SysDictionaryEntity.class);
+
         DataOpLog log = new DataOpLog();
         log.setType("电话催收");
-        log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getMobile()+"[手机]，通话内容："+beanInfo.getCollectInfo()+"，催收状态： "+sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+        log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getMobile()+"[手机]，通话内容："+beanInfo.getCollectInfo()+"，催收状态： "+(sysDictionaryEntity==null?"":sysDictionaryEntity.getName()));
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
