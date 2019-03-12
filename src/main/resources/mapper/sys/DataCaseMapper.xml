@@ -28,6 +28,7 @@
         da.unit_tel_number as unitTelNumber,
         da.tel as tel,
         da.unit_name as unitName,
+        da.new_case as newCase,
         da.case_user_position as caseUserPosition,
         da.case_user_depart as caseUserDepart,
         da.unit_address as unitAddress,
@@ -390,7 +391,7 @@
     </select>
 
     <select id="pageBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select id, batch_no as batchNo,client,collect_area as collectArea,dept,odv,status,area,expect_time as expectTime,color,
+        select id, batch_no as batchNo,client,collect_area as collectArea,dept,odv,status,area,expect_time as expectTime,color,new_case as newCase,
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,case_date as caseDate,collect_hand as collectHand,
         real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,DATE_FORMAT(distribute_time,'%Y-%m-%d %H:%i') as distributeTime,
         money as money,balance as balance,over_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,
@@ -1709,7 +1710,7 @@
     </select>
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          SELECT id,batch_no as batchNo,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,card_no as cardNo,case_date as caseDate,name from data_case where id = #{id}
+          SELECT id,batch_no as batchNo,money,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,card_no as cardNo,case_date as caseDate,name from data_case where id = #{id}
     </select>
 
     <select id="findSameBatchCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

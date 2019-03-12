@@ -138,7 +138,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataBatchEntity.setBatchNo(updateBatchEntity.getBatchNo());
         SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         dataBatchEntity.setUploadTime(sdf.format(new Date()));
-        dataBatchEntity.setTotalAmt(new BigDecimal(0).subtract(updateBatchEntity.getMoney()));
+        dataBatchEntity.setTotalAmt(updateBatchEntity.getMoney()==null?new BigDecimal(0):new BigDecimal(0).subtract(updateBatchEntity.getMoney()));
         dataBatchEntity.setUserCount(-1);
         dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
