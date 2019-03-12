@@ -80,4 +80,6 @@ public interface SysUserMapper {
     int countByLoginName(SysUserEntity user);
 
     List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser);
+
+    List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser);
 }

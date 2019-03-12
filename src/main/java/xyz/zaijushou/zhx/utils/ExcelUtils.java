@@ -312,7 +312,7 @@ public class ExcelUtils {
         } else if (Date.class == clazz) {
             try {
                 Date dateValue = (Date) value;
-                cell.setCellValue(dateValue);
+                cell.setCellValue(dateValue == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(dateValue));
             }catch(Exception e){
                 if (value==null){
                     cell.setCellValue("");

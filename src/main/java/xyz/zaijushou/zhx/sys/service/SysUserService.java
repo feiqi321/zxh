@@ -81,4 +81,6 @@ public interface SysUserService {
     public SysUserEntity getLoginName(SysUserEntity user) throws Exception;
 
     List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser);
+
+    List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser);
 }

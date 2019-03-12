@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
 import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
+import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/organization")
@@ -22,6 +22,9 @@ public class SysOrganizationController {
 
     @Resource
     private SysOrganizationService sysOrganizationService;
+
+    @Resource
+    private SysUserService sysUserService;
 
     @PostMapping("/treeOrganization")
     public Object treeOrganization(@RequestBody SysOrganizationEntity organization) {
@@ -50,6 +53,18 @@ public class SysOrganizationController {
             }
         }
         List<SysOrganizationEntity> deletes = new ArrayList<>(originalOrgs.values());
+        if(!CollectionUtils.isEmpty(deletes)) {
+            Set<String> deparIdsSet = new HashSet<>();
+            for(SysOrganizationEntity org : deletes) {
+                deparIdsSet.add("" + org.getId());
+            }
+            SysNewUserEntity queryUser = new SysNewUserEntity();
+            queryUser.setDepartIdsSet(deparIdsSet);
+            List<SysNewUserEntity> userList = sysUserService.listByDepartIdsSet(queryUser);
+            if(!CollectionUtils.isEmpty(userList)) {
+                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "待删除的部门尚有员工，不得删除");
+            }
+        }
         for(SysOrganizationEntity org : deletes) {
             sysOrganizationService.deleteOrg(org);
         }

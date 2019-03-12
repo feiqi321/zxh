@@ -92,6 +92,8 @@ public class SysNewUserEntity extends CommonEntity {
 
     private Set<String> namesSet;
 
+    private Set<String> departIdsSet;
+
     public int getLoginNameCount() {
         return loginNameCount;
     }
@@ -283,5 +285,13 @@ public class SysNewUserEntity extends CommonEntity {
 
     public void setNamesSet(Set<String> namesSet) {
         this.namesSet = namesSet;
+    }
+
+    public Set<String> getDepartIdsSet() {
+        return departIdsSet;
+    }
+
+    public void setDepartIdsSet(Set<String> departIdsSet) {
+        this.departIdsSet = departIdsSet;
     }
 }
