@@ -1606,6 +1606,21 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public List<DataCaseEntity> sameCaseList(DataCaseEntity bean){
         List<DataCaseEntity> list = dataCaseMapper.findSameCase(bean);
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            SysDictionaryEntity collectStatusDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getCollectStatus(), SysDictionaryEntity.class);
+            temp.setCollectStatusMsg(collectStatusDic==null?"":collectStatusDic.getName());
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getClient(), SysUserEntity.class);
+            temp.setClient(user == null ? "" : user.getUserName());
+            SysUserEntity odvUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(odvUser == null ? "" : odvUser.getUserName());
+            temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+            temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
+            temp.setBalanceMsg(temp.getBalance()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+            temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+            list.set(i,temp);
+        }
         return list;
     }
 
