@@ -1417,9 +1417,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
             }else if(i==4){
                 if (caseRemarks==null ||  i >= caseRemarks.size()) {
-                    dataCaseDetail.setRemark1("");
+                    dataCaseDetail.setRemark5("");
                 }else{
-                    dataCaseDetail.setRemark1(caseRemarks.get(i).getRemark());
+                    dataCaseDetail.setRemark5(caseRemarks.get(i).getRemark());
                 }
                 if (contacts==null || i>=contacts.size()){
                     dataCaseDetail.setContactName5("");
