@@ -936,7 +936,7 @@
                 </if>
             </trim>
         </where>
-        order by c.${orderBy} ${sort}
+        order by ${orderBy} ${sort}
     </select>
 
 
@@ -1115,7 +1115,7 @@
                 </if>
             </trim>
         </where>
-        order by c.${orderBy} ${sort}
+        order by ${orderBy} ${sort}
     </select>
 
     <select id="selectDataCollectByBatch" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
