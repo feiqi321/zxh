@@ -314,6 +314,23 @@ public class DataCaseServiceImpl implements DataCaseService {
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
                 }
+                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+                temp.setClient(clientDic==null?"":clientDic.getName());
+                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
+                temp.setSummary(summaryDic==null?"":summaryDic.getName());
+                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+                if (StringUtils.notEmpty(temp.getDistributeHistory())){
+                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
+                    temp.setColor("BLACK");
+                }
+                temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
                 list.set(i,temp);
             }
         }else {
@@ -356,6 +373,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
                     temp.setColor("BLACK");
+                }
+                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+                temp.setClient(clientDic==null?"":clientDic.getName());
+                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
+                temp.setSummary(summaryDic==null?"":summaryDic.getName());
+                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+                if (StringUtils.notEmpty(temp.getDistributeHistory())){
+                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
                 }
                 temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
                 temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
@@ -1179,6 +1205,17 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
                     temp.setOdv(user == null ? "" : user.getUserName());
                 }
+                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+                temp.setClient(clientDic==null?"":clientDic.getName());
+                SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
+                temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
+                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
+                temp.setSummary(summaryDic==null?"":summaryDic.getName());
+                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+                if (StringUtils.notEmpty(temp.getDistributeHistory())){
+                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
+                }
                 list.set(i,temp);
             }
         }else {
@@ -1204,6 +1241,16 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }else {
                     SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
                     temp.setOdv(user == null ? "" : user.getUserName());
+                }
+
+                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+                temp.setClient(clientDic==null?"":clientDic.getName());
+                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
+                temp.setSummary(summaryDic==null?"":summaryDic.getName());
+                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+                if (StringUtils.notEmpty(temp.getDistributeHistory())){
+                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
                 }
                 list.set(i,temp);
             }
@@ -1231,6 +1278,15 @@ public class DataCaseServiceImpl implements DataCaseService {
             }else{
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
                 temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            }
+            SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+            temp.setClient(clientDic==null?"":clientDic.getName());
+            SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
+            temp.setSummary(summaryDic==null?"":summaryDic.getName());
+            SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+            temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+            if (StringUtils.notEmpty(temp.getDistributeHistory())){
+                temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
             }
             list.set(i,temp);
         }
@@ -1813,6 +1869,10 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public void delComment(DataCaseCommentEntity bean){
         dataCaseCommentMapper.delComment(bean);
+    }
+
+    public List<DataCaseEntity> listByBatchNos(String[] batchNos){
+        return dataCaseMapper.listByBatchNos(batchNos);
     }
 
     //2 待审核  1 最终同意申请  3代办 4撤销申请

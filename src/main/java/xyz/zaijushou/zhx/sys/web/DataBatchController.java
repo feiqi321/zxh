@@ -15,8 +15,10 @@ import xyz.zaijushou.zhx.constant.ExcelBatchExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
 import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
+import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 
@@ -35,6 +37,8 @@ public class DataBatchController {
 
     @Autowired
     private DataBatchService dataCaseService;
+    @Autowired
+    private DataCaseService caseService;
     @Autowired
     private DataCollectService dataCollectService;
 
@@ -63,6 +67,7 @@ public class DataBatchController {
     public Object returnCase(@RequestBody List<DataBatchEntity> list) {
         for (int i=0;i<list.size();i++){
             DataBatchEntity dataBatchEntity = list.get(i);
+
             dataCaseService.returnCase(dataBatchEntity);
         }
 
@@ -73,6 +78,16 @@ public class DataBatchController {
     @ApiOperation(value = "刪除批次", notes = "刪除批次")
     @PostMapping("/dataBatch/delete")
     public Object delete(@RequestBody List<DataBatchEntity> list) {
+        String[] batchNos = new String[list.size()];
+        for(int i=0;i<list.size();i++){
+            DataBatchEntity temp = list.get(i);
+            batchNos[i]=temp.getBatchNo();
+        }
+        List<DataCaseEntity> tempList = caseService.listByBatchNos(batchNos);
+        if (tempList.size()>0){
+            return WebResponse.error("500","此批次下有关联案件,不能删除!");
+        }
+
         for (int i=0;i<list.size();i++){
             DataBatchEntity dataBatchEntity = list.get(i);
             dataCaseService.deleteById(dataBatchEntity);

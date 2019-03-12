@@ -1752,4 +1752,11 @@
     <update id="updateDataCaseByCollectResult" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set summary=#{summary} where id=#{id}
     </update>
+    
+    <select id="listByBatchNos" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select id from data_case where batch_no in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

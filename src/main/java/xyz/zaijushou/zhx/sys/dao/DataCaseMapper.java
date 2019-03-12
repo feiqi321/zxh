@@ -87,6 +87,8 @@ public interface DataCaseMapper {
     List<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
 
     List<DataCaseEntity> listSynergy(int[] status);
+
+    List<DataCaseEntity> listByBatchNos(String[] batchNos);
     //同批次共债案件
     List<DataCaseEntity> findSameBatchCase(DataCaseEntity dataCaseEntity);
     //共债案件

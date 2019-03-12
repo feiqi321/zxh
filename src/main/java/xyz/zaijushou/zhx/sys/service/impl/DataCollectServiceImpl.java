@@ -201,8 +201,11 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysDictionaryEntity sysDictionaryEntity5 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMethod(),SysDictionaryEntity.class);
             temp.setMethod(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
 
+            SysDictionaryEntity sysDictionaryEntity6 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
+            temp.setAccountAge(sysDictionaryEntity6==null?"":sysDictionaryEntity6.getName());
+
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdvName(user==null?"":user.getUserName());
+            temp.setOdv(user==null?"":user.getUserName());
             resultList.set(i,temp);
         }
         webResponse.setData(resultList);
