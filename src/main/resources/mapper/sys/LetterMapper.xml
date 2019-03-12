@@ -36,7 +36,7 @@
   </delete>
   <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
     insert into letter (id, case_id, card_no, 
-      ident_no, case_date, address, apply_date
+      ident_no, case_date, address, apply_date,
       name, relation, address_type, 
       synergy_result, apply_context, synergy_date, 
       synergyer, delete_flag, create_date,module,applyer,relationer,periods,status)
