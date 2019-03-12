@@ -1183,7 +1183,8 @@
         vin,
         engine_no,
         batch_no,
-        distribute_history
+        distribute_history,
+        collect_times
         )
         values
         (
@@ -1304,7 +1305,8 @@
         #{vin},
         #{engineNo},
         #{batchNo},
-        ''
+        '',
+        0
         )
     </insert>
 
@@ -1726,5 +1728,15 @@
 
     <update id="addCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set collect_times = collect_times+1 where id =#{id}
+    </update>
+
+    <update id="updateDataCaseByCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+          update data_case set new_case=#{newCase},collect_times=collect_times+1 where id=#{id}
+    </update>
+
+    <update id="updateDataCaseByCollectAdd" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set new_case=#{newCase},collect_status=#{collectStatus},summary=#{summary},
+        collect_times=collect_times+#{collectTimes}
+         where id=#{id}
     </update>
 </mapper>

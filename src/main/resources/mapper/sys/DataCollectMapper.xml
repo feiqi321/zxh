@@ -1480,28 +1480,28 @@
     </select>
 
     <select id="detailCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,measure,collect_time as collectTime,target_name as targetName,relation,mobile,collection_type as collectionType,tel_type as telType,
+        select id,measure,collect_time as collectTime,target_name as targetName,relation,mobile,collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
         result,method,repay_time as repayTime,repay_amt as repayAmt,reduce_amt as reduceAmt,reduce_status as reduceStatus,odv,collect_status as collectStatus
         from data_collection
          where case_id = #{caseId}
     </select>
 
     <select id="detailCollect2" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-         select d.id,d.measure,d.collect_time as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,
+         select d.id,d.measure,d.collect_time as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
         d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,d.odv,d.collect_status as collectStatus
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.batch_no = #{batchNo} and t.ident_no = #{identNo}
     </select>
 
     <select id="detailCollect3" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-         select d.id,d.measure,d.collect_time as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,
+         select d.id,d.measure,d.collect_time as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
         d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,d.odv,d.collect_status as collectStatus
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.ident_no = #{identNo}
     </select>
 
     <select id="detailCollect4" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-         select d.id,d.measure,d.collect_time as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,
+         select d.id,d.measure,d.collect_time as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
         d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,d.odv,d.collect_status as collectStatus
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.card_no = #{cardNo} and t.ident_no = #{identNo}

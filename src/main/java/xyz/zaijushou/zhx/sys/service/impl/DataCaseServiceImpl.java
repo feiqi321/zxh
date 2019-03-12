@@ -131,6 +131,16 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
         dataCaseTelMapper.deleteTel(dataCaseTelEntity);
         dataCaseMapper.deleteById(dataCaseEntity.getId());
+
+        //修改批次信息
+        DataCaseEntity updateBatchEntity = dataCaseMapper.findById(dataCaseEntity);
+        DataBatchEntity dataBatchEntity = new DataBatchEntity();
+        dataBatchEntity.setBatchNo(updateBatchEntity.getBatchNo());
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        dataBatchEntity.setUploadTime(sdf.format(new Date()));
+        dataBatchEntity.setTotalAmt(new BigDecimal(0).subtract(updateBatchEntity.getMoney()));
+        dataBatchEntity.setUserCount(-1);
+        dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
     @Override
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity){

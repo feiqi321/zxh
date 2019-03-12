@@ -93,4 +93,8 @@ public interface DataCaseMapper {
     List<DataCaseEntity> findSameCase(DataCaseEntity dataCaseEntity);
 
     void addCollectTimes(DataCaseEntity dataCaseEntity);
+
+    void updateDataCaseByCollect(DataCaseEntity dataCaseEntity);
+
+    void updateDataCaseByCollectAdd(DataCaseEntity dataCaseEntity);
 }

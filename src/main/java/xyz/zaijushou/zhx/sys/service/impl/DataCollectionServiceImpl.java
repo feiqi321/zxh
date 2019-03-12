@@ -91,8 +91,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         log.setOperName(getUserInfo().getUserName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         log.setOpTime(sdf.format(new Date()));
-        log.setCaseId(beanInfo.getCaseId()+"");
+        log.setCaseId(beanInfo.getCaseId());
         dataLogService.saveDataLog(log);
+
+        DataCaseEntity dataCaseEntity = new DataCaseEntity();
+        dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
+        dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
+        dataCaseEntity.setSummary(beanInfo.getResult());
+        dataCaseEntity.setCollectStatus(beanInfo.getCollectStatus());
+        caseMapper.updateDataCaseByCollectAdd(dataCaseEntity);
     }
 
     public void detailSave(DataCollectionEntity beanInfo){
@@ -101,6 +108,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             dataCollectionMapper.detailUpdate(beanInfo);
         }
+        DataCaseEntity dataCaseEntity = new DataCaseEntity();
+        dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
+        dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
+        caseMapper.updateDataCaseByCollect(dataCaseEntity);
 
     }
 
