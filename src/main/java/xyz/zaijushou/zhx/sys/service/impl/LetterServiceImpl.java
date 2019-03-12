@@ -11,6 +11,7 @@ import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.LetterService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
@@ -107,17 +108,25 @@ public class LetterServiceImpl implements LetterService {
         letterMapper.confirmLetter(letter);
     }
 
-
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return userTemp;
+    }
     public void addLetter(Letter letter){
+        SysUserEntity mine = getUserInfo();
         DataCaseEntity request = new DataCaseEntity();
         request.setId(letter.getCaseId());
         DataCaseEntity dataCaseEntity = dataCaseMapper.findById(request);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         letter.setCardNo(dataCaseEntity.getCardNo());
         letter.setIdentNo(dataCaseEntity.getIdentNo());
         letter.setCaseDate(dataCaseEntity.getCaseDate());
         letter.setName(dataCaseEntity.getName());
         letter.setDeleteFlag(0);
+        letter.setApplyer(mine.getId()+"");
         letter.setStatus("0");
+        letter.setApplyDate(sdf.format(new Date()));
         DataCaseAddressEntity dataCaseAddressEntity = new DataCaseAddressEntity();
         dataCaseAddressEntity.setId(letter.getAddressId());
         dataCaseAddressMapper.updateLetterCount(dataCaseAddressEntity);
@@ -127,6 +136,19 @@ public class LetterServiceImpl implements LetterService {
 
     public WebResponse findByCaseId(Letter letter){
         List<Letter> list = letterMapper.findByCaseId(letter);
+        for(int i=0;i<list.size();i++){
+            Letter temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getApplyer(), SysUserEntity.class);
+            temp.setApplyer(user==null?"":user.getUserName());
+            if (temp.getStatus()==null || temp.getStatus().equals("0")){
+                temp.setStatus("申请中");
+            }else if (temp.getStatus().equals("1")){
+                temp.setStatus("已审核");
+            }else if (temp.getStatus().equals("2")){
+                temp.setStatus("撤销");
+            }
+            list.set(i,temp);
+        }
         return WebResponse.success(list);
     }
 
