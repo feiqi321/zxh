@@ -231,19 +231,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 caseIds.add(collection.getCaseId());
                 ++countCase;
                 sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
-                if (collection.getCaseStatus()!=null && 1 == collection.getCaseStatus()){
+                if (collection.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
                     ++countCasePay;
                     sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
                 }
             }
+            SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
+            collection.setTelType(telTypeDic==null?"":telTypeDic.getName());
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
-            collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
-            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
-            collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
-            collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
-            collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
-            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
+            collection.setBankAmtMsg(collection.getBankAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
+            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
+            collection.setNewMoneyMsg(collection.getNewMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
+            collection.setBalanceMsg(collection.getBalance()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
+            collection.setMoneyMsg(collection.getMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
+            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
 
             if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getCountFollow())){
                 collection.setCountFollow("0");
