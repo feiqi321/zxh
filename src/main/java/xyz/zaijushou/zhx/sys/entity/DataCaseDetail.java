@@ -73,7 +73,7 @@ public class DataCaseDetail {
 
     private String repayStatus;//还款状态
 
-    private int newCase;//是否新分配
+    private String newCase;//是否新分配
 
     private int reduceStatus;//减免状态
     private int reportStatus;//报备状态
