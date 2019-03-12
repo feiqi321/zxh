@@ -1276,8 +1276,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysUserEntity odvuser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataCaseDetail.getOdv(), SysUserEntity.class);
         dataCaseDetail.setOdv(odvuser==null?"":odvuser.getUserName());
 
-        SysUserEntity clientUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataCaseDetail.getClient(), SysUserEntity.class);
-        dataCaseDetail.setClient(clientUser==null?"":clientUser.getUserName());
+        SysDictionaryEntity clientDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getClient(), SysDictionaryEntity.class);
+        dataCaseDetail.setClient(clientDic==null?"":clientDic.getName());
 
         SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectStatus(), SysDictionaryEntity.class);
         dataCaseDetail.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
