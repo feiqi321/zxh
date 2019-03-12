@@ -210,7 +210,7 @@
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select c.id,c.case_id as caseId,c.bail_date as bailDate,c.relation,c.tel_type as telType,c.target_name as targetName,c.leave_days as leaveDays,
         c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure,c.collect_time as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
-        c.repay_amt as repayAmt,c.reduce_amt as reduceAmtexpectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
+        c.repay_amt as repayAmt,c.reduce_amt as reduceAmt,t.expect_time as expectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
         c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
