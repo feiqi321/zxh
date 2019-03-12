@@ -36,12 +36,12 @@
   </delete>
   <insert id="insert" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
     insert into letter (id, case_id, card_no, 
-      ident_no, case_date, address, 
+      ident_no, case_date, address, apply_date
       name, relation, address_type, 
       synergy_result, apply_context, synergy_date, 
       synergyer, delete_flag, create_date,module,applyer,relationer,periods,status)
     values (#{id,jdbcType=INTEGER}, #{caseId,jdbcType=INTEGER}, #{cardNo,jdbcType=VARCHAR}, 
-      #{identNo,jdbcType=VARCHAR}, #{caseDate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{identNo,jdbcType=VARCHAR}, #{caseDate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, {applyDate,jdbcType=VARCHAR},
       #{name,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, #{addressType,jdbcType=VARCHAR}, 
       #{synergyResult,jdbcType=VARCHAR}, #{applyContext,jdbcType=VARCHAR}, #{synergyDate,jdbcType=VARCHAR}, 
       #{synergyer,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{createDate,jdbcType=INTEGER},
