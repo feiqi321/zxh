@@ -312,7 +312,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setTelType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
             SysDictionaryEntity relationEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRelation(),SysDictionaryEntity.class);
-            temp.setTelType(relationEntity==null?temp.getRelation():relationEntity.getName());
+            temp.setRelation(relationEntity==null?temp.getRelation():relationEntity.getName());
 
             SysDictionaryEntity collectStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(collectStatusEntity==null?"":collectStatusEntity.getName());
