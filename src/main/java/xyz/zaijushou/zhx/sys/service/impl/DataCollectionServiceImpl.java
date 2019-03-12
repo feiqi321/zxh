@@ -130,9 +130,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         dataCollectionMapper.updateCollection(dataCollectionEntity);
         DataCollectionEntity temp = dataCollectionMapper.findById(dataCollectionEntity);
         DataCaseEntity dataCaseEntity = new DataCaseEntity();
-        dataCaseEntity.setId(temp.getId());
-        dataCaseEntity.setSummary(dataCollectionEntity.getResult());
-        caseMapper.updateDataCaseByCollectResult(dataCaseEntity);
+        dataCaseEntity.setId(Integer.parseInt(temp.getCaseId()));
+        dataCaseEntity.setNewCase(dataCollectionEntity.getCollectInfo());
+        dataCaseEntity.setCollectDate(dataCollectionEntity.getCollectTime());
+        caseMapper.updateDataCaseByCollect3(dataCaseEntity);
 
     }
 
@@ -238,9 +239,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
             collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
 
-             if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getCountFollow())){
-                 collection.setCountFollow("0");
-             }
+            if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getCountFollow())){
+                collection.setCountFollow("0");
+            }
             list.set(i,collection);
         }
         int count = new Long(PageInfo.of(list).getTotal()).intValue() ;

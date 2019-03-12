@@ -175,7 +175,7 @@
         set
         <trim suffixOverrides=",">
             <if test="collectTime != null">collect_time = #{collectTime},</if>
-            <if test="result != null">result = #{result},</if>
+            <if test="collectInfo != null">collect_info = #{collectInfo},</if>
         </trim>
         where
         id = #{id}
