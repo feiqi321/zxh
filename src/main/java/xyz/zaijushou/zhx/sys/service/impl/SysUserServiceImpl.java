@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import sun.security.provider.MD5;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
@@ -38,6 +39,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private SysRoleMapper sysRoleMapper;
+
+    @Resource
+    private DataCaseMapper dataCaseMapper;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -166,8 +170,17 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public void deleteById(SysNewUserEntity userEntity){
+    public int deleteById(SysNewUserEntity userEntity){
+        int result = 1;
+        //判断用户是否存在有效的案件
+        DataCaseEntity bean = new DataCaseEntity();
+        bean.setOdv(userEntity.getUserName());
+        int count = dataCaseMapper.countUserCase(bean);
+        if ( count > 0){
+            return count;
+        }
         sysUserMapper.deleteById(userEntity.getId());
+        return result;
     }
 
 

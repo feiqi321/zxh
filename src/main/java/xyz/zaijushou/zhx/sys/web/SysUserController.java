@@ -74,8 +74,12 @@ public class SysUserController {
     @ApiOperation(value = "员工删除", notes = "员工删除")
     @PostMapping("/delete/id")
     public Object deleteById(@RequestBody SysNewUserEntity userEntity) {
-        sysUserService.deleteById(userEntity);
-        return WebResponse.success();
+        int result = sysUserService.deleteById(userEntity);
+        if(result == 1){
+            return WebResponse.success();
+        }else {
+            return WebResponse.error("500","用户有案件管理关联，不能删除");
+        }
     }
 
     @ApiOperation(value = "查询用户数据列表", notes = "查询用户数据列表")
