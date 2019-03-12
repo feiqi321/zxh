@@ -399,7 +399,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         caseResponse.setRepayTotalAmt(repayTotalAmt);
         caseResponse.setTotalCp(totalCp);
         caseResponse.setTotalPtp(totalPtp);
-        caseResponse.setPageInfo(PageInfo.of(list));
+        caseResponse.setPageInfo(PageInfo.of(combineData(list)));
         webResponse.setData(caseResponse);
         return webResponse;
     }
