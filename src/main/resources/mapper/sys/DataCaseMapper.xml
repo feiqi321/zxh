@@ -1735,6 +1735,10 @@
           update data_case set new_case=#{newCase},collect_times=collect_times+1 where id=#{id}
     </update>
 
+    <update id="updateDataCaseByCollect2" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set new_case=#{newCase} where id=#{id}
+    </update>
+
     <update id="updateDataCaseByCollectAdd" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set new_case=#{newCase},collect_status=#{collectStatus},summary=#{summary},
         collect_times=collect_times+#{collectTimes}

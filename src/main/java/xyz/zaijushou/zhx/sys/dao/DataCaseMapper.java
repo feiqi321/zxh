@@ -96,5 +96,7 @@ public interface DataCaseMapper {
 
     void updateDataCaseByCollect(DataCaseEntity dataCaseEntity);
 
+    void updateDataCaseByCollect2(DataCaseEntity dataCaseEntity);
+
     void updateDataCaseByCollectAdd(DataCaseEntity dataCaseEntity);
 }

@@ -105,13 +105,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     public void detailSave(DataCollectionEntity beanInfo){
         if(beanInfo.getId()==null || beanInfo.getId()==0){
             dataCollectionMapper.detailSave(beanInfo);
+            DataCaseEntity dataCaseEntity = new DataCaseEntity();
+            dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
+            dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
+            caseMapper.updateDataCaseByCollect(dataCaseEntity);
         }else{
             dataCollectionMapper.detailUpdate(beanInfo);
+            DataCaseEntity dataCaseEntity = new DataCaseEntity();
+            dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
+            dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
+            caseMapper.updateDataCaseByCollect2(dataCaseEntity);
         }
-        DataCaseEntity dataCaseEntity = new DataCaseEntity();
-        dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
-        dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
-        caseMapper.updateDataCaseByCollect(dataCaseEntity);
+
 
     }
 
