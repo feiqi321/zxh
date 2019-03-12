@@ -585,25 +585,25 @@
 
 
     <select id="listDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,name,case_id as caseId,seqno,color,bail_date as bailDate,expect_time as expectTime,area,
-        dept,odv,measure,collect_time as collectTime,target_name as targetName,relation,tel_type as telType,
-        mobile,result,method,repay_time as repayTime,
-        repay_amt as repayAmt,reduce_amt as reduceAmtexpectTime,collect_status collectStatus,reduce_status as reduceStatus,
-        account_age as accountAge,case_date as caseDate,card_no as cardNo,ident_no as identNo,
-        money,balance,bank_amt as bankAmt,collect_info as collectInfo,over_days as overDays,
-        en_repay_amt as enRepayAmt,next_foll_date as nextFollDate,leave_days as leaveDays,new_money as moneyStart,
-        last_phone_time as lastPhoneTime,remind,count_follow as countFollow,collection_type as collectionType,
-        case_allot_time as caseAllotTime,case_status as caseStatus,tel_phone as telPhone
-        from data_collection
+        select t1.id,t2.name,case_id as caseId,t2.seq_no as seqno,t2.color,t1.bail_date as bailDate,t2.expect_time as expectTime,t2.area,
+        t2.dept,t2.odv,t1.measure,t1.collect_time as collectTime,t1.target_name as targetName,t1.relation,t1.tel_type as telType,
+        t1.mobile,t1.result,t1.method,t1.repay_time as repayTime,
+        t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmtexpectTime,t1.collect_status collectStatus,t1.reduce_status as reduceStatus,
+        t2.account_age as accountAge,t2.case_date as caseDate,t2.card_no as cardNo,t2.ident_no as identNo,
+        t2.money,t2.balance,t2.bank_amt as bankAmt,t1.collect_info as collectInfo,t2.over_days as overDays,
+        t2.en_repay_amt as enRepayAmt,t1.next_foll_date as nextFollDate,t1.leave_days as leaveDays,t1.new_money as moneyStart,
+        t1.last_phone_time as lastPhoneTime,t1.remind,t1.count_follow as countFollow,t1.collection_type as collectionType,
+        t1.case_allot_time as caseAllotTime,t1.case_status as caseStatus,t1.tel_phone as telPhone
+        from data_collection t1 LEFT JOIN data_case t2 on t1.case_id=t2.id
         <where>
-            delete_flag = 0
+            t1.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="identNo != null and identNo!=''">
-                    and ident_no = #{identNo}
+                    and t2.ident_no = #{identNo}
                 </if>
 
                 <if test="batchNo != null and batchNo!=''">
-                    and batch_no = #{batchNo}
+                    and t2.batch_no = #{batchNo}
                 </if>
             </trim>
         </where>
