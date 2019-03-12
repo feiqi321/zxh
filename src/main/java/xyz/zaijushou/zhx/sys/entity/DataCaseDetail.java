@@ -1049,11 +1049,11 @@ public class DataCaseDetail {
         this.repayStatus = repayStatus;
     }
 
-    public int getNewCase() {
+    public String getNewCase() {
         return newCase;
     }
 
-    public void setNewCase(int newCase) {
+    public void setNewCase(String newCase) {
         this.newCase = newCase;
     }
 
