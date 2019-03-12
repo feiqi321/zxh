@@ -1262,6 +1262,14 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseTelExport> list = new ArrayList<DataCaseTelExport>();
 
         list = dataCaseMapper.selectCaseTelListExport(ids);
+        for (int i=0;i<list.size();i++){
+            DataCaseTelExport temp = list.get(i);
+            SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
+            temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
+            SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
+            temp.setTelType(telTypeDic==null?"":telTypeDic.getName());
+            list.set(i,temp);
+        }
 
         return list;
     }
@@ -1285,8 +1293,16 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setSummary(summaryDic==null?"":summaryDic.getName());
             SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
             temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+            SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
+            temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
             if (StringUtils.notEmpty(temp.getDistributeHistory())){
                 temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
+            }
+            if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                temp.setOdv("");
+            }else {
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+                temp.setOdv(user == null ? "" : user.getUserName());
             }
             list.set(i,temp);
         }
