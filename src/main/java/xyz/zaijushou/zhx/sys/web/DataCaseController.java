@@ -363,6 +363,8 @@ public class DataCaseController {
         }
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
+            SysDictionaryEntity collectAreaEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+dataCaseEntities.get(i).getCollectionArea().getId(),SysDictionaryEntity.class);
+            dataCaseEntities.get(i).setCollectArea(collectAreaEntity==null?"":dataCaseEntities.get(i).getCollectionArea().getId()+"");
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
@@ -458,7 +460,9 @@ public class DataCaseController {
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+batch.getBatchNo(),DataBatchEntity.class);
-            dataCaseEntities.get(i).setClient(batchEntity.getClient());
+            dataCaseEntities.get(i).setClient(batchEntity ==null ?"":batchEntity.getClient());
+            SysDictionaryEntity collectAreaEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+dataCaseEntities.get(i).getCollectionArea().getId(),SysDictionaryEntity.class);
+            dataCaseEntities.get(i).setCollectArea(collectAreaEntity==null?"":dataCaseEntities.get(i).getCollectionArea().getId()+"");
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }

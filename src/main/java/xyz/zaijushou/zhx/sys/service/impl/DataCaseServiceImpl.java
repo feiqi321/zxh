@@ -1276,8 +1276,14 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysUserEntity odvuser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataCaseDetail.getOdv(), SysUserEntity.class);
         dataCaseDetail.setOdv(odvuser==null?"":odvuser.getUserName());
 
+        SysUserEntity clientUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataCaseDetail.getClient(), SysUserEntity.class);
+        dataCaseDetail.setClient(clientUser==null?"":clientUser.getUserName());
+
         SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectStatus(), SysDictionaryEntity.class);
         dataCaseDetail.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
+
+        SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getAccountAge(), SysDictionaryEntity.class);
+        dataCaseDetail.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
 
         SysDictionaryEntity collectAreaDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectArea(), SysDictionaryEntity.class);
         dataCaseDetail.setCollectArea(collectAreaDic==null?"":collectAreaDic.getName());
