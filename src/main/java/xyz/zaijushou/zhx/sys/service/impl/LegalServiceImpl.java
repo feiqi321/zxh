@@ -75,19 +75,19 @@ public class LegalServiceImpl implements LegalService {
                 legalEntity.setLegalTypeMsg("退档");
             }
 
-            if (StringUtils.isNotEmpty(legalEntity.getOwner())){
-                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
-                legalEntity.setOwner(user.getUserName());
-            }else{
-                legalEntity.setOwner("");
-            }
+
             SysUserEntity user = getUserInfo();
             if (StringUtils.isNotEmpty(legalEntity.getOwner()) && user.getId()==Integer.valueOf(legalEntity.getOwner())){
                 legalEntity.setCuurentUser(true);
             }else{
                 legalEntity.setCuurentUser(false);
             }
-
+            if (StringUtils.isNotEmpty(legalEntity.getOwner())){
+                SysUserEntity mine = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
+                legalEntity.setOwner(mine.getUserName());
+            }else{
+                legalEntity.setOwner("");
+            }
             legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
             dataCaseEntities.set(i,legalEntity);
         }

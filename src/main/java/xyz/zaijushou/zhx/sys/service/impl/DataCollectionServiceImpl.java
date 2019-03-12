@@ -231,7 +231,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 caseIds.add(collection.getCaseId());
                 ++countCase;
                 sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
-                if (collection.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
+                if (collection.getEnRepayAmt()!=null && collection.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
                     ++countCasePay;
                     sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
                 }
