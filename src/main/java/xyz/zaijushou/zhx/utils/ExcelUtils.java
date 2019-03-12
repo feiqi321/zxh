@@ -57,7 +57,7 @@ public class ExcelUtils {
                 continue;
             }
             String cellValue = cell.getStringCellValue();
-            colMap.put(i, excelEnumMap.get(cellValue));
+            colMap.put(i, excelEnumMap.get(cellValue.toString().trim()));
         }
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
             try {

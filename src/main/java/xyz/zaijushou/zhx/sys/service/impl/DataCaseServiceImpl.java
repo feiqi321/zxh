@@ -1612,6 +1612,17 @@ public class DataCaseServiceImpl implements DataCaseService {
     public List<DataCaseEntity> sameBatchCaseList(DataCaseEntity bean){
         DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
         List<DataCaseEntity> list = dataCaseMapper.findSameBatchCase(caseTemp);
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getAccountAge(), SysDictionaryEntity.class);
+            temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
+            temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+            temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
+            temp.setBalanceMsg(temp.getBalance()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
+            temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
+            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+            list.set(i,temp);
+        }
         return list;
     }
 
