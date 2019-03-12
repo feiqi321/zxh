@@ -128,6 +128,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public void update(DataCollectionEntity dataCollectionEntity){
         dataCollectionMapper.updateCollection(dataCollectionEntity);
+        DataCollectionEntity temp = dataCollectionMapper.findById(dataCollectionEntity);
+        DataCaseEntity dataCaseEntity = new DataCaseEntity();
+        dataCaseEntity.setId(temp.getId());
+        dataCaseEntity.setSummary(dataCollectionEntity.getResult());
+        caseMapper.updateDataCaseByCollectResult(dataCaseEntity);
+
     }
 
     @Override

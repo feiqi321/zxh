@@ -1744,4 +1744,8 @@
         collect_times=collect_times+1
          where id=#{id}
     </update>
+
+    <update id="updateDataCaseByCollectResult" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set summary=#{summary} where id=#{id}
+    </update>
 </mapper>

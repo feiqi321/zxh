@@ -82,4 +82,6 @@ public interface DataCollectionMapper {
     public List<DataCollectionEntity> detailTelCurentCollect1(DataCollectionEntity bean);
 
     public List<DataCollectionEntity> detailTelCurentCollect2(DataCollectionEntity bean);
+
+    public DataCollectionEntity findById(DataCollectionEntity bean);
 }

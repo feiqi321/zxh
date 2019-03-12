@@ -1561,4 +1561,8 @@
     <delete id="detailDel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
         update data_collection  set  delete_flag = 1 where id=#{id}
     </delete>
+
+    <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+          select id ,case_id as caseId from data_collection where id = #{id}
+    </select>
 </mapper>
