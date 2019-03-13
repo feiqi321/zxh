@@ -75,6 +75,9 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> listAllCaseInfo(DataCaseEntity bean);
 
+    public int countUserCase(DataCaseEntity bean);
+
+
 
     public void updateComment(DataCaseEntity bean);
 
