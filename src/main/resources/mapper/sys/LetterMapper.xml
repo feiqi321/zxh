@@ -44,7 +44,7 @@
       #{identNo,jdbcType=VARCHAR}, #{caseDate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{applyDate,jdbcType=VARCHAR},
       #{name,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, #{addressType,jdbcType=VARCHAR}, 
       #{synergyResult,jdbcType=VARCHAR}, #{applyContext,jdbcType=VARCHAR}, #{synergyDate,jdbcType=VARCHAR}, 
-      #{synergyer,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{createDate,jdbcType=INTEGER},
+      #{synergyer,jdbcType=VARCHAR}, 0, #{createDate,jdbcType=INTEGER},
        #{module,jdbcType=VARCHAR},#{applyer,jdbcType=VARCHAR},#{relationer,jdbcType=VARCHAR},#{periods,jdbcType=VARCHAR},0)
   </insert>
   <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
@@ -365,7 +365,7 @@
     d.unit_tel_number as unitTelNumber
     from letter t LEFT  JOIN data_case d on t.case_id = d.id
     <where>
-      d.delete_flag=0
+      d.delete_flag=0 and t.status in (0,1,9)
       <trim suffixOverrides=",">
         <if test="collectArea != null and collectArea!=''">
           AND  d.collection_area = #{collectArea}
@@ -428,7 +428,7 @@
     d.unit_tel_number as unitTelNumber
     from letter t LEFT JOIN data_case d on t.case_id = d.id
     <where>
-      d.delete_flag=0
+      d.delete_flag=0 and t.status in (0,1,9)
       <trim suffixOverrides=",">
         <if test="collectArea != null and collectArea!=''">
           AND d.collection_area = #{collectArea}

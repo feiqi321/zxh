@@ -173,6 +173,14 @@ public class LetterServiceImpl implements LetterService {
             letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
         }
         List<LetterExportEntity> list = letterMapper.pageExportList(letter);
+        for (int i=0;i<list.size();i++){
+            LetterExportEntity temp = list.get(i);
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+            temp.setClient(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
+        }
         if (list.size()>0){
             list = PageInfo.of(list).getList();
         }
@@ -199,7 +207,14 @@ public class LetterServiceImpl implements LetterService {
             letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
         }
         List<LetterExportEntity> list = letterMapper.totalExportList(letter);
-
+        for (int i=0;i<list.size();i++){
+            LetterExportEntity temp = list.get(i);
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+            temp.setClient(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
+        }
         return list;
     }
 
