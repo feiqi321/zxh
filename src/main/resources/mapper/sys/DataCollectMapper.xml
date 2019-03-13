@@ -1151,91 +1151,91 @@
 
     <select id="statisticsCollectionState" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        dc.collect_status as collectStatus,sum(dc.en_repay_amt) as paidMoney,sum(dc.money) as commisionMoney,
+        c.collect_status as collectStatus,sum(c.en_repay_amt) as paidMoney,sum(c.money) as commisionMoney,
         count(DISTINCT(dc.case_id)) as sumCase
         from
-        data_collection dc
+        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
-            and client in
+            and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="batchFlag != null and batchFlag!=''">
-            and batchNo in
+            and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
 
         <if test="odv != null and odv!=''">
-            AND  odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like CONCAT('%',#{odv},'%')
         </if>
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and c.account_age = #{accountAge}
         </if>
         GROUP BY dc.collect_status
     </select>
 
     <select id="countStatisticsCollectionState" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
         SELECT
-        count(DISTINCT(dc.collect_status)) as sum
+        count(DISTINCT(c.collect_status)) as sum
         from
-        data_collection dc
+        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
-            and client in
+            and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="batchFlag != null and batchFlag!=''">
-            and batchNo in
+            and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="odv != null and odv!=''">
-            AND  odv like CONCAT('%',#{odv},'%')
-        </if>
 
+        <if test="odv != null and odv!=''">
+            AND  c.odv like CONCAT('%',#{odv},'%')
+        </if>
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and c.account_age = #{accountAge}
         </if>
     </select>
 
     <select id="statisticsCollectionBatch" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        dc.batch_no as batchNo,sum(dc.en_repay_amt) as paidMoney,sum(dc.money) as commisionMoney,
+        c.batch_no as batchNo,sum(c.en_repay_amt) as paidMoney,sum(c.money) as commisionMoney,
         count(DISTINCT(dc.case_id)) as sumCase
         from
-        data_collection dc
-        where  dc.delete_flag = 0
+        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
+        where dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
-            and client in
+            and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="batchFlag != null and batchFlag!=''">
-            and batchNo in
+            and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and c.account_age = #{accountAge}
         </if>
         <if test="dept != null and dept!=''">
-            AND  dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
-            and odv in
+            and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -1243,39 +1243,39 @@
         <if test="targetName != null and targetName!=''">
             AND target_name like CONCAT('%',#{targetName},'%')
         </if>
-        GROUP BY dc.batch_no
+        GROUP BY c.batch_no
     </select>
 
     <select id="countStatisticsCollectionBatch" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
         SELECT
-        count(DISTINCT(dc.batch_no)) as sum
+        count(DISTINCT(c.batch_no)) as sum
         from
-        data_collection dc
+        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
         <if test="clientFlag != null and clientFlag!=''">
-            and client in
+            and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="batchFlag != null and batchFlag!=''">
-            and batchNo in
+            and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and c.account_age = #{accountAge}
         </if>
         <if test="dept != null and dept!=''">
-            AND  dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
-            and odv in
+            and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -1287,53 +1287,53 @@
 
     <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         SELECT
-        dc.batch_no as batchNo,dc.target_name as targetName,dc.seqno,dc.client,dc.account_age as accountAge,
-        dc.money,dc.m_val as mVal,dc.bank_amt as bankAmt,dc.bank_time as bankTime,
-        IFNULL(dc.bank_amt*dc.m_val,0) as repaidAmtM,
-        IFNULL(dc.repay_amt*dc.m_val,0) as repaidBankAmtM,
-        dc.repay_amt as repayAmt, dc.repay_time as repayTime,dc.en_repay_amt as enRepayAmt,
-        dc.expect_time as expectTime,dc.pay_name as payName,dc.pay_method as payMethod,dc.confim_name as confimName,
+        c.batch_no as batchNo,dc.target_name as targetName,c.seq_no as seqno,c.client,c.account_age as accountAge,
+        c.money,c.m_val as mVal,c.bank_amt as bankAmt,dc.bank_time as bankTime,
+        IFNULL(c.bank_amt*c.m_val,0) as repaidAmtM,
+        IFNULL(c.pro_repay_amt*c.m_val,0) as repaidBankAmtM,
+        c.pro_repay_amt as repayAmt, c.pro_repay_date as repayTime,c.en_repay_amt as enRepayAmt,
+        c.expect_time as expectTime,dc.pay_name as payName,dc.pay_method as payMethod,dc.confim_name as confimName,
         dc.confim_time as confimTime
         from
-        data_collection dc
+        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
         <if test="targetName != null and targetName!=''">
             AND target_name like CONCAT('%',#{targetName},'%')
         </if>
         <if test="dept != null and dept!=''">
-            AND  dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
-            and odv in
+            and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="clientFlag != null and clientFlag!=''">
-            and client in
+            and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="batchFlag != null and batchFlag!=''">
-            and batch_no in
+            and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and c.account_age = #{accountAge}
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
             <![CDATA[   and DATE_FORMATd(dc.bank_time, '%Y-%m-%d')>=  DATE_FORMAT(#{bankTimeStart}, '%Y-%m-%d')   ]]>
@@ -1342,10 +1342,10 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
     </select>
@@ -1354,45 +1354,45 @@
         SELECT
         count(1) as sum
         from
-        data_collection dc
+        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
         <if test="targetName != null and targetName!=''">
             AND target_name like CONCAT('%',#{targetName},'%')
         </if>
         <if test="dept != null and dept!=''">
-            AND  dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
-            and odv in
+            and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="clientFlag != null and clientFlag!=''">
-            and client in
+            and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
         <if test="batchFlag != null and batchFlag!=''">
-            and batchNo in
+            and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
 
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and c.account_age = #{accountAge}
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
             <![CDATA[   and DATE_FORMATd(dc.bank_time, '%Y-%m-%d')>=  DATE_FORMAT(#{bankTimeStart}, '%Y-%m-%d')   ]]>
@@ -1401,52 +1401,52 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
 
     </select>
 
     <select id="statisticsCollectionPayM" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        IFNULL(sum(dc.en_repay_amt),0) as paidMoney , IFNULL(sum(dc.bank_amt),0) as bankAmtC,
-        IFNULL(sum(dc.repay_amt),0) as repayAmtP,
-        IFNULL(sum(dc.en_repay_amt*dc.m_val),0) as repaidAmt,IFNULL(sum(dc.bank_amt*dc.m_val),0) as repaidBankAmt
+        IFNULL(sum(c.en_repay_amt),0) as paidMoney , IFNULL(sum(c.bank_amt),0) as bankAmtC,
+        IFNULL(sum(c.pro_repay_amt),0) as repayAmtP,
+        IFNULL(sum(c.en_repay_amt*dc.m_val),0) as repaidAmt,IFNULL(sum(c.bank_amt*c.m_val),0) as repaidBankAmt
         from
-        data_collection dc
+        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.delete_flag = 0
 
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{monthStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{monthStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m-%d')   ]]>
         </if>
 
         <if test="dept != null and dept!=''">
-            AND  dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND odv  like CONCAT('%',#{odv},'%')
+            AND c.odv  like CONCAT('%',#{odv},'%')
         </if>
         <if test="client != null and client!=''">
             AND client like CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
-            and batch_no = #{batchNo}
+            and c.batch_no = #{batchNo}
         </if>
 
         <if test="accountAge != null and accountAge !=''">
-            and account_age = #{accountAge}
+            and c.account_age = #{accountAge}
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')>=  DATE_FORMAT(#{repayTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.repay_time, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.pro_repay_date, '%Y-%m-%d')<=  DATE_FORMAT(#{repayTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
             <![CDATA[   and DATE_FORMATd(dc.bank_time, '%Y-%m-%d')>=  DATE_FORMAT(#{bankTimeStart}, '%Y-%m-%d')   ]]>
@@ -1455,10 +1455,10 @@
             <![CDATA[   and DATE_FORMAT(dc.bank_time, '%Y-%m-%d')<=  DATE_FORMAT(#{bankTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')>=  DATE_FORMAT(#{expectTimeStart}, '%Y-%m-%d')   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and DATE_FORMAT(dc.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and DATE_FORMAT(c.expect_time, '%Y-%m-%d')<=  DATE_FORMAT(#{expectTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
     </select>
 
