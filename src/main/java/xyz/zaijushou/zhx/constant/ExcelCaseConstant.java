@@ -556,7 +556,7 @@ public class ExcelCaseConstant {
         COL1680(1680, "车架号", "vin", String.class),
         COL1690(1690, "警告", "warning", String.class),
         COL1700(1700, "自定义信息", "selfInfo", String.class),
-        COL1710(1710, "最新催记", "latestCollectMomorize", String.class),
+        COL1710(1710, "最新催记", "newCase", String.class),
         COL1720(1720, "公司佣金比率", "commissionRate", Double.class),
         ;
 

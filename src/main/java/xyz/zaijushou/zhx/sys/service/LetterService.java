@@ -14,6 +14,8 @@ public interface LetterService {
 
     public WebResponse pageDataLetter(Letter letter);
 
+    public WebResponse pageDataLetterInfo(Letter letter);
+
     public void confirmSynergy(Letter letter);
 
     public void cancelLetter(Letter letter);

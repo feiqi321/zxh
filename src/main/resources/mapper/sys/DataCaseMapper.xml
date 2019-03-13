@@ -18,7 +18,7 @@
         da.card_no as cardNo,
         da.ident_no as identNo,
         da.ident_type as identType,
-        da.collection_user as 'collectionUser.id',
+        da.odv as 'collectionUser.id',
         da.collection_area as 'collectionArea.id',
         da.summary as collectInfo,
         da.m_val as mVal,
@@ -957,7 +957,7 @@
             ident_no = #{identNo},
             ident_type = #{identType},
             <if test="collectionUser != null and collectionUser.id != null">
-                collection_user = #{collectionUser.id},
+                odv = #{collectionUser.id},
             </if>
             <if test="collectionArea != null and collectionArea.id != null">
                 collection_area = #{collectionArea.id},
@@ -1082,7 +1082,7 @@
         ident_no,
         ident_type,
         <if test="collectionUser != null and collectionUser.id != null">
-            collection_user,
+            odv,
         </if>
         <if test="collectionArea != null and collectionArea.id != null">
             collection_area,

@@ -44,7 +44,7 @@
       #{identNo,jdbcType=VARCHAR}, #{caseDate,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{applyDate,jdbcType=VARCHAR},
       #{name,jdbcType=VARCHAR}, #{relation,jdbcType=VARCHAR}, #{addressType,jdbcType=VARCHAR}, 
       #{synergyResult,jdbcType=VARCHAR}, #{applyContext,jdbcType=VARCHAR}, #{synergyDate,jdbcType=VARCHAR}, 
-      #{synergyer,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=INTEGER}, #{createDate,jdbcType=INTEGER},
+      #{synergyer,jdbcType=VARCHAR}, 0, #{createDate,jdbcType=INTEGER},
        #{module,jdbcType=VARCHAR},#{applyer,jdbcType=VARCHAR},#{relationer,jdbcType=VARCHAR},#{periods,jdbcType=VARCHAR},0)
   </insert>
   <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
@@ -228,7 +228,7 @@
   </update>
 
   <update id="confirmLetter" parameterType="xyz.zaijushou.zhx.sys.entity.Letter">
-    update letter set status=1 where id =#{id}
+    update letter set status=9 where id =#{id}
   </update>
 
   <select id="pageDataLetter" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter" >
@@ -289,15 +289,14 @@
 
   </select>
 
-
-  <select id="pageDataLetter2" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter" >
+  <select id="pageDataLetterInfo" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter" >
     select * from (
-    select t.id,d.collect_status as collectStatus,d.seq_no as seqNo,t.name,d.money as caseAmt,d.en_repay_amt as repayAmt,
+    select t.id,t.case_id as caseId,d.collect_status as collectStatus,d.seq_no as seqNo,d.name,d.money as caseAmt,d.en_repay_amt as repayAmt,
     t.address,(select count(id) from letter where id=t.case_id ) as times,t.apply_context as applyContext,t.address_type as addressType,
-    t.module,t.relationer,t.apply_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
+    t.module,t.relationer,d.synergy_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
     from letter t LEFT  JOIN data_case d on t.case_id = d.id
     <where>
-      t.status in (1,2)
+      t.status in (0,1,9) and d.delete_flag=0
       <trim suffixOverrides=",">
         <if test="collectArea != null and collectArea!=''">
           AND  d.collection_area = #{collectArea}
@@ -348,6 +347,64 @@
 
   </select>
 
+  <select id="pageDataLetter2" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter" >
+    select * from (
+    select t.id,d.collect_status as collectStatus,d.seq_no as seqNo,t.name,d.money as caseAmt,d.en_repay_amt as repayAmt,
+    t.address,(select count(id) from letter where id=t.case_id ) as times,t.apply_context as applyContext,t.address_type as addressType,
+    t.module,t.relationer,t.apply_date as applyDate,d.odv as applyer,t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult
+    from letter t LEFT  JOIN data_case d on t.case_id = d.id
+    <where>
+      t.status in (1,2)
+      <trim suffixOverrides=",">
+        <if test="collectArea != null and collectArea!=''">
+          AND  d.collection_area = #{collectArea}
+        </if>
+        <if test="clientFlag != null and clientFlag!=''">
+          and d.client in
+          <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="batchNoFlag != null and batchNoFlag!=''">
+          and d.batch_no in
+          <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+            #{item}
+          </foreach>
+        </if>
+        <if test="seqno != null and seqno!=''">
+          AND  d.seq_no like CONCAT('%',#{seqno},'%')
+        </if>
+        <if test="module != null and module!=''">
+          AND  t.module = #{module}
+        </if>
+        <if test="name != null and name!=''">
+          AND  t.name like CONCAT('%',#{name},'%')
+        </if>
+        <if test="applyer != null and applyer!=''">
+          AND  d.odv = #{applyer}
+        </if>
+        <if test="caseStatus != null and caseStatus!=''">
+          AND  d.status  = #{caseStatus}
+        </if>
+        <if test="caseAmtStart != null and caseAmtStart!=''">
+          <![CDATA[   and d.money<=  #{caseAmtStart}  ]]>
+        </if>
+        <if test="caseAmtEnd != null and caseAmtEnd!=''" >
+          <![CDATA[   and d.money >=  #{caseAmtEnd}   ]]>
+        </if>
+        <if test="applyDateStart != null and applyDateStart!=''">
+          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+        </if>
+        <if test="applyDateEnd != null and applyDateEnd!=''" >
+          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+        </if>
+      </trim>
+    </where>
+    ) s
+    order by ${orderBy} ${sort}
+
+  </select>
+
 
   <select id="findByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter">
     select
@@ -365,7 +422,7 @@
     d.unit_tel_number as unitTelNumber
     from letter t LEFT  JOIN data_case d on t.case_id = d.id
     <where>
-      d.delete_flag=0
+      d.delete_flag=0 and t.status in (0,1,9)
       <trim suffixOverrides=",">
         <if test="collectArea != null and collectArea!=''">
           AND  d.collection_area = #{collectArea}
@@ -428,7 +485,7 @@
     d.unit_tel_number as unitTelNumber
     from letter t LEFT JOIN data_case d on t.case_id = d.id
     <where>
-      d.delete_flag=0
+      d.delete_flag=0 and t.status in (0,1,9)
       <trim suffixOverrides=",">
         <if test="collectArea != null and collectArea!=''">
           AND d.collection_area = #{collectArea}
