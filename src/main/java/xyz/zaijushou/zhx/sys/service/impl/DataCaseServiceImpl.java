@@ -1326,18 +1326,27 @@ public class DataCaseServiceImpl implements DataCaseService {
             }else{
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
                 temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
-                    temp.setCollectArea("");
-                }else {
-                    SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectArea(),SysDictionaryEntity.class);
-                    temp.setCollectArea(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
-                    temp.setOdv("");
-                }else {
-                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-                    temp.setOdv(user == null ? "" : user.getUserName());
-                }
+            }
+            if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
+                temp.setCollectArea("");
+            }else {
+                SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectArea(),SysDictionaryEntity.class);
+                temp.setCollectArea(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
+            }
+            if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
+                temp.setOdv("");
+            }else {
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+                temp.setOdv(user == null ? "" : user.getUserName());
+            }
+            SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+            temp.setClient(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
+            SysDictionaryEntity sysDictionaryEntity4 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
+            temp.setAccountAge(sysDictionaryEntity4==null?"":sysDictionaryEntity4.getName());
+            SysDictionaryEntity sysDictionaryEntity5 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+            temp.setCollectionType(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
+            if (StringUtils.notEmpty(temp.getDistributeHistory())){
+                temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
             }
             list.set(i,temp);
         }
