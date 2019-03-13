@@ -29,6 +29,7 @@ public class ReduceServiceImpl implements ReduceService {
     @Resource
     private DataCaseMapper caseMapper;
 
+    @Override
     public PageInfo<DataCollectionEntity> pageReduce(DataCollectionEntity bean){
         if(StringUtils.isEmpty(bean.getOrderBy())){
             bean.setOrderBy("dcr.id");
@@ -55,6 +56,7 @@ public class ReduceServiceImpl implements ReduceService {
         }
     }
 
+    @Override
     public PageInfo<DataCollectionEntity> pageReduceApply(DataCollectionEntity bean){
         List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
         if (StringUtils.isEmpty(list)){
@@ -64,12 +66,15 @@ public class ReduceServiceImpl implements ReduceService {
         }
     }
 
+    @Override
     public List<DataCollectionEntity> listReduce(DataCollectionEntity bean){
         return  reduceMapper.pageReduceApply(bean);
     }
+    @Override
     public DataCollectionEntity findById(DataCollectionEntity bean){
         return reduceMapper.findById(bean);
     }
+    @Override
     public void updateStatus(DataCollectionEntity bean){
         switch (bean.getReduceFlag()){
             case "0"://启动
@@ -90,6 +95,8 @@ public class ReduceServiceImpl implements ReduceService {
         }
         reduceMapper.updateStatus(bean);
     }
+
+    @Override
     public void saveReduce(DataCollectionEntity bean){
         if(StringUtils.isEmpty(bean.getId()) || bean.getId() == 0){//保存
             bean.setReduceFlag("0");//0-减免结果有效
@@ -106,16 +113,18 @@ public class ReduceServiceImpl implements ReduceService {
         }
     }
 
+    @Override
     public void saveReduceInfo(List<DataCollectionEntity> list){
        for (DataCollectionEntity bean: list){
            reduceMapper.saveReduceApply(bean);
        }
     }
+    @Override
     public void updateReduce(DataCollectionEntity bean){
         return ;
     }
 
-
+    @Override
     public void saveReduceApply(DataCollectionEntity bean){
         if(StringUtils.notEmpty(bean.getCaseId())){
             DataCaseEntity caseBean = new DataCaseEntity();
@@ -133,13 +142,13 @@ public class ReduceServiceImpl implements ReduceService {
             reduceMapper.updateReduceApply(bean);
         }
     }
+    @Override
     public DataCollectionEntity findApplyById(DataCollectionEntity bean){
         DataCollectionEntity info = reduceMapper.findById(bean);
         return info;
     }
+    @Override
     public void updateApplyStatus(DataCollectionEntity bean){
         reduceMapper.updateApplyStatus(bean);
     }
-
-
 }
