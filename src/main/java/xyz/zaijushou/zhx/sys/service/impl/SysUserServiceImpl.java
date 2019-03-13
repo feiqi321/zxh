@@ -301,4 +301,9 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.listByNameSet(queryUser);
     }
 
+    @Override
+    public List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser) {
+        return sysUserMapper.listByDepartIdsSet(queryUser);
+    }
+
 }

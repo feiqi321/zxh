@@ -464,4 +464,16 @@
         </foreach>
     </select>
 
+    <select id="listByDepartIdsSet" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        select
+        <include refid="colSqlWithoutPassword"/>
+        from sys_user
+        where
+        delete_flag = 0
+        and department in
+        <foreach collection="departIdsSet" open="(" close=")" separator="," item=",">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>
