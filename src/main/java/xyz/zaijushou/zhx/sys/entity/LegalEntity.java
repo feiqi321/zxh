@@ -32,6 +32,8 @@ public class LegalEntity extends CommonEntity {
     private String accused;
     //所属人
     private String owner;
+
+    private String ownerName;
     //代理律师
     private String agent;
     //律师联系方式
@@ -82,6 +84,14 @@ public class LegalEntity extends CommonEntity {
     private String checkDate;
 
     private boolean cuurentUser;
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
 
     public boolean isCuurentUser() {
         return cuurentUser;

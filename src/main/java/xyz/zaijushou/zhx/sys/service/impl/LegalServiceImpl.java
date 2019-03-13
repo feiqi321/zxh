@@ -84,9 +84,9 @@ public class LegalServiceImpl implements LegalService {
             }
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
                 SysUserEntity mine = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
-                legalEntity.setOwner(mine.getUserName());
+                legalEntity.setOwnerName(mine.getUserName());
             }else{
-                legalEntity.setOwner("");
+                legalEntity.setOwnerName("");
             }
             legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
             dataCaseEntities.set(i,legalEntity);
@@ -127,9 +127,9 @@ public class LegalServiceImpl implements LegalService {
 
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
-                legalEntity.setOwner(user.getUserName());
+                legalEntity.setOwnerName(user.getUserName());
             }else{
-                legalEntity.setOwner("");
+                legalEntity.setOwnerName("");
             }
             dataCaseEntities.set(i,legalEntity);
         }
@@ -171,9 +171,9 @@ public class LegalServiceImpl implements LegalService {
 
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
                 SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
-                legalEntity.setOwner(userTemp.getUserName());
+                legalEntity.setOwnerName(userTemp.getUserName());
             }else{
-                legalEntity.setOwner("");
+                legalEntity.setOwnerName("");
             }
             legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
             dataCaseEntities.set(i,legalEntity);
@@ -229,9 +229,9 @@ public class LegalServiceImpl implements LegalService {
 
         if (StringUtils.isNotEmpty(legalEntity.getOwner())){
             SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
-            legalEntity.setOwner(userTemp.getUserName());
+            legalEntity.setOwnerName(userTemp.getUserName());
         }else{
-            legalEntity.setOwner("");
+            legalEntity.setOwnerName("");
         }
 
         LegalFee legalFee = new LegalFee();
