@@ -50,6 +50,7 @@ public class ExcelUtils {
         Sheet sheet = workbook.getSheetAt(0);
         Row header = sheet.getRow(0);
         Map<Integer, ExcelEnum> colMap = new HashMap<>();
+        logger.debug("列数：{}", header.getPhysicalNumberOfCells());
         for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
             Cell cell = header.getCell(i);
             if(cell == null) {
@@ -63,7 +64,9 @@ public class ExcelUtils {
             try {
                 Row row = sheet.getRow(i);
                 T entity = entityClazz.getConstructor().newInstance();
-                for (int k = 0; k < row.getPhysicalNumberOfCells(); k++) {
+
+                logger.debug("列数：{}", row.getPhysicalNumberOfCells());
+                for (int k = 0; k < header.getPhysicalNumberOfCells(); k++) {
                     Cell cell = row.getCell(k);
                     ExcelEnum excelEnum = colMap.get(k);
                     if (excelEnum == null) {
