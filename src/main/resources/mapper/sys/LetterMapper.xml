@@ -228,7 +228,7 @@
   </update>
 
   <update id="confirmLetter" parameterType="xyz.zaijushou.zhx.sys.entity.Letter">
-    update letter set status=1 where id =#{id}
+    update letter set status=9 where id =#{id}
   </update>
 
   <select id="pageDataLetter" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.Letter" >
@@ -330,10 +330,10 @@
           AND  d.status  = #{caseStatus}
         </if>
         <if test="caseAmtStart != null and caseAmtStart!=''">
-          <![CDATA[   and d.money>=  #{caseAmtStart}  ]]>
+          <![CDATA[   and d.money<=  #{caseAmtStart}  ]]>
         </if>
         <if test="caseAmtEnd != null and caseAmtEnd!=''" >
-          <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
+          <![CDATA[   and d.money >=  #{caseAmtEnd}   ]]>
         </if>
         <if test="applyDateStart != null and applyDateStart!=''">
           <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>

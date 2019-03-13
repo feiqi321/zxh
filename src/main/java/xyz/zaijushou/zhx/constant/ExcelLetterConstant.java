@@ -8,13 +8,13 @@ public class ExcelLetterConstant {
         COL10(10, "*卡号", "cardNo", String.class),
         COL20(20, "*证件号", "identNo", String.class),
         COL30(30, "*委案日期", "caseDate", String.class),
-        COL40(40, "*信函地址 ", "address", String.class),
+        COL40(40, "*信函地址", "address", String.class),
         COL50(50, "姓名", "name", String.class),
         COL60(60, "关系", "relation",  String.class),
         COL70(70, "地址类型", "addressType", String.class),
         COL80(80, "申请内容", "applyContext", String.class),
-        COL90(90, "协助结果", "synergyResult", String.class),
-        COL100(100, "协催时间", "synergyDate", String.class),
+        COL90(90, "协催结果", "synergyResult", String.class),
+        COL100(100, "协催日期", "synergyDate", String.class),
         COL110(110, "协催人", "synergyer", String.class),
         ;
 
