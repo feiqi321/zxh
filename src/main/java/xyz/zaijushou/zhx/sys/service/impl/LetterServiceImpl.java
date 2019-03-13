@@ -35,6 +35,57 @@ public class LetterServiceImpl implements LetterService {
     @Resource
     private DataCaseAddressMapper dataCaseAddressMapper;
 
+    public WebResponse pageDataLetterInfo(Letter letter){
+        WebResponse webResponse = WebResponse.buildResponse();
+        String[] clients = letter.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            letter.setClientFlag(null);
+        }else{
+            letter.setClientFlag("1");
+        }
+        String[] batchNos = letter.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            letter.setBatchNoFlag(null);
+        }else{
+            letter.setBatchNoFlag("1");
+        }
+        if(org.apache.commons.lang3.StringUtils.isEmpty(letter.getOrderBy())){
+            letter.setOrderBy("id");
+            letter.setSort("desc");
+        }else {
+            letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
+        }
+        List<Letter> list = new ArrayList<Letter>();
+
+        list = letterMapper.pageDataLetter(letter);
+
+        for (int i=0;i<list.size();i++){
+            Letter temp = list.get(i);
+            if (temp.getCollectStatus()==0){
+                temp.setCollectStatusMsg("");
+            }else{
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
+                temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            }
+            if(StringUtils.isEmpty(temp.getModule())){
+                temp.setModule("");
+            }else{
+                SysModule sysModule = new SysModule();
+                sysModule.setId(Integer.parseInt(temp.getModule()));
+                SysModule moduleTemp = sysModuleMapper.selectModuleById(sysModule);
+                temp.setModule(moduleTemp==null?"":moduleTemp.getTitle());
+            }
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getApplyer(), SysUserEntity.class);
+            temp.setApplyer(user==null?"":user.getUserName());
+
+            temp.setCaseAmtMsg(temp.getCaseAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCaseAmt()+""));
+            temp.setRepayAmtMsg(temp.getRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
+            list.set(i,temp);
+        }
+        webResponse.setData(PageInfo.of(list));
+        return webResponse;
+    }
+
     public WebResponse pageDataLetter(Letter letter){
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = letter.getClients();

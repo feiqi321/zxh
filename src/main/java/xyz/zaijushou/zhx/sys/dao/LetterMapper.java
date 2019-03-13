@@ -23,6 +23,8 @@ public interface LetterMapper {
 
     List<Letter> pageDataLetter(Letter record);
 
+    List<Letter> pageDataLetterInfo(Letter record);
+
     List<Letter> pageDataLetter2(Letter record);
 
     List<Letter> findByCaseId(Letter letter);

@@ -55,6 +55,16 @@ public class LetterAction {
         return webResponse;
 
     }
+
+    @ApiOperation(value = "信函记录分頁查询", notes = "分頁查询")
+    @PostMapping("/letter/pageDataLetterInfo")
+    public Object pageDataLetterInfo(@RequestBody Letter bean) {
+
+        WebResponse webResponse = letterService.pageDataLetterInfo(bean);
+        return webResponse;
+
+    }
+
     @ApiOperation(value = "同意协催", notes = "同意协催")
     @PostMapping("/letter/confirmSynergy")
     public Object confirmSynergy(@RequestBody List<Letter> list) {
