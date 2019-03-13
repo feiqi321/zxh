@@ -101,6 +101,8 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
     }
 
     public void saveResult(DataCaseSynergyDetailEntity bean){
+        SysUserEntity curentuser = getUserInfo();
+        bean.setApplyer(curentuser.getId());
         dataCaseSynergisticMapper.saveResult(bean);
     }
 
