@@ -54,13 +54,22 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
         for(DataCaseSynergisticEntity entity : synergisticList) {
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getSynergisticType().getId(),SysDictionaryEntity.class);
             entity.setSynergisticType(sysDictionaryEntity);
-            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getApplyUser().getId(), SysUserEntity.class);
-            entity.setApplyUser(user);
-            SysUserEntity user2 = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getSynergisticUser().getId(), SysUserEntity.class);
-            SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
-            sysNewUserEntity.setId(user2.getId());
-            sysNewUserEntity.setUserName(user2.getUserName());
-            entity.setSynergisticUser(sysNewUserEntity);
+            if (entity.getApplyUser()==null){
+
+            }else {
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + entity.getApplyUser().getId(), SysUserEntity.class);
+                entity.setApplyUser(user);
+            }
+            if (entity.getSynergisticUser()==null){
+
+            }else{
+                SysUserEntity user2 = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getSynergisticUser().getId(), SysUserEntity.class);
+                SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
+                sysNewUserEntity.setId(user2.getId());
+                sysNewUserEntity.setUserName(user2.getUserName());
+                entity.setSynergisticUser(sysNewUserEntity);
+            }
+
             if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
                 entity.setStatusMsg("待审核");
             }else if ("1".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
