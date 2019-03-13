@@ -957,7 +957,7 @@
             ident_no = #{identNo},
             ident_type = #{identType},
             <if test="collectionUser != null and collectionUser.id != null">
-                collection_user = #{collectionUser.id},
+                odv = #{collectionUser.id},
             </if>
             <if test="collectionArea != null and collectionArea.id != null">
                 collection_area = #{collectionArea.id},
