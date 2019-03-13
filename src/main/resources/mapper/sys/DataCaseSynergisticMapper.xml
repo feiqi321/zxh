@@ -369,7 +369,7 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="caseId != null">#{caseId},</if>
-            <if test="synergisticType null">#{synergisticType},</if>
+            <if test="synergisticType != null">#{synergisticType},</if>
             <if test="synergisticUser != null">#{synergisticUser},</if>
             <if test="synergisticResult != null">#{synergisticResult},</if>
             now(),
