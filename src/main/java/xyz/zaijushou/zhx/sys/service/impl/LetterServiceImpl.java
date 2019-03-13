@@ -57,7 +57,7 @@ public class LetterServiceImpl implements LetterService {
         }
         List<Letter> list = new ArrayList<Letter>();
 
-        list = letterMapper.pageDataLetter(letter);
+        list = letterMapper.pageDataLetterInfo(letter);
 
         for (int i=0;i<list.size();i++){
             Letter temp = list.get(i);
