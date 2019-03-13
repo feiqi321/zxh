@@ -3,10 +3,14 @@ package xyz.zaijushou.zhx.sys.web;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.zaijushou.zhx.sys.entity.Letter;
+import xyz.zaijushou.zhx.sys.entity.SysModule;
+import xyz.zaijushou.zhx.sys.service.FileManageService;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +37,8 @@ public class FileManageController {
     private String casePath;
     @Value(value = "${detailFile_path}")
     private String detailFile;
+    @Autowired
+    private FileManageService fileManageService;
 
     @ApiOperation(value = "下载压缩包", notes = "下载压缩包")
     @PostMapping("/fileManage/download")
@@ -190,7 +196,7 @@ public class FileManageController {
 
     @ApiOperation(value = "信函下载", notes = "信函下载")
     @PostMapping("/letter/download")
-    public Object letterDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public Object letterDownload(HttpServletRequest request, HttpServletResponse response,Letter letter) throws Exception {
         String fileName = "信函.doc";
 
         //下载的文件携带这个名称
@@ -199,7 +205,8 @@ public class FileManageController {
         response.setContentType("application/octet-stream");
 
         try {
-            String content = "<html><head><title>这是个测试demo</title></head><body><font color='red'>这是个测试demo的内容</font></body></html>";
+            //String content = "<html><head><title>这是个测试demo</title></head><body><font color='red'>这是个测试demo的内容</font></body></html>";
+            String content = fileManageService.findDocString(letter);
             InputStream is = new ByteArrayInputStream(content.getBytes("GBK"));
             ServletOutputStream out = response.getOutputStream();
 
