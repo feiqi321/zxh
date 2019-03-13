@@ -9,12 +9,9 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseSynergisticMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
-import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
-import xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -59,6 +56,11 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
             entity.setSynergisticType(sysDictionaryEntity);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getApplyUser().getId(), SysUserEntity.class);
             entity.setApplyUser(user);
+            SysUserEntity user2 = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getSynergisticUser().getId(), SysUserEntity.class);
+            SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
+            sysNewUserEntity.setId(user2.getId());
+            sysNewUserEntity.setUserName(user2.getUserName());
+            entity.setSynergisticUser(sysNewUserEntity);
             if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
                 entity.setStatusMsg("待审核");
             }else if ("1".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
