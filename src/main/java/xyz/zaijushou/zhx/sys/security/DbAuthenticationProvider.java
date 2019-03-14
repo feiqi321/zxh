@@ -39,7 +39,7 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
             user.setLoginName(name);
             user = sysUserMapper.findPasswordInfoByLoginName(user);
             if(user.getLoginFailTimes() >= 3 && new Date().getTime() - user.getLastLoginFailTime().getTime()  < 30 * 60 * 1000) {
-                throw new LockedException("密码连续三次输入错误，该账号已经被锁定！请在输错密码30分钟后重试，或者联系管理员！");
+                throw new LockedException("此账号已锁定，请联系管理员解锁！");
             }
             if (delegatingPasswordEncoder.matches(password, userDetails.getPassword())) {
                 if(user.getLoginFailTimes() > 0) {
