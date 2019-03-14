@@ -37,4 +37,8 @@ public interface LetterMapper {
     List<LetterExportEntity> pageExportList(Letter letter);
 
     List<LetterExportEntity> totalExportList(Letter letter);
+
+    List<LetterExportEntity> pageInfoExportList(Letter letter);
+
+    List<LetterExportEntity> totalInfoExportList(Letter letter);
 }

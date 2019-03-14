@@ -30,4 +30,8 @@ public interface LetterService {
 
     public List<LetterExportEntity> totalExportList(Letter letter);
 
+    public List<LetterExportEntity> pageInfoExportList(Letter letter);
+
+    public List<LetterExportEntity> totalInfoExportList(Letter letter);
+
 }

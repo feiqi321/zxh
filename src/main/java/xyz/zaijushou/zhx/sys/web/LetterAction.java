@@ -134,6 +134,30 @@ public class LetterAction {
         return null;
     }
 
+    @ApiOperation(value = "当前页导出", notes = "当前页导出")
+    @PostMapping("/letter/pageInfoExport")
+    public Object pageInfoExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException , InvalidFormatException {
+        List<LetterExportEntity> list = letterService.pageExportList(bean);
+        ExcelUtils.exportExcel(list,
+                ExcelLetterConstant.LetterExport.values(),
+                "信函记录当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+    @ApiOperation(value = "信函记录全量导出", notes = "信函记录全量导出")
+    @PostMapping("/letter/totalInfoExport")
+    public Object totalInfoExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException, InvalidFormatException {
+        List<LetterExportEntity> list = letterService.totalExportList(bean);
+        ExcelUtils.exportExcel(list,
+                ExcelLetterConstant.LetterExport.values(),
+                "信函记录全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
+
     @ApiOperation(value = "详情的信函", notes = "详情的信函")
     @PostMapping("/letter/getLetterListByCaseId")
     public Object getLetterListByCaseId(@RequestBody Letter bean) {

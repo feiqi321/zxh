@@ -269,4 +269,69 @@ public class LetterServiceImpl implements LetterService {
         return list;
     }
 
+    public List<LetterExportEntity> pageInfoExportList(Letter letter){
+        String[] clients = letter.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            letter.setClientFlag(null);
+        }else{
+            letter.setClientFlag("1");
+        }
+        String[] batchNos = letter.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            letter.setBatchNoFlag(null);
+        }else{
+            letter.setBatchNoFlag("1");
+        }
+        if(org.apache.commons.lang3.StringUtils.isEmpty(letter.getOrderBy())){
+            letter.setOrderBy("t.id");
+            letter.setSort("t.desc");
+        }else {
+            letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
+        }
+        List<LetterExportEntity> list = letterMapper.pageInfoExportList(letter);
+        for (int i=0;i<list.size();i++){
+            LetterExportEntity temp = list.get(i);
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+            temp.setClient(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
+        }
+        if (list.size()>0){
+            list = PageInfo.of(list).getList();
+        }
+        return list;
+    }
+
+    public List<LetterExportEntity> totalInfoExportList(Letter letter){
+        String[] clients = letter.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            letter.setClientFlag(null);
+        }else{
+            letter.setClientFlag("1");
+        }
+        String[] batchNos = letter.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            letter.setBatchNoFlag(null);
+        }else{
+            letter.setBatchNoFlag("1");
+        }
+        if(org.apache.commons.lang3.StringUtils.isEmpty(letter.getOrderBy())){
+            letter.setOrderBy("id");
+            letter.setSort("desc");
+        }else {
+            letter.setOrderBy(LetterSortEnum.getEnumByKey(letter.getOrderBy()).getValue());
+        }
+        List<LetterExportEntity> list = letterMapper.totalInfoExportList(letter);
+        for (int i=0;i<list.size();i++){
+            LetterExportEntity temp = list.get(i);
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
+            temp.setClient(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+            list.set(i,temp);
+        }
+        return list;
+    }
+
 }
