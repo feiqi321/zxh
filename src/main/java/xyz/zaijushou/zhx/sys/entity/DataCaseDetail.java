@@ -21,6 +21,7 @@ public class DataCaseDetail {
     private String collectArea;//催收区域  查询条件  列表
     private String dept;  //部门 查询条件
 
+    private String odvId;
     private String odv;//催收员 查询条件     列表
     private BigDecimal rate;
     private int status; //案件状态 查询条件
@@ -223,6 +224,14 @@ public class DataCaseDetail {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    public String getOdvId() {
+        return odvId;
+    }
+
+    public void setOdvId(String odvId) {
+        this.odvId = odvId;
+    }
 
     private List<DataCaseTelEntity> dataCaseTelEntityList;
 

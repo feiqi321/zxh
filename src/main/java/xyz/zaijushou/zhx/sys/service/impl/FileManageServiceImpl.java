@@ -643,7 +643,7 @@ public class FileManageServiceImpl implements FileManageService {
         map.put("${fileNo}",dataCaseDetail.getArchiveNo());
         map.put("${loanDate}",dataCaseDetail.getLoanDate());
 
-        String odv = dataCaseDetail.getOdv();
+        String odv = dataCaseDetail.getOdvId();
         if (StringUtils.isNotEmpty(odv)) {
             SysNewUserEntity userEntity = new SysNewUserEntity();
             userEntity.setId(Integer.parseInt(odv));
@@ -692,7 +692,8 @@ public class FileManageServiceImpl implements FileManageService {
 
         Set<Map.Entry<String, String>> entryseSet=map.entrySet();
         for (Map.Entry<String, String> entry:entryseSet) {
-            context.replace(entry.getKey(),entry.getValue());
+            System.out.println(entry.getKey()+"***"+String.valueOf(entry.getValue()));
+            context.replace(entry.getKey(),String.valueOf(entry.getValue()));
         }
 
 

@@ -31,7 +31,11 @@ public class SysModuleServiceImpl implements SysModuleService {
     }
 
     public void saveModule(SysModule sysModule){
-        sysModuleMapper.saveModule(sysModule);
+        if (sysModule.getId()!=null && sysModule.getId()!=0) {
+            sysModuleMapper.saveModule(sysModule);
+        }else{
+            sysModuleMapper.saveContext(sysModule);
+        }
     }
 
     public void saveContext(SysModule sysModule){
