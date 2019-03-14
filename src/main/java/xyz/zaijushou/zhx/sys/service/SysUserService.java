@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.security.authentication.BadCredentialsException;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
@@ -24,13 +25,13 @@ public interface SysUserService {
      * 新增用户
      * @param userEntity
      */
-    void saveUser(SysNewUserEntity userEntity);
+    WebResponse saveUser(SysNewUserEntity userEntity);
 
     /**
      * 修改用户
      * @param userEntity
      */
-    void updateUser(SysNewUserEntity userEntity);
+    WebResponse updateUser(SysNewUserEntity userEntity);
 
 
     void updateDataStatus(SysNewUserEntity userEntity);

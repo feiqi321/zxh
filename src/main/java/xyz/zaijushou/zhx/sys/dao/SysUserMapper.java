@@ -79,6 +79,8 @@ public interface SysUserMapper {
 
     int countByLoginName(SysUserEntity user);
 
+    int countUserNameAndNumber(SysNewUserEntity user);
+
     List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser);
 
     List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser);
