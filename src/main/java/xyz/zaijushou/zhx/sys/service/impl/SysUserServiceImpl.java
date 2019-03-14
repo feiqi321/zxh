@@ -125,7 +125,7 @@ public class SysUserServiceImpl implements SysUserService {
             }
         }
         userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
-        userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex("admin".trim())));//保存加密密码
+        userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex("zhx12345".trim())));//保存加密密码
         userEntity.setCreateTime(new Date());
         userEntity.setDeleteFlag(0);//默认正常
 //        if (userEntity.getStatus() == 1){//在职
