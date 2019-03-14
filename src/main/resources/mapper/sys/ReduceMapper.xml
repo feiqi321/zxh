@@ -81,7 +81,7 @@
         <!--</if>-->
 
         <if test="applyStatus != null and applyStatus!=''">
-            and dcr.apply_status = #{applyStatus}
+            and dc.apply_status = #{applyStatus}
         </if>
 
         <if test="caseId != null and caseId!=''">
@@ -108,11 +108,8 @@
         <if test="reduceValidTimeEnd != null and reduceValidTimeEnd!=''" >
             <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
-        order by dcr.id desc
+        order by ${orderBy} ${sort}
     </select>
-
-
-   
 
     <!--插入数据信息-->
     <insert id="saveReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
