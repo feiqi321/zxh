@@ -345,4 +345,11 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.listByDepartIdsSet(queryUser);
     }
 
+    @Override
+    public void insertUserList(List<SysNewUserEntity> list){
+        for (SysNewUserEntity userInfo : list){
+            this.saveUser(userInfo);
+        }
+    }
+
 }

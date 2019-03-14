@@ -3,6 +3,12 @@ package xyz.zaijushou.zhx.sys.web;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.parameters.P;
@@ -11,18 +17,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelCaseConstant;
+import xyz.zaijushou.zhx.constant.ExcelUserConstant;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 @Api("用户操作")
 @RestController
@@ -180,5 +193,34 @@ public class SysUserController {
         return WebResponse.success(user);
     }
 
+    @ApiOperation(value = "导入用户", notes = "导入用户")
+    @PostMapping("/import")
+    public Object dataCaseUpdateCaseImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        InputStream inputStream = file.getInputStream();
+        Workbook workbook = null;
+        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else {
+            workbook = new HSSFWorkbook(inputStream);
+        }
+        List<SysNewUserEntity> userList = ExcelUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);;
+
+        if(userList.size() == 0) {
+            return WebResponse.success("更新0条数据");
+        }
+        int count = 0;
+        for (SysNewUserEntity userInfo : userList){
+            ++count;
+            if (StringUtils.isEmpty(userInfo.getDepartId())){
+                return WebResponse.error("500","第"+count+"条记录没有填入部门");
+            }
+        }
+
+        sysUserService.insertUserList(userList);
+        WebResponse webResponse = WebResponse.buildResponse();
+        webResponse.setCode("100");
+        return WebResponse.success();
+    }
 
 }

@@ -84,4 +84,6 @@ public interface SysUserService {
     List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser);
 
     List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser);
+
+   void insertUserList(List<SysNewUserEntity> list);
 }
