@@ -215,20 +215,51 @@
     </insert>
 
     <insert id="saveNewUser"  parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO `sys_user`
-        (`username`, `number`, `department`,  `sex`,
-        `join_time`,`leave_time`,
-        `mobile`,
-        `office_phone`,
-         `login_name`, `password`, `enable`,
-        `delete_flag`, `status`, `position`,login_name_count)
-        VALUES (
-        #{userName,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{departId,jdbcType=INTEGER},  #{sex,jdbcType=VARCHAR},
-        #{joinTime,jdbcType=TIMESTAMP}, #{leaveTime,jdbcType=TIMESTAMP},
-        #{mobile,jdbcType=VARCHAR},
-        #{officePhone,jdbcType=VARCHAR},
-         #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},  #{enable,jdbcType=INTEGER},
-        0, #{status,jdbcType=INTEGER}, #{position,jdbcType=VARCHAR},#{loginNameCount})
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">username,</if>
+            <if test="number != null">number,</if>
+            <if test="departId != null">department,</if>
+            <if test="sex != null">sex,</if>
+            <if test="joinTime != null">join_time,</if>
+
+            <if test="leaveTime != null">leave_time,</if>
+            <if test="mobile != null">mobile,</if>
+            <if test="officePhone != null">office_phone,</if>
+            <if test="loginName != null">login_name,</if>
+            <if test="password != null">password,</if>
+
+            <if test="enable != null">enable,</if>
+            <if test="status != null">status,</if>
+            <if test="position != null">position,</if>
+            <if test="loginNameCount != null">login_name_count,</if>
+            delete_flag,
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">#{userName},</if>
+            <if test="number != null">#{number},</if>
+            <if test="departId != null">#{departId},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="joinTime != null">#{joinTime},</if>
+
+            <if test="leaveTime != null">#{leaveTime},</if>
+            <if test="mobile != null">#{mobile},</if>
+            <if test="officePhone != null">#{officePhone},</if>
+            <if test="loginName != null">#{loginName},</if>
+            <if test="password != null">#{password},</if>
+
+            <if test="enable != null">#{enable},</if>
+            <if test="status != null">#{status},</if>
+            <if test="position != null">#{position},</if>
+            <if test="loginNameCount != null">#{loginNameCount},</if>
+            0,
+            now(),
+        </trim>
     </insert>
 
     <!--更新用户数据信息-->
@@ -357,7 +388,7 @@
         LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
-        where su.delete_flag = 0 and su.id = #{id,jdbcType=INTEGER}
+        where su.delete_flag = 0 and sur.delete_flag = 0 and  su.id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="getDataByRoleName" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
@@ -474,6 +505,21 @@
         <foreach collection="departIdsSet" open="(" close=")" separator="," item=",">
             #{item}
         </foreach>
+    </select>
+
+    <select id="countUserNameAndNumber" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
+        SELECT COUNT(1) as sum from sys_user
+        where delete_flag = 0
+        <if test="userName != null and userName != ''">
+            and username = #{userName}
+        </if>
+        <if test="number != null and number != ''">
+            and number = #{number}
+        </if>
+
+        <if test="id != null and id != ''">
+            and <![CDATA[ id <> #{id} ]]>
+        </if>
     </select>
 
 </mapper>

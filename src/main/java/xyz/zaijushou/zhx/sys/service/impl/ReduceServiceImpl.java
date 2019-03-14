@@ -29,6 +29,7 @@ public class ReduceServiceImpl implements ReduceService {
     @Resource
     private DataCaseMapper caseMapper;
 
+    @Override
     public PageInfo<DataCollectionEntity> pageReduce(DataCollectionEntity bean){
         if(StringUtils.isEmpty(bean.getOrderBy())){
             bean.setOrderBy("dcr.id");
@@ -55,8 +56,25 @@ public class ReduceServiceImpl implements ReduceService {
         }
     }
 
+    @Override
     public PageInfo<DataCollectionEntity> pageReduceApply(DataCollectionEntity bean){
+        if(StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setOrderBy("dcr.id");
+        }else {
+            bean.setOrderBy(ReduceApplyEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
+        if (StringUtils.isEmpty(bean.getSort())){
+            bean.setSort(" desc");
+        }
         List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getCollectStatus(), SysDictionaryEntity.class);
+            temp.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
+            SysDictionaryEntity reduceDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getReduceStatus(), SysDictionaryEntity.class);
+            temp.setReduceStatusMsg(reduceDic==null?"":reduceDic.getName());
+            list.set(i,temp);
+        }
         if (StringUtils.isEmpty(list)){
             return new PageInfo<>();
         }else {
@@ -64,12 +82,23 @@ public class ReduceServiceImpl implements ReduceService {
         }
     }
 
+    @Override
     public List<DataCollectionEntity> listReduce(DataCollectionEntity bean){
+        if(StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setOrderBy("dcr.id");
+        }else {
+            bean.setOrderBy(ReduceApplyEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
+        if (StringUtils.isEmpty(bean.getSort())){
+            bean.setSort(" desc");
+        }
         return  reduceMapper.pageReduceApply(bean);
     }
+    @Override
     public DataCollectionEntity findById(DataCollectionEntity bean){
         return reduceMapper.findById(bean);
     }
+    @Override
     public void updateStatus(DataCollectionEntity bean){
         switch (bean.getReduceFlag()){
             case "0"://启动
@@ -90,6 +119,8 @@ public class ReduceServiceImpl implements ReduceService {
         }
         reduceMapper.updateStatus(bean);
     }
+
+    @Override
     public void saveReduce(DataCollectionEntity bean){
         if(StringUtils.isEmpty(bean.getId()) || bean.getId() == 0){//保存
             bean.setReduceFlag("0");//0-减免结果有效
@@ -106,16 +137,18 @@ public class ReduceServiceImpl implements ReduceService {
         }
     }
 
+    @Override
     public void saveReduceInfo(List<DataCollectionEntity> list){
        for (DataCollectionEntity bean: list){
            reduceMapper.saveReduceApply(bean);
        }
     }
+    @Override
     public void updateReduce(DataCollectionEntity bean){
         return ;
     }
 
-
+    @Override
     public void saveReduceApply(DataCollectionEntity bean){
         if(StringUtils.notEmpty(bean.getCaseId())){
             DataCaseEntity caseBean = new DataCaseEntity();
@@ -133,13 +166,13 @@ public class ReduceServiceImpl implements ReduceService {
             reduceMapper.updateReduceApply(bean);
         }
     }
+    @Override
     public DataCollectionEntity findApplyById(DataCollectionEntity bean){
         DataCollectionEntity info = reduceMapper.findById(bean);
         return info;
     }
+    @Override
     public void updateApplyStatus(DataCollectionEntity bean){
         reduceMapper.updateApplyStatus(bean);
     }
-
-
 }

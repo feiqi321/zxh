@@ -14,10 +14,12 @@ public enum ReduceApplyEnum {
     COLUMN7("completeUser","dcr.complete_user"),
     COLUMN8("approveRepayAmt","dcr.approve_repay_amt"),
     COLUMN9("reduceValidTime","dcr.reduce_valid_time"),
-    COLUMN10("reduceStatus","dcr.reduce_status"),
+    COLUMN10("reduceStatus","dc.reduce_status"),
     COLUMN11("reduceResult","dcr.reduce_result"),
     COLUMN12("enRepayAmt","dcr.en_repay_amt"),
     COLUMN13("reduceUpdateTime","dc.reduce_update_time"),
+    COLUMN14("collectStatusMsg","dc.collect_status"),
+    COLUMN15("reduceStatusMsg","dc.reduce_status"),
     ;
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;

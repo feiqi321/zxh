@@ -385,6 +385,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionState(beanInfo);
+        for(CollectionStatistic colInfno : colList){
+            if(StringUtils.notEmpty(colInfno.getCollectStatus())){
+                SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ colInfno.getCollectStatus(), SysDictionaryEntity.class);
+                colInfno.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
+            }
+        }
         int totalPageNum = 0 ;
         if (count%beanInfo.getPageSize()>0){
             totalPageNum = count/beanInfo.getPageSize()+1;

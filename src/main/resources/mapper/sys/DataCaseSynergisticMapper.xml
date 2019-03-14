@@ -357,6 +357,7 @@
         insert  into data_case_synergistic
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="caseId != null">case_id,</if>
+            <if test="applyer != null">apply_user,</if>
             <if test="synergisticType != null">synergistic_type,</if>
             <if test="synergisticUser != null">synergistic_user,</if>
             <if test="synergisticResult != null">synergistic_result,</if>
@@ -369,6 +370,7 @@
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="caseId != null">#{caseId},</if>
+            <if test="applyer != null">#{applyer},</if>
             <if test="synergisticType != null">#{synergisticType},</if>
             <if test="synergisticUser != null">#{synergisticUser},</if>
             <if test="synergisticResult != null">#{synergisticResult},</if>

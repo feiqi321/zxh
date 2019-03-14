@@ -6,32 +6,8 @@
 
 
     <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-         select
-        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.overdue_bill_time as accountAge,
-        dc.odv,dc.reduce_status as reduceStatus,
-        dc.collect_status as collectStatus,
-        dc.reduce_update_time as reduceUpdateTime,
-        dcr.complete_time as completeTime,dcr.complete_user as completeUser,
-        dcr.audit_time as auditTime,dcr.audit_user as auditUser,
-        dcr.apply_time as reduceReferTime,dcr.apply_time as applyTime,dcr.apply_user as applyUser,
-        dcr.en_repay_amt as enRepayAmt,
-        dcr.apply_status as applyStatus,
-        dcr.reduce_type as reduceType,
-        dcr.repay_amt as repayAmt,dcr.create_time as createTime,
-        dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno,dcr.approve_repay_amt as approveRepayAmt,
-        dcr.reduce_result as reduceResult,
-        dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
-        dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
-        dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag
-        from
-        data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
-        where dcr.delete_flag = 0
-        and dcr.id = #{id}
-    </select>
-
-    <select id="pageReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select dc.id as caseId,
-        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.overdue_bill_time as accountAge,
+          select dc.id as caseId,
+        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as accountAge,
         dc.odv,dc.reduce_status as reduceStatus,
         dc.collect_status as collectStatus,
         dc.reduce_update_time as reduceUpdateTime, dc.en_repay_amt as enRepayAmt,
@@ -41,7 +17,7 @@
         dcr.apply_status as applyStatus,
         dcr.reduce_type as reduceType,dcr.relation,
         dcr.repay_amt as repayAmt,dcr.create_time as createTime,
-        dcr.id,dcr.reduce_valid_time as reduceValidTime,dc.seq_no as seqno,dcr.approve_repay_amt as approveRepayAmt,
+        dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno as seqno,dcr.approve_repay_amt as approveRepayAmt,
         dcr.reduce_result as reduceResult,
         dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
         dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
@@ -49,6 +25,29 @@
         from
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
         where dcr.delete_flag = 0
+        and dcr.id = #{id}
+    </select>
+
+    <select id="pageReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select dc.id as caseId,
+        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as accountAge,
+        dc.odv,dc.reduce_status as reduceStatus,
+        dc.collect_status as collectStatus,
+        dc.reduce_update_time as reduceUpdateTime, dc.en_repay_amt as enRepayAmt,
+        dcr.complete_time as completeTime,dcr.complete_user as completeUser,
+        dcr.audit_time as auditTime,dcr.audit_user as auditUser,
+        dcr.apply_time as reduceReferTime,dcr.apply_time as applyTime,dcr.apply_user as applyUser,
+        dcr.apply_status as applyStatus,
+        dcr.reduce_type as reduceType,dcr.relation,
+        dcr.repay_amt as repayAmt,dcr.create_time as createTime,
+        dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno as seqno,dcr.approve_repay_amt as approveRepayAmt,
+        dcr.reduce_result as reduceResult,
+        dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
+        dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
+        dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName
+        from
+        data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
+        where dcr.delete_flag = 0 and dcr.seqno is not null
         <if test="area != null and area!=''">
             AND dc.collect_area like CONCAT('%',#{area},'%')
         </if>
@@ -74,7 +73,7 @@
             AND dc.odv  like CONCAT('%',#{odv},'%')
         </if>
         <if test="reduceStatus != null and reduceStatus!=''">
-            and dcr.reduce_status = #{reduceStatus}
+            and dc.reduce_status = #{reduceStatus}
         </if>
         <!--<if test="reduceFlag != null and reduceFlag!=''">-->
             <!--AND <![CDATA[ dcr.reduce_flag != #{reduceFlag} ]]>-->
@@ -108,11 +107,8 @@
         <if test="reduceValidTimeEnd != null and reduceValidTimeEnd!=''" >
             <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
         </if>
-        order by dcr.id desc
+        order by ${orderBy} ${sort}
     </select>
-
-
-   
 
     <!--插入数据信息-->
     <insert id="saveReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import sun.security.provider.MD5;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
@@ -102,12 +103,26 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     @Transactional
-    public void saveUser(SysNewUserEntity userEntity){
+    public WebResponse saveUser(SysNewUserEntity userEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
         if (userEntity.getLoginNameCount()==0){
             userEntity.setLoginNameCount(1);
         }
         if(StringUtils.isEmpty(userEntity.getNumber())){
-            return ;
+            return webResponse.error("500","用户编号为空");
+        }
+        SysNewUserEntity bean = new SysNewUserEntity();
+        bean.setUserName(userEntity.getUserName());
+        //判断用户username是否重复
+        int countUserName = sysUserMapper.countUserNameAndNumber(bean);
+        if(countUserName > 0){
+            return webResponse.error("500","新增的用户名重复");
+        }else {
+            bean.setNumber(userEntity.getNumber());
+            int countNumber = sysUserMapper.countUserNameAndNumber(bean);
+            if (countNumber > 0){
+                return webResponse.error("500","新增的用户编号重复");
+            }
         }
         userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
         userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex("admin".trim())));//保存加密密码
@@ -134,6 +149,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtils.notEmpty(newBean)){
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
         }
+        return webResponse.success();
     }
 
     /**
@@ -141,10 +157,27 @@ public class SysUserServiceImpl implements SysUserService {
      * @param userEntity
      */
     @Override
-    public void updateUser(SysNewUserEntity userEntity){
+    public WebResponse updateUser(SysNewUserEntity userEntity){
+        WebResponse webResponse = WebResponse.buildResponse();
         if (userEntity.getStatus() == 0){
             userEntity.setEnable(0);
         }
+
+        SysNewUserEntity bean = new SysNewUserEntity();
+        bean.setId(userEntity.getId());
+        bean.setUserName(userEntity.getUserName());
+        //判断用户username是否重复
+        int countUserName = sysUserMapper.countUserNameAndNumber(bean);
+        if(countUserName > 0){
+            return webResponse.error("500","修改的用户名重复");
+        }else {
+            bean.setNumber(userEntity.getNumber());
+            int countNumber = sysUserMapper.countUserNameAndNumber(bean);
+            if (countNumber > 0){
+                return webResponse.error("500","修改的用户编号重复");
+            }
+        }
+
         sysUserMapper.updateUser(userEntity);
 
         //保存角色中间表
@@ -163,6 +196,7 @@ public class SysUserServiceImpl implements SysUserService {
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
         }
         sysRoleService.refreshRoleRedis();
+        return  webResponse.success();
     }
 
     @Override

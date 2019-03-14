@@ -53,15 +53,15 @@ public class SysUserController {
     @ApiOperation(value = "新增用户", notes = "新增用户")
     @PostMapping("/insert")
     public Object saveData(@RequestBody SysNewUserEntity userEntity) {
-        sysUserService.saveUser(userEntity);
-        return WebResponse.success();
+        WebResponse webResponse = sysUserService.saveUser(userEntity);
+        return webResponse;
     }
 
     @ApiOperation(value = "修改用户信息", notes = "修改用户信息")
     @PostMapping("/update")
     public Object updateData(@RequestBody SysNewUserEntity userEntity) {
-        sysUserService.updateUser(userEntity);
-        return WebResponse.success();
+        WebResponse webResponse = sysUserService.updateUser(userEntity);
+        return webResponse;
     }
 
     @ApiOperation(value = "修改状态", notes = "修改状态")
