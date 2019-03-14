@@ -65,6 +65,7 @@
         and legal_no = #{legalNo,jdbcType=VARCHAR}
       </if>
     </where>
+    order by ${orderBy} ${sort}
   </select>
   <select id="countDataLegal" resultType="java.lang.Integer" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
     select

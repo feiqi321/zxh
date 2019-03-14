@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.CaseSortEnum;
+import xyz.zaijushou.zhx.constant.LegalSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.LegalFeeMapper;
 import xyz.zaijushou.zhx.sys.dao.LegalHandleMapper;
@@ -48,6 +50,12 @@ public class LegalServiceImpl implements LegalService {
     //1 已经审核 2审核中 0未申请      未退案0/正常1/暂停2/关档3/退档4/全部5
     public WebResponse pageDataLegal(LegalEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
+        if(org.apache.commons.lang3.StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setSort("desc");
+            bean.setOrderBy("id");
+        }else {
+            bean.setOrderBy(LegalSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
         List<LegalEntity> dataCaseEntities = legalMapper.pageDataLegal(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             LegalEntity legalEntity = dataCaseEntities.get(i);
