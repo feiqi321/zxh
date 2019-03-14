@@ -262,7 +262,7 @@
               AND  t.module = #{module}
             </if>
             <if test="name != null and name!=''">
-              AND  t.name like CONCAT('%',#{name},'%')
+              AND  d.name like CONCAT('%',#{name},'%')
             </if>
             <if test="applyer != null and applyer!=''">
               AND  d.odv = #{applyer}
@@ -320,7 +320,7 @@
           AND  t.module = #{module}
         </if>
         <if test="name != null and name!=''">
-          AND  t.name like CONCAT('%',#{name},'%')
+          AND  d.name like CONCAT('%',#{name},'%')
         </if>
         <if test="applyer != null and applyer!=''">
           AND  d.odv = #{applyer}
