@@ -17,6 +17,7 @@ import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.PinyinTool;
@@ -45,6 +46,9 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    private SysRoleService sysRoleService;
 
     @Override
     public SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user) {
@@ -158,6 +162,7 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtils.notEmpty(newBean)){
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
         }
+        sysRoleService.refreshRoleRedis();
     }
 
     @Override
