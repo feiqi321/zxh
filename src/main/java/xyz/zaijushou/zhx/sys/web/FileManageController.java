@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.Letter;
 import xyz.zaijushou.zhx.sys.entity.SysModule;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -150,6 +152,9 @@ public class FileManageController {
     @PostMapping("/reduce/download")
     public Object reduceDownload(HttpServletRequest request, HttpServletResponse response,String[] fileNames) throws Exception {
         Map<String, byte[]> files = new HashMap<String, byte[]>();
+        if (StringUtils.isEmpty(fileNames)){
+            return WebResponse.error("500","文件名称为空");
+        }
         for(String fileName:fileNames){
             FileInputStream fis = new FileInputStream(detailFile+fileName);
             byte[] f = new byte[fis.available()];
@@ -158,7 +163,7 @@ public class FileManageController {
             }
         }
         if (files.size() == 0){
-            return null;
+            return WebResponse.error("500","文件不存在");
         }
         String fileTargetName = "减免附件下载.zip";
 
