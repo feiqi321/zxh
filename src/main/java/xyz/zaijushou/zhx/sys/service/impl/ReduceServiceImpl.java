@@ -58,7 +58,23 @@ public class ReduceServiceImpl implements ReduceService {
 
     @Override
     public PageInfo<DataCollectionEntity> pageReduceApply(DataCollectionEntity bean){
+        if(StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setOrderBy("dcr.id");
+        }else {
+            bean.setOrderBy(ReduceApplyEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
+        if (StringUtils.isEmpty(bean.getSort())){
+            bean.setSort(" desc");
+        }
         List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getCollectStatus(), SysDictionaryEntity.class);
+            temp.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
+            SysDictionaryEntity reduceDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getReduceStatus(), SysDictionaryEntity.class);
+            temp.setReduceStatusMsg(reduceDic==null?"":reduceDic.getName());
+            list.set(i,temp);
+        }
         if (StringUtils.isEmpty(list)){
             return new PageInfo<>();
         }else {
@@ -68,6 +84,14 @@ public class ReduceServiceImpl implements ReduceService {
 
     @Override
     public List<DataCollectionEntity> listReduce(DataCollectionEntity bean){
+        if(StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setOrderBy("dcr.id");
+        }else {
+            bean.setOrderBy(ReduceApplyEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
+        if (StringUtils.isEmpty(bean.getSort())){
+            bean.setSort(" desc");
+        }
         return  reduceMapper.pageReduceApply(bean);
     }
     @Override
