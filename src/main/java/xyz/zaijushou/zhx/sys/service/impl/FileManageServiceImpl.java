@@ -692,8 +692,7 @@ public class FileManageServiceImpl implements FileManageService {
 
         Set<Map.Entry<String, String>> entryseSet=map.entrySet();
         for (Map.Entry<String, String> entry:entryseSet) {
-            System.out.println(entry.getKey()+"***"+String.valueOf(entry.getValue()));
-            context.replace(entry.getKey(),String.valueOf(entry.getValue()));
+            context = context.replace(entry.getKey(),String.valueOf(entry.getValue()));
         }
 
 
