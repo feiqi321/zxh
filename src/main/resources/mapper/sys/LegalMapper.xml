@@ -40,7 +40,7 @@
     cost_date as costDate, preservation_date as preservationDate, preservation_list as preservationList, exe_end_date as exeEndDate, exe_date as exeDate, legal_no as legalNo,
     exe_no as exeNo, first_date as firstDate, judge_date as judgeDate, arrive_info as arriveInfo, judgment, remark, create_time as createTime
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultType="xyz.zaijushou.zhx.sys.entity.LegalEntity" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from legal
