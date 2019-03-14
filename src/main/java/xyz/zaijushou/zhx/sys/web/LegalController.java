@@ -27,7 +27,7 @@ public class LegalController {
     @ApiOperation(value = "新增诉讼", notes = "新增诉讼")
     @PostMapping("/legal/save")
     public Object save(@RequestBody LegalEntity legalEntity) {
-
+        legalEntity.setLegalStatus(0);
         legalService.saveLegal(legalEntity);
 
         return WebResponse.success();

@@ -54,6 +54,7 @@ public class LegalServiceImpl implements LegalService {
             if (legalEntity!=null && legalEntity.getLegalStatus()!=null && legalEntity.getLegalStatus()==1){
                 legalEntity.setLegalStatusMsg("已审核");
             }else{
+                legalEntity.setLegalStatus(0);
                 legalEntity.setLegalStatusMsg("未审核");
             }
             if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("1")){
