@@ -196,6 +196,7 @@ public class ExcelUtils {
                 T entity = data.get(i - 1);
                 Row row = sheet.createRow(i);
                 for (int k = 0; k < excelEnumMap.size(); k++) {
+                    logger.debug(k + "");
                     Cell cell = row.createCell(k);
                     ExcelEnum excelEnum = excelEnumMap.get(k);
                     if(excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
@@ -330,8 +331,9 @@ public class ExcelUtils {
             Integer intValue = (Integer) value;
             cell.setCellValue(intValue);
         } else if (BigDecimal.class == clazz) {
-            BigDecimal dateValue = (BigDecimal) value;
-            cell.setCellValue(dateValue.doubleValue());
+            BigDecimal decimalValue = (BigDecimal) value;
+            String formatValue = decimalValue == null ? "￥0.00" : "￥"+ FmtMicrometer.fmtMicrometer(decimalValue + "");
+            cell.setCellValue(formatValue);
         } else {
             String toStringValue = value.toString();
             cell.setCellValue(toStringValue);

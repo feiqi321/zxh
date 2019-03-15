@@ -100,18 +100,35 @@ public class DataCaseSynergisticController {
     public Object queryDataExport(@RequestBody DataCaseSynergisticEntity synergistic, HttpServletResponse response) throws IOException {
         List<DataCaseSynergisticEntity> list = dataCaseSynergisticService.listSynergistic(synergistic);
         Set<String> userIdsSet = new HashSet<>();
+        Set<String> clientSet = new HashSet<>();
         for(DataCaseSynergisticEntity entity : list) {
             if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                 userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
+            }
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                clientSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
             }
         }
         if(!CollectionUtils.isEmpty(userIdsSet)) {
             List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
             Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
-            for(int i = 0; i < list.size(); i ++) {
-                DataCaseSynergisticEntity entity = list.get(i);
-                if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                    list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+            for (DataCaseSynergisticEntity entity : list) {
+                if (entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                    entity.getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+                }
+            }
+        }
+        if(!CollectionUtils.isEmpty(clientSet)) {
+            List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(clientSet, SysDictionaryEntity.class);
+            Map<String, SysDictionaryEntity> clientMap = new HashMap<>();
+            for(SysDictionaryEntity entity : clientList) {
+                clientMap.put(entity.getId() + "", entity);
+            }
+            for (DataCaseSynergisticEntity entity : list) {
+                if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                    if(clientMap.get(entity.getDataCase().getClient()) != null) {
+                        entity.getDataCase().setClient(clientMap.get(entity.getDataCase().getClient()).getName());
+                    }
                 }
             }
         }
@@ -128,9 +145,13 @@ public class DataCaseSynergisticController {
     public Object pageDataExport(@RequestBody DataCaseSynergisticEntity synergistic, HttpServletResponse response) throws IOException {
         List<DataCaseSynergisticEntity> list = dataCaseSynergisticService.pageSynergisticList(synergistic).getList();
         Set<String> userIdsSet = new HashSet<>();
+        Set<String> clientSet = new HashSet<>();
         for(DataCaseSynergisticEntity entity : list) {
             if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                 userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
+            }
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                clientSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
             }
         }
         if(!CollectionUtils.isEmpty(userIdsSet)) {
@@ -140,6 +161,20 @@ public class DataCaseSynergisticController {
                 DataCaseSynergisticEntity entity = list.get(i);
                 if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                     list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+                }
+            }
+        }
+        if(!CollectionUtils.isEmpty(clientSet)) {
+            List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(clientSet, SysDictionaryEntity.class);
+            Map<String, SysDictionaryEntity> clientMap = new HashMap<>();
+            for(SysDictionaryEntity entity : clientList) {
+                clientMap.put(entity.getId() + "", entity);
+            }
+            for (DataCaseSynergisticEntity entity : list) {
+                if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                    if(clientMap.get(entity.getDataCase().getClient()) != null) {
+                        entity.getDataCase().setClient(clientMap.get(entity.getDataCase().getClient()).getName());
+                    }
                 }
             }
         }
@@ -165,9 +200,13 @@ public class DataCaseSynergisticController {
         }
         List<DataCaseSynergisticEntity> list = dataCaseSynergisticService.listSynergistic(synergistic);
         Set<String> userIdsSet = new HashSet<>();
+        Set<String> clientSet = new HashSet<>();
         for(DataCaseSynergisticEntity entity : list) {
             if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                 userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
+            }
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                clientSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
             }
         }
         if(!CollectionUtils.isEmpty(userIdsSet)) {
@@ -177,6 +216,20 @@ public class DataCaseSynergisticController {
                 DataCaseSynergisticEntity entity = list.get(i);
                 if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                     list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+                }
+            }
+        }
+        if(!CollectionUtils.isEmpty(clientSet)) {
+            List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(clientSet, SysDictionaryEntity.class);
+            Map<String, SysDictionaryEntity> clientMap = new HashMap<>();
+            for(SysDictionaryEntity entity : clientList) {
+                clientMap.put(entity.getId() + "", entity);
+            }
+            for (DataCaseSynergisticEntity entity : list) {
+                if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                    if(clientMap.get(entity.getDataCase().getClient()) != null) {
+                        entity.getDataCase().setClient(clientMap.get(entity.getDataCase().getClient()).getName());
+                    }
                 }
             }
         }
