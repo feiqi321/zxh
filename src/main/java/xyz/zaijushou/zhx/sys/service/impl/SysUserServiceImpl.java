@@ -214,17 +214,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysNewUserEntity bean = new SysNewUserEntity();
         bean.setId(userEntity.getId());
         bean.setUserName(userEntity.getUserName());
-        //判断用户username是否重复
-        int countUserName = sysUserMapper.countUserNameAndNumber(bean);
-        if(countUserName > 0){
-            return webResponse.error("500","修改的用户名重复");
-        }else {
-            bean.setNumber(userEntity.getNumber());
-            int countNumber = sysUserMapper.countUserNameAndNumber(bean);
-            if (countNumber > 0){
-                return webResponse.error("500","修改的用户编号重复");
-            }
-        }
+
 
         sysUserMapper.updateUser(userEntity);
 
