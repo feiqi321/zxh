@@ -88,4 +88,11 @@ public interface SysUserService {
     List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser);
 
    void insertUserList(List<SysNewUserEntity> list);
+
+    /**
+     * 导出用户列表
+     * @param userEntity
+     * @return
+     */
+    List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity);
 }

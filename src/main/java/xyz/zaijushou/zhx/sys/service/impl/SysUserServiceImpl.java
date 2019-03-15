@@ -374,5 +374,19 @@ public class SysUserServiceImpl implements SysUserService {
             this.saveUser(userInfo);
         }
     }
+    public List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity){
 
+        if(StringUtils.isEmpty(userEntity.getOrderBy())){
+            userEntity.setOrderBy("userName");
+        }else {
+            userEntity.setOrderBy(UserSortEnum.getEnumByKey(userEntity.getOrderBy()).getValue());
+        }
+            if (StringUtils.isEmpty(userEntity.getSort())){
+            userEntity.setSort(" desc");
+        }
+            userEntity.setPageNum((userEntity.getPageNum()-1)*userEntity.getPageSize());
+
+        List<SysNewUserEntity> list = sysUserMapper.userExportList(userEntity);
+        return list;
+    }
 }

@@ -84,4 +84,11 @@ public interface SysUserMapper {
     List<SysNewUserEntity> listByNameSet(SysNewUserEntity queryUser);
 
     List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser);
+
+    /**
+     * 查询用户列表
+     * @param userEntity
+     * @return
+     */
+    List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity);
 }

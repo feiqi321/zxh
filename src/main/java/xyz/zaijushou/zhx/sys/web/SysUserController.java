@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -20,10 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.ExcelCaseConstant;
-import xyz.zaijushou.zhx.constant.ExcelUserConstant;
-import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.constant.WebResponseCode;
+import xyz.zaijushou.zhx.constant.*;
+import xyz.zaijushou.zhx.sys.entity.LetterExportEntity;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
@@ -33,8 +32,10 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Api("用户操作")
@@ -236,5 +237,18 @@ public class SysUserController {
         return WebResponse.success();
     }
 
+
+    @ApiOperation(value = "导出用户数据列表", notes = "导出用户数据列表")
+    @PostMapping("/select/exportList")
+    public Object exportList(@RequestBody SysNewUserEntity userEntity,HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List<SysNewUserEntity> list = sysUserService.userExportList(userEntity);
+        ExcelUtils.exportExcel(list,
+                ExcelUserConstant.UserInfoExport.values(),
+                "用户全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                response
+        );
+        return null;
+    }
 
 }

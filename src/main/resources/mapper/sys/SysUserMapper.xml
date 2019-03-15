@@ -522,4 +522,35 @@
         </if>
     </select>
 
+    <!--查询数据集合-->
+    <select id="userExportList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
+        select
+        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
+        su.status,su.enable,su.username as userName,so.org_name department,
+        su.create_time as createTime,su.create_user as 'createUser.id',
+        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.delete_flag as deleteFlag,
+        sr.role_name as role,
+        su.leave_time as leaveTime,
+        su.join_time as joinTime,
+        su.department as departId,
+        sr.id as roleId,
+        su.position
+        from
+        (
+        select * from sys_user where delete_flag = 0
+        <if test="number != null and number!=''">
+            AND  number like CONCAT('%',#{number},'%')
+        </if>
+        <if test="userName != null and userName!=''">
+            AND  username like CONCAT('%',#{userName},'%')
+        </if>
+        order by ${orderBy} ${sort}
+        )su
+        LEFT JOIN sys_user_role sur on su.id = sur.user_id
+        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        LEFT JOIN sys_organization so on su.department = so.id
+        where sur.delete_flag = 0
+    </select>
+
 </mapper>
