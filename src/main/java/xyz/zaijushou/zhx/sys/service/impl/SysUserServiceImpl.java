@@ -95,6 +95,47 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.findPasswordInfoByLoginName(user);
     }
 
+    /**
+     * 保存用户
+     * @param userEntity
+     */
+    @Transactional
+    public WebResponse saveUserBatch(SysNewUserEntity userEntity) throws Exception{
+        WebResponse webResponse = WebResponse.buildResponse();
+        SysUserEntity temp = new SysUserEntity();
+        temp.setUserName(userEntity.getUserName());
+        SysUserEntity user = this.getLoginName(temp);
+        userEntity.setLoginNameCount(user.getLoginNameCount());
+        userEntity.setUserName(user.getUserName());
+        userEntity.setLoginName(user.getLoginName());
+        userEntity.setNumber(user.getLoginName());
+        userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
+
+        SysPasswordEntity passwordEntity = sysPasswordMapper.selectPassword();
+
+        String password = passwordEntity.getPassword();
+
+        userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex(password.trim())));//保存加密密码
+        userEntity.setCreateTime(new Date());
+        userEntity.setDeleteFlag(0);//默认正常
+
+        sysUserMapper.saveNewUser(userEntity);
+        //保存角色中间表
+        SysUserRoleEntity roleEntity = new SysUserRoleEntity();
+        roleEntity.setUserId(userEntity.getId());
+        if (StringUtils.notEmpty(userEntity.getRoleList())) {
+            for (SysRoleEntity role : userEntity.getRoleList()){
+                roleEntity.setRoleId(role.getId());
+                sysToUserRoleMapper.saveUserRole(roleEntity);
+            }
+        }
+        //存入redis
+        SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());
+        if (StringUtils.notEmpty(newBean)){
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
+        }
+        return webResponse.success();
+    }
 
     /**
      * 保存用户
@@ -226,6 +267,7 @@ public class SysUserServiceImpl implements SysUserService {
             return count;
         }
         sysUserMapper.deleteById(userEntity.getId());
+        stringRedisTemplate.delete(RedisKeyPrefix.USER_INFO + userEntity.getId());
         return result;
     }
 
@@ -369,9 +411,13 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public void insertUserList(List<SysNewUserEntity> list){
-        for (SysNewUserEntity userInfo : list){
-            this.saveUser(userInfo);
+    public void insertUserList(List<SysNewUserEntity> list) {
+        try{
+            for (SysNewUserEntity userInfo : list){
+                this.saveUserBatch(userInfo);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
     public List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity){

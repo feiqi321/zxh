@@ -254,8 +254,8 @@
             <if test="loginName != null">#{loginName},</if>
             <if test="password != null">#{password},</if>
 
-            <if test="enable != null">#{enable},</if>
-            <if test="status != null">#{status},</if>
+            1,
+            1,
             <if test="position != null">#{position},</if>
             <if test="loginNameCount != null">#{loginNameCount},</if>
             0,
@@ -480,7 +480,7 @@
     </update>
     
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="java.lang.Integer">
-          select login_name_count as loginNameCount from sys_user where login_name = #{loginName}
+          select count(id) from sys_user where login_name LIKE CONCAT('%',#{loginName},'%')
     </select>
 
     <select id="listByNameSet" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">

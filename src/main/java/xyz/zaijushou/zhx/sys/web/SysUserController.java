@@ -22,9 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
-import xyz.zaijushou.zhx.sys.entity.LetterExportEntity;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
+import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -45,6 +45,10 @@ public class SysUserController {
 
     @Resource
     private SysUserService sysUserService;
+    @Resource
+    private SysOrganizationService sysOrganizationService;
+    @Resource
+    private SysRoleService sysRoleService;
 
     @ApiIgnore
     @ApiOperation(value = "测试", notes = "测试接口")
@@ -218,17 +222,45 @@ public class SysUserController {
             return WebResponse.success("更新0条数据");
         }
         int count = 0;
+        List<SysOrganizationEntity>  orgList = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());
+        Map orgMap = new HashMap();
+        for (int i=0;i<orgList.size();i++){
+            SysOrganizationEntity org = orgList.get(i);
+            orgMap.put(org.getOrgName(),org);
+        }
+        Map roleMap = new HashMap();
+        List<SysRoleEntity> roleList = sysRoleService.listAllRoles(new SysRoleEntity());
+        for (int j=0;j<roleList.size();j++){
+            SysRoleEntity sysRole = roleList.get(j);
+            roleMap.put(sysRole.getRoleName(),sysRole);
+        }
         for (SysNewUserEntity userInfo : userList){
             ++count;
             if (StringUtils.isEmpty(userInfo.getDepartment())){
                 return WebResponse.error("500","第"+count+"条记录没有填入部门");
             }
+            if (orgMap.get(userInfo.getDepartment())==null){
+                return WebResponse.error("500","第"+count+"条记录部门不存在");
+            }
+            userInfo.setDepartId(((SysOrganizationEntity)orgMap.get(userInfo.getDepartment())).getId()+"");
             if (StringUtils.isEmpty(userInfo.getRole())){
                 return WebResponse.error("500","第"+count+"条记录没有填入角色");
             }
+            String[] roles = userInfo.getRole().split(",");
+            List<SysRoleEntity> roleRequestList = new ArrayList<SysRoleEntity>();
+            for (int m =0;m<roles.length;m++) {
+                if (roleMap.get(roles[m]) == null) {
+                    return WebResponse.error("500", "第" + count + "条记录角色不存在");
+                }else{
+                    SysRoleEntity sysRoleEntity = (SysRoleEntity)roleMap.get(roles[m]);
+                    roleRequestList.add(sysRoleEntity);
+                }
+            }
+            userInfo.setRoleList(roleRequestList);
             if (StringUtils.isEmpty(userInfo.getUserName())){
                 return WebResponse.error("500","第"+count+"条记录没有填入姓名");
             }
+
         }
 
         sysUserService.insertUserList(userList);
