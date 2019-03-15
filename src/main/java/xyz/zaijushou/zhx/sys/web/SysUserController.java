@@ -155,6 +155,13 @@ public class SysUserController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "用户密码重置到初始密码", notes = "用户密码重置到初始密码")
+    @PostMapping("/set/password")
+    public Object setUserPassword() {
+        sysUserService.setUserPassword();
+        return WebResponse.success();
+    }
+
     @ApiOperation(value = "管理员重置用户密码", notes = "管理员重置用户密码")
     @PostMapping("/passwordResetByAdmin")
     @PreAuthorize("hasRole('ADMIN')")
@@ -195,7 +202,7 @@ public class SysUserController {
 
     @ApiOperation(value = "导入用户", notes = "导入用户")
     @PostMapping("/import")
-    public Object dataCaseUpdateCaseImport(MultipartFile file) throws IOException {
+    public Object userImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         InputStream inputStream = file.getInputStream();
         Workbook workbook = null;
@@ -222,5 +229,6 @@ public class SysUserController {
         webResponse.setCode("100");
         return WebResponse.success();
     }
+
 
 }

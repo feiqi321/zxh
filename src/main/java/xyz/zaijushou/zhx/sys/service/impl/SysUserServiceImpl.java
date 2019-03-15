@@ -13,10 +13,7 @@ import sun.security.provider.MD5;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
-import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
-import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
-import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
-import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
@@ -45,6 +42,8 @@ public class SysUserServiceImpl implements SysUserService {
     @Resource
     private DataCaseMapper dataCaseMapper;
 
+    @Resource
+    private SysPasswordMapper sysPasswordMapper;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
@@ -125,7 +124,15 @@ public class SysUserServiceImpl implements SysUserService {
             }
         }
         userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
-        userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex("zhx12345".trim())));//保存加密密码
+        SysPasswordEntity passwordEntity = sysPasswordMapper.selectPassword();
+
+        String password = "";
+        if (passwordEntity == null){
+            password = "zhx12345";
+        }else {
+            password = passwordEntity.getPassword();
+        }
+        userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex(password.trim())));//保存加密密码
         userEntity.setCreateTime(new Date());
         userEntity.setDeleteFlag(0);//默认正常
 //        if (userEntity.getStatus() == 1){//在职
@@ -301,6 +308,22 @@ public class SysUserServiceImpl implements SysUserService {
             throw new BadCredentialsException("密码错误");
         }
     }
+
+    public void setUserPassword(){
+        SysNewUserEntity user = new SysNewUserEntity();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        if (userId == null){
+            return ;
+        }
+        user.setId(userId);
+        SysPasswordEntity passwordEntity = sysPasswordMapper.selectPassword();
+        if (passwordEntity == null){
+            return ;
+        }
+        user.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex(passwordEntity.getPassword().trim())));
+        sysUserMapper.passwordReset(user);
+    }
+
 
     private SysNewUserEntity selectPasswordInfoById(SysNewUserEntity user) {
         return sysUserMapper.selectPasswordInfoById(user);
