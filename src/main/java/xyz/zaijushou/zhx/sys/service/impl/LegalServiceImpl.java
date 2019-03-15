@@ -70,6 +70,7 @@ public class LegalServiceImpl implements LegalService {
             }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("2")){
                 legalEntity.setProgressMsg("收案");
             }else{
+                legalEntity.setProgress("");
                 legalEntity.setProgressMsg("未判决");
             }
             if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
@@ -95,6 +96,7 @@ public class LegalServiceImpl implements LegalService {
                 SysUserEntity mine = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
                 legalEntity.setOwnerName(mine.getUserName());
             }else{
+                legalEntity.setOwner("");
                 legalEntity.setOwnerName("");
             }
             legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
@@ -164,6 +166,7 @@ public class LegalServiceImpl implements LegalService {
             }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("2")){
                 legalEntity.setProgressMsg("收案");
             }else{
+                legalEntity.setProgress("");
                 legalEntity.setProgressMsg("未判决");
             }
             if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
@@ -182,6 +185,7 @@ public class LegalServiceImpl implements LegalService {
                 SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
                 legalEntity.setOwnerName(userTemp.getUserName());
             }else{
+                legalEntity.setOwner("");
                 legalEntity.setOwnerName("");
             }
             legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
@@ -223,6 +227,7 @@ public class LegalServiceImpl implements LegalService {
         }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("2")){
             legalEntity.setProgressMsg("收案");
         }else{
+            legalEntity.setProgress("");
             legalEntity.setProgressMsg("未判决");
         }
         if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
@@ -241,6 +246,7 @@ public class LegalServiceImpl implements LegalService {
             SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
             legalEntity.setOwnerName(userTemp.getUserName());
         }else{
+            legalEntity.setOwner("");
             legalEntity.setOwnerName("");
         }
 
