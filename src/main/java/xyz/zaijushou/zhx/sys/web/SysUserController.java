@@ -155,6 +155,13 @@ public class SysUserController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "用户密码重置到初始密码", notes = "用户密码重置到初始密码")
+    @PostMapping("/set/password")
+    public Object setUserPassword() {
+        sysUserService.setUserPassword();
+        return WebResponse.success();
+    }
+
     @ApiOperation(value = "管理员重置用户密码", notes = "管理员重置用户密码")
     @PostMapping("/passwordResetByAdmin")
     @PreAuthorize("hasRole('ADMIN')")
@@ -195,7 +202,7 @@ public class SysUserController {
 
     @ApiOperation(value = "导入用户", notes = "导入用户")
     @PostMapping("/import")
-    public Object dataCaseUpdateCaseImport(MultipartFile file) throws IOException {
+    public Object userImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         InputStream inputStream = file.getInputStream();
         Workbook workbook = null;
@@ -212,8 +219,14 @@ public class SysUserController {
         int count = 0;
         for (SysNewUserEntity userInfo : userList){
             ++count;
-            if (StringUtils.isEmpty(userInfo.getDepartId())){
+            if (StringUtils.isEmpty(userInfo.getDepartment())){
                 return WebResponse.error("500","第"+count+"条记录没有填入部门");
+            }
+            if (StringUtils.isEmpty(userInfo.getRole())){
+                return WebResponse.error("500","第"+count+"条记录没有填入角色");
+            }
+            if (StringUtils.isEmpty(userInfo.getUserName())){
+                return WebResponse.error("500","第"+count+"条记录没有填入姓名");
             }
         }
 
@@ -222,5 +235,6 @@ public class SysUserController {
         webResponse.setCode("100");
         return WebResponse.success();
     }
+
 
 }

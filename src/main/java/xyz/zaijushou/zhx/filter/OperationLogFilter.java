@@ -42,6 +42,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/synergistic/finishedSynergisticImport",
             "/synergistic/synergisticRecordImport",
             "/reduce/import",//减免导入
+            "/user/import",//用户导入
     };
 
     private static final String[] DOWNLOAD_FILE_URL = {

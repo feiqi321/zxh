@@ -71,6 +71,8 @@ public interface SysUserService {
      */
     void passwordReset(SysNewUserEntity user) throws BadCredentialsException;
 
+    void setUserPassword();
+
     /**
      * 管理员修改用户密码
      * @param user
