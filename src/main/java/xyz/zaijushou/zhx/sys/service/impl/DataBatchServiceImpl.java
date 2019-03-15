@@ -156,17 +156,18 @@ public class DataBatchServiceImpl implements DataBatchService {
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);
             if (dataBatchEntity.getClient()==null || dataBatchEntity.getClient().equals("")){
-                dataBatchEntity.setClientMsg("");
+                dataBatchEntity.setClient("");
             }else {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getClient(),SysDictionaryEntity.class);
-                dataBatchEntity.setClientMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+                dataBatchEntity.setClient(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
             if (dataBatchEntity.getCaseType()==null || dataBatchEntity.getCaseType().equals("")){
-                dataBatchEntity.setCaseTypeMsg("");
+                dataBatchEntity.setCaseType("");
             }else {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getCaseType(),SysDictionaryEntity.class);
-                dataBatchEntity.setCaseTypeMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+                dataBatchEntity.setCaseType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
+
             if(dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==1){
                 dataBatchEntity.setStatusMsg("未退案");
             }else if (dataBatchEntity.getBatchStatus()!=null && dataBatchEntity.getBatchStatus()==2){
