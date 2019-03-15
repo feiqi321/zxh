@@ -153,6 +153,12 @@ public class LegalServiceImpl implements LegalService {
         WebResponse webResponse = WebResponse.buildResponse();
         SysUserEntity user = getUserInfo();
         bean.setOwner(user.getId()+"");
+        if(org.apache.commons.lang3.StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setSort("desc");
+            bean.setOrderBy("id");
+        }else {
+            bean.setOrderBy(LegalSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
         List<LegalEntity> dataCaseEntities = legalMapper.pageDataLegal(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             LegalEntity legalEntity = dataCaseEntities.get(i);
