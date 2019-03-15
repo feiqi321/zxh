@@ -60,6 +60,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/dataCase/selectDataCaseTel",
             "/dataCase/totalDataBatchExport",
             "/synergistic/queryDataExport",
+            "/synergistic/pageDataExport",
+            "/synergistic/selectDataExport",
             "/dataCase/selectDataCaseExport",
             "/reduce/dataExport",//减免导出
             "/statistics/collection/day/export",//电催员电催单日统计导出

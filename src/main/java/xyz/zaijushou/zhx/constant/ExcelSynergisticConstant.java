@@ -20,7 +20,7 @@ public class ExcelSynergisticConstant {
         COL70(70, "申请内容", "applyContent", String.class),
         COL80(80, "申请时间", "applyTime", Date.class),
         COL90(90, "协催时间", "synergisticTime", Date.class),
-        COL100(100, "协催人", "synergisticUser.userName", SysUserEntity.class, String.class),
+        COL100(100, "协催人", "synergisticUser.userName", SysNewUserEntity.class, String.class),
         COL110(110, "协催结果", "synergisticResult", String.class),
         COL120(120, "证件号", "dataCase.identNo", DataCaseEntity.class, String.class),
         COL130(130, "卡号", "dataCase.cardNo", DataCaseEntity.class, String.class),
@@ -43,7 +43,7 @@ public class ExcelSynergisticConstant {
         COL300(300, "手机", "dataCase.tel", DataCaseEntity.class, String.class),
         COL310(310, "单位号码", "dataCase.unitTelNumber", DataCaseEntity.class, String.class),
         COL320(320, "最新欠款", "dataCase.latestOverdueMoney", DataCaseEntity.class, BigDecimal.class),
-        COL330(330, "最新欠款导入时间", "dataCase.latestOverdueTime", DataCaseEntity.class, Date.class),
+//        COL330(330, "最新欠款导入时间", "dataCase.latestOverdueTime", DataCaseEntity.class, Date.class),
         ;
 
         private Integer sort;

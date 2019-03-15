@@ -18,8 +18,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordService {
@@ -38,8 +37,35 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             entity.setOrderBy(ExcelRepayRecordConstant.RepayRecordSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
         }
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordMapper.pageRepayRecordList(entity);
+        Set<String> dictSet = new HashSet<>();
+        for(DataCaseRepayRecordEntity record : list) {
+            if(record != null && record.getDataCase() != null && StringUtils.isNotEmpty(record.getDataCase().getClient())) {
+                dictSet.add(RedisKeyPrefix.SYS_DIC + record.getDataCase().getClient());
+            }
+            if(record != null && record.getDataCase() != null && StringUtils.isNotEmpty(record.getDataCase().getOverdueBillTime())) {
+                dictSet.add(RedisKeyPrefix.SYS_DIC + record.getDataCase().getOverdueBillTime());
+            }
+        }
+
+        Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
+        if(!CollectionUtils.isEmpty(dictSet)) {
+            List<SysDictionaryEntity> dictList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
+            for(SysDictionaryEntity dict : dictList) {
+                dictMap.put(dict.getId() + "", dict);
+            }
+        }
         for (int i=0;i<list.size();i++){
             DataCaseRepayRecordEntity temp = list.get(i);
+            if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getClient())) {
+                if(dictMap.get(temp.getDataCase().getClient()) != null) {
+                    list.get(i).getDataCase().setClient(dictMap.get(temp.getDataCase().getClient()).getName());
+                }
+            }
+            if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getOverdueBillTime())) {
+                if(dictMap.get(temp.getDataCase().getOverdueBillTime()) != null) {
+                    list.get(i).getDataCase().setOverdueBillTime(dictMap.get(temp.getDataCase().getOverdueBillTime()).getName());
+                }
+            }
             if(temp.getDataCase()==null){
                 DataCaseEntity bean = new DataCaseEntity();
                 bean.setMoneyMsg("");
