@@ -219,8 +219,14 @@ public class SysUserController {
         int count = 0;
         for (SysNewUserEntity userInfo : userList){
             ++count;
-            if (StringUtils.isEmpty(userInfo.getDepartId())){
+            if (StringUtils.isEmpty(userInfo.getDepartment())){
                 return WebResponse.error("500","第"+count+"条记录没有填入部门");
+            }
+            if (StringUtils.isEmpty(userInfo.getRole())){
+                return WebResponse.error("500","第"+count+"条记录没有填入角色");
+            }
+            if (StringUtils.isEmpty(userInfo.getUserName())){
+                return WebResponse.error("500","第"+count+"条记录没有填入姓名");
             }
         }
 
