@@ -162,8 +162,8 @@ public class SysUserController {
 
     @ApiOperation(value = "用户密码重置到初始密码", notes = "用户密码重置到初始密码")
     @PostMapping("/set/password")
-    public Object setUserPassword() {
-        sysUserService.setUserPassword();
+    public Object setUserPassword(@RequestBody SysNewUserEntity user) {
+        sysUserService.setUserPassword(user);
         return WebResponse.success();
     }
 

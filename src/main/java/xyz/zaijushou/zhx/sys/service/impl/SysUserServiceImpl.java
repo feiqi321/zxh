@@ -344,9 +344,9 @@ public class SysUserServiceImpl implements SysUserService {
         }
     }
 
-    public void setUserPassword(){
-        SysNewUserEntity user = new SysNewUserEntity();
-        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+    public void setUserPassword(SysNewUserEntity user){
+
+        Integer userId = user.getId();
         if (userId == null){
             return ;
         }
