@@ -384,9 +384,24 @@ public class SysUserServiceImpl implements SysUserService {
             if (StringUtils.isEmpty(userEntity.getSort())){
             userEntity.setSort(" desc");
         }
-            userEntity.setPageNum((userEntity.getPageNum()-1)*userEntity.getPageSize());
 
         List<SysNewUserEntity> list = sysUserMapper.userExportList(userEntity);
+        for (int i=0;i<list.size();i++){
+            SysNewUserEntity user = list.get(i);
+            List<SysRoleEntity> roleList = user.getRoleList();
+            String roleName = "";
+            for(int j=0;j<roleList.size();j++){
+                SysRoleEntity role = roleList.get(j);
+
+                if (StringUtils.notEmpty(role.getRoleName())) {
+                    roleName = roleName+","+role.getRoleName();
+                }
+            }
+            if (StringUtils.notEmpty(roleName)) {
+                user.setRole(roleName.substring(1));
+            }
+            list.set(i,user);
+        }
         return list;
     }
 }

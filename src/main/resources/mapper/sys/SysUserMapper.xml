@@ -105,6 +105,7 @@
         <result column="sex" property="sex" jdbcType="VARCHAR"/>
         <result column="officePhone" property="officePhone" jdbcType="VARCHAR"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="loginName" property="loginName" jdbcType="VARCHAR"/>
         <result column="enable" property="enable" jdbcType="INTEGER"/>
         <result column="userName" property="userName" jdbcType="VARCHAR"/>
         <result column="department" property="department" jdbcType="VARCHAR"/>
@@ -426,8 +427,7 @@
 
     <!--通过Id删除数据信息-->
     <delete id="deleteById" parameterType="java.lang.Integer">
-        update sys_user set delete_flag =1
-        where id = #{id}
+        delete from sys_user   where id = #{id}
     </delete>
 
     <!--更新员工状态-->
@@ -525,7 +525,7 @@
     <!--查询数据集合-->
     <select id="userExportList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
         select
-        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
+        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_name as loginName,
         su.status,su.enable,su.username as userName,so.org_name department,
         su.create_time as createTime,su.create_user as 'createUser.id',
         su.update_user as 'updateUser.id',su.update_time as updateTime,
@@ -539,6 +539,12 @@
         from
         (
         select * from sys_user where delete_flag = 0
+        <if test="status != null">
+            AND  status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="department != null and department!=''">
+            AND  department = #{department}
+        </if>
         <if test="number != null and number!=''">
             AND  number like CONCAT('%',#{number},'%')
         </if>
