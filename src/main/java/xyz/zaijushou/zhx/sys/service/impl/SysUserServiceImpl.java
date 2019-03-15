@@ -107,9 +107,12 @@ public class SysUserServiceImpl implements SysUserService {
         SysUserEntity user = this.getLoginName(temp);
         userEntity.setLoginNameCount(user.getLoginNameCount());
         userEntity.setUserName(user.getUserName());
-        userEntity.setLoginName(user.getLoginName());
-        userEntity.setNumber(user.getLoginName());
-        userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
+        if (StringUtils.isEmpty(userEntity.getLoginName())) {
+            userEntity.setLoginName(user.getLoginName());
+            userEntity.setNumber(user.getLoginName());
+        }else{
+            userEntity.setNumber(userEntity.getLoginName());
+        }
 
         SysPasswordEntity passwordEntity = sysPasswordMapper.selectPassword();
 
