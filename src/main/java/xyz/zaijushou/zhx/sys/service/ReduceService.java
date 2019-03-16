@@ -13,6 +13,8 @@ public interface ReduceService {
 
     public PageInfo<DataCollectionEntity> pageReduce(DataCollectionEntity bean);
 
+    public PageInfo<DataCollectionEntity> pageReduceExport(DataCollectionEntity bean);
+
     public List<DataCollectionEntity> listReduce(DataCollectionEntity bean);
 
     public void saveReduce(DataCollectionEntity bean);

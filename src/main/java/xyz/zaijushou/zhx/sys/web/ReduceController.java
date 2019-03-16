@@ -114,7 +114,7 @@ public class ReduceController {
         if (bean.getsType() == 0){//导出全部
             list = reduceService.listReduce(bean);
         }else {//导出当前页
-            PageInfo<DataCollectionEntity> pageInfo = reduceService.pageReduce(bean);
+            PageInfo<DataCollectionEntity> pageInfo = reduceService.pageReduceExport(bean);
             list = pageInfo.getList();
         }
         if (StringUtils.isEmpty(list)){
