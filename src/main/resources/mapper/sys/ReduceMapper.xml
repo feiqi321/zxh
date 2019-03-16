@@ -52,7 +52,7 @@
             AND dc.collect_area like CONCAT('%',#{area},'%')
         </if>
         <if test="seqno != null and seqno!=''">
-            AND dc.seq_no like CONCAT('%',#{seqno},'%')
+            AND dcr.seqno like CONCAT('%',#{seqno},'%')
         </if>
         <if test="targetName != null and targetName!=''">
             AND dc.name like CONCAT('%',#{targetName},'%')
