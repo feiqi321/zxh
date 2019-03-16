@@ -30,7 +30,7 @@
 
     <select id="pageReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select dc.id as caseId,
-        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as accountAge,
+        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as money,
         dc.odv,dc.reduce_status as reduceStatus,
         dc.collect_status as collectStatus,
         dc.reduce_update_time as reduceUpdateTime, dc.en_repay_amt as enRepayAmt,

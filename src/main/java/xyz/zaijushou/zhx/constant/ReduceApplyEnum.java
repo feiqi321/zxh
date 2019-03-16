@@ -9,7 +9,7 @@ public enum ReduceApplyEnum {
     COLUMN2("seqno","dc.seq_no"),
     COLUMN3("targetName","dc.name"),
     COLUMN4("collectStatus","dc.collect_status"),
-    COLUMN5("accountAge","dc.overdue_bill_time"),
+    COLUMN5("money","dc.money"),
     COLUMN6("completeTime","dcr.complete_time"),
     COLUMN7("completeUser","dcr.complete_user"),
     COLUMN8("approveRepayAmt","dcr.approve_repay_amt"),
