@@ -211,13 +211,13 @@ public class ExcelSynergisticConstant {
     public enum SynergisticSortEnum {
 
         COLUMN1("id","s.id"),
-        COLUMN2("synergisticType","s.synergistic_type"),
+        COLUMN2("synergisticType.name","s.synergistic_type"),
         COLUMN3("dataCase.collectStatus","c.collect_status"),
         COLUMN4("dataCase.seqNo","c.seq_no"),
         COLUMN5("dataCase.identNo","c.ident_no"),
         COLUMN6("dataCase.name","c.name"),
-        COLUMN7("dataCase.moneyMsg","c.money"),
-        COLUMN8("dataCase.repayMoneyMsg","c.en_repay_amt"),
+        COLUMN7("dataCase.money","c.money"),
+        COLUMN8("dataCase.repayMoney","c.en_repay_amt"),
         COLUMN9("applyContent","s.apply_content"),
         COLUMN10("applyTime","s.apply_time"),
         COLUMN11("applyUser.userName","s.apply_user"),

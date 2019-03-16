@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -37,8 +38,12 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             entity.setOrderBy(ExcelRepayRecordConstant.RepayRecordSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
         }
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordMapper.pageRepayRecordList(entity);
+        Set<String> userIdsSet = new HashSet<>();
         Set<String> dictSet = new HashSet<>();
         for(DataCaseRepayRecordEntity record : list) {
+            if(entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getCollectUser().getId());
+            }
             if(record != null && record.getDataCase() != null && StringUtils.isNotEmpty(record.getDataCase().getClient())) {
                 dictSet.add(RedisKeyPrefix.SYS_DIC + record.getDataCase().getClient());
             }
@@ -46,7 +51,11 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 dictSet.add(RedisKeyPrefix.SYS_DIC + record.getDataCase().getOverdueBillTime());
             }
         }
-
+        Map<Integer, SysNewUserEntity> userMap = new HashMap<>();
+        if(!CollectionUtils.isEmpty(userIdsSet)) {
+            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
+            userMap = CollectionsUtils.listToMap(userList);
+        }
         Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
         if(!CollectionUtils.isEmpty(dictSet)) {
             List<SysDictionaryEntity> dictList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
@@ -56,6 +65,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         }
         for (int i=0;i<list.size();i++){
             DataCaseRepayRecordEntity temp = list.get(i);
+            if(temp != null && temp.getCollectUser()!= null && temp.getCollectUser().getId() != null && userMap.get(temp.getCollectUser().getId()) != null) {
+                list.get(i).setCollectUser(userMap.get(temp.getCollectUser().getId()));
+            }
             if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getClient())) {
                 if(dictMap.get(temp.getDataCase().getClient()) != null) {
                     list.get(i).getDataCase().setClient(dictMap.get(temp.getDataCase().getClient()).getName());
