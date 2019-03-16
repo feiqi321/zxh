@@ -294,7 +294,7 @@
                     <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
                 <if test="overDays != null and overDays!=''">
-                    and da.over_days = #{overDays}
+                    and da.overdue_days = #{overDays}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
