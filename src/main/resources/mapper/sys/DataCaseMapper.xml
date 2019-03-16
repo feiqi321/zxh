@@ -376,7 +376,7 @@
         select id, batch_no as batchNo,client,collect_area as collectArea,dept,odv,status,area,expect_time as expectTime,color,new_case as newCase,
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,case_date as caseDate,collect_hand as collectHand,
         real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,DATE_FORMAT(distribute_time,'%Y-%m-%d %H:%i') as distributeTime,
-        money as money,balance as balance,over_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,
+        money as money,balance as balance,overdue_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,
         bank_amt as bankAmt,en_repay_amt as enRepayAmt,pro_repay_amt as proRepayAmt,comment,area,pro_repay_amt as proRepayAmt,collect_times as collectTimes
          from data_case where ident_no in (
         select da.ident_no
@@ -401,6 +401,12 @@
                     <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
                         #{item}
                     </foreach>
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
+                    and da.odv is not null
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
+                    and (da.odv is  null or da.odv='')
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and da.ident_no in
@@ -453,20 +459,10 @@
                 <if test="collectHand != null and collectHand!=''">
                     and da.collect_hand = #{collectHand}
                 </if>
-                <if test="name != null and name!=''">
-                    and da.name = #{name}
-                </if>
-                <if test="archiveNo != null and archiveNo!=''">
-                    and da.archive_no = #{archiveNo}
-                </if>
-                <if test="account != null and account!=''">
-                    and da.account = #{account}
-                </if>
+
+
                 <if test="bank != null and bank!=''">
                     and da.bank = #{bank}
-                </if>
-                <if test="idStr != null and idStr!=''">
-                    and da.id = #{idStr}
                 </if>
                 <if test="moneyStart != null and moneyStart!=''">
                     <![CDATA[   and da.money>=  #{moneyStart}  ]]>
@@ -475,19 +471,10 @@
                     <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
                 <if test="overDays != null and overDays!=''">
-                    and da.over_days = #{overDays}
-                </if>
-                <if test="cardNo != null and cardNo!=''">
-                    and da.card_no = #{cardNo}
-                </if>
-                <if test="seqNo != null and seqNo!=''">
-                    and da.seq_no = #{seqNo}
+                    and da.overdue_days = #{overDays}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
-                </if>
-                <if test="batchNo != null and batchNo!=''">
-                    and dc.batch_no = #{batchNo}
                 </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}
@@ -512,9 +499,6 @@
                 </if>
                 <if test="caseType != null and caseType!=''">
                     and da.case_type = #{caseType}
-                </if>
-                <if test="distributeStatus != null and distributeStatus!=''">
-                    and da.distribute_status = #{distributeStatus}
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">
