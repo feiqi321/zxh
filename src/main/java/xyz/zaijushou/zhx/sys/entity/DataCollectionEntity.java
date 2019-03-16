@@ -224,6 +224,8 @@ public class DataCollectionEntity extends CommonEntity {
     //批复还款金额
     private BigDecimal approveRepayAmt;
 
+    private String approveRepayAmtMsg;
+
     //案件分配时间
     private String caseAllotTime;
     private String caseAllotTimeStart;
@@ -251,6 +253,14 @@ public class DataCollectionEntity extends CommonEntity {
     private String applyUser;
     private String auditUser;
     private String auditTime;
+
+    public String getApproveRepayAmtMsg() {
+        return approveRepayAmtMsg;
+    }
+
+    public void setApproveRepayAmtMsg(String approveRepayAmtMsg) {
+        this.approveRepayAmtMsg = approveRepayAmtMsg;
+    }
 
     public String getMethodMsg() {
         return methodMsg;

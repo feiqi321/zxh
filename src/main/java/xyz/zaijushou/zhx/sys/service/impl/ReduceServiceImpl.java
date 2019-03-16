@@ -11,6 +11,7 @@ import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -47,6 +48,11 @@ public class ReduceServiceImpl implements ReduceService {
             temp.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
             SysDictionaryEntity reduceDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getReduceStatus(), SysDictionaryEntity.class);
             temp.setReduceStatusMsg(reduceDic==null?"":reduceDic.getName());
+
+            temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
+            temp.setApproveRepayAmtMsg(temp.getApproveRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getApproveRepayAmt()+""));
+            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+
             list.set(i,temp);
         }
         if (StringUtils.isEmpty(list)){
