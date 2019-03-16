@@ -4,18 +4,18 @@ package xyz.zaijushou.zhx.constant;
  * Created by looyer on 2019/2/19.
  */
 public enum SynergySortEnum {
-    COLUMN0("id","id"),
-    COLUMN1("seqNo","seq_no"),
-    COLUMN2("name","name"),
-    COLUMN3("cardNo","card_no"),
-    COLUMN4("moneyMsg","money"),
-    COLUMN5("caseDate","case_date"),
-    COLUMN6("collectStatusMsg","collect_status"),
-    COLUMN7("collectDate","collect_date"),
-    COLUMN8("proRepayAmtMsg","pro_repay_amt"),
-    COLUMN9("enRepayAmtMsg","en_repay_amt"),
-    COLUMN10("accountAge","account_age"),
-    COLUMN11("odv","odv")
+    COLUMN0("id","t.id"),
+    COLUMN1("seqno","t.seq_no"),
+    COLUMN2("name","t.name"),
+    COLUMN3("cardNo","t.card_no"),
+    COLUMN4("moneyMsg","t.money"),
+    COLUMN5("caseDate","t.case_date"),
+    COLUMN6("collectStatusMsg","t.collect_status"),
+    COLUMN7("collectDate","t.collect_date"),
+    COLUMN8("proRepayAmtMsg","t.pro_repay_amt"),
+    COLUMN9("enRepayAmtMsg","t.en_repay_amt"),
+    COLUMN10("accountAge","t.account_age"),
+    COLUMN11("odv","t.odv")
     ;
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;
