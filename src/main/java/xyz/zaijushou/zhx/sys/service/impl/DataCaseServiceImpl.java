@@ -277,6 +277,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseEntity.setColor(ColorEnum.getEnumByKey(dataCaseEntity.getColor()).toString());
         }
+        if (dataCaseEntity.getDistributeStatus()==1){
+            dataCaseEntity.setDistributeStatusFlag("1");
+        }else{
+            dataCaseEntity.setDistributeStatusFlag(null);
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);

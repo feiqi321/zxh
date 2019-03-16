@@ -326,7 +326,7 @@
                 <if test="caseType != null and caseType!=''">
                     and da.case_type = #{caseType}
                 </if>
-                <if test="distributeStatus != null and distributeStatus!=''">
+                <if test="distributeStatusFlag != null and distributeStatusFlag!=''">
                     and da.odv is not null
                 </if>
 

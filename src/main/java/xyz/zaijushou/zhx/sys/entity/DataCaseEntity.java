@@ -51,6 +51,7 @@ public class DataCaseEntity extends CommonEntity {
     private String repayDateStart;//还款日期
     private String repayDateEnd;//还款日期
     private int distributeStatus;//分配状态  查询条件
+    private String distributeStatusFlag;
     private String license; //牌照号  查询条件
     private String  expectTime;// 预计退案日期 查询条件   列表
     private String expectStartTime;
@@ -277,6 +278,14 @@ public class DataCaseEntity extends CommonEntity {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    public String getDistributeStatusFlag() {
+        return distributeStatusFlag;
+    }
+
+    public void setDistributeStatusFlag(String distributeStatusFlag) {
+        this.distributeStatusFlag = distributeStatusFlag;
+    }
 
     public String getOverdueBalanceMsg() {
         return overdueBalanceMsg;
