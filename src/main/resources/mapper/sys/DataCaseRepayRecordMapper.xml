@@ -497,7 +497,7 @@
     </insert>
 
     <insert id="addList" parameterType="java.util.List">
-        insert into data_case_bank_reconciliation
+        insert into data_case_repay_record
         (
         data_case,
         collect_user,
@@ -508,7 +508,7 @@
         create_user,
         update_user
         )
-        valuse
+        values
         <foreach collection="list" separator="," item="item">
             (
             #{item.dataCase.id},

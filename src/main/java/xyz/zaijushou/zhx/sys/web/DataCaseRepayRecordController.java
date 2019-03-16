@@ -195,11 +195,16 @@ public class DataCaseRepayRecordController {
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
+        SysNewUserEntity newUser = new SysNewUserEntity();
+        newUser.setId(userId);
         for (DataCaseRepayRecordEntity entity : dataEntities) {
-            if (existCaseMap.containsKey(entity.getDataCase().getSeqNo())) {
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getDataCase().getSeqNo() + "已存在，请确认后重新上传");
+            if (!existCaseMap.containsKey(entity.getDataCase().getSeqNo())) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getDataCase().getSeqNo() + "不存在，请确认后重新上传");
             }
             entity.setDataCase(existCaseMap.get(entity.getDataCase().getSeqNo()));
+            if(entity.getCollectUser() == null || entity.getCollectUser().getId() == null) {
+                entity.setCollectUser(newUser);
+            }
             entity.setCreateUser(user);
             entity.setUpdateUser(user);
         }

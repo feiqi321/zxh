@@ -12,10 +12,10 @@ public class ExcelRepayRecordConstant {
 
     public enum RepayRecordImport implements ExcelEnum {
 
-        COL10(10, "*个案序列号", "dataCase.seqNo", DataCaseEntity.class, Integer.class),
-        COL20(20, "*档案号", "dataCase.seqNo", DataCaseEntity.class, Integer.class),
-        COL30(30, "*卡号", "dataCase.seqNo", DataCaseEntity.class, Integer.class),
-        COL40(40, "*账号", "dataCase.seqNo", DataCaseEntity.class, Integer.class),
+        COL10(10, "*个案序列号", "dataCase.seqNo", DataCaseEntity.class, String.class),
+        COL20(20, "*档案号", "dataCase.archiveNo", DataCaseEntity.class, String.class),
+        COL30(30, "*卡号", "dataCase.cardNo", DataCaseEntity.class, String.class),
+        COL40(40, "*账号", "dataCase.account", DataCaseEntity.class, String.class),
         COL50(50, "*还款金额", "repayMoney", BigDecimal.class),
         COL60(60, "*还款日期", "repayDate", Date.class),
         COL70(70, "最新欠款", "latestOverdue", BigDecimal.class),
@@ -23,7 +23,7 @@ public class ExcelRepayRecordConstant {
         COL90(90, "是否结清", "settleFlag", String.class),
         COL100(100, "回收催收员ID", "collectUser.id", SysNewUserEntity.class, Integer.class),
         COL110(110, "还款人", "repayUser", String.class),
-        COL120(120, "还款方式", "repayType", String.class),
+        COL120(120, "还款方式", "repayType.name", SysDictionaryEntity.class, String.class),
         ;
 
         private Integer sort;
