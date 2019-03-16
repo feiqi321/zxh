@@ -1724,6 +1724,7 @@
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
         </foreach>
+         and delete_flag=0
     </select>
 
     <select id="countUserCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="java.lang.Integer">
