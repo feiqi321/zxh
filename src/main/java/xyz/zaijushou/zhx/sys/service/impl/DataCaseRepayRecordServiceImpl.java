@@ -44,6 +44,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
                 userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getCollectUser().getId());
             }
+            if(entity != null && entity.getConfirmUser()!= null && entity.getConfirmUser().getId() != null ) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getConfirmUser().getId());
+            }
             if(record != null && record.getDataCase() != null && StringUtils.isNotEmpty(record.getDataCase().getClient())) {
                 dictSet.add(RedisKeyPrefix.SYS_DIC + record.getDataCase().getClient());
             }
@@ -67,6 +70,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             DataCaseRepayRecordEntity temp = list.get(i);
             if(temp != null && temp.getCollectUser()!= null && temp.getCollectUser().getId() != null && userMap.get(temp.getCollectUser().getId()) != null) {
                 list.get(i).setCollectUser(userMap.get(temp.getCollectUser().getId()));
+            }
+            if(temp != null && temp.getConfirmUser()!= null && temp.getConfirmUser().getId() != null && userMap.get(temp.getConfirmUser().getId()) != null) {
+                list.get(i).setConfirmUser(userMap.get(temp.getConfirmUser().getId()));
             }
             if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getClient())) {
                 if(dictMap.get(temp.getDataCase().getClient()) != null) {
