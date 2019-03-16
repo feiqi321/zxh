@@ -284,20 +284,8 @@
                 <if test="collectHand != null and collectHand!=''">
                     and da.collect_hand = #{collectHand}
                 </if>
-                <if test="name != null and name!=''">
-                    and da.name = #{name}
-                </if>
-                <if test="archiveNo != null and archiveNo!=''">
-                    and da.archive_no = #{archiveNo}
-                </if>
-                <if test="account != null and account!=''">
-                    and da.account = #{account}
-                </if>
                 <if test="bank != null and bank!=''">
                     and da.bank = #{bank}
-                </if>
-                <if test="idStr != null and idStr!=''">
-                    and da.id = #{idStr}
                 </if>
                 <if test="moneyStart != null and moneyStart!=''">
                     <![CDATA[   and da.money>=  #{moneyStart}  ]]>
