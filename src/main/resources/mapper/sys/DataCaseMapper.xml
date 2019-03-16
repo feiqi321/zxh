@@ -1733,4 +1733,19 @@
         from data_case
         where delete_flag = 0 and odv = #{odv}
     </select>
+
+    <update id="updateRepayMoney" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case
+        set en_repay_amt = #{enRepayAmt},
+            <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
+            balance = money - #{enRepayAmt}
+        where id = #{id}
+    </update>
+
+    <update id="updateCpMoney" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case
+        set bank_amt = #{bankAmt},
+        <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id}</if>
+        where id = #{id}
+    </update>
 </mapper>

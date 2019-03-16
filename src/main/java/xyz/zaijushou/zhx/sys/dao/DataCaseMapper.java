@@ -108,4 +108,8 @@ public interface DataCaseMapper {
     void updateDataCaseByCollectAdd(DataCaseEntity dataCaseEntity);
 
     void updateDataCaseByCollectResult(DataCaseEntity dataCaseEntity);
+
+    void updateRepayMoney(DataCaseEntity dataCaseEntity);
+
+    void updateCpMoney(DataCaseEntity dataCaseEntity);
 }

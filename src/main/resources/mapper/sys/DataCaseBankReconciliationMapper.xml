@@ -260,4 +260,13 @@
         </foreach>
     </insert>
 
+    <select id="findLatestCpByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
+        select
+        id as id,
+        data_case as 'dataCase.id',
+        cp_money as 'cpMoney'
+        from data_case_bank_reconciliation
+        where id = #{id}
+    </select>
+
 </mapper>

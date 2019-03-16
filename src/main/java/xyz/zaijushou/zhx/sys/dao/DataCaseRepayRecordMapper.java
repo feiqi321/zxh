@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
 
 import java.util.List;
@@ -20,4 +21,8 @@ public interface DataCaseRepayRecordMapper {
     DataCaseRepayRecordEntity queryCaseSum(DataCaseRepayRecordEntity entity);
 
     DataCaseRepayRecordEntity queryRepaySum(DataCaseRepayRecordEntity entity);
+
+    List<DataCaseRepayRecordEntity> listBySeqNo(DataCaseRepayRecordEntity record);
+
+    DataCaseRepayRecordEntity findById(DataCaseRepayRecordEntity entity);
 }

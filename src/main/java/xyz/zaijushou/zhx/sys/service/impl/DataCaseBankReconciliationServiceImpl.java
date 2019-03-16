@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelBankReconciliationConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseBankReconciliationMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
@@ -17,6 +18,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +32,8 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     private SysUserService sysUserService;//用户业务控制层
     @Autowired
     private DataLogService dataLogService;
+    @Resource
+    private DataCaseMapper dataCaseMapper;
 
     @Override
     public PageInfo<DataCaseBankReconciliationEntity> pageDataList(DataCaseBankReconciliationEntity entity) {
@@ -55,6 +59,11 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     public void cancel(DataCaseBankReconciliationEntity entity) {
         entity.setStatus("1");
         dataCaseBankReconciliationMapper.updateStatus(entity);
+        for(Integer id : entity.getIds()) {
+            DataCaseBankReconciliationEntity cp = new DataCaseBankReconciliationEntity();
+            cp.setId(id);
+            updateDataCaseBalance(cp);
+        }
         List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationMapper.listBankReconciliation(entity);
         for(int i=0;i<list.size();i++)
         {
@@ -90,6 +99,9 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             return;
         }
         dataCaseBankReconciliationMapper.addList(dataEntities);
+        for(DataCaseBankReconciliationEntity entity : dataEntities) {
+            updateDataCaseBalance(entity);
+        }
         for (int i=0;i<dataEntities.size();i++){
             DataCaseBankReconciliationEntity temp = dataEntities.get(i);
             DataOpLog log = new DataOpLog();
@@ -102,6 +114,14 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             log.setCaseId(temp.getDataCase().getId()+"");
             dataLogService.saveDataLog(log);
         }
+    }
+
+    public void updateDataCaseBalance(DataCaseBankReconciliationEntity cpEntity) {
+        cpEntity = dataCaseBankReconciliationMapper.findLatestCpByCaseId(cpEntity);
+        DataCaseEntity dataCaseEntity = cpEntity.getDataCase();
+        dataCaseEntity.setBankAmt(cpEntity.getCpMoney());
+        dataCaseMapper.updateCpMoney(dataCaseEntity);
+
     }
 
 }
