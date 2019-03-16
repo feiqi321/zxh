@@ -326,8 +326,11 @@
                 <if test="caseType != null and caseType!=''">
                     and da.case_type = #{caseType}
                 </if>
-                <if test="distributeStatusFlag != null and distributeStatusFlag!=''">
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
                     and da.odv is not null
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
+                    and (da.odv is  null or da.odv='')
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">

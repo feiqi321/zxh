@@ -279,6 +279,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         if (dataCaseEntity.getDistributeStatus()==1){
             dataCaseEntity.setDistributeStatusFlag("1");
+        }else if(dataCaseEntity.getDistributeStatus()==0){
+            dataCaseEntity.setDistributeStatusFlag("2");
         }else{
             dataCaseEntity.setDistributeStatusFlag(null);
         }
