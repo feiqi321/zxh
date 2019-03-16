@@ -318,7 +318,7 @@
     <!--查询数据集合-->
     <select id="userDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
         select
-        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
+        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_fail_times as loginFailTimes,
         su.status,su.enable,su.username as userName,so.org_name department,
         su.create_time as createTime,su.create_user as 'createUser.id',
         su.update_user as 'updateUser.id',su.update_time as updateTime,
@@ -434,6 +434,7 @@
     <update id="updateDataStatus" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user
         <set>
+            login_fail_times = 0,
             <if test="status != null">
                 status = #{status},
             </if>

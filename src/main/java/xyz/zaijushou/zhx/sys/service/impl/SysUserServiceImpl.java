@@ -289,6 +289,12 @@ public class SysUserServiceImpl implements SysUserService {
         userEntity.setPageNum((userEntity.getPageNum()-1)*userEntity.getPageSize());
 
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
+        for (int i=0;i<list.size();i++){
+            SysNewUserEntity sysNewUserEntity = list.get(i);
+            if (sysNewUserEntity.getLoginFailTimes()>=3){
+                sysNewUserEntity.setEnable(0);
+            }
+        }
         int count = sysUserMapper.countUserData(userEntity);
         if(CollectionUtils.isEmpty(list)) {
             return new PageInfo<>();
