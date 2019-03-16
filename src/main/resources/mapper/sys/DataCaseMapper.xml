@@ -327,7 +327,7 @@
                     and da.case_type = #{caseType}
                 </if>
                 <if test="distributeStatus != null and distributeStatus!=''">
-                    and da.distribute_status = #{distributeStatus}
+                    and da.odv is not null
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">
