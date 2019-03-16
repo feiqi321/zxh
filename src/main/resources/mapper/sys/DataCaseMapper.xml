@@ -297,7 +297,7 @@
                     and da.overdue_days = #{overDays}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    and dc.collectInfo = #{collectInfo}
+                    and dc.collect_info = #{collectInfo}
                 </if>
                 <if test="batchNo != null and batchNo!=''">
                     and dc.batch_no = #{batchNo}
