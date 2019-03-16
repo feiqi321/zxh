@@ -6,7 +6,7 @@ package xyz.zaijushou.zhx.constant;
 public enum ReduceApplyEnum {
     COLUMN0("id","dcr.id"),
     COLUMN1("applyStatus","dcr.apply_status"),
-    COLUMN2("seqno","dc.seq_no"),
+    COLUMN2("seqno","dcr.seqno"),
     COLUMN3("targetName","dc.name"),
     COLUMN4("collectStatusMsg","dc.collect_status"),
     COLUMN5("moneyMsg","dc.money"),
