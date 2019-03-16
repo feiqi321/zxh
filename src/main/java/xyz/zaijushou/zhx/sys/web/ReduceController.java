@@ -15,11 +15,14 @@ import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelReduceConstant;
 import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.FileList;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +55,12 @@ public class ReduceController {
     @ApiOperation(value = "增加减免信息", notes = "增加减免信息")
     @PostMapping("/reduce/add")
     public Object saveReduce(@RequestBody DataCollectionEntity bean) {
+        DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+bean.getSeqno(),DataCaseEntity.class);
+        if (dataCaseEntity!=null){
+
+        }else{
+            return WebResponse.error("500","个案序列号:"+bean.getSeqno()+"不存在");
+        }
         reduceService.saveReduce(bean);
         return WebResponse.success();
     }
@@ -83,6 +92,17 @@ public class ReduceController {
         String fileName = file.getOriginalFilename();
         logger.info(fileName);
         List<DataCollectionEntity> bean = ExcelUtils.importExcel(file, ExcelReduceConstant.ReduceInfo.values(), DataCollectionEntity.class);
+        for (int i=0;i<bean.size();i++){
+            DataCollectionEntity temp = bean.get(i);
+            DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqno(),DataCaseEntity.class);
+            if (dataCaseEntity!=null){
+
+            }else{
+               return WebResponse.error("500","个案序列号:"+temp.getSeqno()+"不存在");
+            }
+        }
+
+
         reduceService.saveReduceInfo(bean);
         return WebResponse.success();
     }
