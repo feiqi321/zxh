@@ -191,6 +191,8 @@ public class ExcelBankReconciliationConstant {
         COLUMN13("repayType","b.repay_type"),
         COLUMN14("submitTime","b.submit_time"),
         COLUMN15("remark","b.remark"),
+        COLUMN16("submitUser.name",""),
+
         ;
         //防止字段值被修改，增加的字段也统一final表示常量
         private final String key;
