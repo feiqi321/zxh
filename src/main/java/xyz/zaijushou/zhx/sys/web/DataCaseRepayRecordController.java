@@ -13,10 +13,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
@@ -69,23 +66,7 @@ public class DataCaseRepayRecordController {
 
     @PostMapping("/queryDataExport")
     public Object queryDataExport(@RequestBody DataCaseRepayRecordEntity repayRecordEntity, HttpServletResponse response) throws IOException {
-        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecord(repayRecordEntity);
-        Set<String> userIdsSet = new HashSet<>();
-        for(DataCaseRepayRecordEntity entity : list) {
-            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
-            }
-        }
-        if(!CollectionUtils.isEmpty(userIdsSet)) {
-            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
-            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
-            for(int i = 0; i < list.size(); i ++) {
-                DataCaseRepayRecordEntity entity = list.get(i);
-                if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                    list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
-                }
-            }
-        }
+        List<DataCaseRepayRecordEntity> list = combineInfo(dataCaseRepayRecordService.listRepayRecord(repayRecordEntity));
         ExcelUtils.exportExcel(
                 list,
                 ExcelRepayRecordConstant.RepayRecordExport.values(),
@@ -97,23 +78,7 @@ public class DataCaseRepayRecordController {
 
     @PostMapping("/pageDataExport")
     public Object pageDataExport(@RequestBody DataCaseRepayRecordEntity repayRecordEntity, HttpServletResponse response) throws IOException {
-        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.pageRepayRecordList(repayRecordEntity).getList();
-        Set<String> userIdsSet = new HashSet<>();
-        for(DataCaseRepayRecordEntity entity : list) {
-            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
-            }
-        }
-        if(!CollectionUtils.isEmpty(userIdsSet)) {
-            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
-            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
-            for(int i = 0; i < list.size(); i ++) {
-                DataCaseRepayRecordEntity entity = list.get(i);
-                if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                    list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
-                }
-            }
-        }
+        List<DataCaseRepayRecordEntity> list = combineInfo(dataCaseRepayRecordService.pageRepayRecordList(repayRecordEntity).getList());
         ExcelUtils.exportExcel(
                 list,
                 ExcelRepayRecordConstant.RepayRecordExport.values(),
@@ -134,23 +99,7 @@ public class DataCaseRepayRecordController {
             );
             return null;
         }
-        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecord(repayRecordEntity);
-        Set<String> userIdsSet = new HashSet<>();
-        for(DataCaseRepayRecordEntity entity : list) {
-            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
-            }
-        }
-        if(!CollectionUtils.isEmpty(userIdsSet)) {
-            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
-            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
-            for(int i = 0; i < list.size(); i ++) {
-                DataCaseRepayRecordEntity entity = list.get(i);
-                if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                    list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
-                }
-            }
-        }
+        List<DataCaseRepayRecordEntity> list = combineInfo(dataCaseRepayRecordService.listRepayRecord(repayRecordEntity));
         ExcelUtils.exportExcel(
                 list,
                 ExcelRepayRecordConstant.RepayRecordExport.values(),
@@ -212,5 +161,47 @@ public class DataCaseRepayRecordController {
         return WebResponse.success();
     }
 
+    private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
+        Set<String> userIdsSet = new HashSet<>();
+        Set<String> dictSet = new HashSet<>();
+        for(DataCaseRepayRecordEntity entity : list) {
+            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
+            }
+            if(entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getCollectUser().getId());
+            }
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                dictSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
+            }
+        }
+        if(!CollectionUtils.isEmpty(userIdsSet)) {
+            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
+            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
+            for (DataCaseRepayRecordEntity entity : list) {
+                if (entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                    entity.getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+                }
+                if (entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
+                    entity.setCollectUser(userMap.get(entity.getCollectUser().getId()));
+                }
+            }
+        }
+        if(!CollectionUtils.isEmpty(dictSet)) {
+            List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
+            Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
+            for(SysDictionaryEntity entity : clientList) {
+                dictMap.put(entity.getId() + "", entity);
+            }
+            for (DataCaseRepayRecordEntity entity : list) {
+                if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                    if(dictMap.get(entity.getDataCase().getClient()) != null) {
+                        entity.getDataCase().setClient(dictMap.get(entity.getDataCase().getClient()).getName());
+                    }
+                }
+            }
+        }
+        return list;
+    }
 
 }
