@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Component;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import javax.annotation.Resource;
@@ -39,6 +40,13 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
             user.setLoginName(name);
             user = sysUserMapper.findPasswordInfoByLoginName(user);
             if(user.getLoginFailTimes() >= 3 && new Date().getTime() - user.getLastLoginFailTime().getTime()  < 30 * 60 * 1000) {
+                //账号锁定
+                if (user.getEnable() == 1){
+                    SysNewUserEntity newUser = new  SysNewUserEntity();
+                    newUser.setId(user.getId());
+                    newUser.setEnable(0);
+                    sysUserMapper.updateUser(newUser);
+                }
                 throw new LockedException("此账号已锁定，请联系管理员解锁！");
             }
             if (delegatingPasswordEncoder.matches(password, userDetails.getPassword())) {

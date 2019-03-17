@@ -246,6 +246,9 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setEnable(0);
             userEntity.setLeaveTime(new Date());//保存离职日期
         }
+        if(userEntity.getEnable() == 1){//解锁
+            userEntity.setLoginFailTimes(0);
+        }
         sysUserMapper.updateDataStatus(userEntity);
     }
 

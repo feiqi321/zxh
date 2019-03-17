@@ -32,7 +32,7 @@
         select dc.id as caseId,
         dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as money,
         dc.odv,dc.reduce_status as reduceStatus,
-        dc.collect_status as collectStatus,
+        dc.collect_status as collectStatus,dc.money,
         dc.reduce_update_time as reduceUpdateTime, dc.en_repay_amt as enRepayAmt,
         dcr.complete_time as completeTime,dcr.complete_user as completeUser,
         dcr.audit_time as auditTime,dcr.audit_user as auditUser,
