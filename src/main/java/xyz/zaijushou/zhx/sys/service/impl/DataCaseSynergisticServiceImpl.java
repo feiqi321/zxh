@@ -52,8 +52,23 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
         }
         List<DataCaseSynergisticEntity> synergisticList = dataCaseSynergisticMapper.pageSynergisticList(synergistic);
         for(DataCaseSynergisticEntity entity : synergisticList) {
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getSynergisticType().getId(),SysDictionaryEntity.class);
-            entity.setSynergisticType(sysDictionaryEntity);
+            if (entity.getSynergisticType()==null){
+                SysDictionaryEntity sysDictionaryEntity = new SysDictionaryEntity();
+                entity.setSynergisticType(sysDictionaryEntity);
+            }else {
+                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + entity.getSynergisticType().getId(), SysDictionaryEntity.class);
+                entity.setSynergisticType(sysDictionaryEntity);
+            }
+
+            if (entity.getDataCase()==null){
+                entity.getDataCase().setCollectStatusMsg("");
+            }else{
+                SysDictionaryEntity collectStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getSynergisticType().getId(),SysDictionaryEntity.class);
+                entity.getDataCase().setCollectStatusMsg(collectStatusEntity.getName());
+            }
+
+
+
             if (entity.getApplyUser()==null){
 
             }else {
