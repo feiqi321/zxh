@@ -241,6 +241,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getAccountAge(),SysDictionaryEntity.class);
             collection.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
 
+            SysDictionaryEntity collectType =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getCollectionType(),SysDictionaryEntity.class);
+            collection.setCollectionType(collectType==null?"":collectType.getName());
+
+            SysDictionaryEntity collectInfoType =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getCollectInfo(),SysDictionaryEntity.class);
+            collection.setCollectInfo(collectInfoType==null?"":collectInfoType.getName());
+
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
             collection.setBankAmtMsg(collection.getBankAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
