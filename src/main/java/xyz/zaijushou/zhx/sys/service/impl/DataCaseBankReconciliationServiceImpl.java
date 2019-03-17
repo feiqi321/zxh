@@ -9,10 +9,12 @@ import xyz.zaijushou.zhx.constant.ExcelBankReconciliationConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseBankReconciliationMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -20,8 +22,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconciliationService {
@@ -34,6 +35,8 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     private DataLogService dataLogService;
     @Resource
     private DataCaseMapper dataCaseMapper;
+    @Resource
+    private DataCaseRemarkMapper dataCaseRemarkMapper;
 
     @Override
     public PageInfo<DataCaseBankReconciliationEntity> pageDataList(DataCaseBankReconciliationEntity entity) {
@@ -43,7 +46,7 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         if(!StringUtils.isEmpty(entity.getOrderBy())){
             entity.setOrderBy(ExcelBankReconciliationConstant.BankReconciliationSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
         }
-        List<DataCaseBankReconciliationEntity> pageData = dataCaseBankReconciliationMapper.pageData(entity);
+        List<DataCaseBankReconciliationEntity> pageData = combineInfo(dataCaseBankReconciliationMapper.pageData(entity));
         for (int i=0;i<pageData.size();i++){
             DataCaseBankReconciliationEntity temp = pageData.get(i);
 
@@ -62,6 +65,7 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         for(Integer id : entity.getIds()) {
             DataCaseBankReconciliationEntity cp = new DataCaseBankReconciliationEntity();
             cp.setId(id);
+            cp = dataCaseBankReconciliationMapper.findById(cp);
             updateDataCaseBalance(cp);
         }
         List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationMapper.listBankReconciliation(entity);
@@ -90,7 +94,7 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         if(bankReconciliationEntity != null && bankReconciliationEntity.getDataCase() != null && bankReconciliationEntity.getDataCase().getCollectStatus() == 0) {
             bankReconciliationEntity.getDataCase().setCollectStatusMsg("");
         }
-        return dataCaseBankReconciliationMapper.listBankReconciliation(bankReconciliationEntity);
+        return combineInfo(dataCaseBankReconciliationMapper.listBankReconciliation(bankReconciliationEntity));
     }
 
     @Override
@@ -117,11 +121,71 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     }
 
     public void updateDataCaseBalance(DataCaseBankReconciliationEntity cpEntity) {
-        cpEntity = dataCaseBankReconciliationMapper.findLatestCpByCaseId(cpEntity);
-        DataCaseEntity dataCaseEntity = cpEntity.getDataCase();
-        dataCaseEntity.setBankAmt(cpEntity.getCpMoney());
+        DataCaseBankReconciliationEntity queryEntity = dataCaseBankReconciliationMapper.findLatestCpByCaseId(cpEntity);
+        if(queryEntity == null) {
+            queryEntity = new DataCaseBankReconciliationEntity();
+            queryEntity.setDataCase(cpEntity.getDataCase());
+            queryEntity.setCpMoney(new BigDecimal(0));
+        }
+        DataCaseEntity dataCaseEntity = queryEntity.getDataCase();
+        dataCaseEntity.setBankAmt(queryEntity.getCpMoney());
         dataCaseMapper.updateCpMoney(dataCaseEntity);
 
     }
 
+    private List<DataCaseBankReconciliationEntity> combineInfo(List<DataCaseBankReconciliationEntity> list) {
+        Set<String> userIdsSet = new HashSet<>();
+        Set<String> dictSet = new HashSet<>();
+        Set<Integer> caseIdsSet = new HashSet<>();
+        for(DataCaseBankReconciliationEntity entity : list) {
+            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
+            }
+            if(entity != null && entity.getDataCase() != null && org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                dictSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
+            }
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+                caseIdsSet.add(entity.getDataCase().getId());
+            }
+        }
+        if(!CollectionUtils.isEmpty(userIdsSet)) {
+            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
+            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
+            for (DataCaseBankReconciliationEntity entity : list) {
+                if (entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                    entity.getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+                }
+            }
+        }
+        if(!CollectionUtils.isEmpty(dictSet)) {
+            List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
+            Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
+            for(SysDictionaryEntity entity : clientList) {
+                dictMap.put(entity.getId() + "", entity);
+            }
+            for (DataCaseBankReconciliationEntity entity : list) {
+                if(entity != null && entity.getDataCase() != null && org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                    if(dictMap.get(entity.getDataCase().getClient()) != null) {
+                        entity.getDataCase().setClient(dictMap.get(entity.getDataCase().getClient()).getName());
+                    }
+                }
+            }
+        }
+        DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
+        queryRemarks.setCaseIdsSet(caseIdsSet);
+        List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
+        Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
+        for(DataCaseRemarkEntity entity : remarks) {
+            if(!remarkMap.containsKey(entity.getCaseId())) {
+                remarkMap.put(entity.getCaseId(), new ArrayList<>());
+            }
+            remarkMap.get(entity.getCaseId()).add(entity);
+        }
+        for (DataCaseBankReconciliationEntity entity : list) {
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+                entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
+            }
+        }
+        return list;
+    }
 }

@@ -121,12 +121,12 @@ public class ExcelRepayRecordConstant {
         COL440(440, "外访状态", "dataCase.inteviewStatus", DataCaseEntity.class, String.class),
         COL450(450, "公司佣金", "dataCase.commissionMoney", DataCaseEntity.class, BigDecimal.class),
         COL460(460, "公司佣金比率", "dataCase.commissionRate", DataCaseEntity.class, Date.class),
-        COL470(470, "案件备注1", "dataCase.caseRemarks[0].name", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL480(480, "案件备注2", "dataCase.caseRemarks[1].name", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL490(490, "案件备注3", "dataCase.caseRemarks[2].name", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL500(500, "案件备注4", "dataCase.caseRemarks[3].name", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL510(510, "案件备注5", "dataCase.caseRemarks[4].name", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL520(520, "案件备注6", "dataCase.caseRemarks[5].name", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL470(470, "案件备注1", "dataCase.caseRemarks[0].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL480(480, "案件备注2", "dataCase.caseRemarks[1].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL490(490, "案件备注3", "dataCase.caseRemarks[2].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL500(500, "案件备注4", "dataCase.caseRemarks[3].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL510(510, "案件备注5", "dataCase.caseRemarks[4].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL520(520, "案件备注6", "dataCase.caseRemarks[5].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
         COL530(530, "催收区域", "dataCase.collectionArea.name", DataCaseEntity.class, SysDictionaryEntity.class, String.class),
         ;
 

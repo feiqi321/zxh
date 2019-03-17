@@ -15,10 +15,8 @@ import xyz.zaijushou.zhx.constant.ExcelBankReconciliationConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.RepayTypeEnum;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
-import xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.utils.*;
@@ -138,22 +136,6 @@ public class DataCaseBankReconciliationController {
             return null;
         }
         List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.listBankReconciliation(bankReconciliationEntity);
-        Set<String> userIdsSet = new HashSet<>();
-        for(DataCaseBankReconciliationEntity entity : list) {
-            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
-            }
-        }
-        if(!CollectionUtils.isEmpty(userIdsSet)) {
-            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
-            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
-            for(int i = 0; i < list.size(); i ++) {
-                DataCaseBankReconciliationEntity entity = list.get(i);
-                if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                    list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
-                }
-            }
-        }
         ExcelUtils.exportExcel(
                 list,
 
@@ -201,8 +183,8 @@ public class DataCaseBankReconciliationController {
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
         for (DataCaseBankReconciliationEntity entity : dataEntities) {
-            if (existCaseMap.containsKey(entity.getDataCase().getSeqNo())) {
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getDataCase().getSeqNo() + "已存在，请确认后重新上传");
+            if (!existCaseMap.containsKey(entity.getDataCase().getSeqNo())) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getDataCase().getSeqNo() + "不存在，请确认后重新上传");
             }
             entity.setDataCase(existCaseMap.get(entity.getDataCase().getSeqNo()));
             entity.setCreateUser(user);

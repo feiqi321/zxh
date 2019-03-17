@@ -16,4 +16,6 @@ public interface DataCaseBankReconciliationMapper {
     void addList(List<DataCaseBankReconciliationEntity> dataEntities);
 
     DataCaseBankReconciliationEntity findLatestCpByCaseId(DataCaseBankReconciliationEntity cpEntity);
+
+    DataCaseBankReconciliationEntity findById(DataCaseBankReconciliationEntity cp);
 }
