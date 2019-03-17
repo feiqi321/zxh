@@ -155,19 +155,26 @@ public class ReduceServiceImpl implements ReduceService {
         switch (bean.getReduceFlag()){
             case "0"://启动
                 bean.setReduceFlag("0");
+                break;
             case "1"://删除
                 bean.setDeleteFlag(1);
+                break;
             case "2"://撤销
                 bean.setApplyStatus("2");
+                break;
             case "3"://审核通过
                 bean.setApplyStatus("1");
                 bean.setAuditTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                break;
             case "4"://已完成
                 bean.setApplyStatus("2");
                 bean.setCompleteUser("系统管理员");
                 bean.setCompleteTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+                break;
             case "5"://停用
                 bean.setReduceFlag("5");
+                break;
+                default:break;
         }
         reduceMapper.updateStatus(bean);
     }
