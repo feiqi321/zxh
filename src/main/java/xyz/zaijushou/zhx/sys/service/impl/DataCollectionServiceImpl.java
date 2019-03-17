@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.ColorEnum;
+import xyz.zaijushou.zhx.constant.MyCollectSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
@@ -195,7 +196,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");
         }else {
-            dataCollectionEntity.setOrderBy(CollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy()).getValue());
+            dataCollectionEntity.setOrderBy(MyCollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy()).getValue());
         }
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort(" desc");
