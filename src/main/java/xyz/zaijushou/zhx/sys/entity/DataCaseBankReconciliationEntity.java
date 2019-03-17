@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
 
     private String cpMoneyMsg;
 
+    @JSONField(format="yyyy-MM-dd")
     private Date cpDate;    //CP日期
 
     private String repayUser;   //还款人
@@ -24,6 +26,7 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
 
     private SysNewUserEntity submitUser;    //提交人
 
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date submitTime;    //提交时间
 
     private String status;  //对账状态
