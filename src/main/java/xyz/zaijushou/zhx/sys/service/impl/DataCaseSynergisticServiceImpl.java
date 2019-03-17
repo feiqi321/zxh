@@ -63,7 +63,7 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
             if (entity.getDataCase()==null){
                 entity.getDataCase().setCollectStatusMsg("");
             }else{
-                SysDictionaryEntity collectStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getSynergisticType().getId(),SysDictionaryEntity.class);
+                SysDictionaryEntity collectStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getCollectStatus(),SysDictionaryEntity.class);
                 entity.getDataCase().setCollectStatusMsg(collectStatusEntity.getName());
             }
 
