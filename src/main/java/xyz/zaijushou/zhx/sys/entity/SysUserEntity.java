@@ -56,6 +56,19 @@ public class SysUserEntity extends CommonEntity {
 
     private boolean sameBatch;
 
+    /**
+     * 0-锁定，1-解锁
+     */
+    private int enable;
+
+    public int getEnable() {
+        return enable;
+    }
+
+    public void setEnable(int enable) {
+        this.enable = enable;
+    }
+
     public boolean isSameBatch() {
         return sameBatch;
     }

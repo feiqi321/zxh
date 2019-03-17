@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
@@ -18,6 +19,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,6 +32,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     private DataLogService dataLogService;
     @Resource
     private SysUserService sysUserService;//用户业务控制层
+    @Resource
+    private DataCaseMapper dataCaseMapper;
 
 
     @Override
@@ -126,11 +130,18 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     public void revoke(DataCaseRepayRecordEntity entity) {
         entity.setRecordStatus("1");
         dataCaseRepayRecordMapper.updateRecordStatus(entity);
+        for(Integer id : entity.getIds()) {
+            entity.setId(id);
+            entity = dataCaseRepayRecordMapper.findById(entity);
+            updateDataCaseBalance(entity);
+        }
+
     }
 
     @Override
     public void save(DataCaseRepayRecordEntity entity) {
         dataCaseRepayRecordMapper.save(entity);
+        updateDataCaseBalance(entity);
         DataOpLog log = new DataOpLog();
         log.setType("案件管理");
         log.setContext("已还款："+entity.getRepayMoney()+"，还款日期："+entity.getRepayUser()+"，备注： "+entity.getRemark());
@@ -157,6 +168,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             return;
         }
         dataCaseRepayRecordMapper.addList(dataEntities);
+        for(DataCaseRepayRecordEntity entity : dataEntities) {
+            updateDataCaseBalance(entity);
+        }
         for (int i=0;i<dataEntities.size();i++){
             DataCaseRepayRecordEntity entity = dataEntities.get(i);
             DataOpLog log = new DataOpLog();
@@ -179,5 +193,15 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         return returnEntity;
     }
 
+    public void updateDataCaseBalance(DataCaseRepayRecordEntity record) {
+        List<DataCaseRepayRecordEntity> records = dataCaseRepayRecordMapper.listBySeqNo(record);
+        BigDecimal repayMoney = new BigDecimal(0);
+        for(DataCaseRepayRecordEntity recordEntity : records) {
+            repayMoney = repayMoney.add(recordEntity.getRepayMoney());
+        }
+        DataCaseEntity dataCaseEntity = record.getDataCase();
+        dataCaseEntity.setEnRepayAmt(repayMoney);
+        dataCaseMapper.updateRepayMoney(dataCaseEntity);
 
+    }
 }

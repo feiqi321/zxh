@@ -14,13 +14,15 @@
         b.submit_user as 'submitUser.id',
         b.submit_time as submitTime,
         b.status as status,
-        c.batch_no as 'dataCase.batcNo',
+        c.batch_no as 'dataCase.batchNo',
         c.card_no as 'dataCase.cardNo',
         c.ident_no as 'dataCase.identNo',
         c.name as 'dataCase.name',
         c.seq_no as 'dataCase.seqNo',
         c.client as 'dataCase.client',
         c.money as 'dataCase.money',
+        c.en_repay_amt as 'dataCase.enRepayAmt',
+        c.balance as 'dataCase.balance',
         b.remark as remark,
         b.create_user as 'createUser.id',
         b.update_user as 'updateUser.id',
@@ -247,7 +249,7 @@
         create_user,
         update_user
         )
-        valuse
+        values
         <foreach collection="list" separator="," item="item">
             (
             #{item.dataCase.id},
@@ -259,5 +261,26 @@
             )
         </foreach>
     </insert>
+
+    <select id="findLatestCpByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
+        select
+        id as id,
+        data_case as 'dataCase.id',
+        cp_money as 'cpMoney'
+        from data_case_bank_reconciliation
+        where data_case = #{dataCase.id}
+        and status = 0
+        order by id desc
+        limit 1
+    </select>
+
+    <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
+        select
+            id as id,
+            data_case as 'dataCase.id'
+        from data_case_bank_reconciliation
+        where id = #{id}
+        and delete_flag = 0
+    </select>
 
 </mapper>

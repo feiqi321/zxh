@@ -19,6 +19,7 @@
         c.archive_no as 'dataCase.archiveNo',
         c.name as 'dataCase.name',
         c.money as 'dataCase.money',
+        c.balance as 'dataCase.balance',
         c.en_repay_amt as 'dataCase.enRepayAmt',
         c.account_age as 'dataCase.overdueBillTime',
         c.principle as 'dataCase.principle',
@@ -32,6 +33,8 @@
         c.unit_address as 'dataCase.unitAddress',
         c.tel as 'dataCase.tel',
         c.unit_tel_number as 'dataCase.unitTelNumber',
+        c.m_val as 'dataCase.mVal',
+        c.commission_money as 'dataCase.commissionMoney',
         r.collect_user as 'collectUser.id',
         r.repay_date as repayDate,
         r.repay_money as repayMoney,
@@ -497,7 +500,7 @@
     </insert>
 
     <insert id="addList" parameterType="java.util.List">
-        insert into data_case_bank_reconciliation
+        insert into data_case_repay_record
         (
         data_case,
         collect_user,
@@ -508,7 +511,7 @@
         create_user,
         update_user
         )
-        valuse
+        values
         <foreach collection="list" separator="," item="item">
             (
             #{item.dataCase.id},
@@ -523,4 +526,21 @@
         </foreach>
     </insert>
 
+    <select id="listBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+        select
+        repay_money as 'repayMoney'
+        from data_case_repay_record
+        where data_case = #{dataCase.id}
+        and record_status = 0
+        and delete_flag = 0
+    </select>
+
+    <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+        select
+            id as id,
+            data_case as 'dataCase.id'
+        from data_case_repay_record
+        where id = #{id}
+        and delete_flag = 0
+    </select>
 </mapper>

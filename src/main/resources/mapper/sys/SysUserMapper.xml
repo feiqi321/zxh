@@ -30,6 +30,7 @@
         last_login_fail_time as lastLoginFailTime,
         login_fail_times as loginFailTimes,
         remark as remark,
+        enable,
         create_user as 'createUser.id',
         update_user as 'updateUser.id',
         create_time as createTime,
