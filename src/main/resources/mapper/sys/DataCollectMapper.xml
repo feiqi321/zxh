@@ -417,11 +417,8 @@
                 <if test="area != null and area!=''">
                     AND t.collect_area = #{area}
                 </if>
-                <if test="odvFlag != null and odvFlag!=''">
-                    and t.odv in
-                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
+                <if test="odv != null and odv!=''">
+                    AND t.odv = #{odv}
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
