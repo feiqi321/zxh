@@ -191,6 +191,7 @@ public class ExcelRepayRecordConstant {
         COLUMN8("dataCase.overdueBillTime","c.account_age"),
         COLUMN9("dataCase.moneyMsg","c.money"),
         COLUMN25("dataCase.enRepayAmt","c.en_repay_amt"),
+        COLUMN26("dataCase.balance","c.balance"),
         COLUMN10("repayMoneyMsg","r.repay_money"),
         COLUMN11("dataCase.overdueBalanceMsg",""),
         COLUMN12("repayDate","r.repay_date"),
