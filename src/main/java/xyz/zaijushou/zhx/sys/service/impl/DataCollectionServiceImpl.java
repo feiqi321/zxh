@@ -199,7 +199,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             dataCollectionEntity.setOrderBy(MyCollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy()).getValue());
         }
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
-            dataCollectionEntity.setSort(" desc");
+            dataCollectionEntity.setSort("desc");
         }
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
 
