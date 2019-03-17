@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import java.util.List;
 
@@ -100,7 +101,6 @@ public class DataCollectionController {
     @ApiOperation(value = "催收管理-当日电催量", notes = "催收管理-当日电催量")
     @PostMapping("/dataCollection/statistics/day")
     public Object statisticsCollectionDay(@RequestBody CollectionStatistic bean) {
-
         List<CollectionStatistic> list = dataCollectionService.statisticsCollectionDay(bean);
 
         return WebResponse.success(list);
