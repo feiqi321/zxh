@@ -228,15 +228,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         for (int i=0;i<list.size();i++){
             DataCollectionEntity collection = list.get(i);
-            if(!caseIds.contains(collection.getCaseId())){
-                caseIds.add(collection.getCaseId());
+
                 ++countCase;
                 sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
                 if (collection.getEnRepayAmt()!=null && collection.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
                     ++countCasePay;
                     sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
                 }
-            }
             SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
             collection.setTelType(telTypeDic==null?"":telTypeDic.getName());
 
