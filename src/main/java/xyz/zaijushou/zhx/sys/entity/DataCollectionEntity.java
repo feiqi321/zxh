@@ -328,6 +328,16 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String fileName;//附件
 
+    private String[] fileNames;//附件
+
+    public String[] getFileNames() {
+        return fileNames;
+    }
+
+    public void setFileNames(String[] fileNames) {
+        this.fileNames = fileNames;
+    }
+
     public String getFileName() {
         return fileName;
     }
