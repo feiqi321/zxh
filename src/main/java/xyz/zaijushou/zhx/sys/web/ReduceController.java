@@ -118,7 +118,7 @@ public class ReduceController {
             list = pageInfo.getList();
         }
         if (StringUtils.isEmpty(list)){
-            return null;
+            list = new ArrayList<DataCollectionEntity>();
         }
         ExcelUtils.exportExcel(list,
                 ExcelReduceExportConstant.ReduceList.values(),
