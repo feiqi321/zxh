@@ -13,6 +13,8 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
@@ -36,6 +38,9 @@ public class DataCaseRepayRecordController {
 
     @Resource
     private DataCaseService dataCaseService;
+
+    @Resource
+    private DataCaseRemarkMapper dataCaseRemarkMapper;
 
     @PostMapping("/list")
     public Object list(@RequestBody DataCaseRepayRecordEntity entity) {
@@ -164,6 +169,7 @@ public class DataCaseRepayRecordController {
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
         Set<String> userIdsSet = new HashSet<>();
         Set<String> dictSet = new HashSet<>();
+        Set<Integer> caseIdsSet = new HashSet<>();
         for(DataCaseRepayRecordEntity entity : list) {
             if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                 userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
@@ -173,6 +179,9 @@ public class DataCaseRepayRecordController {
             }
             if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
                 dictSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
+            }
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+                caseIdsSet.add(entity.getDataCase().getId());
             }
         }
         if(!CollectionUtils.isEmpty(userIdsSet)) {
@@ -199,6 +208,21 @@ public class DataCaseRepayRecordController {
                         entity.getDataCase().setClient(dictMap.get(entity.getDataCase().getClient()).getName());
                     }
                 }
+            }
+        }
+        DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
+        queryRemarks.setCaseIdsSet(caseIdsSet);
+        List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
+        Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
+        for(DataCaseRemarkEntity entity : remarks) {
+            if(!remarkMap.containsKey(entity.getCaseId())) {
+                remarkMap.put(entity.getCaseId(), new ArrayList<>());
+            }
+            remarkMap.get(entity.getCaseId()).add(entity);
+        }
+        for (DataCaseRepayRecordEntity entity : list) {
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+                entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
             }
         }
         return list;
