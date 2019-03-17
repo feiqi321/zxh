@@ -261,9 +261,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setList(list);
         collectionReturn.setCountCase(count);
         collectionReturn.setCountCasePay(countCasePay);
-        collectionReturn.setSumBank(sumRepay);
+        collectionReturn.setSumBank(sumBank);
         collectionReturn.setSumMoney(sumMoney);
-        collectionReturn.setSumRepay(sumBank);
+        collectionReturn.setSumRepay(sumRepay);
         collectionReturn.setSumPayMoney(sumPayMoney);
         webResponse.setData(collectionReturn);
         webResponse.setTotalNum(count);
