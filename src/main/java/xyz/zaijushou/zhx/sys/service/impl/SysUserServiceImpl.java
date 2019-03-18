@@ -486,4 +486,12 @@ public class SysUserServiceImpl implements SysUserService {
         }
         return list;
     }
+
+    /**
+     * 查询锁定的用户数
+     * @return
+     */
+    public int countLockedUser(){
+        return sysUserMapper.countLockedUser();
+    }
 }

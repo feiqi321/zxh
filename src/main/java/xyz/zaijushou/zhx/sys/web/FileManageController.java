@@ -204,7 +204,7 @@ public class FileManageController {
                 if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileName())){
                     //下载的文件携带这个名称
                     response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(info.getFileName(), "UTF-8"));
-                    FileInputStream fis = new FileInputStream(detailFile+info.getFileName());
+                    FileInputStream fis = new FileInputStream(detailFile+info.getFileUuid());
                     byte[] f = new byte[fis.available()];
                     if (f != null){
                         fis.read(f);

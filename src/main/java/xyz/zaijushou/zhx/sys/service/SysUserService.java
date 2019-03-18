@@ -95,4 +95,10 @@ public interface SysUserService {
      * @return
      */
     List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity);
+
+    /**
+     * 查询锁定的用户数
+     * @return
+     */
+    int countLockedUser();
 }

@@ -91,4 +91,6 @@ public interface SysUserMapper {
      * @return
      */
     List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity);
+
+    int countLockedUser();
 }

@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by looyer on 2019/2/25.
@@ -168,8 +169,10 @@ public class ReduceController {
     @PostMapping("/reduce/save/import")
     public Object reduceImport(MultipartFile file, DataCollectionEntity bean ) throws IOException {
         String fileName = file.getOriginalFilename();
-        file.transferTo(new File(detailFile+fileName));
+        String fileUuid = UUID.randomUUID().toString().replaceAll("-", "");
+        file.transferTo(new File(detailFile+fileUuid));
         bean.setFileName(fileName);
+        bean.setFileUuid(fileUuid);
         reduceService.saveReduceApply(bean);
         return WebResponse.success();
     }

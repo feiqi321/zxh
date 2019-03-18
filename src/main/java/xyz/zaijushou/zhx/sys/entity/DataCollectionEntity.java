@@ -327,8 +327,17 @@ public class DataCollectionEntity extends CommonEntity {
     }
 
     private String fileName;//附件
+    private String fileUuid;//附件
 
     private String[] fileNames;//附件
+
+    public String getFileUuid() {
+        return fileUuid;
+    }
+
+    public void setFileUuid(String fileUuid) {
+        this.fileUuid = fileUuid;
+    }
 
     public String[] getFileNames() {
         return fileNames;
