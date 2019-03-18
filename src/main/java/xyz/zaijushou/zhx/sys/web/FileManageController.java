@@ -40,6 +40,8 @@ public class FileManageController {
     private String casePath;
     @Value(value = "${detailFile_path}")
     private String detailFile;
+    @Value(value = "${userFile_path}")
+    private String userFile;
     @Autowired
     private FileManageService fileManageService;
     @Resource
@@ -133,6 +135,41 @@ public class FileManageController {
 
         try {
             FileInputStream fis = new FileInputStream(archivePath);
+            byte[] content = new byte[fis.available()];
+            fis.read(content);
+            fis.close();
+
+            ServletOutputStream sos = response.getOutputStream();
+            sos.write(content);
+
+            sos.flush();
+            sos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @ApiOperation(value = "下载用户模板", notes = "下载用户模板")
+    @PostMapping("/fileManage/downloadUser")
+    public Object downloadUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+        File imageFile = new File(userFile);
+        if (!imageFile.exists()) {
+            System.out.println("文件不存在");
+            return null;
+        }
+        String fileName = "在职员工导入模板.xls";
+
+        //下载的文件携带这个名称
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+        //文件下载类型--二进制文件
+        response.setContentType("application/octet-stream");
+
+        try {
+            FileInputStream fis = new FileInputStream(userFile);
             byte[] content = new byte[fis.available()];
             fis.read(content);
             fis.close();
