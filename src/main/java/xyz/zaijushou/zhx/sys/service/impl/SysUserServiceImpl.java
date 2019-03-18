@@ -64,10 +64,10 @@ public class SysUserServiceImpl implements SysUserService {
         dataCollectionEntity.setOdv(user.getId()+"");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         dataCollectionEntity.setCaseAllotTimeStart(sdf.format(new Date()));
-        int loclAccountNum = dataCollectionMapper.countMyNewCollect(dataCollectionEntity);
+        int distrinbuteNum = dataCollectionMapper.countMyNewCollect(dataCollectionEntity);
 
-        resultUser.setLockAccountNum(loclAccountNum);
-        resultUser.setDistributeNum(0);
+        resultUser.setLockAccountNum(0);
+        resultUser.setDistributeNum(distrinbuteNum);
         resultUser.setSysnergyNum(0);
         resultUser.setRoleName("");
 
