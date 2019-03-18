@@ -69,6 +69,16 @@ public class SysUserController {
         return WebResponse.success(user);
     }
 
+    @PostMapping("userHomeInfo")
+    @ApiOperation(value = "根据token获取用户信息", notes = "根据token获取用户信息")
+    public Object userHomeInfo(HttpServletRequest request) {
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity user = new SysUserEntity();
+        user.setId(userId);
+        user = sysUserService.findUserInfoWithoutPasswordById(user);
+        return WebResponse.success(user);
+    }
+
     @ApiOperation(value = "新增用户", notes = "新增用户")
     @PostMapping("/insert")
     public Object saveData(@RequestBody SysNewUserEntity userEntity) {
