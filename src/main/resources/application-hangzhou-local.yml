@@ -37,3 +37,4 @@ rar_path: c:/众汇信催收系统导入模板.rar
 archive_path: c:/案人数据导入模板.xls
 case_path: c:/案件导入模板.rar
 detailFile_path: c:/detailFile/
+userFile_path: c:/在职员工导入模板.xlsx
