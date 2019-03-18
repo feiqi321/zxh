@@ -16,6 +16,8 @@ public interface DataBatchService {
 
     public void returnCase(DataBatchEntity bean);
 
+    public void recoverCase(DataBatchEntity bean);
+
     public void deleteById(DataBatchEntity bean);
 
     public WebResponse pageDataBatch(DataBatchEntity bean);

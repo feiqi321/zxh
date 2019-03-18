@@ -75,6 +75,19 @@ public class DataBatchController {
 
     }
 
+    @ApiOperation(value = "恢复", notes = "恢复")
+    @PostMapping("/dataBatch/recoverCase")
+    public Object recoverCase(@RequestBody List<DataBatchEntity> list) {
+        for (int i=0;i<list.size();i++){
+            DataBatchEntity dataBatchEntity = list.get(i);
+
+            dataCaseService.recoverCase(dataBatchEntity);
+        }
+
+        return WebResponse.success();
+
+    }
+
     @ApiOperation(value = "刪除批次", notes = "刪除批次")
     @PostMapping("/dataBatch/delete")
     public Object delete(@RequestBody List<DataBatchEntity> list) {

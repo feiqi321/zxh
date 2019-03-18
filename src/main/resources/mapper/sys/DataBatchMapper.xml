@@ -70,6 +70,12 @@
         where id = #{id}
     </delete>
 
+    <!--未退案-->
+    <delete id="recoverCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+        update data_batch set batch_status=1
+        where id = #{id}
+    </delete>
+
     <select id="pageDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select id,
         batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,create_user as creatUser,real_time as realReturnTime,

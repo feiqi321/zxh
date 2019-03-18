@@ -50,6 +50,10 @@ public class DataBatchServiceImpl implements DataBatchService {
         dataBatchMapper.returnCase(bean);
     }
 
+    public void recoverCase(DataBatchEntity bean){
+        dataBatchMapper.recoverCase(bean);
+    }
+
     public void deleteById(DataBatchEntity bean){
         dataBatchMapper.deleteById(bean.getId());
     }
