@@ -35,4 +35,6 @@ public interface SysRoleMapper {
     List<SysRoleEntity> listRoles(SysRoleEntity roleEntity);
 
     List<SysToRoleButton> listAllRoleButtonsByRoleId(SysToRoleButton bean);
+
+    List<SysToRoleMenu> listAllRoleMenusByRoleId(SysToRoleMenu bean);
 }

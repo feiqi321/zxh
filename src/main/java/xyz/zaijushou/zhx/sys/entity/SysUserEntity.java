@@ -56,10 +56,50 @@ public class SysUserEntity extends CommonEntity {
 
     private boolean sameBatch;
 
+    private int lockAccountNum;
+
+    private int sysnergyNum;
+
+    private int distributeNum;
+
+    private String roleName;
+
     /**
      * 0-锁定，1-解锁
      */
     private int enable;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public int getLockAccountNum() {
+        return lockAccountNum;
+    }
+
+    public void setLockAccountNum(int lockAccountNum) {
+        this.lockAccountNum = lockAccountNum;
+    }
+
+    public int getSysnergyNum() {
+        return sysnergyNum;
+    }
+
+    public void setSysnergyNum(int sysnergyNum) {
+        this.sysnergyNum = sysnergyNum;
+    }
+
+    public int getDistributeNum() {
+        return distributeNum;
+    }
+
+    public void setDistributeNum(int distributeNum) {
+        this.distributeNum = distributeNum;
+    }
 
     public int getEnable() {
         return enable;

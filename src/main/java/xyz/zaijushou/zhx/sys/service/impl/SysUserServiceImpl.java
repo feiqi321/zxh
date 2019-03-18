@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -22,6 +23,7 @@ import xyz.zaijushou.zhx.utils.PinyinTool;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -49,6 +51,8 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Resource
     private SysRoleService sysRoleService;
+    @Resource
+    private DataCollectionMapper dataCollectionMapper;
 
     @Override
     public SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user) {
@@ -56,12 +60,40 @@ public class SysUserServiceImpl implements SysUserService {
         sysToUserRole.setUser(user);
         SysUserEntity resultUser = sysUserMapper.findUserInfoWithoutPasswordById(user);
         resultUser.setSameBatch(false);
+        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+        dataCollectionEntity.setOdv(user.getId()+"");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dataCollectionEntity.setCaseAllotTimeStart(sdf.format(new Date()));
+        int loclAccountNum = dataCollectionMapper.countMyNewCollect(dataCollectionEntity);
+
+        resultUser.setLockAccountNum(loclAccountNum);
+        resultUser.setDistributeNum(0);
+        resultUser.setSysnergyNum(0);
+        resultUser.setRoleName("");
+
         List<SysToUserRole> roleList = sysUserMapper.listAllUserRolesByUserId(sysToUserRole);
+
         for (int i=0;i<roleList.size();i++){
             SysToUserRole tempUser = roleList.get(i);
-            SysToRoleButton sysToRoleButton = new SysToRoleButton();
             SysRoleEntity sysRoleEntity = new SysRoleEntity();
             sysRoleEntity.setId(tempUser.getRole().getId());
+
+            SysToRoleMenu sysToMenuRole = new SysToRoleMenu();
+            sysToMenuRole.setRole(sysRoleEntity);
+            List<SysToRoleMenu> roleMenuList = sysRoleMapper.listAllRoleMenusByRoleId(sysToMenuRole);
+            for (int m=0;m<roleMenuList.size();m++){
+                SysToRoleMenu menu = roleMenuList.get(m);
+                if (menu.getMenu().getId()==49){//在职员工管理
+                    resultUser.setRoleName(resultUser.getRoleName()+",member");
+                }else if (menu.getMenu().getId()==21){//协催申请
+                    resultUser.setRoleName(resultUser.getRoleName()+",synergy");
+                }else if (menu.getMenu().getId()==11){//我的案件
+                    resultUser.setRoleName(resultUser.getRoleName()+",mycase");
+                }
+
+            }
+
+            SysToRoleButton sysToRoleButton = new SysToRoleButton();
             sysToRoleButton.setRole(sysRoleEntity);
             List<SysToRoleButton> buttonList = sysRoleMapper.listAllRoleButtonsByRoleId(sysToRoleButton);
             for (int j=0;j<buttonList.size();j++){
@@ -72,6 +104,8 @@ public class SysUserServiceImpl implements SysUserService {
                 }
             }
         }
+
+
         return resultUser;
     }
 

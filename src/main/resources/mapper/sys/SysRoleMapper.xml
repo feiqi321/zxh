@@ -42,6 +42,14 @@
         where delete_flag = '0'
     </select>
 
+    <select id="listAllRoleMenusByRoleId" parameterType="xyz.zaijushou.zhx.sys.entity.SysToRoleMenu" resultType="xyz.zaijushou.zhx.sys.entity.SysToRoleMenu">
+        select
+        role_id as 'role.id',
+        menu_id as 'menu.id'
+        from sys_role_menu
+        where delete_flag = '0' and role_id = #{role.id}
+    </select>
+
     <select id="listAllRoleButtons" parameterType="xyz.zaijushou.zhx.sys.entity.SysToRoleButton" resultType="xyz.zaijushou.zhx.sys.entity.SysToRoleButton">
         select
             role_id as 'role.id',
