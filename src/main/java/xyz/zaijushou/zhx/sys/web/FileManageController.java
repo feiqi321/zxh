@@ -157,45 +157,30 @@ public class FileManageController {
         if (StringUtils.isEmpty(bean.getIds())){
             return WebResponse.error("500","文件名称为空");
         }
-        for(Integer id:bean.getIds()){
-            bean.setId(id);
-            DataCollectionEntity info = reduceMapper.findById(bean);
-            if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileName())){
-                FileInputStream fis = new FileInputStream(detailFile+info.getFileName());
-                byte[] f = new byte[fis.available()];
-                if (f != null){
-                    files.put(detailFile+info.getFileName(),f);
-                }
-            }
-        }
-        if (files.size() == 0){
-            return WebResponse.error("500","文件不存在");
-        }
-        String fileTargetName = "减免附件下载.zip";
 
-        //下载的文件携带这个名称
-        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileTargetName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
         try {
-            ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
-            BufferedOutputStream bos = new BufferedOutputStream(zos);
+            for(Integer id:bean.getIds()){
+                bean.setId(id);
+                DataCollectionEntity info = reduceMapper.findById(bean);
+                if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileName())){
+                    //下载的文件携带这个名称
+                    response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(info.getFileName(), "UTF-8"));
+                    FileInputStream fis = new FileInputStream(detailFile+info.getFileName());
+                    byte[] f = new byte[fis.available()];
+                    if (f != null){
+                        fis.read(f);
+                        fis.close();
 
-            for(Map.Entry<String, byte[]> entry : files.entrySet()) {
-                String fileName = entry.getKey();            //每个zip文件名
-                byte[] file = entry.getValue();            //这个zip文件的字节
-                BufferedInputStream bis = new BufferedInputStream(new ByteArrayInputStream(file));
-                zos.putNextEntry(new ZipEntry(fileName));
+                        ServletOutputStream sos = response.getOutputStream();
+                        sos.write(f);
 
-                int len = 0;
-                byte[] buf = new byte[10 * 1024];
-                while ((len = bis.read(buf, 0, buf.length)) != -1) {
-                    bos.write(buf, 0, len);
+                        sos.flush();
+                        sos.close();
+                    }
                 }
-                bis.close();
-                bos.flush();
             }
-            bos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

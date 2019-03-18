@@ -24,7 +24,7 @@
         dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName
         from
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
-        where dcr.delete_flag = 0
+        where dcr.delete_flag = 0 and dcr.seqno is not null and dcr.case_id = dc.id
         and dcr.id = #{id}
     </select>
 
