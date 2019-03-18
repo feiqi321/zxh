@@ -2,20 +2,19 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.Letter;
-import xyz.zaijushou.zhx.sys.entity.SysModule;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,7 +42,8 @@ public class FileManageController {
     private String detailFile;
     @Autowired
     private FileManageService fileManageService;
-
+    @Resource
+    private ReduceMapper reduceMapper;
     @ApiOperation(value = "下载压缩包", notes = "下载压缩包")
     @PostMapping("/fileManage/download")
     public Object download(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -154,14 +154,18 @@ public class FileManageController {
     @PostMapping("/reduce/download")
     public Object reduceDownload(HttpServletRequest request, HttpServletResponse response, @RequestBody DataCollectionEntity bean) throws Exception {
         Map<String, byte[]> files = new HashMap<String, byte[]>();
-        if (StringUtils.isEmpty(bean.getFileNames())){
+        if (StringUtils.isEmpty(bean.getIds())){
             return WebResponse.error("500","文件名称为空");
         }
-        for(String fileName:bean.getFileNames()){
-            FileInputStream fis = new FileInputStream(detailFile+fileName);
-            byte[] f = new byte[fis.available()];
-            if (f != null){
-                files.put(detailFile+fileName,f);
+        for(Integer id:bean.getIds()){
+            bean.setId(id);
+            DataCollectionEntity info = reduceMapper.findById(bean);
+            if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileName())){
+                FileInputStream fis = new FileInputStream(detailFile+info.getFileName());
+                byte[] f = new byte[fis.available()];
+                if (f != null){
+                    files.put(detailFile+info.getFileName(),f);
+                }
             }
         }
         if (files.size() == 0){
@@ -197,8 +201,6 @@ public class FileManageController {
         }
         return null;
     }
-
-
 
     @ApiOperation(value = "信函下载", notes = "信函下载")
     @PostMapping("/letter/download")
