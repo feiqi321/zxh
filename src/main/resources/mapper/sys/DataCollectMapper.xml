@@ -1132,7 +1132,7 @@
         <if test="accountAge != null and accountAge !=''">
             and c.account_age = #{accountAge}
         </if>
-        GROUP BY dc.collect_status
+        GROUP BY c.collect_status
     </select>
 
     <select id="countStatisticsCollectionState" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">

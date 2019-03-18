@@ -209,6 +209,7 @@
             <if test="reduceFlag != null">reduce_flag = #{reduceFlag},</if>
 
             <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="fileUuid != null">file_uuid = #{fileUuid},</if>
         </trim>
         where
         id = #{id}
