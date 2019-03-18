@@ -82,6 +82,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/bankReconciliation/selectDataExport",
             "/user/select/exportList",
             "/fileManage/downloadUser",
+            "/letter/totalInfoExport",
+            "/letter/pageInfoExport",
     };
 
     @Override
