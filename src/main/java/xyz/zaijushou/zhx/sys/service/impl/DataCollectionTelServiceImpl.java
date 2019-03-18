@@ -105,13 +105,45 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         }
         List<StatisticReturn> list = dataCollectionTelMapper.pageCollectionMonth(bean);;
 
-        if (StringUtils.isEmpty(list)){
-            return new PageInfo<>();
-        }
-        for (StatisticReturn conInfo:list) {
-            int sumConPhoneNum = 0;//接通电话数
-            int sumPhoneNum = 0;//总通话数
-            int sumCasePhoneNum = 0;//通话涉及到的案件数
+        if(StringUtils.notEmpty(list)){
+            for (StatisticReturn conInfo:list) {
+                int sumConPhoneNum = 0;//接通电话数
+                int sumPhoneNum = 0;//总通话数
+                int sumCasePhoneNum = 0;//通话涉及到的案件数
+                List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
+                Calendar dTime = Calendar.getInstance();
+                Date dateEnd = new Date() ;
+                try {
+                    dTime.setTime(sdf1.parse(bean.getMonthStart()));
+                    dateEnd = sdf1.parse(bean.getMonthEnd());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                while(!dTime.getTime().after(dateEnd)){
+                    CollectionStatistic col = new CollectionStatistic();
+                    col.setOdv(conInfo.getOdv());
+                    col.setDateStart(getDateInfo(dTime.getTime(),1));
+                    col.setDateEnd(getDateInfo(dTime.getTime(),0));
+                    int telNum = dataCollectionTelMapper.statisticsCollectionSum(col);
+                    int conNum = dataCollectionTelMapper.statisticsCollectionCon(col);
+                    int caseNum = dataCollectionTelMapper.statisticsCollectionCase(col);
+                    col.setCountPhoneNum(col.getCountPhoneNum()+telNum);
+                    col.setCountConPhoneNum(col.getCountConPhoneNum()+conNum);
+                    col.setCountCasePhoneNum(col.getCountCasePhoneNum()+caseNum);
+                    sumPhoneNum += telNum;
+                    sumConPhoneNum += conNum;
+                    sumCasePhoneNum += caseNum;
+                    col.setArea(sdf1.format(dTime.getTime()));
+                    colList.add(col);
+                    dTime.add(Calendar.MONTH,1);
+                }
+                conInfo.setList(colList);
+                conInfo.setSumCasePhoneNum(sumCasePhoneNum);
+                conInfo.setSumConPhoneNum(sumConPhoneNum);
+                conInfo.setSumPhoneNum(sumPhoneNum);
+            }
+        }else {
+            StatisticReturn conInfo = new StatisticReturn();
             List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
             Calendar dTime = Calendar.getInstance();
             Date dateEnd = new Date() ;
@@ -123,27 +155,16 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             }
             while(!dTime.getTime().after(dateEnd)){
                 CollectionStatistic col = new CollectionStatistic();
-                col.setOdv(conInfo.getOdv());
                 col.setDateStart(getDateInfo(dTime.getTime(),1));
                 col.setDateEnd(getDateInfo(dTime.getTime(),0));
-                int telNum = dataCollectionTelMapper.statisticsCollectionSum(col);
-                int conNum = dataCollectionTelMapper.statisticsCollectionCon(col);
-                int caseNum = dataCollectionTelMapper.statisticsCollectionCase(col);
-                col.setCountPhoneNum(col.getCountPhoneNum()+telNum);
-                col.setCountConPhoneNum(col.getCountConPhoneNum()+conNum);
-                col.setCountCasePhoneNum(col.getCountCasePhoneNum()+caseNum);
-                sumPhoneNum += telNum;
-                sumConPhoneNum += conNum;
-                sumCasePhoneNum += caseNum;
                 col.setArea(sdf1.format(dTime.getTime()));
                 colList.add(col);
                 dTime.add(Calendar.MONTH,1);
             }
             conInfo.setList(colList);
-            conInfo.setSumCasePhoneNum(sumCasePhoneNum);
-            conInfo.setSumConPhoneNum(sumConPhoneNum);
-            conInfo.setSumPhoneNum(sumPhoneNum);
+            list.add(conInfo);
         }
+
         return  PageInfo.of(list);
     }
 
