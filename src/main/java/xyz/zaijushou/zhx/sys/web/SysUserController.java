@@ -26,6 +26,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.ExcelUserUtils;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -216,7 +217,7 @@ public class SysUserController {
         } else {
             workbook = new HSSFWorkbook(inputStream);
         }
-        List<SysNewUserEntity> userList = ExcelUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);;
+        List<SysNewUserEntity> userList = ExcelUserUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);;
 
         if(userList.size() == 0) {
             return WebResponse.success("更新0条数据");
