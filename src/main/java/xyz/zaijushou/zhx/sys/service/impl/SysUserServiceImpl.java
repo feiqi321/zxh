@@ -330,6 +330,9 @@ public class SysUserServiceImpl implements SysUserService {
             SysNewUserEntity sysNewUserEntity = list.get(i);
             if (sysNewUserEntity.getLoginFailTimes()>=3){
                 sysNewUserEntity.setEnable(0);
+                sysNewUserEntity.setEnableMsg("已锁定");
+            }else{
+                sysNewUserEntity.setEnableMsg("正常");
             }
         }
         int count = sysUserMapper.countUserData(userEntity);

@@ -58,6 +58,7 @@ public class SysNewUserEntity extends CommonEntity {
 
     private String loginName;
     private int enable;
+    private String enableMsg;
     private String password;
     private int status;
     private String sex;
@@ -93,6 +94,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public String getEnableMsg() {
+        return enableMsg;
+    }
+
+    public void setEnableMsg(String enableMsg) {
+        this.enableMsg = enableMsg;
+    }
 
     public int getLoginNameCount() {
         return loginNameCount;

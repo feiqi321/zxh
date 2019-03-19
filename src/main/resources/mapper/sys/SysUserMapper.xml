@@ -481,6 +481,14 @@
             last_login_fail_time = #{lastLoginFailTime}
         where id = #{id}
     </update>
+
+    <update id="updateLoginFailLockInfo" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        update sys_user
+        set login_fail_times = #{loginFailTimes},
+        last_login_fail_time = #{lastLoginFailTime},
+        enable = 0
+        where id = #{id}
+    </update>
     
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="java.lang.Integer">
           select count(id) from sys_user where login_name LIKE CONCAT('%',#{loginName},'%')

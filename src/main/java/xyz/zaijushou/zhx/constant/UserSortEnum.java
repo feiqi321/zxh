@@ -15,7 +15,8 @@ public enum UserSortEnum {
     COLUMN8("departId","department"),
     COLUMN9("department","department"),
     COLUMN10("position","position"),
-    COLUMN11("leaveTime","leave_time")
+    COLUMN11("leaveTime","leave_time"),
+    getColumn12("enableMsg","enable")
     ;
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;

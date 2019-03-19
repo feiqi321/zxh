@@ -63,7 +63,11 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
             } else {
                 user.setLoginFailTimes(user.getLoginFailTimes() + 1);
                 user.setLastLoginFailTime(new Date());
-                sysUserMapper.updateLoginFailInfo(user);
+                if (user.getLoginFailTimes()>=3){
+                    sysUserMapper.updateLoginFailLockInfo(user);
+                }else {
+                    sysUserMapper.updateLoginFailInfo(user);
+                }
                 throw new BadCredentialsException("密码错误");
             }
         } else {
