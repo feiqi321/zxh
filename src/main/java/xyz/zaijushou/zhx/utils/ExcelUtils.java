@@ -53,7 +53,6 @@ public class ExcelUtils {
         logger.debug("列数：{}", header.getLastCellNum());
         for (int i = 0; i < header.getLastCellNum(); i++) {
             Cell cell = header.getCell(i);
-            System.out.println(i+"***"+cell+"***");
             if(cell == null) {
                 colMap.put(i, null);
                 continue;
@@ -148,7 +147,7 @@ public class ExcelUtils {
         }
 
         Object result;
-        logger.info("cell:{}", cell.getCellType(),cell);
+
         switch (cell.getCellType()) {
             case STRING:
                 result = cell.getStringCellValue();
@@ -161,7 +160,11 @@ public class ExcelUtils {
                 } else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
                     result = Double.parseDouble((String) result);
                 } else if (clazz.equals(Date.class)) {
-                    result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                    if(((String) result).indexOf("-")>0) {
+                        result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                    }else{
+                        result = new SimpleDateFormat("yyyy/MM/dd").parse((String) result);
+                    }
                 }
                 break;
             case NUMERIC:
@@ -185,7 +188,7 @@ public class ExcelUtils {
             default:
                 result = null;
         }
-       // logger.info("result:{}", result);
+       logger.info("result:{}", result);
         return result;
     }
 
