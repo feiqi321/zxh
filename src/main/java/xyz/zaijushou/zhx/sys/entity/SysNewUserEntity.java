@@ -63,7 +63,7 @@ public class SysNewUserEntity extends CommonEntity {
     private int status;
     private String sex;
 
-
+    private String color;
     private String departId ;//部门Id
 
 
@@ -94,6 +94,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public String getEnableMsg() {
         return enableMsg;
