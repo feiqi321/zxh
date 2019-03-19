@@ -99,10 +99,12 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="batchStatus != null">
-                    AND  batch_status = #{batchStatus}
+                <if test="batchStatusFlag != null and batchStatusFlag!=''">
+                    and batch_status in
+                    <foreach item="item" index="index" collection="batchStatusList" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
-
                 <if test="area != null and area!=''">
                     AND area  like CONCAT('%',#{area},'%')
                 </if>

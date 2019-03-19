@@ -76,6 +76,27 @@ public class DataBatchServiceImpl implements DataBatchService {
         }else{
             bean.setBatchNoFlag("1");
         }
+        int[] statusList = null;
+        if (bean!=null && bean.getBatchStatus()==0){
+            statusList = new int[1];
+            statusList[0]=0;
+            bean.setBatchStatusFlag("1");
+        }else if (bean!=null && bean.getBatchStatus()==1){
+            statusList = new int[1];
+            statusList[0]=1;
+            bean.setBatchStatusFlag("1");
+        }else if (bean!=null && bean.getBatchStatus()==2){
+            statusList = new int[1];
+            statusList[0]=2;
+            bean.setBatchStatusFlag("1");
+        }else if (bean!=null && bean.getBatchStatus()==4){
+            statusList = new int[2];
+            statusList[0]=0;
+            statusList[1]=1;
+            bean.setBatchStatusFlag("1");
+        }else{
+            bean.setBatchStatusFlag(null);
+        }
 
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){

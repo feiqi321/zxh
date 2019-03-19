@@ -40,8 +40,10 @@ public class DataBatchEntity extends CommonEntity {
     //备注
 
     private String uploadTime;
-    //0 未导入 1未退案 2 已退案
+    //0 未导入 1未退案 2 已退案  4正常--包含未导入和未退案的
     private Integer batchStatus;
+
+    private int[] batchStatusList;
 
     private String batchStatusFlag;
 
@@ -68,6 +70,14 @@ public class DataBatchEntity extends CommonEntity {
     private String sort;
 
     private String creatTime;
+
+    public int[] getBatchStatusList() {
+        return batchStatusList;
+    }
+
+    public void setBatchStatusList(int[] batchStatusList) {
+        this.batchStatusList = batchStatusList;
+    }
 
     public String getBatchStatusFlag() {
         return batchStatusFlag;
