@@ -201,7 +201,7 @@ public class FileManageController {
             for(Integer id:bean.getIds()){
                 bean.setId(id);
                 DataCollectionEntity info = reduceMapper.findById(bean);
-                if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileName())){
+                if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileUuid()) && StringUtils.notEmpty(info.getFileName())){
                     //下载的文件携带这个名称
                     response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(info.getFileName(), "UTF-8"));
                     FileInputStream fis = new FileInputStream(detailFile+info.getFileUuid());
