@@ -169,7 +169,8 @@ public class ReduceController {
     @PostMapping("/reduce/save/import")
     public Object reduceImport(MultipartFile file, DataCollectionEntity bean ) throws IOException {
         String fileName = file.getOriginalFilename();
-        String fileUuid = UUID.randomUUID().toString().replaceAll("-", "");
+        String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String fileUuid = UUID.randomUUID().toString().replaceAll("-", "")+"."+suffix;
         file.transferTo(new File(detailFile+fileUuid));
         bean.setFileName(fileName);
         bean.setFileUuid(fileUuid);
