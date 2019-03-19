@@ -2,10 +2,7 @@ package xyz.zaijushou.zhx.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +31,8 @@ public class ExcelUserUtils {
 
     private static Logger logger = LoggerFactory.getLogger(ExcelUserUtils.class);
 
+    private static FormulaEvaluator evaluator;
+
     public static <T> List<T> importExcel(MultipartFile file, ExcelEnum[] enums, Class<T> entityClazz) throws IOException {
         List<T> resultList = new ArrayList<>();
         InputStream inputStream = file.getInputStream();
@@ -44,6 +43,7 @@ public class ExcelUserUtils {
         } else {
             workbook = new HSSFWorkbook(inputStream);
         }
+        evaluator = workbook.getCreationHelper().createFormulaEvaluator();
         Map<String, ExcelEnum> excelEnumMap = new HashMap<>();
         for (ExcelEnum value : enums) {
             excelEnumMap.put(value.getCol(), value);
@@ -138,8 +138,14 @@ public class ExcelUserUtils {
             return null;
         }
         System.out.println(cell);
+        CellType cellType;
+        if(CellType.FORMULA == cell.getCellType()) {
+            cellType = evaluator.evaluate(cell).getCellType();
+        } else {
+            cellType = cell.getCellType();
+        }
         Object result;
-        switch (cell.getCellType()) {
+        switch (cellType) {
             case STRING:
                 result = cell.getStringCellValue();
                 if (result == null) {
