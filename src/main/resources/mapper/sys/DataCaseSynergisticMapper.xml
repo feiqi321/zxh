@@ -273,7 +273,15 @@
         ) a
         left join
         (
-        select count(id) as countNum,synergistic_type from data_case_synergistic where delete_flag = 0 and synergistic_apply_status = #{applyStatus} and synergistic_finish_status = #{finishStatus} group by synergistic_type
+        select count(id) as countNum,synergistic_type
+        from data_case_synergistic
+        where delete_flag = 0
+        <if test="synergisticUser != null and synergisticUser.id != null">
+            and synergistic_user = #{synergisticUser.id}
+        </if>
+        and synergistic_apply_status = #{applyStatus}
+        and synergistic_finish_status = #{finishStatus}
+        group by synergistic_type
         ) b
         on a.id = b.synergistic_type
     </select>

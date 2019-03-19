@@ -35,7 +35,7 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private String statusMsg;
 
-    private Integer ids[];  //id列表集合
+    private Integer[] ids;  //id列表集合
 
     private Date applyTimeStart;    //申请时间 start
 
