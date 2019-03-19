@@ -195,13 +195,14 @@ public class FileManageController {
             return WebResponse.error("500","文件名称为空");
         }
 
-        //文件下载类型--二进制文件
-        response.setContentType("application/octet-stream");
+
         try {
             for(Integer id:bean.getIds()){
+                //文件下载类型--二进制文件
+                response.setContentType("application/octet-stream");
                 bean.setId(id);
                 DataCollectionEntity info = reduceMapper.findById(bean);
-                if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileName())){
+                if (StringUtils.notEmpty(info) && StringUtils.notEmpty(info.getFileUuid()) && StringUtils.notEmpty(info.getFileName())){
                     //下载的文件携带这个名称
                     response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(info.getFileName(), "UTF-8"));
                     FileInputStream fis = new FileInputStream(detailFile+info.getFileUuid());
