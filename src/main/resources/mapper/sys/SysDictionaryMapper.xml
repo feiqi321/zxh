@@ -53,7 +53,7 @@
             <if test="parent != null and parent.id != null">#{parent.id},</if>
             <if test="description != null">#{description},</if>
             <if test="status != null">#{status},</if>
-            <if test="sysFlag != null">sysFlag,</if>
+            <if test="sysFlag != null">#{sysFlag},</if>
             <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
             <if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>
         </trim>
