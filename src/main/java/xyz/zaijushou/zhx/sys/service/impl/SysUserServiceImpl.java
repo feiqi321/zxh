@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
@@ -54,6 +55,9 @@ public class SysUserServiceImpl implements SysUserService {
     @Resource
     private DataCollectionMapper dataCollectionMapper;
 
+    @Resource
+    private DataCaseSynergisticService dataCaseSynergisticService;
+
     @Override
     public SysUserEntity findUserInfoWithoutPasswordById(SysUserEntity user) {
         SysToUserRole sysToUserRole = new SysToUserRole();
@@ -66,9 +70,18 @@ public class SysUserServiceImpl implements SysUserService {
         dataCollectionEntity.setCaseAllotTimeStart(sdf.format(new Date()));
         int distrinbuteNum = dataCollectionMapper.countMyNewCollect(dataCollectionEntity);
 
-        resultUser.setLockAccountNum(0);
+        DataCaseSynergisticEntity synergistic = new DataCaseSynergisticEntity();
+        synergistic.setApplyStatus("0");
+        synergistic.setFinishStatus("0");
+        SysNewUserEntity synergisticUser = new SysNewUserEntity();
+        synergisticUser.setId(user.getId());
+        List<DataCaseSynergisticEntity> synergisticTypeCountNumLists =  dataCaseSynergisticService.countNum(synergistic);
+
+        int lockUserCount = this.countLockedUser();
+
+        resultUser.setLockAccountNum(lockUserCount);
         resultUser.setDistributeNum(distrinbuteNum);
-        resultUser.setSysnergyNum(0);
+        resultUser.setSysnergyNum(synergisticTypeCountNumLists.size());
         resultUser.setRoleName("");
 
         List<SysToUserRole> roleList = sysUserMapper.listAllUserRolesByUserId(sysToUserRole);
