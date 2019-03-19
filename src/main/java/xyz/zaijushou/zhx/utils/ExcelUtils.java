@@ -71,9 +71,9 @@ public class ExcelUtils {
                 }
                 for (int k = 0; k < header.getLastCellNum(); k++) {
                     Cell cell = row.getCell(k);
-                    if (k==85){
+                    /*if (k==85){
                         System.out.println(111);
-                    }
+                    }*/
                     ExcelEnum excelEnum = colMap.get(k);
                     if (excelEnum == null) {
                         continue;
@@ -192,7 +192,7 @@ public class ExcelUtils {
                 }
                 break;
             default:
-                result = null;
+                result = cell.getStringCellValue();
         }
        logger.info("result:{}", result);
         return result;
