@@ -192,7 +192,7 @@ public class ExcelUtils {
                 }
                 break;
             default:
-                result = cell.getStringCellValue();
+                result = null;
         }
        logger.info("result:{}", result);
         return result;

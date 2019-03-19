@@ -29,6 +29,8 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> pageCaseList(DataCaseEntity bean);
 
+    public List<DataCaseEntity> pageCaseMangeList(DataCaseEntity bean);
+
     public List<DataCaseEntity> totalCaseList(DataCaseEntity bean);
 
     public List<DataCaseEntity> pageBatchBoundsCaseList(DataCaseEntity bean);

@@ -346,7 +346,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i,temp);
             }
         }else {
-            list = dataCaseMapper.pageCaseList(dataCaseEntity);
+            list = dataCaseMapper.pageCaseMangeList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
