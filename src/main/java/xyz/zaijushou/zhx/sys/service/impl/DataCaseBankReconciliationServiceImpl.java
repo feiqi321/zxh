@@ -172,7 +172,12 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             }
         }
         DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
-        queryRemarks.setCaseIdsSet(caseIdsSet);
+        if (caseIdsSet.size()>0) {
+            queryRemarks.setCaseIdsSet(caseIdsSet);
+            queryRemarks.setCaseIdsSetFlag("1");
+        }else{
+            queryRemarks.setCaseIdsSetFlag(null);
+        }
         List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
         Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
         for(DataCaseRemarkEntity entity : remarks) {

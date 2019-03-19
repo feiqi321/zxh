@@ -47,10 +47,12 @@
         delete_flag as deleteFlag
         from data_case_remark
         where delete_flag = 0
-        and case_id in
-        <foreach collection="caseIdsSet" item="item" open="(" close=")" separator=",">
-            #{item}
-        </foreach>
+        <if test="caseIdsSetFlag != null and caseIdsSetFlag!=''">
+            and case_id in
+            <foreach collection="caseIdsSet" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
         order by id asc
     </select>
 

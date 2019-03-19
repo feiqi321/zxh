@@ -12,6 +12,16 @@ public class DataCaseRemarkEntity extends CommonEntity {
 
     private Set<Integer> caseIdsSet;
 
+    private String caseIdsSetFlag;
+
+    public String getCaseIdsSetFlag() {
+        return caseIdsSetFlag;
+    }
+
+    public void setCaseIdsSetFlag(String caseIdsSetFlag) {
+        this.caseIdsSetFlag = caseIdsSetFlag;
+    }
+
     public Integer getCaseId() {
         return caseId;
     }
