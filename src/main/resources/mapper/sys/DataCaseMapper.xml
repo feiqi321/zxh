@@ -379,7 +379,8 @@
          da.collect_status as collectStatus , da.collect_date as collectDate,  da.account_age as accountAge ,da.seq_no as seqNo,da.case_date as caseDate,da.collect_hand as collectHand,
          da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,DATE_FORMAT(da.distribute_time,'%Y-%m-%d') as distributeTime,
          da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
-         da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,da.area,da.pro_repay_amt as proRepayAmt
+         da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,da.area,
+        da.collect_times as collectTimes
         from data_case da
         <where>
             da.delete_flag=0
