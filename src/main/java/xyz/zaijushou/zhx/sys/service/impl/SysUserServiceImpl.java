@@ -75,13 +75,13 @@ public class SysUserServiceImpl implements SysUserService {
         synergistic.setFinishStatus("0");
         SysNewUserEntity synergisticUser = new SysNewUserEntity();
         synergisticUser.setId(user.getId());
-        List<DataCaseSynergisticEntity> synergisticTypeCountNumLists =  dataCaseSynergisticService.countNum(synergistic);
+        //List<DataCaseSynergisticEntity> synergisticTypeCountNumLists =  dataCaseSynergisticService.countNum(synergistic);
 
         int lockUserCount = this.countLockedUser();
 
         resultUser.setLockAccountNum(lockUserCount);
         resultUser.setDistributeNum(distrinbuteNum);
-        resultUser.setSysnergyNum(synergisticTypeCountNumLists.size());
+        resultUser.setSysnergyNum(0);
         resultUser.setRoleName("");
 
         List<SysToUserRole> roleList = sysUserMapper.listAllUserRolesByUserId(sysToUserRole);
