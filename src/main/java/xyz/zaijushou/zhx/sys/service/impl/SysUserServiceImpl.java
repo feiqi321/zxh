@@ -328,7 +328,7 @@ public class SysUserServiceImpl implements SysUserService {
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
         for (int i=0;i<list.size();i++){
             SysNewUserEntity sysNewUserEntity = list.get(i);
-            if (sysNewUserEntity.getLoginFailTimes()>=3){
+            if (sysNewUserEntity.getLoginFailTimes()>=3 ||  sysNewUserEntity.getEnable()==0){
                 sysNewUserEntity.setEnable(0);
                 sysNewUserEntity.setEnableMsg("已锁定");
                 sysNewUserEntity.setColor("RED");
