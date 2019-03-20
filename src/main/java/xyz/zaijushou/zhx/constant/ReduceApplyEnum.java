@@ -20,6 +20,7 @@ public enum ReduceApplyEnum {
     COLUMN13("reduceUpdateTime","dc.reduce_update_time"),
     COLUMN14("collectStatusMsg","dc.collect_status"),
     COLUMN15("reduceStatusMsg","dc.reduce_status"),
+    COLUMN16("fileName","dcr.file_name"),
     ;
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;
