@@ -26,6 +26,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
+import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
@@ -54,6 +55,8 @@ public class DataCaseController {
     private DataCollectService dataCollectService;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private SysUserService sysUserService;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -367,6 +370,20 @@ public class DataCaseController {
                 SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + dataCaseEntities.get(i).getCollectionArea().getId(), SysDictionaryEntity.class);
                 dataCaseEntities.get(i).setCollectArea(collectAreaEntity == null ? "" : dataCaseEntities.get(i).getCollectionArea().getId() + "");
             }
+            if(StringUtils.isNotEmpty(dataCaseEntities.get(i).getOdv())) {
+                SysNewUserEntity userEntity = new SysNewUserEntity();
+                userEntity.setRole("催收员");
+                List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
+                Map collectUserMap = new HashMap();
+                for (int m=0;m<userInfoEntity.size();m++){
+                    SysNewUserEntity sysNewUserEntity = userInfoEntity.get(m);
+                    collectUserMap.put(sysNewUserEntity.getId(),sysNewUserEntity);
+                }
+                if (collectUserMap.get(dataCaseEntities.get(i).getOdv())==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收员id不正确，请核实后再上传");
+                }
+
+            }
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
@@ -466,6 +483,20 @@ public class DataCaseController {
             if(dataCaseEntities.get(i).getCollectionArea() != null && dataCaseEntities.get(i).getCollectionArea().getId() != null) {
                 SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + dataCaseEntities.get(i).getCollectionArea().getId(), SysDictionaryEntity.class);
                 dataCaseEntities.get(i).setCollectArea(collectAreaEntity == null ? "" : dataCaseEntities.get(i).getCollectionArea().getId() + "");
+            }
+            if(StringUtils.isNotEmpty(dataCaseEntities.get(i).getOdv())) {
+                SysNewUserEntity userEntity = new SysNewUserEntity();
+                userEntity.setRole("催收员");
+                List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
+                Map collectUserMap = new HashMap();
+                for (int m=0;m<userInfoEntity.size();m++){
+                    SysNewUserEntity sysNewUserEntity = userInfoEntity.get(m);
+                    collectUserMap.put(sysNewUserEntity.getId(),sysNewUserEntity);
+                }
+                if (collectUserMap.get(dataCaseEntities.get(i).getOdv())==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收员id不正确，请核实后再上传");
+                }
+
             }
             if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");

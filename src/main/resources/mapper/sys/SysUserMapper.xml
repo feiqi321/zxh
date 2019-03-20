@@ -10,6 +10,7 @@
         username as userName,
         login_name as loginName,
         mobile as mobile,
+        department as department,
         email as email,
         remark as remark,
         create_user as 'createUser.id',

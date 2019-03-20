@@ -263,7 +263,7 @@
     <select id="countNum"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
 
         select
-        a.id as 'synergisticType.id', a.name as 'synergisticType.name', b.countNum as countNum
+        a.id as 'synergisticType.id', a.name as 'synergisticType.name', b.countNum as countNum from
         (select
         id, name
         from sys_data_dictionary

@@ -64,10 +64,20 @@ public class SysUserEntity extends CommonEntity {
 
     private String roleName;
 
+    private String department;
+
     /**
      * 0-锁定，1-解锁
      */
     private int enable;
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
 
     public String getRoleName() {
         return roleName;
