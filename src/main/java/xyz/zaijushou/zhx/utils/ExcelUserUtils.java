@@ -51,24 +51,30 @@ public class ExcelUserUtils {
         Sheet sheet = workbook.getSheetAt(0);
         Row header = sheet.getRow(1);
         Map<Integer, ExcelEnum> colMap = new HashMap<>();
-        logger.debug("列数：{}", header.getPhysicalNumberOfCells());
-        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+        logger.debug("列数：{}", header.getLastCellNum());
+        for (int i = 0; i < header.getLastCellNum(); i++) {
             Cell cell = header.getCell(i);
             if(cell == null) {
                 colMap.put(i, null);
                 continue;
             }
             String cellValue = cell.getStringCellValue();
+
             colMap.put(i, excelEnumMap.get(cellValue.toString().trim()));
         }
-        for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+        for (int i = 2; i <= sheet.getPhysicalNumberOfRows()-1; i++) {
             try {
                 Row row = sheet.getRow(i);
                 T entity = entityClazz.getConstructor().newInstance();
-
-                logger.debug("列数：{}", row.getPhysicalNumberOfCells());
-                for (int k = 0; k < header.getPhysicalNumberOfCells(); k++) {
+                if (row.getCell(0)==null && row.getCell(1)==null && row.getCell(2)==null  && row.getCell(3)==null){
+                    entity = null;
+                    continue;
+                }
+                for (int k = 0; k < header.getLastCellNum(); k++) {
                     Cell cell = row.getCell(k);
+                    /*if (k==92){
+                        System.out.println(111);
+                    }*/
                     ExcelEnum excelEnum = colMap.get(k);
                     if (excelEnum == null) {
                         continue;
@@ -119,7 +125,9 @@ public class ExcelUserUtils {
                     }
 
                 }
-                resultList.add(entity);
+                if (entity!=null) {
+                    resultList.add(entity);
+                }
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 logger.error("excel解析错误：{}", e);
                 throw new IOException("excel解析错误", e);
@@ -127,6 +135,7 @@ public class ExcelUserUtils {
                 logger.error("excel日期解析错误：{}", e);
                 throw new IOException("excel日期解析错误", e);
             } catch (Exception e) {
+                logger.error("excel解析错误：{}", e);
                 throw new IOException("excel解析错误", e);
             }
         }
@@ -137,14 +146,15 @@ public class ExcelUserUtils {
         if(cell == null) {
             return null;
         }
-        System.out.println(cell);
         CellType cellType;
         if(CellType.FORMULA == cell.getCellType()) {
             cellType = evaluator.evaluate(cell).getCellType();
         } else {
             cellType = cell.getCellType();
         }
+
         Object result;
+
         switch (cellType) {
             case STRING:
                 result = cell.getStringCellValue();
@@ -157,13 +167,19 @@ public class ExcelUserUtils {
                 } else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
                     result = Double.parseDouble((String) result);
                 } else if (clazz.equals(Date.class)) {
-                    result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                    if(((String) result).indexOf("-")>0) {
+                        result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                    }else{
+                        result = new SimpleDateFormat("yyyy/MM/dd").parse((String) result);
+                    }
                 }
                 break;
             case NUMERIC:
                 DecimalFormat df = new DecimalFormat("0");
                 if (clazz.equals(Date.class)) {
-                    result = cell.getNumericCellValue();
+                    double value = cell.getNumericCellValue();
+                    Date date = DateUtil.getJavaDate(value);
+                   result = date;
                 } else if(clazz.equals(String.class)) {
                     result = "" + df.format(cell.getNumericCellValue());
                 } else {
@@ -179,7 +195,7 @@ public class ExcelUserUtils {
             default:
                 result = null;
         }
-        logger.info("result:{}", result);
+       logger.info("result:{}", result);
         return result;
     }
 

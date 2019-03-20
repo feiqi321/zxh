@@ -34,7 +34,7 @@
         s.synergistic_type as 'synergisticType.id',
         s.apply_content as applyContent,
         s.apply_time as applyTime,
-        s.apply_user as 'applyUser.id',
+        c.odv as 'applyUser.id',
         s.synergistic_time as synergisticTime,
         s.synergistic_user as 'synergisticUser.id',
         s.synergistic_result as synergisticResult,
