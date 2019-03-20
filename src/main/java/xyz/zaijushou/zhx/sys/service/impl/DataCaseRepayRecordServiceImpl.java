@@ -95,16 +95,16 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 bean.setRepayMoneyMsg("");
                 temp.setDataCase(bean);
             }else{
-                temp.getDataCase().setMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getMoney()+"")));
-                temp.getDataCase().setOverdueBalanceMsg(temp.getDataCase()==null?"":(temp.getDataCase().getOverdueBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getOverdueBalance()+"")));
-                temp.getDataCase().setEnRepayAmtMsg(temp.getDataCase()==null?"":(temp.getDataCase().getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getEnRepayAmt()+"")));
-                temp.getDataCase().setCommissionMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getCommissionMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getCommissionMoney()+"")));
+                temp.getDataCase().setMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getMoney()+"")));
+                temp.getDataCase().setOverdueBalanceMsg(temp.getDataCase()==null?"":(temp.getDataCase().getOverdueBalance()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getOverdueBalance()+"")));
+                temp.getDataCase().setEnRepayAmtMsg(temp.getDataCase()==null?"":(temp.getDataCase().getEnRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getEnRepayAmt()+"")));
+                temp.getDataCase().setCommissionMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getCommissionMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getCommissionMoney()+"")));
             }
             if (temp.getBankReconciliation()==null){
                 DataCaseBankReconciliationEntity bean =  new DataCaseBankReconciliationEntity();
                 temp.setBankReconciliation(bean);
             }else{
-                temp.getBankReconciliation().setCpMoneyMsg(temp.getBankReconciliation()==null?"":(temp.getBankReconciliation().getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getBankReconciliation().getCpMoney()+"")));
+                temp.getBankReconciliation().setCpMoneyMsg(temp.getBankReconciliation()==null?"":(temp.getBankReconciliation().getCpMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getBankReconciliation().getCpMoney()+"")));
             }
             if (temp.getRepayType()==null){
                 SysDictionaryEntity bean =  new SysDictionaryEntity();
@@ -190,7 +190,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     public DataCaseRepayRecordEntity querySum(DataCaseRepayRecordEntity entity) {
         DataCaseRepayRecordEntity returnEntity = dataCaseRepayRecordMapper.queryCaseSum(entity);
         DataCaseRepayRecordEntity repaySumEntity = dataCaseRepayRecordMapper.queryRepaySum(entity);
-        returnEntity.setRepayMoney(repaySumEntity.getRepayMoney());
+        returnEntity.setRepayMoneyMsg(repaySumEntity==null?"":(repaySumEntity.getRepayMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(repaySumEntity.getRepayMoney()+"")));
+        returnEntity.getDataCase().setCommissionMoneyMsg(returnEntity.getDataCase()==null?"":(returnEntity.getDataCase().getCommissionMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(returnEntity.getDataCase().getCommissionMoney()+"")));
         return returnEntity;
     }
 
