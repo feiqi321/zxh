@@ -157,6 +157,7 @@ public class DataCaseEntity extends CommonEntity {
     private SysDictionaryEntity collectionArea; //催收区域
     private Double commissionRate;  //公司佣金比率
     private BigDecimal commissionMoney; //公司佣金金额
+    private String commissionMoneyMsg;
     private String homeTelNumber;   //家庭号码
     private String unitTelNumber;    //单位号码
 //    private String mobile;  //本人手机
@@ -278,6 +279,14 @@ public class DataCaseEntity extends CommonEntity {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    public String getCommissionMoneyMsg() {
+        return commissionMoneyMsg;
+    }
+
+    public void setCommissionMoneyMsg(String commissionMoneyMsg) {
+        this.commissionMoneyMsg = commissionMoneyMsg;
+    }
 
     public String getDistributeStatusFlag() {
         return distributeStatusFlag;

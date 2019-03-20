@@ -185,7 +185,7 @@ public class ExcelBankReconciliationConstant {
         COLUMN7("dataCase.client","c.client"),
         COLUMN8("dataCase.moneyMsg","c.money"),
         COLUMN17("dataCase.money","c.money"),
-        COLUMN9("dataCase.repayMoneyMsg",""),
+        COLUMN9("dataCase.repayMoneyMsg","c.en_repay_amt"),
         COLUMN10("cpMoneyMsg","b.cp_money"),
         COLUMN18("cpMoney","b.cp_money"),
         COLUMN19("dataCase.enRepayAmt","c.en_repay_amt"),

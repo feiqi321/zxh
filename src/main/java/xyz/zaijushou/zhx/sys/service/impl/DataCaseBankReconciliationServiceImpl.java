@@ -51,8 +51,9 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             DataCaseBankReconciliationEntity temp = pageData.get(i);
 
             temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
-            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoneyMsg()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoneyMsg()+""));
+            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
             temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
+            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
             pageData.set(i,temp);
         }
         return PageInfo.of(pageData);
