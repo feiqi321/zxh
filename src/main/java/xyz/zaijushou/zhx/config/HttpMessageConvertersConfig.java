@@ -82,7 +82,7 @@ class ZhxBigDecimalCodec implements ObjectSerializer, ObjectDeserializer {
     @Override
     public void write(JSONSerializer serializer, Object object, Object fieldName, Type fieldType, int features) throws IOException {
         SerializeWriter out = serializer.out;
-        String writeValue = object == null ? "￥0.00" : "￥"+ FmtMicrometer.fmtMicrometer(object.toString() + "");
+        String writeValue = object == null ? "0.00" : object.toString();
         writeValue = "\"" + writeValue + "\"";
         out.write(writeValue);
     }
