@@ -484,7 +484,7 @@ public class DataCaseController {
                 SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + dataCaseEntities.get(i).getCollectionArea().getId(), SysDictionaryEntity.class);
                 dataCaseEntities.get(i).setCollectArea(collectAreaEntity == null ? "" : dataCaseEntities.get(i).getCollectionArea().getId() + "");
             }
-            if(StringUtils.isNotEmpty(dataCaseEntities.get(i).getOdv())) {
+            if(dataCaseEntities.get(i).getCollectionUser()!=null && dataCaseEntities.get(i).getCollectionUser().getId()!=null) {
                 SysNewUserEntity userEntity = new SysNewUserEntity();
                 userEntity.setRole("催收员");
                 List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
@@ -493,7 +493,7 @@ public class DataCaseController {
                     SysNewUserEntity sysNewUserEntity = userInfoEntity.get(m);
                     collectUserMap.put(sysNewUserEntity.getId(),sysNewUserEntity);
                 }
-                if (collectUserMap.get(dataCaseEntities.get(i).getOdv())==null){
+                if (collectUserMap.get(dataCaseEntities.get(i).getCollectionUser().getId())==null){
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收员id不正确，请核实后再上传");
                 }
 

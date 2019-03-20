@@ -895,8 +895,10 @@ public class DataCaseServiceImpl implements DataCaseService {
         //下面这段代码逻辑，判断导入的省份是否在字典里，如果存在，则更新案件省份的id，并相应继续判断地市和区县
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
-            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getOdv(), SysUserEntity.class);
-            entity.setDept(user.getDepartment());
+            if(entity.getCollectionUser()!=null && entity.getCollectionUser().getId()!=null) {
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + entity.getCollectionUser().getId(), SysUserEntity.class);
+                entity.setDept(user == null ? "" : user.getDepartment());
+            }
             if(entity.getProvince() != null && !StringUtils.isEmpty(entity.getProvince().getName()) && dictMap.containsKey(entity.getProvince().getName())) {
                 dataCaseEntities.get(i).getProvince().setId(dictMap.get(entity.getProvince().getName()).getId());
                 if(entity.getCity() != null && !StringUtils.isEmpty(entity.getCity().getName()) && dictMap.containsKey(entity.getCity().getName())) {
