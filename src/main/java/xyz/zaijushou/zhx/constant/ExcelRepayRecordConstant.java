@@ -190,8 +190,10 @@ public class ExcelRepayRecordConstant {
         COLUMN7("dataCase.client","c.client"),
         COLUMN8("dataCase.overdueBillTime","c.account_age"),
         COLUMN9("dataCase.moneyMsg","c.money"),
-        COLUMN25("dataCase.enRepayAmt","c.en_repay_amt"),
-        COLUMN26("dataCase.balance","c.balance"),
+        COLUMN29("dataCase.enRepayAmt","c.en_repay_amt"),
+        COLUMN27("dataCase.enRepayAmtMsg","c.en_repay_amt"),
+        COLUMN28("dataCase.balance","c.balance"),
+        COLUMN26("dataCase.balanceMsg","c.balance"),
         COLUMN10("repayMoneyMsg","r.repay_money"),
         COLUMN11("dataCase.overdueBalanceMsg",""),
         COLUMN12("repayDate","r.repay_date"),
@@ -207,7 +209,7 @@ public class ExcelRepayRecordConstant {
         COLUMN22("repayType.name","r.repay_money"),
         COLUMN23("confirmUser.userName","r.confirm_user"),
         COLUMN24("dataCase.commissionMoney","c.commission_money"),
-
+        COLUMN25("dataCase.commissionMoneyMsg","c.commission_money"),
         ;
         //防止字段值被修改，增加的字段也统一final表示常量
         private final String key;
