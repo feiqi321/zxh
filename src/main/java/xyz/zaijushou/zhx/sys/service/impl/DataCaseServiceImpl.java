@@ -469,13 +469,6 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ bean.getOdv(), SysUserEntity.class);
         bean.setDistributeHistory(",分配给"+user.getUserName());
         dataCaseMapper.sendOdv(bean);
-        DataCaseSynergyDetailEntity dataCaseSynergyDetailEntity = new DataCaseSynergyDetailEntity();
-        SysUserEntity curentuser = getUserInfo();
-        dataCaseSynergyDetailEntity.setApplyer(curentuser.getId());
-        dataCaseSynergyDetailEntity.setCaseId(bean.getId());
-        dataCaseSynergyDetailEntity.setSynergisticType(Integer.parseInt(bean.getSynergyType()));
-        dataCaseSynergyDetailEntity.setApplyContent(bean.getSynergyContext());
-        dataCaseSynergisticMapper.saveApply(dataCaseSynergyDetailEntity);
         DataOpLog log = new DataOpLog();
         log.setType("案件管理");
         log.setContext(bean.getDistributeHistory());
@@ -656,15 +649,6 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseEntity.setDistributeHistory(",分配给"+user.getUserName());
         dataCaseEntity.setIds(ids);
         dataCaseMapper.sendOdvByProperty(dataCaseEntity);
-        for (int i=0;i<ids.length;i++){
-            DataCaseSynergyDetailEntity dataCaseSynergyDetailEntity = new DataCaseSynergyDetailEntity();
-            SysUserEntity curentuser = getUserInfo();
-            dataCaseSynergyDetailEntity.setApplyer(curentuser.getId());
-            dataCaseSynergyDetailEntity.setCaseId(Integer.parseInt(ids[i]));
-            dataCaseSynergyDetailEntity.setSynergisticType(Integer.parseInt(dataCaseEntity.getSynergyType()));
-            dataCaseSynergyDetailEntity.setApplyContent(dataCaseEntity.getSynergyContext());
-            dataCaseSynergisticMapper.saveApply(dataCaseSynergyDetailEntity);
-        }
 
     }
     @Override
@@ -731,6 +715,13 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void addSynergy(DataCaseEntity bean){
         dataCaseMapper.addSynergy(bean);
+        DataCaseSynergyDetailEntity dataCaseSynergyDetailEntity = new DataCaseSynergyDetailEntity();
+        SysUserEntity curentuser = getUserInfo();
+        dataCaseSynergyDetailEntity.setApplyer(curentuser.getId());
+        dataCaseSynergyDetailEntity.setCaseId(bean.getId());
+        dataCaseSynergyDetailEntity.setSynergisticType(Integer.parseInt(bean.getSynergyType()));
+        dataCaseSynergyDetailEntity.setApplyContent(bean.getSynergyContext());
+        dataCaseSynergisticMapper.saveApply(dataCaseSynergyDetailEntity);
     }
 
     public void updateSynergy(DataCaseEntity bean){
@@ -818,6 +809,10 @@ public class DataCaseServiceImpl implements DataCaseService {
         //下面这段代码逻辑，判断导入的省份是否在字典里，如果存在，则更新案件省份的id，并相应继续判断地市和区县
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
+            if(entity.getCollectionUser()!=null && entity.getCollectionUser().getId()!=null) {
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + entity.getCollectionUser().getId(), SysUserEntity.class);
+                entity.setDept(user == null ? "" : user.getDepartment());
+            }
             if(entity.getProvince() != null && !StringUtils.isEmpty(entity.getProvince().getName()) && dictMap.containsKey(entity.getProvince().getName())) {
                 dataCaseEntities.get(i).getProvince().setId(dictMap.get(entity.getProvince().getName()).getId());
                 if(entity.getCity() != null && !StringUtils.isEmpty(entity.getCity().getName()) && dictMap.containsKey(entity.getCity().getName())) {
