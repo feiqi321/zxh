@@ -6,12 +6,11 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.ReduceApplyEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -168,7 +167,12 @@ public class ReduceServiceImpl implements ReduceService {
                 break;
             case "4"://已完成
                 bean.setApplyStatus("2");
-                bean.setCompleteUser("系统管理员");
+                SysUserEntity user = this.getUserInfo();
+                if (user == null){
+                    bean.setCompleteUser("系统管理员");
+                }else {
+                    bean.setCompleteUser(user.getUserName());
+                }
                 bean.setCompleteTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
                 break;
             case "5"://停用
@@ -177,6 +181,12 @@ public class ReduceServiceImpl implements ReduceService {
                 default:break;
         }
         reduceMapper.updateStatus(bean);
+    }
+
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return userTemp;
     }
 
     @Override
