@@ -299,9 +299,6 @@
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collect_info = #{collectInfo}
                 </if>
-                <if test="batchNo != null and batchNo!=''">
-                    and dc.batch_no = #{batchNo}
-                </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}
                 </if>
@@ -469,9 +466,6 @@
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and da.summary = #{collectInfo}
-                </if>
-                <if test="batchNo != null and batchNo!=''">
-                    and da.batch_no = #{batchNo}
                 </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}
@@ -1859,7 +1853,7 @@
           select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
           pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
           collect_date as collectDate
-          from   data_case  where batch_no = #{batchNo} and ident_no = #{identNo}
+          from   data_case  where batch_no = #{batchNo} and ident_no = #{identNo} and  <![CDATA[ id <> #{id} ]]>
     </select>
 
     <select id="findSameCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

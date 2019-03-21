@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.SelectFilterMapper">
+
+    <!--插入数据信息-->
+    <insert id="saveFilter" parameterType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        replace  into select_filter
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="module != null">module,</if>
+            <if test="menu != null">menu,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="module != null">#{module},</if>
+            <if test="menu != null">#{menu},</if>
+        </trim>
+    </insert>
+
+
+    <select id="selectByModule" parameterType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity" resultType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity">
+        select
+        id,module,menu
+        from select_filter where module = #{module}
+
+    </select>
+
+
+</mapper>

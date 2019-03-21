@@ -23,10 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.entity.*;
-import xyz.zaijushou.zhx.sys.service.DataCaseService;
-import xyz.zaijushou.zhx.sys.service.DataCollectService;
-import xyz.zaijushou.zhx.sys.service.FileManageService;
-import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.sys.service.*;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
@@ -57,6 +54,8 @@ public class DataCaseController {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private SysUserService sysUserService;
+    @Autowired
+    private SysDictionaryService dictionaryService;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -289,6 +288,22 @@ public class DataCaseController {
         String fileName = file.getOriginalFilename();
         logger.info(fileName);
         List<DataCaseTelEntity> caseList = ExcelUtils.importExcel(file, ExcelTelConstant.CaseTel.values(), DataCaseTelEntity.class);
+        SysDictionaryEntity dictionary = new SysDictionaryEntity();
+        dictionary.setName("电话类型");
+        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.listDataByName(dictionary);
+        Map dicMap = new HashMap();
+        for (int m=0;m<dictionaryEntityList.size();m++){
+            SysDictionaryEntity temp = dictionaryEntityList.get(m);
+            dicMap.put(temp.getName(),temp);
+        }
+        for (int i=0;i<caseList.size();i++){
+            if (dicMap.get(caseList.get(i).getType())==null){
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不正确，请核实后再上传");
+            }else{
+                caseList.get(i).setType(dicMap.get(caseList.get(i).getType())+"");
+            }
+        }
+
         WebResponse webResponse =fileManageService.batchCaseTel(caseList);
         return webResponse;
     }
@@ -366,6 +381,7 @@ public class DataCaseController {
         }
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
+
             if(dataCaseEntities.get(i).getCollectionArea() != null && dataCaseEntities.get(i).getCollectionArea().getId() != null) {
                 SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + dataCaseEntities.get(i).getCollectionArea().getId(), SysDictionaryEntity.class);
                 dataCaseEntities.get(i).setCollectArea(collectAreaEntity == null ? "" : dataCaseEntities.get(i).getCollectionArea().getId() + "");
@@ -418,7 +434,12 @@ public class DataCaseController {
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
             if(!existCaseMap.containsKey(entity.getSeqNo())) {
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "不存在，请修改后重新上传");
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getCardNo()+"@"+dataCaseEntities.get(i).getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件不存在，请修改后重新上传");
+                }
+
+
             }
             dataCaseEntities.get(i).setId(existCaseMap.get(entity.getSeqNo()).getId());
             succesLines = succesLines+1;
@@ -541,7 +562,10 @@ public class DataCaseController {
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
             if(existCaseMap.containsKey(entity.getSeqNo())) {
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getSeqNo() + "已存在，请确认后重新上传");
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getCardNo()+"@"+dataCaseEntities.get(i).getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件不存在，请修改后重新上传");
+                }
             }
             dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
             succesLines =succesLines+1;
