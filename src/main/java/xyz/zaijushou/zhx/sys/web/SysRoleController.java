@@ -248,6 +248,16 @@ public class SysRoleController {
                 }
             }
         }
+        List<SysMenuEntity> menuTree = CollectionsUtils.listToTree(new ArrayList<>(menuMap.values()));
+        Set<Integer> removeFirstLevelMenuIds = new HashSet<>();
+        for(SysMenuEntity menu : menuTree) {
+            if(1 == menu.getId()) {
+                continue;
+            }
+            if(CollectionUtils.isEmpty(menu.getChildren())) {
+                menuMap.get(menu.getId()).setSelect(false);
+            }
+        }
         return menuMap;
     }
 
