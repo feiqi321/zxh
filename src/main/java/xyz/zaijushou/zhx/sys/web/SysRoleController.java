@@ -235,6 +235,18 @@ public class SysRoleController {
             index.setParent(parent);
             menuMap.put(1, index);
         }
+        List<SysMenuEntity> list = new ArrayList<>(menuMap.values());
+        for(SysMenuEntity menu : list) {
+            menu.setSort("");
+        }
+        List<SysMenuEntity> menuTree = CollectionsUtils.listToTree(list);
+        for(SysMenuEntity menu : menuTree) {
+            if(1 == menu.getId()) {
+                continue;
+            }
+            menuMap.get(menu.getId()).setSelect(false);
+
+        }
         for(Map.Entry<Integer, SysMenuEntity> entry : menuMap.entrySet()) {
             SysMenuEntity menu = entry.getValue();
             if(new Integer(1).equals(menu.getId())) {
@@ -246,16 +258,6 @@ public class SysRoleController {
                     menuMap.get(menu.getParent().getId()).setSelect(true);
                     menu = menuMap.get(menu.getParent().getId());
                 }
-            }
-        }
-        List<SysMenuEntity> menuTree = CollectionsUtils.listToTree(new ArrayList<>(menuMap.values()));
-        Set<Integer> removeFirstLevelMenuIds = new HashSet<>();
-        for(SysMenuEntity menu : menuTree) {
-            if(1 == menu.getId()) {
-                continue;
-            }
-            if(CollectionUtils.isEmpty(menu.getChildren())) {
-                menuMap.get(menu.getId()).setSelect(false);
             }
         }
         return menuMap;
