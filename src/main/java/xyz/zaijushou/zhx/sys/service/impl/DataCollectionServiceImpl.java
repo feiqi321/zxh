@@ -267,10 +267,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setList(list);
         collectionReturn.setCountCase(count);
         collectionReturn.setCountCasePay(countCasePay);
-        collectionReturn.setSumBank(sumBank);
-        collectionReturn.setSumMoney(sumMoney);
-        collectionReturn.setSumRepay(sumRepay);
-        collectionReturn.setSumPayMoney(sumPayMoney);
+        //collectionReturn.setSumBank(sumBank);
+        collectionReturn.setSumBankMsg(sumBank==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumBank+""));
+        //collectionReturn.setSumMoney(sumMoney);
+        collectionReturn.setSumMoneyMsg(sumMoney==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumMoney+""));
+        //collectionReturn.setSumRepay(sumRepay);
+        collectionReturn.setSumRepayMsg(sumRepay==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumRepay+""));
+        //collectionReturn.setSumPayMoney(sumPayMoney);
+        collectionReturn.setSumPayMoneyMsg(sumPayMoney==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumPayMoney+""));
         webResponse.setData(collectionReturn);
         webResponse.setTotalNum(count);
         return webResponse;
