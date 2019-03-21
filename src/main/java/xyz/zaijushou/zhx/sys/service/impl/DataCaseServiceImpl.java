@@ -1078,7 +1078,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i,temp);
             }
         }else {
-            list = dataCaseMapper.pageCaseList(dataCaseEntity);
+            list = dataCaseMapper.pageCaseMangeList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 if (temp.getCollectStatus()==0){
