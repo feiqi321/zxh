@@ -477,6 +477,7 @@
         (
             data_case,
             collect_user,
+            confirm_user,
             repay_date,
             repay_money,
             repay_user,
@@ -489,6 +490,7 @@
         (
             #{dataCase.id},
             #{collectUser.id},
+            #{confirmUser.id},
             #{repayDate},
             #{repayMoney},
             #{repayUser},
@@ -504,6 +506,7 @@
         (
         data_case,
         collect_user,
+        confirm_user,
         repay_date,
         repay_money,
         repay_user,
@@ -516,6 +519,7 @@
             (
             #{item.dataCase.id},
             #{item.collectUser.id},
+            #{item.confirmUser.id},
             #{item.repayDate},
             #{item.repayMoney},
             #{item.repayUser},
