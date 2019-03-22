@@ -25,6 +25,7 @@ import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -148,13 +149,17 @@ public class DataCollectController {
             dicTelMap.put(temp.getName(),temp);
         }
         for (int i=0;i<dataCollectionEntities.size();i++){
-            if (dataCollectionEntities.get(i).getResultId()!=null && dicMap.get(Integer.parseInt(dataCollectionEntities.get(i).getResultId()))==null){
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收结果id不正确，请核实后再上传");
+            if (StringUtils.notEmpty(dataCollectionEntities.get(i).getResultId())) {
+                if (dataCollectionEntities.get(i).getResultId() != null && dicMap.get(Integer.parseInt(dataCollectionEntities.get(i).getResultId())) == null) {
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收结果id不正确，请核实后再上传");
+                }
             }
-            if (dicTelMap.get(dataCollectionEntities.get(i).getTelType())==null){
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不正确，请核实后再上传");
-            }else{
-                dataCollectionEntities.get(i).setTelType(((SysDictionaryEntity)dicTelMap.get(dataCollectionEntities.get(i).getTelType())).getId()+"");
+            if (StringUtils.notEmpty(dataCollectionEntities.get(i).getTelType())) {
+                if (dicTelMap.get(dataCollectionEntities.get(i).getTelType()) == null) {
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不正确，请核实后再上传");
+                } else {
+                    dataCollectionEntities.get(i).setTelType(((SysDictionaryEntity) dicTelMap.get(dataCollectionEntities.get(i).getTelType())).getId() + "");
+                }
             }
         }
 
