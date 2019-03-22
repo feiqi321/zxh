@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
@@ -35,13 +36,16 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     @Resource
     private DataCaseMapper dataCaseMapper;
 
+    @Resource
+    private DataCaseRemarkMapper dataCaseRemarkMapper;
+
 
     @Override
     public PageInfo<DataCaseRepayRecordEntity> pageRepayRecordList(DataCaseRepayRecordEntity entity) {
         if(!StringUtils.isEmpty(entity.getOrderBy())){
             entity.setOrderBy(ExcelRepayRecordConstant.RepayRecordSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
         }
-        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordMapper.pageRepayRecordList(entity);
+        List<DataCaseRepayRecordEntity> list = combineInfo(dataCaseRepayRecordMapper.pageRepayRecordList(entity));
         Set<String> userIdsSet = new HashSet<>();
         Set<String> dictSet = new HashSet<>();
         for(DataCaseRepayRecordEntity record : list) {
@@ -142,6 +146,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
 
     @Override
     public void save(DataCaseRepayRecordEntity entity) {
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysNewUserEntity newUser = new SysNewUserEntity();
+        newUser.setId(userId);
+        entity.setConfirmUser(newUser);
         dataCaseRepayRecordMapper.save(entity);
         updateDataCaseBalance(entity);
         DataOpLog log = new DataOpLog();
@@ -161,7 +169,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     }
     @Override
     public List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity) {
-        return dataCaseRepayRecordMapper.listRepayRecord(repayRecordEntity);
+        return combineInfo(dataCaseRepayRecordMapper.listRepayRecord(repayRecordEntity));
     }
 
     @Override
@@ -206,5 +214,73 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         dataCaseEntity.setEnRepayAmt(repayMoney);
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
 
+    }
+
+    private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
+        Set<String> userIdsSet = new HashSet<>();
+        Set<String> dictSet = new HashSet<>();
+        Set<Integer> caseIdsSet = new HashSet<>();
+        for(DataCaseRepayRecordEntity entity : list) {
+            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
+            }
+            if(entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getCollectUser().getId());
+            }
+            if(entity != null && entity.getConfirmUser()!= null && entity.getConfirmUser().getId() != null ) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getConfirmUser().getId());
+            }
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                dictSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
+            }
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+                caseIdsSet.add(entity.getDataCase().getId());
+            }
+        }
+        if(!CollectionUtils.isEmpty(userIdsSet)) {
+            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
+            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
+            for (DataCaseRepayRecordEntity entity : list) {
+                if (entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                    entity.getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+                }
+                if (entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
+                    entity.setCollectUser(userMap.get(entity.getCollectUser().getId()));
+                }
+                if (entity != null && entity.getConfirmUser()!= null && entity.getConfirmUser().getId() != null ) {
+                    entity.setConfirmUser(userMap.get(entity.getConfirmUser().getId()));
+                }
+            }
+        }
+        if(!CollectionUtils.isEmpty(dictSet)) {
+            List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
+            Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
+            for(SysDictionaryEntity entity : clientList) {
+                dictMap.put(entity.getId() + "", entity);
+            }
+            for (DataCaseRepayRecordEntity entity : list) {
+                if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                    if(dictMap.get(entity.getDataCase().getClient()) != null) {
+                        entity.getDataCase().setClient(dictMap.get(entity.getDataCase().getClient()).getName());
+                    }
+                }
+            }
+        }
+        DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
+        queryRemarks.setCaseIdsSet(caseIdsSet);
+        List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
+        Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
+        for(DataCaseRemarkEntity entity : remarks) {
+            if(!remarkMap.containsKey(entity.getCaseId())) {
+                remarkMap.put(entity.getCaseId(), new ArrayList<>());
+            }
+            remarkMap.get(entity.getCaseId()).add(entity);
+        }
+        for (DataCaseRepayRecordEntity entity : list) {
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+                entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
+            }
+        }
+        return list;
     }
 }
