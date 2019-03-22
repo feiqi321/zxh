@@ -9,7 +9,15 @@ public class SelectFilterEntity extends CommonEntity {
 
         private String module;
         private String menu;
+        private int userId;
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public String getModule() {
         return module;
