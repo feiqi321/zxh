@@ -26,7 +26,7 @@
 
     <select id="selectByModule" parameterType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity" resultType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity">
         select
-        id,module,menu,userId
+        id,module,menu,user_id as userId
         from select_filter where module = #{module} and user_id = #{userId}
 
     </select>
