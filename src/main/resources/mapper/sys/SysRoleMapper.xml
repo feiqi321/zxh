@@ -8,6 +8,7 @@
         id as id,
         role_name as roleName,
         role_desc as roleDesc,
+        data_auth as dataAuth,
         role_auth_symbol as roleAuthSymbol,
         remark as remark,
         create_user as 'createUser.id',
@@ -82,6 +83,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="roleName != null">role_name,</if>
             <if test="roleDesc != null">role_desc,</if>
+            <if test="dataAuth != null">data_auth,</if>
             <if test="roleAuthSymbol != null">role_auth_symbol,</if>
             <if test="remark != null">remark,</if>
             <if test="createUser != null and createUser.id != null">create_user,</if>
@@ -91,6 +93,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="roleName != null">#{roleName},</if>
             <if test="roleDesc != null">#{roleDesc},</if>
+            <if test="dataAuth != null">#{dataAuth},</if>
             <if test="roleAuthSymbol != null">#{roleAuthSymbol},</if>
             <if test="remark != null">#{remark},</if>
             <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
@@ -104,6 +107,7 @@
         <trim prefix="" suffix="" suffixOverrides=",">
             <if test="roleName != null">role_name = #{roleName},</if>
             <if test="roleDesc != null">role_desc = #{roleDesc},</if>
+            <if test="data_auth != null">data_auth = #{data_auth},</if>
             <if test="roleAuthSymbol != null">role_auth_symbol = #{roleAuthSymbol},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>

@@ -44,6 +44,16 @@ public class SysRoleEntity extends CommonEntity {
      */
     private List<SysButtonEntity> buttons;
 
+    private Integer dataAuth;
+
+    public Integer getDataAuth() {
+        return dataAuth;
+    }
+
+    public void setDataAuth(Integer dataAuth) {
+        this.dataAuth = dataAuth;
+    }
+
     public String getRoleName() {
         return roleName;
     }
