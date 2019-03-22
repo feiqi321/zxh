@@ -1,10 +1,29 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 /**
  * Created by looyer on 2019/3/21.
  */
-public class SelectFilterEntity {
+public class SelectFilterEntity extends CommonEntity {
+
+        private String module;
+        private String menu;
 
 
+    public String getModule() {
+        return module;
+    }
 
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public String getMenu() {
+        return menu;
+    }
+
+    public void setMenu(String menu) {
+        this.menu = menu;
+    }
 }
