@@ -1415,9 +1415,16 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysDictionaryEntity collectAreaDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectArea(), SysDictionaryEntity.class);
         dataCaseDetail.setCollectArea(collectAreaDic==null?"":collectAreaDic.getName());
 
-        dataCaseDetail.setEnRepayAmt(dataCaseDetail.getEnRepayAmt()==null?new BigDecimal(0.00): dataCaseDetail.getEnRepayAmt());
-
-        dataCaseDetail.setBalanceMsg(dataCaseDetail.getEnRepayAmt()==null?"￥0.00":(dataCaseDetail.getEnRepayAmt()+""));
+        if (dataCaseDetail.getEnRepayAmt()==null || dataCaseDetail.getEnRepayAmt().compareTo(new BigDecimal(0))==0){
+            dataCaseDetail.setEnRepayAmt(new BigDecimal(0.00));
+        }else{
+            dataCaseDetail.setEnRepayAmt(dataCaseDetail.getEnRepayAmt()==null?new BigDecimal(0.00): dataCaseDetail.getEnRepayAmt());
+        }
+        if (dataCaseDetail.getBalance()==null || dataCaseDetail.getBalance().compareTo(new BigDecimal(0))==0){
+            dataCaseDetail.setBalanceMsg("￥0.00");
+        }else{
+            dataCaseDetail.setBalanceMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getBalance()+""));
+        }
 
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
