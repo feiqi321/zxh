@@ -1415,6 +1415,10 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysDictionaryEntity collectAreaDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectArea(), SysDictionaryEntity.class);
         dataCaseDetail.setCollectArea(collectAreaDic==null?"":collectAreaDic.getName());
 
+        dataCaseDetail.setEnRepayAmt(dataCaseDetail.getEnRepayAmt()==null?new BigDecimal(0.00): dataCaseDetail.getEnRepayAmt());
+
+        dataCaseDetail.setBalanceMsg(dataCaseDetail.getEnRepayAmt()==null?"￥0.00":(dataCaseDetail.getEnRepayAmt()+""));
+
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
         dataCaseTelEntity.setCaseId(bean.getId());
