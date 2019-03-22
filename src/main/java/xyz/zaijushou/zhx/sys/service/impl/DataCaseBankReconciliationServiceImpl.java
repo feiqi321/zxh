@@ -50,10 +50,16 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         for (int i=0;i<pageData.size();i++){
             DataCaseBankReconciliationEntity temp = pageData.get(i);
 
-            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
-            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
-            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
-            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
+            if (temp.getRepayType()!=null && temp.getRepayType().equals("10")){
+                temp.setRepayType("代扣卡");
+            }else if (temp.getRepayType()!=null && temp.getRepayType().equals("20")){
+                temp.setRepayType("对公还款");
+            }
+
+            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
+            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
+            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
             pageData.set(i,temp);
         }
         return PageInfo.of(pageData);
@@ -193,5 +199,36 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             }
         }
         return list;
+    }
+
+
+    public List<DataCaseBankReconciliationEntity> listByCaseId(DataCaseBankReconciliationEntity bean){
+        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationMapper.listByCaseId(bean);
+        for (int i=0;i<list.size();i++){
+            DataCaseBankReconciliationEntity temp = list.get(i);
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
+            if (temp.getRepayType()!=null && temp.getRepayType().equals("10")){
+                temp.setRepayType("代扣卡");
+            }else if (temp.getRepayType()!=null && temp.getRepayType().equals("20")){
+                temp.setRepayType("对公还款");
+            }
+            temp.setConfirmMoneyMsg("￥0.00");
+            list.set(i,temp);
+        }
+
+        return list;
+    }
+
+
+    public void saveBank(DataCaseBankReconciliationEntity bean){
+
+        SysUserEntity sysUserEntity = getUserInfo();
+        SysNewUserEntity submitUser = new SysNewUserEntity();
+        submitUser.setId(sysUserEntity.getId());
+        bean.setSubmitUser(submitUser);
+        bean.setCreateUser(sysUserEntity);
+        bean.setUpdateUser(sysUserEntity);
+        dataCaseBankReconciliationMapper.saveBank(bean);
+
     }
 }

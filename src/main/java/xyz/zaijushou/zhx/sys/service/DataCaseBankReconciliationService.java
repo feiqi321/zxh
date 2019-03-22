@@ -14,4 +14,8 @@ public interface DataCaseBankReconciliationService {
     List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity);
 
     void addList(List<DataCaseBankReconciliationEntity> dataEntities);
+
+    List<DataCaseBankReconciliationEntity> listByCaseId(DataCaseBankReconciliationEntity bean);
+
+    void saveBank(DataCaseBankReconciliationEntity bean);
 }
