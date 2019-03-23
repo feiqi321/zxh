@@ -24,6 +24,12 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
 
     private String repayType;   //还款方式
 
+    private String repayDate;
+
+    private String confirmMoneyMsg;
+
+    private String confirmDate;
+
     private SysNewUserEntity submitUser;    //提交人
 
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
@@ -40,6 +46,30 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public String getRepayDate() {
+        return repayDate;
+    }
+
+    public void setRepayDate(String repayDate) {
+        this.repayDate = repayDate;
+    }
+
+    public String getConfirmMoneyMsg() {
+        return confirmMoneyMsg;
+    }
+
+    public void setConfirmMoneyMsg(String confirmMoneyMsg) {
+        this.confirmMoneyMsg = confirmMoneyMsg;
+    }
+
+    public String getConfirmDate() {
+        return confirmDate;
+    }
+
+    public void setConfirmDate(String confirmDate) {
+        this.confirmDate = confirmDate;
+    }
 
     public String getCpMoneyMsg() {
         return cpMoneyMsg;

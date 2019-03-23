@@ -16,6 +16,8 @@ public class DataCaseDetail {
     private String client;//委托方 查询条件
     private BigDecimal money;//委案金额 查询条件    列表
     private BigDecimal balance;//委案余额    列表
+
+    private String balanceMsg;
     //委案日期 查询条件   列表
     private String caseDate;
     private String collectArea;//催收区域  查询条件  列表
@@ -289,6 +291,14 @@ public class DataCaseDetail {
     private String contactMobile6;
     private String contactUnit6;
     private String contactAddress6;
+
+    public String getBalanceMsg() {
+        return balanceMsg;
+    }
+
+    public void setBalanceMsg(String balanceMsg) {
+        this.balanceMsg = balanceMsg;
+    }
 
     public boolean isCurrentuser() {
         return currentuser;

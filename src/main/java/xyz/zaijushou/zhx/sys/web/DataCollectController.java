@@ -16,12 +16,16 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
 import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
+import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +34,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by looyer on 2019/1/29.
@@ -43,6 +49,8 @@ public class DataCollectController {
     private DataCollectService dataCollectService;
     @Autowired
     private FileManageService fileManageService;
+    @Autowired
+    private SysDictionaryService dictionaryService;
 
     @ApiOperation(value = "刪除催收信息", notes = "刪除催收信息")
     @PostMapping("/dataCollect/delete")
@@ -122,6 +130,39 @@ public class DataCollectController {
     public Object dataCollectImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         List<DataCollectionEntity> dataCollectionEntities = ExcelUtils.importExcel(file, ExcelCollectConstant.CaseCollect.values(), DataCollectionEntity.class);
+
+        SysDictionaryEntity dictionary = new SysDictionaryEntity();
+        dictionary.setName("催收结果");
+        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.listDataByName(dictionary);
+        Map dicMap = new HashMap();
+        for (int m=0;m<dictionaryEntityList.size();m++){
+            SysDictionaryEntity temp = dictionaryEntityList.get(m);
+            dicMap.put(temp.getId(),temp);
+        }
+
+        SysDictionaryEntity telDic = new SysDictionaryEntity();
+        telDic.setName("电话类型");
+        List<SysDictionaryEntity> dicTelList = dictionaryService.listDataByName(telDic);
+        Map dicTelMap = new HashMap();
+        for (int m=0;m<dicTelList.size();m++){
+            SysDictionaryEntity temp = dicTelList.get(m);
+            dicTelMap.put(temp.getName(),temp);
+        }
+        for (int i=0;i<dataCollectionEntities.size();i++){
+            if (StringUtils.notEmpty(dataCollectionEntities.get(i).getResultId())) {
+                if (dataCollectionEntities.get(i).getResultId() != null && dicMap.get(Integer.parseInt(dataCollectionEntities.get(i).getResultId())) == null) {
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收结果id不正确，请核实后再上传");
+                }
+            }
+            if (StringUtils.notEmpty(dataCollectionEntities.get(i).getTelType())) {
+                if (dicTelMap.get(dataCollectionEntities.get(i).getTelType()) == null) {
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不正确，请核实后再上传");
+                } else {
+                    dataCollectionEntities.get(i).setTelType(((SysDictionaryEntity) dicTelMap.get(dataCollectionEntities.get(i).getTelType())).getId() + "");
+                }
+            }
+        }
+
         WebResponse webResponse =fileManageService.batchCollect(dataCollectionEntities);
         return webResponse;
     }

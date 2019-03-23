@@ -1075,46 +1075,115 @@
     <update id="updateBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case
         set
+        <if test="caseDate != null and caseDate != null">
             case_date = #{caseDate},
+        </if>
+        <if test="money != null and money != null">
             money = #{money},
+        </if>
+        <if test="caseDeadline != null and caseDeadline != null">
             case_deadline = #{caseDeadline},
+        </if>
+        <if test="collectHand != null and collectHand != null">
             collect_hand = #{collectHand},
+        </if>
+        <if test="rmb != null and rmb != null">
             rmb = #{rmb},
+        </if>
+        <if test="hkd != null and hkd != null">
             hkd = #{hkd},
+        </if>
+        <if test="foreignCurrency != null and foreignCurrency != null">
             foreign_currency = #{foreignCurrency},
+        </if>
+        <if test="gender != null and gender != null">
             gender = #{gender},
+        </if>
+        <if test="name != null and name != null">
             name = #{name},
+        </if>
+        <if test="cardNo != null and cardNo != null">
             card_no = #{cardNo},
+        </if>
+        <if test="identNo != null and identNo != null">
             ident_no = #{identNo},
+        </if>
+        <if test="identType != null and identType != null">
             ident_type = #{identType},
+        </if>
+
             <if test="collectionUser != null and collectionUser.id != null">
                 odv = #{collectionUser.id},
             </if>
             <if test="collectionArea != null and collectionArea.id != null">
                 collection_area = #{collectionArea.id},
             </if>
+        <if test="collectInfo != null and collectInfo != null">
             summary = #{collectInfo},
+        </if>
+        <if test="mVal != null and mVal != null">
             m_val = #{mVal},
+        </if>
+        <if test="commissionRate != null and commissionRate != null">
             commission_rate = #{commissionRate},
+        </if>
+        <if test="commissionMoney != null and commissionMoney != null">
             commission_money = #{commissionMoney},
+        </if>
+        <if test="homeTelNumber != null and homeTelNumber != null">
             home_tel_number = #{homeTelNumber},
+        </if>
+        <if test="unitTelNumber != null and unitTelNumber != null">
             unit_tel_number = #{unitTelNumber},
+        </if>
+        <if test="tel != null and tel != null">
             tel = #{tel},
+        </if>
+        <if test="unitTelNumber != null and unitTelNumber != null">
             unit_name = #{unitName},
+        </if>
+        <if test="caseUserPosition != null and caseUserPosition != null">
             case_user_position = #{caseUserPosition},
+        </if>
+        <if test="caseUserDepart != null and caseUserDepart != null">
             case_user_depart = #{caseUserDepart},
+        </if>
+        <if test="unitAddress != null and unitAddress != null">
             unit_address = #{unitAddress},
+        </if>
+        <if test="unitZipCode != null and unitZipCode != null">
             unit_zip_code = #{unitZipCode},
+        </if>
+        <if test="homeAddress != null and homeAddress != null">
             home_address = #{homeAddress},
+        </if>
+        <if test="homeZipCode != null and homeZipCode != null">
             home_zip_code = #{homeZipCode},
+        </if>
+        <if test="statementAddress != null and statementAddress != null">
             statement_address = #{statementAddress},
+        </if>
+        <if test="statementZipCode != null and statementZipCode != null">
             statement_zip_code = #{statementZipCode},
+        </if>
+        <if test="censusRegisterAddress != null and censusRegisterAddress != null">
             census_register_address = #{censusRegisterAddress},
+        </if>
+        <if test="censusRegisterZipCode != null and censusRegisterZipCode != null">
             census_register_zip_code = #{censusRegisterZipCode},
+        </if>
+        <if test="qq != null and qq != null">
             qq = #{qq},
+        </if>
+        <if test="email != null and email != null">
             email = #{email},
+        </if>
+        <if test="birthday != null and birthday != null">
             birthday = #{birthday},
+        </if>
+        <if test="age != null and age != null">
             age = #{age},
+        </if>
             <if test="province != null and province.id != null">
                 province = #{province.id},
             </if>
@@ -1124,71 +1193,201 @@
             <if test="county != null and county.id != null">
                 county = #{county.id},
             </if>
+        <if test="expectTime != null and expectTime != null">
             expect_time = #{expectTime},
+        </if>
+        <if test="goods != null and goods != null">
             goods = #{goods},
+        </if>
+        <if test="commercialTenant != null and commercialTenant != null">
             commercial_tenant = #{commercialTenant},
+        </if>
+        <if test="archiveNo != null and archiveNo != null">
             archive_no = #{archiveNo},
+        </if>
+        <if test="applyOrderNo != null and applyOrderNo != null">
             apply_order_no = #{applyOrderNo},
+        </if>
+        <if test="socialSecurityComputerNo != null and socialSecurityComputerNo != null">
             social_security_computer_no = #{socialSecurityComputerNo},
+        </if>
+        <if test="socialSecurityCardNo != null and socialSecurityCardNo != null">
             social_security_card_no = #{socialSecurityCardNo},
+        </if>
+        <if test="bank != null and bank != null">
             bank = #{bank},
+        </if>
+        <if test="accountNo != null and accountNo != null">
             account_no = #{accountNo},
+        </if>
+        <if test="accountName != null and accountName != null">
             account_name = #{accountName},
+        </if>
+        <if test="cardType != null and cardType != null">
             card_type = #{cardType},
+        </if>
+        <if test="principle != null and principle != null">
             principle = #{principle},
+        </if>
+        <if test="loanRate != null and loanRate != null">
             loan_rate = #{loanRate},
+        </if>
+        <if test="residualPrinciple != null and residualPrinciple != null">
             residual_principle = #{residualPrinciple},
+        </if>
+        <if test="monthlyRepayments != null and monthlyRepayments != null">
             monthly_repayments = #{monthlyRepayments},
+        </if>
+        <if test="minimumPayment != null and minimumPayment != null">
             minimum_payment = #{minimumPayment},
+        </if>
+        <if test="creditLine != null and creditLine != null">
             credit_line = #{creditLine},
+        </if>
+        <if test="fixedQuota != null and fixedQuota != null">
             fixed_quota = #{fixedQuota},
+        </if>
+        <if test="defaultLevel != null and defaultLevel != null">
             default_level = #{defaultLevel},
+        </if>
+        <if test="lastRepayMoney != null and lastRepayMoney != null">
             last_repay_money = #{lastRepayMoney},
+        </if>
+        <if test="lastRepayDate != null and lastRepayDate != null">
             last_repay_date = #{lastRepayDate},
+        </if>
+        <if test="lastConsumeDate != null and lastConsumeDate != null">
             last_consume_date = #{lastConsumeDate},
+        </if>
+        <if test="lastWithdrawDate != null and lastWithdrawDate != null">
             last_withdraw_date = #{lastWithdrawDate},
+        </if>
+        <if test="stopCardDate != null and stopCardDate != null">
             stop_card_date = #{stopCardDate},
+        </if>
+        <if test="activeCardDate != null and activeCardDate != null">
             active_card_date = #{activeCardDate},
+        </if>
+        <if test="billDate != null and billDate != null">
             bill_date = #{billDate},
+        </if>
+        <if test="billCycle != null and billCycle != null">
             bill_cycle = #{billCycle},
+        </if>
+        <if test="outstandingAmount != null and outstandingAmount != null">
             outstanding_amount = #{outstandingAmount},
+        </if>
+        <if test="mainDeputyCard != null and mainDeputyCard != null">
             main_deputy_card = #{mainDeputyCard},
+        </if>
+        <if test="deputyCardUserName != null and deputyCardUserName != null">
             deputy_card_user_name = #{deputyCardUserName},
+        </if>
+        <if test="loanDate != null and loanDate != null">
             loan_date = #{loanDate},
+        </if>
+        <if test="loanDeadline != null and loanDeadline != null">
             loan_deadline = #{loanDeadline},
+        </if>
+        <if test="overdueDate != null and overdueDate != null">
             overdue_date = #{overdueDate},
+        </if>
+        <if test="overduePeriods != null and overduePeriods != null">
             overdue_periods = #{overduePeriods},
+        </if>
+        <if test="overdueDays != null and overdueDays != null">
             overdue_days = #{overdueDays},
+        </if>
+        <if test="overdueTimes != null and overdueTimes != null">
             overdue_times = #{overdueTimes},
+        </if>
+        <if test="entrustPeriods != null and entrustPeriods != null">
             entrust_periods = #{entrustPeriods},
+        </if>
+        <if test="repayDeadline != null and repayDeadline != null">
             repay_deadline = #{repayDeadline},
+        </if>
+        <if test="repaidPeriods != null and repaidPeriods != null">
             repaid_periods = #{repaidPeriods},
+        </if>
+        <if test="loanType != null and loanType != null">
             loan_type = #{loanType},
+        </if>
+        <if test="collectionType != null and collectionType != null">
             collection_type = #{collectionType},
+        </if>
+        <if test="overdueMoney != null and overdueMoney != null">
             overdue_money = #{overdueMoney},
+        </if>
+        <if test="overduePrinciple != null and overduePrinciple != null">
             overdue_principle = #{overduePrinciple},
+        </if>
+        <if test="overdueInterest != null and overdueInterest != null">
             overdue_interest = #{overdueInterest},
+        </if>
+        <if test="overdueManagementCost != null and overdueManagementCost != null">
             overdue_management_cost = #{overdueManagementCost},
+        </if>
+        <if test="overdueDefaultInterest != null and overdueDefaultInterest != null">
             overdue_default_interest = #{overdueDefaultInterest},
+        </if>
+        <if test="penalty != null and penalty != null">
             penalty = #{penalty},
+        </if>
+        <if test="lateFee != null and lateFee != null">
             late_fee = #{lateFee},
+        </if>
+        <if test="overrunFee != null and overrunFee != null">
             overrun_fee = #{overrunFee},
+        </if>
+        <if test="bail != null and bail != null">
             bail = #{bail},
+        </if>
+        <if test="currencyType != null and currencyType != null">
             currency_type = #{currencyType},
+        </if>
+        <if test="lastCollectionRecord != null and lastCollectionRecord != null">
             last_collection_record = #{lastCollectionRecord},
+        </if>
+        <if test="overdueBillTime != null and overdueBillTime != null">
             overdue_bill_time = #{overdueBillTime},
+        </if>
+        <if test="contractNo != null and contractNo != null">
             contract_no = #{contractNo},
+        </if>
+        <if test="overDays != null and overDays != null">
             over_days = #{overDays},
+        </if>
+        <if test="dealer != null and dealer != null">
             dealer = #{dealer},
+        </if>
+        <if test="applyDate != null and applyDate != null">
             apply_date = #{applyDate},
+        </if>
+        <if test="repayDate != null and repayDate != null">
             repay_date = #{repayDate},
+        </if>
+        <if test="policyExpiryDate != null and policyExpiryDate != null">
             policy_expiry_date = #{policyExpiryDate},
+        </if>
+        <if test="cardPrice != null and cardPrice != null">
             card_price = #{cardPrice},
+        </if>
+        <if test="cardModel != null and cardModel != null">
             card_model = #{cardModel},
+        </if>
+        <if test="license != null and license != null">
             license = #{license},
+        </if>
+        <if test="brand != null and brand != null">
             brand = #{brand},
+        </if>
+        <if test="vin != null and vin != null">
             vin = #{vin},
+        </if>
+        <if test="engineNo != null and engineNo != null">
             engine_no = #{engineNo}
+        </if>
             where seq_no = #{seqNo}
     </update>
 

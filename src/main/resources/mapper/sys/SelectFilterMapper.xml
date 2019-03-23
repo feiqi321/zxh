@@ -13,19 +13,21 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="module != null">module,</if>
             <if test="menu != null">menu,</if>
+            <if test="userId != null">user_id,</if>
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="module != null">#{module},</if>
             <if test="menu != null">#{menu},</if>
+            <if test="userId != null">#{userId},</if>
         </trim>
     </insert>
 
 
     <select id="selectByModule" parameterType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity" resultType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity">
         select
-        id,module,menu
-        from select_filter where module = #{module}
+        id,module,menu,user_id as userId
+        from select_filter where module = #{module} and user_id = #{userId}
 
     </select>
 

@@ -59,6 +59,18 @@ public class DataCaseBankReconciliationController {
         return WebResponse.success(pageInfo);
     }
 
+    @PostMapping("/listByCaseId")
+    public Object listByCaseId(@RequestBody DataCaseBankReconciliationEntity entity) {
+        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.listByCaseId(entity);
+        return WebResponse.success(list);
+    }
+
+    @PostMapping("/saveBank")
+    public Object saveBank(@RequestBody DataCaseBankReconciliationEntity entity) {
+        dataCaseBankReconciliationService.saveBank(entity);
+        return WebResponse.success();
+    }
+
     @PostMapping("/cancel")
     public Object cancel(@RequestBody DataCaseBankReconciliationEntity entity) {
         if(entity == null || entity.getIds() == null || entity.getIds().length == 0) {

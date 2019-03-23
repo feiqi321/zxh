@@ -283,4 +283,54 @@
         and delete_flag = 0
     </select>
 
+    <select id="listByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
+        select
+        b.id as id,
+        b.data_case as 'dataCase.id',
+        b.cp_money as cpMoney,
+        b.cp_date as cpDate,
+        b.repay_user as repayUser,
+        b.repay_type as repayType,
+        b.submit_user as 'submitUser.id',
+        b.submit_time as submitTime,
+        b.status as status,
+        b.remark as remark,
+        b.create_user as 'createUser.id',
+        b.update_user as 'updateUser.id',
+        b.create_time as createTime,
+        b.update_time as updateTime,
+        b.delete_flag as deleteFlag
+        from data_case_bank_reconciliation b
+        where b.data_case = #{dataCase.id}
+        and delete_flag = 0
+    </select>
+
+
+    <insert id="saveBank" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
+        insert into data_case_bank_reconciliation
+        (
+            data_case,
+            cp_money,
+            cp_date,
+            repay_user,
+            repay_type,
+            submit_user,
+            remark,
+            create_user,
+            update_user
+        )
+        values
+        (
+            #{dataCase.id},
+            #{cpMoney},
+            #{cpDate},
+            #{repayUser},
+            #{repayType},
+            #{submitUser.id},
+            #{remark},
+            #{createUser.id},
+            #{updateUser.id}
+        )
+    </insert>
+
 </mapper>

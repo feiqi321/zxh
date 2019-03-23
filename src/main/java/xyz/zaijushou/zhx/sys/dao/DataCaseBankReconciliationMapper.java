@@ -18,4 +18,8 @@ public interface DataCaseBankReconciliationMapper {
     DataCaseBankReconciliationEntity findLatestCpByCaseId(DataCaseBankReconciliationEntity cpEntity);
 
     DataCaseBankReconciliationEntity findById(DataCaseBankReconciliationEntity cp);
+
+    List<DataCaseBankReconciliationEntity> listByCaseId(DataCaseBankReconciliationEntity entity);
+
+    void saveBank(DataCaseBankReconciliationEntity entity);
 }
