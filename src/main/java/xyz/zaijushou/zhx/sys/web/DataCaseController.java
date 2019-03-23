@@ -437,6 +437,9 @@ public class DataCaseController {
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getCardNo()+"@"+dataCaseEntities.get(i).getCaseDate(),DataCaseEntity.class);
                 if (dataCaseEntity==null){
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件不存在，请修改后重新上传");
+                }else{
+                    dataCaseEntities.get(i).setSeqNo(dataCaseEntity.getSeqNo());
+                    dataCaseEntities.get(i).setId(dataCaseEntity.getId());
                 }
 
 

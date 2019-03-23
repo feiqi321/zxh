@@ -801,7 +801,6 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void updateCaseList(List<DataCaseEntity> dataCaseEntities) {
         List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
-        BigDecimal totalAmt = new BigDecimal(0);
         Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
         for(SysDictionaryEntity entity : dictionaryList) {
             dictMap.put(entity.getName(), entity);
@@ -832,7 +831,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<DataCaseRemarkEntity> remarks = new ArrayList<>();
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
         for(DataCaseEntity entity : dataCaseEntities) {
-            totalAmt = totalAmt.add(entity.getMoney());
+            //totalAmt = totalAmt.add(entity.getMoney());
             dataCaseMapper.updateBySeqNo(entity);
             caseIdsSet.add(entity.getId());
             if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
@@ -850,22 +849,24 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
             }
         }
-        updateCaseEntity.setCaseRemarks(remarks);
-        updateCaseEntity.setContacts(contacts);
-        //批量删除备注
-        DataCaseRemarkEntity remarkEntity = new DataCaseRemarkEntity();
-        remarkEntity.setCaseIdsSet(caseIdsSet);
-        dataCaseRemarkMapper.deleteCaseRemarkBatchByCaseIds(remarkEntity);
+     ;
         //批量新增备注
         if(remarks.size()>0) {
+            updateCaseEntity.setCaseRemarks(remarks);
+            updateCaseEntity.setContacts(contacts);
+            //批量删除备注
+            DataCaseRemarkEntity remarkEntity = new DataCaseRemarkEntity();
+            remarkEntity.setCaseIdsSet(caseIdsSet);
+            dataCaseRemarkMapper.deleteCaseRemarkBatchByCaseIds(remarkEntity);
             dataCaseRemarkMapper.insertCaseRemarkBatch(updateCaseEntity);
         }
-        //批量删除联系人
-        DataCaseContactsEntity contactsEntity = new DataCaseContactsEntity();
-        contactsEntity.setCaseIdsSet(caseIdsSet);
-        dataCaseContactsMapper.deleteCaseContactsBatchByCaseIds(contactsEntity);
+
         //批量新增联系人
         if (contacts.size()>0){
+            //批量删除联系人
+            DataCaseContactsEntity contactsEntity = new DataCaseContactsEntity();
+            contactsEntity.setCaseIdsSet(caseIdsSet);
+            dataCaseContactsMapper.deleteCaseContactsBatchByCaseIds(contactsEntity);
             dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
         }
         /*//修改批次信息
