@@ -75,7 +75,7 @@ public class DataCaseEntity extends CommonEntity {
     private String collectDate;
     private String collectStartDate;
     private String collectEndDate;
-    private int overDays;//逾期天数 查询条件
+    private Integer overDays;//逾期天数 查询条件
     private String identNo;//证件号 查询条件    列表
     private String[] identNos;
     private String identNoFlag;
@@ -1019,11 +1019,11 @@ public class DataCaseEntity extends CommonEntity {
         this.cardNo = cardNo;
     }
 
-    public int getOverDays() {
+    public Integer getOverDays() {
         return overDays;
     }
 
-    public void setOverDays(int overDays) {
+    public void setOverDays(Integer overDays) {
         this.overDays = overDays;
     }
 
