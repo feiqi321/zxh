@@ -1908,6 +1908,7 @@
         update data_case
         set en_repay_amt = #{enRepayAmt},
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
+            settle_flag = #{settleFlag},
             balance = money - #{enRepayAmt}
         where id = #{id}
     </update>

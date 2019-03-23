@@ -244,6 +244,8 @@ public class DataCaseEntity extends CommonEntity {
     private String brand;   //品牌
     private String engineNo;    //发动机号
 
+    private String settleFlag;
+
     //查询条件
     private Set<String> seqNoSet;
 
@@ -2055,5 +2057,13 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setLatestCollectMomorize(String latestCollectMomorize) {
         this.latestCollectMomorize = latestCollectMomorize;
+    }
+
+    public String getSettleFlag() {
+        return settleFlag;
+    }
+
+    public void setSettleFlag(String settleFlag) {
+        this.settleFlag = settleFlag;
     }
 }

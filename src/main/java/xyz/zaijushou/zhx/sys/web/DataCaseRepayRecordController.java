@@ -156,6 +156,21 @@ public class DataCaseRepayRecordController {
             if(entity.getCollectUser() == null || entity.getCollectUser().getId() == null) {
                 entity.setCollectUser(newUser);
             }
+            if(StringUtils.isNotEmpty(entity.getSettleFlag()) && (
+                    "是".equals(entity.getSettleFlag().trim()) ||
+                            "Y".equals(entity.getSettleFlag().trim()) ||
+                            "y".equals(entity.getSettleFlag().trim()) ||
+                            "1".equals(entity.getSettleFlag().trim()) ||
+                            "已结清".equals(entity.getSettleFlag().trim()) ||
+                            "结清".equals(entity.getSettleFlag().trim()) ||
+                            "已经结清".equals(entity.getSettleFlag().trim())
+                    )) {
+                entity.setSettleFlag("已结清");
+            } else if(StringUtils.isNotEmpty(entity.getSettleFlag())) {
+                entity.setSettleFlag("");
+            } else {
+                entity.setSettleFlag("未结清");
+            }
             entity.setConfirmUser(newUser);
             entity.setCreateUser(user);
             entity.setUpdateUser(user);

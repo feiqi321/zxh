@@ -510,6 +510,7 @@
         repay_date,
         repay_money,
         repay_user,
+        settle_flag,
         remark,
         create_user,
         update_user
@@ -523,6 +524,7 @@
             #{item.repayDate},
             #{item.repayMoney},
             #{item.repayUser},
+            #{item.settleFlag},
             #{item.remark},
             #{item.createUser.id},
             #{item.updateUser.id}
@@ -532,6 +534,8 @@
 
     <select id="listBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
+        id as id,
+        settle_flag as 'settleFlag',
         repay_money as 'repayMoney'
         from data_case_repay_record
         where data_case = #{dataCase.id}

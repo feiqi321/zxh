@@ -207,11 +207,20 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     public void updateDataCaseBalance(DataCaseRepayRecordEntity record) {
         List<DataCaseRepayRecordEntity> records = dataCaseRepayRecordMapper.listBySeqNo(record);
         BigDecimal repayMoney = new BigDecimal(0);
+        Integer lastId = 0;
+        DataCaseRepayRecordEntity lastRecord = null;
         for(DataCaseRepayRecordEntity recordEntity : records) {
             repayMoney = repayMoney.add(recordEntity.getRepayMoney());
+            if(recordEntity.getId() > lastId) {
+                lastId = recordEntity.getId();
+                lastRecord = recordEntity;
+            }
         }
         DataCaseEntity dataCaseEntity = record.getDataCase();
         dataCaseEntity.setEnRepayAmt(repayMoney);
+        if(lastId != 0) {
+            dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
+        }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
 
     }
