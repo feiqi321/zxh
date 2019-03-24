@@ -109,26 +109,15 @@ public class DataCollectionTelController {
         if(StringUtils.notEmpty(bean.getMonthStart()) && StringUtils.notEmpty(bean.getMonthEnd())){
             PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionMonth(bean);
             List<StatisticReturn>  list = pageInfo.getList();
-            if (StringUtils.notEmpty(list)){
-                for (StatisticReturn info : list){
-                    for (CollectionStatistic sta : info.getList()){
-                        CollectionStatistic col = new CollectionStatistic();
-                        col.setOdv(info.getOdv());
-                        col.setTimeArea(sta.getArea());
-                        col.setCountConPhoneNum(sta.getCountConPhoneNum());
-                        col.setCountPhoneNum(sta.getCountPhoneNum());
-                        col.setCountCasePhoneNum(sta.getCountCasePhoneNum());
-                        colList.add(col);
-                    }
-                }
-            }
+           //导出
+            ExcelUtils.exportTemplete(response,list);
         }
 
-        ExcelUtils.exportExcel(colList,
-                ExcelMonthExportConstant.CollecionList.values(),
-                "month-export-" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
-                response
-        );
+//        ExcelUtils.exportExcel(colList,
+//                ExcelMonthExportConstant.CollecionList.values(),
+//                "month-export-" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+//                response
+//        );
         return null;
     }
 
