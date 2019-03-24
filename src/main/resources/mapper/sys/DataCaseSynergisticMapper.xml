@@ -66,11 +66,17 @@
         <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.id != null">
             and c.collection_area = #{dataCase.collectionArea.id}
         </if>
-        <if test="dataCase != null and dataCase.client != null and dataCase.client != ''">
-            and c.client = #{dataCase.client}
+        <if test="dataCase != null and dataCase.clientFlag != null and dataCase.clientFlag != ''">
+            and c.client in
+            <foreach item="item" index="index" collection="dataCase.clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
-        <if test="dataCase != null and dataCase.batchNo != null and dataCase.batchNo != ''">
-            and c.batch_no = #{dataCase.batchNo}
+        <if test="dataCase != null and dataCase.batchNoFlag != null and dataCase.batchNoFlag != ''">
+            and c.batch_no in
+            <foreach item="item" index="index" collection="dataCase.batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         <if test="dataCase != null and dataCase.status != null">
             and c.status = #{dataCase.status}
@@ -100,17 +106,9 @@
             and s.apply_time >= #{applyTimeStart}
         </if>
         <if test="applyTimeEnd != null">
-            and s.apply_time &lt;= #{applyTimeEnd}
+            and s.apply_time &lt; =#{applyTimeEnd}
         </if>
-        <if test="dataCase != null and dataCase.name != null and dataCase.name != ''">
-            and c.name = #{dataCase.name}
-        </if>
-        <if test="dataCase != null and dataCase.seqNo != null and dataCase.seqNo != ''">
-            and c.seq_no = #{dataCase.seqNo}
-        </if>
-        <if test="dataCase != null and dataCase.identNo != null and dataCase.identNo != ''">
-            and c.ident_no = #{dataCase.identNo}
-        </if>
+
         <if test="dataCase != null and dataCase.names != null and dataCase.names != null and dataCase.names.length > 0">
             and c.name in
             <foreach collection="dataCase.names" open="(" close=")" separator=",">

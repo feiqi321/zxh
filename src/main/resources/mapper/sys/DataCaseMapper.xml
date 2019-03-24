@@ -239,7 +239,7 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="nameFlag != null and identNoFlag!=''">
+                <if test="nameFlag != null and nameFlag!=''">
                     and da.name in
                     <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
                         #{item}
@@ -2020,7 +2020,7 @@
         <include refid="colSql"/>
           from data_case da where da.id = #{id}
     </select>
-    
+
     <update id="updateRemark" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" >
 
           update data_case set remark = #{remark} where id = #{id}
@@ -2091,7 +2091,7 @@
     <update id="updateDataCaseByCollectResult" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set summary=#{summary} where id=#{id}
     </update>
-    
+
     <select id="listByBatchNos" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select id from data_case where batch_no in
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">

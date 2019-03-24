@@ -50,6 +50,49 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
         if(!StringUtils.isEmpty(synergistic.getOrderBy())){
             synergistic.setOrderBy(ExcelSynergisticConstant.SynergisticSortEnum.getEnumByKey(synergistic.getOrderBy()).getValue());
         }
+        if(synergistic.getDataCase()==null){
+            DataCaseEntity dataCaseEntity = new DataCaseEntity();
+            dataCaseEntity.setClientFlag(null);
+            dataCaseEntity.setBatchNoFlag(null);
+            dataCaseEntity.setNameFlag(null);
+            dataCaseEntity.setIdentNoFlag(null);
+            dataCaseEntity.setSeqNoFlag(null);
+            synergistic.setDataCase(dataCaseEntity);
+        }else {
+            String[] clients = synergistic.getDataCase().getClients();
+            if (clients == null || clients.length == 0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])) {
+                synergistic.getDataCase().setClientFlag(null);
+            } else {
+                synergistic.getDataCase().setClientFlag("1");
+            }
+            String[] batchNos = synergistic.getDataCase().getBatchNos();
+            if (batchNos == null || batchNos.length == 0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])) {
+                synergistic.getDataCase().setBatchNoFlag(null);
+            } else {
+                synergistic.getDataCase().setBatchNoFlag("1");
+            }
+
+            String[] names = synergistic.getDataCase().getNames();
+            if (names == null || names.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(names[0])){
+                synergistic.getDataCase().setNameFlag(null);
+            }else {
+                synergistic.getDataCase().setNameFlag("1");
+            }
+
+            String[] identNos = synergistic.getDataCase().getIdentNos();
+            if (identNos == null || identNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(identNos[0])){
+                synergistic.getDataCase().setIdentNoFlag(null);
+            }else {
+                synergistic.getDataCase().setIdentNoFlag("1");
+            }
+            String[] seqNos = synergistic.getDataCase().getSeqNos();
+            if (seqNos == null || seqNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(seqNos[0])){
+                synergistic.getDataCase().setSeqNoFlag(null);
+            }else {
+                synergistic.getDataCase().setSeqNoFlag("1");
+            }
+
+        }
         List<DataCaseSynergisticEntity> synergisticList = dataCaseSynergisticMapper.pageSynergisticList(synergistic);
         for(DataCaseSynergisticEntity entity : synergisticList) {
             if (entity.getSynergisticType()==null){
