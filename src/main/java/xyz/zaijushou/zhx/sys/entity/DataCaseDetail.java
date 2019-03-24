@@ -292,6 +292,16 @@ public class DataCaseDetail {
     private String contactUnit6;
     private String contactAddress6;
 
+    private String settleFlag;
+
+    public String getSettleFlag() {
+        return settleFlag;
+    }
+
+    public void setSettleFlag(String settleFlag) {
+        this.settleFlag = settleFlag;
+    }
+
     public String getBalanceMsg() {
         return balanceMsg;
     }

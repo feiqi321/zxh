@@ -134,7 +134,8 @@
         da.en_repay_amt as enRepayAmt,
         da.pro_repay_amt as proRepayAmt,
         da.collect_times as collectTimes,
-        da.comment as comment
+        da.comment as comment,
+        da.settle_flag as settleFlag
     </sql>
 
     <!--插入数据信息-->
