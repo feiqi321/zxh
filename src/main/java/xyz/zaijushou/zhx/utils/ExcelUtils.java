@@ -68,7 +68,7 @@ public class ExcelUtils {
             try {
                 Row row = sheet.getRow(i);
                 T entity = entityClazz.getConstructor().newInstance();
-                if (row.getCell(0)==null && row.getCell(1)==null && row.getCell(2)==null  && row.getCell(3)==null){
+                if ((row.getCell(0)==null || row.getCell(0).toString().equals("")) && (row.getCell(1)==null ||  row.getCell(1).toString().equals("")) && (row.getCell(2)==null || row.getCell(2).toString().equals(""))  && (row.getCell(3)==null ||  row.getCell(3).toString().equals(""))){
                     entity = null;
                     continue;
                 }
