@@ -105,7 +105,9 @@ public class DataCollectionTelController {
     @PostMapping("/month/export")
     public Object collectionMonthExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {
         List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
-
+        if(StringUtils.isEmpty(bean.getMonthStart()) || StringUtils.isEmpty(bean.getMonthEnd())){
+            return WebResponse.error("500","请输入查询的时间段");
+        }
         if(StringUtils.notEmpty(bean.getMonthStart()) && StringUtils.notEmpty(bean.getMonthEnd())){
             PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionMonth(bean);
             List<StatisticReturn>  list = pageInfo.getList();
