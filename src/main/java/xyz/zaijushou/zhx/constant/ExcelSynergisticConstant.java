@@ -213,6 +213,7 @@ public class ExcelSynergisticConstant {
         COLUMN1("id","s.id"),
         COLUMN2("synergisticType.name","s.synergistic_type"),
         COLUMN3("dataCase.collectStatus","c.collect_status"),
+        COLUMN17("dataCase.collectStatusMsg","c.collect_status"),
         COLUMN4("dataCase.seqNo","c.seq_no"),
         COLUMN5("dataCase.identNo","c.ident_no"),
         COLUMN6("dataCase.name","c.name"),
