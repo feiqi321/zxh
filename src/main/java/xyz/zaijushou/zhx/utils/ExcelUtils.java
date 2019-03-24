@@ -3,12 +3,15 @@ package xyz.zaijushou.zhx.utils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.constant.ExcelEnum;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -362,5 +365,116 @@ public class ExcelUtils {
         }
     }
 
+    public static void exportTemplete(HttpServletResponse response, List<StatisticReturn>  list)throws IOException{
+        OutputStream outputStream = response.getOutputStream();
+        String fileName = new String(("month-export").getBytes(), "ISO8859_1");
+        response.setHeader(
+                "Content-disposition",
+                "attachment; filename=" + fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx");// 组装附件名称和格式
 
+        // 创建一个workbook 对应一个excel应用文件
+        try (XSSFWorkbook workBook = new XSSFWorkbook()){
+            // 创建一个workbook 对应一个excel应用文件
+            // 在workbook中添加一个sheet,对应Excel文件中的sheet
+            XSSFSheet sheet = workBook.createSheet("电催员电催月统计导出");
+            //单元格居中
+            XSSFCellStyle cellStyle = workBook.createCellStyle();
+            cellStyle.setBorderBottom(BorderStyle.THIN); //下边框
+            cellStyle.setBorderLeft(BorderStyle.THIN);//左边框
+            cellStyle.setBorderTop(BorderStyle.THIN);//上边框
+            cellStyle.setBorderRight(BorderStyle.THIN);//右边框
+            cellStyle.setAlignment(HorizontalAlignment.CENTER);//左右居中
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);//上下居中
+            //设置字体样式
+            XSSFFont font = workBook.createFont();
+            // 设置字体加粗
+            font.setFontName("微软雅黑");
+            font.setFontHeightInPoints((short) 11);
+            cellStyle.setFont(font);  //设置字体大小
+            // 构建表头
+            XSSFRow titleRow = null;
+            XSSFRow bodyRow = null;
+            XSSFCell titleCell = null;
+            XSSFCell bodyCel = null;
+            List<String> titleNameList = new ArrayList<>();
+
+            // 表头每个单元格进行赋值
+            for (int i = 0; i < 2; i++) {
+                titleRow = sheet.createRow(i);
+                titleCell = titleRow.createCell(0);
+                sheet.autoSizeColumn(i,true);
+                titleCell.setCellStyle(cellStyle);
+                titleCell.setCellValue("催收员");
+            }
+           setMergeStyle(new CellRangeAddress( 0,1 , 0, 0),sheet);
+
+            titleRow = sheet.getRow(0);
+            // 设置标题
+            if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(list)){
+                for (int i =0 ;i < list.get(0).getList().size();i++){
+                    titleCell = titleRow.createCell(i*3+1);
+                    sheet.autoSizeColumn(i*3+1);
+                    titleCell.setCellStyle(cellStyle);
+                    titleCell.setCellValue(list.get(0).getList().get(i).getArea());
+                    setMergeStyle(new CellRangeAddress( 0,0 , i*3+1, i*3+3),sheet);
+                }
+                String[] nameStr = {"有效通电","总通电量","个案量"};
+                titleRow = sheet.getRow(1);
+                for (int i =0 ;i < list.get(0).getList().size();i++){
+
+                    for (int j=0;j<3;j++){
+                        titleCell = titleRow.createCell(i*3+j+1);
+                        sheet.autoSizeColumn(i*3+j+1);
+                        titleCell.setCellStyle(cellStyle);
+                        titleCell.setCellValue(nameStr[j]);
+                    }
+                }
+                //表格内容赋值
+
+                for (int i =0 ;i < list.size();i++){
+                    if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(list.get(i).getOdv())){
+                        continue;
+                    }
+                    bodyRow = sheet.createRow(2+i);
+                    bodyCel = bodyRow.createCell(0);
+                    sheet.autoSizeColumn(0,true);
+                    bodyCel.setCellStyle(cellStyle);
+                    bodyCel.setCellValue(list.get(i).getOdv());
+                   for (int k=0 ;k<list.get(i).getList().size();k++){
+                       bodyCel = bodyRow.createCell(k*3+1);
+                       sheet.autoSizeColumn(k*3+1);
+                       bodyCel.setCellStyle(cellStyle);
+                       bodyCel.setCellValue(list.get(i).getList().get(k).getCountConPhoneNum());
+
+                       titleCell = bodyRow.createCell(k*3+2);
+                       sheet.autoSizeColumn(k*3+2);
+                       titleCell.setCellStyle(cellStyle);
+                       titleCell.setCellValue(list.get(i).getList().get(k).getCountPhoneNum());
+
+                       titleCell = bodyRow.createCell(k*3+3);
+                       sheet.autoSizeColumn(k*3+3);
+                       titleCell.setCellStyle(cellStyle);
+                       titleCell.setCellValue(list.get(i).getList().get(k).getCountCasePhoneNum());
+                   }
+                }
+            }
+            workBook.write(outputStream);
+        } catch (IOException e) {
+            logger.error("导出失败",e);
+        } finally {
+            if (outputStream != null){
+                outputStream.close();
+                outputStream.flush();
+            }
+        }
+    }
+    //设置合并单元格样式
+    static void setMergeStyle(CellRangeAddress cra,XSSFSheet sheet ){
+        sheet.addMergedRegion(cra);
+        // 使用RegionUtil类为合并后的单元格添加边框
+        RegionUtil.setBorderBottom(BorderStyle.THIN, cra, sheet); // 下边框
+        RegionUtil.setBorderLeft(BorderStyle.THIN, cra, sheet); // 左边框
+        RegionUtil.setBorderRight(BorderStyle.THIN, cra, sheet); // 有边框
+        RegionUtil.setBorderTop(BorderStyle.THIN, cra, sheet); // 上边框
+    }
 }
