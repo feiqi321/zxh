@@ -94,7 +94,7 @@ public class LegalServiceImpl implements LegalService {
             }
             if (StringUtils.isNotEmpty(legalEntity.getOwner())){
                 SysUserEntity mine = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ legalEntity.getOwner(), SysUserEntity.class);
-                legalEntity.setOwnerName(mine.getUserName());
+                legalEntity.setOwnerName(mine==null?"":mine.getUserName());
             }else{
                 legalEntity.setOwner("");
                 legalEntity.setOwnerName("");
