@@ -492,7 +492,7 @@
     </update>
     
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="java.lang.Integer">
-          select count(id) from sys_user where login_name LIKE CONCAT('%',#{loginName},'%')
+          select count(id) from sys_user where login_name LIKE CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
     </select>
 
     <select id="listByNameSet" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
