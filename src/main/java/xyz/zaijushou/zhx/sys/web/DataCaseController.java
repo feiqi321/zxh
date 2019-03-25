@@ -294,7 +294,7 @@ public class DataCaseController {
         Map dicMap = new HashMap();
         for (int m=0;m<dictionaryEntityList.size();m++){
             SysDictionaryEntity temp = dictionaryEntityList.get(m);
-            dicMap.put(temp.getName(),temp);
+            dicMap.put(temp.getName(),temp.getId());
         }
         for (int i=0;i<caseList.size();i++){
             if (dicMap.get(caseList.get(i).getType())==null){
