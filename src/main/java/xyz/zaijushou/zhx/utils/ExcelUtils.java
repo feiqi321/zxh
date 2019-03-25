@@ -365,7 +365,7 @@ public class ExcelUtils {
         }
     }
 
-    public static void exportTemplete(HttpServletResponse response, List<StatisticReturn>  list)throws IOException{
+    public static void exportTempleteMonth(HttpServletResponse response, List<StatisticReturn>  list)throws IOException{
         OutputStream outputStream = response.getOutputStream();
         String fileName = new String(("month-export").getBytes(), "ISO8859_1");
         response.setHeader(
@@ -476,5 +476,122 @@ public class ExcelUtils {
         RegionUtil.setBorderLeft(BorderStyle.THIN, cra, sheet); // 左边框
         RegionUtil.setBorderRight(BorderStyle.THIN, cra, sheet); // 有边框
         RegionUtil.setBorderTop(BorderStyle.THIN, cra, sheet); // 上边框
+    }
+
+    public static void exportTempleteDay(HttpServletResponse response, List<StatisticReturn>  list)throws IOException{
+        OutputStream outputStream = response.getOutputStream();
+        String fileName = new String(("day-export").getBytes(), "ISO8859_1");
+        response.setHeader(
+                "Content-disposition",
+                "attachment; filename=" + fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx");// 组装附件名称和格式
+
+        // 创建一个workbook 对应一个excel应用文件
+        try (XSSFWorkbook workBook = new XSSFWorkbook()){
+            // 创建一个workbook 对应一个excel应用文件
+            // 在workbook中添加一个sheet,对应Excel文件中的sheet
+            XSSFSheet sheet = workBook.createSheet("电催员电催单日统计导出");
+            //单元格居中
+            XSSFCellStyle cellStyle = workBook.createCellStyle();
+            cellStyle.setBorderBottom(BorderStyle.THIN); //下边框
+            cellStyle.setBorderLeft(BorderStyle.THIN);//左边框
+            cellStyle.setBorderTop(BorderStyle.THIN);//上边框
+            cellStyle.setBorderRight(BorderStyle.THIN);//右边框
+            cellStyle.setAlignment(HorizontalAlignment.CENTER);//左右居中
+            cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);//上下居中
+            //设置字体样式
+            XSSFFont font = workBook.createFont();
+            // 设置字体加粗
+            font.setFontName("微软雅黑");
+            font.setFontHeightInPoints((short) 11);
+            cellStyle.setFont(font);  //设置字体大小
+            // 构建表头
+            XSSFRow titleRow = null;
+            XSSFRow bodyRow = null;
+            XSSFCell titleCell = null;
+            XSSFCell bodyCel = null;
+            List<String> titleNameList = new ArrayList<>();
+            // 表头每个单元格进行赋值
+            for (int i = 0; i < 2; i++) {
+                titleRow = sheet.createRow(i);
+                titleCell = titleRow.createCell(0);
+                sheet.autoSizeColumn(i,true);
+                titleCell.setCellStyle(cellStyle);
+                titleCell.setCellValue("催收员");
+            }
+            setMergeStyle(new CellRangeAddress( 0,1 , 0, 0),sheet);
+
+            String[] timeStr = {"8:00前","8:00-12:00","12:00-18:00","18:00以后","合计"};
+            String[] nameStr = {"有效通电","总通电量","个案量"};
+            for(int i=0;i<5;i++){
+                titleRow = sheet.getRow(0);
+                titleCell = titleRow.createCell(i*3+1);
+                sheet.autoSizeColumn(i*3+1);
+                titleCell.setCellStyle(cellStyle);
+                titleCell.setCellValue(timeStr[i]);
+                setMergeStyle(new CellRangeAddress( 0,0 , i*3+1, i*3+3),sheet);
+                titleRow = sheet.getRow(1);
+
+                for (int j=0;j<3;j++){
+                    titleCell = titleRow.createCell(i*3+j+1);
+                    sheet.autoSizeColumn(i*3+j+1);
+                    titleCell.setCellStyle(cellStyle);
+                    titleCell.setCellValue(nameStr[j]);
+                }
+            }
+
+            if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(list)){
+                int length = list.get(0).getList().size();
+                //表格内容赋值
+                for (int i =0 ;i < list.size();i++){
+                    if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(list.get(i).getOdv())){
+                        continue;
+                    }
+                    bodyRow = sheet.createRow(2+i);
+                    bodyCel = bodyRow.createCell(0);
+                    sheet.autoSizeColumn(0,true);
+                    bodyCel.setCellStyle(cellStyle);
+                    bodyCel.setCellValue(list.get(i).getOdv());
+                    for (int k=0 ;k<list.get(i).getList().size();k++){
+                        bodyCel = bodyRow.createCell(k*3+1);
+                        sheet.autoSizeColumn(k*3+1);
+                        bodyCel.setCellStyle(cellStyle);
+                        bodyCel.setCellValue(list.get(i).getList().get(k).getCountConPhoneNum());
+
+                        titleCell = bodyRow.createCell(k*3+2);
+                        sheet.autoSizeColumn(k*3+2);
+                        titleCell.setCellStyle(cellStyle);
+                        titleCell.setCellValue(list.get(i).getList().get(k).getCountPhoneNum());
+
+                        titleCell = bodyRow.createCell(k*3+3);
+                        sheet.autoSizeColumn(k*3+3);
+                        titleCell.setCellStyle(cellStyle);
+                        titleCell.setCellValue(list.get(i).getList().get(k).getCountCasePhoneNum());
+                    }
+
+                    bodyCel = bodyRow.createCell(length*3+1);
+                    sheet.autoSizeColumn(length*3+1);
+                    bodyCel.setCellStyle(cellStyle);
+                    bodyCel.setCellValue(list.get(i).getSumConPhoneNum());
+
+                    titleCell = bodyRow.createCell(length*3+2);
+                    sheet.autoSizeColumn(length*3+2);
+                    titleCell.setCellStyle(cellStyle);
+                    titleCell.setCellValue(list.get(i).getSumPhoneNum());
+
+                    titleCell = bodyRow.createCell(length*3+3);
+                    sheet.autoSizeColumn(length*3+3);
+                    titleCell.setCellStyle(cellStyle);
+                    titleCell.setCellValue(list.get(i).getSumCasePhoneNum());
+                }
+            }
+            workBook.write(outputStream);
+        } catch (IOException e) {
+            logger.error("导出失败",e);
+        } finally {
+            if (outputStream != null){
+                outputStream.close();
+                outputStream.flush();
+            }
+        }
     }
 }

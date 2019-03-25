@@ -51,42 +51,12 @@ public class DataCollectionTelController {
     @ApiOperation(value = "电催员电催单日统计导出", notes = "电催员电催单日统计导出")
     @PostMapping("/day/export")
     public Object collectionDayExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {
-        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
         if(StringUtils.notEmpty(bean.getDateSearchStart()) && StringUtils.notEmpty(bean.getDateSearchEnd())){
             PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionDay(bean);
             List<StatisticReturn>  list = pageInfo.getList();
-            if (StringUtils.notEmpty(list)){
-                for (StatisticReturn info : list){
-                    CollectionStatistic col = new CollectionStatistic();
-                    col.setOdv(info.getOdv());
-                    col.setTimeArea1(info.getList().get(0).getArea());
-                    col.setCountPhoneNum1(info.getList().get(0).getCountPhoneNum());
-                    col.setCountConPhoneNum1(info.getList().get(0).getCountConPhoneNum());
-                    col.setCountCasePhoneNum1(info.getList().get(0).getCountCasePhoneNum());
-
-                    col.setTimeArea2(info.getList().get(1).getArea());
-                    col.setCountPhoneNum2(info.getList().get(1).getCountPhoneNum());
-                    col.setCountConPhoneNum2(info.getList().get(1).getCountConPhoneNum());
-                    col.setCountCasePhoneNum2(info.getList().get(1).getCountCasePhoneNum());
-
-                    col.setTimeArea3(info.getList().get(2).getArea());
-                    col.setCountPhoneNum3(info.getList().get(2).getCountPhoneNum());
-                    col.setCountConPhoneNum3(info.getList().get(2).getCountConPhoneNum());
-                    col.setCountCasePhoneNum3(info.getList().get(2).getCountCasePhoneNum());
-
-                    col.setSumConPhoneNum(info.getSumConPhoneNum());
-                    col.setSumPhoneNum(info.getSumPhoneNum());
-                    col.setSumCasePhoneNum(info.getSumCasePhoneNum());
-                    colList.add(col);
-                }
-            }
+            //导出
+            ExcelUtils.exportTempleteDay(response,list);
         }
-
-        ExcelUtils.exportExcel(colList,
-                ExcelDayExportConstant.CollecionList.values(),
-                "day-export-" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
-                response
-        );
 
         return null;
     }
@@ -112,7 +82,7 @@ public class DataCollectionTelController {
             PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionMonth(bean);
             List<StatisticReturn>  list = pageInfo.getList();
            //导出
-            ExcelUtils.exportTemplete(response,list);
+            ExcelUtils.exportTempleteMonth(response,list);
         }
 
 //        ExcelUtils.exportExcel(colList,
