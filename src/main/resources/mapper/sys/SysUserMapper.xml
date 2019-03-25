@@ -331,6 +331,7 @@
         su.join_time as joinTime,
         su.department as departId,
         sr.id as roleId,
+        su.enable,
         su.position
         from
         (
@@ -350,10 +351,9 @@
         order by ${orderBy} ${sort}
         limit ${pageNum},${pageSize}
         )su
-        LEFT JOIN sys_user_role sur on su.id = sur.user_id
+        LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
-        where sur.delete_flag = 0
     </select>
 
     <select id="countUserData" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
@@ -492,7 +492,7 @@
     </update>
     
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="java.lang.Integer">
-          select count(id) from sys_user where login_name LIKE CONCAT('%',#{loginName},'%') and delete_flag=0 and status=1
+          select count(id) from sys_user where login_name LIKE CONCAT('%',#{loginName},'%')
     </select>
 
     <select id="listByNameSet" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
@@ -574,7 +574,7 @@
     <select id="countLockedUser" resultType="java.lang.Integer">
         select count(1) as sum
         from sys_user
-        where delete_flag = 0 and enable = 0
+        where delete_flag = 0 AND  status =1 and (enable = 0 or login_fail_times >=3)
     </select>
 
 </mapper>

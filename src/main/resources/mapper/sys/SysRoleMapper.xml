@@ -107,7 +107,7 @@
         <trim prefix="" suffix="" suffixOverrides=",">
             <if test="roleName != null">role_name = #{roleName},</if>
             <if test="roleDesc != null">role_desc = #{roleDesc},</if>
-            <if test="data_auth != null">data_auth = #{data_auth},</if>
+            <if test="dataAuth != null">data_auth = #{dataAuth},</if>
             <if test="roleAuthSymbol != null">role_auth_symbol = #{roleAuthSymbol},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
