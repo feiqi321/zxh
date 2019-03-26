@@ -46,6 +46,16 @@ public class SysRoleEntity extends CommonEntity {
 
     private Integer dataAuth;
 
+    private Integer busiAuth;
+
+    public Integer getBusiAuth() {
+        return busiAuth;
+    }
+
+    public void setBusiAuth(Integer busiAuth) {
+        this.busiAuth = busiAuth;
+    }
+
     public Integer getDataAuth() {
         return dataAuth;
     }

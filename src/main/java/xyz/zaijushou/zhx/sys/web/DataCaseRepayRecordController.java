@@ -146,15 +146,25 @@ public class DataCaseRepayRecordController {
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
-        SysNewUserEntity newUser = new SysNewUserEntity();
-        newUser.setId(userId);
+        SysNewUserEntity confirmUser = new SysNewUserEntity();
+        confirmUser.setId(userId);
+
         for (DataCaseRepayRecordEntity entity : dataEntities) {
             if (!existCaseMap.containsKey(entity.getDataCase().getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getDataCase().getSeqNo() + "不存在，请确认后重新上传");
             }
             entity.setDataCase(existCaseMap.get(entity.getDataCase().getSeqNo()));
             if(entity.getCollectUser() == null || entity.getCollectUser().getId() == null) {
-                entity.setCollectUser(newUser);
+
+                if(StringUtils.isNotEmpty(entity.getDataCase().getOdv())){
+                    SysNewUserEntity newUser = new SysNewUserEntity();
+                    newUser.setId(Integer.parseInt(entity.getDataCase().getOdv()));
+                    entity.setCollectUser(newUser);
+                }else{
+                    SysNewUserEntity newUser = new SysNewUserEntity();
+                    entity.setCollectUser(newUser);
+                }
+
             }
             if(StringUtils.isNotEmpty(entity.getSettleFlag()) && (
                     "是".equals(entity.getSettleFlag().trim()) ||
@@ -171,7 +181,7 @@ public class DataCaseRepayRecordController {
             } else {
                 entity.setSettleFlag("未结清");
             }
-            entity.setConfirmUser(newUser);
+            entity.setConfirmUser(confirmUser);
             entity.setCreateUser(user);
             entity.setUpdateUser(user);
         }

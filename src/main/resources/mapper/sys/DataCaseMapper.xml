@@ -20,7 +20,8 @@
         da.ident_type as identType,
         da.odv as 'collectionUser.id',
         da.collection_area as 'collectionArea.id',
-        da.summary as collectInfo,
+        da.summary,
+        da.collect_result as collectInfo,
         da.m_val as mVal,
         da.commission_rate as commissionRate,
         da.commission_money as commissionMoney,
@@ -135,8 +136,16 @@
         da.pro_repay_amt as proRepayAmt,
         da.collect_times as collectTimes,
         da.comment as comment,
-        da.settle_flag as settleFlag
+        da.settle_flag as settleFlag,
+        da.interest_date as interestDate,
+        da.latest_overdue_money as latestOverdueMoney
     </sql>
+
+    <update id="updateInterest" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+
+        update data_case set interest_date =#{interestDate},latest_overdue_money=#{latestOverdueMoney} where id = #{id}
+
+    </update>
 
     <!--插入数据信息-->
     <insert id="saveArchive" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -1121,7 +1130,7 @@
                 collection_area = #{collectionArea.id},
             </if>
         <if test="collectInfo != null and collectInfo != ''">
-            summary = #{collectInfo},
+            collect_result = #{collectInfo},
         </if>
         <if test="mVal != null and mVal != ''">
             m_val = #{mVal},
@@ -1422,7 +1431,7 @@
         <if test="collectionArea != null and collectionArea.id != null">
             collection_area,
         </if>
-        summary,
+        collect_result,
         m_val,
         commission_rate,
         commission_money,
@@ -2111,7 +2120,12 @@
         update data_case
         set en_repay_amt = #{enRepayAmt},
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
-            settle_flag = #{settleFlag},
+            <if test="settleFlag != null and settleFlag == '已结清'.toString()">
+                settle_flag = #{settleFlag},status = 3,
+            </if>
+            <if test="settleFlag != null and settleFlag != '已结清'">
+                settle_flag = #{settleFlag},
+            </if>
             balance = money - #{enRepayAmt}
         where id = #{id}
     </update>

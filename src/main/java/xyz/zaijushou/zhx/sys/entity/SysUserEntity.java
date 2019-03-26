@@ -56,6 +56,8 @@ public class SysUserEntity extends CommonEntity {
 
     private boolean sameBatch;
 
+    private boolean busiData;
+
     private int lockAccountNum;
 
     private int sysnergyNum;
@@ -70,6 +72,14 @@ public class SysUserEntity extends CommonEntity {
      * 0-锁定，1-解锁
      */
     private int enable;
+
+    public boolean isBusiData() {
+        return busiData;
+    }
+
+    public void setBusiData(boolean busiData) {
+        this.busiData = busiData;
+    }
 
     public String getDepartment() {
         return department;

@@ -21,6 +21,8 @@ public interface DataCaseMapper {
 
     public DataCaseDetail detail(DataCaseEntity bean);
 
+    public void updateInterest(DataCaseEntity bean);
+
     public  DataCaseEntity findById(DataCaseEntity bean);
 
     public List<DataCaseEntity> pageDataCase(DataCaseEntity bean);

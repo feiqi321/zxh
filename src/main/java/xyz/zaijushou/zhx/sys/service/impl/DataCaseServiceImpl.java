@@ -1426,7 +1426,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseDetail.setBalanceMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getBalance()+""));
         }
-
+        if(StringUtils.notEmpty(dataCaseDetail.getLatestOverdueMoney())){
+            dataCaseDetail.setInterestDate(dataCaseDetail.getLatestOverdueMoney()+"(于"+dataCaseDetail.getInterestDate()+"导入)");
+        }else{
+            dataCaseDetail.setInterestDate("");
+        }
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
         dataCaseTelEntity.setCaseId(bean.getId());

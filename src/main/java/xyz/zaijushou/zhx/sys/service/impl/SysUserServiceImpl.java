@@ -64,6 +64,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysToUserRole.setUser(user);
         SysUserEntity resultUser = sysUserMapper.findUserInfoWithoutPasswordById(user);
         resultUser.setSameBatch(false);
+        resultUser.setBusiData(false);
         DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
         dataCollectionEntity.setOdv(user.getId()+"");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -111,20 +112,84 @@ public class SysUserServiceImpl implements SysUserService {
 
             }
 
-            SysToRoleButton sysToRoleButton = new SysToRoleButton();
-            sysToRoleButton.setRole(sysRoleEntity);
-            List<SysToRoleButton> buttonList = sysRoleMapper.listAllRoleButtonsByRoleId(sysToRoleButton);
-            for (int j=0;j<buttonList.size();j++){
-                SysToRoleButton tempButton = buttonList.get(j);
-                if (tempButton.getButton().getId()==102){
-                    resultUser.setSameBatch(true);
-                    break;
+            SysRoleEntity tempRole = sysRoleMapper.selectByRoleId(sysRoleEntity);
+            SysNewUserEntity userEntity=new SysNewUserEntity();
+            userEntity.setId(user.getId());
+            if (tempRole.getDataAuth()!=1){
+                List<SysNewUserEntity> list = sysUserMapper.listParent(userEntity);
+                while(list.size()>0){
+                    for (int m=0;m<list.size();m++){
+                        SysNewUserEntity sysNewUserEntityTemp = list.get(m);
+                        int count = sysRoleMapper.countDataAuthRole(sysNewUserEntityTemp);
+                        if (count>0){
+                            resultUser.setSameBatch(true);
+                            list = new ArrayList();
+                            break;
+                        }else{
+                            this.foreachData(resultUser,sysNewUserEntityTemp);
+                        }
+                    }
+
+                }
+            }
+
+            if (tempRole.getBusiAuth()!=1){
+                List<SysNewUserEntity> list = sysUserMapper.listParent(userEntity);
+                while(list.size()>0){
+                    for (int m=0;m<list.size();m++){
+                        SysNewUserEntity sysNewUserEntityTemp = list.get(m);
+                        int count = sysRoleMapper.countBusiAuthRole(sysNewUserEntityTemp);
+                        if (count>0){
+                            resultUser.setBusiData(true);
+                            list = new ArrayList();
+                            break;
+                        }else{
+                            this.foreachBusi(resultUser,sysNewUserEntityTemp);
+                        }
+                    }
+
                 }
             }
         }
 
 
         return resultUser;
+    }
+
+    public void foreachData(SysUserEntity resultUser,SysNewUserEntity sysNewUserEntity){
+        List<SysNewUserEntity> list = sysUserMapper.listParent(sysNewUserEntity);
+        while(list.size()>0){
+            for (int m=0;m<list.size();m++){
+                SysNewUserEntity sysNewUserEntityTemp = list.get(m);
+                int count = sysRoleMapper.countDataAuthRole(sysNewUserEntityTemp);
+                if (count>0){
+                    resultUser.setSameBatch(true);
+                    list = new ArrayList();
+                    break;
+                }else{
+                    this.foreachData(resultUser,sysNewUserEntityTemp);
+                }
+            }
+
+        }
+    }
+
+    public void foreachBusi(SysUserEntity resultUser,SysNewUserEntity sysNewUserEntity){
+        List<SysNewUserEntity> list = sysUserMapper.listParent(sysNewUserEntity);
+        while(list.size()>0){
+            for (int m=0;m<list.size();m++){
+                SysNewUserEntity sysNewUserEntityTemp = list.get(m);
+                int count = sysRoleMapper.countBusiAuthRole(sysNewUserEntityTemp);
+                if (count>0){
+                    resultUser.setBusiData(true);
+                    list = new ArrayList();
+                    break;
+                }else{
+                    this.foreachBusi(resultUser,sysNewUserEntityTemp);
+                }
+            }
+
+        }
     }
 
     @Override

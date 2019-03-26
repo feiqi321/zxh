@@ -178,6 +178,7 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchCaseInterest(List<DataCaseInterestEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         int code = 200;
         int lineCount=0;
         StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
@@ -218,6 +219,9 @@ public class FileManageServiceImpl implements FileManageService {
                 if (temp!=null){
                     dataCaseInterestEntity.setCaseId(temp.getId());
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
+                    temp.setInterestDate(sdf.format(new Date()));
+                    temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt());
+                    dateCaseMapper.updateInterest(temp);
                     sucessCount =sucessCount+1;
                 }
             }else{
@@ -225,6 +229,9 @@ public class FileManageServiceImpl implements FileManageService {
                 if (temp!=null){
                     dataCaseInterestEntity.setCaseId(temp.getId());
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
+                    temp.setInterestDate(sdf.format(new Date()));
+                    temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt());
+                    dateCaseMapper.updateInterest(temp);
                     sucessCount =sucessCount+1;
                 }
             }

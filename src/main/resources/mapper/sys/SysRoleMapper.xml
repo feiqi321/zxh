@@ -9,6 +9,7 @@
         role_name as roleName,
         role_desc as roleDesc,
         data_auth as dataAuth,
+        busi_auth as busiAuth,
         role_auth_symbol as roleAuthSymbol,
         remark as remark,
         create_user as 'createUser.id',
@@ -75,6 +76,28 @@
           and role_name = #{roleName}
     </select>
 
+    <select id="selectByRoleId" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+        select
+        <include refid="colSql"/>
+        from sys_role
+        where delete_flag = '0'
+        and id = #{id}
+    </select>
+
+    <select id="countDataAuthRole" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
+        select
+        cout(id)
+        from sys_role where id in (select role_id from sys_user_role where user_id  =#{id}) and data_auth=1
+
+    </select>
+
+    <select id="countBusiAuthRole" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
+        select
+        cout(id)
+        from sys_role where id in (select role_id from sys_user_role where user_id  =#{id}) and busi_auth=1
+
+    </select>
+
     <insert id="saveRole" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
@@ -84,6 +107,7 @@
             <if test="roleName != null">role_name,</if>
             <if test="roleDesc != null">role_desc,</if>
             <if test="dataAuth != null">data_auth,</if>
+            <if test="busiAuth != null">busi_auth,</if>
             <if test="roleAuthSymbol != null">role_auth_symbol,</if>
             <if test="remark != null">remark,</if>
             <if test="createUser != null and createUser.id != null">create_user,</if>
@@ -94,6 +118,7 @@
             <if test="roleName != null">#{roleName},</if>
             <if test="roleDesc != null">#{roleDesc},</if>
             <if test="dataAuth != null">#{dataAuth},</if>
+            <if test="busiAuth != null">#{busiAuth},</if>
             <if test="roleAuthSymbol != null">#{roleAuthSymbol},</if>
             <if test="remark != null">#{remark},</if>
             <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
@@ -108,6 +133,7 @@
             <if test="roleName != null">role_name = #{roleName},</if>
             <if test="roleDesc != null">role_desc = #{roleDesc},</if>
             <if test="dataAuth != null">data_auth = #{dataAuth},</if>
+            <if test="busiAuth != null">busi_auth = #{busiAuth},</if>
             <if test="roleAuthSymbol != null">role_auth_symbol = #{roleAuthSymbol},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>

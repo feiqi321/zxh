@@ -227,6 +227,16 @@ public class DataCaseDetail {
 
     private String latestCollectMomorize;   //最新催记
 
+    private String interestDate; //利息导入时间
+
+    public String getInterestDate() {
+        return interestDate;
+    }
+
+    public void setInterestDate(String interestDate) {
+        this.interestDate = interestDate;
+    }
+
     public String getOdvId() {
         return odvId;
     }

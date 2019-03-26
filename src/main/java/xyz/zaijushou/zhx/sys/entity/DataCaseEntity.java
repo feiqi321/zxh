@@ -258,6 +258,8 @@ public class DataCaseEntity extends CommonEntity {
 
     private BigDecimal latestOverdueMoney;  //最新欠款
 
+    private String interestDate; //利息导入时间
+
     private String lastCall;    //最后通电
 
     private BigDecimal repayMoney;  //已还款
@@ -281,6 +283,14 @@ public class DataCaseEntity extends CommonEntity {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    public String getInterestDate() {
+        return interestDate;
+    }
+
+    public void setInterestDate(String interestDate) {
+        this.interestDate = interestDate;
+    }
 
     public String getCommissionMoneyMsg() {
         return commissionMoneyMsg;

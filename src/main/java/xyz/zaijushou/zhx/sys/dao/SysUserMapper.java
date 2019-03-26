@@ -95,4 +95,6 @@ public interface SysUserMapper {
     List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity);
 
     int countLockedUser();
+
+    List<SysNewUserEntity> listParent(SysNewUserEntity userEntity);
 }
