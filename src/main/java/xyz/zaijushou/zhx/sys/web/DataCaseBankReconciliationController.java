@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.*;
 
 import javax.annotation.Resource;
@@ -33,6 +35,9 @@ public class DataCaseBankReconciliationController {
 
     @Resource
     private DataCaseBankReconciliationService dataCaseBankReconciliationService;
+
+    @Autowired
+    private SysOperationLogService sysOperationLogService;
 
     @Resource
     private DataCaseService dataCaseService;
@@ -99,10 +104,18 @@ public class DataCaseBankReconciliationController {
                 }
             }
         }
+
+        String fileName = "导出银行对账查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(
                 list,
                 ExcelBankReconciliationConstant.BankReconciliationExport.values(),
-                "导出银行对账查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -127,10 +140,18 @@ public class DataCaseBankReconciliationController {
                 }
             }
         }
+
+        String fileName = "导出银行对账当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(
                 list,
                 ExcelBankReconciliationConstant.BankReconciliationExport.values(),
-                "导出银行对账当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -139,20 +160,32 @@ public class DataCaseBankReconciliationController {
     @PostMapping("/selectDataExport")
     public Object selectDataExport(@RequestBody DataCaseBankReconciliationEntity bankReconciliationEntity, HttpServletResponse response) throws IOException {
         if(bankReconciliationEntity == null || bankReconciliationEntity.getIds() == null || bankReconciliationEntity.getIds().length == 0) {
+            String fileName = "导出银行对账选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+            SysOperationLogEntity operationLog = new SysOperationLogEntity();
+            operationLog.setRequestBody(fileName);
+            operationLog.setUserId(userId);
+            sysOperationLogService.insertRequest(operationLog);
             ExcelUtils.exportExcel(
                     new ArrayList<>(),
                     ExcelBankReconciliationConstant.BankReconciliationExport.values(),
-                    "导出银行对账选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                    fileName + ".xlsx",
                     response
             );
             return null;
         }
         List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.listBankReconciliation(bankReconciliationEntity);
+        String fileName = "导出银行对账选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(
                 list,
 
                 ExcelBankReconciliationConstant.BankReconciliationExport.values(),
-                "导出银行对账选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -162,6 +195,13 @@ public class DataCaseBankReconciliationController {
     @ApiOperation(value = "导入CP", notes = "导入CP")
     @PostMapping("/import")
     public Object dataCaseNewCaseImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         List<DataCaseBankReconciliationEntity> dataEntities = ExcelUtils.importExcel(file, ExcelBankReconciliationConstant.BankReconciliationImport.values(), DataCaseBankReconciliationEntity.class);;
         if(dataEntities.size() == 0) {
             return WebResponse.success("添加0条数据");
@@ -191,7 +231,6 @@ public class DataCaseBankReconciliationController {
         for(DataCaseEntity entity : existCaseList) {
             existCaseMap.put(entity.getSeqNo(), entity);
         }
-        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
         for (DataCaseBankReconciliationEntity entity : dataEntities) {

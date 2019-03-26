@@ -320,6 +320,11 @@ public class DataCaseController {
     @PostMapping("/dataCase/address/import")
     public Object dataCaseAddressImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
         List<DataCaseAddressEntity> addressList = ExcelUtils.importExcel(file, ExcelAddressConstant.CaseAddress.values(), DataCaseAddressEntity.class);
         WebResponse webResponse =fileManageService.batchCaseAddress(addressList);
@@ -330,6 +335,11 @@ public class DataCaseController {
     @PostMapping("/dataCase/interest/import")
     public Object dataCaseInterestImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
         List<DataCaseInterestEntity> interestList = ExcelUtils.importExcel(file, ExcelInterestConstant.CaseInterest.values(), DataCaseInterestEntity.class);
         WebResponse webResponse =fileManageService.batchCaseInterest(interestList);
@@ -340,6 +350,11 @@ public class DataCaseController {
     @PostMapping("/dataCase/comment/import")
     public Object dataCaseCommentImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
         List<DataCaseEntity> dataCaseEntities = ExcelUtils.importExcel(file, ExcelInterestConstant.CaseColor.values(), DataCaseEntity.class);
         WebResponse webResponse =fileManageService.batchCaseComment(dataCaseEntities);
@@ -350,6 +365,11 @@ public class DataCaseController {
     @PostMapping("/dataCase/updateCase/import")
     public Object dataCaseUpdateCaseImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
         InputStream inputStream = file.getInputStream();
         Workbook workbook = null;
@@ -470,6 +490,11 @@ public class DataCaseController {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请上传批次号");
         }
         String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
         InputStream inputStream = file.getInputStream();
         Workbook workbook = null;
@@ -598,9 +623,15 @@ public class DataCaseController {
     public Object pageCaseListExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException{
 
         List<DataCaseEntity> list = dataCaseService.pageCaseListExport(bean);
+        String fileName = "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(list,
                 ExcelCaseConstant.CaseExportCase.values(),
-                "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName+ ".xlsx",
                 response
         );
         return null;
@@ -611,10 +642,18 @@ public class DataCaseController {
     public Object pageDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         WebResponse result = dataCaseService.pageCaseList(bean);
+
+        String fileName = "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         List<DataCaseEntity> list = ((CaseResponse)result.getData()).getPageInfo().getList();
                 ExcelUtils.exportExcel(list,
                 ExcelCaseConstant.CaseExportCase.values(),
-                "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName+ ".xlsx",
                 response
         );
         return null;
@@ -625,9 +664,15 @@ public class DataCaseController {
     public Object totalDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
+        String fileName = "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(list,
                 ExcelCaseConstant.CaseExportCase.values(),
-                "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -642,9 +687,15 @@ public class DataCaseController {
             ids[i] = temp.getId();
         }
         List<DataCaseEntity> resultList = dataCaseService.selectCaseListExport(ids);
+        String fileName = "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(resultList,
                 ExcelCaseConstant.CaseExportCase.values(),
-                "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -655,9 +706,15 @@ public class DataCaseController {
     public Object selectDataCaseExportByBatch(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
         List<DataCaseEntity> resultList = dataCaseService.selectDataCaseExportByBatch(bean);
+        String fileName = "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(resultList,
                 ExcelCaseConstant.CaseExportCase.values(),
-                "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -675,9 +732,17 @@ public class DataCaseController {
         }
         WebResponse webResponse = dataCollectService.selectDataCollectExportByCase(caseIds);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
+
+        String fileName = "案件管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(resultList,
                 ExcelCollectExportConstant.CaseCollectExport.values(),
-                "案件管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -693,9 +758,17 @@ public class DataCaseController {
             ids[i] = temp.getId();
         }
         List<DataCaseTelExport> resultList = dataCaseService.selectCaseTelListExport(ids);
+
+        String fileName = "案件管理电话选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(resultList,
                 ExcelCaseTelConstant.CaseTel.values(),
-                "案件管理电话选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;

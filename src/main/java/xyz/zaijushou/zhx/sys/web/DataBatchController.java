@@ -17,10 +17,13 @@ import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
+import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,6 +44,8 @@ public class DataBatchController {
     private DataCaseService caseService;
     @Autowired
     private DataCollectService dataCollectService;
+    @Autowired
+    private SysOperationLogService sysOperationLogService;
 
     @ApiOperation(value = "新增批次", notes = "新增批次")
     @PostMapping("/dataBatch/save")
@@ -137,9 +142,17 @@ public class DataBatchController {
 
         WebResponse webResponse = dataCaseService.pageDataBatchExport(bean);
         List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
+
+        String fileName = "批次管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(list,
                 ExcelBatchExportConstant.BatchMemorize.values(),
-                "批次管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName  + ".xlsx",
                 response
         );
         return null;
@@ -151,9 +164,17 @@ public class DataBatchController {
 
         WebResponse webResponse = dataCaseService.totalDataBatch(bean);
         List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
+
+        String fileName = "批次管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(list,
                 ExcelBatchExportConstant.BatchMemorize.values(),
-                "批次管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -170,9 +191,17 @@ public class DataBatchController {
         }
         WebResponse webResponse = dataCaseService.selectDataBatch(ids);
         List<DataBatchEntity> resultList = (List<DataBatchEntity>) webResponse.getData();
+
+        String fileName = "批次管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(resultList,
                 ExcelBatchExportConstant.BatchMemorize.values(),
-                "批次管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -189,9 +218,17 @@ public class DataBatchController {
         }
         WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(batchs);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
+
+        String fileName = "批次管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(resultList,
                 ExcelCollectExportConstant.CaseCollectExport.values(),
-                "批次管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;

@@ -8,10 +8,13 @@ import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.constant.ExcelEnum;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
+import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
+import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +37,7 @@ public class ExcelUtils {
     private static Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
 
     private static FormulaEvaluator evaluator;
+
 
     public static <T> List<T> importExcel(MultipartFile file, ExcelEnum[] enums, Class<T> entityClazz) throws IOException {
         List<T> resultList = new ArrayList<>();
@@ -181,7 +185,7 @@ public class ExcelUtils {
                 if (clazz.equals(Date.class)) {
                     double value = cell.getNumericCellValue();
                     Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
-                   result = date;
+                    result = date;
                 } else if(clazz.equals(String.class)) {
                     result = "" + df.format(cell.getNumericCellValue());
                 } else {
@@ -197,7 +201,7 @@ public class ExcelUtils {
             default:
                 result = null;
         }
-       logger.info("result:{}", result);
+        logger.info("result:{}", result);
         return result;
     }
 
@@ -312,6 +316,8 @@ public class ExcelUtils {
                 logger.error("excel解析错误：{}", e);
             }
         }
+
+
         //下载的文件携带这个名称
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
@@ -365,12 +371,15 @@ public class ExcelUtils {
         }
     }
 
-    public static void exportTempleteMonth(HttpServletResponse response, List<StatisticReturn>  list)throws IOException{
+    public static void exportTempleteMonth(HttpServletResponse response, List<StatisticReturn>  list,String realname)throws IOException{
         OutputStream outputStream = response.getOutputStream();
         String fileName = new String(("month-export").getBytes(), "ISO8859_1");
+
+
+
         response.setHeader(
                 "Content-disposition",
-                "attachment; filename=" + fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx");// 组装附件名称和格式
+                "attachment; filename=" + realname + ".xlsx");// 组装附件名称和格式
 
         // 创建一个workbook 对应一个excel应用文件
         try (XSSFWorkbook workBook = new XSSFWorkbook()){
@@ -406,7 +415,7 @@ public class ExcelUtils {
                 titleCell.setCellStyle(cellStyle);
                 titleCell.setCellValue("催收员");
             }
-           setMergeStyle(new CellRangeAddress( 0,1 , 0, 0),sheet);
+            setMergeStyle(new CellRangeAddress( 0,1 , 0, 0),sheet);
 
             titleRow = sheet.getRow(0);
             // 设置标题
@@ -440,22 +449,22 @@ public class ExcelUtils {
                     sheet.autoSizeColumn(0,true);
                     bodyCel.setCellStyle(cellStyle);
                     bodyCel.setCellValue(list.get(i).getOdv());
-                   for (int k=0 ;k<list.get(i).getList().size();k++){
-                       bodyCel = bodyRow.createCell(k*3+1);
-                       sheet.autoSizeColumn(k*3+1);
-                       bodyCel.setCellStyle(cellStyle);
-                       bodyCel.setCellValue(list.get(i).getList().get(k).getCountConPhoneNum());
+                    for (int k=0 ;k<list.get(i).getList().size();k++){
+                        bodyCel = bodyRow.createCell(k*3+1);
+                        sheet.autoSizeColumn(k*3+1);
+                        bodyCel.setCellStyle(cellStyle);
+                        bodyCel.setCellValue(list.get(i).getList().get(k).getCountConPhoneNum());
 
-                       titleCell = bodyRow.createCell(k*3+2);
-                       sheet.autoSizeColumn(k*3+2);
-                       titleCell.setCellStyle(cellStyle);
-                       titleCell.setCellValue(list.get(i).getList().get(k).getCountPhoneNum());
+                        titleCell = bodyRow.createCell(k*3+2);
+                        sheet.autoSizeColumn(k*3+2);
+                        titleCell.setCellStyle(cellStyle);
+                        titleCell.setCellValue(list.get(i).getList().get(k).getCountPhoneNum());
 
-                       titleCell = bodyRow.createCell(k*3+3);
-                       sheet.autoSizeColumn(k*3+3);
-                       titleCell.setCellStyle(cellStyle);
-                       titleCell.setCellValue(list.get(i).getList().get(k).getCountCasePhoneNum());
-                   }
+                        titleCell = bodyRow.createCell(k*3+3);
+                        sheet.autoSizeColumn(k*3+3);
+                        titleCell.setCellStyle(cellStyle);
+                        titleCell.setCellValue(list.get(i).getList().get(k).getCountCasePhoneNum());
+                    }
                 }
             }
             workBook.write(outputStream);
@@ -478,12 +487,13 @@ public class ExcelUtils {
         RegionUtil.setBorderTop(BorderStyle.THIN, cra, sheet); // 上边框
     }
 
-    public static void exportTempleteDay(HttpServletResponse response, List<StatisticReturn>  list)throws IOException{
+    public static void exportTempleteDay(HttpServletResponse response, List<StatisticReturn>  list,String realname)throws IOException{
         OutputStream outputStream = response.getOutputStream();
-        String fileName = new String(("day-export").getBytes(), "ISO8859_1");
+
+
         response.setHeader(
                 "Content-disposition",
-                "attachment; filename=" + fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx");// 组装附件名称和格式
+                "attachment; filename=" + realname + ".xlsx");// 组装附件名称和格式
 
         // 创建一个workbook 对应一个excel应用文件
         try (XSSFWorkbook workBook = new XSSFWorkbook()){

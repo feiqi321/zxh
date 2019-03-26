@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
+import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
@@ -39,6 +41,9 @@ public class DataCaseSynergisticController {
 
     @Resource
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysOperationLogService sysOperationLogService;
 
     @PostMapping("/types")
     public Object types() {
@@ -132,10 +137,18 @@ public class DataCaseSynergisticController {
                 }
             }
         }
+
+        String fileName = "导出协催查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(
                 list,
                 ExcelSynergisticConstant.SynergisticExport.values(),
-                "导出协催查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -178,10 +191,18 @@ public class DataCaseSynergisticController {
                 }
             }
         }
+
+        String fileName = "导出协催当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(
                 list,
                 ExcelSynergisticConstant.SynergisticExport.values(),
-                "导出协催当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -189,11 +210,19 @@ public class DataCaseSynergisticController {
 
     @PostMapping("/selectDataExport")
     public Object selectDataExport(@RequestBody DataCaseSynergisticEntity synergistic, HttpServletResponse response) throws IOException {
+
+        String fileName ="导出协催选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         if(synergistic == null || synergistic.getIds() == null || synergistic.getIds().length == 0) {
             ExcelUtils.exportExcel(
                     new ArrayList<>(),
                     ExcelSynergisticConstant.SynergisticExport.values(),
-                    "导出协催选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                    fileName + ".xlsx",
                     response
             );
             return null;
@@ -236,7 +265,7 @@ public class DataCaseSynergisticController {
         ExcelUtils.exportExcel(
                 list,
                 ExcelSynergisticConstant.SynergisticExport.values(),
-                "导出协催选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -248,6 +277,14 @@ public class DataCaseSynergisticController {
         if(CollectionUtils.isEmpty(synergisticList)) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "上传了空模板");
         }
+
+        String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         Map<Integer, Integer> idCountMap = new HashMap<>();
         Set<Integer> idsSet = new HashSet<>();
         Set<String> userNamesSet = new HashSet<>();
@@ -314,6 +351,14 @@ public class DataCaseSynergisticController {
         }
 //        Map<Integer, Integer> idCountMap = new HashMap<>();
 //        Set<Integer> idsSet = new HashSet<>();
+
+        String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         Set<String> redisKeySet = new HashSet<>();
         Map<String, Integer> redisKeyCountMap = new HashMap<>();
         Set<String> userNamesSet = new HashSet<>();

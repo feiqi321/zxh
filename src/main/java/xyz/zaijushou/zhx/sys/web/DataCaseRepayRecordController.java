@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.web;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +19,7 @@ import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
+import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -38,6 +40,9 @@ public class DataCaseRepayRecordController {
 
     @Resource
     private DataCaseService dataCaseService;
+
+    @Autowired
+    private SysOperationLogService sysOperationLogService;
 
     @PostMapping("/list")
     public Object list(@RequestBody DataCaseRepayRecordEntity entity) {
@@ -69,10 +74,18 @@ public class DataCaseRepayRecordController {
     @PostMapping("/queryDataExport")
     public Object queryDataExport(@RequestBody DataCaseRepayRecordEntity repayRecordEntity, HttpServletResponse response) throws IOException {
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecord(repayRecordEntity);
+
+        String fileName = "导出还款记录查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) ;
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(
                 list,
                 ExcelRepayRecordConstant.RepayRecordExport.values(),
-                "导出还款记录查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName+ ".xlsx",
                 response
         );
         return null;
@@ -81,10 +94,18 @@ public class DataCaseRepayRecordController {
     @PostMapping("/pageDataExport")
     public Object pageDataExport(@RequestBody DataCaseRepayRecordEntity repayRecordEntity, HttpServletResponse response) throws IOException {
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.pageRepayRecordList(repayRecordEntity).getList();
+
+        String fileName = "导出还款记录当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) ;
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(
                 list,
                 ExcelRepayRecordConstant.RepayRecordExport.values(),
-                "导出还款记录当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -92,11 +113,18 @@ public class DataCaseRepayRecordController {
 
     @PostMapping("/selectDataExport")
     public Object selectDataExport(@RequestBody DataCaseRepayRecordEntity repayRecordEntity, HttpServletResponse response) throws IOException {
+        String fileName = "导出还款记录选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         if(repayRecordEntity == null || repayRecordEntity.getIds() == null || repayRecordEntity.getIds().length == 0) {
             ExcelUtils.exportExcel(
                     new ArrayList<>(),
                     ExcelRepayRecordConstant.RepayRecordExport.values(),
-                    "导出还款记录选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                    fileName + ".xlsx",
                     response
             );
             return null;
@@ -118,6 +146,14 @@ public class DataCaseRepayRecordController {
         if(dataEntities.size() == 0) {
             return WebResponse.success("添加0条数据");
         }
+
+        String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         Map<String, Integer> countMap = new HashMap<>();
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataEntities.size(); i ++) {
@@ -143,7 +179,6 @@ public class DataCaseRepayRecordController {
         for(DataCaseEntity entity : existCaseList) {
             existCaseMap.put(entity.getSeqNo(), entity);
         }
-        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
         SysNewUserEntity confirmUser = new SysNewUserEntity();

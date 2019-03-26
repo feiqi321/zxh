@@ -17,14 +17,13 @@ import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
 import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
+import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -51,6 +50,9 @@ public class DataCollectController {
     private FileManageService fileManageService;
     @Autowired
     private SysDictionaryService dictionaryService;
+
+    @Autowired
+    private SysOperationLogService sysOperationLogService;
 
     @ApiOperation(value = "刪除催收信息", notes = "刪除催收信息")
     @PostMapping("/dataCollect/delete")
@@ -99,9 +101,17 @@ public class DataCollectController {
 
         WebResponse webResponse = dataCollectService.totalDataCollect(bean);
        List<DataCollectExportEntity> list = (List<DataCollectExportEntity>) webResponse.getData();
+
+        String fileName = "催记管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(list,
                 ExcelCollectExportConstant.CaseCollectExport.values(),
-                "催记管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -116,10 +126,18 @@ public class DataCollectController {
             ids[i] = temp.getId();
         }
         WebResponse webResponse = dataCollectService.selectDataCollect(ids);
+
+        String fileName = "催记管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         List<DataCollectExportEntity> resultList = (List<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
                 ExcelCollectExportConstant.CaseCollectExport.values(),
-                "催记管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                fileName + ".xlsx",
                 response
         );
         return null;
@@ -129,6 +147,13 @@ public class DataCollectController {
     @PostMapping("/dataCollect/import")
     public Object dataCollectImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         List<DataCollectionEntity> dataCollectionEntities = ExcelUtils.importExcel(file, ExcelCollectConstant.CaseCollect.values(), DataCollectionEntity.class);
 
         SysDictionaryEntity dictionary = new SysDictionaryEntity();

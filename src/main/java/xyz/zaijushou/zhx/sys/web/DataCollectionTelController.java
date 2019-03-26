@@ -15,8 +15,11 @@ import xyz.zaijushou.zhx.constant.ExcelDayExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelMonthExportConstant;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
+import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
+import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +39,8 @@ public class DataCollectionTelController {
 
     @Autowired
     private DataCollectionTelService dataCollectionTelService;
+    @Autowired
+    private SysOperationLogService sysOperationLogService;
 
     @ApiOperation(value = "电催员电催单日统计", notes = "电催员电催单日统计")
     @PostMapping("/day")
@@ -55,7 +60,14 @@ public class DataCollectionTelController {
             PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionDay(bean);
             List<StatisticReturn>  list = pageInfo.getList();
             //导出
-            ExcelUtils.exportTempleteDay(response,list);
+            String fileName = new String(("day-export").getBytes(), "ISO8859_1");
+            String realname = fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+            SysOperationLogEntity operationLog = new SysOperationLogEntity();
+            operationLog.setRequestBody(realname);
+            operationLog.setUserId(userId);
+            sysOperationLogService.insertRequest(operationLog);
+            ExcelUtils.exportTempleteDay(response,list,realname);
         }
 
         return null;
@@ -82,7 +94,14 @@ public class DataCollectionTelController {
             PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionMonth(bean);
             List<StatisticReturn>  list = pageInfo.getList();
            //导出
-            ExcelUtils.exportTempleteMonth(response,list);
+            String fileName = new String(("day-export").getBytes(), "ISO8859_1");
+            String realname = fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+            SysOperationLogEntity operationLog = new SysOperationLogEntity();
+            operationLog.setRequestBody(realname);
+            operationLog.setUserId(userId);
+            sysOperationLogService.insertRequest(operationLog);
+            ExcelUtils.exportTempleteMonth(response,list,realname);
         }
 
 //        ExcelUtils.exportExcel(colList,
@@ -112,9 +131,18 @@ public class DataCollectionTelController {
             PageInfo<CollectionStatistic> pageInfo = dataCollectionTelService.pageCollectionDayAction(bean);
             list = pageInfo.getList();
         }
+
+
+        String realname = "每日动作统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(realname);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
         ExcelUtils.exportExcel(list,
                 ExcelDayActionExportConstant.CollecionList.values(),
-                "每日动作统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
+                realname + ".xlsx",
                 response
         );
         return null;
