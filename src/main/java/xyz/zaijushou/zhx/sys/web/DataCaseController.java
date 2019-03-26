@@ -25,6 +25,7 @@ import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.*;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
@@ -56,6 +57,8 @@ public class DataCaseController {
     private SysUserService sysUserService;
     @Autowired
     private SysDictionaryService dictionaryService;
+    @Autowired
+    private SysOperationLogService sysOperationLogService;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -286,6 +289,11 @@ public class DataCaseController {
     @PostMapping("/dataCase/tel/import")
     public Object dataCaseTelImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
         List<DataCaseTelEntity> caseList = ExcelUtils.importExcel(file, ExcelTelConstant.CaseTel.values(), DataCaseTelEntity.class);
         SysDictionaryEntity dictionary = new SysDictionaryEntity();

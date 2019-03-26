@@ -83,13 +83,17 @@ public class SysOperationLogController {
             }
         }
         for(int i = 0; i < logList.size(); i ++) {
-            if(typeMap.get(logList.get(i).getUrl()) != null && StringUtils.isNotBlank(typeMap.get(logList.get(i).getUrl()).getLogTemplate())){
-                String template = typeMap.get(logList.get(i).getUrl()).getLogTemplate();
-                try {
-                    String result = TemplateUtils.templateReplace(template, logList.get(i));
-                    logList.get(i).setLogContent(result);
-                } catch (Exception e) {
-                    logger.error("日志模板解析错误：{}", e);
+            if(logList.get(i).getUrl().equals("/import")){
+                logList.get(i).setLogContent();
+            }else {
+                if (typeMap.get(logList.get(i).getUrl()) != null && StringUtils.isNotBlank(typeMap.get(logList.get(i).getUrl()).getLogTemplate())) {
+                    String template = typeMap.get(logList.get(i).getUrl()).getLogTemplate();
+                    try {
+                        String result = TemplateUtils.templateReplace(template, logList.get(i));
+                        logList.get(i).setLogContent(result);
+                    } catch (Exception e) {
+                        logger.error("日志模板解析错误：{}", e);
+                    }
                 }
             }
 
