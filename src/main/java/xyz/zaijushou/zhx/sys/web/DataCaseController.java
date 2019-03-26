@@ -298,7 +298,7 @@ public class DataCaseController {
         }
         for (int i=0;i<caseList.size();i++){
             if (dicMap.get(caseList.get(i).getType())==null){
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不正确，请核实后再上传");
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不在枚举配置中，请核对后再上传");
             }else{
                 caseList.get(i).setType(dicMap.get(caseList.get(i).getType())+"");
             }

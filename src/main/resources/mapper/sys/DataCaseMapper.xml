@@ -1073,7 +1073,7 @@
     <select id="listBySeqNoSet" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
             id as id,
-            seq_no as seqNo
+            seq_no as seqNo,odv
         from data_case
         where delete_flag = 0
         and seq_no in
