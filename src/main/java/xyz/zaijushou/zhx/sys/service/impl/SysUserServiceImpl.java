@@ -131,6 +131,8 @@ public class SysUserServiceImpl implements SysUserService {
                     }
 
                 }
+            }else if (tempRole!=null && tempRole.getDataAuth()!=null && tempRole.getDataAuth()==1){
+                resultUser.setSameBatch(true);
             }
 
             if (tempRole!=null && tempRole.getBusiAuth()!=null && tempRole.getBusiAuth()!=1){
@@ -149,6 +151,8 @@ public class SysUserServiceImpl implements SysUserService {
                     }
 
                 }
+            }else if (tempRole!=null && tempRole.getBusiAuth()!=null && tempRole.getBusiAuth()==1){
+                resultUser.setBusiData(true);
             }
         }
 
