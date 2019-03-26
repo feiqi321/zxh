@@ -577,11 +577,11 @@
         where delete_flag = 0 AND  status =1 and (enable = 0 or login_fail_times >=3)
     </select>
 
-    <select id="listParent">
+    <select id="listParent" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
 
         select <include refid="colSqlWithoutPassword"/> from sys_user where department in
         (select id from sys_organization where parent_id = (select department from sys_user where id=#{id}))
-        and
+        and delete_flag=0
 
     </select>
 

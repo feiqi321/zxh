@@ -86,14 +86,14 @@
 
     <select id="countDataAuthRole" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
         select
-        cout(id)
+        count(id)
         from sys_role where id in (select role_id from sys_user_role where user_id  =#{id}) and data_auth=1
 
     </select>
 
     <select id="countBusiAuthRole" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
         select
-        cout(id)
+        count(id)
         from sys_role where id in (select role_id from sys_user_role where user_id  =#{id}) and busi_auth=1
 
     </select>
