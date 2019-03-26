@@ -115,7 +115,7 @@ public class SysUserServiceImpl implements SysUserService {
             SysRoleEntity tempRole = sysRoleMapper.selectByRoleId(sysRoleEntity);
             SysNewUserEntity userEntity=new SysNewUserEntity();
             userEntity.setId(user.getId());
-            if (tempRole.getDataAuth()!=1){
+            if (tempRole!=null && tempRole.getDataAuth()!=null && tempRole.getDataAuth()!=1){
                 List<SysNewUserEntity> list = sysUserMapper.listParent(userEntity);
                 while(list.size()>0){
                     for (int m=0;m<list.size();m++){
@@ -133,7 +133,7 @@ public class SysUserServiceImpl implements SysUserService {
                 }
             }
 
-            if (tempRole.getBusiAuth()!=1){
+            if (tempRole!=null && tempRole.getBusiAuth()!=null && tempRole.getBusiAuth()!=1){
                 List<SysNewUserEntity> list = sysUserMapper.listParent(userEntity);
                 while(list.size()>0){
                     for (int m=0;m<list.size();m++){
