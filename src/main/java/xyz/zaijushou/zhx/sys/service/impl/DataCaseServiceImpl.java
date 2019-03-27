@@ -868,6 +868,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             contactsEntity.setCaseIdsSet(caseIdsSet);
             dataCaseContactsMapper.deleteCaseContactsBatchByCaseIds(contactsEntity);
             dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
+
+
         }
         /*//修改批次信息
         DataBatchEntity dataBatchEntity = new DataBatchEntity();
@@ -932,6 +934,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                     contact.setCaseId(entity.getId());
                     contacts.add(contact);
                     contact.setSort((++i) * 10);
+                    //联系人添加到
+                    DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
+                    dataCaseTelEntity.setCaseId(entity.getId());
+                    dataCaseTelEntity.setName(contact.getName());
+                    dataCaseTelEntity.setIdentNo(contact.getIdentNo());
+                    dataCaseTelEntity.setRelation(contact.getRelation());
+                    dataCaseTelEntity.setTel(contact.getMobile());
+                    dataCaseTelEntity.setTelStatusMsg("有效");
+                    dataCaseTelMapper.saveTel(dataCaseTelEntity);
                 }
             }
         }
@@ -944,6 +955,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         //批量新增联系人
         if (contacts.size()>0) {
             dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
+
         }
         //修改批次信息
         DataBatchEntity dataBatchEntity = new DataBatchEntity();
