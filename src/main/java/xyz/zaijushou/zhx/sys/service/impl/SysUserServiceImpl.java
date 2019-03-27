@@ -165,7 +165,7 @@ public class SysUserServiceImpl implements SysUserService {
 
     public void foreachData(SysUserEntity resultUser,SysNewUserEntity sysNewUserEntity){
         List<SysNewUserEntity> list = sysUserMapper.listParent(sysNewUserEntity);
-        while(list.size()>0){
+        if(list.size()>0){
             for (int m=0;m<list.size();m++){
                 SysNewUserEntity sysNewUserEntityTemp = list.get(m);
                 int count = sysRoleMapper.countDataAuthRole(sysNewUserEntityTemp);

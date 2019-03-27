@@ -1407,7 +1407,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public void foreachData(DataCaseDetail dataCaseDetail,SysNewUserEntity sysNewUserEntity,Integer odv){
         List<SysNewUserEntity> list = sysUserMapper.listParent(sysNewUserEntity);
-        while(list.size()>0){
+        if(list.size()>0){
             for (int m=0;m<list.size();m++){
                 SysNewUserEntity sysNewUserEntityTemp = list.get(m);
                 if (sysNewUserEntityTemp.getId()==odv) {
@@ -1427,7 +1427,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysUserEntity curentuser = getUserInfo();
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !(curentuser.getId()+"").equals(dataCaseDetail.getOdv())){
             SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
-            sysNewUserEntity.setId(Integer.parseInt(dataCaseDetail.getOdv()));
+            sysNewUserEntity.setId(curentuser.getId());
             this.foreachData(dataCaseDetail,sysNewUserEntity,Integer.parseInt(dataCaseDetail.getOdv()));
         }else{
             dataCaseDetail.setCurrentuser(true);
