@@ -585,4 +585,10 @@
 
     </select>
 
+    <select id="listUserByDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
+
+        select <include refid="colSqlWithoutPassword"/> from sys_user where department = #{department} and delete_flag=0
+
+    </select>
+
 </mapper>

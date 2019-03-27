@@ -89,4 +89,12 @@
         order by sort
     </select>
 
+    <select id="listAllOrganizationsByParentId" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        select
+        <include refid="colSql"/>
+        from sys_organization
+        where delete_flag = '0' and parent_id = #{id}
+        order by sort
+    </select>
+
 </mapper>

@@ -56,6 +56,9 @@ public class SysUserServiceImpl implements SysUserService {
     private DataCollectionMapper dataCollectionMapper;
 
     @Resource
+    private SysOrganizationMapper sysOrganizationMapper;
+
+    @Resource
     private DataCaseSynergisticService dataCaseSynergisticService;
 
     @Override
@@ -585,5 +588,59 @@ public class SysUserServiceImpl implements SysUserService {
      */
     public int countLockedUser(){
         return sysUserMapper.countLockedUser();
+    }
+
+
+    public UserTree userTree(){
+        UserTree userTree = new UserTree();
+        SysOrganizationEntity sysOrganizationEntity = new SysOrganizationEntity();
+        sysOrganizationEntity.setId(0);
+        List<SysOrganizationEntity> rootList = sysOrganizationMapper.listAllOrganizationsByParentId(sysOrganizationEntity);
+        SysOrganizationEntity root = rootList.get(0);
+        userTree.setId(root.getId());
+        userTree.setName(root.getOrgName());
+        userTree.setType("dept");
+        sysOrganizationEntity.setId(root.getId());
+
+        SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
+        sysNewUserEntity.setDepartment(root.getId()+"");
+
+        this.curcleUserTree(userTree,sysOrganizationEntity,sysNewUserEntity);
+
+        return userTree;
+    }
+
+    public void curcleUserTree(UserTree userTree,SysOrganizationEntity sysOrganizationEntity,SysNewUserEntity sysNewUserEntity ){
+        List<UserTree> childList = new ArrayList<UserTree>();
+        List<SysOrganizationEntity> deptLeafList = sysOrganizationMapper.listAllOrganizationsByParentId(sysOrganizationEntity);
+        if (deptLeafList.size()>0){
+            for (int i=0;i<deptLeafList.size();i++){
+                SysOrganizationEntity temp = deptLeafList.get(i);
+                UserTree tempTree = new UserTree();
+                tempTree.setId(temp.getId());
+                tempTree.setName(temp.getOrgName());
+                tempTree.setType("dept");
+
+                SysNewUserEntity tempUser = new SysNewUserEntity();
+                tempUser.setDepartment(temp.getId()+"");
+
+                curcleUserTree(tempTree,temp,tempUser);
+                childList.add(tempTree);
+            }
+        }
+
+        List<SysNewUserEntity> userLeafList = sysUserMapper.listUserByDept(sysNewUserEntity);
+        if (userLeafList.size()>0){
+            for (int i=0;i<userLeafList.size();i++){
+                SysNewUserEntity temp = userLeafList.get(i);
+                UserTree tempTree = new UserTree();
+                tempTree.setId(temp.getId());
+                tempTree.setName(temp.getUserName());
+                tempTree.setType("user");
+                childList.add(tempTree);
+            }
+        }
+
+        userTree.setChildren(childList);
     }
 }

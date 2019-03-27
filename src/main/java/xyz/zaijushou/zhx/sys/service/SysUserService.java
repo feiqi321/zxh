@@ -6,6 +6,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.UserTree;
 
 import java.util.List;
 
@@ -42,6 +43,8 @@ public interface SysUserService {
      * @return
      */
     PageInfo<SysNewUserEntity> userDataList(SysNewUserEntity userEntity);
+
+    UserTree userTree();
 
     /**
      * 查询用户信息

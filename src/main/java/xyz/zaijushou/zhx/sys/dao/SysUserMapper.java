@@ -97,4 +97,6 @@ public interface SysUserMapper {
     int countLockedUser();
 
     List<SysNewUserEntity> listParent(SysNewUserEntity userEntity);
+
+    List<SysNewUserEntity> listUserByDept(SysNewUserEntity userEntity);
 }

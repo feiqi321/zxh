@@ -9,6 +9,8 @@ import java.util.List;
 public interface SysOrganizationMapper {
     List<SysOrganizationEntity> listAllOrganizations(SysOrganizationEntity organizationEntity);
 
+    List<SysOrganizationEntity> listAllOrganizationsByParentId(SysOrganizationEntity organizationEntity);
+
     void saveOrg(SysOrganizationEntity organizationEntity);
 
     void updateOrg(SysOrganizationEntity organizationEntity);

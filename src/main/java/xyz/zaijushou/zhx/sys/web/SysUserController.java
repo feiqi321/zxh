@@ -120,6 +120,15 @@ public class SysUserController {
         return WebResponse.success(userEntityList);
     }
 
+    @ApiOperation(value = "查询部门用户数据树", notes = "查询部门用户数据树")
+    @PostMapping("/select/userTree")
+    public Object userTree() {
+
+        UserTree userTree = sysUserService.userTree();
+
+        return WebResponse.success(userTree);
+    }
+
     @ApiOperation(value = "查询指定用户数据", notes = "查询指定用户数据")
     @PostMapping("/select/id")
     public Object getDataById(@RequestBody SysNewUserEntity userEntity) {
