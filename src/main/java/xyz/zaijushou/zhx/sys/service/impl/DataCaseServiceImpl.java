@@ -62,6 +62,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataLogService dataLogService;
     @Resource
     private DataCaseSynergisticMapper dataCaseSynergisticMapper;
+    @Resource
+    private SysUserMapper sysUserMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -1403,12 +1405,30 @@ public class DataCaseServiceImpl implements DataCaseService {
         return combineData(list);
     }
 
+    public void foreachData(DataCaseDetail dataCaseDetail,SysNewUserEntity sysNewUserEntity,Integer odv){
+        List<SysNewUserEntity> list = sysUserMapper.listParent(sysNewUserEntity);
+        while(list.size()>0){
+            for (int m=0;m<list.size();m++){
+                SysNewUserEntity sysNewUserEntityTemp = list.get(m);
+                if (sysNewUserEntityTemp.getId()==odv) {
+                    dataCaseDetail.setCurrentuser(true);
+                }else{
+                    foreachData(dataCaseDetail,sysNewUserEntityTemp,odv);
+                }
+
+            }
+
+        }
+    }
+
     public DataCaseDetail detail(DataCaseEntity bean){
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
-
+        dataCaseDetail.setCurrentuser(false);
         SysUserEntity curentuser = getUserInfo();
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !(curentuser.getId()+"").equals(dataCaseDetail.getOdv())){
-            dataCaseDetail.setCurrentuser(false);
+            SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
+            sysNewUserEntity.setId(Integer.parseInt(dataCaseDetail.getOdv()));
+            this.foreachData(dataCaseDetail,sysNewUserEntity,Integer.parseInt(dataCaseDetail.getOdv()));
         }else{
             dataCaseDetail.setCurrentuser(true);
         }
