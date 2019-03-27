@@ -24,7 +24,7 @@
         dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName,dcr.file_uuid as fileUuid
         from
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
-        where dcr.delete_flag = 0 and dcr.seqno is not null and dcr.case_id = dc.id
+        where dcr.delete_flag = 0 and dcr.seqno is not null
         and dcr.id = #{id}
     </select>
 
@@ -47,7 +47,7 @@
         dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName,dcr.file_uuid as fileUuid
         from
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
-        where dcr.delete_flag = 0 and dcr.seqno is not null and dcr.case_id = dc.id
+        where dcr.delete_flag = 0 and dcr.seqno is not null
         <if test="area != null and area!=''">
             AND dc.collect_area like CONCAT('%',#{area},'%')
         </if>

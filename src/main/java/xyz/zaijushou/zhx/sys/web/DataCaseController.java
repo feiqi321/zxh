@@ -597,15 +597,15 @@ public class DataCaseController {
         StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
-            if(existCaseMap.containsKey(entity.getSeqNo())) {
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getCardNo()+"@"+dataCaseEntities.get(i).getCaseDate(),DataCaseEntity.class);
-                if (dataCaseEntity==null){
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件不存在，请修改后重新上传");
-                }else{
-                    dataCaseEntities.get(i).setSeqNo(dataCaseEntity.getSeqNo());
-                    dataCaseEntities.get(i).setId(dataCaseEntity.getId());
+            if (StringUtils.isNotEmpty(entity.getSeqNo())){
+                if(existCaseMap.containsKey(entity.getSeqNo())) {
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件已存在，请修改后重新上传");
                 }
-
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getCardNo()+"@"+dataCaseEntities.get(i).getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件已存在，请修改后重新上传");
+                }
             }
             dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
             succesLines =succesLines+1;
