@@ -939,8 +939,8 @@ public class DataCaseController {
     @ApiOperation(value = "修改催收小结", notes = "修改催收小结")
     @PostMapping("/dataCase/updateCollectInfo")
     public Object updateCollectInfo(@RequestBody DataCaseEntity dataCaseEntity) {
-        List<DataCaseEntity> list = dataCaseService.listSynergy(dataCaseEntity);
-        return WebResponse.success(list);
+        dataCaseService.updateCollectInfo(dataCaseEntity);
+        return WebResponse.success();
     }
 
 

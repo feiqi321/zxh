@@ -113,4 +113,6 @@ public interface DataCaseService {
     public List<DataCaseEntity> listSynergy(DataCaseEntity dataCaseEntity);
 
     public List<DataCaseEntity> listByBatchNos(String[] batchNos);
+
+    public void updateCollectInfo(DataCaseEntity dataCaseEntity);
 }

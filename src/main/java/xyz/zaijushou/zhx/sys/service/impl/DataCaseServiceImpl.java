@@ -1986,4 +1986,9 @@ public class DataCaseServiceImpl implements DataCaseService {
         return list;
     }
 
+
+    public void updateCollectInfo(DataCaseEntity dataCaseEntity){
+        dataCaseMapper.updateCollectInfo(dataCaseEntity);
+    }
+
 }

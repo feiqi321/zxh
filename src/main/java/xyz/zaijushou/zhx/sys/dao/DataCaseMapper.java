@@ -116,4 +116,6 @@ public interface DataCaseMapper {
     void updateRepayMoney(DataCaseEntity dataCaseEntity);
 
     void updateCpMoney(DataCaseEntity dataCaseEntity);
+
+    void updateCollectInfo(DataCaseEntity dataCaseEntity);
 }
