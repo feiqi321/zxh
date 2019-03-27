@@ -428,8 +428,8 @@ public class DataCaseController {
                 }
 
             }
-            if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
+            if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo()) || (StringUtils.isEmpty(dataCaseEntities.get(i).getCardNo()) &&  StringUtils.isEmpty(dataCaseEntities.get(i).getCaseDate()))) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
             }
             if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getAccountAge())){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getAccountAge(),SysDictionaryEntity.class);
@@ -469,8 +469,6 @@ public class DataCaseController {
                     dataCaseEntities.get(i).setSeqNo(dataCaseEntity.getSeqNo());
                     dataCaseEntities.get(i).setId(dataCaseEntity.getId());
                 }
-
-
             }
             dataCaseEntities.get(i).setId(existCaseMap.get(entity.getSeqNo()).getId());
             succesLines = succesLines+1;
@@ -555,8 +553,8 @@ public class DataCaseController {
                 }
 
             }
-            if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo())) {
-                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
+            if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo()) || (StringUtils.isEmpty(dataCaseEntities.get(i).getCardNo()) &&  StringUtils.isEmpty(dataCaseEntities.get(i).getCaseDate()))) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
             if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getAccountAge())){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getAccountAge(),SysDictionaryEntity.class);
