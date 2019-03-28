@@ -68,6 +68,11 @@ public class DataCollectionTelController {
             operationLog.setUserId(userId);
             sysOperationLogService.insertRequest(operationLog);
             ExcelUtils.exportTempleteDay(response,list,realname);
+        }else{
+            String fileName = new String(("day-export").getBytes(), "ISO8859_1");
+            String realname = fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            List<StatisticReturn>  list = new ArrayList<StatisticReturn>();
+            ExcelUtils.exportTempleteDay(response,list,realname);
         }
 
         return null;
