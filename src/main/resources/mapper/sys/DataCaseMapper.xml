@@ -2093,7 +2093,7 @@
 
     <update id="updateDataCaseByCollectAdd" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set new_case=#{newCase},collect_status=#{collectStatus},summary=#{summary},
-        collect_times=collect_times+1
+        collect_times=collect_times+1,pro_repay_amt = #{proRepayAmt},pro_repay_date = #{proRepayDate}
          where id=#{id}
     </update>
 

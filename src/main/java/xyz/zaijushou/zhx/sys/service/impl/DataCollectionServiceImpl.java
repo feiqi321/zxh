@@ -100,6 +100,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
         dataCaseEntity.setSummary(beanInfo.getResult());
         dataCaseEntity.setCollectStatus(beanInfo.getCollectStatus());
+        dataCaseEntity.setProRepayAmt(beanInfo.getRepayAmt());
+        dataCaseEntity.setProRepayDate(beanInfo.getRepayTime());
         caseMapper.updateDataCaseByCollectAdd(dataCaseEntity);
     }
 
