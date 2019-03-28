@@ -8,6 +8,7 @@ import xyz.zaijushou.zhx.sys.dao.SysOperationLogMapper;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogTypeEntity;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,6 +21,9 @@ public class SysOperationLogServiceImpl implements SysOperationLogService {
 
     @Override
     public void insertRequest(SysOperationLogEntity operationLog) {
+        if (StringUtils.isEmpty(operationLog.getUrl())){
+            operationLog.setUrl("/import");
+        }
         operationLogMapper.insertRequest(operationLog);
     }
 
