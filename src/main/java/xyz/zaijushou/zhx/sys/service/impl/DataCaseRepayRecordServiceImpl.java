@@ -119,6 +119,12 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRepayType().getId(),SysDictionaryEntity.class);
                 temp.getRepayType().setName(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
+            if (temp.getRemark()==null){
+                temp.setRemark("");
+            }else{
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
+                temp.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            }
             if (temp.getCollectUser()==null){
                 SysNewUserEntity bean =  new SysNewUserEntity();
                 bean.setUserName("");
