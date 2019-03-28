@@ -1688,7 +1688,7 @@
         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,DATE_FORMAT(da.distribute_time,'%Y-%m-%d') as distributeTime,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
         da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,da.area,da.collect_result as collectInfo,
-        da.collect_times as collectTimes,da.odv as 'collectionUser.id',
+        da.collect_times as collectTimes,da.odv as 'collectionUser.id'
         from data_case da
         <where>
             da.delete_flag=0
