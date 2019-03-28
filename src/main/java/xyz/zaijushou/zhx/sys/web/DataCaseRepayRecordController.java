@@ -216,6 +216,15 @@ public class DataCaseRepayRecordController {
             } else {
                 entity.setSettleFlag("未结清");
             }
+            if (entity.getRepayType()!=null && StringUtils.isNotEmpty(entity.getRepayType().getName())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType().getName(),SysDictionaryEntity.class);
+                entity.setRepayType(sysDictionaryEntity);
+            }
+            if (StringUtils.isNotEmpty(entity.getRemark())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRemark(),SysDictionaryEntity.class);
+                entity.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getId()+"");
+            }
+
             entity.setConfirmUser(confirmUser);
             entity.setCreateUser(user);
             entity.setUpdateUser(user);

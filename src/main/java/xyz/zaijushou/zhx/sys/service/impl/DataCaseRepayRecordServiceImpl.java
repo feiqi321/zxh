@@ -295,6 +295,16 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
                 entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
             }
+            if (entity.getRepayType()!=null && entity.getRepayType().getId()!=null){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType().getId(),SysDictionaryEntity.class);
+                entity.setRepayType(sysDictionaryEntity);
+            }
+            if (StringUtils.isNotEmpty(entity.getRemark())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRemark(),SysDictionaryEntity.class);
+                entity.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            }
+
+
         }
         return list;
     }
