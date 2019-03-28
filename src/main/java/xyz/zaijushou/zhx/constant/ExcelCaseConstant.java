@@ -416,7 +416,7 @@ public class ExcelCaseConstant {
         COL270(270, "催收员ID", "collectionUser.id", SysNewUserEntity.class, Integer.class),
         COL280(280, "催收员部门", "dept", String.class),
         COL290(290, "催收区域", "collectArea", String.class),
-        COL300(300, "催收小结", "summary", String.class),
+        COL300(300, "催收小结", "collectInfo", String.class),
         COL310(310, "最后通电", "lastCall", String.class),
         COL320(320, "已还款", "repayMoney", BigDecimal.class),
         COL330(330, "分配历史", "distributeHistory", String.class),

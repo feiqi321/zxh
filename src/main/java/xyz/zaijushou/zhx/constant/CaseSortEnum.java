@@ -27,7 +27,8 @@ public enum CaseSortEnum {
     COLUMN20("accountAge","da.account_age"),
     COLUMN21("distributeHistory","da.distribute_history"),
     COLUMN22("summary","da.summary"),
-    COLUMN23("area","da.area")
+    COLUMN23("area","da.area"),
+    COLUMN24("collectInfo","da.collect_result"),
     ;
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;
