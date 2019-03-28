@@ -104,6 +104,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 temp.getDataCase().setEnRepayAmtMsg(temp.getDataCase()==null?"":(temp.getDataCase().getEnRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getEnRepayAmt()+"")));
                 temp.getDataCase().setCommissionMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getCommissionMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getCommissionMoney()+"")));
                 temp.getDataCase().setBalanceMsg(temp.getDataCase()==null?"":(temp.getDataCase().getBalance()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getBalance()+"")));
+                temp.setRepayMoneyMsg(temp.getRepayMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayMoney()+""));
             }
             if (temp.getBankReconciliation()==null){
                 DataCaseBankReconciliationEntity bean =  new DataCaseBankReconciliationEntity();
