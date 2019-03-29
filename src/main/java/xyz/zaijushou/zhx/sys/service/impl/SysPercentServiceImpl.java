@@ -31,9 +31,9 @@ public class SysPercentServiceImpl implements SysPercentService {
             SysPercent sysPercent = list.get(i);
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+sysPercent.getClient(),SysDictionaryEntity.class);
             sysPercent.setClientMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-            if (sysPercent.getEnable()==1){
+            if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1){
                 sysPercent.setEnableMsg("是");
-            }else if (sysPercent.getEnable()==2) {
+            }else if (sysPercent.getEnable()!=null && sysPercent.getEnable()==2) {
                 sysPercent.setEnableMsg("否");
             }
             list.set(i,sysPercent);
