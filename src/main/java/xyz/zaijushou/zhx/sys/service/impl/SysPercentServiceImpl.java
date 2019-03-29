@@ -36,7 +36,7 @@ public class SysPercentServiceImpl implements SysPercentService {
             }else if (sysPercent.getEnable()!=null && sysPercent.getEnable()==2) {
                 sysPercent.setEnableMsg("否");
             }else{
-                sysPercent.setEnable(1);
+                sysPercent.setEnable(2);
                 sysPercent.setEnableMsg("否");
             }
             list.set(i,sysPercent);
