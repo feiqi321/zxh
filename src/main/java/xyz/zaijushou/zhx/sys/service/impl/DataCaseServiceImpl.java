@@ -943,7 +943,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     dataCaseTelEntity.setIdentNo(contact.getIdentNo());
                     dataCaseTelEntity.setRelation(contact.getRelation());
                     dataCaseTelEntity.setTel(contact.getMobile());
-                    dataCaseTelEntity.setTelStatusMsg("有效");
+                    dataCaseTelEntity.setTelStatusMsg("未知");
                     dataCaseTelMapper.saveTel(dataCaseTelEntity);
                 }
             }
