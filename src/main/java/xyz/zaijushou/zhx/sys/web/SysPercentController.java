@@ -27,13 +27,13 @@ public class SysPercentController {
         String reg = "\\d+(\\.\\d+)?";
         for (int i=0;i<list.size();i++){
             SysPercent sysPercent = list.get(i);
-            if (sysPercent.getOdvLowMsg()!=null){
+            if (sysPercent.getOdvLowMsg()!=null ){
                 if (sysPercent.getOdvLowMsg().equals("-")){
                     sysPercent.setOdvLow(new BigDecimal(0));
                     sysPercent.setOdvReward(sysPercent.getOdvBasic());
                 }else if (sysPercent.getOdvLowMsg().matches(reg)){
                     sysPercent.setOdvLow(sysPercent.getOdvLowMsg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvLowMsg()));
-                    if (sysPercent.getOdvLow().compareTo(new BigDecimal("1"))<=0){
+                    if (sysPercent.getOdvLow().compareTo(new BigDecimal(0))>0 && sysPercent.getOdvLow().compareTo(new BigDecimal("1"))<=0){
                         return WebResponse.error( "500","低标金额必须大于1");
                     }
                 }else{
