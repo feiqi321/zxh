@@ -19,6 +19,8 @@ public class SysPercent extends CommonEntity {
 
     private BigDecimal odvLow;
 
+    private String odvLowMsg;
+
     private BigDecimal odvBasic;
 
     private BigDecimal odvReward;
@@ -28,6 +30,14 @@ public class SysPercent extends CommonEntity {
     private BigDecimal manageReward;
 
     private String manageRemark;
+
+    public String getOdvLowMsg() {
+        return odvLowMsg;
+    }
+
+    public void setOdvLowMsg(String odvLowMsg) {
+        this.odvLowMsg = odvLowMsg;
+    }
 
     public String getClientMsg() {
         return clientMsg;

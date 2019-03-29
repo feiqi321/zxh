@@ -10,27 +10,27 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         replace  into sys_percent
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="client != null">client,</if>
-            <if test="enable != null">enable,</if>
-            <if test="odvLow != null">odv_low,</if>
-            <if test="odvBasic != null">odv_basic,</if>
-            <if test="odvReward != null">odv_reward,</if>
-            <if test="odvRemark != null">odv_remark,</if>
-            <if test="manageReward != null">manage_reward,</if>
-            <if test="manageRemark != null">manage_remark,</if>
-        </trim>
+        (
+            client,
+            enable,
+            odv_low,
+            odv_basic,
+            odv_reward,
+            odv_remark,
+            manage_reward,
+            manage_remark
+        )
         values
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="client != null">#{client},</if>
-            <if test="enable != null">#{enable},</if>
-            <if test="odvLow != null">#{odvLow},</if>
-            <if test="odvBasic != null">#{odvBasic},</if>
-            <if test="odvReward != null">#{odvReward},</if>
-            <if test="odvRemark != null">#{odvRemark},</if>
-            <if test="manageReward != null">#{manageReward},</if>
-            <if test="manageRemark != null">#{manageRemark},</if>
-        </trim>
+        <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+                #{reddemCode.client},
+                #{reddemCode.enable},
+                #{reddemCode.odvLow},
+                #{reddemCode.odvBasic},
+                #{reddemCode.odvReward},
+                #{reddemCode.odvRemark},
+                #{reddemCode.manageReward},
+                #{reddemCode.manageRemark}
+        </foreach >
     </insert>
 
 

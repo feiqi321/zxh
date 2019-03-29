@@ -7,8 +7,10 @@ import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysPercent;
 import xyz.zaijushou.zhx.sys.service.SysPercentService;
 import xyz.zaijushou.zhx.utils.RedisUtils;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -21,6 +23,16 @@ public class SysPercentServiceImpl implements SysPercentService {
     private SysPercentMapper sysPercentMapper;
 
     public void updatePercent(List<SysPercent> list){
+
+        for (int i=0;i<list.size();i++){
+            SysPercent sysPercent = list.get(i);
+            if (sysPercent.getOdvLowMsg().equals("-")){
+                sysPercent.setOdvLow(new BigDecimal(0));
+                sysPercent.setOdvReward(sysPercent.getOdvBasic());
+            }
+            list.set(i,sysPercent);
+        }
+
         sysPercentMapper.updatePercent(list);
     }
 
@@ -38,6 +50,9 @@ public class SysPercentServiceImpl implements SysPercentService {
             }else{
                 sysPercent.setEnable(2);
                 sysPercent.setEnableMsg("否");
+            }
+            if (StringUtils.isEmpty(sysPercent.getOdvLow())){
+                sysPercent.setOdvLowMsg("-");
             }
             list.set(i,sysPercent);
         }
