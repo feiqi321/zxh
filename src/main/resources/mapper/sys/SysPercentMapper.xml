@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.SysPercentMapper">
+
+    <!--插入数据信息-->
+    <insert id="updatePercent" parameterType="xyz.zaijushou.zhx.sys.entity.SysPercent" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        replace  into sys_percent
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="client != null">client,</if>
+            <if test="enable != null">enable,</if>
+            <if test="odvLow != null">odv_low,</if>
+            <if test="odvBasic != null">odv_basic,</if>
+            <if test="odvReward != null">odv_reward,</if>
+            <if test="odvRemark != null">odv_remark,</if>
+            <if test="manageReward != null">manage_reward,</if>
+            <if test="manageRemark != null">manage_remark,</if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="client != null">#{client},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="odvLow != null">#{odvLow},</if>
+            <if test="odvBasic != null">#{odvBasic},</if>
+            <if test="odvReward != null">#{odvReward},</if>
+            <if test="odvRemark != null">#{odvRemark},</if>
+            <if test="manageReward != null">#{manageReward},</if>
+            <if test="manageRemark != null">#{manageRemark},</if>
+        </trim>
+    </insert>
+
+
+    <select id="listPencent" resultType="xyz.zaijushou.zhx.sys.entity.SysPercent">
+        select
+        t.id,d.id as client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.odv_remark as odvRemark,t.manage_reward as manageReward,t.manage_remark as manageRemark
+        from sys_percent t right JOIN  (select id,name from sys_data_dictionary where dictionary_id = 5 and delete_flag=0) d
+        on t.client = d.id
+    </select>
+</mapper>
