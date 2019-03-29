@@ -24,17 +24,6 @@ public class SysPercentServiceImpl implements SysPercentService {
 
     public void updatePercent(List<SysPercent> list){
 
-        for (int i=0;i<list.size();i++){
-            SysPercent sysPercent = list.get(i);
-            if (sysPercent.getOdvLowMsg()!=null && sysPercent.getOdvLowMsg().equals("-")){
-                sysPercent.setOdvLow(new BigDecimal(0));
-                sysPercent.setOdvReward(sysPercent.getOdvBasic());
-            }else{
-                sysPercent.setOdvLow(sysPercent.getOdvLowMsg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvLowMsg()));
-            }
-            list.set(i,sysPercent);
-        }
-
         sysPercentMapper.updatePercent(list);
     }
 
