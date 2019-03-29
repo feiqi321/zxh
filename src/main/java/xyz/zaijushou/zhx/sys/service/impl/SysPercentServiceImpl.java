@@ -54,7 +54,9 @@ public class SysPercentServiceImpl implements SysPercentService {
                 sysPercent.setEnableMsg("否");
             }
             if (StringUtils.isEmpty(sysPercent.getOdvLow())){
-                sysPercent.setOdvLowMsg("-");
+                sysPercent.setOdvLowMsg("");
+            }else{
+                sysPercent.setOdvLowMsg(sysPercent.getOdvLow().toString());
             }
             list.set(i,sysPercent);
         }
