@@ -1,10 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
-import xyz.zaijushou.zhx.sys.entity.SysToRoleButton;
-import xyz.zaijushou.zhx.sys.entity.SysToRoleMenu;
+import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.util.List;
 
@@ -44,4 +41,6 @@ public interface SysRoleMapper {
     int countDataAuthRole(SysNewUserEntity userEntity);
 
     int countBusiAuthRole(SysNewUserEntity userEntity);
+
+    List<SysRoleEntity> listRoleByUserId(SysUserEntity userEntity);
 }

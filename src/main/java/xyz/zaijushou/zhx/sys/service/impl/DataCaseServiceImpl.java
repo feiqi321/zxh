@@ -64,7 +64,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private DataCaseSynergisticMapper dataCaseSynergisticMapper;
     @Resource
     private SysUserMapper sysUserMapper;
-
+    @Resource
+    private SysRoleMapper sysRoleMapper;
     @Resource
     private SysPercentMapper sysPercentMapper;
 
@@ -138,9 +139,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
         dataCaseTelMapper.deleteTel(dataCaseTelEntity);
         dataCaseMapper.deleteById(dataCaseEntity.getId());
-
-        //修改批次信息
         DataCaseEntity updateBatchEntity = dataCaseMapper.findById(dataCaseEntity);
+        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + updateBatchEntity.getSeqNo());
+        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE+updateBatchEntity.getCardNo()+"@"+updateBatchEntity.getCaseDate());
+        //修改批次信息
+
         DataBatchEntity dataBatchEntity = new DataBatchEntity();
         dataBatchEntity.setBatchNo(updateBatchEntity.getBatchNo());
         SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -1429,7 +1432,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseDetail.setCurrentuser(false);
         SysUserEntity curentuser = getUserInfo();
         int role = 0;
-        List<SysRoleEntity> roleList = curentuser.getRoles();
+        List<SysRoleEntity> roleList = sysRoleMapper.listRoleByUserId(curentuser);
         for (int i=0;i<roleList.size();i++){
             SysRoleEntity sysRoleEntity = roleList.get(i);
             if (sysRoleEntity.getId()==4){

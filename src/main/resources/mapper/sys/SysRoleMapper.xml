@@ -98,6 +98,13 @@
 
     </select>
 
+    <select id="listRoleByUserId" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+        select
+        <include refid="colSql"/>
+        from sys_role where id in (select role_id from sys_user_role where user_id  =#{id})
+
+    </select>
+
     <insert id="saveRole" parameterType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()
