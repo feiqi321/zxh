@@ -22,6 +22,7 @@
         )
         values
         <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+            (
                 #{reddemCode.client},
                 #{reddemCode.enable},
                 #{reddemCode.odvLow},
@@ -30,6 +31,7 @@
                 #{reddemCode.odvRemark},
                 #{reddemCode.manageReward},
                 #{reddemCode.manageRemark}
+            )
         </foreach >
     </insert>
 
