@@ -65,6 +65,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Resource
     private SysUserMapper sysUserMapper;
 
+    @Resource
+    private SysPercentMapper sysPercentMapper;
+
     @Override
     public void save(DataCaseEntity dataCaseEntity){
         String address = "";
@@ -1425,6 +1428,52 @@ public class DataCaseServiceImpl implements DataCaseService {
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
         dataCaseDetail.setCurrentuser(false);
         SysUserEntity curentuser = getUserInfo();
+        int role = 0;
+        List<SysRoleEntity> roleList = curentuser.getRoles();
+        for (int i=0;i<roleList.size();i++){
+            SysRoleEntity sysRoleEntity = roleList.get(i);
+            if (sysRoleEntity.getId()==4){
+                role = 4;
+                break;
+            }
+            if (sysRoleEntity.getId()==9){
+                role = 9;
+                break;
+            }
+        }
+        SysPercent sysPercent = new SysPercent();
+        sysPercent.setClient(dataCaseDetail.getClient()==null?0:Integer.parseInt(dataCaseDetail.getClient()));
+        sysPercent = sysPercentMapper.findByClient(sysPercent);
+
+        BigDecimal cuMoney = dataCaseDetail.getMoney()==null?new BigDecimal(0):dataCaseDetail.getMoney();
+        if (role==4){//当前用户是催收员
+            if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
+                dataCaseDetail.setPrePercent(cuMoney.multiply(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic()) + "（基础提成）/" + cuMoney.multiply(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward()) + "（奖励提成）");
+                if (sysPercent.getOdvLow()==null || sysPercent.getOdvLow().compareTo(new BigDecimal(0))==0){
+                    dataCaseDetail.setPrePercentTips("本月累计还款金额低于1万时，无提成；不低于1万时，按照奖励提成"+(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward()).multiply(new BigDecimal(100))+"%计算");
+                }else{
+                    dataCaseDetail.setPrePercentTips("本月累计还款金额低于1万时，无提成；不低于1万且低于"+sysPercent.getOdvLow()+"时，按照基础提成"+(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic()).multiply(new BigDecimal(100))+"%计算；不低于"+sysPercent.getOdvLow()+"万时，按照奖励提成"+sysPercent.getOdvReward().multiply(new BigDecimal(100))+"%计算");
+                }
+            }else{
+                dataCaseDetail.setPrePercent("-");
+                dataCaseDetail.setPrePercentTips(sysPercent.getOdvRemark());
+            }
+
+        }else if(role == 9){//当前用户是经理
+            if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
+                dataCaseDetail.setPrePercent(cuMoney.multiply(sysPercent.getOdvBasic())+"");
+                dataCaseDetail.setPrePercentTips("按照奖励提成"+(sysPercent.getManageReward()==null?new BigDecimal(0):sysPercent.getManageReward()).multiply(new BigDecimal(100))+"%计算");
+            }else{
+                dataCaseDetail.setPrePercent("-");
+                dataCaseDetail.setPrePercentTips(sysPercent.getManageRemark());
+            }
+        }else{//既不是催收员也不是经理
+            dataCaseDetail.setPrePercent("");
+            dataCaseDetail.setPrePercentTips("");
+        }
+
+
+
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !(curentuser.getId()+"").equals(dataCaseDetail.getOdv())){
             SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
             sysNewUserEntity.setId(curentuser.getId());
@@ -1463,6 +1512,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseDetail.setInterestDate("");
         }
+
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
         dataCaseTelEntity.setCaseId(bean.getId());

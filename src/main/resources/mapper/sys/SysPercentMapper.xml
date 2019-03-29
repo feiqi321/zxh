@@ -42,4 +42,10 @@
         from sys_percent t right JOIN  (select id,name from sys_data_dictionary where dictionary_id = 5 and delete_flag=0) d
         on t.client = d.id
     </select>
+
+    <select id="findByClient" parameterType="xyz.zaijushou.zhx.sys.entity.SysPercent"   resultType="xyz.zaijushou.zhx.sys.entity.SysPercent">
+        select
+        t.id,t.client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.odv_remark as odvRemark,t.manage_reward as manageReward,t.manage_remark as manageRemark
+        from sys_percent t where t.client = #{client}
+    </select>
 </mapper>

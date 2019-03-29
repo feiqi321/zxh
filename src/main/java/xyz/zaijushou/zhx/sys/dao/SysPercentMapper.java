@@ -15,4 +15,6 @@ public interface SysPercentMapper {
 
     public List<SysPercent> listPencent();
 
+    public SysPercent findByClient(SysPercent bean);
+
 }

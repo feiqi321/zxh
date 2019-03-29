@@ -229,6 +229,26 @@ public class DataCaseDetail {
 
     private String interestDate; //利息导入时间
 
+    private String prePercent;//预计提成金额
+
+    private String prePercentTips;//预计提成金额 提示
+
+    public String getPrePercentTips() {
+        return prePercentTips;
+    }
+
+    public void setPrePercentTips(String prePercentTips) {
+        this.prePercentTips = prePercentTips;
+    }
+
+    public String getPrePercent() {
+        return prePercent;
+    }
+
+    public void setPrePercent(String prePercent) {
+        this.prePercent = prePercent;
+    }
+
     public String getInterestDate() {
         return interestDate;
     }
