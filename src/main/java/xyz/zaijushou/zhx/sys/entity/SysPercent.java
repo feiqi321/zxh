@@ -11,7 +11,11 @@ public class SysPercent extends CommonEntity {
 
     private Integer client;
 
+    private String clientMsg;
+
     private Integer enable;
+
+    private String enableMsg;
 
     private BigDecimal odvLow;
 
@@ -24,6 +28,22 @@ public class SysPercent extends CommonEntity {
     private BigDecimal manageReward;
 
     private String manageRemark;
+
+    public String getClientMsg() {
+        return clientMsg;
+    }
+
+    public void setClientMsg(String clientMsg) {
+        this.clientMsg = clientMsg;
+    }
+
+    public String getEnableMsg() {
+        return enableMsg;
+    }
+
+    public void setEnableMsg(String enableMsg) {
+        this.enableMsg = enableMsg;
+    }
 
     public Integer getClient() {
         return client;
