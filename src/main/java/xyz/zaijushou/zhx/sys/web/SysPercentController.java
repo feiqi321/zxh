@@ -33,6 +33,9 @@ public class SysPercentController {
                     sysPercent.setOdvReward(sysPercent.getOdvBasic());
                 }else if (sysPercent.getOdvLowMsg().matches(reg)){
                     sysPercent.setOdvLow(sysPercent.getOdvLowMsg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvLowMsg()));
+                    if (sysPercent.getOdvLow().compareTo(new BigDecimal("1"))<=0){
+                        return WebResponse.error( "500","低标金额必须大于1");
+                    }
                 }else{
                     return WebResponse.error( "500","低标格式不对");
                 }
