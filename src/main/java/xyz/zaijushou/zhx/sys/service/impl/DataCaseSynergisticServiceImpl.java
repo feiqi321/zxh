@@ -128,6 +128,13 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
                 entity.setSynergisticUser(sysNewUserEntity);
             }
 
+            if (entity.getApplyContent()==null){
+
+            }else{
+                SysDictionaryEntity contextEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
+                entity.setApplyContent(contextEntity==null?"":contextEntity.getName());
+            }
+
             if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
                 entity.setStatusMsg("待审核");
             }else if ("1".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
