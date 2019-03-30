@@ -128,7 +128,7 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
                 entity.setSynergisticUser(sysNewUserEntity);
             }
 
-            if (entity.getApplyContent()==null){
+            if (StringUtils.isEmpty(entity.getApplyContent())){
 
             }else{
                 SysDictionaryEntity contextEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
