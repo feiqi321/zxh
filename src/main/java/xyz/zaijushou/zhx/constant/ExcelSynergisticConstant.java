@@ -95,11 +95,11 @@ public class ExcelSynergisticConstant {
     }
 
     public enum FinishedSynergisticImport implements ExcelEnum{
-        COL10(10, "ID", "id", Integer.class),
+        COL10(10, "*协催ID", "id", Integer.class),
         COL20(20, "申请内容", "applyContent", String.class),
         COL30(30, "协催结果", "synergisticResult", String.class),
         COL40(40, "协催时间", "synergisticTime", Date.class),
-        COL50(50, "协催人", "synergisticUser.userName", SysUserEntity.class, String.class),
+        COL50(50, "协催人", "synergisticUser.userName", SysNewUserEntity.class, String.class),
         ;
 
         private Integer sort;
@@ -151,13 +151,13 @@ public class ExcelSynergisticConstant {
     }
 
     public enum SynergisticRecordImport implements ExcelEnum{
-        COL10(10, "卡号", "dataCase.cardNo", DataCaseEntity.class, String.class),
-        COL20(20, "证件号", "dataCase.identNo", DataCaseEntity.class, String.class),
-        COL30(30, "委案日期", "dataCase.caseDate", DataCaseEntity.class, Date.class),
+        COL10(10, "*卡号", "dataCase.cardNo", DataCaseEntity.class, String.class),
+        COL20(20, "*证件号", "dataCase.identNo", DataCaseEntity.class, String.class),
+        COL30(30, "*委案日期", "dataCase.caseDate", DataCaseEntity.class, String.class),
         COL40(40, "申请内容", "applyContent", String.class),
         COL50(50, "协催结果", "synergisticResult", String.class),
         COL60(60, "协催时间", "synergisticTime", Date.class),
-        COL70(70, "协催人", "synergisticUser.userName", SysUserEntity.class, String.class),
+        COL70(70, "协催人", "synergisticUser.userName", SysNewUserEntity.class, String.class),
         ;
 
         private Integer sort;

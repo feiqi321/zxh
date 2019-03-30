@@ -207,11 +207,10 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         for (int i=0;i<list.size();i++){
             DataCaseBankReconciliationEntity temp = list.get(i);
             temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
-            if (temp.getRepayType()!=null && temp.getRepayType().equals("10")){
-                temp.setRepayType("代扣卡");
-            }else if (temp.getRepayType()!=null && temp.getRepayType().equals("20")){
-                temp.setRepayType("对公还款");
-            }
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRepayType(),SysDictionaryEntity.class);
+            temp.setRepayType(sysDictionaryEntity.getName());
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
+            temp.setRemark(sysDictionaryEntity2.getName());
             temp.setConfirmMoneyMsg("￥0.00");
             list.set(i,temp);
         }

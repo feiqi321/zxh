@@ -305,15 +305,15 @@
         </if>
         synergistic_time = #{synergisticTime},
         synergistic_apply_status = #{applyStatus},
-        synergistic_finish_status = {finishStatus},
+        synergistic_finish_status = #{finishStatus}
         where id = #{id} and delete_flag = 0
     </update>
 
     <update id="updateInfoByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
         update data_case_synergistic
         set
-        <if test="synergisticContent != null and synergisticContent != ''">
-            synergistic_content = #{synergisticContent},
+        <if test="applyContent != null and applyContent != ''">
+            apply_content = #{applyContent},
         </if>
         synergistic_result = #{synergisticResult},
         <if test="synergisticUser != null and synergisticUser.id != null">
@@ -321,8 +321,8 @@
         </if>
         synergistic_time = #{synergisticTime},
         synergistic_apply_status = #{applyStatus},
-        synergistic_finish_status = {finishStatus},
-        where data_case #{dataCase.id} and delete_flag = 0
+        synergistic_finish_status = #{finishStatus}
+        where case_id = #{dataCase.id} and delete_flag = 0
     </update>
 
     <!--插入数据信息-->
