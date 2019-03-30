@@ -377,6 +377,16 @@ public class DataCaseSynergisticController {
             if(synergisticList.get(i).getSynergisticUser() != null && StringUtils.isNotEmpty(synergisticList.get(i).getSynergisticUser().getUserName()) ) {
                 userNamesSet.add(synergisticList.get(i).getSynergisticUser().getUserName());
             }
+
+            if (StringUtils.isNotEmpty(entity.getApplyContent())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
+                if (sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行申请内容值"+entity.getApplyContent()+"不在枚举配置中，并检查excel的申请内容是否均填写正确");
+                }else{
+                    synergisticList.get(i).setApplyContent(sysDictionaryEntity.getId()+"");
+                }
+            }
+
         }
         for(Map.Entry<String, Integer> entry : redisKeyCountMap.entrySet()) {
             if(entry.getValue() > 1) {
@@ -415,6 +425,7 @@ public class DataCaseSynergisticController {
             } else {
                 entity.setSynergisticUser(uploadUserMap.get(entity.getSynergisticUser().getUserName()));
             }
+
             entity.setApplyStatus("1");
             entity.setFinishStatus("1");
         }
