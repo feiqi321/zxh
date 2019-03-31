@@ -326,6 +326,39 @@
     </update>
 
     <!--插入数据信息-->
+    <insert id="saveBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert  into data_case_synergistic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
+            <if test="applyContent != null">apply_content,</if>
+            <if test="synergisticResult != null">synergistic_result,</if>
+            <if test="synergisticUser != null and synergisticUser.id != null">synergistic_user,</if>
+            synergistic_time,
+            synergistic_apply_status,
+            synergistic_finish_status,
+            delete_flag,
+            create_time,
+        </trim>
+        values
+        <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="caseId != null">#{caseId},</if>
+                <if test="applyContent !=  null">#{applyContent},</if>
+                <if test="synergisticResult != null">#{synergisticResult},</if>
+                <if test="synergisticUser != null and snyergisticUser.id != null">#{synergisticUser.id},</if>
+                #{synergisticTime},
+                #{applyStatus},
+                #{finishStatus}
+                0,
+                now(),
+            </trim>
+        </foreach >
+    </insert>
+
+    <!--插入数据信息-->
     <insert id="saveApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity" >
         <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
             SELECT LAST_INSERT_ID()

@@ -29,4 +29,6 @@ public interface DataCaseSynergisticService {
     void updateInfo(DataCaseSynergisticEntity entity);
 
     void updateInfoByCaseId(DataCaseSynergisticEntity entity);
+
+    void saveBatch(List<DataCaseSynergisticEntity> synergisticList);
 }

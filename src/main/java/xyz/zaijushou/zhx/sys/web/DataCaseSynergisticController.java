@@ -437,9 +437,10 @@ public class DataCaseSynergisticController {
             entity.setApplyStatus("1");
             entity.setFinishStatus("1");
         }
-        for(DataCaseSynergisticEntity entity : synergisticList) {
+      /*  for(DataCaseSynergisticEntity entity : synergisticList) {
             dataCaseSynergisticService.updateInfoByCaseId(entity);
-        }
+        }*/
+        dataCaseSynergisticService.saveBatch(synergisticList);
 
         return WebResponse.success();
     }

@@ -207,4 +207,9 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
     public void updateInfoByCaseId(DataCaseSynergisticEntity entity) {
         dataCaseSynergisticMapper.updateInfoByCaseId(entity);
     }
+
+    @Override
+    public void saveBatch(List<DataCaseSynergisticEntity> synergisticList){
+        dataCaseSynergisticMapper.saveBatch(synergisticList);
+    }
 }
