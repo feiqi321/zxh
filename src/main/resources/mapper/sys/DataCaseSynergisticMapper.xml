@@ -332,7 +332,7 @@
         </selectKey>
         insert  into data_case_synergistic
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="caseId != null">case_id,</if>
+            case_id,
             <if test="applyContent != null">apply_content,</if>
             <if test="synergisticResult != null">synergistic_result,</if>
             <if test="synergisticUser != null and synergisticUser.id != null">synergistic_user,</if>
@@ -345,7 +345,7 @@
         values
         <foreach collection ="list" item="reddemCode" index= "index" separator =",">
             <trim prefix="(" suffix=")" suffixOverrides=",">
-                <if test="caseId != null">#{caseId},</if>
+                #{dataCase.id},
                 <if test="applyContent !=  null">#{applyContent},</if>
                 <if test="synergisticResult != null">#{synergisticResult},</if>
                 <if test="synergisticUser != null and snyergisticUser.id != null">#{synergisticUser.id},</if>
