@@ -1526,7 +1526,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
         SysDictionaryEntity city = dataCaseDetail.getCity();
-        if (province==null){
+        if (city==null){
             city = new SysDictionaryEntity();
             dataCaseDetail.setCity(city);
         }else{
@@ -1535,7 +1535,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
         SysDictionaryEntity county = dataCaseDetail.getCounty();
-        if (province==null){
+        if (county==null){
             county = new SysDictionaryEntity();
             dataCaseDetail.setCounty(county);
         }else{
