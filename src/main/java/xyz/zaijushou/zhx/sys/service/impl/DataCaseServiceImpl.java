@@ -1516,6 +1516,33 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setInterestDate("");
         }
 
+        SysDictionaryEntity province = dataCaseDetail.getProvince();
+        if (province==null){
+            province = new SysDictionaryEntity();
+            dataCaseDetail.setProvince(province);
+        }else{
+            province = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ province.getId(), SysDictionaryEntity.class);
+            dataCaseDetail.setProvince(province);
+        }
+
+        SysDictionaryEntity city = dataCaseDetail.getCity();
+        if (province==null){
+            city = new SysDictionaryEntity();
+            dataCaseDetail.setCity(city);
+        }else{
+            city = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ city.getId(), SysDictionaryEntity.class);
+            dataCaseDetail.setCity(city);
+        }
+
+        SysDictionaryEntity county = dataCaseDetail.getCounty();
+        if (province==null){
+            county = new SysDictionaryEntity();
+            dataCaseDetail.setCounty(county);
+        }else{
+            county = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ county.getId(), SysDictionaryEntity.class);
+            dataCaseDetail.setCounty(county);
+        }
+
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
         dataCaseTelEntity.setCaseId(bean.getId());
