@@ -156,7 +156,7 @@ public class ExcelSynergisticConstant {
         COL30(30, "*委案日期", "dataCase.caseDate", DataCaseEntity.class, String.class),
         COL40(40, "申请内容", "applyContent", String.class),
         COL50(50, "协催结果", "synergisticResult", String.class),
-        COL60(60, "协催时间", "synergisticTime", Date.class),
+        COL60(60, "协催日期", "synergisticTime", Date.class),
         COL70(70, "协催人", "synergisticUser.userName", SysNewUserEntity.class, String.class),
         ;
 
