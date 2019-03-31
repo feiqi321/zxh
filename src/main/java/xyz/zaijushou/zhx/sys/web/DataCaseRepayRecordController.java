@@ -219,10 +219,16 @@ public class DataCaseRepayRecordController {
             }
             if (entity.getRepayType()!=null && StringUtils.isNotEmpty(entity.getRepayType().getName())){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType().getName(),SysDictionaryEntity.class);
+                if(sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "还款方式:" + entity.getRepayType() + "不在枚举中，请确认后重新上传");
+                }
                 entity.setRepayType(sysDictionaryEntity);
             }
             if (StringUtils.isNotEmpty(entity.getRemark())){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRemark(),SysDictionaryEntity.class);
+                if(sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "还款备注:" + entity.getRepayType() + "不在枚举中，请确认后重新上传");
+                }
                 entity.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getId()+"");
             }
 
