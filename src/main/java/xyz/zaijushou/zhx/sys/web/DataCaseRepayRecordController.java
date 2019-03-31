@@ -130,6 +130,7 @@ public class DataCaseRepayRecordController {
             return null;
         }
         List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecord(repayRecordEntity);
+
         ExcelUtils.exportExcel(
                 list,
                 ExcelRepayRecordConstant.RepayRecordExport.values(),
