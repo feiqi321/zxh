@@ -1519,6 +1519,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysDictionaryEntity province = dataCaseDetail.getProvince();
         if (province==null){
             province = new SysDictionaryEntity();
+            province.setName("");
             dataCaseDetail.setProvince(province);
         }else{
             province = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ province.getId(), SysDictionaryEntity.class);
@@ -1528,6 +1529,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysDictionaryEntity city = dataCaseDetail.getCity();
         if (city==null){
             city = new SysDictionaryEntity();
+            city.setName("");
             dataCaseDetail.setCity(city);
         }else{
             city = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ city.getId(), SysDictionaryEntity.class);
@@ -1537,6 +1539,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysDictionaryEntity county = dataCaseDetail.getCounty();
         if (county==null){
             county = new SysDictionaryEntity();
+            county.setName("");
             dataCaseDetail.setCounty(county);
         }else{
             county = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ county.getId(), SysDictionaryEntity.class);
