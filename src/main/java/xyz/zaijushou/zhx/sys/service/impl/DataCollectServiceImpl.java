@@ -321,6 +321,14 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user==null?"":user.getUserName());
 
+            if (temp.getCreateUser()==null){
+                SysUserEntity createUser = new SysUserEntity();
+                temp.setCreateUser(createUser);
+            }else {
+                SysUserEntity createUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + temp.getCreateUser().getId(), SysUserEntity.class);
+                temp.setCreateUser(createUser);
+            }
+
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
             temp.setTelType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
