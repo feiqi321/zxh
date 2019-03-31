@@ -62,6 +62,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 beanInfo.setCollectInfo(sysBean.getDescription());
             }
         }
+        SysUserEntity sysUserEntity = getUserInfo();
+        beanInfo.setCreateUser(sysUserEntity);
         SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getCollectStatus(),SysDictionaryEntity.class);
         dataCollectionMapper.saveCollection(beanInfo);
 
