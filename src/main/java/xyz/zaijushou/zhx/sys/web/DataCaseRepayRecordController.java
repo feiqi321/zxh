@@ -223,6 +223,9 @@ public class DataCaseRepayRecordController {
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "还款方式:" + entity.getRepayType().getName() + "不在枚举中，请确认后重新上传");
                 }
                 entity.setRepayType(sysDictionaryEntity);
+            }else{
+                SysDictionaryEntity sysDictionaryEntity = new SysDictionaryEntity();
+                entity.setRepayType(sysDictionaryEntity);
             }
             if (StringUtils.isNotEmpty(entity.getRemark())){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRemark(),SysDictionaryEntity.class);
