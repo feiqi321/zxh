@@ -113,8 +113,6 @@ public class DataCaseSynergisticController {
             if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
                 clientSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
             }
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
-            entity.setApplyContent(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             SysDictionaryEntity contextEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
             entity.setApplyContent(contextEntity==null?"":contextEntity.getName());
         }
@@ -170,8 +168,7 @@ public class DataCaseSynergisticController {
             if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
                 clientSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
             }
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
-            entity.setApplyContent(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+
             SysDictionaryEntity contextEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
             entity.setApplyContent(contextEntity==null?"":contextEntity.getName());
         }
@@ -246,8 +243,6 @@ public class DataCaseSynergisticController {
                 clientSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
             }
 
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
-            entity.setApplyContent(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             SysDictionaryEntity contextEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
             entity.setApplyContent(contextEntity==null?"":contextEntity.getName());
         }
