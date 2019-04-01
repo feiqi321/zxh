@@ -11,6 +11,8 @@ public interface LetterMapper {
 
     int insert(Letter record);
 
+    int batchInsert(List<Letter> list);
+
     int insertSelective(Letter record);
 
     void confirmSynergy(Letter record);

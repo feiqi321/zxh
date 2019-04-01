@@ -47,6 +47,25 @@
       #{synergyer,jdbcType=VARCHAR}, 0, #{createDate,jdbcType=INTEGER},
        #{module,jdbcType=VARCHAR},#{applyer,jdbcType=VARCHAR},#{relationer,jdbcType=VARCHAR},#{periods,jdbcType=VARCHAR},0)
   </insert>
+
+  <insert id="batchInsert" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
+    insert into letter (id, case_id, card_no,
+    ident_no, case_date, address, apply_date,
+    name, relation, address_type,
+    synergy_result, apply_context, synergy_date,
+    synergyer, delete_flag, create_date,module,applyer,relationer,periods,status)
+    values
+    <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+    (
+     #{reddemCode.id,jdbcType=INTEGER}, #{reddemCode.caseId,jdbcType=INTEGER}, #{reddemCode.cardNo,jdbcType=VARCHAR},
+    #{reddemCode.identNo,jdbcType=VARCHAR}, #{reddemCode.caseDate,jdbcType=VARCHAR}, #{reddemCode.address,jdbcType=VARCHAR}, #{reddemCode.applyDate,jdbcType=VARCHAR},
+    #{reddemCode.name,jdbcType=VARCHAR}, #{reddemCode.relation,jdbcType=VARCHAR}, #{reddemCode.addressType,jdbcType=VARCHAR},
+    #{reddemCode.synergyResult,jdbcType=VARCHAR}, #{reddemCode.applyContext,jdbcType=VARCHAR}, #{reddemCode.synergyDate,jdbcType=VARCHAR},
+    #{reddemCode.synergyer,jdbcType=VARCHAR}, 0, #{reddemCode.createDate,jdbcType=INTEGER},
+    #{reddemCode.module,jdbcType=VARCHAR},#{reddemCode.applyer,jdbcType=VARCHAR},#{reddemCode.relationer,jdbcType=VARCHAR},#{reddemCode.periods,jdbcType=VARCHAR},0
+      )
+    </foreach >
+  </insert>
   <insert id="insertSelective" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
     insert into letter
     <trim prefix="(" suffix=")" suffixOverrides="," >

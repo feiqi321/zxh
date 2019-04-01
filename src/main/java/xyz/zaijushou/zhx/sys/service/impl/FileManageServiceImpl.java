@@ -132,40 +132,19 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchLetter(List<Letter> list){
         WebResponse webResponse = WebResponse.buildResponse();
-        int code = 200;
-        int lineCount=0;
-        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
-        int sucessCount =0;
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
-        for (int i=0;i<list.size();i++){
-            Letter temp = list.get(i);
-            DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
-            if (dataCaseEntity!=null){
-            }else{
-                lineCount = lineCount+1;
-                code = 500;
-            }
 
-        }
-        if (code==500){
-            webResponse.setCode("800");
-            errorStr.append(lineCount);
-            webResponse.setMsg(errorStr.toString());
-            return webResponse;
-        }
         for (int i=0;i<list.size();i++){
             Letter temp = list.get(i);
             DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
             if (temp!=null){
                 temp.setCaseId(dataCaseEntity.getId());
-                letterMapper.insert(temp);
-                sucessCount =sucessCount+1;
+            }else{
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写卡号和委案日期，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
-
-
+            list.set(i,temp);
         }
-        sucessStr.append(sucessCount);
-        webResponse.setMsg(sucessStr.toString());
+        letterMapper.batchInsert(list);
+        webResponse.setMsg( "导入成功");
         webResponse.setCode("100");
         return webResponse;
     }
