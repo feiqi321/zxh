@@ -242,13 +242,13 @@ public class FileManageServiceImpl implements FileManageService {
 
         WebResponse webResponse = WebResponse.buildResponse();
 
-        for (int i=0;i<list.size();i++){
+    /*    for (int i=0;i<list.size();i++){
             DataArchiveEntity dataArchiveEntity = list.get(i);
             dataArchiveMapper.saveArchive(dataArchiveEntity);
 
-        }
+        }*/
 
-
+        dataArchiveMapper.saveBatchArchive(list);
         webResponse.setCode("100");
         return webResponse;
     }

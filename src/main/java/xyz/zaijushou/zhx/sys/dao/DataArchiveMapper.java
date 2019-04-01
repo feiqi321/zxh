@@ -13,6 +13,8 @@ public interface DataArchiveMapper {
 
     public int saveArchive(DataArchiveEntity bean);
 
+    public int saveBatchArchive(List<DataArchiveEntity> list);
+
     public void updateArchive(DataArchiveEntity bean);
 
     public void deleteById(Integer id);
