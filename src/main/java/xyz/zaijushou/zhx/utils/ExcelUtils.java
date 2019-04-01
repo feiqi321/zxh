@@ -366,7 +366,7 @@ public class ExcelUtils {
             Integer intValue = (Integer) value;
             cell.setCellValue(intValue);
         } else if (BigDecimal.class == clazz) {
-            BigDecimal decimalValue = (BigDecimal) value;
+            BigDecimal decimalValue = new BigDecimal(value==null?"0":value.toString());
             String formatValue = decimalValue == null ? "￥0.00" : "￥"+ FmtMicrometer.fmtMicrometer(decimalValue + "");
             cell.setCellValue(formatValue);
         } else {
