@@ -16,6 +16,8 @@ public interface DataCollectionMapper {
 
     public int saveCollection(DataCollectionEntity bean);
 
+    public int saveBatchCollection(List<DataCollectionEntity> list);
+
     public int detailSave(DataCollectionEntity bean);
 
     public int detailUpdate(DataCollectionEntity bean);

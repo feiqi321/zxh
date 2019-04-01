@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
-import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
-import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
-import xyz.zaijushou.zhx.constant.WebResponseCode;
+import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
@@ -24,6 +21,7 @@ import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -174,6 +172,22 @@ public class DataCollectController {
             dicTelMap.put(temp.getName(),temp);
         }
         for (int i=0;i<dataCollectionEntities.size();i++){
+            DataCollectionEntity temp = dataCollectionEntities.get(i);
+            if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getSeqno())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                }
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqno(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                }
+            }
+
             if (StringUtils.notEmpty(dataCollectionEntities.get(i).getResultId())) {
                 if (dataCollectionEntities.get(i).getResultId() != null && dicMap.get(Integer.parseInt(dataCollectionEntities.get(i).getResultId())) == null) {
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收结果id不正确，请核实后再上传");

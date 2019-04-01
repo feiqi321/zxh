@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
@@ -55,61 +56,9 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
-        int code = 200;
-        int lineCount=0;
-        int sucessCount =0;
-        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
-        for (int i=0;i<list.size();i++){
-            DataCaseTelEntity dataCaseTelEntity = list.get(i);
-            if (StringUtils.isEmpty(dataCaseTelEntity.getSeqNo())){
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getCardNo()+"@"+dataCaseTelEntity.getCaseDate(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
-                }else{
-                    // errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }else{
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getSeqNo(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
 
-                }else{
-                    //errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }
-
-        }
-        if (code==500){
-            webResponse.setCode("800");
-            errorStr.append(lineCount);
-            webResponse.setMsg(errorStr.toString());
-            return webResponse;
-        }
-        for (int i=0;i<list.size();i++){
-            DataCaseTelEntity dataCaseTelEntity = list.get(i);
-            if (StringUtils.isEmpty(dataCaseTelEntity.getSeqNo())){
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getCardNo()+"@"+dataCaseTelEntity.getCaseDate(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
-                    dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
-                    dataCaseTelMapper.saveTel(dataCaseTelEntity);
-                    sucessCount =sucessCount+1;
-                }
-            }else{
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getSeqNo(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
-                    dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
-                    dataCaseTelMapper.saveTel(dataCaseTelEntity);
-                    sucessCount =sucessCount+1;
-
-                }
-            }
-
-        }
-        sucessStr.append(sucessCount);
-        webResponse.setMsg(sucessStr.toString());
+        dataCaseTelMapper.saveBatchTel(list);
+        webResponse.setMsg( "导入成功");
         webResponse.setCode("100");
 
         return webResponse;
@@ -118,60 +67,28 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchCaseAddress(List<DataCaseAddressEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
-        int code = 200;
-        int lineCount=0;
-        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
-        int sucessCount =0;
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
-        for (int i=0;i<list.size();i++){
-            DataCaseAddressEntity temp = list.get(i);
-            if (StringUtils.isEmpty(temp.getSeqNo())){
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
-                }else{
-                    //errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }else{
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqNo(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
 
-                }else{
-                    //errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }
-
-        }
-        if (code==500){
-            webResponse.setCode("800");
-            errorStr.append(lineCount);
-            webResponse.setMsg(errorStr.toString());
-            return webResponse;
-        }
         for (int i=0;i<list.size();i++){
             DataCaseAddressEntity dataCaseAddressEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseAddressEntity.getSeqNo())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getCardNo()+"@"+dataCaseAddressEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseAddressEntity.setCaseId(temp.getId());
-                    dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
-                    sucessCount =sucessCount+1;
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseAddressEntity.getSeqNo(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCaseAddressEntity.setCaseId(temp.getId());
-                    dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
-                    sucessCount =sucessCount+1;
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
                 }
             }
-
+            list.set(i,dataCaseAddressEntity);
         }
-        sucessStr.append(sucessCount);
-        webResponse.setMsg(sucessStr.toString());
+        //dataCaseAddressMapper
+        webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;
     }
@@ -179,39 +96,7 @@ public class FileManageServiceImpl implements FileManageService {
     public WebResponse batchCaseInterest(List<DataCaseInterestEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        int code = 200;
-        int lineCount=0;
-        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
-        int sucessCount =0;
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
-        for (int i=0;i<list.size();i++){
-            DataCaseInterestEntity temp = list.get(i);
-            if (StringUtils.isEmpty(temp.getSeqNo())){
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
-                }else{
-                    //errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }else{
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqNo(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
 
-                }else{
-                    //errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }
-
-        }
-        if (code==500){
-            webResponse.setCode("800");
-            errorStr.append(lineCount);
-            webResponse.setMsg(errorStr.toString());
-            return webResponse;
-        }
         for (int i=0;i<list.size();i++){
             DataCaseInterestEntity dataCaseInterestEntity = list.get(i);
             if (StringUtils.isEmpty(dataCaseInterestEntity.getSeqNo())){
@@ -222,7 +107,8 @@ public class FileManageServiceImpl implements FileManageService {
                     temp.setInterestDate(sdf.format(new Date()));
                     temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt());
                     dateCaseMapper.updateInterest(temp);
-                    sucessCount =sucessCount+1;
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getSeqNo(),DataCaseEntity.class);
@@ -232,13 +118,14 @@ public class FileManageServiceImpl implements FileManageService {
                     temp.setInterestDate(sdf.format(new Date()));
                     temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt());
                     dateCaseMapper.updateInterest(temp);
-                    sucessCount =sucessCount+1;
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
                 }
             }
 
         }
-        sucessStr.append(sucessCount);
-        webResponse.setMsg(sucessStr.toString());
+
+        webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;
     }
@@ -285,72 +172,64 @@ public class FileManageServiceImpl implements FileManageService {
 
     public WebResponse batchCaseComment(List<DataCaseEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
-        int code = 200;
-        int lineCount=0;
-        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
-        int sucessCount =0;
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
-        for (int i=0;i<list.size();i++){
-            DataCaseEntity temp = list.get(i);
-            if (StringUtils.isEmpty(temp.getSeqNo())){
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
-                }else{
-                  /*  errorStr.append(i+2);*/
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }else{
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqNo(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
 
-                }else{
-                    //errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }
-
-        }
-        if (code==500){
-            webResponse.setCode("800");
-            errorStr.append(lineCount);
-            webResponse.setMsg(errorStr.toString());
-            return webResponse;
-        }
         for (int i=0;i<list.size();i++){
             DataCaseEntity dataCaseEntity = list.get(i);
-            if (StringUtils.isNotEmpty(dataCaseEntity.getSeqNo())){
-                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getSeqNo(),DataCaseEntity.class);
+
+            if (StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
-                    if (dataCaseEntity.getColor().equals("0")){
-                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
-                    }else if (dataCaseEntity.getColor().equals("1")){
-                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
-                    }else if (dataCaseEntity.getColor().equals("2")){
-                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
-                    }
-                    dateCaseMapper.updateComment(dataCaseEntity);
-                    DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
-                    dataCaseCommentEntity.setCaseId(temp.getId());
-                    dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
-                    SysUserEntity user = this.getUserInfo();
-                    dataCaseCommentEntity.setCreatUser(user.getId());
-                    dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
-                    DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
-                    dataCollectionEntity.setColor(dataCaseEntity.getColor());
-                    dataCollectionEntity.setCaseId(temp.getId()+"");
-                    dataCollectionMapper.addColor(dataCollectionEntity);
-                    sucessCount =sucessCount+1;
+                        if (dataCaseEntity.getColor().equals("0")){
+                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
+                        }else if (dataCaseEntity.getColor().equals("1")){
+                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
+                        }else if (dataCaseEntity.getColor().equals("2")){
+                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
+                        }
+                        dateCaseMapper.updateComment(dataCaseEntity);
+                        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+                        dataCaseCommentEntity.setCaseId(temp.getId());
+                        dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
+                        SysUserEntity user = this.getUserInfo();
+                        dataCaseCommentEntity.setCreatUser(user.getId());
+                        dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
+                        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+                        dataCollectionEntity.setColor(dataCaseEntity.getColor());
+                        dataCollectionEntity.setCaseId(temp.getId()+"");
+                        dataCollectionMapper.addColor(dataCollectionEntity);
+
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
                 }
             }else{
+                DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getSeqNo(),DataCaseEntity.class);
+                if (temp!=null){
+                        if (dataCaseEntity.getColor().equals("0")){
+                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
+                        }else if (dataCaseEntity.getColor().equals("1")){
+                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
+                        }else if (dataCaseEntity.getColor().equals("2")){
+                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
+                        }
+                        dateCaseMapper.updateComment(dataCaseEntity);
+                        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+                        dataCaseCommentEntity.setCaseId(temp.getId());
+                        dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
+                        SysUserEntity user = this.getUserInfo();
+                        dataCaseCommentEntity.setCreatUser(user.getId());
+                        dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
+                        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+                        dataCollectionEntity.setColor(dataCaseEntity.getColor());
+                        dataCollectionEntity.setCaseId(temp.getId()+"");
+                        dataCollectionMapper.addColor(dataCollectionEntity);
 
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                }
             }
-
         }
 
-        sucessStr.append(sucessCount);
-        webResponse.setMsg(sucessStr.toString());
+        webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;
     }
@@ -377,39 +256,9 @@ public class FileManageServiceImpl implements FileManageService {
     public WebResponse batchCollect(List<DataCollectionEntity> list){
 
         WebResponse webResponse = WebResponse.buildResponse();
-        int code = 200;
-        int lineCount=0;
-        StringBuffer errorStr = new StringBuffer("导入失败，错误总行数为:");
-        int sucessCount =0;
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
-        for (int i=0;i<list.size();i++){
-            DataCollectionEntity temp = list.get(i);
-            if (StringUtils.isEmpty(temp.getSeqno())){
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
-                }else{
-                  /*  errorStr.append(i+2);*/
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }else{
-                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqno(),DataCaseEntity.class);
-                if (dataCaseEntity!=null){
 
-                }else{
-                    //errorStr.append(i+2);
-                    lineCount = lineCount+1;
-                    code = 500;
-                }
-            }
+        List<DataOpLog> logList = new ArrayList<DataOpLog>();
 
-        }
-        if (code==500){
-            webResponse.setCode("800");
-            errorStr.append(lineCount);
-            webResponse.setMsg(errorStr.toString());
-            return webResponse;
-        }
         for (int i=0;i<list.size();i++){
             DataCollectionEntity dataCollectionEntity = list.get(i);
 
@@ -444,8 +293,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setReduceStatus(temp.getReduceStatus());
                     dataCollectionEntity.setReduceUpdateTime("");
                     dataCollectionEntity.setReduceReferTime("");
-                    dataCollectionMapper.saveCollection(dataCollectionEntity);
-                    sucessCount =sucessCount+1;
+                    //dataCollectionMapper.saveCollection(dataCollectionEntity);
                     dateCaseMapper.addCollectTimes(temp);
                     DataOpLog log = new DataOpLog();
                     log.setType("电话催收");
@@ -455,7 +303,8 @@ public class FileManageServiceImpl implements FileManageService {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     log.setOpTime(sdf.format(new Date()));
                     log.setCaseId(dataCollectionEntity.getCaseId()+"");
-                    dataLogService.saveDataLog(log);
+                    logList.add(log);
+
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
@@ -488,9 +337,9 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setReduceStatus(temp.getReduceStatus());
                     dataCollectionEntity.setReduceUpdateTime("");
                     dataCollectionEntity.setReduceReferTime("");
-                    dataCollectionMapper.saveCollection(dataCollectionEntity);
-                    sucessCount =sucessCount+1;
+                    //dataCollectionMapper.saveCollection(dataCollectionEntity);
                     dateCaseMapper.addCollectTimes(temp);
+
                     DataOpLog log = new DataOpLog();
                     log.setType("电话催收");
                     log.setContext("联系人："+dataCollectionEntity.getTargetName()+"，电话号码："+dataCollectionEntity.getMobile()+"[手机]，通话内容："+dataCollectionEntity.getCollectInfo()+"，催收状态： 可联本人");
@@ -499,15 +348,16 @@ public class FileManageServiceImpl implements FileManageService {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     log.setOpTime(sdf.format(new Date()));
                     log.setCaseId(dataCollectionEntity.getCaseId()+"");
-                    dataLogService.saveDataLog(log);
+                    logList.add(log);
+
                 }
             }
-
+            list.set(i,dataCollectionEntity);
 
         }
-
-        sucessStr.append(sucessCount);
-        webResponse.setMsg(sucessStr.toString());
+        dataCollectionMapper.saveBatchCollection(list);
+        dataLogService.saveBatchDataLog(logList);
+        webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;
 

@@ -15,6 +15,8 @@ public interface DataOpLogMapper {
 
     public void saveDataLog(DataOpLog dataOpLog);
 
+    public void saveBatchDataLog(List<DataOpLog> list);
+
     public void updateDataLog(DataOpLog dataOpLog);
 
     public void delDataLog(DataOpLog dataOpLog);

@@ -11,6 +11,8 @@ public interface DataLogService {
 
     public void saveDataLog(DataOpLog log);
 
+    public void saveBatchDataLog(List<DataOpLog> list);
+
     public void updateDataLog(DataOpLog log);
 
     public void delDataLog(DataOpLog log);

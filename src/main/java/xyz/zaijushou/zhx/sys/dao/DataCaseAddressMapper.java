@@ -15,6 +15,8 @@ public interface DataCaseAddressMapper {
 
     public void saveAddress(DataCaseAddressEntity entity);
 
+    public void saveBatchAddress(List<DataCaseAddressEntity> list);
+
     public void updateAddress(DataCaseAddressEntity entity);
 
     public void deleteAddress(DataCaseAddressEntity entity);

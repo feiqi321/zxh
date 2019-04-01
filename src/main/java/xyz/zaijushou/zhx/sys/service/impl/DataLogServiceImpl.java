@@ -48,6 +48,10 @@ public class DataLogServiceImpl implements DataLogService {
         dataOpLogMapper.saveDataLog(log);
     }
 
+    public void saveBatchDataLog(List<DataOpLog> list){
+        dataOpLogMapper.saveBatchDataLog(list);
+    }
+
 
     public void updateDataLog(DataOpLog log){
         dataOpLogMapper.updateDataLog(log);

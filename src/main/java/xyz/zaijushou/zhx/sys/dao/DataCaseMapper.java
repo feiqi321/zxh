@@ -103,6 +103,8 @@ public interface DataCaseMapper {
 
     void addCollectTimes(DataCaseEntity dataCaseEntity);
 
+    void addBatchCollectTimes(DataCaseEntity dataCaseEntity);
+
     void updateDataCaseByCollect(DataCaseEntity dataCaseEntity);
 
     void updateDataCaseByCollect2(DataCaseEntity dataCaseEntity);

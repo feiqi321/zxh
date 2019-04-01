@@ -1086,7 +1086,7 @@
         update data_case
         <set >
         <trim suffixOverrides=",">
-        <if test="caseDate != null and caseDate != ''">
+         <if test="caseDate != null and caseDate != ''">
             case_date = #{caseDate},
         </if>
         <if test="money != null and money != ''">
@@ -1249,7 +1249,7 @@
         <if test="monthlyRepayments != null and monthlyRepayments != ''">
             monthly_repayments = #{monthlyRepayments},
         </if>
-        <if test="minimumPayment != null and minimumPayment != ''">
+         <if test="minimumPayment != null and minimumPayment != ''">
             minimum_payment = #{minimumPayment},
         </if>
         <if test="creditLine != null and creditLine != ''">
@@ -1264,19 +1264,19 @@
             <if test="lastRepayMoney != null and lastRepayMoney != ''">
                 last_repay_money = #{lastRepayMoney},
             </if>
-            <if test="lastRepayDate != null and lastRepayDate != ''">
+            <if test="lastRepayDate != null">
                 last_repay_date = #{lastRepayDate},
             </if>
-            <if test="lastConsumeDate != null and lastConsumeDate != ''">
+            <if test="lastConsumeDate != null">
                 last_consume_date = #{lastConsumeDate},
             </if>
-            <if test="lastWithdrawDate != null and lastWithdrawDate != ''">
+            <if test="lastWithdrawDate != null">
                 last_withdraw_date = #{lastWithdrawDate},
             </if>
-            <if test="stopCardDate != null and stopCardDate != ''">
+            <if test="stopCardDate != null">
                 stop_card_date = #{stopCardDate},
             </if>
-            <if test="activeCardDate != null and activeCardDate != ''">
+            <if test="activeCardDate != null ">
                 active_card_date = #{activeCardDate},
             </if>
             <if test="billDate != null and billDate != ''">
@@ -1294,19 +1294,19 @@
             <if test="deputyCardUserName != null and deputyCardUserName != ''">
                 deputy_card_user_name = #{deputyCardUserName},
             </if>
-            <if test="loanDate != null and loanDate != ''">
+            <if test="loanDate != null ">
                 loan_date = #{loanDate},
             </if>
-            <if test="loanDeadline != null and loanDeadline != ''">
+            <if test="loanDeadline != null">
                 loan_deadline = #{loanDeadline},
             </if>
-            <if test="overdueDate != null and overdueDate != ''">
+            <if test="overdueDate != null ">
                 overdue_date = #{overdueDate},
             </if>
             <if test="overduePeriods != null and overduePeriods != ''">
                 overdue_periods = #{overduePeriods},
             </if>
-            <if test="overdueDays != null and overdueDays != ''">
+            <if test="overdueDays != null">
                 overdue_days = #{overdueDays},
             </if>
             <if test="overdueTimes != null and overdueTimes != ''">
@@ -1315,13 +1315,13 @@
             <if test="entrustPeriods != null and entrustPeriods != ''">
                 entrust_periods = #{entrustPeriods},
             </if>
-            <if test="repayDeadline != null and repayDeadline != ''">
+            <if test="repayDeadline != null">
                   repay_deadline = #{repayDeadline},
               </if>
               <if test="repaidPeriods != null and repaidPeriods != ''">
                   repaid_periods = #{repaidPeriods},
               </if>
-              <if test="loanType != null and loanType != ''">
+             <if test="loanType != null and loanType != ''">
                   loan_type = #{loanType},
               </if>
               <if test="collectionType != null and collectionType != ''">
@@ -1372,13 +1372,13 @@
             <if test="dealer != null and dealer != ''">
                 dealer = #{dealer},
             </if>
-            <if test="applyDate != null and applyDate != ''">
+            <if test="applyDate != null">
                 apply_date = #{applyDate},
             </if>
             <if test="repayDate != null and repayDate != ''">
                 repay_date = #{repayDate},
             </if>
-            <if test="policyExpiryDate != null and policyExpiryDate != ''">
+            <if test="policyExpiryDate != null">
                 policy_expiry_date = #{policyExpiryDate},
             </if>
             <if test="cardPrice != null and cardPrice != ''">
@@ -2077,6 +2077,10 @@
 
     <update id="addCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set collect_times = collect_times+1 where id =#{id}
+    </update>
+
+    <update id="addBatchCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set collect_times = collect_times+#{collectTimes} where id =#{id}
     </update>
 
     <update id="updateDataCaseByCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

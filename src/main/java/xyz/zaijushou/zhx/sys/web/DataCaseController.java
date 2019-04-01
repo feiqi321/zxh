@@ -305,11 +305,28 @@ public class DataCaseController {
             dicMap.put(temp.getName(),temp.getId());
         }
         for (int i=0;i<caseList.size();i++){
+            DataCaseTelEntity dataCaseTelEntity = caseList.get(i);
+            if (StringUtils.isEmpty(dataCaseTelEntity.getSeqNo())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getCardNo()+"@"+dataCaseTelEntity.getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                    dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                }
+            }else{
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getSeqNo(),DataCaseEntity.class);
+                if (dataCaseEntity!=null){
+                    dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
+                }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                }
+            }
             if (dicMap.get(caseList.get(i).getType())==null){
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不在枚举配置中，请核对后再上传");
             }else{
                 caseList.get(i).setType(dicMap.get(caseList.get(i).getType())+"");
             }
+            caseList.set(i,dataCaseTelEntity);
         }
 
         WebResponse webResponse =fileManageService.batchCaseTel(caseList);

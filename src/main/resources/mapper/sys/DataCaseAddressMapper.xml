@@ -43,6 +43,46 @@
         </trim>
     </insert>
 
+    <insert id="saveBatchAddress" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_case_address
+        (
+            address,
+            case_id,
+            seq_no,
+            archive_no,
+            card_no,
+            ident_no,
+            case_date,
+            name,
+            address_type,
+            relation,
+            remark,
+            status,
+            letter_count
+        )
+        values
+        <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+        (
+            #{reddemCode.address},
+            #{reddemCode.caseId},
+            #{reddemCode.seqNo},
+            #{reddemCode.archiveNo},
+            #{reddemCode.cardNo},
+            #{reddemCode.identNo},
+            #{reddemCode.caseDate},
+            #{reddemCode.name},
+            #{reddemCode.type},
+            #{reddemCode.relation},
+            #{reddemCode.remark},
+            #{reddemCode.status},
+            0
+        )
+        </foreach >
+    </insert>
+
     <update id="updateAddress" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity">
 
         update data_case_address set name =#{name},relation=#{relation},address=#{address},address_type=#{type},remark=#{remark}

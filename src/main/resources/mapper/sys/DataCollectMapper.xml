@@ -172,6 +172,174 @@
         </trim>
     </insert>
 
+    <insert id="saveBatchCollection" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
+        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into data_collection
+        (
+            name,
+            case_id,
+            expect_time,
+            dept,
+            seqno,
+            case_type,
+            archive_no,
+            card_no,
+            account,
+            case_date,
+            contact_date,
+            result_id,
+            target_name,
+            relation,
+            collect_info,
+            collect_time,
+            mobile,
+            tel_type,
+            area,
+            odv,
+            remark,
+
+            new_case,
+            case_allot_time,
+            case_status,
+
+            account_age,
+            en_repay_amt,
+            pay_name,
+            pay_method,
+            confim_name,
+            money,
+            balance,
+            m_val,
+            next_foll_date,
+
+            last_foll_date,
+            count_follow,
+            last_phone_time,
+            leave_days,
+
+            reduce_amt,
+            reduce_status,
+            reduce_update_time,
+            reduce_refer_time,
+
+            color,
+            bail_date,
+            measure,
+            method,
+            repay_time,
+
+            bank_time,
+            bank_amt,
+            repay_amt,
+            collect_status,
+            complete_user,
+
+            complete_time,
+            client,
+            batch_no,
+            ident_no,
+            collection_type,
+
+            repay_status,
+            over_days,
+            remind,
+
+            tel_phone,
+
+            tel_name,
+            new_money,
+            module,
+            result,
+            create_user,
+            delete_flag,
+            create_time
+        )
+        values
+        <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+        (
+            #{reddemCode.name},
+            #{reddemCode.caseId},
+            #{reddemCode.expectTime},
+            #{reddemCode.dept},
+            #{reddemCode.seqno},
+            #{reddemCode.caseType},
+            #{reddemCode.archiveNo},
+            #{reddemCode.cardNo},
+            #{reddemCode.account},
+            #{reddemCode.caseDate},
+            #{reddemCode.contractDate},
+            #{reddemCode.resultId},
+            #{reddemCode.targetName},
+            #{reddemCode.relation},
+            #{reddemCode.collectInfo},
+            #{reddemCode.collectTime},
+            #{reddemCode.mobile},
+            #{reddemCode.telType},
+            #{reddemCode.area},
+            #{reddemCode.odv},
+            #{reddemCode.remark},
+
+            #{reddemCode.newCase},
+            #{reddemCode.caseAllotTime},
+            #{reddemCode.caseStatus},
+
+            #{reddemCode.accountAge},
+            #{reddemCode.enRepayAmt},
+            #{reddemCode.payName},
+            #{reddemCode.payMethod},
+            #{reddemCode.confimName},
+            #{reddemCode.money},
+            #{reddemCode.balance},
+            #{reddemCode.mVal},
+            #{reddemCode.nextFollDate},
+
+            #{reddemCode.lastFollDate},
+            #{reddemCode.countFollow},
+            #{reddemCode.lastPhoneTime},
+            #{reddemCode.leaveDays},
+
+            #{reddemCode.reduceAmt},
+            #{reddemCode.reduceStatus},
+            #{reddemCode.reduceUpdateTime},
+            #{reddemCode.reduceReferTime},
+
+            #{reddemCode.color},
+            #{reddemCode.bailDate},
+            #{reddemCode.measure},
+            #{reddemCode.method},
+            #{reddemCode.repayTime},
+
+            #{reddemCode.bankTime},
+            #{reddemCode.bankAmt},
+            #{reddemCode.repayAmt},
+            #{reddemCode.collectStatus},
+            #{reddemCode.completeUser},
+
+            #{reddemCode.completeTime},
+            #{reddemCode.client},
+            #{reddemCode.batchNo},
+            #{reddemCode.identNo},
+            #{reddemCode.collectionType},
+
+            #{reddemCode.repayStatus},
+            #{reddemCode.overDays},
+            #{reddemCode.remind},
+
+            #{reddemCode.telPhone},
+
+            #{reddemCode.telName},
+            #{reddemCode.newMoney},
+            #{reddemCode.module},
+            #{reddemCode.result},
+            #{reddemCode.createUser.id},
+            0,
+            now()
+        )
+        </foreach >
+    </insert>
+
     <update id="updateCollection" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         update data_collection
         set
