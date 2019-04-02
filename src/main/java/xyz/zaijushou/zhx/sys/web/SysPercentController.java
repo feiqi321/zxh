@@ -32,8 +32,6 @@ public class SysPercentController {
                 sysPercent.setOdvLow(null);
                 sysPercent.setOdvBasic(null);
                 sysPercent.setOdvReward(null);
-                sysPercent.setOdvRemark(null);
-                sysPercent.setManageReward(null);
                 sysPercent.setManageReward(null);
             }else if (StringUtils.notEmpty(sysPercent.getOdvLowMsg())){
                 if (sysPercent.getOdvLowMsg().equals("-")){
