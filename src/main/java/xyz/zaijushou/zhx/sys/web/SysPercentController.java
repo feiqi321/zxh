@@ -28,7 +28,14 @@ public class SysPercentController {
         String reg = "\\d+(\\.\\d+)?";
         for (int i=0;i<list.size();i++){
             SysPercent sysPercent = list.get(i);
-            if (StringUtils.notEmpty(sysPercent.getOdvLowMsg())){
+            if (sysPercent.getEnable()==2){
+                sysPercent.setOdvLow(null);
+                sysPercent.setOdvBasic(null);
+                sysPercent.setOdvReward(null);
+                sysPercent.setOdvRemark(null);
+                sysPercent.setManageReward(null);
+                sysPercent.setManageReward(null);
+            }else if (StringUtils.notEmpty(sysPercent.getOdvLowMsg())){
                 if (sysPercent.getOdvLowMsg().equals("-")){
                     sysPercent.setOdvLow(new BigDecimal(0));
                     sysPercent.setOdvReward(sysPercent.getOdvBasic());

@@ -72,7 +72,7 @@ public class ReduceServiceImpl implements ReduceService {
             bean.setSort(" desc");
         }
 //        bean.setReduceFlag("1");//1为已删除
-        List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
+        List<DataCollectionEntity> list = reduceMapper.pageReduceApplyExport(bean);
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
             SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getCollectStatus(), SysDictionaryEntity.class);

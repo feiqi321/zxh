@@ -1451,7 +1451,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         BigDecimal cuMoney = dataCaseDetail.getMoney()==null?new BigDecimal(0):dataCaseDetail.getMoney();
         if (role==4){//当前用户是催收员
             if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
-                dataCaseDetail.setPrePercent(cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic()).setScale(BigDecimal.ROUND_HALF_UP,2) + "（基础提成）/" + cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward()).setScale(BigDecimal.ROUND_HALF_UP,2)  + "（奖励提成）");
+                dataCaseDetail.setPrePercent(cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic()).setScale(2,BigDecimal.ROUND_HALF_UP) + "（基础提成）/" + cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward()).setScale(2,BigDecimal.ROUND_HALF_UP)  + "（奖励提成）");
                 if (sysPercent.getOdvLow()==null || sysPercent.getOdvLow().compareTo(new BigDecimal(0))==0){
                     dataCaseDetail.setPrePercentTips("本月累计还款金额低于1万时，无提成；不低于1万时，按照奖励提成"+(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward())+"%计算");
                 }else{
@@ -1464,7 +1464,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         }else if(role == 9){//当前用户是经理
             if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
-                dataCaseDetail.setPrePercent(cuMoney.multiply(sysPercent.getOdvBasic()).setScale(BigDecimal.ROUND_HALF_UP,2) +"");
+                dataCaseDetail.setPrePercent(cuMoney.multiply(sysPercent.getOdvBasic()).setScale(2,BigDecimal.ROUND_HALF_UP) +"");
                 dataCaseDetail.setPrePercentTips("按照奖励提成"+(sysPercent.getManageReward()==null?new BigDecimal(0):sysPercent.getManageReward())+"%计算");
             }else{
                 dataCaseDetail.setPrePercent("-");

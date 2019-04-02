@@ -122,6 +122,7 @@ public class ReduceController {
                 colMap.put(reduceConfList.getCol(),reduceConfList.getCol());
             }
         }
+
         bean.setExportKeyList(exportKeyList);
         if (bean.getsType() == 0){//导出全部
             list = reduceService.totalExport(bean);

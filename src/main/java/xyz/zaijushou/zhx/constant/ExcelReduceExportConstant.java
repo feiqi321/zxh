@@ -10,7 +10,7 @@ public class ExcelReduceExportConstant {
         COL10(10, "个案序列号", "seqno", String.class),
         COL20(20, "案人姓名", "targetName", String.class),
         COL30(30, "催收状态", "collectStatusMsg", String.class),
-        COL40(40, "委案金额", "accountAge",  String.class),
+        COL40(40, "委案金额", "moneyMsg",  String.class),
         COL50(50, "完成时间", "completeTime", String.class),
         COL60(60, "完成人", "completeUser",  String.class),
         COL70(70, "批复还款金额", "approveRepayAmtMsg",  BigDecimal.class),
