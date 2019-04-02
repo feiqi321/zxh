@@ -9,6 +9,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.SelectFilterEntity;
 import xyz.zaijushou.zhx.sys.entity.SysPercent;
 import xyz.zaijushou.zhx.sys.service.SysPercentService;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,7 +28,7 @@ public class SysPercentController {
         String reg = "\\d+(\\.\\d+)?";
         for (int i=0;i<list.size();i++){
             SysPercent sysPercent = list.get(i);
-            if (sysPercent.getOdvLowMsg()!=null ){
+            if (StringUtils.notEmpty(sysPercent.getOdvLowMsg())){
                 if (sysPercent.getOdvLowMsg().equals("-")){
                     sysPercent.setOdvLow(new BigDecimal(0));
                     sysPercent.setOdvReward(sysPercent.getOdvBasic());

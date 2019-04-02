@@ -5,6 +5,7 @@ import xyz.zaijushou.zhx.common.entity.CommonEntity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by looyer on 2019/1/29.
@@ -253,6 +254,26 @@ public class DataCollectionEntity extends CommonEntity {
     private String applyUser;
     private String auditUser;
     private String auditTime;
+
+    private Map exportConf;
+
+    private List exportKeyList;
+
+    public List getExportKeyList() {
+        return exportKeyList;
+    }
+
+    public void setExportKeyList(List exportKeyList) {
+        this.exportKeyList = exportKeyList;
+    }
+
+    public Map getExportConf() {
+        return exportConf;
+    }
+
+    public void setExportConf(Map exportConf) {
+        this.exportConf = exportConf;
+    }
 
     public String getApproveRepayAmtMsg() {
         return approveRepayAmtMsg;

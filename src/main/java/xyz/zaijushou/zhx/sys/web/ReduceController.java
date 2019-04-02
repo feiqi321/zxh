@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.Map.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,10 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by looyer on 2019/2/25.
@@ -112,8 +110,21 @@ public class ReduceController {
     @PostMapping("/reduce/dataExport")
     public Object pageDataBatchExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
         List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Entry entry = (Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelReduceExportConstant.ReduceConfList reduceConfList = ExcelReduceExportConstant.ReduceConfList.getEnumByKey(entry.getKey().toString());
+                exportKeyList.add(reduceConfList.getAttr());
+                colMap.put(reduceConfList.getCol(),reduceConfList.getCol());
+            }
+        }
+        bean.setExportKeyList(exportKeyList);
         if (bean.getsType() == 0){//导出全部
-            list = reduceService.listReduce(bean);
+            list = reduceService.totalExport(bean);
         }else {//导出当前页
             PageInfo<DataCollectionEntity> pageInfo = reduceService.pageReduceExport(bean);
             list = pageInfo.getList();
@@ -121,8 +132,18 @@ public class ReduceController {
         if (StringUtils.isEmpty(list)){
             list = new ArrayList<DataCollectionEntity>();
         }
+        ExcelReduceExportConstant.ReduceList reduceList[]= ExcelReduceExportConstant.ReduceList.values();
+        List<ExcelReduceExportConstant.ReduceList> reduceList2 = new ArrayList<ExcelReduceExportConstant.ReduceList>();
+
+        for (int i=0;i<reduceList.length;i++){
+            ExcelReduceExportConstant.ReduceList reduceListTemp = reduceList[i];
+            if (colMap.get(reduceListTemp.getCol())!=null){
+                reduceList2.add(reduceListTemp);
+            }
+
+        }
         ExcelUtils.exportExcel(list,
-                ExcelReduceExportConstant.ReduceList.values(),
+                reduceList2.toArray(new ExcelReduceExportConstant.ReduceList[reduceList2.size()]),
                 "减免管理导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );

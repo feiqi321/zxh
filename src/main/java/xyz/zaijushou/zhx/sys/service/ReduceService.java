@@ -17,6 +17,8 @@ public interface ReduceService {
 
     public List<DataCollectionEntity> listReduce(DataCollectionEntity bean);
 
+    public List<DataCollectionEntity> totalExport(DataCollectionEntity bean);
+
     public void saveReduce(DataCollectionEntity bean);
 
     public void saveReduceInfo(List<DataCollectionEntity> bean);

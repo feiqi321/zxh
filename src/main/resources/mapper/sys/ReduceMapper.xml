@@ -29,22 +29,92 @@
     </select>
 
     <select id="pageReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select dc.id as caseId,
-        dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as money,
-        dc.odv,dc.reduce_status as reduceStatus,
-        dc.collect_status as collectStatus,dc.money,
-        dc.reduce_update_time as reduceUpdateTime, dc.en_repay_amt as enRepayAmt,
-        dcr.complete_time as completeTime,dcr.complete_user as completeUser,
-        dcr.audit_time as auditTime,dcr.audit_user as auditUser,
-        dcr.apply_time as reduceReferTime,dcr.apply_time as applyTime,dcr.apply_user as applyUser,
-        dcr.apply_status as applyStatus,
-        dcr.reduce_type as reduceType,dcr.relation,
-        dcr.repay_amt as repayAmt,dcr.create_time as createTime,
-        dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno as seqno,dcr.approve_repay_amt as approveRepayAmt,
-        dcr.reduce_result as reduceResult,
-        dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
-        dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
-        dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName,dcr.file_uuid as fileUuid
+    select dc.id as caseId,
+    dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as money,
+    dc.odv,dc.reduce_status as reduceStatus,
+    dc.collect_status as collectStatus,dc.money,
+    dc.reduce_update_time as reduceUpdateTime, dc.en_repay_amt as enRepayAmt,
+    dcr.complete_time as completeTime,dcr.complete_user as completeUser,
+    dcr.audit_time as auditTime,dcr.audit_user as auditUser,
+    dcr.apply_time as reduceReferTime,dcr.apply_time as applyTime,dcr.apply_user as applyUser,
+    dcr.apply_status as applyStatus,
+    dcr.reduce_type as reduceType,dcr.relation,
+    dcr.repay_amt as repayAmt,dcr.create_time as createTime,
+    dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno as seqno,dcr.approve_repay_amt as approveRepayAmt,
+    dcr.reduce_result as reduceResult,
+    dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
+    dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
+    dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName,dcr.file_uuid as fileUuid
+    from
+    data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
+    where dcr.delete_flag = 0 and dcr.seqno is not null
+    <if test="area != null and area!=''">
+        AND dc.collect_area like CONCAT('%',#{area},'%')
+    </if>
+    <if test="seqno != null and seqno!=''">
+        AND dcr.seqno like CONCAT('%',#{seqno},'%')
+    </if>
+    <if test="targetName != null and targetName!=''">
+        AND dc.name like CONCAT('%',#{targetName},'%')
+    </if>
+    <if test="batchNo != null and batchNo!=''">
+        and dc.batch_no = #{batchNo}
+    </if>
+    <if test="collectStatus != null and collectStatus!=''">
+        and dc.collect_status = #{collectStatus}
+    </if>
+    <if test="client != null and client!=''">
+        AND dc.client like CONCAT('%',#{client},'%')
+    </if>
+    <if test="accountAge != null and accountAge !=''">
+        and dc.overdue_bill_time = #{accountAge}
+    </if>
+    <if test="odv != null and odv!=''">
+        AND dc.odv  like CONCAT('%',#{odv},'%')
+    </if>
+    <if test="reduceStatus != null and reduceStatus!=''">
+        and dc.reduce_status = #{reduceStatus}
+    </if>
+    <!--<if test="reduceFlag != null and reduceFlag!=''">-->
+    <!--AND <![CDATA[ dcr.reduce_flag != #{reduceFlag} ]]>-->
+    <!--</if>-->
+
+    <if test="applyStatus != null and applyStatus!=''">
+        and dcr.apply_status = #{applyStatus}
+    </if>
+
+    <if test="caseId != null and caseId!=''">
+        and dc.id = #{caseId}
+    </if>
+
+    <if test="completeTimeStart != null and completeTimeStart!=''">
+        <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
+    </if>
+    <if test="completeTimeEnd != null and completeTimeEnd!=''" >
+        <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')<=  DATE_FORMAT(#{completeTimeEnd}, '%Y-%m-%d')   ]]>
+    </if>
+
+    <if test="reduceReferTimeStart != null and reduceReferTimeStart!=''">
+        <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceReferTimeStart}, '%Y-%m-%d')   ]]>
+    </if>
+    <if test="reduceReferTimeEnd != null and reduceReferTimeEnd!=''" >
+        <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceReferTimeEnd}, '%Y-%m-%d')   ]]>
+    </if>
+
+    <if test="reduceValidTimeStart != null and reduceValidTimeStart!=''">
+        <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceValidTimeStart}, '%Y-%m-%d')   ]]>
+    </if>
+    <if test="reduceValidTimeEnd != null and reduceValidTimeEnd!=''" >
+        <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
+    </if>
+    order by ${orderBy} ${sort}
+</select>
+
+    <select id="totalExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
         where dcr.delete_flag = 0 and dcr.seqno is not null
@@ -75,9 +145,6 @@
         <if test="reduceStatus != null and reduceStatus!=''">
             and dc.reduce_status = #{reduceStatus}
         </if>
-        <!--<if test="reduceFlag != null and reduceFlag!=''">-->
-            <!--AND <![CDATA[ dcr.reduce_flag != #{reduceFlag} ]]>-->
-        <!--</if>-->
 
         <if test="applyStatus != null and applyStatus!=''">
             and dcr.apply_status = #{applyStatus}

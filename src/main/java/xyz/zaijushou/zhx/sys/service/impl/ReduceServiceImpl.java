@@ -145,6 +145,33 @@ public class ReduceServiceImpl implements ReduceService {
         }
         return  list;
     }
+
+    @Override
+    public List<DataCollectionEntity> totalExport(DataCollectionEntity bean){
+        if(StringUtils.isEmpty(bean.getOrderBy())){
+            bean.setOrderBy("dcr.id");
+        }else {
+            bean.setOrderBy(ReduceApplyEnum.getEnumByKey(bean.getOrderBy()).getValue());
+        }
+        if (StringUtils.isEmpty(bean.getSort())){
+            bean.setSort(" desc");
+        }
+        List<DataCollectionEntity> list = reduceMapper.totalExport(bean);
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getCollectStatus(), SysDictionaryEntity.class);
+            temp.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
+            SysDictionaryEntity reduceDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getReduceStatus(), SysDictionaryEntity.class);
+            temp.setReduceStatusMsg(reduceDic==null?"":reduceDic.getName());
+
+            temp.setMoneyMsg(temp.getMoney()+"");
+            temp.setApproveRepayAmtMsg(temp.getApproveRepayAmt()+"");
+            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()+"");
+
+            list.set(i,temp);
+        }
+        return  list;
+    }
     @Override
     public DataCollectionEntity findById(DataCollectionEntity bean){
         return reduceMapper.findById(bean);

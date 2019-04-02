@@ -20,6 +20,8 @@ public interface ReduceMapper {
 
     public List<DataCollectionEntity> pageReduceApply(DataCollectionEntity bean);
 
+    public List<DataCollectionEntity> totalExport(DataCollectionEntity bean);
+
     public void saveReduceApply(DataCollectionEntity bean);
 
     public void updateReduceApply(DataCollectionEntity bean);

@@ -18,7 +18,7 @@
             <if test="caseType != null">case_type,</if>
             <if test="returnTime != null">expect_time,</if>
             <if test="targetRate != null">target_rate,</if>
-            <if test="batchStatus != null">batch_status,</if>
+            batch_status,
             delete_flag,
             <if test="remark != null">remark,</if>
             create_time,
@@ -33,7 +33,7 @@
             <if test="caseType != null">#{caseType},</if>
             <if test="returnTime != null">#{returnTime},</if>
             <if test="targetRate != null">#{targetRate},</if>
-            <if test="batchStatus != null">#{batchStatus},</if>
+            0,
             0,
             <if test="remark != null">#{remark},</if>
             now(),

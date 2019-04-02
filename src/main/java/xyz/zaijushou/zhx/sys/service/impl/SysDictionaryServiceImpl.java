@@ -63,7 +63,11 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         } else {
             org.setDeleteFlag(0);
             dictionaryMapper.updateDataDictionary(org);
-            stringRedisTemplate.delete(RedisKeyPrefix.SYS_DIC + org.getId());
+            if (org.getStatus()==0) {
+                stringRedisTemplate.delete(RedisKeyPrefix.SYS_DIC + org.getId());
+            }else{
+                stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + org.getId(), JSONArray.toJSONString(org));
+            }
         }
         if(CollectionUtils.isEmpty(org.getChildren())) {
             return;
