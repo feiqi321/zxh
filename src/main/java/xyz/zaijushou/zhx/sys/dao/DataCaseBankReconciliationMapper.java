@@ -9,9 +9,13 @@ import java.util.List;
 public interface DataCaseBankReconciliationMapper {
     List<DataCaseBankReconciliationEntity> pageData(DataCaseBankReconciliationEntity entity);
 
+    List<DataCaseBankReconciliationEntity> pageDataListExport(DataCaseBankReconciliationEntity entity);
+
     void updateStatus(DataCaseBankReconciliationEntity entity);
 
     List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity);
+
+    List<DataCaseBankReconciliationEntity> totalExport(DataCaseBankReconciliationEntity bankReconciliationEntity);
 
     void addList(List<DataCaseBankReconciliationEntity> dataEntities);
 

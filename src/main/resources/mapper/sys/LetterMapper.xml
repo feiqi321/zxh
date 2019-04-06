@@ -500,7 +500,7 @@
     d.currency_type as currencyType,d.archive_no as archiveNo,d.money,d.en_repay_amt as
     enRepayAmt,d.principle,d.last_repay_date as lastRepayDate,d.case_date as caseDate,
     d.odv,d.credit_line as creditLine,d.home_address as homeAddress,d.home_tel_number as homeTelNumber,d.tel,d.unit_name
-    as unitName,d.unit_address as unitAddress,
+    as unitName,d.unit_address as unitAddress,d.apply_order_no as applyNo,d.latest_overdue_money as latestOverdueMoney,
     d.unit_tel_number as unitTelNumber
     from letter t LEFT JOIN data_case d on t.case_id = d.id
     <where>

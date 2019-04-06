@@ -25,7 +25,7 @@
         c.principle as 'dataCase.principle',
         c.last_repay_date as 'dataCase.lastRepayDate',
         c.case_date as 'dataCase.caseDate',
-        c.collection_user as 'dataCase.collectionUser.id',
+        c.odv as 'dataCase.collectionUser.id',
         c.credit_line as 'dataCase.creditLine',
         c.home_address as 'dataCase.homeAddress',
         c.home_tel_number as 'dataCase.homeTelNumber',
@@ -360,6 +360,221 @@
     <select id="listRepayRecord" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
         <include refid="colSql"/>
+        from data_case_repay_record r
+        left join data_case c on r.data_case = c.id
+        where r.delete_flag = 0
+        <if test="recordStatus != null and recordStatus != ''">
+            and r.record_status = #{recordStatus}
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.id != null">
+            and c.collection_area = #{dataCase.collectionArea.id}
+        </if>
+        <if test="dataCase != null and dataCase.client != null and dataCase.client != ''">
+            and c.client = #{dataCase.client}
+        </if>
+        <if test="dataCase != null and dataCase.batchNo != null and dataCase.batchNo != ''">
+            and c.batch_no = #{dataCase.batchNo}
+        </if>
+        <!--todo 回收部门 -->
+        <if test="collectUser != null and collectUser.id != null">
+            and r.collec_user = #{collectUser.id}
+        </if>
+        <if test="dataCase != null and dataCase.name != null and dataCase.name != ''">
+            and c.name = #{dataCase.name}
+        </if>
+        <if test="dataCase != null and dataCase.province != null and dataCase.province.id != null">
+            and c.province = #{dataCase.province.id}
+        </if>
+        <if test="dataCase != null and dataCase.city != null and dataCase.city.id != null">
+            and c.city = #{dataCase.city.id}
+        </if>
+        <if test="dataCase != null and dataCase.county != null and dataCase.county.id != null">
+            and c.county = #{dataCase.county.id}
+        </if>
+        <if test="dataCase != null and dataCase.status != null">
+            and c.status = #{dataCase.status}
+        </if>
+        <if test="dataCase != null and dataCase.overdueBillTime != null">
+            and c.overdue_bill_time = #{dataCase.overdueBillTime}
+        </if>
+        <if test="dataCase != null and dataCase.collectStatus != 0">
+            and c.collect_status = #{dataCase.collectStatus}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateStart != null">
+            and c.case_date >= #{dataCase.caseDateStart}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateEnd != null">
+            and c.case_date &lt;= #{dataCase.caseDateEnd}
+        </if>
+        <if test="dataCase != null and dataCase.expectStartTime != null">
+            and c.expect_start_time >= #{expectStartTime}
+        </if>
+        <if test="dataCase != null and dataCase.expectEndTime != null">
+            and c.expect_start_time &lt;= #{expectEndTime}
+        </if>
+        <if test="dataCase != null and dataCase.caseType != null">
+            and c.case_type = #{dataCase.caseType}
+        </if>
+        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
+            and c.seq_no in
+            <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos.length > 0">
+            and c.ident_no in
+            <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts.length > 0">
+            and c.account in
+            <foreach collection="dataCase.accounts" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.cardNos != null and dataCase.cardNos.length > 0">
+            and c.card_no in
+            <foreach collection="dataCase.cardNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="confirmUser != null and confirmUser.id != null">
+            and r.confirm_user = #{confirmUser.id}
+        </if>
+        <if test="confirmTimeStart != null">
+            and r.confirm_time >= #{confirmTimeStart}
+        </if>
+        <if test="confirmTimeEnd != null">
+            and r.confirm_time >= #{confirmTimeEnd}
+        </if>
+        <if test="repayDateStart != null">
+            and r.repay_date >= #{repayDateStart}
+        </if>
+        <if test="repayDateEnd != null">
+            and r.repay_date >= #{repayDateEnd}
+        </if>
+        <if test="ids != null and ids.length >0">
+            and r.id in
+            <foreach collection="ids" item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="listRepayRecordSelectExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
+        from data_case_repay_record r
+        left join data_case c on r.data_case = c.id
+        where r.delete_flag = 0
+        <if test="recordStatus != null and recordStatus != ''">
+            and r.record_status = #{recordStatus}
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.id != null">
+            and c.collection_area = #{dataCase.collectionArea.id}
+        </if>
+        <if test="dataCase != null and dataCase.client != null and dataCase.client != ''">
+            and c.client = #{dataCase.client}
+        </if>
+        <if test="dataCase != null and dataCase.batchNo != null and dataCase.batchNo != ''">
+            and c.batch_no = #{dataCase.batchNo}
+        </if>
+        <!--todo 回收部门 -->
+        <if test="collectUser != null and collectUser.id != null">
+            and r.collec_user = #{collectUser.id}
+        </if>
+        <if test="dataCase != null and dataCase.name != null and dataCase.name != ''">
+            and c.name = #{dataCase.name}
+        </if>
+        <if test="dataCase != null and dataCase.province != null and dataCase.province.id != null">
+            and c.province = #{dataCase.province.id}
+        </if>
+        <if test="dataCase != null and dataCase.city != null and dataCase.city.id != null">
+            and c.city = #{dataCase.city.id}
+        </if>
+        <if test="dataCase != null and dataCase.county != null and dataCase.county.id != null">
+            and c.county = #{dataCase.county.id}
+        </if>
+        <if test="dataCase != null and dataCase.status != null">
+            and c.status = #{dataCase.status}
+        </if>
+        <if test="dataCase != null and dataCase.overdueBillTime != null">
+            and c.overdue_bill_time = #{dataCase.overdueBillTime}
+        </if>
+        <if test="dataCase != null and dataCase.collectStatus != 0">
+            and c.collect_status = #{dataCase.collectStatus}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateStart != null">
+            and c.case_date >= #{dataCase.caseDateStart}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateEnd != null">
+            and c.case_date &lt;= #{dataCase.caseDateEnd}
+        </if>
+        <if test="dataCase != null and dataCase.expectStartTime != null">
+            and c.expect_start_time >= #{expectStartTime}
+        </if>
+        <if test="dataCase != null and dataCase.expectEndTime != null">
+            and c.expect_start_time &lt;= #{expectEndTime}
+        </if>
+        <if test="dataCase != null and dataCase.caseType != null">
+            and c.case_type = #{dataCase.caseType}
+        </if>
+        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
+            and c.seq_no in
+            <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos.length > 0">
+            and c.ident_no in
+            <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts.length > 0">
+            and c.account in
+            <foreach collection="dataCase.accounts" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.cardNos != null and dataCase.cardNos.length > 0">
+            and c.card_no in
+            <foreach collection="dataCase.cardNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="confirmUser != null and confirmUser.id != null">
+            and r.confirm_user = #{confirmUser.id}
+        </if>
+        <if test="confirmTimeStart != null">
+            and r.confirm_time >= #{confirmTimeStart}
+        </if>
+        <if test="confirmTimeEnd != null">
+            and r.confirm_time >= #{confirmTimeEnd}
+        </if>
+        <if test="repayDateStart != null">
+            and r.repay_date >= #{repayDateStart}
+        </if>
+        <if test="repayDateEnd != null">
+            and r.repay_date >= #{repayDateEnd}
+        </if>
+        <if test="ids != null and ids.length >0">
+            and r.id in
+            <foreach collection="ids" item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listRepayRecordExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from data_case_repay_record r
         left join data_case c on r.data_case = c.id
         where r.delete_flag = 0

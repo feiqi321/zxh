@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
@@ -73,7 +74,6 @@ public class DataCaseRepayRecordController {
 
     @PostMapping("/queryDataExport")
     public Object queryDataExport(@RequestBody DataCaseRepayRecordEntity repayRecordEntity, HttpServletResponse response) throws IOException {
-        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecord(repayRecordEntity);
 
         String fileName = "导出还款记录查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) ;
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -82,9 +82,38 @@ public class DataCaseRepayRecordController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
 
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = repayRecordEntity.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelRepayRecordConstant.RepayRecordExportConf repayRecordExportConf = ExcelRepayRecordConstant.RepayRecordExportConf.getEnumByKey(entry.getKey().toString());
+                if (repayRecordExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(repayRecordExportConf.getAttr())) {
+                    exportKeyList.add(repayRecordExportConf.getAttr());
+                }
+                colMap.put(repayRecordExportConf.getCol(), repayRecordExportConf.getCol());
+            }
+        }
+
+        ExcelRepayRecordConstant.RepayRecordExport repayList[]= ExcelRepayRecordConstant.RepayRecordExport.values();
+        List<ExcelRepayRecordConstant.RepayRecordExport> repayList2 = new ArrayList<ExcelRepayRecordConstant.RepayRecordExport>();
+
+        for (int i=0;i<repayList.length;i++){
+            ExcelRepayRecordConstant.RepayRecordExport repayListTemp = repayList[i];
+            if (colMap.get(repayListTemp.getCol())!=null){
+                repayList2.add(repayListTemp);
+            }
+
+        }
+
+        repayRecordEntity.setExportKeyList(exportKeyList);
+        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecordExport(repayRecordEntity);
+
         ExcelUtils.exportExcel(
                 list,
-                ExcelRepayRecordConstant.RepayRecordExport.values(),
+                repayList2.toArray(new ExcelRepayRecordConstant.RepayRecordExport[repayList2.size()]),
                 fileName+ ".xlsx",
                 response
         );
@@ -93,7 +122,6 @@ public class DataCaseRepayRecordController {
 
     @PostMapping("/pageDataExport")
     public Object pageDataExport(@RequestBody DataCaseRepayRecordEntity repayRecordEntity, HttpServletResponse response) throws IOException {
-        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.pageRepayRecordList(repayRecordEntity).getList();
 
         String fileName = "导出还款记录当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) ;
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -102,9 +130,38 @@ public class DataCaseRepayRecordController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
 
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = repayRecordEntity.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelRepayRecordConstant.RepayRecordExportConf repayRecordExportConf = ExcelRepayRecordConstant.RepayRecordExportConf.getEnumByKey(entry.getKey().toString());
+                if (repayRecordExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(repayRecordExportConf.getAttr())) {
+                    exportKeyList.add(repayRecordExportConf.getAttr());
+                }
+                colMap.put(repayRecordExportConf.getCol(), repayRecordExportConf.getCol());
+            }
+        }
+
+        ExcelRepayRecordConstant.RepayRecordExport repayList[]= ExcelRepayRecordConstant.RepayRecordExport.values();
+        List<ExcelRepayRecordConstant.RepayRecordExport> repayList2 = new ArrayList<ExcelRepayRecordConstant.RepayRecordExport>();
+
+        for (int i=0;i<repayList.length;i++){
+            ExcelRepayRecordConstant.RepayRecordExport repayListTemp = repayList[i];
+            if (colMap.get(repayListTemp.getCol())!=null){
+                repayList2.add(repayListTemp);
+            }
+
+        }
+
+        repayRecordEntity.setExportKeyList(exportKeyList);
+        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.pageRepayRecordList(repayRecordEntity).getList();
+
         ExcelUtils.exportExcel(
                 list,
-                ExcelRepayRecordConstant.RepayRecordExport.values(),
+                repayList2.toArray(new ExcelRepayRecordConstant.RepayRecordExport[repayList2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -120,20 +177,47 @@ public class DataCaseRepayRecordController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
 
+        List exportKeyList = new ArrayList();
+        Iterator iter = repayRecordEntity.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelRepayRecordConstant.RepayRecordExportConf repayRecordExportConf = ExcelRepayRecordConstant.RepayRecordExportConf.getEnumByKey(entry.getKey().toString());
+                if (repayRecordExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(repayRecordExportConf.getAttr())) {
+                    exportKeyList.add(repayRecordExportConf.getAttr());
+                }
+                colMap.put(repayRecordExportConf.getCol(), repayRecordExportConf.getCol());
+            }
+        }
+
+        ExcelRepayRecordConstant.RepayRecordExport repayList[]= ExcelRepayRecordConstant.RepayRecordExport.values();
+        List<ExcelRepayRecordConstant.RepayRecordExport> repayList2 = new ArrayList<ExcelRepayRecordConstant.RepayRecordExport>();
+
+        for (int i=0;i<repayList.length;i++){
+            ExcelRepayRecordConstant.RepayRecordExport repayListTemp = repayList[i];
+            if (colMap.get(repayListTemp.getCol())!=null){
+                repayList2.add(repayListTemp);
+            }
+
+        }
+        repayRecordEntity.setExportKeyList(exportKeyList);
+
         if(repayRecordEntity == null || repayRecordEntity.getIds() == null || repayRecordEntity.getIds().length == 0) {
             ExcelUtils.exportExcel(
                     new ArrayList<>(),
-                    ExcelRepayRecordConstant.RepayRecordExport.values(),
+                    repayList2.toArray(new ExcelRepayRecordConstant.RepayRecordExport[repayList2.size()]),
                     fileName + ".xlsx",
                     response
             );
             return null;
         }
-        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecord(repayRecordEntity);
+
+        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordService.listRepayRecordSelectExport(repayRecordEntity);
 
         ExcelUtils.exportExcel(
                 list,
-                ExcelRepayRecordConstant.RepayRecordExport.values(),
+                repayList2.toArray(new ExcelRepayRecordConstant.RepayRecordExport[repayList2.size()]),
                 "导出还款记录选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );

@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.ExcelBankReconciliationConstant;
-import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.constant.RepayTypeEnum;
-import xyz.zaijushou.zhx.constant.WebResponseCode;
+import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
@@ -87,23 +84,6 @@ public class DataCaseBankReconciliationController {
 
     @PostMapping("/queryDataExport")
     public Object queryDataExport(@RequestBody DataCaseBankReconciliationEntity bankReconciliationEntity, HttpServletResponse response) throws IOException {
-        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.listBankReconciliation(bankReconciliationEntity);
-        Set<String> userIdsSet = new HashSet<>();
-        for(DataCaseBankReconciliationEntity entity : list) {
-            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
-            }
-        }
-        if(!CollectionUtils.isEmpty(userIdsSet)) {
-            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
-            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
-            for(int i = 0; i < list.size(); i ++) {
-                DataCaseBankReconciliationEntity entity = list.get(i);
-                if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
-                    list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
-                }
-            }
-        }
 
         String fileName = "导出银行对账查询结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -112,18 +92,33 @@ public class DataCaseBankReconciliationController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
 
-        ExcelUtils.exportExcel(
-                list,
-                ExcelBankReconciliationConstant.BankReconciliationExport.values(),
-                fileName + ".xlsx",
-                response
-        );
-        return null;
-    }
+        List exportKeyList = new ArrayList();
+        Iterator iter = bankReconciliationEntity.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelBankReconciliationConstant.BankReconciliationExportConf bankReconciliationExportConf = ExcelBankReconciliationConstant.BankReconciliationExportConf.getEnumByKey(entry.getKey().toString());
+                if (bankReconciliationExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(bankReconciliationExportConf.getAttr())) {
+                    exportKeyList.add(bankReconciliationExportConf.getAttr());
+                }
+                colMap.put(bankReconciliationExportConf.getCol(), bankReconciliationExportConf.getCol());
+            }
+        }
 
-    @PostMapping("/pageDataExport")
-    public Object pageDataExport(@RequestBody DataCaseBankReconciliationEntity bankReconciliationEntity, HttpServletResponse response) throws IOException {
-        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.pageDataList(bankReconciliationEntity).getList();
+        ExcelBankReconciliationConstant.BankReconciliationExport bankReconciliationExports[]= ExcelBankReconciliationConstant.BankReconciliationExport.values();
+        List<ExcelBankReconciliationConstant.BankReconciliationExport> bankReconciliationExports2 = new ArrayList<ExcelBankReconciliationConstant.BankReconciliationExport>();
+
+        for (int i=0;i<bankReconciliationExports.length;i++){
+            ExcelBankReconciliationConstant.BankReconciliationExport bankListTemp = bankReconciliationExports[i];
+            if (colMap.get(bankListTemp.getCol())!=null){
+                bankReconciliationExports2.add(bankListTemp);
+            }
+
+        }
+        bankReconciliationEntity.setExportKeyList(exportKeyList);
+
+        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.totalExport(bankReconciliationEntity);
         Set<String> userIdsSet = new HashSet<>();
         for(DataCaseBankReconciliationEntity entity : list) {
             if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
@@ -141,6 +136,18 @@ public class DataCaseBankReconciliationController {
             }
         }
 
+        ExcelUtils.exportExcel(
+                list,
+                bankReconciliationExports2.toArray(new ExcelBankReconciliationConstant.BankReconciliationExport[bankReconciliationExports2.size()]),
+                fileName + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+    @PostMapping("/pageDataExport")
+    public Object pageDataExport(@RequestBody DataCaseBankReconciliationEntity bankReconciliationEntity, HttpServletResponse response) throws IOException {
+
         String fileName = "导出银行对账当前页结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
@@ -148,9 +155,53 @@ public class DataCaseBankReconciliationController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
 
+        List exportKeyList = new ArrayList();
+        Iterator iter = bankReconciliationEntity.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelBankReconciliationConstant.BankReconciliationExportConf bankReconciliationExportConf = ExcelBankReconciliationConstant.BankReconciliationExportConf.getEnumByKey(entry.getKey().toString());
+                if (bankReconciliationExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(bankReconciliationExportConf.getAttr())) {
+                    exportKeyList.add(bankReconciliationExportConf.getAttr());
+                }
+                colMap.put(bankReconciliationExportConf.getCol(), bankReconciliationExportConf.getCol());
+            }
+        }
+
+        ExcelBankReconciliationConstant.BankReconciliationExport bankReconciliationExports[]= ExcelBankReconciliationConstant.BankReconciliationExport.values();
+        List<ExcelBankReconciliationConstant.BankReconciliationExport> bankReconciliationExports2 = new ArrayList<ExcelBankReconciliationConstant.BankReconciliationExport>();
+
+        for (int i=0;i<bankReconciliationExports.length;i++){
+            ExcelBankReconciliationConstant.BankReconciliationExport bankListTemp = bankReconciliationExports[i];
+            if (colMap.get(bankListTemp.getCol())!=null){
+                bankReconciliationExports2.add(bankListTemp);
+            }
+
+        }
+        bankReconciliationEntity.setExportKeyList(exportKeyList);
+
+        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.pageDataListExport(bankReconciliationEntity).getList();
+        Set<String> userIdsSet = new HashSet<>();
+        for(DataCaseBankReconciliationEntity entity : list) {
+            if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
+            }
+        }
+        if(!CollectionUtils.isEmpty(userIdsSet)) {
+            List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
+            Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
+            for(int i = 0; i < list.size(); i ++) {
+                DataCaseBankReconciliationEntity entity = list.get(i);
+                if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
+                    list.get(i).getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
+                }
+            }
+        }
+
         ExcelUtils.exportExcel(
                 list,
-                ExcelBankReconciliationConstant.BankReconciliationExport.values(),
+                bankReconciliationExports2.toArray(new ExcelBankReconciliationConstant.BankReconciliationExport[bankReconciliationExports2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -159,6 +210,32 @@ public class DataCaseBankReconciliationController {
 
     @PostMapping("/selectDataExport")
     public Object selectDataExport(@RequestBody DataCaseBankReconciliationEntity bankReconciliationEntity, HttpServletResponse response) throws IOException {
+        List exportKeyList = new ArrayList();
+        Iterator iter = bankReconciliationEntity.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelBankReconciliationConstant.BankReconciliationExportConf bankReconciliationExportConf = ExcelBankReconciliationConstant.BankReconciliationExportConf.getEnumByKey(entry.getKey().toString());
+                if (bankReconciliationExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(bankReconciliationExportConf.getAttr())) {
+                    exportKeyList.add(bankReconciliationExportConf.getAttr());
+                }
+                colMap.put(bankReconciliationExportConf.getCol(), bankReconciliationExportConf.getCol());
+            }
+        }
+
+        ExcelBankReconciliationConstant.BankReconciliationExport bankReconciliationExports[]= ExcelBankReconciliationConstant.BankReconciliationExport.values();
+        List<ExcelBankReconciliationConstant.BankReconciliationExport> bankReconciliationExports2 = new ArrayList<ExcelBankReconciliationConstant.BankReconciliationExport>();
+
+        for (int i=0;i<bankReconciliationExports.length;i++){
+            ExcelBankReconciliationConstant.BankReconciliationExport bankListTemp = bankReconciliationExports[i];
+            if (colMap.get(bankListTemp.getCol())!=null){
+                bankReconciliationExports2.add(bankListTemp);
+            }
+
+        }
+        bankReconciliationEntity.setExportKeyList(exportKeyList);
+
         if(bankReconciliationEntity == null || bankReconciliationEntity.getIds() == null || bankReconciliationEntity.getIds().length == 0) {
             String fileName = "导出银行对账选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -168,13 +245,13 @@ public class DataCaseBankReconciliationController {
             sysOperationLogService.insertRequest(operationLog);
             ExcelUtils.exportExcel(
                     new ArrayList<>(),
-                    ExcelBankReconciliationConstant.BankReconciliationExport.values(),
+                    bankReconciliationExports2.toArray(new ExcelBankReconciliationConstant.BankReconciliationExport[bankReconciliationExports2.size()]),
                     fileName + ".xlsx",
                     response
             );
             return null;
         }
-        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.listBankReconciliation(bankReconciliationEntity);
+        List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationService.totalExport(bankReconciliationEntity);
         String fileName = "导出银行对账选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
@@ -183,8 +260,7 @@ public class DataCaseBankReconciliationController {
         sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(
                 list,
-
-                ExcelBankReconciliationConstant.BankReconciliationExport.values(),
+                bankReconciliationExports2.toArray(new ExcelBankReconciliationConstant.BankReconciliationExport[bankReconciliationExports2.size()]),
                 fileName + ".xlsx",
                 response
         );

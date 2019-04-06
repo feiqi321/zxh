@@ -151,5 +151,90 @@ public class ExcelLetterConstant {
         }
     }
 
+    public enum LetterExportConf{
+        COL1("id", "ID", "t.id", String.class),
+        COL2("batchNo", "批次号", "d.batch_no as batchNo", String.class),
+        COL3("client", "委托方", "d.client", String.class),
+        COL4("seqNo", "个案序列号", "d.seq_no as seqNo", String.class),
+        COL5("name", "姓名", "d.name", String.class),
+        COL6("address", "信函地址", "t.address", String.class),
+        COL7("addressType", "地址类型", "t.address_type as addressType", String.class),
+        COL8("applyContext", "申请内容", "t.apply_context as applyContext", String.class),
+        COL9("applyDate", "申请时间", "t.apply_date as applyDate", String.class),
+        COL10("synergyDate", "协催时间", "t.synergy_date as synergyDate", String.class),
+        COL11("synergyer", "协催人", "t.synergyer", String.class),
+        COL12("synergyResult", "协催结果", "t.synergy_result as synergyResult", String.class),
+        COL13("identNo", "证件号", "d.ident_no as identNo", String.class),
+        COL14("cardNo", "卡号", "d.card_no as cardNo", String.class),
+        COL15("cardType", "卡类", "d.card_type as cardType", String.class),
+        COL16("account", "账号", "d.account", String.class),
+        COL17("currencyType", "币种", "d.currency_type as currencyType", String.class),
+        COL18("archiveNo", "档案号", "d.archive_no as archiveNo", String.class),
+        COL19("applyNo", "申请单号", "d.apply_order_no as applyNo", String.class),
+        COL20("money", "委案金额", "d.money", String.class),
+        COL21("enRepayAmt", "还款金额", "d.en_repay_amt as  enRepayAmt", String.class),
+        COL22("principle", "本金", "d.principle", String.class),
+        COL23("lastRepayDate", "最后还款日", "d.last_repay_date as lastRepayDate,", String.class),
+        COL24("caseDate", "委案日期", "d.case_date as caseDate", String.class),
+        COL25("odv", "催收员", "d.odv", String.class),
+        COL26("creditLine", "信用额度", "d.credit_line as creditLine", String.class),
+        COL27("homeAddress", "家庭地址", "d.home_address as homeAddress", String.class),
+        COL28("homeTelNumber", "家庭号码", "d.home_tel_number as homeTelNumber", String.class),
+        COL29("unitName", "单位名称", "d.unit_name as unitName", String.class),
+        COL30("unitAddress", "单位地址", "d.unit_address as unitAddress", String.class),
+        COL31("tel", "手机", "d.tel", String.class),
+        COL32("unitTelNumber", "单位号码", "d.unit_tel_number as unitTelNumber", String.class),
+        COL33("latestOverdueMoney", "最新欠款", "d.latest_overdue_money as latestOverdueMoney", String.class),
+      /*  COL34("", "最新欠款导入时间", "latestOverdueDate", String.class),*/
+        ;
+
+        private String pageCol;
+
+        private String col;
+
+        private String attr;
+
+        private Class[] attrClazz;
+
+        LetterExportConf(String pageCol, String col, String attr, Class... attrClazz) {
+            this.pageCol = pageCol;
+            this.col = col;
+            this.attr = attr;
+            this.attrClazz = attrClazz;
+        }
+
+        public String getPageCol() {
+            return pageCol;
+        }
+
+        public void setPageCol(String pageCol) {
+            this.pageCol = pageCol;
+        }
+
+        public String getCol() {
+            return col;
+        }
+
+        public void setCol(String col) {
+            this.col = col;
+        }
+
+        public String getAttr() {
+            return attr;
+        }
+
+        public void setAttr(String attr) {
+            this.attr = attr;
+        }
+
+        public Class[] getAttrClazz() {
+            return attrClazz;
+        }
+
+        public void setAttrClazz(Class... attrClazz) {
+            this.attrClazz = attrClazz;
+        }
+    }
+
 
 }

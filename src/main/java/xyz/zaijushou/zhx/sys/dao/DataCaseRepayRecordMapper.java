@@ -16,6 +16,10 @@ public interface DataCaseRepayRecordMapper {
 
     List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity);
 
+    List<DataCaseRepayRecordEntity> listRepayRecordSelectExport(DataCaseRepayRecordEntity repayRecordEntity);
+
+    List<DataCaseRepayRecordEntity> listRepayRecordExport(DataCaseRepayRecordEntity repayRecordEntity);
+
     void addList(List<DataCaseRepayRecordEntity> dataEntities);
 
     DataCaseRepayRecordEntity queryCaseSum(DataCaseRepayRecordEntity entity);

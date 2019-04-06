@@ -174,6 +174,123 @@ public class ExcelBankReconciliationConstant {
         }
     }
 
+    public enum BankReconciliationExportConf {
+        COL10("id", "还款ID", "b.id as id", Integer.class),
+        COL20("batchNo", "批次号", "c.batch_no as 'dataCase.batchNo'", DataCaseEntity.class, String.class),
+        COL30("cardNo", "卡号", "c.card_no as 'dataCase.cardNo'", DataCaseEntity.class, String.class),
+        COL40("identNo", "证件号", "c.ident_no as 'dataCase.identNo'", DataCaseEntity.class, String.class),
+        COL50("name", "姓名", "c.name as 'dataCase.name'", DataCaseEntity.class, String.class),
+        COL60("seqNo", "个案序列号", "c.seq_no as 'dataCase.seqNo'", DataCaseEntity.class, String.class),
+        COL70("client", "委托方", "c.client as 'dataCase.client'", DataCaseEntity.class, String.class),
+        COL80("money", "委案金额", "c.money as 'dataCase.money'", DataCaseEntity.class, BigDecimal.class),
+        COL90("balance", "当前委案余额", "c.balance as 'dataCase.balance'", DataCaseEntity.class, BigDecimal.class),
+        COL100("account", "账号", "c.account as 'dataCase.account'", DataCaseEntity.class, String.class),
+        COL110("archiveNo", "档案号", "c.archive_no as 'dataCase.archiveNo'", DataCaseEntity.class, String.class),
+        COL120("applyOrderNo", "申请单号", "c.apply_order_no as 'dataCase.applyOrderNo'", DataCaseEntity.class, String.class),
+        COL130("cpMoney", "CP金额", "b.cp_money as cpMoney", BigDecimal.class),
+        COL140("cpDate", "CP日期", "b.cp_date as cpDate", Date.class),
+        COL150("caseOdv", "案件催收员", ""),
+        COL160("backOdv", "回收催收员", ""),
+        COL170("backDept", "回收部门", ""),
+        COL180("submitUser", "提交人", "b.submit_user as 'submitUser.id'", SysNewUserEntity.class, String.class),
+        COL190("submitTime", "提交时间", "b.submit_time as submitTime", Date.class),
+        COL200("enRepayAmt", "还款金额", "c.en_repay_amt as 'dataCase.enRepayAmt'", DataCaseEntity.class, BigDecimal.class),
+        COL210("repayDate", "还款日期", ""),
+        COL220("repayBalance", "还款余额", "c.balance as 'dataCase.balance'", DataCaseEntity.class, BigDecimal.class),
+        COL230("mMoney", "M值金额", ""),
+        COL240("mVal", "M值系数", "c.m_val as 'dataCase.mVal'", DataCaseEntity.class, BigDecimal.class),
+        COL250("repayUser", "还款人", "b.repay_user as repayUser", String.class),
+        COL260("repayType", "还款方式", "b.repay_type as repayType", SysDictionaryEntity.class, String.class),
+        COL270("confirmUser", "确认人", ""),
+        COL280("ConfirmTime", "确认时间", ""),
+        COL290("repayRemark", "还款备注", ""),
+        COL300("accountAge", "逾期账龄", "c.account_age as 'dataCase.accountAge'", DataCaseEntity.class, String.class),
+        COL310("overduePeriods", "逾期期数", "c.overdue_periods as 'dataCase.overduePeriods'", DataCaseEntity.class, Double.class),
+        COL320("overdueDate", "逾期日期", "c.overdue_date as 'dataCase.overdueDate'", DataCaseEntity.class, Date.class),
+        COL330("overdueDays", "逾期天数", "c.overdue_days as 'dataCase.overdueDays'", DataCaseEntity.class, Double.class),
+        COL340("caseDate", "委案日期", "c.case_date as 'dataCase.caseDate'", DataCaseEntity.class, String.class),
+        COL350("expectTime", "预计退案日", "c.expect_time as 'dataCase.expectTime'", DataCaseEntity.class, Date.class),
+        COL360("province", "省份", "c.province as 'dataCase.province.id'", DataCaseEntity.class, SysDictionaryEntity.class, String.class),
+        COL370("city", "城市", "c.city as 'dataCase.city.id'", DataCaseEntity.class, SysDictionaryEntity.class, String.class),
+        COL380("county", "区县", "c.city as 'dataCase.county.id'", DataCaseEntity.class, SysDictionaryEntity.class, String.class),
+        COL390("tel", "手机", "c.tel as 'dataCase.tel'", DataCaseEntity.class, String.class),
+        COL400("currencyType", "币种", "c.currency_type as 'dataCase.currencyType'", DataCaseEntity.class, String.class),
+        COL410("distributeHistory", "分配历史", "c.distribute_history as 'dataCase.distributeHistory'", DataCaseEntity.class, String.class),
+        COL420("defaultLevel", "拖欠级别", "c.default_level as 'dataCase.defaultLevel'", DataCaseEntity.class, String.class),
+        COL430("latestOverdueMoney", "案件最新欠款", "c.money  as 'dataCase.latestOverdueMoney'", DataCaseEntity.class, BigDecimal.class),
+        COL440("inteviewStatus", "外访状态", "'' as 'dataCase.inteviewStatus'", DataCaseEntity.class, String.class),
+        COL450("commissionMoney", "公司佣金", "c.commission_money as 'dataCase.commissionMoney", DataCaseEntity.class, BigDecimal.class),
+        COL460("commissionRate", "公司佣金比率", "c.commission_rate as 'dataCase.commissionRate'", DataCaseEntity.class, Date.class),
+        COL470("caseRemarks0", "案件备注1", "dataCase.caseRemarks[0].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL480("caseRemarks1", "案件备注2", "dataCase.caseRemarks[1].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL490("caseRemarks2", "案件备注3", "dataCase.caseRemarks[2].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL500("caseRemarks3", "案件备注4", "dataCase.caseRemarks[3].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL510("caseRemarks4", "案件备注5", "dataCase.caseRemarks[4].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL520("caseRemarks5", "案件备注6", "dataCase.caseRemarks[5].remark", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL530("collectionArea", "催收区域", "dataCase.collectionArea.name", DataCaseEntity.class, SysDictionaryEntity.class, String.class),
+        ;
+
+        private String pageCol;
+
+        private String col;
+
+        private String attr;
+
+        private Class[] attrClazz;
+
+        BankReconciliationExportConf(String pageCol, String col, String attr, Class... attrClazz) {
+            this.pageCol = pageCol;
+            this.col = col;
+            this.attr = attr;
+            this.attrClazz = attrClazz;
+        }
+
+        //根据key获取枚举
+        public static ExcelBankReconciliationConstant.BankReconciliationExportConf getEnumByKey(String key){
+            if(null == key){
+                return null;
+            }
+            for(ExcelBankReconciliationConstant.BankReconciliationExportConf temp: ExcelBankReconciliationConstant.BankReconciliationExportConf.values()){
+                if(temp.getPageCol().equals(key)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+        public String getPageCol() {
+            return pageCol;
+        }
+
+        public void setPageCol(String pageCol) {
+            this.pageCol = pageCol;
+        }
+
+        public String getCol() {
+            return col;
+        }
+
+        public void setCol(String col) {
+            this.col = col;
+        }
+
+        public String getAttr() {
+            return attr;
+        }
+
+        public void setAttr(String attr) {
+            this.attr = attr;
+        }
+
+        public Class[] getAttrClazz() {
+            return attrClazz;
+        }
+
+        public void setAttrClazz(Class... attrClazz) {
+            this.attrClazz = attrClazz;
+        }
+    }
+
     public enum BankReconciliationSortEnum {
 
         COLUMN1("id","b.id"),

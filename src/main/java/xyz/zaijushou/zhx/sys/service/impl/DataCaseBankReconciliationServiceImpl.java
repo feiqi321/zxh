@@ -66,6 +66,33 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     }
 
     @Override
+    public PageInfo<DataCaseBankReconciliationEntity> pageDataListExport(DataCaseBankReconciliationEntity entity) {
+        if(entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectStatus() == 0) {
+            entity.getDataCase().setCollectStatusMsg("");
+        }
+        if(!StringUtils.isEmpty(entity.getOrderBy())){
+            entity.setOrderBy(ExcelBankReconciliationConstant.BankReconciliationSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
+        }
+        List<DataCaseBankReconciliationEntity> pageData = combineInfo(dataCaseBankReconciliationMapper.pageDataListExport(entity));
+        for (int i=0;i<pageData.size();i++){
+            DataCaseBankReconciliationEntity temp = pageData.get(i);
+
+            if (temp.getRepayType()!=null && temp.getRepayType().equals("10")){
+                temp.setRepayType("代扣卡");
+            }else if (temp.getRepayType()!=null && temp.getRepayType().equals("20")){
+                temp.setRepayType("对公还款");
+            }
+
+            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
+            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
+            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
+            pageData.set(i,temp);
+        }
+        return PageInfo.of(pageData);
+    }
+
+    @Override
     public void cancel(DataCaseBankReconciliationEntity entity) {
         entity.setStatus("1");
         dataCaseBankReconciliationMapper.updateStatus(entity);
@@ -102,6 +129,14 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             bankReconciliationEntity.getDataCase().setCollectStatusMsg("");
         }
         return combineInfo(dataCaseBankReconciliationMapper.listBankReconciliation(bankReconciliationEntity));
+    }
+
+    @Override
+    public List<DataCaseBankReconciliationEntity> totalExport(DataCaseBankReconciliationEntity bankReconciliationEntity) {
+        if(bankReconciliationEntity != null && bankReconciliationEntity.getDataCase() != null && bankReconciliationEntity.getDataCase().getCollectStatus() == 0) {
+            bankReconciliationEntity.getDataCase().setCollectStatusMsg("");
+        }
+        return combineInfo(dataCaseBankReconciliationMapper.totalExport(bankReconciliationEntity));
     }
 
     @Override

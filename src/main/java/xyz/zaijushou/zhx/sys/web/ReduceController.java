@@ -118,9 +118,22 @@ public class ReduceController {
             Entry entry = (Entry) iter.next();
             if ((Boolean) entry.getValue()){
                 ExcelReduceExportConstant.ReduceConfList reduceConfList = ExcelReduceExportConstant.ReduceConfList.getEnumByKey(entry.getKey().toString());
-                exportKeyList.add(reduceConfList.getAttr());
-                colMap.put(reduceConfList.getCol(),reduceConfList.getCol());
+                if (reduceConfList!=null && StringUtils.notEmpty(reduceConfList.getAttr())) {
+                    exportKeyList.add(reduceConfList.getAttr());
+                }
+                colMap.put(reduceConfList.getCol(), reduceConfList.getCol());
             }
+        }
+
+        ExcelReduceExportConstant.ReduceList reduceList[]= ExcelReduceExportConstant.ReduceList.values();
+        List<ExcelReduceExportConstant.ReduceList> reduceList2 = new ArrayList<ExcelReduceExportConstant.ReduceList>();
+
+        for (int i=0;i<reduceList.length;i++){
+            ExcelReduceExportConstant.ReduceList reduceListTemp = reduceList[i];
+            if (colMap.get(reduceListTemp.getCol())!=null){
+                reduceList2.add(reduceListTemp);
+            }
+
         }
 
         bean.setExportKeyList(exportKeyList);
@@ -133,16 +146,7 @@ public class ReduceController {
         if (StringUtils.isEmpty(list)){
             list = new ArrayList<DataCollectionEntity>();
         }
-        ExcelReduceExportConstant.ReduceList reduceList[]= ExcelReduceExportConstant.ReduceList.values();
-        List<ExcelReduceExportConstant.ReduceList> reduceList2 = new ArrayList<ExcelReduceExportConstant.ReduceList>();
 
-        for (int i=0;i<reduceList.length;i++){
-            ExcelReduceExportConstant.ReduceList reduceListTemp = reduceList[i];
-            if (colMap.get(reduceListTemp.getCol())!=null){
-                reduceList2.add(reduceListTemp);
-            }
-
-        }
         ExcelUtils.exportExcel(list,
                 reduceList2.toArray(new ExcelReduceExportConstant.ReduceList[reduceList2.size()]),
                 "减免管理导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",

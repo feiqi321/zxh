@@ -180,6 +180,16 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     }
 
     @Override
+    public List<DataCaseRepayRecordEntity> listRepayRecordSelectExport(DataCaseRepayRecordEntity repayRecordEntity) {
+        return combineInfo(dataCaseRepayRecordMapper.listRepayRecordSelectExport(repayRecordEntity));
+    }
+
+    @Override
+    public List<DataCaseRepayRecordEntity> listRepayRecordExport(DataCaseRepayRecordEntity repayRecordEntity) {
+        return combineInfo(dataCaseRepayRecordMapper.listRepayRecordExport(repayRecordEntity));
+    }
+
+    @Override
     public void addList(List<DataCaseRepayRecordEntity> dataEntities) {
         if(CollectionUtils.isEmpty(dataEntities)) {
             return;

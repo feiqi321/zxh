@@ -30,7 +30,7 @@ public class ExcelSynergisticConstant {
         COL170(170, "档案号", "dataCase.archiveNo", DataCaseEntity.class, String.class),
         COL180(180, "申请单号", "dataCase.applyOrderNo", DataCaseEntity.class, String.class),
         COL190(190, "委案金额", "dataCase.money", DataCaseEntity.class, BigDecimal.class),
-        COL200(200, "还款金额", "dataCase.repayMoney", DataCaseEntity.class, BigDecimal.class),
+        COL200(200, "还款金额", "dataCase.enRepayAmt", DataCaseEntity.class, BigDecimal.class),
         COL210(210, "本金", "dataCase.principle", DataCaseEntity.class, BigDecimal.class),
         COL220(220, "最后还款日", "dataCase.lastRepayDate", DataCaseEntity.class, Date.class),
         COL230(230, "委案日期", "dataCase.caseDate", DataCaseEntity.class, Date.class),
@@ -67,6 +67,90 @@ public class ExcelSynergisticConstant {
 
         public void setSort(Integer sort) {
             this.sort = sort;
+        }
+
+        public String getCol() {
+            return col;
+        }
+
+        public void setCol(String col) {
+            this.col = col;
+        }
+
+        public String getAttr() {
+            return attr;
+        }
+
+        public void setAttr(String attr) {
+            this.attr = attr;
+        }
+
+        public Class[] getAttrClazz() {
+            return attrClazz;
+        }
+
+        public void setAttrClazz(Class... attrClazz) {
+            this.attrClazz = attrClazz;
+        }
+    }
+
+    public enum SynergisticExportConf{
+        COL10("id", "ID", "s.id as id", Integer.class),
+        COL20("batchNo", "批次号", "c.batch_no as 'dataCase.batchNo'", DataCaseEntity.class, String.class),
+        COL30("client", "委托方", "c.client as 'dataCase.client'", DataCaseEntity.class, String.class),
+        COL40("seqNo", "个案序列号", "c.seq_no as 'dataCase.seqNo'", DataCaseEntity.class, String.class),
+        COL50("name", "姓名", "c.name as 'dataCase.name'", DataCaseEntity.class, String.class),
+        COL60("synergisticType", "协催类型", "s.synergistic_type as 'synergisticType.id'", SysDictionaryEntity.class, String.class),
+        COL70("applyContent", "申请内容", "s.apply_content as applyContent", String.class),
+        COL80("applyTime", "申请时间", "s.apply_time as applyTime", Date.class),
+        COL90("synergisticTime", "协催时间", "s.synergistic_time as synergisticTime", Date.class),
+        COL100("synergisticUser", "协催人", "s.synergistic_user as 'synergisticUser.id'", SysNewUserEntity.class, String.class),
+        COL110("synergisticResult", "协催结果", "s.synergistic_result as synergisticResult", String.class),
+        COL120("identNo", "证件号", "c.ident_no as 'dataCase.identNo'", DataCaseEntity.class, String.class),
+        COL130("cardNo", "卡号", "c.card_no as 'dataCase.cardNo'", DataCaseEntity.class, String.class),
+        COL140("cardType", "卡类", "c.card_type as 'dataCase.cardType'", DataCaseEntity.class, String.class),
+        COL150("account", "账号", "c.account as 'dataCase.account'", DataCaseEntity.class, String.class),
+        COL160("currencyType", "币种", "c.currency_type as 'dataCase.currencyType'", DataCaseEntity.class, String.class),
+        COL170("archiveNo", "档案号", "c.archive_no as 'dataCase.archiveNo',", DataCaseEntity.class, String.class),
+        COL180("applyOrderNo", "申请单号", "c.apply_order_no as 'dataCase.applyOrderNo'", DataCaseEntity.class, String.class),
+        COL190("money", "委案金额", "c.money as 'dataCase.money'", DataCaseEntity.class, BigDecimal.class),
+        COL200("enRepayAmt", "还款金额", "c.en_repay_amt as 'dataCase.enRepayAmt'", DataCaseEntity.class, BigDecimal.class),
+        COL210("principle", "本金", "c.principle as 'dataCase.principle'", DataCaseEntity.class, BigDecimal.class),
+        COL220("lastRepayDate", "最后还款日", "c.last_repay_date as 'dataCase.lastRepayDate'", DataCaseEntity.class, Date.class),
+        COL230("caseDate", "委案日期", "c.case_date as 'dataCase.caseDate'", DataCaseEntity.class, Date.class),
+        COL240("collectionUser", "催收员", "c.collection_user as 'dataCase.collectionUser.id'", DataCaseEntity.class, SysNewUserEntity.class, String.class),
+        COL250("creditLine", "信用额度", "c.credit_line as 'dataCase.creditLine'", DataCaseEntity.class, String.class),
+        COL260("homeAddress", "家庭地址", "c.home_address as 'dataCase.homeAddress'", DataCaseEntity.class, String.class),
+        COL270("homeTelNumber", "家庭号码", "c.home_tel_number as 'dataCase.homeTelNumber", DataCaseEntity.class, String.class),
+        COL280("unitName", "单位名称", "c.unit_name as 'dataCase.unitName'", DataCaseEntity.class, String.class),
+        COL290("unitAddress", "单位地址", "c.unit_address as 'dataCase.unitAddress'", DataCaseEntity.class, String.class),
+        COL300("tel", "手机", "c.tel as 'dataCase.tel'", DataCaseEntity.class, String.class),
+        COL310("unitTelNumber", "单位号码", "c.unit_tel_number as 'dataCase.unitTelNumber'", DataCaseEntity.class, String.class),
+        COL320("latestOverdueMoney", "最新欠款", "c.latest_overdue_money as 'dataCase.latestOverdueMoney'", DataCaseEntity.class, BigDecimal.class),
+//        COL330(330, "最新欠款导入时间", "dataCase.latestOverdueTime", DataCaseEntity.class, Date.class),
+        ;
+
+        private String pageCol;
+
+        private String col;
+
+        private String attr;
+
+        private Class[] attrClazz;
+
+        SynergisticExportConf(String pageCol, String col, String attr, Class... attrClazz) {
+            this.pageCol = pageCol;
+            this.col = col;
+            this.attr = attr;
+            this.attrClazz = attrClazz;
+        }
+
+        public String getPageCol() {
+            return pageCol;
+        }
+
+        public void setPageCol(String pageCol) {
+            this.pageCol = pageCol;
         }
 
         public String getCol() {

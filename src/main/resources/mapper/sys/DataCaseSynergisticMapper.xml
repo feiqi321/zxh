@@ -35,6 +35,8 @@
         s.apply_content as applyContent,
         s.apply_time as applyTime,
         c.odv as 'applyUser.id',
+        c.latest_overdue_money as 'dataCase.latestOverdueMoney',
+        c.apply_order_no as 'dataCase.applyOrderNo',
         s.synergistic_time as synergisticTime,
         s.synergistic_user as 'synergisticUser.id',
         s.synergistic_result as synergisticResult,

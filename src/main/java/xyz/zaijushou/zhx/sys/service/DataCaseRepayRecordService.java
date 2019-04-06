@@ -14,6 +14,10 @@ public interface DataCaseRepayRecordService {
 
     List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity);
 
+    List<DataCaseRepayRecordEntity> listRepayRecordSelectExport(DataCaseRepayRecordEntity repayRecordEntity);
+
+    public List<DataCaseRepayRecordEntity> listRepayRecordExport(DataCaseRepayRecordEntity repayRecordEntity);
+
     void addList(List<DataCaseRepayRecordEntity> dataEntities);
 
     DataCaseRepayRecordEntity querySum(DataCaseRepayRecordEntity entity);

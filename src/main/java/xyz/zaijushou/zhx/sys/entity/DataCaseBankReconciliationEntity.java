@@ -5,6 +5,8 @@ import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 银行对账实体
@@ -46,6 +48,26 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    private Map exportConf;
+
+    private List exportKeyList;
+
+    public Map getExportConf() {
+        return exportConf;
+    }
+
+    public void setExportConf(Map exportConf) {
+        this.exportConf = exportConf;
+    }
+
+    public List getExportKeyList() {
+        return exportKeyList;
+    }
+
+    public void setExportKeyList(List exportKeyList) {
+        this.exportKeyList = exportKeyList;
+    }
 
     public String getRepayDate() {
         return repayDate;

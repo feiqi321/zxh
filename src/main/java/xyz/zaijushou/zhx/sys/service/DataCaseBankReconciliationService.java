@@ -9,9 +9,13 @@ import java.util.List;
 public interface DataCaseBankReconciliationService {
     PageInfo<DataCaseBankReconciliationEntity> pageDataList(DataCaseBankReconciliationEntity entity);
 
+    PageInfo<DataCaseBankReconciliationEntity> pageDataListExport(DataCaseBankReconciliationEntity entity);
+
     void cancel(DataCaseBankReconciliationEntity entity);
 
     List<DataCaseBankReconciliationEntity> listBankReconciliation(DataCaseBankReconciliationEntity bankReconciliationEntity);
+
+    List<DataCaseBankReconciliationEntity> totalExport(DataCaseBankReconciliationEntity bankReconciliationEntity);
 
     void addList(List<DataCaseBankReconciliationEntity> dataEntities);
 
