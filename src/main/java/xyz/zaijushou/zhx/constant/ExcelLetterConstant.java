@@ -203,6 +203,19 @@ public class ExcelLetterConstant {
             this.attrClazz = attrClazz;
         }
 
+        //根据key获取枚举
+        public static ExcelLetterConstant.LetterExportConf getEnumByKey(String key){
+            if(null == key){
+                return null;
+            }
+            for(ExcelLetterConstant.LetterExportConf temp: ExcelLetterConstant.LetterExportConf.values()){
+                if(temp.getPageCol().equals(key)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
         public String getPageCol() {
             return pageCol;
         }

@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelCaseConstant;
 import xyz.zaijushou.zhx.constant.ExcelInterestConstant;
 import xyz.zaijushou.zhx.constant.ExcelLetterConstant;
+import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.LegalEntity;
 import xyz.zaijushou.zhx.sys.entity.Letter;
@@ -19,12 +20,12 @@ import xyz.zaijushou.zhx.sys.entity.LetterExportEntity;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.sys.service.LetterService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by looyer on 2019/2/21.
@@ -113,9 +114,37 @@ public class LetterAction {
     @ApiOperation(value = "当前页导出", notes = "当前页导出")
     @PostMapping("/letter/pageExport")
     public Object pageExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException , InvalidFormatException {
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelLetterConstant.LetterExportConf letterExportConf = ExcelLetterConstant.LetterExportConf.getEnumByKey(entry.getKey().toString());
+                if (letterExportConf!=null && StringUtils.notEmpty(letterExportConf.getAttr())) {
+                    exportKeyList.add(letterExportConf.getAttr());
+                }
+                colMap.put(letterExportConf.getCol(), letterExportConf.getCol());
+            }
+        }
+
+        ExcelLetterConstant.LetterExport letterExports[]= ExcelLetterConstant.LetterExport.values();
+        List<ExcelLetterConstant.LetterExport> letterExports2 = new ArrayList<ExcelLetterConstant.LetterExport >();
+
+        for (int i=0;i<letterExports.length;i++){
+            ExcelLetterConstant.LetterExport letterListTemp = letterExports[i];
+            if (colMap.get(letterListTemp.getCol())!=null){
+                letterExports2.add(letterListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
         List<LetterExportEntity> list = letterService.pageExportList(bean);
+
         ExcelUtils.exportExcel(list,
-                ExcelLetterConstant.LetterExport.values(),
+                letterExports2.toArray(new ExcelLetterConstant.LetterExport[letterExports2.size()]),
                 "信函记录当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -125,9 +154,37 @@ public class LetterAction {
     @ApiOperation(value = "信函记录全量导出", notes = "信函记录全量导出")
     @PostMapping("/letter/totalExport")
     public Object totalExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelLetterConstant.LetterExportConf letterExportConf = ExcelLetterConstant.LetterExportConf.getEnumByKey(entry.getKey().toString());
+                if (letterExportConf!=null && StringUtils.notEmpty(letterExportConf.getAttr())) {
+                    exportKeyList.add(letterExportConf.getAttr());
+                }
+                colMap.put(letterExportConf.getCol(), letterExportConf.getCol());
+            }
+        }
+
+        ExcelLetterConstant.LetterExport letterExports[]= ExcelLetterConstant.LetterExport.values();
+        List<ExcelLetterConstant.LetterExport> letterExports2 = new ArrayList<ExcelLetterConstant.LetterExport >();
+
+        for (int i=0;i<letterExports.length;i++){
+            ExcelLetterConstant.LetterExport letterListTemp = letterExports[i];
+            if (colMap.get(letterListTemp.getCol())!=null){
+                letterExports2.add(letterListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
         List<LetterExportEntity> list = letterService.totalExportList(bean);
         ExcelUtils.exportExcel(list,
-                ExcelLetterConstant.LetterExport.values(),
+                letterExports2.toArray(new ExcelLetterConstant.LetterExport[letterExports2.size()]),
                 "信函记录全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -137,9 +194,37 @@ public class LetterAction {
     @ApiOperation(value = "当前页导出", notes = "当前页导出")
     @PostMapping("/letter/pageInfoExport")
     public Object pageInfoExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException , InvalidFormatException {
-        List<LetterExportEntity> list = letterService.pageExportList(bean);
+
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelLetterConstant.LetterExportConf letterExportConf = ExcelLetterConstant.LetterExportConf.getEnumByKey(entry.getKey().toString());
+                if (letterExportConf!=null && StringUtils.notEmpty(letterExportConf.getAttr())) {
+                    exportKeyList.add(letterExportConf.getAttr());
+                }
+                colMap.put(letterExportConf.getCol(), letterExportConf.getCol());
+            }
+        }
+
+        ExcelLetterConstant.LetterExport letterExports[]= ExcelLetterConstant.LetterExport.values();
+        List<ExcelLetterConstant.LetterExport> letterExports2 = new ArrayList<ExcelLetterConstant.LetterExport >();
+
+        for (int i=0;i<letterExports.length;i++){
+            ExcelLetterConstant.LetterExport letterListTemp = letterExports[i];
+            if (colMap.get(letterListTemp.getCol())!=null){
+                letterExports2.add(letterListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+        List<LetterExportEntity> list = letterService.pageInfoExportList(bean);
         ExcelUtils.exportExcel(list,
-                ExcelLetterConstant.LetterExport.values(),
+                letterExports2.toArray(new ExcelLetterConstant.LetterExport[letterExports2.size()]),
                 "信函记录当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -149,9 +234,37 @@ public class LetterAction {
     @ApiOperation(value = "信函记录全量导出", notes = "信函记录全量导出")
     @PostMapping("/letter/totalInfoExport")
     public Object totalInfoExport(@RequestBody Letter bean ,HttpServletResponse response) throws IOException, InvalidFormatException {
-        List<LetterExportEntity> list = letterService.totalExportList(bean);
+
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelLetterConstant.LetterExportConf letterExportConf = ExcelLetterConstant.LetterExportConf.getEnumByKey(entry.getKey().toString());
+                if (letterExportConf!=null && StringUtils.notEmpty(letterExportConf.getAttr())) {
+                    exportKeyList.add(letterExportConf.getAttr());
+                }
+                colMap.put(letterExportConf.getCol(), letterExportConf.getCol());
+            }
+        }
+
+        ExcelLetterConstant.LetterExport letterExports[]= ExcelLetterConstant.LetterExport.values();
+        List<ExcelLetterConstant.LetterExport> letterExports2 = new ArrayList<ExcelLetterConstant.LetterExport >();
+
+        for (int i=0;i<letterExports.length;i++){
+            ExcelLetterConstant.LetterExport letterListTemp = letterExports[i];
+            if (colMap.get(letterListTemp.getCol())!=null){
+                letterExports2.add(letterListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+        List<LetterExportEntity> list = letterService.totalInfoExportList(bean);
         ExcelUtils.exportExcel(list,
-                ExcelLetterConstant.LetterExport.values(),
+                letterExports2.toArray(new ExcelLetterConstant.LetterExport[letterExports2.size()]),
                 "信函记录全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelLetterConstant;
 import xyz.zaijushou.zhx.constant.ExcelSynergisticConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
@@ -103,6 +104,34 @@ public class DataCaseSynergisticController {
 
     @PostMapping("/queryDataExport")
     public Object queryDataExport(@RequestBody DataCaseSynergisticEntity synergistic, HttpServletResponse response) throws IOException {
+
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = synergistic.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelSynergisticConstant.SynergisticExportConf synergisticExportConf = ExcelSynergisticConstant.SynergisticExportConf.getEnumByKey(entry.getKey().toString());
+                if (synergisticExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(synergisticExportConf.getAttr())) {
+                    exportKeyList.add(synergisticExportConf.getAttr());
+                }
+                colMap.put(synergisticExportConf.getCol(), synergisticExportConf.getCol());
+            }
+        }
+
+        ExcelSynergisticConstant.SynergisticExport synergisticExports[]= ExcelSynergisticConstant.SynergisticExport.values();
+        List<ExcelSynergisticConstant.SynergisticExport> synergisticExports2 = new ArrayList<ExcelSynergisticConstant.SynergisticExport>();
+
+        for (int i=0;i<synergisticExports.length;i++){
+            ExcelSynergisticConstant.SynergisticExport synergisticListTemp = synergisticExports[i];
+            if (colMap.get(synergisticListTemp.getCol())!=null){
+                synergisticExports2.add(synergisticListTemp);
+            }
+        }
+
+        synergistic.setExportKeyList(exportKeyList);
+
         List<DataCaseSynergisticEntity> list = dataCaseSynergisticService.listSynergistic(synergistic);
         Set<String> userIdsSet = new HashSet<>();
         Set<String> clientSet = new HashSet<>();
@@ -149,7 +178,7 @@ public class DataCaseSynergisticController {
 
         ExcelUtils.exportExcel(
                 list,
-                ExcelSynergisticConstant.SynergisticExport.values(),
+                synergisticExports2.toArray(new ExcelSynergisticConstant.SynergisticExport[synergisticExports2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -158,7 +187,35 @@ public class DataCaseSynergisticController {
 
     @PostMapping("/pageDataExport")
     public Object pageDataExport(@RequestBody DataCaseSynergisticEntity synergistic, HttpServletResponse response) throws IOException {
-        List<DataCaseSynergisticEntity> list = dataCaseSynergisticService.pageSynergisticList(synergistic).getList();
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = synergistic.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelSynergisticConstant.SynergisticExportConf synergisticExportConf = ExcelSynergisticConstant.SynergisticExportConf.getEnumByKey(entry.getKey().toString());
+                if (synergisticExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(synergisticExportConf.getAttr())) {
+                    exportKeyList.add(synergisticExportConf.getAttr());
+                }
+                colMap.put(synergisticExportConf.getCol(), synergisticExportConf.getCol());
+            }
+        }
+
+        ExcelSynergisticConstant.SynergisticExport synergisticExports[]= ExcelSynergisticConstant.SynergisticExport.values();
+        List<ExcelSynergisticConstant.SynergisticExport> synergisticExports2 = new ArrayList<ExcelSynergisticConstant.SynergisticExport>();
+
+        for (int i=0;i<synergisticExports.length;i++){
+            ExcelSynergisticConstant.SynergisticExport synergisticListTemp = synergisticExports[i];
+            if (colMap.get(synergisticListTemp.getCol())!=null){
+                synergisticExports2.add(synergisticListTemp);
+            }
+        }
+
+        synergistic.setExportKeyList(exportKeyList);
+
+
+        List<DataCaseSynergisticEntity> list = dataCaseSynergisticService.pageSynergisticExportList(synergistic).getList();
         Set<String> userIdsSet = new HashSet<>();
         Set<String> clientSet = new HashSet<>();
         for(DataCaseSynergisticEntity entity : list) {
@@ -206,7 +263,7 @@ public class DataCaseSynergisticController {
 
         ExcelUtils.exportExcel(
                 list,
-                ExcelSynergisticConstant.SynergisticExport.values(),
+                synergisticExports2.toArray(new ExcelSynergisticConstant.SynergisticExport[synergisticExports2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -215,6 +272,32 @@ public class DataCaseSynergisticController {
 
     @PostMapping("/selectDataExport")
     public Object selectDataExport(@RequestBody DataCaseSynergisticEntity synergistic, HttpServletResponse response) throws IOException {
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = synergistic.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelSynergisticConstant.SynergisticExportConf synergisticExportConf = ExcelSynergisticConstant.SynergisticExportConf.getEnumByKey(entry.getKey().toString());
+                if (synergisticExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(synergisticExportConf.getAttr())) {
+                    exportKeyList.add(synergisticExportConf.getAttr());
+                }
+                colMap.put(synergisticExportConf.getCol(), synergisticExportConf.getCol());
+            }
+        }
+
+        ExcelSynergisticConstant.SynergisticExport synergisticExports[]= ExcelSynergisticConstant.SynergisticExport.values();
+        List<ExcelSynergisticConstant.SynergisticExport> synergisticExports2 = new ArrayList<ExcelSynergisticConstant.SynergisticExport>();
+
+        for (int i=0;i<synergisticExports.length;i++){
+            ExcelSynergisticConstant.SynergisticExport synergisticListTemp = synergisticExports[i];
+            if (colMap.get(synergisticListTemp.getCol())!=null){
+                synergisticExports2.add(synergisticListTemp);
+            }
+        }
+
+        synergistic.setExportKeyList(exportKeyList);
 
         String fileName ="导出协催选中结果" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -226,7 +309,7 @@ public class DataCaseSynergisticController {
         if(synergistic == null || synergistic.getIds() == null || synergistic.getIds().length == 0) {
             ExcelUtils.exportExcel(
                     new ArrayList<>(),
-                    ExcelSynergisticConstant.SynergisticExport.values(),
+                    synergisticExports2.toArray(new ExcelSynergisticConstant.SynergisticExport[synergisticExports2.size()]),
                     fileName + ".xlsx",
                     response
             );
@@ -272,7 +355,7 @@ public class DataCaseSynergisticController {
         }
         ExcelUtils.exportExcel(
                 list,
-                ExcelSynergisticConstant.SynergisticExport.values(),
+                synergisticExports2.toArray(new ExcelSynergisticConstant.SynergisticExport[synergisticExports2.size()]),
                 fileName + ".xlsx",
                 response
         );

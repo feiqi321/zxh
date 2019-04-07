@@ -3,6 +3,8 @@ package xyz.zaijushou.zhx.sys.entity;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 public class Letter extends CommonEntity {
     private Integer id;
@@ -93,6 +95,26 @@ public class Letter extends CommonEntity {
     private String sort;
 
     private int periods;
+
+    private Map exportConf;
+
+    private List exportKeyList;
+
+    public Map getExportConf() {
+        return exportConf;
+    }
+
+    public void setExportConf(Map exportConf) {
+        this.exportConf = exportConf;
+    }
+
+    public List getExportKeyList() {
+        return exportKeyList;
+    }
+
+    public void setExportKeyList(List exportKeyList) {
+        this.exportKeyList = exportKeyList;
+    }
 
     public String getCaseAmtMsg() {
         return caseAmtMsg;

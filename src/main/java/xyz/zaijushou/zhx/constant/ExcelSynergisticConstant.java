@@ -145,6 +145,20 @@ public class ExcelSynergisticConstant {
             this.attrClazz = attrClazz;
         }
 
+        //根据key获取枚举
+        public static ExcelSynergisticConstant.SynergisticExportConf getEnumByKey(String key){
+            if(null == key){
+                return null;
+            }
+            for(ExcelSynergisticConstant.SynergisticExportConf temp: ExcelSynergisticConstant.SynergisticExportConf.values()){
+                if(temp.getPageCol().equals(key)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+
         public String getPageCol() {
             return pageCol;
         }

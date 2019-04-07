@@ -143,9 +143,107 @@
         </if>
     </select>
 
+    <select id="pageSynergisticExportList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
+        from data_case_synergistic s
+        left join data_case c on s.case_id = c.id
+        where s.delete_flag = 0
+        <if test="synergisticType != null and synergisticType.id != null and synergisticType.id != ''">
+            and s.synergistic_type = #{synergisticType.id}
+        </if>
+        <if test="applyStatus != null and applyStatus != ''">
+            and s.synergistic_apply_status = #{applyStatus}
+        </if>
+        <if test="finishStatus != null and finishStatus != ''">
+            and s.synergistic_finish_status = #{finishStatus}
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.id != null">
+            and c.collection_area = #{dataCase.collectionArea.id}
+        </if>
+        <if test="dataCase != null and dataCase.clientFlag != null and dataCase.clientFlag != ''">
+            and c.client in
+            <foreach item="item" index="index" collection="dataCase.clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.batchNoFlag != null and dataCase.batchNoFlag != ''">
+            and c.batch_no in
+            <foreach item="item" index="index" collection="dataCase.batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.status != null">
+            and c.status = #{dataCase.status}
+        </if>
+        <if test="dataCase != null and dataCase.moneyStart != null">
+            and c.money >= #{dataCase.moneyStart}
+        </if>
+        <if test="dataCase != null and dataCase.moneyEnd != null">
+            and c.money &lt;= #{dataCase.moneyEnd}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateStart != null">
+            and c.case_date >= #{dataCase.caseDateStart}
+        </if>
+        <if test="dataCase != null and dataCase.caseDateEnd != null">
+            and c.case_date &lt;= #{dataCase.caseDateEnd}
+        </if>
+        <if test="dataCase != null and dataCase.collectStatus != 0">
+            and c.collect_status = #{dataCase.collectStatus}
+        </if>
+        <if test="applyUser != null and applyUser.idsList != null and applyUser.idsList.size > 0">
+            and s.apply_user in
+            <foreach collection="applyUser.idsList" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="applyTimeStart != null">
+            and s.apply_time >= #{applyTimeStart}
+        </if>
+        <if test="applyTimeEnd != null">
+            and s.apply_time &lt; =#{applyTimeEnd}
+        </if>
+
+        <if test="dataCase != null and dataCase.names != null and dataCase.names != null and dataCase.names.length > 0">
+            and c.name in
+            <foreach collection="dataCase.names" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
+            and c.seq_no in
+            <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos != null and dataCase.identNos.length > 0">
+            and c.ident_no in
+            <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts != null and dataCase.accounts.length > 0">
+            and c.account in
+            <foreach collection="dataCase.accounts" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.id != null">
+            and c.id = #{dataCase.id}
+        </if>
+        <if test="orderBy != null and orderBy != '' and sort != null and sort != ''">
+            order by ${orderBy} ${sort}
+        </if>
+    </select>
+
     <select id="listSynergistic" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
         select
-        <include refid="colSql"/>
+       <!-- <include refid="colSql"/>-->
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from data_case_synergistic s
         left join data_case c on s.case_id = c.id
         where s.delete_flag = 0

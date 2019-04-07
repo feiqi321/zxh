@@ -434,11 +434,9 @@
 
   <select id="totalExportList" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.LetterExportEntity">
    select * from ( select
-        t.id,d.batch_no as batchNo,d.client,d.seq_no as seqNo,d.name,t.address_type as addressType,t.address,t.applyer,t.apply_date as applyDate,t.apply_context as applyContext,
-    t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult,d.card_no as cardNo,d.card_type as cardType,d.ident_no as identNo,d.account,
-    d.currency_type as currencyType,d.archive_no as archiveNo,d.money,d.en_repay_amt as enRepayAmt,d.principle,d.last_repay_date as lastRepayDate,d.case_date as caseDate,
-    d.odv,d.credit_line as creditLine,d.home_address as homeAddress,d.home_tel_number as homeTelNumber,d.tel,d.unit_name as unitName,d.unit_address as unitAddress,
-    d.unit_tel_number as unitTelNumber
+    <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+      ${reddemCode}
+    </foreach >
     from letter t LEFT  JOIN data_case d on t.case_id = d.id
     <where>
       d.delete_flag=0  and t.status = #{status}
@@ -493,15 +491,9 @@
 
   <select id="pageExportList" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.LetterExportEntity">
     select * from (select
-    t.id,d.batch_no as batchNo,d.client,d.seq_no as seqNo,d.name,t.address_type as
-    addressType,t.address,t.applyer,t.apply_date as applyDate,t.apply_context as applyContext,
-    t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult,d.card_no as cardNo,d.card_type as
-    cardType,d.ident_no as identNo,d.account,
-    d.currency_type as currencyType,d.archive_no as archiveNo,d.money,d.en_repay_amt as
-    enRepayAmt,d.principle,d.last_repay_date as lastRepayDate,d.case_date as caseDate,
-    d.odv,d.credit_line as creditLine,d.home_address as homeAddress,d.home_tel_number as homeTelNumber,d.tel,d.unit_name
-    as unitName,d.unit_address as unitAddress,d.apply_order_no as applyNo,d.latest_overdue_money as latestOverdueMoney,
-    d.unit_tel_number as unitTelNumber
+    <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+      ${reddemCode}
+    </foreach >
     from letter t LEFT JOIN data_case d on t.case_id = d.id
     <where>
       d.delete_flag=0 and t.status = #{status}
@@ -556,11 +548,9 @@
 
   <select id="totalInfoExportList" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.LetterExportEntity">
     select * from ( select
-    t.id,d.batch_no as batchNo,d.client,d.seq_no as seqNo,d.name,t.address_type as addressType,t.address,t.applyer,t.apply_date as applyDate,t.apply_context as applyContext,
-    t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult,d.card_no as cardNo,d.card_type as cardType,d.ident_no as identNo,d.account,
-    d.currency_type as currencyType,d.archive_no as archiveNo,d.money,d.en_repay_amt as enRepayAmt,d.principle,d.last_repay_date as lastRepayDate,d.case_date as caseDate,
-    d.odv,d.credit_line as creditLine,d.home_address as homeAddress,d.home_tel_number as homeTelNumber,d.tel,d.unit_name as unitName,d.unit_address as unitAddress,
-    d.unit_tel_number as unitTelNumber
+    <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+      ${reddemCode}
+    </foreach >
     from letter t LEFT  JOIN data_case d on t.case_id = d.id
     <where>
       d.delete_flag=0 and t.status in (0,1,9)
@@ -615,15 +605,9 @@
 
   <select id="pageInfoExportList" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" resultType="xyz.zaijushou.zhx.sys.entity.LetterExportEntity">
     select * from (select
-    t.id,d.batch_no as batchNo,d.client,d.seq_no as seqNo,d.name,t.address_type as
-    addressType,t.address,t.applyer,t.apply_date as applyDate,t.apply_context as applyContext,
-    t.synergy_date as synergyDate,t.synergyer,t.synergy_result as synergyResult,d.card_no as cardNo,d.card_type as
-    cardType,d.ident_no as identNo,d.account,
-    d.currency_type as currencyType,d.archive_no as archiveNo,d.money,d.en_repay_amt as
-    enRepayAmt,d.principle,d.last_repay_date as lastRepayDate,d.case_date as caseDate,
-    d.odv,d.credit_line as creditLine,d.home_address as homeAddress,d.home_tel_number as homeTelNumber,d.tel,d.unit_name
-    as unitName,d.unit_address as unitAddress,
-    d.unit_tel_number as unitTelNumber
+    <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+      ${reddemCode}
+    </foreach >
     from letter t LEFT JOIN data_case d on t.case_id = d.id
     <where>
       d.delete_flag=0 and t.status in (0,1,9)

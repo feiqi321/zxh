@@ -10,6 +10,8 @@ import java.util.List;
 public interface DataCaseSynergisticService {
     PageInfo<DataCaseSynergisticEntity> pageSynergisticList(DataCaseSynergisticEntity synergistic);
 
+    PageInfo<DataCaseSynergisticEntity> pageSynergisticExportList(DataCaseSynergisticEntity synergistic);
+
     void approve(DataCaseSynergisticEntity synergistic);
 
     void saveApply(DataCaseSynergyDetailEntity bean);

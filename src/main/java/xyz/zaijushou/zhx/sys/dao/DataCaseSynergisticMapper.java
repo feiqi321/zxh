@@ -10,6 +10,8 @@ import java.util.List;
 public interface DataCaseSynergisticMapper {
     List<DataCaseSynergisticEntity> pageSynergisticList(DataCaseSynergisticEntity synergistic);
 
+    List<DataCaseSynergisticEntity> pageSynergisticExportList(DataCaseSynergisticEntity synergistic);
+
     void updateApplyStatus(DataCaseSynergisticEntity synergistic);
 
     void saveApply(DataCaseSynergyDetailEntity bean);
