@@ -3,10 +3,7 @@ package xyz.zaijushou.zhx.sys.entity;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -283,6 +280,26 @@ public class DataCaseEntity extends CommonEntity {
     private String selfInfo;    //自定义信息
 
     private String latestCollectMomorize;   //最新催记
+
+    private Map exportConf;
+
+    private List exportKeyList;
+
+    public Map getExportConf() {
+        return exportConf;
+    }
+
+    public void setExportConf(Map exportConf) {
+        this.exportConf = exportConf;
+    }
+
+    public List getExportKeyList() {
+        return exportKeyList;
+    }
+
+    public void setExportKeyList(List exportKeyList) {
+        this.exportKeyList = exportKeyList;
+    }
 
     public String getInterestDate() {
         return interestDate;

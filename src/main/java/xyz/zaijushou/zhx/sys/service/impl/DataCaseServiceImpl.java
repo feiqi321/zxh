@@ -1315,10 +1315,10 @@ public class DataCaseServiceImpl implements DataCaseService {
         return combineData(list);
     }
 
-    public List<DataCaseTelExport> selectCaseTelListExport(int[] ids){
+    public List<DataCaseTelExport> selectCaseTelListExport(DataCaseEntity bean){
         List<DataCaseTelExport> list = new ArrayList<DataCaseTelExport>();
 
-        list = dataCaseMapper.selectCaseTelListExport(ids);
+        list = dataCaseMapper.selectCaseTelListExport(bean);
         for (int i=0;i<list.size();i++){
             DataCaseTelExport temp = list.get(i);
             SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
@@ -1331,11 +1331,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         return list;
     }
 
-    public List<DataCaseEntity> selectCaseListExport(int[] ids){
+    public List<DataCaseEntity> selectCaseListExport(DataCaseEntity bean){
 
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
 
-        list = dataCaseMapper.selectCaseList(ids);
+        list = dataCaseMapper.selectCaseList(bean);
         for(int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             if (temp.getCollectStatus()==0){

@@ -61,11 +61,11 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> pageCaseListExport(DataCaseEntity dataCaseEntity);
 
-    public List<DataCaseEntity> selectCaseListExport(int[] ids);
+    public List<DataCaseEntity> selectCaseListExport(DataCaseEntity bean);
 
     public List<DataCaseEntity> selectDataCaseExportByBatch(DataCaseEntity dataCaseEntity);
 
-    public List<DataCaseTelExport> selectCaseTelListExport(int[] ids);
+    public List<DataCaseTelExport> selectCaseTelListExport(DataCaseEntity bean);
 
     public List<DataCaseEntity> totalCaseListExport(DataCaseEntity dataCaseEntity);
 

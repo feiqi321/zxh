@@ -636,7 +636,32 @@ public class DataCaseController {
     @ApiOperation(value = "数据模块-案件管理查询导出", notes = "数据模块-案件管理查询导出")
     @PostMapping("/dataCase/pageCaseListExport")
     public Object pageCaseListExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException{
+        List exportKeyList = new ArrayList();
 
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCaseConstant.CaseExportCaseConf caseExportCaseConf = ExcelCaseConstant.CaseExportCaseConf.getEnumByKey(entry.getKey().toString());
+                if (caseExportCaseConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseExportCaseConf.getAttr())) {
+                    exportKeyList.add(caseExportCaseConf.getAttr());
+                }
+                colMap.put(caseExportCaseConf.getCol(), caseExportCaseConf.getCol());
+            }
+        }
+
+        ExcelCaseConstant.CaseExportCase caseExportCases[]= ExcelCaseConstant.CaseExportCase.values();
+        List<ExcelCaseConstant.CaseExportCase> caseExportCases2 = new ArrayList<ExcelCaseConstant.CaseExportCase>();
+
+        for (int i=0;i<caseExportCases.length;i++){
+            ExcelCaseConstant.CaseExportCase caseListTemp = caseExportCases[i];
+            if (colMap.get(caseListTemp.getCol())!=null){
+                caseExportCases2.add(caseListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
         List<DataCaseEntity> list = dataCaseService.pageCaseListExport(bean);
         String fileName = "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -645,7 +670,7 @@ public class DataCaseController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(list,
-                ExcelCaseConstant.CaseExportCase.values(),
+                caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName+ ".xlsx",
                 response
         );
@@ -655,7 +680,32 @@ public class DataCaseController {
     @ApiOperation(value = "查询导出当前页", notes = "查询导出当前页")
     @PostMapping("/dataCase/pageDataBatchExport")
     public Object pageDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
 
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCaseConstant.CaseExportCaseConf caseExportCaseConf = ExcelCaseConstant.CaseExportCaseConf.getEnumByKey(entry.getKey().toString());
+                if (caseExportCaseConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseExportCaseConf.getAttr())) {
+                    exportKeyList.add(caseExportCaseConf.getAttr());
+                }
+                colMap.put(caseExportCaseConf.getCol(), caseExportCaseConf.getCol());
+            }
+        }
+
+        ExcelCaseConstant.CaseExportCase caseExportCases[]= ExcelCaseConstant.CaseExportCase.values();
+        List<ExcelCaseConstant.CaseExportCase> caseExportCases2 = new ArrayList<ExcelCaseConstant.CaseExportCase>();
+
+        for (int i=0;i<caseExportCases.length;i++){
+            ExcelCaseConstant.CaseExportCase caseListTemp = caseExportCases[i];
+            if (colMap.get(caseListTemp.getCol())!=null){
+                caseExportCases2.add(caseListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
         WebResponse result = dataCaseService.pageCaseList(bean);
 
         String fileName = "案件管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -667,7 +717,7 @@ public class DataCaseController {
 
         List<DataCaseEntity> list = ((CaseResponse)result.getData()).getPageInfo().getList();
                 ExcelUtils.exportExcel(list,
-                ExcelCaseConstant.CaseExportCase.values(),
+                        caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName+ ".xlsx",
                 response
         );
@@ -677,7 +727,32 @@ public class DataCaseController {
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
     @PostMapping("/dataCase/totalDataBatchExport")
     public Object totalDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
 
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCaseConstant.CaseExportCaseConf caseExportCaseConf = ExcelCaseConstant.CaseExportCaseConf.getEnumByKey(entry.getKey().toString());
+                if (caseExportCaseConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseExportCaseConf.getAttr())) {
+                    exportKeyList.add(caseExportCaseConf.getAttr());
+                }
+                colMap.put(caseExportCaseConf.getCol(), caseExportCaseConf.getCol());
+            }
+        }
+
+        ExcelCaseConstant.CaseExportCase caseExportCases[]= ExcelCaseConstant.CaseExportCase.values();
+        List<ExcelCaseConstant.CaseExportCase> caseExportCases2 = new ArrayList<ExcelCaseConstant.CaseExportCase>();
+
+        for (int i=0;i<caseExportCases.length;i++){
+            ExcelCaseConstant.CaseExportCase caseListTemp = caseExportCases[i];
+            if (colMap.get(caseListTemp.getCol())!=null){
+                caseExportCases2.add(caseListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
         List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
         String fileName = "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -686,7 +761,7 @@ public class DataCaseController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(list,
-                ExcelCaseConstant.CaseExportCase.values(),
+                caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -695,13 +770,35 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataCase/selectDataCaseExport")
-    public Object selectDataCaseExport(@RequestBody List<DataCaseEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
-        int[] ids = new int[list.size()];
-        for(int i=0;i<list.size();i++){
-            DataCaseEntity temp = list.get(i);
-            ids[i] = temp.getId();
+    public Object selectDataCaseExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCaseConstant.CaseExportCaseConf caseExportCaseConf = ExcelCaseConstant.CaseExportCaseConf.getEnumByKey(entry.getKey().toString());
+                if (caseExportCaseConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseExportCaseConf.getAttr())) {
+                    exportKeyList.add(caseExportCaseConf.getAttr());
+                }
+                colMap.put(caseExportCaseConf.getCol(), caseExportCaseConf.getCol());
+            }
         }
-        List<DataCaseEntity> resultList = dataCaseService.selectCaseListExport(ids);
+
+        ExcelCaseConstant.CaseExportCase caseExportCases[]= ExcelCaseConstant.CaseExportCase.values();
+        List<ExcelCaseConstant.CaseExportCase> caseExportCases2 = new ArrayList<ExcelCaseConstant.CaseExportCase>();
+
+        for (int i=0;i<caseExportCases.length;i++){
+            ExcelCaseConstant.CaseExportCase caseListTemp = caseExportCases[i];
+            if (colMap.get(caseListTemp.getCol())!=null){
+                caseExportCases2.add(caseListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+        List<DataCaseEntity> resultList = dataCaseService.selectCaseListExport(bean);
         String fileName = "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
@@ -709,7 +806,7 @@ public class DataCaseController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(resultList,
-                ExcelCaseConstant.CaseExportCase.values(),
+                caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -719,6 +816,33 @@ public class DataCaseController {
     @ApiOperation(value = "查询导出批次案件", notes = "查询导出批次案件")
     @PostMapping("/dataCase/selectDataCaseExportByBatch")
     public Object selectDataCaseExportByBatch(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCaseConstant.CaseExportCaseConf caseExportCaseConf = ExcelCaseConstant.CaseExportCaseConf.getEnumByKey(entry.getKey().toString());
+                if (caseExportCaseConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseExportCaseConf.getAttr())) {
+                    exportKeyList.add(caseExportCaseConf.getAttr());
+                }
+                colMap.put(caseExportCaseConf.getCol(), caseExportCaseConf.getCol());
+            }
+        }
+
+        ExcelCaseConstant.CaseExportCase caseExportCases[]= ExcelCaseConstant.CaseExportCase.values();
+        List<ExcelCaseConstant.CaseExportCase> caseExportCases2 = new ArrayList<ExcelCaseConstant.CaseExportCase>();
+
+        for (int i=0;i<caseExportCases.length;i++){
+            ExcelCaseConstant.CaseExportCase caseListTemp = caseExportCases[i];
+            if (colMap.get(caseListTemp.getCol())!=null){
+                caseExportCases2.add(caseListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
 
         List<DataCaseEntity> resultList = dataCaseService.selectDataCaseExportByBatch(bean);
         String fileName = "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -728,7 +852,7 @@ public class DataCaseController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
         ExcelUtils.exportExcel(resultList,
-                ExcelCaseConstant.CaseExportCase.values(),
+                caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -765,14 +889,36 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出所选案件的电话", notes = "查询导出所选案件的电话")
     @PostMapping("/dataCase/selectDataCaseTel")
-    public Object selectDataCaseTel(@RequestBody List<DataCaseEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataCaseTel(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
 
-        int[] ids = new int[list.size()];
-        for(int i=0;i<list.size();i++){
-            DataCaseEntity temp = list.get(i);
-            ids[i] = temp.getId();
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCaseTelConstant.CaseTelConf caseTelExportCaseConf = ExcelCaseTelConstant.CaseTelConf.getEnumByKey(entry.getKey().toString());
+                if (caseTelExportCaseConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseTelExportCaseConf.getAttr())) {
+                    exportKeyList.add(caseTelExportCaseConf.getAttr());
+                }
+                colMap.put(caseTelExportCaseConf.getCol(), caseTelExportCaseConf.getCol());
+            }
         }
-        List<DataCaseTelExport> resultList = dataCaseService.selectCaseTelListExport(ids);
+
+        ExcelCaseTelConstant.CaseTel caseTelExportCases[]= ExcelCaseTelConstant.CaseTel.values();
+        List<ExcelCaseTelConstant.CaseTel> caseTelExportCases2 = new ArrayList<ExcelCaseTelConstant.CaseTel>();
+
+        for (int i=0;i<caseTelExportCases.length;i++){
+            ExcelCaseTelConstant.CaseTel caseListTemp = caseTelExportCases[i];
+            if (colMap.get(caseListTemp.getCol())!=null){
+                caseTelExportCases2.add(caseListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+
+        List<DataCaseTelExport> resultList = dataCaseService.selectCaseTelListExport(bean);
 
         String fileName = "案件管理电话选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -782,7 +928,7 @@ public class DataCaseController {
         sysOperationLogService.insertRequest(operationLog);
 
         ExcelUtils.exportExcel(resultList,
-                ExcelCaseTelConstant.CaseTel.values(),
+                caseTelExportCases2.toArray(new ExcelCaseTelConstant.CaseTel[caseTelExportCases2.size()]),
                 fileName + ".xlsx",
                 response
         );

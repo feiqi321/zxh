@@ -101,6 +101,19 @@ public class ExcelCaseTelConstant {
             this.attrClazz = attrClazz;
         }
 
+        //根据key获取枚举
+        public static ExcelCaseTelConstant.CaseTelConf getEnumByKey(String key){
+            if(null == key){
+                return null;
+            }
+            for(ExcelCaseTelConstant.CaseTelConf temp: ExcelCaseTelConstant.CaseTelConf.values()){
+                if(temp.getPageCol().equals(key)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
         public String getPageCol() {
             return pageCol;
         }

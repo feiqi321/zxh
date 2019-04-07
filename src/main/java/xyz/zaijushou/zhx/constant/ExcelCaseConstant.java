@@ -616,7 +616,7 @@ public class ExcelCaseConstant {
         COL30("name", "姓名", "da.name as name", String.class),
         COL40("client", "委托方", "da.client as client", String.class),
         COL50("batchNo", "批次号", "da.batch_no as batchNo", String.class),
-        COL60("status", "案件状态", "da.status as status,", int.class),
+        COL60("status", "案件状态", "da.status as status", int.class),
         COL70("identNo", "证件号", "da.ident_no as identNo", String.class),
         COL80("identType", "证件类型", "da.ident_type as identType", String.class),
         COL90("gender", "性别", "da.gender as gender", String.class),
@@ -799,6 +799,20 @@ public class ExcelCaseConstant {
             this.attr = attr;
             this.attrClazz = attrClazz;
         }
+
+        //根据key获取枚举
+        public static ExcelCaseConstant.CaseExportCaseConf getEnumByKey(String key){
+            if(null == key){
+                return null;
+            }
+            for(ExcelCaseConstant.CaseExportCaseConf temp: ExcelCaseConstant.CaseExportCaseConf.values()){
+                if(temp.getPageCol().equals(key)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
 
         public String getPageCol() {
             return pageCol;

@@ -1,10 +1,14 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by looyer on 2019/2/23.
  */
 public class DataCaseTelExport {
 
+    private int[] ids;
     private String seqno;
     private String name;
     private String cardNo;
@@ -19,6 +23,34 @@ public class DataCaseTelExport {
     private String telType;
     private String relation;
     private String remak;
+
+    private Map exportConf;
+
+    private List exportKeyList;
+
+    public int[] getIds() {
+        return ids;
+    }
+
+    public void setIds(int[] ids) {
+        this.ids = ids;
+    }
+
+    public Map getExportConf() {
+        return exportConf;
+    }
+
+    public void setExportConf(Map exportConf) {
+        this.exportConf = exportConf;
+    }
+
+    public List getExportKeyList() {
+        return exportKeyList;
+    }
+
+    public void setExportKeyList(List exportKeyList) {
+        this.exportKeyList = exportKeyList;
+    }
 
     public String getSeqno() {
         return seqno;

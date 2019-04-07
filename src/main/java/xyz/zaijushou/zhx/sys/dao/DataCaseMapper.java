@@ -39,11 +39,11 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> totalBatchBoundsCaseList(DataCaseEntity bean);
 
-    public List<DataCaseEntity> selectCaseList(int[] ids);
+    public List<DataCaseEntity> selectCaseList(DataCaseEntity bean);
 
     public List<DataCaseEntity> selectDataCaseExportByBatch(DataCaseEntity bean);
 
-    public List<DataCaseTelExport> selectCaseTelListExport(int[] ids);
+    public List<DataCaseTelExport> selectCaseTelListExport(DataCaseEntity bean);
 
     public void sumCaseMoney(DataCaseEntity bean);
 
