@@ -51,7 +51,7 @@ public interface DataCollectionMapper {
     public List<DataCollectExportEntity> selectDataCollectExportByCase(String[] caseIds);
 
 
-    public List<DataCollectExportEntity> selectDataCollect(int[] batchs);
+    public List<DataCollectExportEntity> selectDataCollect(DataCollectionEntity bean);
 
     public int countDataCollect(DataCollectionEntity bean);
 

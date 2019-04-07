@@ -151,9 +151,9 @@ public class DataCollectServiceImpl implements DataCollectService {
         return webResponse;
     }
 
-    public WebResponse selectDataCollect(int[] ids){
+    public WebResponse selectDataCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataCollectExportEntity> list = dataCollectionMapper.selectDataCollect(ids);
+        List<DataCollectExportEntity> list = dataCollectionMapper.selectDataCollect(bean);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);

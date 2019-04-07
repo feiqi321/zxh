@@ -20,7 +20,7 @@ public interface DataCollectService {
 
     public WebResponse totalDataCollect(DataCollectionEntity bean);
 
-    public WebResponse selectDataCollect(int[] ids);
+    public WebResponse selectDataCollect(DataCollectionEntity bean);
 
     public WebResponse selectDataCollectExportByBatch(String[] batchs);
 

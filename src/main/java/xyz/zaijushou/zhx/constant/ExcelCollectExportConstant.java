@@ -153,6 +153,20 @@ public class ExcelCollectExportConstant {
             this.attrClazz = attrClazz;
         }
 
+        //根据key获取枚举
+        public static ExcelCollectExportConstant.CaseCollectExportConf getEnumByKey(String key){
+            if(null == key){
+                return null;
+            }
+            for(ExcelCollectExportConstant.CaseCollectExportConf temp: ExcelCollectExportConstant.CaseCollectExportConf.values()){
+                if(temp.getPageCol().equals(key)){
+                    return temp;
+                }
+            }
+            return null;
+        }
+
+
         public String getPageCol() {
             return pageCol;
         }

@@ -30,10 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by looyer on 2019/1/29.
@@ -76,10 +73,37 @@ public class DataCollectController {
     @ApiOperation(value = "分頁查询导出", notes = "分頁查询导出")
     @PostMapping("/dataCollect/pageDataCollectExport")
     public Object pageDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCollectExportConstant.CaseCollectExportConf caseCollectExportConf = ExcelCollectExportConstant.CaseCollectExportConf.getEnumByKey(entry.getKey().toString());
+                if (caseCollectExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseCollectExportConf.getAttr())) {
+                    exportKeyList.add(caseCollectExportConf.getAttr());
+                }
+                colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+            }
+        }
+
+        ExcelCollectExportConstant.CaseCollectExport caseCollectExports[]= ExcelCollectExportConstant.CaseCollectExport.values();
+        List<ExcelCollectExportConstant.CaseCollectExport> caseCollectExports2 = new ArrayList<ExcelCollectExportConstant.CaseCollectExport>();
+
+        for (int i=0;i<caseCollectExports.length;i++){
+            ExcelCollectExportConstant.CaseCollectExport caseCollectListTemp = caseCollectExports[i];
+            if (colMap.get(caseCollectListTemp.getCol())!=null){
+                caseCollectExports2.add(caseCollectListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
         WebResponse webResponse = dataCollectService.pageDataCollectExport(bean);
         PageInfo<DataCollectExportEntity> pageInfo = (PageInfo<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(pageInfo.getList(),
-                ExcelCollectExportConstant.CaseCollectExport.values(),
+                caseCollectExports2.toArray(new ExcelCollectExportConstant.CaseCollectExport[caseCollectExports2.size()]),
                 "催记管理当前页导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".xlsx",
                 response
         );
@@ -96,6 +120,32 @@ public class DataCollectController {
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
     @PostMapping("/dataCollect/totalDataCollectExport")
     public Object totalDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCollectExportConstant.CaseCollectExportConf caseCollectExportConf = ExcelCollectExportConstant.CaseCollectExportConf.getEnumByKey(entry.getKey().toString());
+                if (caseCollectExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseCollectExportConf.getAttr())) {
+                    exportKeyList.add(caseCollectExportConf.getAttr());
+                }
+                colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+            }
+        }
+
+        ExcelCollectExportConstant.CaseCollectExport caseCollectExports[]= ExcelCollectExportConstant.CaseCollectExport.values();
+        List<ExcelCollectExportConstant.CaseCollectExport> caseCollectExports2 = new ArrayList<ExcelCollectExportConstant.CaseCollectExport>();
+
+        for (int i=0;i<caseCollectExports.length;i++){
+            ExcelCollectExportConstant.CaseCollectExport caseCollectListTemp = caseCollectExports[i];
+            if (colMap.get(caseCollectListTemp.getCol())!=null){
+                caseCollectExports2.add(caseCollectListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
 
         WebResponse webResponse = dataCollectService.totalDataCollect(bean);
        List<DataCollectExportEntity> list = (List<DataCollectExportEntity>) webResponse.getData();
@@ -108,7 +158,7 @@ public class DataCollectController {
         sysOperationLogService.insertRequest(operationLog);
 
         ExcelUtils.exportExcel(list,
-                ExcelCollectExportConstant.CaseCollectExport.values(),
+                caseCollectExports2.toArray(new ExcelCollectExportConstant.CaseCollectExport[caseCollectExports2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -117,13 +167,40 @@ public class DataCollectController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataCollect/selectDataCollectExport")
-    public Object selectDataCollectExport(@RequestBody List<DataCollectionEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
-        int[] ids = new int[list.size()];
+    public Object selectDataCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        /*int[] ids = new int[list.size()];
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
             ids[i] = temp.getId();
+        }*/
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCollectExportConstant.CaseCollectExportConf caseCollectExportConf = ExcelCollectExportConstant.CaseCollectExportConf.getEnumByKey(entry.getKey().toString());
+                if (caseCollectExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseCollectExportConf.getAttr())) {
+                    exportKeyList.add(caseCollectExportConf.getAttr());
+                }
+                colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+            }
         }
-        WebResponse webResponse = dataCollectService.selectDataCollect(ids);
+
+        ExcelCollectExportConstant.CaseCollectExport caseCollectExports[]= ExcelCollectExportConstant.CaseCollectExport.values();
+        List<ExcelCollectExportConstant.CaseCollectExport> caseCollectExports2 = new ArrayList<ExcelCollectExportConstant.CaseCollectExport>();
+
+        for (int i=0;i<caseCollectExports.length;i++){
+            ExcelCollectExportConstant.CaseCollectExport caseCollectListTemp = caseCollectExports[i];
+            if (colMap.get(caseCollectListTemp.getCol())!=null){
+                caseCollectExports2.add(caseCollectListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+        WebResponse webResponse = dataCollectService.selectDataCollect(bean);
 
         String fileName = "催记管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -134,7 +211,7 @@ public class DataCollectController {
 
         List<DataCollectExportEntity> resultList = (List<DataCollectExportEntity>) webResponse.getData();
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectExportConstant.CaseCollectExport.values(),
+                caseCollectExports2.toArray(new ExcelCollectExportConstant.CaseCollectExport[caseCollectExports2.size()]),
                 fileName + ".xlsx",
                 response
         );

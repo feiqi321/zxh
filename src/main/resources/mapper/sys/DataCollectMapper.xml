@@ -909,13 +909,10 @@
     </select>
 
     <select id="totalDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
-        select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
-        c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status  as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
-        c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
-        t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
-        t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
-        t.credit_line as creditLine,c.module
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
             c.delete_flag = 0 and t.delete_flag = 0
@@ -1067,29 +1064,30 @@
     </select>
 
 
-    <select id="selectDataCollect" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
-        select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
-        c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status  as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
-        c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
-        t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
-        t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
-        t.credit_line as creditLine,c.module
+    <select id="selectDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
-        where c.id in
+<!--
         <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
             #{item}
-        </foreach>
+        </foreach>-->
+
+        <if test="ids != null and ids.length >0">
+            where c.id in
+            <foreach collection="ids" item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
     <select id="pageDataCollectExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
-        select t.name,t.account,t.card_no as cardNo,t.ident_no as identNo,t.archive_no as archiveNo,t.seq_no as seqNo,t.account_age as accountAge,t.money,t.residual_principle as residualPrinciple,
-        c.target_name as targetName,c.relation,c.tel_phone as collectPhoneAddr,c.tel_type as contractType,
-        c.result,t.odv,c.method,c.collect_status as collectStatus,t.pro_repay_date as proRepayDate,t.pro_repay_amt as proRepayAmt,
-        c.reduce_amt as reduceAmt,c.reduce_status as reduceStatus,c.collect_info as collectInfo,t.over_days as overDays,t.batch_no as batchNo,
-        t.case_date as caseDate,t.expect_time as expectTime,c.new_money as newMoney,t.province,t.city,t.county,t.currency_type as currencyType,
-        t.apply_order_no as applyOrderNo,t.overdue_money as overdueMoney,t.remark,c.next_foll_date as nextFollDate,t.minimum_payment as minimumPayment,
-        t.credit_line as creditLine,c.module
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
             c.delete_flag = 0 and t.delete_flag = 0
