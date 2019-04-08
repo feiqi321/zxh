@@ -179,7 +179,7 @@ public class DataBatchServiceImpl implements DataBatchService {
         }else {
             bean.setOrderBy(BatchSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         }
-        List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
+        List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatchExport(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
             DataBatchEntity dataBatchEntity = dataCaseEntities.get(i);
 
@@ -260,10 +260,10 @@ public class DataBatchServiceImpl implements DataBatchService {
 
 
 
-    public WebResponse selectDataBatch(int[] ids){
+    public WebResponse selectDataBatch(DataBatchEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
 
-        List<DataBatchEntity> resultList = dataBatchMapper.selectDataBatch(ids);
+        List<DataBatchEntity> resultList = dataBatchMapper.selectDataBatch(bean);
         for (int i=0;i<resultList.size();i++){
             DataBatchEntity dataBatchEntity = resultList.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataBatchEntity.getCreatUser(), SysUserEntity.class);

@@ -1,9 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
-import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.util.List;
 
@@ -46,9 +44,9 @@ public interface DataCollectionMapper {
 
     public List<DataCollectExportEntity> totalDataCollect(DataCollectionEntity bean);
 
-    public List<DataCollectExportEntity> selectDataCollectByBatch(String[] batchs);
+    public List<DataCollectExportEntity> selectDataCollectByBatch(DataBatchEntity bean);
 
-    public List<DataCollectExportEntity> selectDataCollectExportByCase(String[] caseIds);
+    public List<DataCollectExportEntity> selectDataCollectExportByCase(DataCaseEntity bean);
 
 
     public List<DataCollectExportEntity> selectDataCollect(DataCollectionEntity bean);

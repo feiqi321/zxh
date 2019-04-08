@@ -863,13 +863,36 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出所选案件的催收记录", notes = "查询导出所选案件的催收记录")
     @PostMapping("/dataCase/selectDataCollectExportByBatch")
-    public Object selectDataCollectExportByCase(@RequestBody List<DataCaseEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
-        String[] caseIds = new String[list.size()];
-        for(int i=0;i<list.size();i++){
-            DataCaseEntity temp = list.get(i);
-            caseIds[i] = temp.getId()+"";
+    public Object selectDataCollectExportByCase(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCollectExportConstant.CaseCollectExportConf caseCollectExportConf = ExcelCollectExportConstant.CaseCollectExportConf.getEnumByKey(entry.getKey().toString());
+                if (caseCollectExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseCollectExportConf.getAttr())) {
+                    exportKeyList.add(caseCollectExportConf.getAttr());
+                }
+                colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+            }
         }
-        WebResponse webResponse = dataCollectService.selectDataCollectExportByCase(caseIds);
+
+        ExcelCollectExportConstant.CaseCollectExport caseCollectExports[]= ExcelCollectExportConstant.CaseCollectExport.values();
+        List<ExcelCollectExportConstant.CaseCollectExport> caseCollectExports2 = new ArrayList<ExcelCollectExportConstant.CaseCollectExport>();
+
+        for (int i=0;i<caseCollectExports.length;i++){
+            ExcelCollectExportConstant.CaseCollectExport caseCollectListTemp = caseCollectExports[i];
+            if (colMap.get(caseCollectListTemp.getCol())!=null){
+                caseCollectExports2.add(caseCollectListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+        WebResponse webResponse = dataCollectService.selectDataCollectExportByCase(bean);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
 
         String fileName = "案件管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -880,7 +903,7 @@ public class DataCaseController {
         sysOperationLogService.insertRequest(operationLog);
 
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectExportConstant.CaseCollectExport.values(),
+                caseCollectExports2.toArray(new ExcelCollectExportConstant.CaseCollectExport[caseCollectExports2.size()]),
                 fileName + ".xlsx",
                 response
         );

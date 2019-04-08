@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.sys.service;
 
 import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 
 import java.util.List;
@@ -22,9 +24,9 @@ public interface DataCollectService {
 
     public WebResponse selectDataCollect(DataCollectionEntity bean);
 
-    public WebResponse selectDataCollectExportByBatch(String[] batchs);
+    public WebResponse selectDataCollectExportByBatch(DataBatchEntity bean);
 
-    public WebResponse selectDataCollectExportByCase(String[] caseIds);
+    public WebResponse selectDataCollectExportByCase(DataCaseEntity bean);
 
     public WebResponse detailCollect(DataCollectionEntity bean);
 

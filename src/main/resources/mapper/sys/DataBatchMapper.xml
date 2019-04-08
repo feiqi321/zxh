@@ -124,6 +124,55 @@
 
     </select>
 
+    <select id="pageDataBatchExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+        select id,
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
+        from data_batch
+        <where>
+            delete_flag = 0
+            <trim suffixOverrides=",">
+                <if test="batchNo != null and batchNo!=''">
+                    AND  batch_no like CONCAT('%',#{batchNo},'%')
+                </if>
+                <if test="batchNoFlag != null and batchNoFlag!=''">
+                    and batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="batchStatusFlag != null and batchStatusFlag!=''">
+                    and batch_status in
+                    <foreach item="item" index="index" collection="batchStatusList" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="area != null and area!=''">
+                    AND area  like CONCAT('%',#{area},'%')
+                </if>
+                <if test="caseType != null and caseType!=''">
+                    AND case_type like CONCAT('%',#{caseType},'%')
+                </if>
+
+                <if test="startTime != null and startTime!=''">
+                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+                </if>
+                <if test="endTime != null and endTime!=''" >
+                    <![CDATA[   and DATE_FORMAT(bail_date, '%Y-%m-%d')<=  DATE_FORMAT(#{endTime}, '%Y-%m-%d')   ]]>
+                </if>
+            </trim>
+        </where>
+        order by ${orderBy} ${sort}
+
+    </select>
+
     <select id="countDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="java.lang.Integer">
         select count(id) as sum
         from data_batch
@@ -188,8 +237,9 @@
 
     <select id="totalDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select id,
-        batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,create_user as creatUser,real_time as realReturnTime,
-        batch_remark as batchRemark,upload_time as uploadTime,total_amt as totalAmt,user_count as userCount
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from data_batch
         <where>
             delete_flag = 0
@@ -221,13 +271,14 @@
         order by ${orderBy} ${sort}
     </select>
 
-    <select id="selectDataBatch" parameterType="java.util.List" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+    <select id="selectDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select id,
-        batch_no as batchNo,client,area,bail_date as caseTime,case_type as caseType,expect_time as returnTime,target_rate as targetRate,remark,upload_time as uploadTime,batch_status as batchStatus,DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime,create_user as creatUser,real_time as realReturnTime,
-        batch_remark as batchRemark,upload_time as uploadTime,total_amt as totalAmt,user_count as userCount
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
         from data_batch
          where  id in
-            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
 

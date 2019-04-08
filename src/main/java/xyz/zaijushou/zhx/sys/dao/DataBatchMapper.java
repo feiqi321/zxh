@@ -23,9 +23,11 @@ public interface DataBatchMapper {
 
     public List<DataBatchEntity> pageDataBatch(DataBatchEntity bean);
 
+    public List<DataBatchEntity> pageDataBatchExport(DataBatchEntity bean);
+
     public List<DataBatchEntity> totalDataBatch(DataBatchEntity bean);
 
-    public List<DataBatchEntity> selectDataBatch(int[] ids);
+    public List<DataBatchEntity> selectDataBatch(DataBatchEntity bean);
 
     public int countDataBatch(DataBatchEntity bean);
 

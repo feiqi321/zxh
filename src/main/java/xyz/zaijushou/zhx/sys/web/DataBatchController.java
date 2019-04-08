@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.ExcelBatchConstant;
-import xyz.zaijushou.zhx.constant.ExcelBatchExportConstant;
-import xyz.zaijushou.zhx.constant.ExcelCollectConstant;
-import xyz.zaijushou.zhx.constant.ExcelCollectExportConstant;
+import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
@@ -28,8 +25,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -140,6 +136,32 @@ public class DataBatchController {
     @PostMapping("/dataBatch/pageDataBatchExport")
     public Object pageDataBatchExport(@RequestBody DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
+        List exportKeyList = new ArrayList();
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelBatchExportConstant.BatchMemorizeConf batchExportConf = ExcelBatchExportConstant.BatchMemorizeConf.getEnumByKey(entry.getKey().toString());
+                if (batchExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(batchExportConf.getAttr())) {
+                    exportKeyList.add(batchExportConf.getAttr());
+                }
+                colMap.put(batchExportConf.getCol(), batchExportConf.getCol());
+            }
+        }
+
+        ExcelBatchExportConstant.BatchMemorize batchMemorizes[]= ExcelBatchExportConstant.BatchMemorize.values();
+        List<ExcelBatchExportConstant.BatchMemorize> batchMemorizes2 = new ArrayList<ExcelBatchExportConstant.BatchMemorize>();
+
+        for (int i=0;i<batchMemorizes.length;i++){
+            ExcelBatchExportConstant.BatchMemorize batchListTemp = batchMemorizes[i];
+            if (colMap.get(batchListTemp.getCol())!=null){
+                batchMemorizes2.add(batchListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
         WebResponse webResponse = dataCaseService.pageDataBatchExport(bean);
         List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
 
@@ -151,7 +173,7 @@ public class DataBatchController {
         sysOperationLogService.insertRequest(operationLog);
 
         ExcelUtils.exportExcel(list,
-                ExcelBatchExportConstant.BatchMemorize.values(),
+                batchMemorizes2.toArray(new ExcelBatchExportConstant.BatchMemorize[batchMemorizes2.size()]),
                 fileName  + ".xlsx",
                 response
         );
@@ -161,6 +183,33 @@ public class DataBatchController {
     @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
     @PostMapping("/dataBatch/totalDataBatchExport")
     public Object totalDataBatchExport(@RequestBody DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List exportKeyList = new ArrayList();
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelBatchExportConstant.BatchMemorizeConf batchExportConf = ExcelBatchExportConstant.BatchMemorizeConf.getEnumByKey(entry.getKey().toString());
+                if (batchExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(batchExportConf.getAttr())) {
+                    exportKeyList.add(batchExportConf.getAttr());
+                }
+                colMap.put(batchExportConf.getCol(), batchExportConf.getCol());
+            }
+        }
+
+        ExcelBatchExportConstant.BatchMemorize batchMemorizes[]= ExcelBatchExportConstant.BatchMemorize.values();
+        List<ExcelBatchExportConstant.BatchMemorize> batchMemorizes2 = new ArrayList<ExcelBatchExportConstant.BatchMemorize>();
+
+        for (int i=0;i<batchMemorizes.length;i++){
+            ExcelBatchExportConstant.BatchMemorize batchListTemp = batchMemorizes[i];
+            if (colMap.get(batchListTemp.getCol())!=null){
+                batchMemorizes2.add(batchListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
 
         WebResponse webResponse = dataCaseService.totalDataBatch(bean);
         List<DataBatchEntity> list = (List<DataBatchEntity>) webResponse.getData();
@@ -173,7 +222,7 @@ public class DataBatchController {
         sysOperationLogService.insertRequest(operationLog);
 
         ExcelUtils.exportExcel(list,
-                ExcelBatchExportConstant.BatchMemorize.values(),
+                batchMemorizes2.toArray(new ExcelBatchExportConstant.BatchMemorize[batchMemorizes2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -182,14 +231,37 @@ public class DataBatchController {
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataBatch/selectDataBatchExport")
-    public Object selectDataBatchExport(@RequestBody List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object selectDataBatchExport(@RequestBody DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
 
-        int [] ids = new int[list.size()];
-        for(int i=0;i<list.size();i++){
-            DataBatchEntity dataBatchEntity = list.get(i);
-            ids[i] = dataBatchEntity.getId();
+
+        List exportKeyList = new ArrayList();
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelBatchExportConstant.BatchMemorizeConf batchExportConf = ExcelBatchExportConstant.BatchMemorizeConf.getEnumByKey(entry.getKey().toString());
+                if (batchExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(batchExportConf.getAttr())) {
+                    exportKeyList.add(batchExportConf.getAttr());
+                }
+                colMap.put(batchExportConf.getCol(), batchExportConf.getCol());
+            }
         }
-        WebResponse webResponse = dataCaseService.selectDataBatch(ids);
+
+        ExcelBatchExportConstant.BatchMemorize batchMemorizes[]= ExcelBatchExportConstant.BatchMemorize.values();
+        List<ExcelBatchExportConstant.BatchMemorize> batchMemorizes2 = new ArrayList<ExcelBatchExportConstant.BatchMemorize>();
+
+        for (int i=0;i<batchMemorizes.length;i++){
+            ExcelBatchExportConstant.BatchMemorize batchListTemp = batchMemorizes[i];
+            if (colMap.get(batchListTemp.getCol())!=null){
+                batchMemorizes2.add(batchListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+
+        WebResponse webResponse = dataCaseService.selectDataBatch(bean);
         List<DataBatchEntity> resultList = (List<DataBatchEntity>) webResponse.getData();
 
         String fileName = "批次管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -200,7 +272,7 @@ public class DataBatchController {
         sysOperationLogService.insertRequest(operationLog);
 
         ExcelUtils.exportExcel(resultList,
-                ExcelBatchExportConstant.BatchMemorize.values(),
+                batchMemorizes2.toArray(new ExcelBatchExportConstant.BatchMemorize[batchMemorizes2.size()]),
                 fileName + ".xlsx",
                 response
         );
@@ -210,13 +282,36 @@ public class DataBatchController {
 
     @ApiOperation(value = "查询导出所选批次的催收记录", notes = "查询导出所选批次的催收记录")
     @PostMapping("/dataBatch/selectDataCollectExportByBatch")
-    public Object selectDataCollectExportByBatch(@RequestBody List<DataBatchEntity> list, HttpServletResponse response) throws IOException, InvalidFormatException {
-        String[] batchs = new String[list.size()];
-        for(int i=0;i<list.size();i++){
-            DataBatchEntity temp = list.get(i);
-            batchs[i]=temp.getBatchNo();
+    public Object selectDataCollectExportByBatch(@RequestBody DataBatchEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List exportKeyList = new ArrayList();
+
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCollectExportConstant.CaseCollectExportConf caseCollectExportConf = ExcelCollectExportConstant.CaseCollectExportConf.getEnumByKey(entry.getKey().toString());
+                if (caseCollectExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseCollectExportConf.getAttr())) {
+                    exportKeyList.add(caseCollectExportConf.getAttr());
+                }
+                colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+            }
         }
-        WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(batchs);
+
+        ExcelCollectExportConstant.CaseCollectExport caseCollectExports[]= ExcelCollectExportConstant.CaseCollectExport.values();
+        List<ExcelCollectExportConstant.CaseCollectExport> caseCollectExports2 = new ArrayList<ExcelCollectExportConstant.CaseCollectExport>();
+
+        for (int i=0;i<caseCollectExports.length;i++){
+            ExcelCollectExportConstant.CaseCollectExport caseCollectListTemp = caseCollectExports[i];
+            if (colMap.get(caseCollectListTemp.getCol())!=null){
+                caseCollectExports2.add(caseCollectListTemp);
+            }
+        }
+
+        bean.setExportKeyList(exportKeyList);
+
+        WebResponse webResponse = dataCollectService.selectDataCollectExportByBatch(bean);
         List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
 
         String fileName = "批次管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
@@ -227,7 +322,7 @@ public class DataBatchController {
         sysOperationLogService.insertRequest(operationLog);
 
         ExcelUtils.exportExcel(resultList,
-                ExcelCollectExportConstant.CaseCollectExport.values(),
+                caseCollectExports2.toArray(new ExcelCollectExportConstant.CaseCollectExport[caseCollectExports2.size()]),
                 fileName + ".xlsx",
                 response
         );

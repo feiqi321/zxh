@@ -9,10 +9,7 @@ import xyz.zaijushou.zhx.constant.CaseSortEnum;
 import xyz.zaijushou.zhx.constant.CollectSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
-import xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
@@ -180,9 +177,9 @@ public class DataCollectServiceImpl implements DataCollectService {
         return webResponse;
     }
 
-    public WebResponse selectDataCollectExportByBatch(String[] batchs){
+    public WebResponse selectDataCollectExportByBatch(DataBatchEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectByBatch(batchs);
+        List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectByBatch(bean);
         for (int i=0;i<resultList.size();i++){
             DataCollectExportEntity temp = resultList.get(i);
 
@@ -213,9 +210,9 @@ public class DataCollectServiceImpl implements DataCollectService {
         return webResponse;
     }
 
-    public WebResponse selectDataCollectExportByCase(String[] caseIds){
+    public WebResponse selectDataCollectExportByCase(DataCaseEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
-        List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectExportByCase(caseIds);
+        List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectExportByCase(bean);
         for (int i=0;i<resultList.size();i++){
             DataCollectExportEntity temp = resultList.get(i);
 
@@ -355,7 +352,7 @@ public class DataCollectServiceImpl implements DataCollectService {
 
             list.set(i,temp);
         }
-         webResponse.setData(list);
+        webResponse.setData(list);
         return webResponse;
     }
     public WebResponse detailTelCurentCollect(DataCollectionEntity bean){

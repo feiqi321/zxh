@@ -3,6 +3,8 @@ package xyz.zaijushou.zhx.sys.entity;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -70,6 +72,26 @@ public class DataBatchEntity extends CommonEntity {
     private String sort;
 
     private String creatTime;
+
+    private Map exportConf;
+
+    private List exportKeyList;
+
+    public Map getExportConf() {
+        return exportConf;
+    }
+
+    public void setExportConf(Map exportConf) {
+        this.exportConf = exportConf;
+    }
+
+    public List getExportKeyList() {
+        return exportKeyList;
+    }
+
+    public void setExportKeyList(List exportKeyList) {
+        this.exportKeyList = exportKeyList;
+    }
 
     public int[] getBatchStatusList() {
         return batchStatusList;

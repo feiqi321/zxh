@@ -24,7 +24,7 @@ public interface DataBatchService {
 
     public WebResponse totalDataBatch(DataBatchEntity bean);
 
-    public WebResponse selectDataBatch(int[] ids);
+    public WebResponse selectDataBatch(DataBatchEntity bean);
 
     public DataBatchEntity getDataById(DataBatchEntity bean);
 
