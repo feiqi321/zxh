@@ -52,6 +52,12 @@ public class FileManageServiceImpl implements FileManageService {
     private SysModuleMapper sysModuleMapper;
     @Resource
     private DataCaseService dataCaseService;
+    @Resource
+    private DataArchiveAddressMapper dataArchiveAddressMapper;
+    @Resource
+    private DataArchiveTelMapper dataArchiveTelMapper;
+    @Resource
+    private DataArchiveRemarkMapper dataArchiveRemarkMapper;
 
 
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
@@ -221,13 +227,54 @@ public class FileManageServiceImpl implements FileManageService {
 
         WebResponse webResponse = WebResponse.buildResponse();
 
-    /*    for (int i=0;i<list.size();i++){
+        for (int i=0;i<list.size();i++){
             DataArchiveEntity dataArchiveEntity = list.get(i);
-            dataArchiveMapper.saveArchive(dataArchiveEntity);
+            DataArchiveEntity temp = dataArchiveMapper.selectByIdentNo(dataArchiveEntity);
+            if (temp==null) {
+                dataArchiveMapper.saveArchive(dataArchiveEntity);
+                if (StringUtils.isNotEmpty(dataArchiveEntity.getAddress())) {
+                    DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
+                    dataArchiveAddressEntity.setArchiveId(dataArchiveEntity.getId());
+                    dataArchiveAddressEntity.setAddress(dataArchiveEntity.getAddress());
+                    dataArchiveAddressMapper.saveAddress(dataArchiveAddressEntity);
+                }
+                if (StringUtils.isNotEmpty(dataArchiveEntity.getMobile())) {
+                    DataArchiveTelEntity dataArchiveTelEntity = new DataArchiveTelEntity();
+                    dataArchiveTelEntity.setArchiveId(dataArchiveEntity.getId());
+                    dataArchiveTelEntity.setTel(dataArchiveEntity.getMobile());
+                    dataArchiveTelMapper.saveTel(dataArchiveTelEntity);
+                }
+                if (StringUtils.isNotEmpty(dataArchiveEntity.getRemark())) {
+                    DataArchiveRemarkEntity dataArchiveRemarkEntity = new DataArchiveRemarkEntity();
+                    dataArchiveRemarkEntity.setArchiveId(dataArchiveEntity.getId());
+                    dataArchiveRemarkEntity.setRemark(dataArchiveEntity.getRemark());
+                    dataArchiveRemarkMapper.saveRemark(dataArchiveRemarkEntity);
+                }
+            }else{
+                dataArchiveEntity.setId(temp.getId());
+                dataArchiveMapper.updateArchive(dataArchiveEntity);
+                if (StringUtils.isNotEmpty(dataArchiveEntity.getAddress())) {
+                    DataArchiveAddressEntity dataArchiveAddressEntity = new DataArchiveAddressEntity();
+                    dataArchiveAddressEntity.setArchiveId(temp.getId());
+                    dataArchiveAddressEntity.setAddress(dataArchiveEntity.getAddress());
+                    dataArchiveAddressMapper.saveAddress(dataArchiveAddressEntity);
+                }
+                if (StringUtils.isNotEmpty(dataArchiveEntity.getMobile())) {
+                    DataArchiveTelEntity dataArchiveTelEntity = new DataArchiveTelEntity();
+                    dataArchiveTelEntity.setArchiveId(temp.getId());
+                    dataArchiveTelEntity.setTel(dataArchiveEntity.getMobile());
+                    dataArchiveTelMapper.saveTel(dataArchiveTelEntity);
+                }
+                if (StringUtils.isNotEmpty(dataArchiveEntity.getRemark())) {
+                    DataArchiveRemarkEntity dataArchiveRemarkEntity = new DataArchiveRemarkEntity();
+                    dataArchiveRemarkEntity.setArchiveId(temp.getId());
+                    dataArchiveRemarkEntity.setRemark(dataArchiveEntity.getRemark());
+                    dataArchiveRemarkMapper.saveRemark(dataArchiveRemarkEntity);
+                }
+            }
 
-        }*/
+        }
 
-        dataArchiveMapper.saveBatchArchive(list);
         webResponse.setCode("100");
         return webResponse;
     }

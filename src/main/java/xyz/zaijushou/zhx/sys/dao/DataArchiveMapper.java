@@ -25,6 +25,8 @@ public interface DataArchiveMapper {
 
     public DataArchiveEntity selectById(DataArchiveEntity bean);
 
+    public DataArchiveEntity selectByIdentNo(DataArchiveEntity bean);
+
     public List<DataArchiveEntity> selectAll();
 
 }
