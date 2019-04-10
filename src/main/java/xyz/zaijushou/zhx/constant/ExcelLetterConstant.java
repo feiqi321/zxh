@@ -100,7 +100,7 @@ public class ExcelLetterConstant {
         COL31(31, "手机", "tel", String.class),
         COL32(32, "单位号码", "unitTelNumber", String.class),
         COL33(33, "最新欠款", "latestOverdueMoney", String.class),
-        COL34(34, "最新欠款导入时间", "latestOverdueDate", String.class),
+        COL34(34, "最新欠款导入时间", "latestOverdueDate", String.class)
         ;
 
         private Integer sort;
@@ -174,7 +174,7 @@ public class ExcelLetterConstant {
         COL20("money", "委案金额", "d.money", String.class),
         COL21("enRepayAmt", "还款金额", "d.en_repay_amt as  enRepayAmt", String.class),
         COL22("principle", "本金", "d.principle", String.class),
-        COL23("lastRepayDate", "最后还款日", "d.last_repay_date as lastRepayDate,", String.class),
+        COL23("lastRepayDate", "最后还款日", "d.last_repay_date as lastRepayDate", String.class),
         COL24("caseDate", "委案日期", "d.case_date as caseDate", String.class),
         COL25("odv", "催收员", "d.odv", String.class),
         COL26("creditLine", "信用额度", "d.credit_line as creditLine", String.class),
@@ -185,7 +185,7 @@ public class ExcelLetterConstant {
         COL31("tel", "手机", "d.tel", String.class),
         COL32("unitTelNumber", "单位号码", "d.unit_tel_number as unitTelNumber", String.class),
         COL33("latestOverdueMoney", "最新欠款", "d.latest_overdue_money as latestOverdueMoney", String.class),
-      /*  COL34("", "最新欠款导入时间", "latestOverdueDate", String.class),*/
+        COL34("latestOverdueDate", "最新欠款导入时间", "'' as latestOverdueDate", String.class),
         ;
 
         private String pageCol;

@@ -232,6 +232,14 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
                 entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
             }
+            if (entity != null && entity.getRepayType() != null){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType(),SysDictionaryEntity.class);
+                entity.setRepayType(sysDictionaryEntity.getName());
+            }
+            if (entity != null && entity.getDataCase() != null && entity.getDataCase().getAccountAge() != null){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getAccountAge(),SysDictionaryEntity.class);
+                entity.getDataCase().setAccountAge(sysDictionaryEntity.getName());
+            }
         }
         return list;
     }

@@ -307,7 +307,9 @@ public class ExcelUtils {
                             if (object == null) {
                                 continue;
                             }
+
                             Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
+
                             Object obj = secondAttrSetMethod.invoke(object);
                             setCellValue(obj, cell, excelEnum.getAttrClazz()[1]);
                         } else {
@@ -366,7 +368,7 @@ public class ExcelUtils {
             Integer intValue = (Integer) value;
             cell.setCellValue(intValue);
         } else if (BigDecimal.class == clazz) {
-            BigDecimal decimalValue = new BigDecimal(value==null?"0":value.toString());
+            BigDecimal decimalValue = new BigDecimal(value==null?"0":(value.equals("null")?"0":value.toString()));
             //String formatValue = decimalValue == null ? "￥0.00" : "￥"+ FmtMicrometer.fmtMicrometer(decimalValue + "");
             String formatValue = decimalValue == null ? "0.00" :decimalValue + "";
             cell.setCellValue(formatValue);
