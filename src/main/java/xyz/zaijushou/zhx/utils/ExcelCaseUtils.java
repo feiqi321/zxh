@@ -1,26 +1,24 @@
 package xyz.zaijushou.zhx.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.constant.ExcelEnum;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
-import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
-import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,9 +32,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-public class ExcelUtils {
+public class ExcelCaseUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
+    private static Logger logger = LoggerFactory.getLogger(ExcelCaseUtils.class);
 
     private static FormulaEvaluator evaluator;
 
@@ -190,7 +188,7 @@ public class ExcelUtils {
                 DecimalFormat df = new DecimalFormat("0");
                 if (clazz.equals(Date.class)) {
                     double value = cell.getNumericCellValue();
-                    Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+                    Date date = DateUtil.getJavaDate(value);
                     result = date;
                 } else if(clazz.equals(String.class)) {
                     result = "" + df.format(cell.getNumericCellValue());
@@ -230,16 +228,38 @@ public class ExcelUtils {
             try {
                 T entity = data.get(i - 1);
                 Row row = sheet.createRow(i);
-                /*XSSFCellStyle style = workbook.createCellStyle();
-                style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.BLUE.getIndex());
-                row.setRowStyle(style);*/
+                XSSFCellStyle style = workbook.createCellStyle();
+                DataCaseEntity dataCaseEntity = (DataCaseEntity)entity;
+                if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("RED")){
+                    XSSFColor color = new XSSFColor(new java.awt.Color(255, 0, 0));
+                    style.setFillForegroundColor(color);
+                }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("BLUE")){
+                    XSSFColor color = new XSSFColor(new java.awt.Color(0, 0, 255));
+                    style.setFillForegroundColor(color);
+                }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("ORANGE")){
+                    XSSFColor color = new XSSFColor(new java.awt.Color(250, 128, 144));
+                    style.setFillForegroundColor(color);
+                }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("ZI")){
+                    XSSFColor color = new XSSFColor(new java.awt.Color(160, 32, 240));
+                    style.setFillForegroundColor(color);
+                }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("ZONG")){
+                    XSSFColor color = new XSSFColor(new java.awt.Color(210, 180, 140));
+                    style.setFillForegroundColor(color);
+                }else{
+
+                }
+
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
                 for (int k = 0; k < excelEnumMap.size(); k++) {
                     logger.debug(k + "");
                     Cell cell = row.createCell(k);
+
                     ExcelEnum excelEnum = excelEnumMap.get(k);
                     if(excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
                         continue;
                     }
+                    cell.setCellStyle(style);
                     String attr = excelEnum.getAttr();
                     Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);
                     if (matcher.find()) {

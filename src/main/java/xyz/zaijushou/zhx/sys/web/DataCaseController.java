@@ -24,6 +24,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.*;
+import xyz.zaijushou.zhx.utils.ExcelCaseUtils;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -716,7 +717,7 @@ public class DataCaseController {
         sysOperationLogService.insertRequest(operationLog);
 
         List<DataCaseEntity> list = ((CaseResponse)result.getData()).getPageInfo().getList();
-                ExcelUtils.exportExcel(list,
+        ExcelCaseUtils.exportExcel(list,
                         caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName+ ".xlsx",
                 response
@@ -760,7 +761,7 @@ public class DataCaseController {
         operationLog.setRequestBody(fileName);
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
-        ExcelUtils.exportExcel(list,
+        ExcelCaseUtils.exportExcel(list,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response
@@ -805,7 +806,7 @@ public class DataCaseController {
         operationLog.setRequestBody(fileName);
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
-        ExcelUtils.exportExcel(resultList,
+        ExcelCaseUtils.exportExcel(resultList,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response
@@ -851,7 +852,7 @@ public class DataCaseController {
         operationLog.setRequestBody(fileName);
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
-        ExcelUtils.exportExcel(resultList,
+        ExcelCaseUtils.exportExcel(resultList,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response
