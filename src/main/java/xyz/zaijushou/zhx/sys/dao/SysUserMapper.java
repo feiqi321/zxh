@@ -34,6 +34,8 @@ public interface SysUserMapper {
 
     void updateDataStatus(SysNewUserEntity userEntity);
 
+    void updateDept(SysNewUserEntity userEntity);
+
     /**
      * 查询用户列表
      * @param userEntity

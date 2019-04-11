@@ -365,6 +365,12 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public void updateDept(SysNewUserEntity userEntity){
+
+        sysUserMapper.updateDept(userEntity);
+    }
+
+    @Override
     public void updateDataStatus(SysNewUserEntity userEntity){
         if (userEntity.getStatus() == 0){
             userEntity.setEnable(0);

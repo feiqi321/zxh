@@ -93,6 +93,14 @@ public class SysUserController {
         return webResponse;
     }
 
+    @ApiOperation(value = "修改用户部门", notes = "修改用户信息")
+    @PostMapping("/updateDept")
+    public Object updateDept(@RequestBody SysNewUserEntity userEntity) {
+         sysUserService.updateDept(userEntity);
+        return WebResponse.success();
+    }
+
+
     @ApiOperation(value = "修改状态", notes = "修改状态")
     @PostMapping("/update/status")
     public Object updateDataStatus(@RequestBody SysNewUserEntity userEntity) {

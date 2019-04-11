@@ -34,6 +34,12 @@ public interface SysUserService {
      */
     WebResponse updateUser(SysNewUserEntity userEntity);
 
+    /**
+     * 修改用户部门
+     * @param userEntity
+     */
+    void updateDept(SysNewUserEntity userEntity);
+
 
     void updateDataStatus(SysNewUserEntity userEntity);
 

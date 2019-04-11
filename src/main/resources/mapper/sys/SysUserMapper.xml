@@ -339,6 +339,12 @@
         <if test="status != null ">
             AND  status = #{status,jdbcType=INTEGER}
         </if>
+        <if test="ids != null  and ids.length > 0">
+            and id in
+            <foreach collection="ids" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
         <if test="department != null and department!=''">
             AND  department = #{department}
         </if>
@@ -452,6 +458,15 @@
 
         </set>
         where id = #{id}
+    </update>
+
+    <!--更新员工部门-->
+    <update id="updateDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        update sys_user set department = #{departId}
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
     </update>
 
     <select id="listUsers" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">

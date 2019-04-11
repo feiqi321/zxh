@@ -13,6 +13,7 @@ import java.util.Set;
  */
 public class SysNewUserEntity extends CommonEntity {
 
+    private int[] ids;
     /**
      * 姓名
      */
@@ -94,6 +95,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public int[] getIds() {
+        return ids;
+    }
+
+    public void setIds(int[] ids) {
+        this.ids = ids;
+    }
 
     public String getColor() {
         return color;
