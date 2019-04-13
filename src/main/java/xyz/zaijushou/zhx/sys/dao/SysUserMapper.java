@@ -34,7 +34,11 @@ public interface SysUserMapper {
 
     void updateDataStatus(SysNewUserEntity userEntity);
 
+    void updateDataBatchStatus(SysNewUserEntity userEntity);
+
     void updateDept(SysNewUserEntity userEntity);
+
+    void batchDelete(SysNewUserEntity userEntity);
 
     /**
      * 查询用户列表

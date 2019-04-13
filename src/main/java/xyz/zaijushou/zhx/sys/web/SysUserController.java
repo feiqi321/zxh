@@ -100,11 +100,25 @@ public class SysUserController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "批量删除用户", notes = "批量删除用户")
+    @PostMapping("/batchDelete")
+    public Object batchDelete(@RequestBody SysNewUserEntity userEntity) {
+        sysUserService.batchDelete(userEntity);
+        return WebResponse.success();
+    }
+
 
     @ApiOperation(value = "修改状态", notes = "修改状态")
     @PostMapping("/update/status")
     public Object updateDataStatus(@RequestBody SysNewUserEntity userEntity) {
         sysUserService.updateDataStatus(userEntity);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "批量修改状态", notes = "批量修改状态")
+    @PostMapping("/update/batchStatus")
+    public Object updateDataBatchStatus(@RequestBody SysNewUserEntity userEntity) {
+        sysUserService.updateDataBatchStatus(userEntity);
         return WebResponse.success();
     }
 
@@ -197,7 +211,6 @@ public class SysUserController {
 
     @ApiOperation(value = "管理员重置用户密码", notes = "管理员重置用户密码")
     @PostMapping("/passwordResetByAdmin")
-    @PreAuthorize("hasRole('ADMIN')")
     public Object passwordResetByAdmin(@RequestBody SysNewUserEntity user) {
         if(user == null || user.getPassword() == null || user.getId() == null) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "缺少参数");
@@ -208,7 +221,6 @@ public class SysUserController {
 
     @ApiOperation(value = "解除用户密码锁定", notes = "管理员解除由于用户密码输错被锁定")
     @PostMapping("/accountPasswordUnlock")
-    @PreAuthorize("hasRole('ADMIN')")
     public Object accountPasswordUnlock(@RequestBody SysUserEntity user) {
         if(user == null || user.getLoginName() == null) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请输入用户登录名");

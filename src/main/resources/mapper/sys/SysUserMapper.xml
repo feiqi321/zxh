@@ -460,6 +460,30 @@
         where id = #{id}
     </update>
 
+    <!--批量更新员工状态-->
+    <update id="updateDataBatchStatus" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        update sys_user
+        <set>
+            login_fail_times = 0,
+            <if test="status != null">
+                status = #{status},
+            </if>
+
+            <if test="enable != null">
+                enable = #{enable},
+            </if>
+
+            <if test="leaveTime != null">
+                leave_time = #{leaveTime},
+            </if>
+
+        </set>
+        where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </update>
+
     <!--更新员工部门-->
     <update id="updateDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user set department = #{departId}
@@ -468,6 +492,13 @@
             #{item}
         </foreach>
     </update>
+
+    <delete id="batchDelete" parameterType="java.lang.Integer">
+        delete from sys_user  where id in
+        <foreach collection="ids" open="(" close=")" separator="," item="item">
+            #{item}
+        </foreach>
+    </delete>
 
     <select id="listUsers" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select

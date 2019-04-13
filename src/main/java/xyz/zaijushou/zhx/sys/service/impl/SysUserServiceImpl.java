@@ -369,6 +369,15 @@ public class SysUserServiceImpl implements SysUserService {
 
         sysUserMapper.updateDept(userEntity);
     }
+    @Override
+    public void batchDelete(SysNewUserEntity userEntity){
+
+        sysUserMapper.batchDelete(userEntity);
+        int[] ids =userEntity.getIds();
+        for (int i=0;i<ids.length;i++){
+            stringRedisTemplate.delete(RedisKeyPrefix.USER_INFO + ids[i]);
+        }
+    }
 
     @Override
     public void updateDataStatus(SysNewUserEntity userEntity){
@@ -381,6 +390,19 @@ public class SysUserServiceImpl implements SysUserService {
         }
         sysUserMapper.updateDataStatus(userEntity);
     }
+
+    @Override
+    public void updateDataBatchStatus(SysNewUserEntity userEntity){
+        if (userEntity.getStatus() == 0){
+            userEntity.setEnable(0);
+            userEntity.setLeaveTime(new Date());//保存离职日期
+        }
+        if(userEntity.getEnable() == 1){//解锁
+            userEntity.setLoginFailTimes(0);
+        }
+        sysUserMapper.updateDataBatchStatus(userEntity);
+    }
+
 
     @Override
     public int deleteById(SysNewUserEntity userEntity){

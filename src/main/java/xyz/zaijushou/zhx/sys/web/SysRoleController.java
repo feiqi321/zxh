@@ -42,7 +42,6 @@ public class SysRoleController {
      * @param roleEntity
      * @return
      */
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_list')")
     @PostMapping("/listRole")
     public Object listRole(@RequestBody SysRoleEntity roleEntity) {
 
@@ -53,7 +52,7 @@ public class SysRoleController {
         if (CollectionUtils.isEmpty(roles)) {
             return WebResponse.success(list);
         }
-        boolean isAdmin = false;
+       /* boolean isAdmin = false;
         for (int i = 0; i < roles.size(); i++) {
             SysRoleEntity role = JSONObject.parseObject(roles.getString(i), SysRoleEntity.class);
             if ("ROLE_ADMIN".equals(role.getRoleAuthSymbol())) {
@@ -64,9 +63,9 @@ public class SysRoleController {
                 list.add(role);
             }
         }
-        if (isAdmin) {
+        if (isAdmin) {*/
             list = sysRoleService.listRoles(roleEntity);
-        }
+        //}
         CollectionsUtils.userInfoSet(list);
         return WebResponse.success(list);
     }
@@ -77,7 +76,6 @@ public class SysRoleController {
      * @param roleEntity
      * @return
      */
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_save')")
     @PostMapping("/save")
     public Object save(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || StringUtils.isBlank(roleEntity.getRoleName())) {
@@ -101,7 +99,6 @@ public class SysRoleController {
      * @param roleEntity
      * @return
      */
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_delete')")
     @PostMapping("/delete")
     public Object delete(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || roleEntity.getId() == null) {
@@ -119,7 +116,6 @@ public class SysRoleController {
         return WebResponse.success();
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_auth')")
     @PostMapping("/auth")
     public WebResponse auth(@RequestBody SysRoleEntity roleEntity) {
         if (roleEntity == null || roleEntity.getId() == null || roleEntity.getMenus() == null) {
@@ -263,7 +259,6 @@ public class SysRoleController {
         return menuMap;
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasAuthority('sys_role_auth')")
     @PostMapping("/listAuth")
     public Object listAuth(@RequestBody SysRoleEntity roleEntity) {
         JSONObject redisJson = JwtTokenUtil.tokenData();

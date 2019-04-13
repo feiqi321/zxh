@@ -40,8 +40,16 @@ public interface SysUserService {
      */
     void updateDept(SysNewUserEntity userEntity);
 
+    /**
+     * 修改用户部门
+     * @param userEntity
+     */
+    void batchDelete(SysNewUserEntity userEntity);
+
 
     void updateDataStatus(SysNewUserEntity userEntity);
+
+    void updateDataBatchStatus(SysNewUserEntity userEntity);
 
     /**
      * 查询用户列表
