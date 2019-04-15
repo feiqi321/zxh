@@ -107,8 +107,16 @@ public class DataCaseController {
     @ApiOperation(value = "数据模块-案件管理分頁查询", notes = "数据模块-案件管理分頁查询")
     @PostMapping("/dataCase/pageCaseList")
     public Object pageCaseList(@RequestBody DataCaseEntity bean) {
+        WebResponse webResponse = WebResponse.buildResponse();
+        try {
+            logger.info("进入执行");
+            webResponse = dataCaseService.pageCaseList(bean);
+            logger.info("跳出执行");
+        }catch (Exception e){
+            webResponse.setCode("500");
+            webResponse.setMsg(e.getMessage());
+        }
 
-        WebResponse webResponse = dataCaseService.pageCaseList(bean);
         return webResponse;
     }
 
@@ -171,7 +179,7 @@ public class DataCaseController {
     }
 
 
-    @ApiOperation(value = "添加评语", notes = "修改案件状态")
+    @ApiOperation(value = "添加评语", notes = "添加评语")
     @PostMapping("/dataCase/addComment")
     public Object addComment(@RequestBody List<DataCaseEntity> list) {
         for (int i=0;i<list.size();i++){
@@ -180,6 +188,38 @@ public class DataCaseController {
         }
 
         return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "添加警告", notes = "添加警告")
+    @PostMapping("/dataCase/addWarning")
+    public Object addWarning(@RequestBody DataCaseEntity bean) {
+            dataCaseService.addWarning(bean);
+
+        return WebResponse.success();
+
+    }
+
+    @ApiOperation(value = "下一条案件", notes = "下一条案件")
+    @PostMapping("/dataCase/nextCase")
+    public Object nextCase(@RequestBody DataCaseEntity bean) {
+        DataCaseEntity temp = dataCaseService.nextCase(bean);
+        if (temp ==null){
+            return WebResponse.error("500","已经是最后一条了");
+        }
+        return WebResponse.success(temp);
+
+    }
+
+    @ApiOperation(value = "上一条案件", notes = "上一条案件")
+    @PostMapping("/dataCase/lastCase")
+    public Object lastCase(@RequestBody DataCaseEntity bean) {
+        DataCaseEntity temp = dataCaseService.lastCase(bean);
+        if (temp ==null){
+            return WebResponse.error("500","已经是第一条了");
+        }
+
+        return WebResponse.success(temp);
 
     }
 
@@ -636,7 +676,7 @@ public class DataCaseController {
 
     @ApiOperation(value = "数据模块-案件管理查询导出", notes = "数据模块-案件管理查询导出")
     @PostMapping("/dataCase/pageCaseListExport")
-    public Object pageCaseListExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException{
+    public Object pageCaseListExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException,Exception{
         List exportKeyList = new ArrayList();
 
         Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
@@ -680,7 +720,7 @@ public class DataCaseController {
 
     @ApiOperation(value = "查询导出当前页", notes = "查询导出当前页")
     @PostMapping("/dataCase/pageDataBatchExport")
-    public Object pageDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+    public Object pageDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException,Exception {
         List exportKeyList = new ArrayList();
 
         Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator

@@ -3,6 +3,8 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,6 +19,7 @@ import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.sys.web.DataCaseController;
 import xyz.zaijushou.zhx.utils.*;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -24,12 +27,18 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by looyer on 2019/1/25.
  */
 @Service
 public class DataCaseServiceImpl implements DataCaseService {
+    private static Logger logger = LoggerFactory.getLogger(DataCaseServiceImpl.class);
+
     @Resource
     private DataCaseMapper dataCaseMapper;
     @Resource
@@ -172,8 +181,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     @Override
-    public WebResponse pageCaseList(DataCaseEntity dataCaseEntity){
+    public WebResponse pageCaseList(DataCaseEntity dataCaseEntity) throws Exception{
         WebResponse webResponse = WebResponse.buildResponse();
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         int totalCaseNum=0;
         BigDecimal totalAmt=new BigDecimal(0);
         int repayNum=0;
@@ -295,6 +305,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setDistributeStatusFlag(null);
         }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
@@ -366,52 +377,18 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
                 totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
                 totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
-                if (temp.getCollectStatus()==0){
-                    temp.setCollectStatusMsg("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-                    temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
-                    temp.setCollectArea("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectArea(),SysDictionaryEntity.class);
-                    temp.setCollectArea(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getDistributeHistory())){
-                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getAccountAge())){
-                    temp.setAccountAge("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
-                    temp.setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
-                    temp.setOdv("");
-                }else {
-                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-                    temp.setOdv(user == null ? "" : user.getUserName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
-                    temp.setColor("BLACK");
-                }
-                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
-                temp.setClient(clientDic==null?"":clientDic.getName());
-                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
-                temp.setSummary(summaryDic==null?"":summaryDic.getName());
-                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
-                if (StringUtils.notEmpty(temp.getDistributeHistory())){
-                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
-                }
-                temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
-                temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
-                temp.setBalanceMsg(temp.getBalance()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
-                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
-                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
-                list.set(i,temp);
+                CaseCallable caseCallable = new CaseCallable(list,temp,i);
+                Future<List<DataCaseEntity>> future = executor.submit(caseCallable);
+//                /list = future.get();
             }
+            executor.shutdown();
+            while(true){
+                if(executor.isTerminated()){
+                    break;
+                }
+                Thread.sleep(100);
+            }
+
         }
         totalCaseNum = new Long(PageInfo.of(list).getTotal()).intValue();
         CaseResponse caseResponse = new CaseResponse();
@@ -685,6 +662,19 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
 
 
+    }
+
+    @Override
+    public void addWarning(DataCaseEntity bean){
+        dataCaseMapper.addWarning(bean);
+    }
+    @Override
+    public DataCaseEntity nextCase(DataCaseEntity bean){
+        return dataCaseMapper.nextCase(bean);
+    }
+    @Override
+    public DataCaseEntity lastCase(DataCaseEntity bean){
+        return dataCaseMapper.lastCase(bean);
     }
     @Override
     public void addColor(DataCaseEntity bean){

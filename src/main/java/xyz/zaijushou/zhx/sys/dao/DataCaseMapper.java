@@ -55,6 +55,8 @@ public interface DataCaseMapper {
 
     public void addComment(DataCaseEntity bean);
 
+    public void addWarning(DataCaseEntity bean);
+
     public void addColor(DataCaseEntity bean);
 
     public void addImportant(DataCaseEntity bean);
@@ -120,4 +122,8 @@ public interface DataCaseMapper {
     void updateCpMoney(DataCaseEntity dataCaseEntity);
 
     void updateCollectInfo(DataCaseEntity dataCaseEntity);
+
+    DataCaseEntity nextCase(DataCaseEntity bean);
+
+    DataCaseEntity lastCase(DataCaseEntity bean);
 }

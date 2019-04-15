@@ -837,6 +837,23 @@
         where id = #{id}
     </update>
 
+    <update id="addWarning" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set warning = #{warning}
+        where id = #{id}
+    </update>
+
+
+    <select id="nextCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select t.id,t.name,t.seq_no as seqNo  from data_case t
+       <![CDATA[     where id > #{id}    ]]>
+         order by id asc limit 1
+    </select>
+    <select id="lastCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select t.id,t.name,t.seq_no as seqNo  from data_case t
+        <![CDATA[     where id < #{id}    ]]>
+        order by id desc limit 1
+    </select>
+
 
     <update id="updateComment" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set

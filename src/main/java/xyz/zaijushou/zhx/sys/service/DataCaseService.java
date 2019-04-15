@@ -19,7 +19,7 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity);
 
-    public WebResponse pageCaseList(DataCaseEntity dataCaseEntity);
+    public WebResponse pageCaseList(DataCaseEntity dataCaseEntity) throws Exception;
 
     public List<DataCaseEntity> pageCaseInfoList(DataCaseEntity dataCaseEntity);
 
@@ -32,6 +32,8 @@ public interface DataCaseService {
     public void sendOdvByProperty(DataCaseEntity bean);
 
     public void addComment(DataCaseEntity bean);
+
+    public void addWarning(DataCaseEntity bean);
 
     public void addColor(DataCaseEntity bean);
 
@@ -115,4 +117,8 @@ public interface DataCaseService {
     public List<DataCaseEntity> listByBatchNos(String[] batchNos);
 
     public void updateCollectInfo(DataCaseEntity dataCaseEntity);
+
+    DataCaseEntity nextCase(DataCaseEntity bean);
+
+    DataCaseEntity lastCase(DataCaseEntity bean);
 }
