@@ -21,6 +21,8 @@ public interface DataCaseService {
 
     public WebResponse pageCaseList(DataCaseEntity dataCaseEntity) throws Exception;
 
+    public WebResponse pageCaseListOnly(DataCaseEntity dataCaseEntity) throws Exception;
+
     public List<DataCaseEntity> pageCaseInfoList(DataCaseEntity dataCaseEntity);
 
     void sumCaseMoney(DataCaseEntity bean);

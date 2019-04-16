@@ -110,7 +110,7 @@ public class DataCaseController {
         WebResponse webResponse = WebResponse.buildResponse();
         try {
             logger.info("进入执行");
-            webResponse = dataCaseService.pageCaseList(bean);
+            webResponse = dataCaseService.pageCaseListOnly(bean);
             logger.info("跳出执行");
         }catch (Exception e){
             webResponse.setCode("500");
