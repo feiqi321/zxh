@@ -57,7 +57,7 @@ public class ExcelCaseUtils {
         Sheet sheet = workbook.getSheetAt(0);
         Row header = sheet.getRow(0);
         Map<Integer, ExcelEnum> colMap = new HashMap<>();
-        logger.debug("列数：{}", header.getLastCellNum());
+        //logger.debug("列数：{}", header.getLastCellNum());
         for (int i = 0; i < header.getLastCellNum(); i++) {
             Cell cell = header.getCell(i);
             if(cell == null) {
@@ -205,7 +205,7 @@ public class ExcelCaseUtils {
             default:
                 result = null;
         }
-        logger.info("result:{}", result);
+        //logger.info("result:{}", result);
         return result;
     }
 
@@ -252,7 +252,6 @@ public class ExcelCaseUtils {
                 style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
                 for (int k = 0; k < excelEnumMap.size(); k++) {
-                    logger.debug(k + "");
                     Cell cell = row.createCell(k);
 
                     ExcelEnum excelEnum = excelEnumMap.get(k);

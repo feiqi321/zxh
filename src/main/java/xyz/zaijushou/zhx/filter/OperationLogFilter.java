@@ -84,6 +84,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/fileManage/downloadUser",
             "/letter/totalInfoExport",
             "/letter/pageInfoExport",
+            "/dataCase/detail"
     };
 
     @Override

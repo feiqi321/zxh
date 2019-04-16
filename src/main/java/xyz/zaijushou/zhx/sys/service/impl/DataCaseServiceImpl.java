@@ -540,54 +540,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
                 totalCp = totalCp.add(temp.getBankAmt());
                 totalPtp = totalPtp.add(temp.getProRepayAmt());
-                if (temp.getCollectStatus()==0){
-                    temp.setCollectStatusMsg("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-                    temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+
+                CaseCallable caseCallable = new CaseCallable(list,temp,i);
+                Future<List<DataCaseEntity>> future = executor.submit(caseCallable);
+            }
+            while(true){
+                if(executor.isTerminated()){
+                    break;
                 }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
-                    temp.setCollectArea("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectArea(),SysDictionaryEntity.class);
-                    temp.setCollectArea(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getDistributeHistory())){
-                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getAccountAge())){
-                    temp.setAccountAge("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
-                    temp.setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
-                    temp.setOdv("");
-                }else {
-                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-                    temp.setOdv(user == null ? "" : user.getUserName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
-                    temp.setColor("BLACK");
-                }
-                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
-                temp.setClient(clientDic==null?"":clientDic.getName());
-                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
-                temp.setSummary(summaryDic==null?"":summaryDic.getName());
-                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
-                if (StringUtils.notEmpty(temp.getDistributeHistory())){
-                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
-                    temp.setColor("BLACK");
-                }
-                temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
-                temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
-                temp.setBalanceMsg(temp.getBalance()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
-                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
-                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
-                list.set(i,temp);
+                Thread.sleep(50);
             }
         }else {
             list = dataCaseMapper.pageCaseMangeList(dataCaseEntity);
@@ -609,7 +570,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 if(executor.isTerminated()){
                     break;
                 }
-                Thread.sleep(100);
+                Thread.sleep(50);
             }
 
         }
@@ -893,10 +854,16 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public DataCaseEntity nextCase(DataCaseEntity bean){
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        bean.setOdv(user.getId()+"");
         return dataCaseMapper.nextCase(bean);
     }
     @Override
     public DataCaseEntity lastCase(DataCaseEntity bean){
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        bean.setOdv(user.getId()+"");
         return dataCaseMapper.lastCase(bean);
     }
     @Override
@@ -1641,10 +1608,13 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     public DataCaseDetail detail(DataCaseEntity bean){
+        logger.info("查询详情开始");
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        logger.info("查询详情结束");
         dataCaseDetail.setCurrentuser(false);
         SysUserEntity curentuser = getUserInfo();
         int role = 0;
+        logger.info("查询角色开始");
         List<SysRoleEntity> roleList = sysRoleMapper.listRoleByUserId(curentuser);
         for (int i=0;i<roleList.size();i++){
             SysRoleEntity sysRoleEntity = roleList.get(i);
@@ -1657,6 +1627,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 break;
             }
         }
+        logger.info("查询角色结束");
+        logger.info("设置提成比例开始");
         SysPercent sysPercent = new SysPercent();
         sysPercent.setClient(dataCaseDetail.getClient()==null?0:Integer.parseInt(dataCaseDetail.getClient()));
         sysPercent = sysPercentMapper.findByClient(sysPercent);
@@ -1689,7 +1661,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
 
-
+        logger.info("设置提成比例结束");
+        logger.info("设置数据字典开始");
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !(curentuser.getId()+"").equals(dataCaseDetail.getOdv())){
             SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
             sysNewUserEntity.setId(curentuser.getId());
@@ -1777,7 +1750,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
             dataCaseTelEntityList.set(i,temp);
         }
-
+        logger.info("设置数据字典结束");
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
         dataCaseCommentEntity.setCaseId(bean.getId());
         List<DataCaseCommentEntity> commentList = dataCaseCommentMapper.findAll(dataCaseCommentEntity);

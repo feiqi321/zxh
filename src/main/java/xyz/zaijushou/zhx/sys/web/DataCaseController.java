@@ -794,7 +794,9 @@ public class DataCaseController {
         }
 
         bean.setExportKeyList(exportKeyList);
+        logger.info("导出查询开始");
         List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
+        logger.info("导出查询结束");
         String fileName = "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
@@ -1003,8 +1005,9 @@ public class DataCaseController {
     @ApiOperation(value = "查询案件明细", notes = "查询案件明细")
     @PostMapping("/dataCase/detail")
     public Object detail(@RequestBody DataCaseEntity bean) {
+        logger.info("进入到详情");
         DataCaseDetail detail = dataCaseService.detail(bean);
-
+        logger.info("出详情");
         return WebResponse.success(detail);
 
     }

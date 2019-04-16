@@ -8,6 +8,7 @@
         DISTINCT da.id as id,
         da.case_date as caseDate,
         da.money as money,
+        da.warning,
         da.case_deadline as caseDeadline,
         da.collect_hand as collectHand,
         da.rmb as rmb,
@@ -845,12 +846,12 @@
 
     <select id="nextCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select t.id,t.name,t.seq_no as seqNo  from data_case t
-       <![CDATA[     where id > #{id}    ]]>
+       <![CDATA[     where id > #{id}   and odv = #{odv} ]]>
          order by id asc limit 1
     </select>
     <select id="lastCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select t.id,t.name,t.seq_no as seqNo  from data_case t
-        <![CDATA[     where id < #{id}    ]]>
+        <![CDATA[     where id < #{id}   and odv = #{odv}   ]]>
         order by id desc limit 1
     </select>
 
