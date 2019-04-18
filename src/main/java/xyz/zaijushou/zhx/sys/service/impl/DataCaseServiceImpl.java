@@ -1660,7 +1660,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setPrePercentTips("");
         }
 
-
         logger.info("设置提成比例结束");
         logger.info("设置数据字典开始");
         if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseDetail.getOdv()) && (!(curentuser.getId()+"").equals(dataCaseDetail.getOdv()))){
