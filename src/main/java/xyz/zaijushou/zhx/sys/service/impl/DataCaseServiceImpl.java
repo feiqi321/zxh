@@ -1663,11 +1663,11 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         logger.info("设置提成比例结束");
         logger.info("设置数据字典开始");
-        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseDetail.getOdv()) || !(curentuser.getId()+"").equals(dataCaseDetail.getOdv())){
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseDetail.getOdv()) && (!(curentuser.getId()+"").equals(dataCaseDetail.getOdv()))){
             SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
             sysNewUserEntity.setId(curentuser.getId());
             this.foreachData(dataCaseDetail,sysNewUserEntity,Integer.parseInt(dataCaseDetail.getOdv()));
-        }else{
+        }else if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseDetail.getOdv()) && (curentuser.getId()+"").equals(dataCaseDetail.getOdv())){
             dataCaseDetail.setCurrentuser(true);
         }
         dataCaseDetail.setOdvId(dataCaseDetail.getOdv());
