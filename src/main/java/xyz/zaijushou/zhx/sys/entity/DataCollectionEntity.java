@@ -259,6 +259,26 @@ public class DataCollectionEntity extends CommonEntity {
 
     private List exportKeyList;
 
+    private Integer distributeStatus;
+
+    private String distributeStatusMsg;
+
+    public String getDistributeStatusMsg() {
+        return distributeStatusMsg;
+    }
+
+    public void setDistributeStatusMsg(String distributeStatusMsg) {
+        this.distributeStatusMsg = distributeStatusMsg;
+    }
+
+    public Integer getDistributeStatus() {
+        return distributeStatus;
+    }
+
+    public void setDistributeStatus(Integer distributeStatus) {
+        this.distributeStatus = distributeStatus;
+    }
+
     public List getExportKeyList() {
         return exportKeyList;
     }

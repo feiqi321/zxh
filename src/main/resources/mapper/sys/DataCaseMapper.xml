@@ -823,8 +823,12 @@
         </where>
     </select>
 
+    <update id="watchDetail" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+         update data_case set distribute_status=3
+        where id = #{id}
+    </update>
     <update id="sendOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set odv = #{odv},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now()
+        update data_case set odv = #{odv},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now(),distribute_status=1
         where id = #{id}
     </update>
 
@@ -891,7 +895,7 @@
     </update>
     <!--数据模块-按照查询分配业务员-->
     <select id="sendOdvByProperty" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          update data_case set odv = #{odv},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now()
+          update data_case set odv = #{odv},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now(),distribute_status=1
           where id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
             #{item}
@@ -1110,6 +1114,9 @@
         <if test="money != null and money != ''">
             money = #{money},
         </if>
+            <if test="businessType != null and businessType != ''">
+                business_type = #{businessType},
+            </if>
         <if test="caseDeadline != null and caseDeadline != ''">
             case_deadline = #{caseDeadline},
         </if>
@@ -1439,6 +1446,7 @@
         hkd,
         foreign_currency,
         gender,
+        business_type,
         name,
         card_no,
         ident_no,
@@ -1547,7 +1555,8 @@
         engine_no,
         batch_no,
         distribute_history,
-        collect_times
+        collect_times,
+        distribute_status
         )
         values
         (
@@ -1562,6 +1571,7 @@
         #{hkd},
         #{foreignCurrency},
         #{gender},
+        #{businessType},
         #{name},
         #{cardNo},
         #{identNo},
@@ -1670,7 +1680,8 @@
         #{engineNo},
         #{batchNo},
         '',
-        0
+        0,
+        2
         )
     </insert>
 

@@ -570,7 +570,7 @@
     from data_case t where t.odv=#{odv}   <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
     </select>
     <select id="pageMyCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,
+        select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,t.distribute_status  as distributeStatus,
         t.tel,t.remark as result,t.repay_date as repayTime,t.collect_date as collectTime,t.summary as collectInfo,t.next_foll_date as nextFollDate,
         t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,
         t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,

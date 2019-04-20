@@ -49,6 +49,8 @@ public interface DataCaseMapper {
 
     public void sendOdv(DataCaseEntity bean);
 
+    public void watchDetail(DataCaseEntity bean);
+
     public void sendOdvByProperty(DataCaseEntity bean);
 
     public void updateStatus(DataCaseEntity bean);

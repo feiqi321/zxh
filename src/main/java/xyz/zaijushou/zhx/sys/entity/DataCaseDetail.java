@@ -324,6 +324,26 @@ public class DataCaseDetail {
 
     private String settleFlag;
 
+    private TelIpManage telIpManage;
+    //坐席号
+    private String officePhone;
+
+    public String getOfficePhone() {
+        return officePhone;
+    }
+
+    public void setOfficePhone(String officePhone) {
+        this.officePhone = officePhone;
+    }
+
+    public TelIpManage getTelIpManage() {
+        return telIpManage;
+    }
+
+    public void setTelIpManage(TelIpManage telIpManage) {
+        this.telIpManage = telIpManage;
+    }
+
     public String getSettleFlag() {
         return settleFlag;
     }

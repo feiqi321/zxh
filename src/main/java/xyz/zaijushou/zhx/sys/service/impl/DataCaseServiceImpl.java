@@ -38,7 +38,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class DataCaseServiceImpl implements DataCaseService {
     private static Logger logger = LoggerFactory.getLogger(DataCaseServiceImpl.class);
-
+    @Resource
+    private TelIpManageMapper telIpManageMapper;
     @Resource
     private DataCaseMapper dataCaseMapper;
     @Resource
@@ -1310,9 +1311,8 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public List<DataCaseEntity> totalCaseListExport(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
-        int totalCaseNum=0;
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         BigDecimal totalAmt=new BigDecimal(0);
-        int repayNum=0;
         BigDecimal repayTotalAmt=new BigDecimal(0);
         BigDecimal totalCp=new BigDecimal(0);
         BigDecimal totalPtp=new BigDecimal(0);
@@ -1422,75 +1422,43 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.totalBatchBoundsCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
-                totalAmt = totalAmt.add(temp.getMoney());
-                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    repayNum = repayNum+1;
-                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
-                }
-                totalCp = totalCp.add(temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt());
-                if (temp.getCollectStatus()==0){
-                    temp.setCollectStatusMsg("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-                    temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
-                    temp.setOdv("");
-                }else {
-                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-                    temp.setOdv(user == null ? "" : user.getUserName());
-                }
-                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
-                temp.setClient(clientDic==null?"":clientDic.getName());
-                SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
-                temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
-                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
-                temp.setSummary(summaryDic==null?"":summaryDic.getName());
-                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
-                if (StringUtils.notEmpty(temp.getDistributeHistory())){
-                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
-                }
-                list.set(i,temp);
+
+                CaseExportCallable caseCallable = new CaseExportCallable(list,temp,i);
+                Future<List<DataCaseEntity>> future = executor.submit(caseCallable);
             }
+            executor.shutdown();
+            while(true){
+                if(executor.isTerminated()){
+                    break;
+                }
+                try {
+                    Thread.sleep(100);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
         }else {
             list = dataCaseMapper.totalCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalCaseNum = totalCaseNum+1;
-                totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
-                if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    repayNum = repayNum+1;
-                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
-                }
-                totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
-                if (temp.getCollectStatus()==0){
-                    temp.setCollectStatusMsg("");
-                }else{
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-                    temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-                }
-                if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getOdv())){
-                    temp.setOdv("");
-                }else {
-                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-                    temp.setOdv(user == null ? "" : user.getUserName());
-                }
 
-                SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
-                temp.setClient(clientDic==null?"":clientDic.getName());
-                SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
-                temp.setSummary(summaryDic==null?"":summaryDic.getName());
-                SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-                temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
-                if (StringUtils.notEmpty(temp.getDistributeHistory())){
-                    temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
-                }
-                list.set(i,temp);
+                CaseExportCallable caseCallable = new CaseExportCallable(list,temp,i);
+                Future<List<DataCaseEntity>> future = executor.submit(caseCallable);
             }
+            executor.shutdown();
+            while(true){
+                if(executor.isTerminated()){
+                    break;
+                }
+                try {
+                    Thread.sleep(100);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+
         }
         return combineData(list);
     }
@@ -1609,10 +1577,17 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public DataCaseDetail detail(DataCaseEntity bean){
         logger.info("查询详情开始");
+        dataCaseMapper.watchDetail(bean);
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        TelIpManage telIpManage = telIpManageMapper.findOne();
+        dataCaseDetail.setTelIpManage(telIpManage);
         logger.info("查询详情结束");
         dataCaseDetail.setCurrentuser(false);
         SysUserEntity curentuser = getUserInfo();
+        if (curentuser!=null){
+            SysNewUserEntity temp = sysUserMapper.getDataById(curentuser.getId());
+            dataCaseDetail.setOfficePhone(temp.getOfficePhone());
+        }
         int role = 0;
         logger.info("查询角色开始");
         List<SysRoleEntity> roleList = sysRoleMapper.listRoleByUserId(curentuser);
@@ -1672,6 +1647,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseDetail.setOdvId(dataCaseDetail.getOdv());
         SysUserEntity odvuser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataCaseDetail.getOdv(), SysUserEntity.class);
         dataCaseDetail.setOdv(odvuser==null?"":odvuser.getUserName());
+
 
         SysDictionaryEntity clientDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getClient(), SysDictionaryEntity.class);
         dataCaseDetail.setClient(clientDic==null?"":clientDic.getName());

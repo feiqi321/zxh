@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -39,7 +42,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private DataCollectionTelMapper dataCollectionTelMapper;
-
+    ExecutorService executor = Executors.newFixedThreadPool(20);
     @Resource
     private SysUserService sysUserService;//用户业务控制层
 
@@ -89,7 +92,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         DataOpLog log = new DataOpLog();
         log.setType("电话催收");
-        log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getMobile()+"[手机]，通话内容："+beanInfo.getCollectInfo()+"，催收状态： "+(sysDictionaryEntity==null?"":sysDictionaryEntity.getName()));
+        log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getMobile()+"[手机]，通话内容："+(beanInfo.getCollectInfo()==null?"":beanInfo.getCollectInfo())+"，催收状态： "+(sysDictionaryEntity==null?"":sysDictionaryEntity.getName()));
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -167,7 +170,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     @Override
-    public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity){
+    public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity) throws Exception{
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         String[] clients = dataCollectionEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
             dataCollectionEntity.setClientFlag(null);
@@ -224,12 +228,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             webResponse.setData(collectionReturn);
             return  webResponse;
         }
-        for (int i=0;i<list.size();i++){
-            DataCollectionEntity temp = list.get(i);
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-            temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-            list.set(i,temp);
-        }
+
         for (int i=0;i<list.size();i++){
             DataCollectionEntity collection = list.get(i);
 
@@ -239,31 +238,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                     ++countCasePay;
                     sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
                 }
-            SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
-            collection.setTelType(telTypeDic==null?"":telTypeDic.getName());
-
-            SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getAccountAge(),SysDictionaryEntity.class);
-            collection.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
-
-            SysDictionaryEntity collectType =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getCollectionType(),SysDictionaryEntity.class);
-            collection.setCollectionType(collectType==null?"":collectType.getName());
-
-            SysDictionaryEntity collectInfoType =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getCollectInfo(),SysDictionaryEntity.class);
-            collection.setCollectInfo(collectInfoType==null?"":collectInfoType.getName());
-
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
-            collection.setBankAmtMsg(collection.getBankAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
-            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
-            collection.setNewMoneyMsg(collection.getNewMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
-            collection.setBalanceMsg(collection.getBalance()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
-            collection.setMoneyMsg(collection.getMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
-            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
+            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i);
+            Future<List<DataCollectionEntity>> future = executor.submit(collectCaseCallable);
 
-            if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getCountFollow())){
-                collection.setCountFollow("0");
+        }
+        executor.shutdown();
+        while(true){
+            if(executor.isTerminated()){
+                break;
             }
-            list.set(i,collection);
+            Thread.sleep(100);
         }
         int count = new Long(PageInfo.of(list).getTotal()).intValue() ;
 

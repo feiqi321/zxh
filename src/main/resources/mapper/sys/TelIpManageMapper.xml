@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.TelIpManageMapper">
+
+
+    <!--通过Id删除数据信息-->
+    <update id="update" parameterType="xyz.zaijushou.zhx.sys.entity.TelIpManage">
+        update tel_ip_manage set address=#{address}
+        where id = 1
+    </update>
+
+    <select id="findOne"  resultType="xyz.zaijushou.zhx.sys.entity.TelIpManage">
+        select address,customer,psw
+        from tel_ip_manage where id=1
+    </select>
+
+</mapper>

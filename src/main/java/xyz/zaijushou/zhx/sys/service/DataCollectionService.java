@@ -27,7 +27,7 @@ public interface DataCollectionService {
 
     public List<DataCollectionEntity> pageDataCollectionList(DataCollectionEntity dataCollectionEntity);
 
-    public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity);
+    public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity) throws Exception;
 
     public List<DataCollectionEntity> listCaseBatchIdNo(DataCollectionEntity dataCollectionEntity);
 

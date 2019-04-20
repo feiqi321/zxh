@@ -90,7 +90,7 @@ public class DataCollectionController {
 
     @ApiOperation(value = "催收管理-我的案件分頁查询", notes = "催收管理-我的案件分頁查询")
     @PostMapping("/dataCollection/pageMyCase")
-    public Object pageMyCase(@RequestBody DataCollectionEntity bean) {
+    public Object pageMyCase(@RequestBody DataCollectionEntity bean) throws Exception{
 
         WebResponse webResponse = dataCollectionService.pageMyCase(bean);
 
