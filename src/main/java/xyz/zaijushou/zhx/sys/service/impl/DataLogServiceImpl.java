@@ -74,6 +74,19 @@ public class DataLogServiceImpl implements DataLogService {
         return list;
     }
 
+    public List<DataOpLog> listDataOpLogByCaseId(DataOpLog log){
+        List<DataOpLog>  list = dataOpLogMapper.listDataOpLog(log);
+        for (int i=0;i<list.size();i++){
+            DataOpLog temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOper(), SysUserEntity.class);
+            temp.setOperName(user == null ? "" : user.getUserName());
+            SysUserEntity odvUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdvName(odvUser == null ? "" : odvUser.getUserName());
+            list.set(i,temp);
+        }
+        return list;
+    }
+
     public List<DataOpLog> listDataAddressLog(DataOpLog log){
         List<DataOpLog>  list = dataOpLogMapper.listAddressDataOpLog(log);
         for (int i=0;i<list.size();i++){

@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface DataOpLogMapper {
 
+    public List<DataOpLog> listDataOpLogByCaseId(DataOpLog dataOpLog);
+
     public List<DataOpLog> listDataOpLog(DataOpLog dataOpLog);
 
     public List<DataOpLog> listAddressDataOpLog(DataOpLog dataOpLog);

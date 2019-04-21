@@ -60,6 +60,8 @@ public class DataCaseController {
     private SysDictionaryService dictionaryService;
     @Autowired
     private SysOperationLogService sysOperationLogService;
+    @Autowired
+    private DataLogService dataLogService;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -850,6 +852,20 @@ public class DataCaseController {
         sysOperationLogService.insertRequest(operationLog);
         ExcelCaseUtils.exportExcel(resultList,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
+                fileName + ".xlsx",
+                response
+        );
+        return null;
+    }
+
+    @ApiOperation(value = "查询导出所选操作记录", notes = "查询导出所选")
+    @PostMapping("/dataCase/selectOpExport")
+    public Object selectOpExport(@RequestBody DataOpLog bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+
+        List<DataOpLog> resultList = dataLogService.listDataOpLogByCaseId(bean);
+        String fileName = "所选案件操作记录导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        ExcelUtils.exportExcel(resultList,
+                ExcelOpConstant.LogMemorize.values(),
                 fileName + ".xlsx",
                 response
         );

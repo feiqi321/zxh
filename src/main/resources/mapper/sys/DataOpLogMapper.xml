@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.DataOpLogMapper" >
 
+  <select id="listDataOpLogByCaseId" resultType="xyz.zaijushou.zhx.sys.entity.DataOpLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
+    select t.seq_no as seqNo,t.name,t.odv,d.type,d.op_time as opTime,d.context,d.oper
+    from data_op_log d left JOIN data_case t on d.case_id = t.id
+    where case_id in
+    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
   <select id="listDataOpLog" resultType="xyz.zaijushou.zhx.sys.entity.DataOpLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
     select 
     id,type,context,op_time as opTime,oper,case_id as caseId
@@ -17,7 +26,6 @@
     id,type,context,op_time as opTime,oper,case_id as caseId
     from data_op_log
     where case_id = #{caseId} and  type = '地址管理'
-
   </select>
 
   <!--插入数据信息-->

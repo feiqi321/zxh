@@ -34,6 +34,8 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> pageMyCollect(DataCollectionEntity bean);
 
+    public DataCollectionEntity findMaxByCaseId(DataCollectionEntity bean);
+
     public int countMyNewCollect(DataCollectionEntity bean);
 
     public List<DataCollectionEntity> listDataCollect(DataCollectionEntity bean);

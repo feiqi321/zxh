@@ -263,6 +263,16 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String distributeStatusMsg;
 
+    private String distributeTime;//分配時間   列表
+
+    public String getDistributeTime() {
+        return distributeTime;
+    }
+
+    public void setDistributeTime(String distributeTime) {
+        this.distributeTime = distributeTime;
+    }
+
     public String getDistributeStatusMsg() {
         return distributeStatusMsg;
     }

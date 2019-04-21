@@ -21,4 +21,6 @@ public interface DataLogService {
 
     public List<DataOpLog> listDataAddressLog(DataOpLog log);
 
+    public List<DataOpLog> listDataOpLogByCaseId(DataOpLog log);
+
 }

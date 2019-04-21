@@ -1889,8 +1889,8 @@
                 <if test="idFlag != null and idFlag!=''">
                     and t.id in
                     <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
+                    #{item}
+                </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and t.card_no in
