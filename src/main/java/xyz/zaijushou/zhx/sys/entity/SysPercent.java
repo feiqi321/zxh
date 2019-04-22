@@ -9,13 +9,9 @@ import java.math.BigDecimal;
  */
 public class SysPercent extends CommonEntity {
 
-    private Integer client;
+    private String client;
 
-    private String clientMsg;
-
-    private Integer enable;
-
-    private String enableMsg;
+    private String enable;
 
     private BigDecimal odvLow;
 
@@ -23,13 +19,99 @@ public class SysPercent extends CommonEntity {
 
     private BigDecimal odvBasic;
 
+    private String odvBasicMsg;
+
     private BigDecimal odvReward;
 
-    private String odvRemark;
+    private String odvRewardMsg;
+
+    private BigDecimal odvHighBasic;
+
+    private String odvHighBasicMsg;
+
+    private BigDecimal odvHighReward;
+
+    private String odvHighRewardMsg;
 
     private BigDecimal manageReward;
 
-    private String manageRemark;
+    private String manageRewardMsg;
+
+    private BigDecimal manageBasic;
+
+    private String remark;
+
+    public String getOdvBasicMsg() {
+        return odvBasicMsg;
+    }
+
+    public void setOdvBasicMsg(String odvBasicMsg) {
+        this.odvBasicMsg = odvBasicMsg;
+    }
+
+    public String getOdvRewardMsg() {
+        return odvRewardMsg;
+    }
+
+    public void setOdvRewardMsg(String odvRewardMsg) {
+        this.odvRewardMsg = odvRewardMsg;
+    }
+
+    public String getOdvHighBasicMsg() {
+        return odvHighBasicMsg;
+    }
+
+    public void setOdvHighBasicMsg(String odvHighBasicMsg) {
+        this.odvHighBasicMsg = odvHighBasicMsg;
+    }
+
+    public String getOdvHighRewardMsg() {
+        return odvHighRewardMsg;
+    }
+
+    public void setOdvHighRewardMsg(String odvHighRewardMsg) {
+        this.odvHighRewardMsg = odvHighRewardMsg;
+    }
+
+    public String getManageRewardMsg() {
+        return manageRewardMsg;
+    }
+
+    public void setManageRewardMsg(String manageRewardMsg) {
+        this.manageRewardMsg = manageRewardMsg;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public void setEnable(String enable) {
+        this.enable = enable;
+    }
+
+    public BigDecimal getOdvHighBasic() {
+        return odvHighBasic;
+    }
+
+    public void setOdvHighBasic(BigDecimal odvHighBasic) {
+        this.odvHighBasic = odvHighBasic;
+    }
+
+    public BigDecimal getOdvHighReward() {
+        return odvHighReward;
+    }
+
+    public void setOdvHighReward(BigDecimal odvHighReward) {
+        this.odvHighReward = odvHighReward;
+    }
+
+    public BigDecimal getManageBasic() {
+        return manageBasic;
+    }
+
+    public void setManageBasic(BigDecimal manageBasic) {
+        this.manageBasic = manageBasic;
+    }
 
     public String getOdvLowMsg() {
         return odvLowMsg;
@@ -39,36 +121,12 @@ public class SysPercent extends CommonEntity {
         this.odvLowMsg = odvLowMsg;
     }
 
-    public String getClientMsg() {
-        return clientMsg;
-    }
-
-    public void setClientMsg(String clientMsg) {
-        this.clientMsg = clientMsg;
-    }
-
-    public String getEnableMsg() {
-        return enableMsg;
-    }
-
-    public void setEnableMsg(String enableMsg) {
-        this.enableMsg = enableMsg;
-    }
-
-    public Integer getClient() {
+    public String getClient() {
         return client;
     }
 
-    public void setClient(Integer client) {
-        this.client = client;
-    }
-
-    public Integer getEnable() {
+    public String getEnable() {
         return enable;
-    }
-
-    public void setEnable(Integer enable) {
-        this.enable = enable;
     }
 
     public BigDecimal getOdvLow() {
@@ -95,14 +153,6 @@ public class SysPercent extends CommonEntity {
         this.odvReward = odvReward;
     }
 
-    public String getOdvRemark() {
-        return odvRemark;
-    }
-
-    public void setOdvRemark(String odvRemark) {
-        this.odvRemark = odvRemark;
-    }
-
     public BigDecimal getManageReward() {
         return manageReward;
     }
@@ -111,11 +161,13 @@ public class SysPercent extends CommonEntity {
         this.manageReward = manageReward;
     }
 
-    public String getManageRemark() {
-        return manageRemark;
+    @Override
+    public String getRemark() {
+        return remark;
     }
 
-    public void setManageRemark(String manageRemark) {
-        this.manageRemark = manageRemark;
+    @Override
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

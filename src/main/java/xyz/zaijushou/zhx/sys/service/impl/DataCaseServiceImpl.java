@@ -1605,11 +1605,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("查询角色结束");
         logger.info("设置提成比例开始");
         SysPercent sysPercent = new SysPercent();
-        sysPercent.setClient(dataCaseDetail.getClient()==null?0:Integer.parseInt(dataCaseDetail.getClient()));
+        /*sysPercent.setClient(dataCaseDetail.getClient()==null?0:Integer.parseInt(dataCaseDetail.getClient()));*/
         sysPercent = sysPercentMapper.findByClient(sysPercent);
 
         BigDecimal cuMoney = dataCaseDetail.getMoney()==null?new BigDecimal(0):dataCaseDetail.getMoney();
-        if (role==4){//当前用户是催收员
+      /*  if (role==4){//当前用户是催收员
             if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
                 dataCaseDetail.setPrePercent(cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic()).setScale(2,BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString() + "（基础提成）/" + cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward()).setScale(2,BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString()  + "（奖励提成）");
                 if (sysPercent.getOdvLow()==null || sysPercent.getOdvLow().compareTo(new BigDecimal(0))==0){
@@ -1633,7 +1633,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{//既不是催收员也不是经理
             dataCaseDetail.setPrePercent("");
             dataCaseDetail.setPrePercentTips("");
-        }
+        }*/
 
         logger.info("设置提成比例结束");
         logger.info("设置数据字典开始");

@@ -32,21 +32,37 @@ public class SysPercentServiceImpl implements SysPercentService {
 
         for (int i=0;i<list.size();i++){
             SysPercent sysPercent = list.get(i);
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+sysPercent.getClient(),SysDictionaryEntity.class);
-            sysPercent.setClientMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-            if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1){
-                sysPercent.setEnableMsg("是");
-            }else if (sysPercent.getEnable()!=null && sysPercent.getEnable()==2) {
-                sysPercent.setEnableMsg("否");
-            }else{
-                sysPercent.setEnable(2);
-                sysPercent.setEnableMsg("否");
-            }
             if (StringUtils.isEmpty(sysPercent.getOdvLow())){
-                sysPercent.setOdvLowMsg("");
+                sysPercent.setOdvLowMsg("0");
             }else{
-                sysPercent.setOdvLowMsg(sysPercent.getOdvLow().toString());
+                sysPercent.setOdvLowMsg(sysPercent.getOdvLow().stripTrailingZeros().toPlainString());
             }
+            if (StringUtils.isEmpty(sysPercent.getOdvBasic())){
+                sysPercent.setOdvBasicMsg("0");
+            }else{
+                sysPercent.setOdvBasicMsg(sysPercent.getOdvBasic().stripTrailingZeros().toPlainString());
+            }
+            if (StringUtils.isEmpty(sysPercent.getOdvReward())){
+                sysPercent.setOdvRewardMsg("0");
+            }else{
+                sysPercent.setOdvRewardMsg(sysPercent.getOdvReward().stripTrailingZeros().toPlainString());
+            }
+            if (StringUtils.isEmpty(sysPercent.getOdvHighBasic())){
+                sysPercent.setOdvHighBasicMsg("0");
+            }else{
+                sysPercent.setOdvHighBasicMsg(sysPercent.getOdvHighBasic().stripTrailingZeros().toPlainString());
+            }
+            if (StringUtils.isEmpty(sysPercent.getOdvHighReward())){
+                sysPercent.setOdvHighRewardMsg("0");
+            }else{
+                sysPercent.setOdvHighRewardMsg(sysPercent.getOdvHighReward().stripTrailingZeros().toPlainString());
+            }
+            if (StringUtils.isEmpty(sysPercent.getManageReward())){
+                sysPercent.setManageRewardMsg("0");
+            }else{
+                sysPercent.setManageRewardMsg(sysPercent.getManageReward().stripTrailingZeros().toPlainString());
+            }
+
             list.set(i,sysPercent);
         }
 
