@@ -16,9 +16,22 @@
             odv_low,
             odv_basic,
             odv_reward,
+            odv_reward2,
+            odv_reward3,
             manage_reward,
             manage_basic,
-            remark
+            remark,
+            odv_reward_range1,
+            odv_reward_range2,
+            odv_reward_range3,
+            odv_reward_range4,
+            odv_reward_range5,
+            manage_reward_range1,
+            manage_reward_range2,
+            manage_reward_range3,
+            manage_reward_range4,
+            manage_reward_range5,
+            manage_reward_range6
         )
         values
         <foreach collection ="list" item="reddemCode" index= "index" separator =",">
@@ -28,9 +41,22 @@
                 #{reddemCode.odvLow},
                 #{reddemCode.odvBasic},
                 #{reddemCode.odvReward},
+                #{reddemCode.odvReward2},
+                #{reddemCode.odvReward3},
                 #{reddemCode.manageReward},
                 #{reddemCode.manageBasic},
-                #{reddemCode.remark}
+                #{reddemCode.remark},
+                #{reddemCode.odvRewardRange1},
+                #{reddemCode.odvRewardRange2},
+                #{reddemCode.odvRewardRange3},
+                #{reddemCode.odvRewardRange4},
+                #{reddemCode.odvRewardRange5},
+                #{reddemCode.manageRewardRange1},
+                #{reddemCode.manageRewardRange2},
+                #{reddemCode.manageRewardRange3},
+                #{reddemCode.manageRewardRange4},
+                #{reddemCode.manageRewardRange5},
+                #{reddemCode.manageRewardRange6}
             )
         </foreach >
     </insert>
@@ -38,13 +64,35 @@
 
     <select id="listPencent" resultType="xyz.zaijushou.zhx.sys.entity.SysPercent">
         select
-        t.id,t.client as client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.manage_reward as manageReward,t.manage_basic as manageBasic,t.remark
+        t.id,t.client as client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.manage_reward as manageReward,t.manage_basic as manageBasic,t.remark,
+        t.odv_reward_range1 as odvRewardRange1,t.odv_reward2 as odvReward2,t.odv_reward3 as odvReward3,
+            t.odv_reward_range2 as odvRewardRange2,
+            t.odv_reward_range3 as odvRewardRange3,
+            t.odv_reward_range4 as odvRewardRange4,
+            t.odv_reward_range5 as odvRewardRange5,
+            t.manage_reward_range1 as manageRewardRange1,
+            t.manage_reward_range2 as manageRewardRange2,
+            t.manage_reward_range3 as manageRewardRange3,
+            t.manage_reward_range4 as manageRewardRange4,
+            t.manage_reward_range5 as manageRewardRange5,
+            t.manage_reward_range6 as manageRewardRange6
         from sys_percent t
     </select>
 
     <select id="findByClient" parameterType="xyz.zaijushou.zhx.sys.entity.SysPercent"   resultType="xyz.zaijushou.zhx.sys.entity.SysPercent">
         select
-        t.id,t.client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.manage_reward as manageReward,t.manage_basic as manageBasic,t.remark
+        t.id,t.client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.manage_reward as manageReward,t.manage_basic as manageBasic,t.remark,
+         t.odv_reward_range1 as odvRewardRange1,t.odv_reward2 as odvReward2,t.odv_reward3 as odvReward3,
+            t.odv_reward_range2 as odvRewardRange2,
+            t.odv_reward_range3 as odvRewardRange3,
+            t.odv_reward_range4 as odvRewardRange4,
+            t.odv_reward_range5 as odvRewardRange5,
+            t.manage_reward_range1 as manageRewardRange1,
+            t.manage_reward_range2 as manageRewardRange2,
+            t.manage_reward_range3 as manageRewardRange3,
+            t.manage_reward_range4 as manageRewardRange4,
+            t.manage_reward_range5 as manageRewardRange5,
+            t.manage_reward_range6 as manageRewardRange6
         from sys_percent t where t.client = #{client}
     </select>
 </mapper>

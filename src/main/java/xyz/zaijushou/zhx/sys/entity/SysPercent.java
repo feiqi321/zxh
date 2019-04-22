@@ -23,6 +23,10 @@ public class SysPercent extends CommonEntity {
 
     private BigDecimal odvReward;
 
+    private BigDecimal odvReward2;
+
+    private BigDecimal odvReward3;
+
     private String odvRewardMsg;
 
     private BigDecimal odvHighBasic;
@@ -40,6 +44,123 @@ public class SysPercent extends CommonEntity {
     private BigDecimal manageBasic;
 
     private String remark;
+
+    private BigDecimal odvRewardRange1;
+    private BigDecimal odvRewardRange2;
+    private BigDecimal odvRewardRange3;
+    private BigDecimal odvRewardRange4;
+    private BigDecimal odvRewardRange5;
+    private BigDecimal manageRewardRange1;
+    private BigDecimal manageRewardRange2;
+    private BigDecimal manageRewardRange3;
+    private BigDecimal manageRewardRange4;
+    private BigDecimal manageRewardRange5;
+    private BigDecimal manageRewardRange6;
+
+    public BigDecimal getOdvReward2() {
+        return odvReward2;
+    }
+
+    public void setOdvReward2(BigDecimal odvReward2) {
+        this.odvReward2 = odvReward2;
+    }
+
+    public BigDecimal getOdvReward3() {
+        return odvReward3;
+    }
+
+    public void setOdvReward3(BigDecimal odvReward3) {
+        this.odvReward3 = odvReward3;
+    }
+
+    public BigDecimal getOdvRewardRange3() {
+        return odvRewardRange3;
+    }
+
+    public void setOdvRewardRange3(BigDecimal odvRewardRange3) {
+        this.odvRewardRange3 = odvRewardRange3;
+    }
+
+    public BigDecimal getOdvRewardRange4() {
+        return odvRewardRange4;
+    }
+
+    public void setOdvRewardRange4(BigDecimal odvRewardRange4) {
+        this.odvRewardRange4 = odvRewardRange4;
+    }
+
+    public BigDecimal getOdvRewardRange5() {
+        return odvRewardRange5;
+    }
+
+    public void setOdvRewardRange5(BigDecimal odvRewardRange5) {
+        this.odvRewardRange5 = odvRewardRange5;
+    }
+
+    public BigDecimal getManageRewardRange1() {
+        return manageRewardRange1;
+    }
+
+    public void setManageRewardRange1(BigDecimal manageRewardRange1) {
+        this.manageRewardRange1 = manageRewardRange1;
+    }
+
+    public BigDecimal getManageRewardRange2() {
+        return manageRewardRange2;
+    }
+
+    public void setManageRewardRange2(BigDecimal manageRewardRange2) {
+        this.manageRewardRange2 = manageRewardRange2;
+    }
+
+    public BigDecimal getManageRewardRange3() {
+        return manageRewardRange3;
+    }
+
+    public void setManageRewardRange3(BigDecimal manageRewardRange3) {
+        this.manageRewardRange3 = manageRewardRange3;
+    }
+
+    public BigDecimal getManageRewardRange4() {
+        return manageRewardRange4;
+    }
+
+    public void setManageRewardRange4(BigDecimal manageRewardRange4) {
+        this.manageRewardRange4 = manageRewardRange4;
+    }
+
+    public BigDecimal getManageRewardRange5() {
+        return manageRewardRange5;
+    }
+
+    public void setManageRewardRange5(BigDecimal manageRewardRange5) {
+        this.manageRewardRange5 = manageRewardRange5;
+    }
+
+    public BigDecimal getManageRewardRange6() {
+        return manageRewardRange6;
+    }
+
+    public void setManageRewardRange6(BigDecimal manageRewardRange6) {
+        this.manageRewardRange6 = manageRewardRange6;
+    }
+
+    public BigDecimal getOdvRewardRange1() {
+        return odvRewardRange1;
+    }
+
+    public void setOdvRewardRange1(BigDecimal odvRewardRange1) {
+        this.odvRewardRange1 = odvRewardRange1;
+    }
+
+    public BigDecimal getOdvRewardRange2() {
+        return odvRewardRange2;
+    }
+
+    public void setOdvRewardRange2(BigDecimal odvRewardRange2) {
+        this.odvRewardRange2 = odvRewardRange2;
+    }
+
 
     public String getOdvBasicMsg() {
         return odvBasicMsg;
