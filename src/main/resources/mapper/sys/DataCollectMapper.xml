@@ -714,8 +714,8 @@
     <select id="listDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t1.id,t2.name,case_id as caseId,t2.seq_no as seqno,t2.color,t1.bail_date as bailDate,t2.expect_time as expectTime,t2.area,
         t2.dept,t2.odv,t1.measure,t1.collect_time as collectTime,t1.target_name as targetName,t1.relation,t1.tel_type as telType,
-        t1.mobile,t1.result,t1.method,t1.repay_time as repayTime,
-        t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmtexpectTime,t1.collect_status collectStatus,t1.reduce_status as reduceStatus,
+        t1.mobile,t1.result,t1.method,t1.repay_time as repayTime,t1.create_time as createTime,
+        t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.collect_status collectStatus,t1.reduce_status as reduceStatus,
         t2.account_age as accountAge,t2.case_date as caseDate,t2.card_no as cardNo,t2.ident_no as identNo,
         t2.money,t2.balance,t2.bank_amt as bankAmt,t1.collect_info as collectInfo,t2.over_days as overDays,
         t2.en_repay_amt as enRepayAmt,t1.next_foll_date as nextFollDate,t1.leave_days as leaveDays,t1.new_money as moneyStart,
