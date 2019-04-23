@@ -88,4 +88,12 @@ public class SysPercentServiceImpl implements SysPercentService {
         return list;
     }
 
+    public SysPercent findRemark(){
+        return sysPercentMapper.findRemark();
+    }
+
+    public void updateRemark(SysPercent bean){
+        sysPercentMapper.updateRemark(bean);
+    }
+
 }

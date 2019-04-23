@@ -13,4 +13,8 @@ public interface SysPercentService {
 
     public List<SysPercent> listPencent();
 
+    public SysPercent findRemark();
+
+    public void updateRemark(SysPercent bean);
+
 }

@@ -219,4 +219,19 @@ public class SysPercentController {
 
     }
 
+    @PostMapping("/findRemark")
+    public Object findRemark() {
+
+        SysPercent bean = sysPercentService.findRemark();
+
+        return WebResponse.success(bean);
+
+    }
+
+    @PostMapping("/updateRemark")
+    public Object updateRemark(@RequestBody SysPercent bean) {
+        sysPercentService.updateRemark(bean);
+        return WebResponse.success();
+    }
+
 }

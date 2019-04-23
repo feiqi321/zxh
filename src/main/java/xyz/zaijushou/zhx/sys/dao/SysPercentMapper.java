@@ -17,4 +17,8 @@ public interface SysPercentMapper {
 
     public SysPercent findByClient(SysPercent bean);
 
+    public SysPercent findRemark();
+
+    public void updateRemark(SysPercent bean);
+
 }

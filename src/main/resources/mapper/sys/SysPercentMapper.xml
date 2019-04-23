@@ -30,7 +30,7 @@
             t.manage_reward_range4 as manageRewardRange4,
             t.manage_reward_range5 as manageRewardRange5,
             t.manage_reward_range6 as manageRewardRange6
-        from sys_percent t
+        from sys_percent t where <![CDATA[   id <> 171  ]]> order by t.orderNo asc
     </select>
 
     <select id="findByClient" parameterType="xyz.zaijushou.zhx.sys.entity.SysPercent"   resultType="xyz.zaijushou.zhx.sys.entity.SysPercent">
@@ -50,4 +50,12 @@
             t.manage_reward_range6 as manageRewardRange6
         from sys_percent t where t.client = #{client}
     </select>
+
+    <select id="findRemark"  resultType="xyz.zaijushou.zhx.sys.entity.SysPercent">
+        select t.remark from sys_percent t where t.id = 171
+    </select>
+
+    <update id="updateRemark" parameterType="xyz.zaijushou.zhx.sys.entity.SysPercent" >
+        update sys_percent set remark = #{remark}  where id = 171
+    </update>
 </mapper>
