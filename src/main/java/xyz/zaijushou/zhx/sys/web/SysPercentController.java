@@ -28,6 +28,7 @@ public class SysPercentController {
         String reg = "\\d+(\\.\\d+)?";
         for (int i=0;i<list.size();i++){
             SysPercent sysPercent = list.get(i);
+
            if (StringUtils.notEmpty(sysPercent.getOdvLowMsg())){
                 if (sysPercent.getOdvLowMsg().equals("-")){
                     sysPercent.setOdvLow(new BigDecimal(0));
@@ -56,13 +57,31 @@ public class SysPercentController {
                     return WebResponse.error( "500","低标格式不对");
                 }
             }
+            if (StringUtils.notEmpty(sysPercent.getOdvReward2Msg())){
+                if (sysPercent.getOdvReward2Msg().equals("-")){
+                    sysPercent.setOdvReward2(new BigDecimal(0));
+                }else if (sysPercent.getOdvReward2Msg().matches(reg)){
+                    sysPercent.setOdvReward2(sysPercent.getOdvReward2Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvReward2Msg()));
+                }else{
+                    return WebResponse.error( "500","低标提成格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getOdvReward3Msg())){
+                if (sysPercent.getOdvReward3Msg().equals("-")){
+                    sysPercent.setOdvReward3(new BigDecimal(0));
+                }else if (sysPercent.getOdvReward3Msg().matches(reg)){
+                    sysPercent.setOdvReward3(sysPercent.getOdvReward3Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvReward3Msg()));
+                }else{
+                    return WebResponse.error( "500","低标提成格式不对");
+                }
+            }
             if (StringUtils.notEmpty(sysPercent.getOdvHighBasicMsg())){
                 if (sysPercent.getOdvHighBasicMsg().equals("-")){
                     sysPercent.setOdvHighBasic(new BigDecimal(0));
                 }else if (sysPercent.getOdvHighBasicMsg().matches(reg)){
                     sysPercent.setOdvHighBasic(sysPercent.getOdvHighBasicMsg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvHighBasicMsg()));
                 }else{
-                    return WebResponse.error( "500","低标格式不对");
+                    return WebResponse.error( "500","高标格式不对");
                 }
             }
             if (StringUtils.notEmpty(sysPercent.getOdvHighRewardMsg())){
@@ -71,7 +90,7 @@ public class SysPercentController {
                 }else if (sysPercent.getOdvHighRewardMsg().matches(reg)){
                     sysPercent.setOdvHighReward(sysPercent.getOdvHighRewardMsg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvHighRewardMsg()));
                 }else{
-                    return WebResponse.error( "500","低标格式不对");
+                    return WebResponse.error( "500","高标格式不对");
                 }
             }
             if (StringUtils.notEmpty(sysPercent.getManageRewardMsg())){
@@ -80,7 +99,106 @@ public class SysPercentController {
                 }else if (sysPercent.getManageRewardMsg().matches(reg)){
                     sysPercent.setManageReward(sysPercent.getManageRewardMsg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getManageRewardMsg()));
                 }else{
+                    return WebResponse.error( "500","经理提成格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getOdvRewardRange1Msg())){
+                if (sysPercent.getOdvRewardRange1Msg().equals("-")){
+                    sysPercent.setOdvRewardRange1(new BigDecimal(0));
+                }else if (sysPercent.getOdvRewardRange1Msg().matches(reg)){
+                    sysPercent.setOdvRewardRange1(sysPercent.getOdvRewardRange1Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvRewardRange1Msg()));
+                }else{
                     return WebResponse.error( "500","低标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getOdvRewardRange2Msg())){
+                if (sysPercent.getOdvRewardRange2Msg().equals("-")){
+                    sysPercent.setOdvRewardRange2(new BigDecimal(0));
+                }else if (sysPercent.getOdvRewardRange2Msg().matches(reg)){
+                    sysPercent.setOdvRewardRange2(sysPercent.getOdvRewardRange2Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvRewardRange2Msg()));
+                }else{
+                    return WebResponse.error( "500","低标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getOdvRewardRange3Msg())){
+                if (sysPercent.getOdvRewardRange3Msg().equals("-")){
+                    sysPercent.setOdvRewardRange3(new BigDecimal(0));
+                }else if (sysPercent.getOdvRewardRange3Msg().matches(reg)){
+                    sysPercent.setOdvRewardRange3(sysPercent.getOdvRewardRange3Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvRewardRange3Msg()));
+                }else{
+                    return WebResponse.error( "500","低标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getOdvRewardRange4Msg())){
+                if (sysPercent.getOdvRewardRange4Msg().equals("-")){
+                    sysPercent.setOdvRewardRange4(new BigDecimal(0));
+                }else if (sysPercent.getOdvRewardRange4Msg().matches(reg)){
+                    sysPercent.setOdvRewardRange4(sysPercent.getOdvRewardRange4Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvRewardRange4Msg()));
+                }else{
+                    return WebResponse.error( "500","低标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getOdvRewardRange5Msg())){
+                if (sysPercent.getOdvRewardRange5Msg().equals("-")){
+                    sysPercent.setOdvRewardRange5(new BigDecimal(0));
+                }else if (sysPercent.getOdvRewardRange5Msg().matches(reg)){
+                    sysPercent.setOdvRewardRange5(sysPercent.getOdvRewardRange5Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvRewardRange5Msg()));
+                }else{
+                    return WebResponse.error( "500","低标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getManageRewardRange1Msg())){
+                if (sysPercent.getManageRewardRange1Msg().equals("-")){
+                    sysPercent.setManageRewardRange1(new BigDecimal(0));
+                }else if (sysPercent.getManageRewardRange1Msg().matches(reg)){
+                    sysPercent.setManageRewardRange1(sysPercent.getManageRewardRange1Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getManageRewardRange1Msg()));
+                }else{
+                    return WebResponse.error( "500","高标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getManageRewardRange2Msg())){
+                if (sysPercent.getManageRewardRange2Msg().equals("-")){
+                    sysPercent.setManageRewardRange2(new BigDecimal(0));
+                }else if (sysPercent.getManageRewardRange2Msg().matches(reg)){
+                    sysPercent.setManageRewardRange2(sysPercent.getManageRewardRange2Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getManageRewardRange2Msg()));
+                }else{
+                    return WebResponse.error( "500","高标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getManageRewardRange3Msg())){
+                if (sysPercent.getManageRewardRange3Msg().equals("-")){
+                    sysPercent.setManageRewardRange3(new BigDecimal(0));
+                }else if (sysPercent.getManageRewardRange3Msg().matches(reg)){
+                    sysPercent.setManageRewardRange3(sysPercent.getManageRewardRange3Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getManageRewardRange3Msg()));
+                }else{
+                    return WebResponse.error( "500","高标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getManageRewardRange4Msg())){
+                if (sysPercent.getManageRewardRange4Msg().equals("-")){
+                    sysPercent.setManageRewardRange4(new BigDecimal(0));
+                }else if (sysPercent.getManageRewardRange4Msg().matches(reg)){
+                    sysPercent.setManageRewardRange4(sysPercent.getManageRewardRange4Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getManageRewardRange4Msg()));
+                }else{
+                    return WebResponse.error( "500","高标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getManageRewardRange5Msg())){
+                if (sysPercent.getManageRewardRange5Msg().equals("-")){
+                    sysPercent.setManageRewardRange5(new BigDecimal(0));
+                }else if (sysPercent.getManageRewardRange5Msg().matches(reg)){
+                    sysPercent.setManageRewardRange5(sysPercent.getManageRewardRange5Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getManageRewardRange5Msg()));
+                }else{
+                    return WebResponse.error( "500","高标格式不对");
+                }
+            }
+            if (StringUtils.notEmpty(sysPercent.getManageRewardRange6Msg())){
+                if (sysPercent.getManageRewardRange6Msg().equals("-")){
+                    sysPercent.setManageRewardRange6(new BigDecimal(0));
+                }else if (sysPercent.getManageRewardRange6Msg().matches(reg)){
+                    sysPercent.setManageRewardRange6(sysPercent.getManageRewardRange6Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getManageRewardRange6Msg()));
+                }else{
+                    return WebResponse.error( "500","高标格式不对");
                 }
             }
             list.set(i,sysPercent);

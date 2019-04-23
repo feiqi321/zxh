@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface SysPercentMapper {
 
-    public void updatePercent(List<SysPercent> list);
+    public void updatePercent(SysPercent sysPercent);
 
     public List<SysPercent> listPencent();
 

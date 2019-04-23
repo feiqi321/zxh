@@ -1603,12 +1603,12 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }
         logger.info("查询角色结束");
-        logger.info("设置提成比例开始");
-        SysPercent sysPercent = new SysPercent();
-        /*sysPercent.setClient(dataCaseDetail.getClient()==null?0:Integer.parseInt(dataCaseDetail.getClient()));*/
-        sysPercent = sysPercentMapper.findByClient(sysPercent);
 
-        BigDecimal cuMoney = dataCaseDetail.getMoney()==null?new BigDecimal(0):dataCaseDetail.getMoney();
+       // SysPercent sysPercent = new SysPercent();
+        /*sysPercent.setClient(dataCaseDetail.getClient()==null?0:Integer.parseInt(dataCaseDetail.getClient()));*/
+        //sysPercent = sysPercentMapper.findByClient(sysPercent);
+
+        //BigDecimal cuMoney = dataCaseDetail.getMoney()==null?new BigDecimal(0):dataCaseDetail.getMoney();
       /*  if (role==4){//当前用户是催收员
             if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
                 dataCaseDetail.setPrePercent(cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic()).setScale(2,BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString() + "（基础提成）/" + cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward()).setScale(2,BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString()  + "（奖励提成）");
@@ -1635,7 +1635,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setPrePercentTips("");
         }*/
 
-        logger.info("设置提成比例结束");
+
         logger.info("设置数据字典开始");
         if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseDetail.getOdv()) && (!(curentuser.getId()+"").equals(dataCaseDetail.getOdv()))){
             SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();

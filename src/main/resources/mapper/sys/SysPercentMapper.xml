@@ -5,67 +5,21 @@
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.SysPercentMapper">
 
     <!--插入数据信息-->
-    <insert id="updatePercent" parameterType="xyz.zaijushou.zhx.sys.entity.SysPercent" >
-        <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-        replace  into sys_percent
-        (
-            client,
-            enable,
-            odv_low,
-            odv_basic,
-            odv_reward,
-            odv_reward2,
-            odv_reward3,
-            manage_reward,
-            manage_basic,
-            remark,
-            odv_reward_range1,
-            odv_reward_range2,
-            odv_reward_range3,
-            odv_reward_range4,
-            odv_reward_range5,
-            manage_reward_range1,
-            manage_reward_range2,
-            manage_reward_range3,
-            manage_reward_range4,
-            manage_reward_range5,
-            manage_reward_range6
-        )
-        values
-        <foreach collection ="list" item="reddemCode" index= "index" separator =",">
-            (
-                #{reddemCode.client},
-                #{reddemCode.enable},
-                #{reddemCode.odvLow},
-                #{reddemCode.odvBasic},
-                #{reddemCode.odvReward},
-                #{reddemCode.odvReward2},
-                #{reddemCode.odvReward3},
-                #{reddemCode.manageReward},
-                #{reddemCode.manageBasic},
-                #{reddemCode.remark},
-                #{reddemCode.odvRewardRange1},
-                #{reddemCode.odvRewardRange2},
-                #{reddemCode.odvRewardRange3},
-                #{reddemCode.odvRewardRange4},
-                #{reddemCode.odvRewardRange5},
-                #{reddemCode.manageRewardRange1},
-                #{reddemCode.manageRewardRange2},
-                #{reddemCode.manageRewardRange3},
-                #{reddemCode.manageRewardRange4},
-                #{reddemCode.manageRewardRange5},
-                #{reddemCode.manageRewardRange6}
-            )
-        </foreach >
-    </insert>
+    <update id="updatePercent" parameterType="xyz.zaijushou.zhx.sys.entity.SysPercent" >
+        update sys_percent set odv_high_basic=#{odvHighBasic},odv_high_reward=#{odvHighReward},manage_method=#{manageMethod},
+        client = #{client},enable=#{enable},odv_low=#{odvLow},odv_basic=#{odvBasic},odv_reward=#{odvReward},odv_reward2=#{odvReward2},odv_reward3=#{odvReward3},
+        manage_reward = #{manageReward},manage_basic=#{manageBasic},remark=#{remark},odv_reward_range1=#{odvRewardRange1},odv_reward_range2=#{odvRewardRange2},odv_reward_range3=#{odvRewardRange3},
+        odv_reward_range4 = #{odvRewardRange4},odv_reward_range5=#{odvRewardRange5},manage_reward_range1=#{manageRewardRange1},manage_reward_range2=#{manageRewardRange2},manage_reward_range3=#{manageRewardRange3},
+        manage_reward_range4=#{manageRewardRange4},manage_reward_range5=#{manageRewardRange5},manage_reward_range6=#{manageRewardRange6}
+        where id = #{id}
+    </update>
 
 
     <select id="listPencent" resultType="xyz.zaijushou.zhx.sys.entity.SysPercent">
         select
         t.id,t.client as client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.manage_reward as manageReward,t.manage_basic as manageBasic,t.remark,
         t.odv_reward_range1 as odvRewardRange1,t.odv_reward2 as odvReward2,t.odv_reward3 as odvReward3,
+        t.odv_high_basic as odvHighBasic,t.odv_high_reward as odvHighReward,t.manage_method as manageMethod,
             t.odv_reward_range2 as odvRewardRange2,
             t.odv_reward_range3 as odvRewardRange3,
             t.odv_reward_range4 as odvRewardRange4,
@@ -83,6 +37,7 @@
         select
         t.id,t.client,t.enable,t.odv_low as odvLow,t.odv_basic as odvBasic,t.odv_reward as odvReward,t.manage_reward as manageReward,t.manage_basic as manageBasic,t.remark,
          t.odv_reward_range1 as odvRewardRange1,t.odv_reward2 as odvReward2,t.odv_reward3 as odvReward3,
+         t.odv_high_basic as odvHighBasic,t.odv_high_reward as odvHighReward,t.manage_method as manageMethod,
             t.odv_reward_range2 as odvRewardRange2,
             t.odv_reward_range3 as odvRewardRange3,
             t.odv_reward_range4 as odvRewardRange4,

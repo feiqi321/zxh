@@ -23,8 +23,11 @@ public class SysPercentServiceImpl implements SysPercentService {
     private SysPercentMapper sysPercentMapper;
 
     public void updatePercent(List<SysPercent> list){
+        for (int i=0;i<list.size();i++){
+            SysPercent sysPercent = list.get(i);
+            sysPercentMapper.updatePercent(sysPercent);
+        }
 
-        sysPercentMapper.updatePercent(list);
     }
 
     public List<SysPercent> listPencent(){
@@ -62,7 +65,22 @@ public class SysPercentServiceImpl implements SysPercentService {
             }else{
                 sysPercent.setManageRewardMsg(sysPercent.getManageReward().stripTrailingZeros().toPlainString());
             }
+            sysPercent.setOdvReward2Msg(sysPercent.getOdvReward2()==null?"0":sysPercent.getOdvReward2().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvReward3Msg(sysPercent.getOdvReward3()==null?"0":sysPercent.getOdvReward3().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvHighBasicMsg(sysPercent.getOdvHighBasic()==null?"0":sysPercent.getOdvHighBasic().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvHighRewardMsg(sysPercent.getOdvHighReward()==null?"0":sysPercent.getOdvHighReward().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvRewardRange1Msg(sysPercent.getOdvRewardRange1()==null?"0":sysPercent.getOdvRewardRange1().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvRewardRange2Msg(sysPercent.getOdvRewardRange2()==null?"0":sysPercent.getOdvRewardRange2().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvRewardRange3Msg(sysPercent.getOdvRewardRange3()==null?"0":sysPercent.getOdvRewardRange3().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvRewardRange4Msg(sysPercent.getOdvRewardRange4()==null?"0":sysPercent.getOdvRewardRange4().stripTrailingZeros().toPlainString());
+            sysPercent.setOdvRewardRange5Msg(sysPercent.getOdvRewardRange5()==null?"0":sysPercent.getOdvRewardRange5().stripTrailingZeros().toPlainString());
 
+            sysPercent.setManageRewardRange1Msg(sysPercent.getManageRewardRange1()==null?"0":sysPercent.getManageRewardRange1().stripTrailingZeros().toPlainString());
+            sysPercent.setManageRewardRange2Msg(sysPercent.getManageRewardRange2()==null?"0":sysPercent.getManageRewardRange2().stripTrailingZeros().toPlainString());
+            sysPercent.setManageRewardRange3Msg(sysPercent.getManageRewardRange3()==null?"0":sysPercent.getManageRewardRange3().stripTrailingZeros().toPlainString());
+            sysPercent.setManageRewardRange4Msg(sysPercent.getManageRewardRange4()==null?"0":sysPercent.getManageRewardRange4().stripTrailingZeros().toPlainString());
+            sysPercent.setManageRewardRange5Msg(sysPercent.getManageRewardRange5()==null?"0":sysPercent.getManageRewardRange5().stripTrailingZeros().toPlainString());
+            sysPercent.setManageRewardRange6Msg(sysPercent.getManageRewardRange6()==null?"0":sysPercent.getManageRewardRange6().stripTrailingZeros().toPlainString());
             list.set(i,sysPercent);
         }
 
