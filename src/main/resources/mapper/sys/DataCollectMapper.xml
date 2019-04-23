@@ -585,6 +585,12 @@
                 <if test="dept != null and dept!=''">
                     AND  t.dept like CONCAT('%',#{dept},'%')
                 </if>
+                <if test="deptFlag != null and deptFlag!=''">
+                    and t.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
                 <if test="collectionType != null and collectionType!=''">
                     AND t.collection_type = #{collectionType}
                 </if>

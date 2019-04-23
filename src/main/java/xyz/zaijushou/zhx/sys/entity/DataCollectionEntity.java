@@ -39,6 +39,14 @@ public class DataCollectionEntity extends CommonEntity {
     private String area;
     //部门
     private String dept;
+    /**
+     * 部门查询标识
+     */
+    private int deptFlag;
+    /**
+     * 部门列表
+     */
+    private Integer[] depts;
     //催收员
     private String odv;
 
@@ -264,6 +272,22 @@ public class DataCollectionEntity extends CommonEntity {
     private String distributeStatusMsg;
 
     private String distributeTime;//分配時間   列表
+
+    public int getDeptFlag() {
+        return deptFlag;
+    }
+
+    public void setDeptFlag(int deptFlag) {
+        this.deptFlag = deptFlag;
+    }
+
+    public Integer[] getDepts() {
+        return depts;
+    }
+
+    public void setDepts(Integer[] depts) {
+        this.depts = depts;
+    }
 
     public String getDistributeTime() {
         return distributeTime;

@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
+import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -55,6 +56,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCaseServiceImpl dataCaseService;//用户业务控制层
     @Autowired
     private DataLogService dataLogService;
+    @Autowired
+    private SysOrganizationService sysOrganizationService;
 
     @Override
     public void save(DataCollectionEntity beanInfo){
@@ -198,9 +201,20 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.isEmpty(user)){
             return webResponse;
         }
-
-        if (dataCollectionEntity.getsType() == 0){//查询个人
+        //查询个人  and 查询部门
+        if (dataCollectionEntity.getsType() == 0){
             dataCollectionEntity.setOdv(user.getId()+"");
+        }else if (dataCollectionEntity.getsType() == 1 && StringUtils.isEmpty(dataCollectionEntity.getDept())){
+            List<Integer> deptList = new ArrayList<Integer>();
+            SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+            //查询标识
+            organizationEntity.setTypeFlag(1);
+            List<SysOrganizationEntity> orgList =  sysOrganizationService.listChildOrganization(organizationEntity);
+            for (SysOrganizationEntity orgEntity : orgList){
+                deptList.add(orgEntity.getId());
+            }
+            dataCollectionEntity.setDeptFlag(1);
+            dataCollectionEntity.setDepts(deptList.toArray(new Integer[deptList.size()]));
         }
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");

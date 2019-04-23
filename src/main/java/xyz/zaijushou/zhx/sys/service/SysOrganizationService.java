@@ -7,6 +7,8 @@ import java.util.List;
 public interface SysOrganizationService {
     List<SysOrganizationEntity> listAllOrganizations(SysOrganizationEntity organizationEntity);
 
+    List<SysOrganizationEntity> listChildOrganization(SysOrganizationEntity organizationEntity);
+
     void saveOrg(SysOrganizationEntity organizationEntity);
 
     void updateOrg(SysOrganizationEntity organizationEntity);

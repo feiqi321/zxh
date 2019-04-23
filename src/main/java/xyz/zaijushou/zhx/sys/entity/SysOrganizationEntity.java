@@ -44,6 +44,19 @@ public class SysOrganizationEntity extends TreeEntity<SysOrganizationEntity> {
      */
     private List<SysUserEntity> users;
 
+    /**
+     * 查询标识
+     */
+    private int typeFlag ;
+
+    public int getTypeFlag() {
+        return typeFlag;
+    }
+
+    public void setTypeFlag(int typeFlag) {
+        this.typeFlag = typeFlag;
+    }
+
     public String getOrgName() {
         return orgName;
     }
