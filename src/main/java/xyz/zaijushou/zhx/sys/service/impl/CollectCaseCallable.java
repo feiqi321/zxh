@@ -22,14 +22,12 @@ import java.util.concurrent.Callable;
  */
 public class CollectCaseCallable implements Callable<List<DataCollectionEntity>> {
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    Map<String,DataCollectionEntity> collectMap;
     DataCollectionEntity collection;
     List<DataCollectionEntity> list;
     int index;
 
-    CollectCaseCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, int index,Map<String,DataCollectionEntity> collectMap){
+    CollectCaseCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, int index){
         this.collection = dataCollectionEntity;
-        this.collectMap = collectMap;
         this.list = list;
         this.index = index;
     }
@@ -64,17 +62,16 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
         }
         else    //不同年
         {
-            System.out.println("判断day2 - day1 : " + (day2-day1));
+         /*   System.out.println("判断day2 - day1 : " + (day2-day1));*/
             return day2-day1;
         }
     }
     public List<DataCollectionEntity> call() throws Exception{
-        DataCollectionEntity tempCollect = collectMap.get(collection.getId()+"");
-        if (tempCollect!=null){
-            collection.setNextFollDate(tempCollect.getNextFollDate());
-            if (StringUtils.notEmpty(tempCollect.getCollectTime())){
-                collection.setLastPhoneTime(tempCollect.getCollectTime());
-                collection.setLeaveDays(differentDays(format.parse(tempCollect.getCollectTime()),new Date())+"");
+
+
+            if (StringUtils.notEmpty(collection.getCollectTime())){
+                collection.setLastPhoneTime(collection.getCollectTime());
+                collection.setLeaveDays(differentDays(format.parse(collection.getCollectTime()),new Date())+"");
             }else{
                 collection.setLastPhoneTime(collection.getDistributeTime());
                 if (StringUtils.notEmpty(collection.getDistributeTime())) {
@@ -83,11 +80,7 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
                     collection.setLeaveDays("0");
                 }
             }
-        }else{
-            collection.setLeaveDays("0");
-            collection.setLastPhoneTime("");
-            collection.setNextFollDate("");
-        }
+
 
         SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
         collection.setTelType(telTypeDic==null?"":telTypeDic.getName());

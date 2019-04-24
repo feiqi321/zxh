@@ -577,8 +577,10 @@
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
-        DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,t.status as caseStatus
-        from data_case t
+        DATE_FORMAT(t.distribute_time, '%Y-%m-%d %H:%i') as caseAllotTime,t.status as caseStatus,c.nextFollDate,c.collectTime
+        from data_case t left JOIN (
+        select id,next_foll_date as nextFollDate,max(collect_time) as collectTime,case_id as caseId
+        from data_collection  group by case_id order by id DESC) c on t.id = c.caseId
         <where>
             t.delete_flag = 0
             <trim suffixOverrides=",">

@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -221,6 +222,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort("desc");
         }
+        PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
 
         int countCase = 0;//列表案量
@@ -240,18 +242,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             webResponse.setData(collectionReturn);
             return  webResponse;
         }
-        int[] caseIdArray = new int[list.size()];
-        for (int i=0;i<list.size();i++){
-            DataCollectionEntity collection = list.get(i);
-            caseIdArray[i]=Integer.parseInt(collection.getCaseId());
-        }
-        dataCollectionEntity.setIds(caseIdArray);
-        List<DataCollectionEntity> tempCollectList = dataCollectionMapper.findMaxByCaseId(dataCollectionEntity);
-        Map<String,DataCollectionEntity> collectMap = new HashMap<String,DataCollectionEntity>();
-        for (int i=0;i<tempCollectList.size();i++){
-            DataCollectionEntity collection = tempCollectList.get(i);
-            collectMap.put(collection.getCaseId(),collection);
-        }
 
         for (int i=0;i<list.size();i++){
             DataCollectionEntity collection = list.get(i);
@@ -264,7 +254,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
-            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i,collectMap);
+            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i);
             Future<List<DataCollectionEntity>> future = executor.submit(collectCaseCallable);
 
         }
