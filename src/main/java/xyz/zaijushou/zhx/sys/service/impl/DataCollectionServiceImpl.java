@@ -26,10 +26,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -243,29 +240,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             webResponse.setData(collectionReturn);
             return  webResponse;
         }
+        int[] caseIdArray = new int[list.size()];
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity collection = list.get(i);
+            caseIdArray[i]=Integer.parseInt(collection.getCaseId());
+        }
+        dataCollectionEntity.setIds(caseIdArray);
+        List<DataCollectionEntity> tempCollectList = dataCollectionMapper.findMaxByCaseId(dataCollectionEntity);
+        Map<String,DataCollectionEntity> collectMap = new HashMap<String,DataCollectionEntity>();
+        for (int i=0;i<tempCollectList.size();i++){
+            DataCollectionEntity collection = tempCollectList.get(i);
+            collectMap.put(collection.getCaseId(),collection);
+        }
 
         for (int i=0;i<list.size();i++){
             DataCollectionEntity collection = list.get(i);
-
-            DataCollectionEntity tempCollect = dataCollectionMapper.findMaxByCaseId(collection);
-            if (tempCollect!=null){
-                collection.setNextFollDate(tempCollect.getNextFollDate());
-                if (StringUtils.notEmpty(tempCollect.getCollectTime())){
-                    collection.setLastPhoneTime(tempCollect.getCollectTime());
-                    collection.setLeaveDays(differentDays(format.parse(tempCollect.getCollectTime()),new Date())+"");
-                }else{
-                    collection.setLastPhoneTime(collection.getDistributeTime());
-                    if (StringUtils.notEmpty(collection.getDistributeTime())) {
-                        collection.setLeaveDays(differentDays(format.parse(collection.getDistributeTime()), new Date()) + "");
-                    }else{
-                        collection.setLeaveDays("0");
-                    }
-                }
-            }else{
-                collection.setLeaveDays("0");
-                collection.setLastPhoneTime("");
-                collection.setNextFollDate("");
-            }
 
             ++countCase;
             sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
@@ -275,7 +264,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
-            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i);
+            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i,collectMap);
             Future<List<DataCollectionEntity>> future = executor.submit(collectCaseCallable);
 
         }
@@ -305,41 +294,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return webResponse;
     }
 
-    public static int differentDays(Date date1,Date date2)
-    {
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(date1);
 
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(date2);
-        int day1= cal1.get(Calendar.DAY_OF_YEAR);
-        int day2 = cal2.get(Calendar.DAY_OF_YEAR);
-
-        int year1 = cal1.get(Calendar.YEAR);
-        int year2 = cal2.get(Calendar.YEAR);
-        if(year1 != year2)   //同一年
-        {
-            int timeDistance = 0 ;
-            for(int i = year1 ; i < year2 ; i ++)
-            {
-                if(i%4==0 && i%100!=0 || i%400==0)    //闰年
-                {
-                    timeDistance += 366;
-                }
-                else    //不是闰年
-                {
-                    timeDistance += 365;
-                }
-            }
-
-            return timeDistance + (day2-day1) ;
-        }
-        else    //不同年
-        {
-            System.out.println("判断day2 - day1 : " + (day2-day1));
-            return day2-day1;
-        }
-    }
     @Override
     public List<DataCollectionEntity> listCaseBatchIdNo(DataCollectionEntity beanInfo){
         DataCaseEntity caseInfo = new DataCaseEntity();

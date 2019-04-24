@@ -1692,6 +1692,12 @@
     </select>
 
     <select id="findMaxByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select next_foll_date as nextFollDate,collect_time as collectTime  from data_collection where case_id = #{caseId} order by collect_time desc limit 1
+        select id,next_foll_date as nextFollDate,max(collect_time) as collectTime,case_id as caseId
+        from data_collection where
+        case_id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        group by case_id order by id DESC
     </select>
 </mapper>

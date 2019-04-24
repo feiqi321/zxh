@@ -828,7 +828,7 @@
         where id = #{id}
     </update>
     <update id="sendOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set odv = #{odv},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now(),distribute_status=1
+        update data_case set odv = #{odv},dept=#{dept},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now(),distribute_status=1
         where id = #{id}
     </update>
 
@@ -895,7 +895,7 @@
     </update>
     <!--数据模块-按照查询分配业务员-->
     <select id="sendOdvByProperty" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          update data_case set odv = #{odv},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now(),distribute_status=1
+          update data_case set odv = #{odv},dept=#{dept},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=now(),distribute_status=1
           where id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
             #{item}
