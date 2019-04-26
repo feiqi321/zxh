@@ -118,7 +118,7 @@
         <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="leaveTime" property="leaveTime" jdbcType="TIMESTAMP"/>
         <result column="joinTime" property="joinTime" jdbcType="TIMESTAMP"/>
-
+        <result column="actualTime" property="actualTime" jdbcType="TIMESTAMP"/>
         <collection property="roleList" column="role_id" ofType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
             <result column="roleId" property="id"  jdbcType="INTEGER"/>
             <result column="role" property="roleName"  jdbcType="VARCHAR"/>
@@ -235,6 +235,7 @@
             <if test="officePhone != null">office_phone,</if>
             <if test="loginName != null">login_name,</if>
             <if test="password != null">password,</if>
+            <if test="actualTime != null">actual_time,</if>
 
             <if test="enable != null">enable,</if>
             <if test="status != null">status,</if>
@@ -256,7 +257,7 @@
             <if test="officePhone != null">#{officePhone},</if>
             <if test="loginName != null">#{loginName},</if>
             <if test="password != null">#{password},</if>
-
+            <if test="actualTime != null">#{actualTime},</if>
             1,
             1,
             <if test="position != null">#{position},</if>
@@ -314,6 +315,10 @@
                 enable = #{enable},
             </if>
 
+            <if test="actualTime != null ">
+                actual_time = #{actualTime},
+            </if>
+
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -331,7 +336,7 @@
         su.join_time as joinTime,
         su.department as departId,
         sr.id as roleId,
-        su.enable,
+        su.enable,su.actual_time as actualTime,
         su.position
         from
         (
@@ -389,7 +394,7 @@
         su.update_user as 'updateUser.id',su.update_time as updateTime,
         su.delete_flag as deleteFlag,
         sr.role_name as role,
-        su.leave_time as leaveTime,
+        su.leave_time as leaveTime,su.actual_time as actualTime,
         su.join_time as joinTime,
         su.department as departId,
         sr.id as roleId,

@@ -19,6 +19,7 @@ public class ExcelUserConstant {
         COL60(60, "手机号", "mobile", String.class),
         COL70(70, "座机号", "officePhone", String.class),
         COL80(80, "入职日期", "joinTime", Date.class),
+        COL90(90, "下组日期", "actualTime", Date.class),
         ;
 
         private Integer sort;

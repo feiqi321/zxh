@@ -51,6 +51,9 @@ public class SysNewUserEntity extends CommonEntity {
      */
     @JSONField(format="yyyy-MM-dd")
     private Date joinTime;
+    //下组日期
+    @JSONField(format="yyyy-MM-dd")
+    private Date actualTime;
     /**
      * 离职日期
      */
@@ -95,6 +98,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public Date getActualTime() {
+        return actualTime;
+    }
+
+    public void setActualTime(Date actualTime) {
+        this.actualTime = actualTime;
+    }
 
     public int[] getIds() {
         return ids;
