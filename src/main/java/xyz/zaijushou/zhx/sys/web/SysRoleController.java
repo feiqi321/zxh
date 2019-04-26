@@ -109,7 +109,7 @@ public class SysRoleController {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "上传角色id有误");
         }
         if("系统管理员 催收员 项目经理 项目总监".contains(queryRole.getRoleName())) {
-            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员 催收员 项目经理 项目总监 角色不得删除");
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员 催收员 项目经理 总监 角色不得删除");
         }
         sysRoleService.deleteRole(roleEntity);
         sysRoleService.refreshRoleRedis();
