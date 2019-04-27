@@ -2,13 +2,11 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Case;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.CollectSortEnum;
-import xyz.zaijushou.zhx.constant.ColorEnum;
-import xyz.zaijushou.zhx.constant.MyCollectSortEnum;
-import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
@@ -506,6 +504,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
             collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
             collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
+            //获取案件条线类型
+            //int type = RoyaltyAttributeEnum.getText(colList.get(i).getBusinessType());
+            //royaltyCalculate(type,colList.get(i).getEnRepayAmt(),colList.get(i).getMoney());
         }
         collectionReturn.setList(colList);
 
@@ -521,6 +522,67 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return webResponse;
     }
 
+    /**
+     * 提成计算
+     * @param type
+     * @param enRepayAmt
+     * @param money
+     */
+    private void royaltyCalculate(int type,BigDecimal enRepayAmt,BigDecimal money ){
+        switch (type){
+            case 2://特殊一
+                if (StringUtils.notEmpty(money) && StringUtils.notEmpty(enRepayAmt)){
+                    calMoneyOne(enRepayAmt,money);
+                }
+                break;
+            case 3://特殊一
+                if (StringUtils.notEmpty(money)){
+                    calMoneyTwo(enRepayAmt);
+                }
+                break;
+            default://阶梯累加
+                if (StringUtils.notEmpty(enRepayAmt)){
+                    calPaidMoney(enRepayAmt);
+                }
+                break;
+        }
+    }
+    private BigDecimal calPaidMoney(BigDecimal enRepayAmt){
+        BigDecimal result = new BigDecimal("0.00");
+        if (enRepayAmt.compareTo(CaseBaseConstant.CLOW) > 0){
+            if (enRepayAmt.compareTo(CaseBaseConstant.CHIGH) < 0 ){
+                result = CaseBaseConstant.CLOW.multiply(CaseBaseConstant.C1)
+                       .add((enRepayAmt.subtract(CaseBaseConstant.CLOW)).multiply(CaseBaseConstant.C2));
+            }else {
+                result = CaseBaseConstant.CLOW.multiply(CaseBaseConstant.C1)
+                        .add((CaseBaseConstant.CMIDDLE.multiply(CaseBaseConstant.C2)))
+                        .add(enRepayAmt.subtract(CaseBaseConstant.CHIGH).multiply(CaseBaseConstant.C3));
+            }
+        }else {
+            result = enRepayAmt.multiply(CaseBaseConstant.C1);
+        }
+        return result;
+    }
+    private BigDecimal calMoneyOne(BigDecimal enRepayAmt,BigDecimal money){
+        BigDecimal result = new BigDecimal("0.00");
+        if (enRepayAmt.compareTo(CaseBaseConstant.MLOW) < 0){
+            result = money.multiply(CaseBaseConstant.C3)
+                    .add(enRepayAmt.subtract(money).multiply(CaseBaseConstant.C1));
+        }else{
+            if (enRepayAmt.compareTo(CaseBaseConstant.MHIGH) < 0){
+                result = money.multiply(CaseBaseConstant.C3)
+                        .add(enRepayAmt.subtract(money).multiply(CaseBaseConstant.C2));
+            }else {
+                result = money.multiply(CaseBaseConstant.C5)
+                        .add(enRepayAmt.subtract(money).multiply(CaseBaseConstant.C4));
+            }
+        }
+        return result;
+    }
+    private BigDecimal calMoneyTwo(BigDecimal enRepayAmt){
+        BigDecimal result = new BigDecimal("0.00");
+        return result;
+    }
     private void getStatisticsData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
         CollectionStatistic collectonStatic =
                 dataCollectionMapper.statisticsCollectionPayM(beanInfo);

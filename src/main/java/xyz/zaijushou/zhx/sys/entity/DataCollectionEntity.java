@@ -273,6 +273,19 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String distributeTime;//分配時間   列表
 
+    /**
+     * 业务类型
+     */
+    private String businessType;
+
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(String businessType) {
+        this.businessType = businessType;
+    }
+
     public int getDeptFlag() {
         return deptFlag;
     }

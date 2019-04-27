@@ -1420,7 +1420,7 @@
         IFNULL(c.pro_repay_amt*c.m_val,0) as repaidBankAmtM,
         c.pro_repay_amt as repayAmt, c.pro_repay_date as repayTime,c.en_repay_amt as enRepayAmt,
         c.expect_time as expectTime,dc.pay_name as payName,dc.pay_method as payMethod,dc.confim_name as confimName,
-        dc.confim_time as confimTime
+        dc.confim_time as confimTime,c.business_type as businessType
         from
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
