@@ -508,6 +508,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         DataCaseEntity tempCase = new DataCaseEntity();
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
         Date actualTime = sysNewUserEntity.getActualTime();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //获取当前月第一天：
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, 0);
+        c.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+        String first = format.format(c.getTime());
+
+        //获取当前月最后一天
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
+        String last = format.format(ca.getTime());
+       // if (actualTime==null || )
         //阶梯累加
         List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
         for (int i=0;i<caseList1.size();i++){
@@ -518,10 +530,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         for (int i=0;i<caseList1.size();i++){
             String settleDate = caseList1.get(i).getSettleDate();
             String settleFlag = caseList1.get(i).getSettleFlag();//1 已结清 0 未结清
-            royaltyCalculate(1,caseList1.get(i).getEnRepayAmt(),null);
+            royaltyCalculate(2,caseList1.get(i).getEnRepayAmt(),null);
         }
         //特殊2
         List<DataCaseEntity> caseList3 = caseMapper.selectTsCase2(tempCase);
+        for (int i=0;i<caseList1.size();i++){
+            royaltyCalculate(3,caseList1.get(i).getEnRepayAmt(),null);
+        }
 
         collectionReturn.setList(colList);
 
