@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
-import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
-import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
-import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
-import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.dao.*;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
@@ -41,7 +38,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCollectionTelMapper dataCollectionTelMapper;
     ExecutorService executor = Executors.newFixedThreadPool(20);
     @Resource
-    private SysUserService sysUserService;//用户业务控制层
+    private SysUserMapper sysUserMapper;//用户业务控制层
 
     @Resource
     private DataCollectionMapper collectionMapper;//催收数据层
@@ -509,6 +506,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             //royaltyCalculate(type,colList.get(i).getEnRepayAmt(),colList.get(i).getMoney());
         }
         DataCaseEntity tempCase = new DataCaseEntity();
+        SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
+        Date actualTime = sysNewUserEntity.getActualTime();
         //阶梯累加
         List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
         for (int i=0;i<caseList1.size();i++){
@@ -518,10 +517,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         List<DataCaseEntity> caseList2 = caseMapper.selectTsCase1(tempCase);
         for (int i=0;i<caseList1.size();i++){
             String settleDate = caseList1.get(i).getSettleDate();
+            String settleFlag = caseList1.get(i).getSettleFlag();//1 已结清 0 未结清
             royaltyCalculate(1,caseList1.get(i).getEnRepayAmt(),null);
         }
         //特殊2
-
+        List<DataCaseEntity> caseList3 = caseMapper.selectTsCase2(tempCase);
 
         collectionReturn.setList(colList);
 
