@@ -507,7 +507,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         DataCaseEntity tempCase = new DataCaseEntity();
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
-        Date actualTime = sysNewUserEntity.getActualTime();
+        Date actualTime = sysNewUserEntity.getActualTime();//转正时间
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         //获取当前月第一天：
         Calendar c = Calendar.getInstance();
@@ -522,25 +522,31 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         //获取当前月25号
         Calendar ca25 = Calendar.getInstance();
-        ca.set(Calendar.DAY_OF_MONTH, 25);
+        ca25.set(Calendar.DAY_OF_MONTH, 25);
         String day25 = format.format(ca25.getTime());
+        //如果转正时间没有或者不在本月，则按照正常判断进行，如果在本月的1号-25号之间，则本月所有的累计还款都要跟1万比较，低于1万没有提成，如果在25号-月末之间，则不判断1万的底线，全部都要计算提成
+        if (actualTime==null || actualTime.compareTo(c.getTime())<0 || actualTime.compareTo(ca.getTime())>0) {
+            //阶梯累加
+            List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
+            for (int i = 0; i < caseList1.size(); i++) {
+                royaltyCalculate(1, caseList1.get(i).getEnRepayAmt(), null);
+            }
+            //特殊1
+            List<DataCaseEntity> caseList2 = caseMapper.selectTsCase1(tempCase);
+            for (int i = 0; i < caseList1.size(); i++) {
+                String settleDate = caseList1.get(i).getSettleDate();
+                String settleFlag = caseList1.get(i).getSettleFlag();//1 已结清 0 未结清
+                royaltyCalculate(2, caseList1.get(i).getEnRepayAmt(), null);
+            }
+            //特殊2
+            List<DataCaseEntity> caseList3 = caseMapper.selectTsCase2(tempCase);
+            for (int i = 0; i < caseList1.size(); i++) {
+                royaltyCalculate(3, caseList1.get(i).getEnRepayAmt(), null);
+            }
+        }else if (actualTime.compareTo(c.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
 
-        //阶梯累加
-        List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
-        for (int i=0;i<caseList1.size();i++){
-            royaltyCalculate(1,caseList1.get(i).getEnRepayAmt(),null);
-        }
-        //特殊1
-        List<DataCaseEntity> caseList2 = caseMapper.selectTsCase1(tempCase);
-        for (int i=0;i<caseList1.size();i++){
-            String settleDate = caseList1.get(i).getSettleDate();
-            String settleFlag = caseList1.get(i).getSettleFlag();//1 已结清 0 未结清
-            royaltyCalculate(2,caseList1.get(i).getEnRepayAmt(),null);
-        }
-        //特殊2
-        List<DataCaseEntity> caseList3 = caseMapper.selectTsCase2(tempCase);
-        for (int i=0;i<caseList1.size();i++){
-            royaltyCalculate(3,caseList1.get(i).getEnRepayAmt(),null);
+        }else if (actualTime.compareTo(ca25.getTime())>=0 || actualTime.compareTo(ca.getTime())<0){
+
         }
 
         collectionReturn.setList(colList);
