@@ -519,7 +519,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         Calendar ca = Calendar.getInstance();
         ca.set(Calendar.DAY_OF_MONTH, ca.getActualMaximum(Calendar.DAY_OF_MONTH));
         String last = format.format(ca.getTime());
-       // if (actualTime==null || )
+
+        //获取当前月25号
+        Calendar ca25 = Calendar.getInstance();
+        ca.set(Calendar.DAY_OF_MONTH, 25);
+        String day25 = format.format(ca25.getTime());
+
         //阶梯累加
         List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
         for (int i=0;i<caseList1.size();i++){

@@ -2183,6 +2183,7 @@
 
     <select id="selectTsCase1"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select t.en_repay_amt as enRepayAmt,t.money,t.business_type as businessType,DATE_FORMAT(t.settle_date, '%Y-%m-%d') as settleDate,t.settle_flag as settleFlag  from data_case t where t.business_type  in ('上汽长账龄上汽拖车','上汽长账龄其他')
+          and <![CDATA[settle_date>=#{repayDateStart} and settle_date <=#{repayDateEnd}]]>
     </select>
 
     <select id="selectTsCase2"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
