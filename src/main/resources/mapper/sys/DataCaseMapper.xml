@@ -2157,7 +2157,7 @@
             <if test="settleFlag != null and settleFlag != '已结清'">
                 settle_flag = #{settleFlag},
             </if>
-            balance = money - #{enRepayAmt}
+            balance = money - #{enRepayAmt},settle_date=now()
         where id = #{id}
     </update>
 
@@ -2173,4 +2173,21 @@
         set collect_result = #{collectInfo}
         where id = #{id}
     </update>
+
+    <select id="selectCommonCase"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select sum(r.repayMoney) as enRepayAmt ,t.business_type as businessType
+        from data_case t LEFT JOIN (select repay_money as repayMoney,data_case  from data_case_repay_record where  <![CDATA[repay_date>=#{repayDateStart} and repay_date <=#{repayDateEnd}]]> ) r on t.id = r.data_case
+         where t.business_type not in ('上汽长账龄上汽拖车','上汽长账龄其他','上汽短期','安吉蓝海')
+        group by t.business_type
+    </select>
+
+    <select id="selectTsCase1"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select t.en_repay_amt as enRepayAmt,t.money,t.business_type as businessType,DATE_FORMAT(t.settle_date, '%Y-%m-%d') as settleDate,t.settle_flag as settleFlag  from data_case t where t.business_type  in ('上汽长账龄上汽拖车','上汽长账龄其他')
+    </select>
+
+    <select id="selectTsCase2"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select sum(r.repayMoney) as enRepayAmt ,t.business_type as businessType
+        from data_case t LEFT JOIN (select repay_money as repayMoney,data_case  from data_case_repay_record where  <![CDATA[repay_date>=#{repayDateStart} and repay_date <=#{repayDateEnd}]]> ) r on t.id = r.data_case
+         where t.business_type  in ('上汽短期','安吉蓝海')
+    </select>
 </mapper>

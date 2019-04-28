@@ -243,6 +243,8 @@ public class DataCaseEntity extends CommonEntity {
 
     private String settleFlag;
 
+    private String settleDate;
+
     //查询条件
     private Set<String> seqNoSet;
 
@@ -286,6 +288,14 @@ public class DataCaseEntity extends CommonEntity {
     private List exportKeyList;
 
     private String businessType;
+
+    public String getSettleDate() {
+        return settleDate;
+    }
+
+    public void setSettleDate(String settleDate) {
+        this.settleDate = settleDate;
+    }
 
     public String getBusinessType() {
         return businessType;

@@ -508,6 +508,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             //int type = RoyaltyAttributeEnum.getText(colList.get(i).getBusinessType());
             //royaltyCalculate(type,colList.get(i).getEnRepayAmt(),colList.get(i).getMoney());
         }
+        DataCaseEntity tempCase = new DataCaseEntity();
+        //阶梯累加
+        List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
+        for (int i=0;i<caseList1.size();i++){
+            royaltyCalculate(1,caseList1.get(i).getEnRepayAmt(),null);
+        }
+        //特殊1
+        List<DataCaseEntity> caseList2 = caseMapper.selectTsCase1(tempCase);
+        for (int i=0;i<caseList1.size();i++){
+            String settleDate = caseList1.get(i).getSettleDate();
+            royaltyCalculate(1,caseList1.get(i).getEnRepayAmt(),null);
+        }
+        //特殊2
+
+
         collectionReturn.setList(colList);
 
         //我的还款统计，上月和当月金额统计 查询
@@ -535,7 +550,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                     calMoneyOne(enRepayAmt,money);
                 }
                 break;
-            case 3://特殊一
+            case 3://特殊二
                 if (StringUtils.notEmpty(money)){
                     calMoneyTwo(enRepayAmt);
                 }

@@ -128,4 +128,10 @@ public interface DataCaseMapper {
     DataCaseEntity nextCase(DataCaseEntity bean);
 
     DataCaseEntity lastCase(DataCaseEntity bean);
+
+    List<DataCaseEntity> selectCommonCase(DataCaseEntity bean);
+
+    List<DataCaseEntity> selectTsCase1(DataCaseEntity bean);
+
+    List<DataCaseEntity> selectTsCase2(DataCaseEntity bean);
 }
