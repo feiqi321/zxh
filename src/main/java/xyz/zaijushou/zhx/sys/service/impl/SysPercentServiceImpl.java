@@ -65,6 +65,7 @@ public class SysPercentServiceImpl implements SysPercentService {
             }else{
                 sysPercent.setManageRewardMsg(sysPercent.getManageReward().stripTrailingZeros().toPlainString());
             }
+
             sysPercent.setOdvReward2Msg(sysPercent.getOdvReward2()==null?"0":sysPercent.getOdvReward2().stripTrailingZeros().toPlainString());
             sysPercent.setOdvReward3Msg(sysPercent.getOdvReward3()==null?"0":sysPercent.getOdvReward3().stripTrailingZeros().toPlainString());
             sysPercent.setOdvHighBasicMsg(sysPercent.getOdvHighBasic()==null?"0":sysPercent.getOdvHighBasic().stripTrailingZeros().toPlainString());
