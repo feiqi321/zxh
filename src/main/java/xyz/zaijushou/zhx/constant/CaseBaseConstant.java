@@ -34,7 +34,15 @@ public class CaseBaseConstant {
     public static BigDecimal RMIDDLE  = new BigDecimal("15");
     public static BigDecimal RHIGH  = new BigDecimal("20");
 
-    public static BigDecimal MLOW = new BigDecimal("150000");
-    public static BigDecimal MHIGH = new BigDecimal("200000");
+    public static BigDecimal MLOW = new BigDecimal("10000");
+    public static BigDecimal MMIDDLE = new BigDecimal("30000");
+    public static BigDecimal MHIGH = new BigDecimal("60000");
+
+    public static BigDecimal H1 = new BigDecimal("1");
+    public static BigDecimal H2 = new BigDecimal("2");
+    public static BigDecimal H3 = new BigDecimal("5");
+    public static BigDecimal H4 = new BigDecimal("10");
+
+    public static BigDecimal ROUND = new BigDecimal("100");
 
 }

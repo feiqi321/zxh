@@ -52,6 +52,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Autowired
     private SysOrganizationService sysOrganizationService;
 
+    @Resource
+    private SysPercentMapper sysPercentMapper;
+
+
     @Override
     public void save(DataCollectionEntity beanInfo){
         if(StringUtils.isEmpty(beanInfo.getCollectInfo())){
@@ -501,11 +505,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
             collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
             collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
-            //获取案件条线类型
-            //int type = RoyaltyAttributeEnum.getText(colList.get(i).getBusinessType());
-            //royaltyCalculate(type,colList.get(i).getEnRepayAmt(),colList.get(i).getMoney());
         }
+
         DataCaseEntity tempCase = new DataCaseEntity();
+        tempCase.setOdv(user.getUserName());//当前催收员
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
         Date actualTime = sysNewUserEntity.getActualTime();//转正时间
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -524,25 +527,47 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         Calendar ca25 = Calendar.getInstance();
         ca25.set(Calendar.DAY_OF_MONTH, 25);
         String day25 = format.format(ca25.getTime());
-        //如果转正时间没有或者不在本月，则按照正常判断进行，如果在本月的1号-25号之间，则本月所有的累计还款都要跟1万比较，低于1万没有提成，如果在25号-月末之间，则不判断1万的底线，全部都要计算提成
+        //获取案件条线类型
+        SysPercent percentData = new SysPercent();
+        //如果转正时间没有或者不在本月，则按照正常判断进行，
+        // 如果在本月的1号-25号之间，则本月所有的累计还款都要跟1万比较，低于1万没有提成，如果在25号-月末之间，则不判断1万的底线，全部都要计算提成
         if (actualTime==null || actualTime.compareTo(c.getTime())<0 || actualTime.compareTo(ca.getTime())>0) {
             //阶梯累加
+            tempCase.setRepayDateStart(first);
+            tempCase.setRepayDateEnd(last);
             List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
             for (int i = 0; i < caseList1.size(); i++) {
-                royaltyCalculate(1, caseList1.get(i).getEnRepayAmt(), null);
+                percentData.setClient(caseList1.get(i).getBusinessType());
+                SysPercent percent =  sysPercentMapper.findByClient(percentData);
+                if (StringUtils.notEmpty(percent)){
+                    royaltyCalculate(caseList1.get(i).getEnRepayAmt(),null,percent);
+                }
             }
             //特殊1
             List<DataCaseEntity> caseList2 = caseMapper.selectTsCase1(tempCase);
-            for (int i = 0; i < caseList1.size(); i++) {
-                String settleDate = caseList1.get(i).getSettleDate();
-                String settleFlag = caseList1.get(i).getSettleFlag();//1 已结清 0 未结清
-                royaltyCalculate(2, caseList1.get(i).getEnRepayAmt(), null);
+            for (int i = 0; i < caseList2.size(); i++) {
+                percentData.setClient(caseList2.get(i).getBusinessType());
+                SysPercent percent =  sysPercentMapper.findByClient(percentData);
+                String settleDate = caseList2.get(i).getSettleDate();
+                String settleFlag = caseList2.get(i).getSettleFlag();//1 已结清 0 未结清
+                if ("已结清".equals(settleFlag)){
+                    royaltyCalculate( caseList2.get(i).getEnRepayAmt(), caseList2.get(i).getMoney(),percent);
+                }
             }
             //特殊2
             List<DataCaseEntity> caseList3 = caseMapper.selectTsCase2(tempCase);
-            for (int i = 0; i < caseList1.size(); i++) {
-                royaltyCalculate(3, caseList1.get(i).getEnRepayAmt(), null);
+            if (StringUtils.notEmpty(caseList3)){
+                BigDecimal numHoursPay = new BigDecimal(0);
+                BigDecimal numHoursMoney = new BigDecimal(0);
+                for (int i = 0; i < caseList3.size(); i++) {
+                    numHoursPay = numHoursPay.add(calHoursValue(caseList3.get(i).getEnRepayAmt()));
+                    numHoursMoney = numHoursMoney.add(calHoursValue(caseList3.get(i).getMoney()));
+                }
+                percentData.setClient(caseList3.get(0).getBusinessType());
+                SysPercent percent =  sysPercentMapper.findByClient(percentData);
+                royaltyCalculate(numHoursPay,numHoursMoney,percent);
             }
+
         }else if (actualTime.compareTo(c.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
 
         }else if (actualTime.compareTo(ca25.getTime())>=0 || actualTime.compareTo(ca.getTime())<0){
@@ -564,64 +589,95 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     /**
+     * 根据回款金额，算户数
+     * @param value
+     * @return
+     */
+    private BigDecimal calHoursValue(BigDecimal value){
+        BigDecimal result = new BigDecimal(0);
+        if (value.compareTo(CaseBaseConstant.MLOW) < 0){
+            result.add(CaseBaseConstant.H1);
+        }else if(value.compareTo(CaseBaseConstant.MMIDDLE) < 0){
+            result.add(CaseBaseConstant.H2);
+        }else if (value.compareTo(CaseBaseConstant.MHIGH) < 0){
+            result.add(CaseBaseConstant.H3);
+        }else {
+            result.add(CaseBaseConstant.H4);
+        }
+        return result;
+    }
+
+    /**
      * 提成计算
-     * @param type
      * @param enRepayAmt
      * @param money
      */
-    private void royaltyCalculate(int type,BigDecimal enRepayAmt,BigDecimal money ){
-        switch (type){
-            case 2://特殊一
-                if (StringUtils.notEmpty(money) && StringUtils.notEmpty(enRepayAmt)){
-                    calMoneyOne(enRepayAmt,money);
+    private void royaltyCalculate(BigDecimal enRepayAmt,BigDecimal money,SysPercent sysPercent){
+        switch (sysPercent.getEnable()){
+            case "特殊1"://特殊一
+                if (StringUtils.notEmpty(money) && StringUtils.notEmpty(enRepayAmt) && enRepayAmt.compareTo(money)>=0){
+                    calMoneyOne(enRepayAmt,money,sysPercent);
                 }
                 break;
-            case 3://特殊二
-                if (StringUtils.notEmpty(money)){
-                    calMoneyTwo(enRepayAmt);
-                }
+            case "特殊2"://特殊二
+                calMoneyTwo(enRepayAmt,money,sysPercent);
                 break;
             default://阶梯累加
                 if (StringUtils.notEmpty(enRepayAmt)){
-                    calPaidMoney(enRepayAmt);
+                    calPaidMoney(enRepayAmt,sysPercent);
                 }
                 break;
         }
     }
-    private BigDecimal calPaidMoney(BigDecimal enRepayAmt){
+    private BigDecimal calPaidMoney(BigDecimal enRepayAmt,SysPercent sysPercent){
         BigDecimal result = new BigDecimal("0.00");
-        if (enRepayAmt.compareTo(CaseBaseConstant.CLOW) > 0){
-            if (enRepayAmt.compareTo(CaseBaseConstant.CHIGH) < 0 ){
-                result = CaseBaseConstant.CLOW.multiply(CaseBaseConstant.C1)
-                       .add((enRepayAmt.subtract(CaseBaseConstant.CLOW)).multiply(CaseBaseConstant.C2));
+        if (enRepayAmt.compareTo(sysPercent.getOdvBasic()) > 0){
+            if (enRepayAmt.compareTo(sysPercent.getOdvHighBasic()) < 0 ){
+                result = sysPercent.getOdvBasic().multiply(sysPercent.getOdvLow())
+                       .add((enRepayAmt.subtract(sysPercent.getOdvBasic())).multiply(sysPercent.getOdvReward()));
             }else {
-                result = CaseBaseConstant.CLOW.multiply(CaseBaseConstant.C1)
-                        .add((CaseBaseConstant.CMIDDLE.multiply(CaseBaseConstant.C2)))
-                        .add(enRepayAmt.subtract(CaseBaseConstant.CHIGH).multiply(CaseBaseConstant.C3));
+                result = sysPercent.getOdvBasic().multiply(sysPercent.getOdvLow())
+                        .add(((sysPercent.getOdvHighBasic().subtract(sysPercent.getOdvHighBasic())).multiply(sysPercent.getOdvReward())))
+                        .add(enRepayAmt.subtract(sysPercent.getOdvHighBasic()).multiply(sysPercent.getOdvHighReward()));
             }
         }else {
-            result = enRepayAmt.multiply(CaseBaseConstant.C1);
+            result = enRepayAmt.multiply(sysPercent.getOdvLow());
         }
         return result;
     }
-    private BigDecimal calMoneyOne(BigDecimal enRepayAmt,BigDecimal money){
+    private BigDecimal calMoneyOne(BigDecimal enRepayAmt,BigDecimal money,SysPercent sysPercent){
         BigDecimal result = new BigDecimal("0.00");
-        if (enRepayAmt.compareTo(CaseBaseConstant.MLOW) < 0){
-            result = money.multiply(CaseBaseConstant.C3)
-                    .add(enRepayAmt.subtract(money).multiply(CaseBaseConstant.C1));
+        if (enRepayAmt.compareTo(sysPercent.getOdvBasic()) < 0){
+            result = money.multiply(sysPercent.getOdvReward())
+                    .add(enRepayAmt.subtract(money).multiply(sysPercent.getOdvLow()));
         }else{
-            if (enRepayAmt.compareTo(CaseBaseConstant.MHIGH) < 0){
-                result = money.multiply(CaseBaseConstant.C3)
-                        .add(enRepayAmt.subtract(money).multiply(CaseBaseConstant.C2));
+            if (enRepayAmt.compareTo(sysPercent.getOdvHighBasic()) < 0){
+                result = money.multiply(sysPercent.getOdvReward2())
+                        .add(enRepayAmt.subtract(money).multiply(sysPercent.getOdvReward()));
             }else {
-                result = money.multiply(CaseBaseConstant.C5)
-                        .add(enRepayAmt.subtract(money).multiply(CaseBaseConstant.C4));
+                result = money.multiply(sysPercent.getOdvReward3())
+                        .add(enRepayAmt.subtract(money).multiply(sysPercent.getOdvReward2()));
             }
         }
         return result;
     }
-    private BigDecimal calMoneyTwo(BigDecimal enRepayAmt){
+    private BigDecimal calMoneyTwo(BigDecimal enRepayAmt,BigDecimal money,SysPercent sysPercent){
         BigDecimal result = new BigDecimal("0.00");
+        BigDecimal hourseholdRate = new BigDecimal("0.00");//综合户达率
+        hourseholdRate = enRepayAmt.divide(money).setScale(2,BigDecimal.ROUND_UP).multiply(CaseBaseConstant.ROUND);
+        if(enRepayAmt.compareTo(sysPercent.getOdvBasic()) < 0){
+            result = enRepayAmt.multiply(sysPercent.getOdvLow());
+        }else {
+            if (hourseholdRate.compareTo(sysPercent.getOdvRewardRange1()) >=0 &&
+                    hourseholdRate.compareTo(sysPercent.getManageRewardRange2()) < 0){
+                result = enRepayAmt.multiply(sysPercent.getOdvReward());
+            }else if (hourseholdRate.compareTo(sysPercent.getManageRewardRange2()) >= 0 &&
+                    hourseholdRate.compareTo(sysPercent.getManageRewardRange5()) < 0){
+                result = enRepayAmt.multiply(sysPercent.getOdvReward2());
+            }else if(hourseholdRate.compareTo(sysPercent.getManageRewardRange5()) >= 0){
+                result = enRepayAmt.multiply(sysPercent.getOdvReward3());
+            }
+        }
         return result;
     }
     private void getStatisticsData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
