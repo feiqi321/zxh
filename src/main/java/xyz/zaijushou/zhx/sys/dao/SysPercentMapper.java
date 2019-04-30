@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.SysPercent;
+import xyz.zaijushou.zhx.sys.entity.SysStandard;
 
 import java.util.List;
 
@@ -21,4 +22,7 @@ public interface SysPercentMapper {
 
     public void updateRemark(SysPercent bean);
 
+    SysStandard listStandard();
+
+    void updateStandard(SysStandard sysStandard);
 }

@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service;
 
 import xyz.zaijushou.zhx.sys.entity.SysPercent;
+import xyz.zaijushou.zhx.sys.entity.SysStandard;
 
 import java.util.List;
 
@@ -17,4 +18,7 @@ public interface SysPercentService {
 
     public void updateRemark(SysPercent bean);
 
+    SysStandard listStandard();
+
+    void updateStandard(SysStandard sysStandard);
 }

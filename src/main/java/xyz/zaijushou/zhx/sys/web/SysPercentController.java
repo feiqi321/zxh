@@ -1,13 +1,12 @@
 package xyz.zaijushou.zhx.sys.web;
 
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.entity.SelectFilterEntity;
 import xyz.zaijushou.zhx.sys.entity.SysPercent;
+import xyz.zaijushou.zhx.sys.entity.SysStandard;
 import xyz.zaijushou.zhx.sys.service.SysPercentService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -231,6 +230,26 @@ public class SysPercentController {
     @PostMapping("/updateRemark")
     public Object updateRemark(@RequestBody SysPercent bean) {
         sysPercentService.updateRemark(bean);
+        return WebResponse.success();
+    }
+
+    /**
+     * 查询奖金标准
+     * @return
+     */
+    @PostMapping("/listStandard")
+    public Object listStandard() {
+        return WebResponse.success(sysPercentService.listStandard());
+    }
+
+    /**
+     * 修改奖金标准
+     * @param sysStandard
+     * @return
+     */
+    @PostMapping("/updateStandard")
+    public Object updateStandard(@RequestBody SysStandard sysStandard) {
+        sysPercentService.updateStandard(sysStandard);
         return WebResponse.success();
     }
 
