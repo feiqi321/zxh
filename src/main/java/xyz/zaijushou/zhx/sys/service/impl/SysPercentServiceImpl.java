@@ -8,6 +8,7 @@ import xyz.zaijushou.zhx.sys.service.SysPercentService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -107,6 +108,11 @@ public class SysPercentServiceImpl implements SysPercentService {
 
     @Override
     public void updateStandard(SysStandard sysStandard) {
+        sysStandard.setStandard1(sysStandard.getStandard1()==null?new BigDecimal(0):new BigDecimal(sysStandard.getStandard1Msg()));
+        sysStandard.setStandard2(sysStandard.getStandard2()==null?new BigDecimal(0):new BigDecimal(sysStandard.getStandard2Msg()));
+        sysStandard.setReward1(sysStandard.getReward1()==null?new BigDecimal(0):new BigDecimal(sysStandard.getReward1Msg()));
+        sysStandard.setReward2(sysStandard.getReward2()==null?new BigDecimal(0):new BigDecimal(sysStandard.getReward2Msg()));
+        sysStandard.setReward3(sysStandard.getReward3()==null?new BigDecimal(0):new BigDecimal(sysStandard.getReward3Msg()));
         sysPercentMapper.updateStandard(sysStandard);
     }
 
