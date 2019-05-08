@@ -245,9 +245,6 @@ public class ExcelCaseUtils {
                 }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("ZONG")){
                     XSSFColor color = new XSSFColor(new java.awt.Color(210, 180, 140));
                     style.setFillForegroundColor(color);
-                }else{
-                    XSSFColor color = new XSSFColor(new java.awt.Color(255, 255, 255));
-                    style.setFillForegroundColor(color);
                 }
 
                 style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -259,7 +256,11 @@ public class ExcelCaseUtils {
                     if(excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
                         continue;
                     }
-                    cell.setCellStyle(style);
+                    if  (dataCaseEntity.getColor()==null || dataCaseEntity.getColor().equals("") || dataCaseEntity.getColor().equals("BLACK")){
+
+                    }else {
+                        cell.setCellStyle(style);
+                    }
                     String attr = excelEnum.getAttr();
                     Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);
                     if (matcher.find()) {
