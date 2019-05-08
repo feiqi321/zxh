@@ -454,7 +454,7 @@ public class DataCaseController {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
         } else {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
-            for(int i = 0; i < dataCaseEntities.size(); i ++) {
+           /* for(int i = 0; i < dataCaseEntities.size(); i ++) {
                 DataCaseEntity entity = dataCaseEntities.get(i);
                 if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().get(0) != null) {
                     dataCaseEntities.get(i).getContacts().get(0).setRelation("配偶");
@@ -462,7 +462,7 @@ public class DataCaseController {
 //                if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().size() >= 2 && entity.getContacts().get(1) != null) {
 //                    dataCaseEntities.get(i).getContacts().get(1).setRelation("担保人");
 //                }
-            }
+            }*/
         }
         if(dataCaseEntities.size() == 0) {
             return WebResponse.success("更新0条数据");
@@ -577,15 +577,12 @@ public class DataCaseController {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
         } else {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
-            for(int i = 0; i < dataCaseEntities.size(); i ++) {
+            /*for(int i = 0; i < dataCaseEntities.size(); i ++) {
                 DataCaseEntity entity = dataCaseEntities.get(i);
                 if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().get(0) != null) {
                     dataCaseEntities.get(i).getContacts().get(0).setRelation("配偶");
                 }
-//                if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().size() >= 2 && entity.getContacts().get(1) != null) {
-//                    dataCaseEntities.get(i).getContacts().get(1).setRelation("担保人");
-//                }
-            }
+            }*/
         }
         if(dataCaseEntities.size() == 0) {
             return WebResponse.success("添加0条数据");

@@ -225,12 +225,12 @@ public class ExcelRepayRecordConstant {
         COL440("inteviewStatus", "外访状态", "'' as 'dataCase.inteviewStatus'", DataCaseEntity.class, String.class),
         COL450("commissionMoney", "公司佣金", "c.commission_money as 'dataCase.commissionMoney'", DataCaseEntity.class, BigDecimal.class),
         COL460("commissionRate", "公司佣金比率", "c.commission_rate as 'dataCase.commissionRate'", DataCaseEntity.class, Date.class),
-        COL470("caseRemarks0", "案件备注1", "''as 'dataCase.caseRemarks[0].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL480("caseRemarks1", "案件备注2", "''as 'dataCase.caseRemarks[1].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL490("caseRemarks2", "案件备注3", "''as 'dataCase.caseRemarks[2].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL500("caseRemarks3", "案件备注4", "''as 'dataCase.caseRemarks[3].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL510("caseRemarks4", "案件备注5", "''as 'dataCase.caseRemarks[4].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
-        COL520("caseRemarks5", "案件备注6", "''as 'dataCase.caseRemarks[5].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL470("caseRemarks0", "案件备注1", "c.remark1 as 'dataCase.caseRemarks[0].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL480("caseRemarks1", "案件备注2", "c.remark2 as 'dataCase.caseRemarks[1].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL490("caseRemarks2", "案件备注3", "c.remark3 as 'dataCase.caseRemarks[2].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL500("caseRemarks3", "案件备注4", "c.remark4 as 'dataCase.caseRemarks[3].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL510("caseRemarks4", "案件备注5", "c.remark5 as 'dataCase.caseRemarks[4].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
+        COL520("caseRemarks5", "案件备注6", "c.remark6 as 'dataCase.caseRemarks[5].remark'", DataCaseEntity.class, DataCaseRemarkEntity.class, String.class),
         COL530("collectionArea", "催收区域", "c.collect_area as 'dataCase.collectionArea.id'", DataCaseEntity.class, SysDictionaryEntity.class, String.class),
         ;
 

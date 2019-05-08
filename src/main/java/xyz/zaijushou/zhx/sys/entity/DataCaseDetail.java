@@ -281,6 +281,8 @@ public class DataCaseDetail {
     private String remark6;
     private String contactName1;
     private String contactIdentNo1;
+    private String contactIdentType1;
+    private String contactRelation1;
     private String contactHomeTel1;
     private String contactUnitTel1;
     private String contactMobile1;
@@ -293,6 +295,8 @@ public class DataCaseDetail {
     private String contactMobile2;
     private String contactUnit2;
     private String contactAddress2;
+    private String contactIdentType2;
+    private String contactRelation2;
     private String contactName3;
     private String contactIdentNo3;
     private String contactHomeTel3;
@@ -300,6 +304,8 @@ public class DataCaseDetail {
     private String contactMobile3;
     private String contactUnit3;
     private String contactAddress3;
+    private String contactIdentType3;
+    private String contactRelation3;
     private String contactName4;
     private String contactIdentNo4;
     private String contactHomeTel4;
@@ -307,6 +313,8 @@ public class DataCaseDetail {
     private String contactMobile4;
     private String contactUnit4;
     private String contactAddress4;
+    private String contactIdentType4;
+    private String contactRelation4;
     private String contactName5;
     private String contactIdentNo5;
     private String contactHomeTel5;
@@ -314,6 +322,8 @@ public class DataCaseDetail {
     private String contactMobile5;
     private String contactUnit5;
     private String contactAddress5;
+    private String contactIdentType5;
+    private String contactRelation5;
     private String contactName6;
     private String contactIdentNo6;
     private String contactHomeTel6;
@@ -321,12 +331,109 @@ public class DataCaseDetail {
     private String contactMobile6;
     private String contactUnit6;
     private String contactAddress6;
-
+    private String contactIdentType6;
+    private String contactRelation6;
     private String settleFlag;
 
     private TelIpManage telIpManage;
     //坐席号
     private String officePhone;
+
+    public String getContactIdentType2() {
+        return contactIdentType2;
+    }
+
+    public void setContactIdentType2(String contactIdentType2) {
+        this.contactIdentType2 = contactIdentType2;
+    }
+
+    public String getContactRelation2() {
+        return contactRelation2;
+    }
+
+    public void setContactRelation2(String contactRelation2) {
+        this.contactRelation2 = contactRelation2;
+    }
+
+    public String getContactIdentType3() {
+        return contactIdentType3;
+    }
+
+    public void setContactIdentType3(String contactIdentType3) {
+        this.contactIdentType3 = contactIdentType3;
+    }
+
+    public String getContactRelation3() {
+        return contactRelation3;
+    }
+
+    public void setContactRelation3(String contactRelation3) {
+        this.contactRelation3 = contactRelation3;
+    }
+
+    public String getContactIdentType4() {
+        return contactIdentType4;
+    }
+
+    public void setContactIdentType4(String contactIdentType4) {
+        this.contactIdentType4 = contactIdentType4;
+    }
+
+    public String getContactRelation4() {
+        return contactRelation4;
+    }
+
+    public void setContactRelation4(String contactRelation4) {
+        this.contactRelation4 = contactRelation4;
+    }
+
+    public String getContactIdentType5() {
+        return contactIdentType5;
+    }
+
+    public void setContactIdentType5(String contactIdentType5) {
+        this.contactIdentType5 = contactIdentType5;
+    }
+
+    public String getContactRelation5() {
+        return contactRelation5;
+    }
+
+    public void setContactRelation5(String contactRelation5) {
+        this.contactRelation5 = contactRelation5;
+    }
+
+    public String getContactIdentType6() {
+        return contactIdentType6;
+    }
+
+    public void setContactIdentType6(String contactIdentType6) {
+        this.contactIdentType6 = contactIdentType6;
+    }
+
+    public String getContactRelation6() {
+        return contactRelation6;
+    }
+
+    public void setContactRelation6(String contactRelation6) {
+        this.contactRelation6 = contactRelation6;
+    }
+
+    public String getContactIdentType1() {
+        return contactIdentType1;
+    }
+
+    public void setContactIdentType1(String contactIdentType1) {
+        this.contactIdentType1 = contactIdentType1;
+    }
+
+    public String getContactRelation1() {
+        return contactRelation1;
+    }
+
+    public void setContactRelation1(String contactRelation1) {
+        this.contactRelation1 = contactRelation1;
+    }
 
     public String getOfficePhone() {
         return officePhone;

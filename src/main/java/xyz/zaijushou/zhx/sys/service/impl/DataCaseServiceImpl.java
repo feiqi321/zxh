@@ -1024,7 +1024,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         for(DataCaseEntity entity : dataCaseEntities) {
             //totalAmt = totalAmt.add(entity.getMoney());
             dataCaseMapper.updateBySeqNo(entity);
-            caseIdsSet.add(entity.getId());
+            /*caseIdsSet.add(entity.getId());
             if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
                 for (DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
                     remark.setCaseId(entity.getId());
@@ -1038,11 +1038,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                     contacts.add(contact);
                     contact.setSort((++i) * 10);
                 }
-            }
+            }*/
         }
-     ;
+        ;
         //批量新增备注
-        if(remarks.size()>0) {
+        /*if(remarks.size()>0) {
             updateCaseEntity.setCaseRemarks(remarks);
             updateCaseEntity.setContacts(contacts);
             //批量删除备注
@@ -1050,10 +1050,10 @@ public class DataCaseServiceImpl implements DataCaseService {
             remarkEntity.setCaseIdsSet(caseIdsSet);
             dataCaseRemarkMapper.deleteCaseRemarkBatchByCaseIds(remarkEntity);
             dataCaseRemarkMapper.insertCaseRemarkBatch(updateCaseEntity);
-        }
+        }*/
 
         //批量新增联系人
-        if (contacts.size()>0){
+        /*if (contacts.size()>0){
             //批量删除联系人
             DataCaseContactsEntity contactsEntity = new DataCaseContactsEntity();
             contactsEntity.setCaseIdsSet(caseIdsSet);
@@ -1061,7 +1061,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
 
 
-        }
+        }*/
         /*//修改批次信息
         DataBatchEntity dataBatchEntity = new DataBatchEntity();
         dataBatchEntity.setBatchNo(batchNo);
@@ -1102,8 +1102,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
             }
         }
-        DataCaseEntity updateCaseEntity = new DataCaseEntity();
-        List<DataCaseRemarkEntity> remarks = new ArrayList<>();
+        //DataCaseEntity updateCaseEntity = new DataCaseEntity();
+        //List<DataCaseRemarkEntity> remarks = new ArrayList<>();
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
         for(DataCaseEntity entity : dataCaseEntities) {
             dataCaseMapper.saveCase(entity);
@@ -1113,14 +1113,76 @@ public class DataCaseServiceImpl implements DataCaseService {
 
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
-            if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
+           /* if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
                 for (DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
                     remark.setCaseId(entity.getId());
                     remarks.add(remark);
                 }
+            }*/
+            //int i = 0;
+            //联系人添加到案件电话中
+            if (StringUtils.notEmpty(entity.getContactName1()) || StringUtils.notEmpty(entity.getContactMobile1())) {
+                DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
+                dataCaseTelEntity1.setCaseId(entity.getId());
+                dataCaseTelEntity1.setName(entity.getContactName1());
+                dataCaseTelEntity1.setIdentNo(entity.getContactIdentNo1());
+                dataCaseTelEntity1.setRelation(entity.getContactRelation1());
+                dataCaseTelEntity1.setTel(entity.getContactMobile1());
+                dataCaseTelEntity1.setTelStatusMsg("未知");
+                dataCaseTelMapper.saveTel(dataCaseTelEntity1);
             }
-            int i = 0;
-            if (entity.getContacts()!=null && entity.getContacts().size()>0) {
+            if (StringUtils.notEmpty(entity.getContactName2()) || StringUtils.notEmpty(entity.getContactMobile2())) {
+                DataCaseTelEntity dataCaseTelEntity2 = new DataCaseTelEntity();
+                dataCaseTelEntity2.setCaseId(entity.getId());
+                dataCaseTelEntity2.setName(entity.getContactName2());
+                dataCaseTelEntity2.setIdentNo(entity.getContactIdentNo2());
+                dataCaseTelEntity2.setRelation(entity.getContactRelation2());
+                dataCaseTelEntity2.setTel(entity.getContactMobile2());
+                dataCaseTelEntity2.setTelStatusMsg("未知");
+                dataCaseTelMapper.saveTel(dataCaseTelEntity2);
+            }
+            if (StringUtils.notEmpty(entity.getContactName3()) || StringUtils.notEmpty(entity.getContactMobile3())) {
+                DataCaseTelEntity dataCaseTelEntity3 = new DataCaseTelEntity();
+                dataCaseTelEntity3.setCaseId(entity.getId());
+                dataCaseTelEntity3.setName(entity.getContactName3());
+                dataCaseTelEntity3.setIdentNo(entity.getContactIdentNo3());
+                dataCaseTelEntity3.setRelation(entity.getContactRelation3());
+                dataCaseTelEntity3.setTel(entity.getContactMobile3());
+                dataCaseTelEntity3.setTelStatusMsg("未知");
+                dataCaseTelMapper.saveTel(dataCaseTelEntity3);
+            }
+            if (StringUtils.notEmpty(entity.getContactName4()) || StringUtils.notEmpty(entity.getContactMobile4())) {
+                DataCaseTelEntity dataCaseTelEntity4 = new DataCaseTelEntity();
+                dataCaseTelEntity4.setCaseId(entity.getId());
+                dataCaseTelEntity4.setName(entity.getContactName4());
+                dataCaseTelEntity4.setIdentNo(entity.getContactIdentNo4());
+                dataCaseTelEntity4.setRelation(entity.getContactRelation4());
+                dataCaseTelEntity4.setTel(entity.getContactMobile4());
+                dataCaseTelEntity4.setTelStatusMsg("未知");
+                dataCaseTelMapper.saveTel(dataCaseTelEntity4);
+            }
+            if (StringUtils.notEmpty(entity.getContactName5()) || StringUtils.notEmpty(entity.getContactMobile5())) {
+                DataCaseTelEntity dataCaseTelEntity5 = new DataCaseTelEntity();
+                dataCaseTelEntity5.setCaseId(entity.getId());
+                dataCaseTelEntity5.setName(entity.getContactName5());
+                dataCaseTelEntity5.setIdentNo(entity.getContactIdentNo5());
+                dataCaseTelEntity5.setRelation(entity.getContactRelation5());
+                dataCaseTelEntity5.setTel(entity.getContactMobile5());
+                dataCaseTelEntity5.setTelStatusMsg("未知");
+                dataCaseTelMapper.saveTel(dataCaseTelEntity5);
+            }
+            if (StringUtils.notEmpty(entity.getContactName6()) || StringUtils.notEmpty(entity.getContactMobile6())) {
+                DataCaseTelEntity dataCaseTelEntity6 = new DataCaseTelEntity();
+                dataCaseTelEntity6.setCaseId(entity.getId());
+                dataCaseTelEntity6.setName(entity.getContactName6());
+                dataCaseTelEntity6.setIdentNo(entity.getContactIdentNo6());
+                dataCaseTelEntity6.setRelation(entity.getContactRelation6());
+                dataCaseTelEntity6.setTel(entity.getContactMobile6());
+                dataCaseTelEntity6.setTelStatusMsg("未知");
+                dataCaseTelMapper.saveTel(dataCaseTelEntity6);
+            }
+
+            /*if (entity.getContacts()!=null && entity.getContacts().size()>0) {
                 for (DataCaseContactsEntity contact : entity.getContacts()) {
                     contact.setCaseId(entity.getId());
                     contacts.add(contact);
@@ -1135,9 +1197,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                     dataCaseTelEntity.setTelStatusMsg("未知");
                     dataCaseTelMapper.saveTel(dataCaseTelEntity);
                 }
-            }
+            }*/
         }
-        updateCaseEntity.setCaseRemarks(remarks);
+        /*updateCaseEntity.setCaseRemarks(remarks);
         updateCaseEntity.setContacts(contacts);
         //批量新增备注
         if (remarks.size()>0) {
@@ -1147,7 +1209,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (contacts.size()>0) {
             dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
 
-        }
+        }*/
         //修改批次信息
         DataBatchEntity dataBatchEntity = new DataBatchEntity();
         dataBatchEntity.setBatchNo(batchNo);
@@ -1606,37 +1668,6 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         logger.info("查询角色结束");
 
-       // SysPercent sysPercent = new SysPercent();
-        /*sysPercent.setClient(dataCaseDetail.getClient()==null?0:Integer.parseInt(dataCaseDetail.getClient()));*/
-        //sysPercent = sysPercentMapper.findByClient(sysPercent);
-
-        //BigDecimal cuMoney = dataCaseDetail.getMoney()==null?new BigDecimal(0):dataCaseDetail.getMoney();
-      /*  if (role==4){//当前用户是催收员
-            if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
-                dataCaseDetail.setPrePercent(cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic()).setScale(2,BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString() + "（基础提成）/" + cuMoney.divide(new BigDecimal(100)).multiply(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward()).setScale(2,BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString()  + "（奖励提成）");
-                if (sysPercent.getOdvLow()==null || sysPercent.getOdvLow().compareTo(new BigDecimal(0))==0){
-                    dataCaseDetail.setPrePercentTips("本月累计还款金额低于1万时，无提成；不低于1万时，按照奖励提成"+(sysPercent.getOdvReward()==null?new BigDecimal(0):sysPercent.getOdvReward().stripTrailingZeros().toPlainString())+"%计算");
-                }else{
-                    dataCaseDetail.setPrePercentTips("本月累计还款金额低于1万时，无提成；不低于1万且低于"+(sysPercent.getOdvLow()==null?"0":sysPercent.getOdvLow().stripTrailingZeros().toPlainString())+"万时，按照基础提成"+(sysPercent.getOdvBasic()==null?new BigDecimal(0):sysPercent.getOdvBasic().stripTrailingZeros().toPlainString())+"%计算；不低于"+(sysPercent.getOdvLow()==null?"0":sysPercent.getOdvLow().stripTrailingZeros().toPlainString())+"万时，按照奖励提成"+(sysPercent.getOdvReward()==null?"0":sysPercent.getOdvReward().stripTrailingZeros().toPlainString())+"%计算");
-                }
-            }else{
-                dataCaseDetail.setPrePercent("-");
-                dataCaseDetail.setPrePercentTips(sysPercent.getOdvRemark());
-            }
-
-        }else if(role == 9){//当前用户是经理
-            if (sysPercent.getEnable()!=null && sysPercent.getEnable()==1) {
-                dataCaseDetail.setPrePercent(cuMoney.multiply(sysPercent.getOdvBasic()).setScale(2,BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString() +"");
-                dataCaseDetail.setPrePercentTips("按照奖励提成"+(sysPercent.getManageReward()==null?new BigDecimal(0):sysPercent.getManageReward().stripTrailingZeros().toPlainString())+"%计算");
-            }else{
-                dataCaseDetail.setPrePercent("-");
-                dataCaseDetail.setPrePercentTips(sysPercent.getManageRemark());
-            }
-        }else{//既不是催收员也不是经理
-            dataCaseDetail.setPrePercent("");
-            dataCaseDetail.setPrePercentTips("");
-        }*/
-
 
         logger.info("设置数据字典开始");
         if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseDetail.getOdv()) && (!(curentuser.getId()+"").equals(dataCaseDetail.getOdv()))){
@@ -1746,8 +1777,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseEntity.setId(bean.getId());
         List<DataCaseEntity> caseList = new ArrayList<DataCaseEntity>();
         caseList.add(dataCaseEntity);
-        List<DataCaseEntity> resultCaseList = combineData(caseList);
-        List<DataCaseRemarkEntity> caseRemarks = resultCaseList.get(0).getCaseRemarks();
+         /*List<DataCaseEntity> resultCaseList = combineData(caseList);
+       List<DataCaseRemarkEntity> caseRemarks = resultCaseList.get(0).getCaseRemarks();
         List<DataCaseContactsEntity> contacts = resultCaseList.get(0).getContacts();
         for (int i=0;i<6;i++){
             if (i==0) {
@@ -1889,7 +1920,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     dataCaseDetail.setContactMobile6(contacts.get(i).getMobile());
                 }
             }
-        }
+        }*/
 
 
 
@@ -2152,7 +2183,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
         Map<Integer, SysNewUserEntity> userMap = CollectionsUtils.listToMap(userList);
 
-        DataCaseContactsEntity queryContactsEntity = new DataCaseContactsEntity();
+        /*DataCaseContactsEntity queryContactsEntity = new DataCaseContactsEntity();
         queryContactsEntity.setCaseIdsSet(caseIdsSet);
         List<DataCaseContactsEntity> contacts = dataCaseContactsMapper.listByCaseIds(queryContactsEntity);
         Map<Integer, List<DataCaseContactsEntity>> contactMap = new HashMap<>();
@@ -2161,9 +2192,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                 contactMap.put(entity.getCaseId(), new ArrayList<>());
             }
             contactMap.get(entity.getCaseId()).add(entity);
-        }
+        }*/
 
-        DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
+        /*DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
         queryRemarks.setCaseIdsSet(caseIdsSet);
         List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
         Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
@@ -2172,18 +2203,18 @@ public class DataCaseServiceImpl implements DataCaseService {
                 remarkMap.put(entity.getCaseId(), new ArrayList<>());
             }
             remarkMap.get(entity.getCaseId()).add(entity);
-        }
+        }*/
         for(int i = 0; i < list.size(); i ++) {
             DataCaseEntity entity = list.get(i);
             if(entity.getCollectionUser() != null && entity.getCollectionUser().getId() != null && userMap.containsKey(entity.getCollectionUser().getId())) {
                 list.get(i).getCollectionUser().setUserName(userMap.get(entity.getCollectionUser().getId()).getUserName());
             }
-            if(contactMap.containsKey(entity.getId())) {
+            /*if(contactMap.containsKey(entity.getId())) {
                 list.get(i).setContacts(contactMap.get(entity.getId()));
             }
             if(remarkMap.containsKey(entity.getId())) {
                 list.get(i).setCaseRemarks(remarkMap.get(entity.getId()));
-            }
+            }*/
         }
         return list;
     }

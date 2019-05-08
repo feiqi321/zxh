@@ -294,18 +294,18 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         }
         DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
         queryRemarks.setCaseIdsSet(caseIdsSet);
-        List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
+        /*List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
         Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
         for(DataCaseRemarkEntity entity : remarks) {
             if(!remarkMap.containsKey(entity.getCaseId())) {
                 remarkMap.put(entity.getCaseId(), new ArrayList<>());
             }
             remarkMap.get(entity.getCaseId()).add(entity);
-        }
+        }*/
         for (DataCaseRepayRecordEntity entity : list) {
-            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+            /*if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
                 entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
-            }
+            }*/
             if (entity.getRepayType()!=null && entity.getRepayType().getId()!=null){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType().getId(),SysDictionaryEntity.class);
                 entity.setRepayType(sysDictionaryEntity);

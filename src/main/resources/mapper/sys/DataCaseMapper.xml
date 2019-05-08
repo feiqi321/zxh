@@ -4,6 +4,204 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.DataCaseMapper">
 
+    <sql id="detailColSql">
+        DISTINCT da.id as id,
+        da.case_date as caseDate,
+        da.money as money,
+        da.warning,
+        da.case_deadline as caseDeadline,
+        da.collect_hand as collectHand,
+        da.rmb as rmb,
+        da.hkd as hkd,
+        da.foreign_currency as foreignCurrency,
+        da.gender as gender,
+        da.name as name,
+        da.card_no as cardNo,
+        da.ident_no as identNo,
+        da.ident_type as identType,
+        da.odv as 'collectionUser.id',
+        da.collection_area as 'collectionArea.id',
+        da.summary,
+        da.collect_result as collectInfo,
+        da.m_val as mVal,
+        da.commission_rate as commissionRate,
+        da.commission_money as commissionMoney,
+        da.home_tel_number as homeTelNumber,
+        da.unit_tel_number as unitTelNumber,
+        da.tel as tel,
+        da.unit_name as unitName,
+        da.new_case as newCase,
+        da.case_user_position as caseUserPosition,
+        da.case_user_depart as caseUserDepart,
+        da.unit_address as unitAddress,
+        da.unit_zip_code as unitZipCode,
+        da.home_address as homeAddress,
+        da.home_zip_code as homeZipCode,
+        da.statement_address as statementAddress,
+        da.statement_zip_code as statementZipCode,
+        da.census_register_address as censusRegisterAddress,
+        da.census_register_zip_code as censusRegisterZipCode,
+        da.qq as qq,
+        da.email as email,
+        da.remark as selfInfo,
+        da.birthday as birthday,
+        da.age as age,
+        da.province as 'province.id',
+        da.city as 'city.id',
+        da.county as 'county.id',
+        da.expect_retire_case_date as expectRetireCaseDate,
+        da.goods as goods,
+        da.commercial_tenant as commercialTenant,
+        da.archive_no as archiveNo,
+        da.apply_order_no as applyOrderNo,
+        da.social_security_computer_no as socialSecurityComputerNo,
+        da.social_security_card_no as socialSecurityCardNo,
+        da.bank as bank,
+        da.account as account,
+        da.account_name as accountName,
+        da.card_type as cardType,
+        da.principle as principle,
+        da.loan_rate as loanRate,
+        da.residual_principle as residualPrinciple,
+        da.monthly_repayments as monthlyRepayments,
+        da.minimum_payment as minimumPayment,
+        da.credit_line as creditLine,
+        da.fixed_quota as fixedQuota,
+        da.default_level as defaultLevel,
+        da.last_repay_money as lastRepayMoney,
+        da.last_repay_date as lastRepayDate,
+        da.last_consume_date as lastConsumeDate,
+        da.last_withdraw_date as lastWithdrawDate,
+        da.stop_card_date as stopCardDate,
+        da.active_card_date as activeCardDate,
+        da.bill_date as billDate,
+        da.bill_cycle as billCycle,
+        da.outstanding_amount as outstandingAmount,
+        da.main_deputy_card as mainDeputyCard,
+        da.deputy_card_user_name as deputyCardUserName,
+        da.loan_date as loanDate,
+        da.loan_deadline as loanDeadline,
+        da.overdue_date as overdueDate,
+        da.overdue_periods as overduePeriods,
+        da.overdue_days as overdueDays,
+        da.overdue_times as overdueTimes,
+        da.entrust_periods as entrustPeriods,
+        da.repay_deadline as repayDeadline,
+        da.repaid_periods as repaidPeriods,
+        da.loan_type as loanType,
+        da.collection_type as collectionType,
+        da.overdue_money as overdueMoney,
+        da.overdue_principle as overduePrinciple,
+        da.overdue_interest as overdueInterest,
+        da.overdue_management_cost as overdueManagementCost,
+        da.overdue_default_interest as overdueDefaultInterest,
+        da.penalty as penalty,
+        da.late_fee as lateFee,
+        da.overrun_fee as overrunFee,
+        da.bail as bail,
+        da.currency_type as currencyType,
+        da.last_collection_record as lastCollectionRecord,
+        da.overdue_bill_time as overdueBillTime,
+        da.contract_no as contractNo,
+        da.over_days as overDays,
+        da.dealer as dealer,
+        da.apply_date as applyDate,
+        da.repay_date as repayDate,
+        da.policy_expiry_date as policyExpiryDate,
+        da.card_price as cardPrice,
+        da.card_model as cardModel,
+        da.license as license,
+        da.brand as brand,
+        da.vin as vin,
+        da.engine_no as engineNo,
+        da.batch_no as batchNo,
+        da.client as client,
+        da.collect_area as collectArea,
+        da.dept as dept,
+        da.odv as odv,
+        da.status as status,
+        da.area as area,
+        da.expect_time as expectTime,
+        da.color as color,
+        da.collect_status as collectStatus ,
+        da.collect_date as collectDate,
+        da.account_age as accountAge ,
+        da.seq_no as seqNo,
+        da.real_repay_date as realRepayDate ,
+        DATE_FORMAT(da.distribute_time, '%Y-%m-%d %H:%i') as distributeTime,
+        da.balance as balance,
+        da.pro_repay_date as proPepayDate,
+        da.distribute_history as distributeHistory,
+        da.bank_amt as bankAmt,
+        da.en_repay_amt as enRepayAmt,
+        da.pro_repay_amt as proRepayAmt,
+        da.collect_times as collectTimes,
+        da.comment as comment,
+        da.settle_flag as settleFlag,
+        da.interest_date as interestDate,
+        da.latest_overdue_money as latestOverdueMoney,
+        remark1,
+        remark2,
+        remark3,
+        remark4,
+        remark5,
+        remark6,
+        contactName1,
+        contactIdentNo1,
+        contactIdentType1,
+        contactRelation1,
+        contactHomeTel1,
+        contactUnitTel1,
+        contactMobile1,
+        contactUnit1,
+        contactAddress1,
+        contactName2,
+        contactIdentNo2,
+        contactIdentType2,
+        contactRelation2,
+        contactHomeTel2,
+        contactUnitTel2,
+        contactMobile2,
+        contactUnit2,
+        contactAddress2,
+        contactName3,
+        contactIdentNo3,
+        contactIdentType3,
+        contactRelation3,
+        contactHomeTel3,
+        contactUnitTel3,
+        contactMobile3,
+        contactUnit3,
+        contactAddress3,
+        contactName4,
+        contactIdentNo4,
+        contactIdentType4,
+        contactRelation4,
+        contactHomeTel4,
+        contactUnitTel4,
+        contactMobile4,
+        contactUnit4,
+        contactAddress4,
+        contactName5,
+        contactIdentNo5,
+        contactIdentType5,
+        contactRelation5,
+        contactHomeTel5,
+        contactUnitTel5,
+        contactMobile5,
+        contactUnit5,
+        contactAddress5,
+        contactName6,
+        contactIdentNo6,
+        contactIdentType6,
+        contactRelation6,
+        contactHomeTel6,
+        contactUnitTel6,
+        contactMobile6,
+        contactUnit6,
+        contactAddress6
+    </sql>
+
     <sql id="colSql">
         DISTINCT da.id as id,
         da.case_date as caseDate,
@@ -1422,7 +1620,187 @@
                 vin = #{vin},
             </if>
             <if test="engineNo != null and engineNo != ''">
-                engine_no = #{engineNo}
+                engine_no = #{engineNo},
+            </if>
+            <if test="contactName1 != null and contactName1 != ''">
+                contactName1 = #{contactName1},
+            </if>
+            <if test="contactIdentNo1 != null and contactIdentNo1 != ''">
+                contactIdentNo1 = #{contactIdentNo1},
+            </if>
+            <if test="contactIdentType1 != null and contactIdentType1 != ''">
+                contactIdentType1 = #{contactIdentType1},
+            </if>
+            <if test="contactRelation1 != null and contactRelation1 != ''">
+                contactRelation1 = #{contactRelation1},
+            </if>
+            <if test="contactHomeTel1 != null and contactHomeTel1 != ''">
+                contactHomeTel1 = #{contactHomeTel1},
+            </if>
+            <if test="contactUnitTel1 != null and contactUnitTel1 != ''">
+                contactUnitTel1 = #{contactUnitTel1},
+            </if>
+            <if test="contactMobile1 != null and contactMobile1 != ''">
+                contactMobile1 = #{contactMobile1},
+            </if>
+            <if test="contactUnit1 != null and contactUnit1 != ''">
+                contactUnit1 = #{contactUnit1},
+            </if>
+            <if test="contactAddress1 != null and contactAddress1 != ''">
+                contactAddress1 = #{contactAddress1},
+            </if>
+            <if test="contactName2 != null and contactName2 != ''">
+                contactName2 = #{contactName2},
+            </if>
+            <if test="contactIdentNo2 != null and contactIdentNo2 != ''">
+                contactIdentNo2 = #{contactIdentNo2},
+            </if>
+            <if test="contactIdentType2 != null and contactIdentType2 != ''">
+                contactIdentType1 = #{contactIdentType1},
+            </if>
+            <if test="contactRelation2 != null and contactRelation2 != ''">
+                contactRelation2 = #{contactRelation2},
+            </if>
+            <if test="contactHomeTel2 != null and contactHomeTel2 != ''">
+                contactHomeTel2 = #{contactHomeTel2},
+            </if>
+            <if test="contactUnitTel2 != null and contactUnitTel2 != ''">
+                contactUnitTel2 = #{contactUnitTel2},
+            </if>
+            <if test="contactMobile2 != null and contactMobile2 != ''">
+                contactMobile2 = #{contactMobile2},
+            </if>
+            <if test="contactUnit2 != null and contactUnit2 != ''">
+                contactUnit2 = #{contactUnit2},
+            </if>
+            <if test="contactAddress2 != null and contactAddress2 != ''">
+                contactAddress2 = #{contactAddress2},
+            </if>
+            <if test="contactName3 != null and contactName3 != ''">
+                contactName3 = #{contactName3},
+            </if>
+            <if test="contactIdentNo3 != null and contactIdentNo3 != ''">
+                contactIdentNo3 = #{contactIdentNo3},
+            </if>
+            <if test="contactIdentType3 != null and contactIdentType3 != ''">
+                contactIdentType3 = #{contactIdentType3},
+            </if>
+            <if test="contactRelation3 != null and contactRelation3 != ''">
+                contactRelation3 = #{contactRelation3},
+            </if>
+            <if test="contactHomeTel3 != null and contactHomeTel3 != ''">
+                contactHomeTel3 = #{contactHomeTel3},
+            </if>
+            <if test="contactUnitTel3 != null and contactUnitTel3 != ''">
+                contactUnitTel3 = #{contactUnitTel3},
+            </if>
+            <if test="contactMobile3 != null and contactMobile3 != ''">
+                contactMobile3 = #{contactMobile3},
+            </if>
+            <if test="contactUnit3 != null and contactUnit3 != ''">
+                contactUnit3 = #{contactUnit3},
+            </if>
+            <if test="contactAddress3 != null and contactAddress3 != ''">
+                contactAddress3 = #{contactAddress3},
+            </if>
+            <if test="contactName4 != null and contactName4 != ''">
+                contactName4 = #{contactName4},
+            </if>
+            <if test="contactIdentNo4 != null and contactIdentNo4 != ''">
+                contactIdentNo4 = #{contactIdentNo4},
+            </if>
+            <if test="contactIdentType4 != null and contactIdentType4 != ''">
+                contactIdentType4 = #{contactIdentType4},
+            </if>
+            <if test="contactRelation4 != null and contactRelation4 != ''">
+                contactRelation4 = #{contactRelation4},
+            </if>
+            <if test="contactHomeTel4 != null and contactHomeTel4 != ''">
+                contactHomeTel4 = #{contactHomeTel4},
+            </if>
+            <if test="contactUnitTel4 != null and contactUnitTel4 != ''">
+                contactUnitTel4 = #{contactUnitTel4},
+            </if>
+            <if test="contactMobile4 != null and contactMobile4 != ''">
+                contactMobile4 = #{contactMobile4},
+            </if>
+            <if test="contactUnit4 != null and contactUnit4 != ''">
+                contactUnit4 = #{contactUnit4},
+            </if>
+            <if test="contactAddress4 != null and contactAddress4 != ''">
+                contactAddress4 = #{contactAddress4},
+            </if>
+            <if test="contactName5 != null and contactName5 != ''">
+                contactName5 = #{contactName5},
+            </if>
+            <if test="contactIdentNo5 != null and contactIdentNo5 != ''">
+                contactIdentNo5 = #{contactIdentNo5},
+            </if>
+            <if test="contactIdentType5 != null and contactIdentType5 != ''">
+                contactIdentType5 = #{contactIdentType5},
+            </if>
+            <if test="contactRelation5 != null and contactRelation5 != ''">
+                contactRelation5 = #{contactRelation5},
+            </if>
+            <if test="contactHomeTel5 != null and contactHomeTel5 != ''">
+                contactHomeTel5 = #{contactHomeTel5},
+            </if>
+            <if test="contactUnitTel5 != null and contactUnitTel5 != ''">
+                contactUnitTel5 = #{contactUnitTel5},
+            </if>
+            <if test="contactMobile5 != null and contactMobile5 != ''">
+                contactMobile5 = #{contactMobile5},
+            </if>
+            <if test="contactUnit5 != null and contactUnit5 != ''">
+                contactUnit5 = #{contactUnit5},
+            </if>
+            <if test="contactAddress5 != null and contactAddress5 != ''">
+                contactAddress5 = #{contactAddress5},
+            </if>
+            <if test="contactName6 != null and contactName6 != ''">
+                contactName6 = #{contactName6},
+            </if>
+            <if test="contactIdentNo6 != null and contactIdentNo6 != ''">
+                contactIdentNo6 = #{contactIdentNo6},
+            </if>
+            <if test="contactIdentType6 != null and contactIdentType6 != ''">
+                contactIdentType6 = #{contactIdentType6},
+            </if>
+            <if test="contactRelation6 != null and contactRelation6 != ''">
+                contactRelation6 = #{contactRelation6},
+            </if>
+            <if test="contactHomeTel6 != null and contactHomeTel6 != ''">
+                contactHomeTel6 = #{contactHomeTel6},
+            </if>
+            <if test="contactUnitTel6 != null and contactUnitTel6 != ''">
+                contactUnitTel6 = #{contactUnitTel6},
+            </if>
+            <if test="contactMobile6 != null and contactMobile6 != ''">
+                contactMobile6 = #{contactMobile6},
+            </if>
+            <if test="contactUnit6 != null and contactUnit6 != ''">
+                contactUnit6 = #{contactUnit6},
+            </if>
+            <if test="contactAddress6 != null and contactAddress6 != ''">
+                contactAddress6 = #{contactAddress6},
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                remark1 = #{remark1},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                remark4 = #{remark4},
+            </if>
+            <if test="remark5 != null and remark5 != ''">
+                remark5 = #{remark5},
+            </if>
+            <if test="remark6 != null and remark6 != ''">
+                remark6 = #{remark6},
             </if>
         </trim>
         </set>
@@ -1556,7 +1934,67 @@
         batch_no,
         distribute_history,
         collect_times,
-        distribute_status
+        distribute_status,
+        remark1,
+        remark2,
+        remark3,
+        remark4,
+        remark5,
+        remark6,
+        contactName1,
+        contactIdentNo1,
+        contactIdentType1,
+        contactRelation1,
+        contactHomeTel1,
+        contactUnitTel1,
+        contactMobile1,
+        contactUnit1,
+        contactAddress1,
+        contactName2,
+        contactIdentNo2,
+        contactIdentType2,
+        contactRelation2,
+        contactHomeTel2,
+        contactUnitTel2,
+        contactMobile2,
+        contactUnit2,
+        contactAddress2,
+        contactName3,
+        contactIdentNo3,
+        contactIdentType3,
+        contactRelation3,
+        contactHomeTel3,
+        contactUnitTel3,
+        contactMobile3,
+        contactUnit3,
+        contactAddress3,
+        contactName4,
+        contactIdentNo4,
+        contactIdentType4,
+        contactRelation4,
+        contactHomeTel4,
+        contactUnitTel4,
+        contactMobile4,
+        contactUnit4,
+        contactAddress4,
+        contactName5,
+        contactIdentNo5,
+        contactIdentType5,
+        contactRelation5,
+        contactHomeTel5,
+        contactUnitTel5,
+        contactMobile5,
+        contactUnit5,
+        contactAddress5,
+        contactName6,
+        contactIdentNo6,
+        contactIdentType6,
+        contactRelation6,
+        contactHomeTel6,
+        contactUnitTel6,
+        contactMobile6,
+        contactUnit6,
+        contactAddress6
         )
         values
         (
@@ -1681,7 +2119,67 @@
         #{batchNo},
         '',
         0,
-        2
+        2,
+        #{remark1},
+        #{remark2},
+        #{remark3},
+        #{remark4},
+        #{remark5},
+        #{remark6},
+        #{contactName1},
+        #{contactIdentNo1},
+        #{contactIdentType1},
+        #{contactRelation1},
+        #{contactHomeTel1},
+        #{contactUnitTel1},
+        #{contactMobile1},
+        #{contactUnit1},
+        #{contactAddress1},
+        #{contactName2},
+        #{contactIdentNo2},
+        #{contactIdentType2},
+        #{contactRelation2},
+        #{contactHomeTel2},
+        #{contactUnitTel2},
+        #{contactMobile2},
+        #{contactUnit2},
+        #{contactAddress2},
+        #{contactName3},
+        #{contactIdentNo3},
+        #{contactIdentType3},
+        #{contactRelation3},
+        #{contactHomeTel3},
+        #{contactUnitTel3},
+        #{contactMobile3},
+        #{contactUnit3},
+        #{contactAddress3},
+        #{contactName4},
+        #{contactIdentNo4},
+        #{contactIdentType4},
+        #{contactRelation4},
+        #{contactHomeTel4},
+        #{contactUnitTel4},
+        #{contactMobile4},
+        #{contactUnit4},
+        #{contactAddress4},
+        #{contactName5},
+        #{contactIdentNo5},
+        #{contactIdentType5},
+        #{contactRelation5},
+        #{contactHomeTel5},
+        #{contactUnitTel5},
+        #{contactMobile5},
+        #{contactUnit5},
+        #{contactAddress5},
+        #{contactName6},
+        #{contactIdentNo6},
+        #{contactIdentType6},
+        #{contactRelation6},
+        #{contactHomeTel6},
+        #{contactUnitTel6},
+        #{contactMobile6},
+        #{contactUnit6},
+        #{contactAddress6}
         )
     </insert>
 
@@ -2053,7 +2551,7 @@
 
     <select id="detail" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseDetail">
           select
-        <include refid="colSql"/>
+        <include refid="detailColSql"/>
           from data_case da where da.id = #{id}
     </select>
 
@@ -2182,7 +2680,7 @@
             where  <![CDATA[repay_date>=#{repayDateStart} and repay_date <=#{repayDateEnd}]]>
             <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
          ) r on t.id = r.data_case
-         where t.business_type not in ('上汽长账龄上汽拖车','上汽长账龄其他','上汽短期','安吉蓝海')
+         where t.business_type not in ('上汽长账龄上汽拖车','上汽长账龄其他','上汽短期','安吉蓝海') and t.business_type is not null
         group by t.business_type
     </select>
 

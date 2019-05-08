@@ -213,7 +213,7 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 }
             }
         }
-        DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
+        /*DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
         if (caseIdsSet.size()>0) {
             queryRemarks.setCaseIdsSet(caseIdsSet);
             queryRemarks.setCaseIdsSetFlag("1");
@@ -227,11 +227,11 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 remarkMap.put(entity.getCaseId(), new ArrayList<>());
             }
             remarkMap.get(entity.getCaseId()).add(entity);
-        }
+        }*/
         for (DataCaseBankReconciliationEntity entity : list) {
-            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
+            /*if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
                 entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
-            }
+            }*/
             if (entity != null && entity.getRepayType() != null){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType(),SysDictionaryEntity.class);
                 entity.setRepayType(sysDictionaryEntity.getName());
