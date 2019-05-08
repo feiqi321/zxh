@@ -246,7 +246,8 @@ public class ExcelCaseUtils {
                     XSSFColor color = new XSSFColor(new java.awt.Color(210, 180, 140));
                     style.setFillForegroundColor(color);
                 }else{
-
+                    XSSFColor color = new XSSFColor(new java.awt.Color(255, 255, 255));
+                    style.setFillForegroundColor(color);
                 }
 
                 style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
