@@ -2119,7 +2119,7 @@
         #{batchNo},
         '',
         0,
-        2,
+        1,
         #{remark1},
         #{remark2},
         #{remark3},

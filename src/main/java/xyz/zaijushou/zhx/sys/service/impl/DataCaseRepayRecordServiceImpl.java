@@ -161,7 +161,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         updateDataCaseBalance(entity);
         DataOpLog log = new DataOpLog();
         log.setType("案件管理");
-        log.setContext("已还款："+entity.getRepayMoney()+"，还款日期："+entity.getRepayUser()+"，备注： "+entity.getRemark());
+        log.setContext("已还款："+(entity.getRepayMoney()==null?"0":entity.getRepayMoney())+"，还款日期："+(entity.getRepayUser()==null?"":entity.getRepayUser())+"，备注： "+(entity.getRemark()==null?"":entity.getRemark()));
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -202,7 +202,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             DataCaseRepayRecordEntity entity = dataEntities.get(i);
             DataOpLog log = new DataOpLog();
             log.setType("案件管理");
-            log.setContext("已还款："+entity.getRepayMoney()+"，还款日期："+entity.getRepayUser()+"，备注： "+entity.getRemark());
+            log.setContext("已还款："+(entity.getRepayMoney()==null?"0":entity.getRepayMoney())+"，还款日期："+(entity.getRepayUser()==null?"":entity.getRepayUser())+"，备注： "+(entity.getRemark()==null?"":entity.getRemark()));
             log.setOper(getUserInfo().getId());
             log.setOperName(getUserInfo().getUserName());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
