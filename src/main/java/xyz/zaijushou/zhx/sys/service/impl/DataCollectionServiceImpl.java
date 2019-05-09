@@ -353,10 +353,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 Calendar dTime = Calendar.getInstance();
                 dTime.setTime(beanInfo.getDateSearchStart());
                 while(!dTime.getTime().after(beanInfo.getDateSearchEnd())){
-                 /*   bean.setDateStart(sdf.parse(sdf1.format(dTime.getTime()) + sdf2.format(dateStart)));
-                    bean.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())+sdf2.format(dateEnd)));;*/
-                    bean.setDateStart(sdf.parse(sdf2.format(dateStart)));
-                    bean.setDateEnd(sdf.parse(sdf2.format(dateEnd)));;
+                    bean.setDateStart(sdf.parse(sdf1.format(dTime.getTime()) + sdf2.format(dateStart)));
+                    bean.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())+sdf2.format(dateEnd)));;
+                    bean.setTimeArea(sdf2.format(dateStart)+"-"+sdf2.format(dateEnd));
+
                     countSum += dataCollectionTelMapper.statisticsCollectionSum(bean);
                     countCon += dataCollectionTelMapper.statisticsCollectionCon(bean);
                     countCase += dataCollectionTelMapper.statisticsCollectionCase(bean);

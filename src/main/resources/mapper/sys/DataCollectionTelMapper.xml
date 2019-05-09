@@ -44,53 +44,51 @@
 
     <!--统计拨打电话量，可能存在没有接通的-->
     <select id="statisticsCollectionSum" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
-        select count(1) as countTotal
-        from data_collection_tel dct
-        where dct.delete_flag = 0
+        select count(dc.id) as countTotal
+        from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
+        where dc.delete_flag = 0
         <if test="dateStart != null">
-            and start_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= #{dateStart}
         </if>
         <if test="dateEnd != null" >
-            and start_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= #{dateEnd}
         </if>
 
         <if test="odv != null and odv!=''">
-            AND odv like CONCAT('%',#{odv},'%')
+            AND da.odv like CONCAT('%',#{odv},'%')
         </if>
     </select>
 
     <!--统计接通电话量-->
     <select id="statisticsCollectionCon" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
-        select count(1) as countTotal
-        from data_collection_tel dct
-        where  dct.delete_flag = 0 and end_time is not null and end_time !=''
+        select count(dc.id) as countCon
+        from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
+        where dc.delete_flag = 0 and dc.result in (select id from sys_data_dictionary where dictionary_id = 14 and sys_flag=1 )
         <if test="dateStart != null">
-            and start_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= #{dateStart}
         </if>
         <if test="dateEnd != null" >
-            and start_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= #{dateEnd}
         </if>
 
         <if test="odv != null and odv!=''">
-            AND odv like CONCAT('%',#{odv},'%')
+            AND da.odv like CONCAT('%',#{odv},'%')
         </if>
     </select>
 
     <!--拨打电话存在的案件数量-->
     <select id="statisticsCollectionCase" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
-        SELECT
-        count(DISTINCT(dc.case_id)) as countCasePhoneNum
-        from
-        data_collection_tel dct LEFT JOIN data_collection dc on dc.id = dct.collection_id
-        where dct.delete_flag = 0
+        select count(DISTINCT(dc.case_id)) as countCasePhoneNum
+        from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
+        where dc.delete_flag = 0
         <if test="dateStart != null">
-            and start_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= #{dateStart}
         </if>
         <if test="dateEnd != null" >
-            and start_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= #{dateEnd}
         </if>
         <if test="odv != null and odv!=''">
-            AND dct.odv like CONCAT('%',#{odv},'%')
+            AND da.odv = #{odv}
         </if>
     </select>
 

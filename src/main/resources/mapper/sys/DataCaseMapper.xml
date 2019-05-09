@@ -2685,16 +2685,20 @@
     </select>
 
     <select id="selectTsCase1"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select t.en_repay_amt as enRepayAmt,t.money,t.business_type as businessType,
+        select sum(r.repayMoney) as enRepayAmt,t.money,t.business_type as businessType,
         DATE_FORMAT(t.settle_date, '%Y-%m-%d') as settleDate,t.settle_flag as settleFlag
-        from data_case t
+        from data_case t LEFT JOIN (
+        select repay_money as repayMoney,data_case
+        from data_case_repay_record
+        where  1=1
+        <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
+        ) r on t.id = r.data_case
         where t.business_type  in ('上汽长账龄上汽拖车','上汽长账龄其他')
-        and <![CDATA[settle_date>=#{repayDateStart} and settle_date <=#{repayDateEnd}]]>
-        <if test="odv != null and odv != ''"> and odv = #{odv}</if>
+        and <![CDATA[t.settle_date>=#{repayDateStart} and t.settle_date <=#{repayDateEnd}]]>
     </select>
 
     <select id="selectTsCase2"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select t.en_repay_amt as enRepayAmt,t.money ,t.business_type as businessType
+        select sum(r.repayMoney) as enRepayAmt,t.money ,t.business_type as businessType
         from data_case t LEFT JOIN (
             select repay_money as repayMoney,data_case
             from data_case_repay_record
