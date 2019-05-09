@@ -473,7 +473,7 @@
                 </if>
 
                 <if test="newCase != null">
-                    and c.new_case = #{newCase}
+                    and t.distribute_status=1
                 </if>
                 <if test="repayStatus != null and repayStatus!=''">
                     and c.repay_status = #{repayStatus}
@@ -567,7 +567,7 @@
 
     <select id="countMyNewCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
     select count(t.id)
-    from data_case t where t.odv=#{odv}   <![CDATA[   and DATE_FORMAT(t.distribute_time, '%Y-%m-%d')>=  DATE_FORMAT(#{caseAllotTimeStart}, '%Y-%m-%d')   ]]>
+    from data_case t where t.odv=#{odv} and t.distribute_status=1
     </select>
     <select id="pageMyCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,t.distribute_status  as distributeStatus,
@@ -584,6 +584,9 @@
         <where>
             t.delete_flag = 0
             <trim suffixOverrides=",">
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and t.distribute_status= #{distributeStatus}
+                </if>
                 <if test="dept != null and dept!=''">
                     AND  t.dept like CONCAT('%',#{dept},'%')
                 </if>
@@ -995,7 +998,7 @@
                 </if>
 
                 <if test="newCase != null and newCase!=''">
-                    and c.new_case = #{newCase}
+                    and t.distribute_status=1
                 </if>
                 <if test="repayStatus != null and repayStatus!=''">
                     and c.repay_status = #{repayStatus}
@@ -1170,7 +1173,7 @@
                 </if>
 
                 <if test="newCase != null and newCase!=''">
-                    and c.new_case = #{newCase}
+                    and t.distribute_status=1
                 </if>
                 <if test="repayStatus != null and repayStatus!=''">
                     and c.repay_status = #{repayStatus}

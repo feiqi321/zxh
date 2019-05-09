@@ -124,7 +124,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String accountAge;//逾期账龄
 
     private int overDays;//逾期天数
-    private String newCase;//逾期天数
+    private String newCase;//是否新配分
 
     private String collectionType ; //催收类别
     private String caseType ; //案件类别

@@ -190,6 +190,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
         }
+        if (StringUtils.notEmpty(dataCollectionEntity.getNewCase()) && dataCollectionEntity.getNewCase().equals("1")){
+            dataCollectionEntity.setDistributeStatus(1);
+        }else if (StringUtils.notEmpty(dataCollectionEntity.getNewCase()) && dataCollectionEntity.getNewCase().equals("0")){
+            dataCollectionEntity.setDistributeStatus(3);
+        }
         WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
 
@@ -247,9 +252,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
             ++countCase;
             sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
+            collection.setEnRepayAmt(collection.getEnRepayAmt()==null?new BigDecimal(0):collection.getEnRepayAmt());
             if (collection.getEnRepayAmt()!=null && collection.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    ++countCasePay;
-                    sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
+                ++countCasePay;
+                sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
             }
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
@@ -538,8 +544,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         SysPercent percentData = new SysPercent();
         List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
         for (int i = 0; i < caseList1.size(); i++) {
+            if (caseList1.get(i)==null){
+                continue;
+            }
             percentData.setClient(caseList1.get(i).getBusinessType());
             SysPercent percent =  sysPercentMapper.findByClient(percentData);
+            caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
             if (StringUtils.notEmpty(percent)){
                 if (type == 1 ||
                         ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
@@ -551,15 +561,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //特殊1
         List<DataCaseEntity> caseList2 = caseMapper.selectTsCase1(tempCase);
         for (int i = 0; i < caseList2.size(); i++) {
+            if (caseList2.get(i)==null){
+                continue;
+            }
             percentData.setClient(caseList2.get(i).getBusinessType());
             SysPercent percent =  sysPercentMapper.findByClient(percentData);
             String settleDate = caseList2.get(i).getSettleDate();
             String settleFlag = caseList2.get(i).getSettleFlag();//1 已结清 0 未结清
+            caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
             if ("已结清".equals(settleFlag)){
                 if (type == 1 ||
                         ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
-                   result = result.add(
-                           royaltyCalculate( caseList2.get(i).getEnRepayAmt(), caseList2.get(i).getMoney(),percent));
+                    result = result.add(
+                            royaltyCalculate( caseList2.get(i).getEnRepayAmt(), caseList2.get(i).getMoney(),percent));
                 }
             }
         }
@@ -569,6 +583,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             BigDecimal numHoursPay = new BigDecimal(0);
             BigDecimal numHoursMoney = new BigDecimal(0);
             for (int i = 0; i < caseList3.size(); i++) {
+                caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
                 if (type == 1 ||
                         ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
                     numHoursPay = numHoursPay.add(calHoursValue(caseList3.get(i).getEnRepayAmt()));
@@ -588,6 +603,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      */
     private BigDecimal calHoursValue(BigDecimal value){
         BigDecimal result = new BigDecimal(0);
+        if (value==null){
+            value = new BigDecimal(0);
+        }
         if (value.compareTo(CaseBaseConstant.MLOW) < 0){
             result.add(CaseBaseConstant.H1);
         }else if(value.compareTo(CaseBaseConstant.MMIDDLE) < 0){
@@ -607,6 +625,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      */
     private BigDecimal royaltyCalculate(BigDecimal enRepayAmt,BigDecimal money,SysPercent sysPercent){
         BigDecimal result = new BigDecimal("0.00");
+        if (enRepayAmt==null){
+            enRepayAmt = new BigDecimal(0);
+        }
+        if (money==null){
+            money = new BigDecimal(0);
+        }
         switch (sysPercent.getEnable()){
             case "特殊1"://特殊一
                 if (StringUtils.notEmpty(money) && StringUtils.notEmpty(enRepayAmt) && enRepayAmt.compareTo(money)>=0){
@@ -628,10 +652,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     private BigDecimal calPaidMoney(BigDecimal enRepayAmt,SysPercent sysPercent){
         BigDecimal result = new BigDecimal("0.00");
+        if (enRepayAmt==null){
+            enRepayAmt = new BigDecimal(0);
+        }
         if (enRepayAmt.compareTo(sysPercent.getOdvBasic()) > 0){
             if (enRepayAmt.compareTo(sysPercent.getOdvHighBasic()) < 0 ){
                 result = sysPercent.getOdvBasic().multiply(sysPercent.getOdvLow())
-                       .add((enRepayAmt.subtract(sysPercent.getOdvBasic())).multiply(sysPercent.getOdvReward()));
+                        .add((enRepayAmt.subtract(sysPercent.getOdvBasic())).multiply(sysPercent.getOdvReward()));
             }else {
                 result = sysPercent.getOdvBasic().multiply(sysPercent.getOdvLow())
                         .add(((sysPercent.getOdvHighBasic().subtract(sysPercent.getOdvHighBasic())).multiply(sysPercent.getOdvReward())))
@@ -644,6 +671,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
     private BigDecimal calMoneyOne(BigDecimal enRepayAmt,BigDecimal money,SysPercent sysPercent){
         BigDecimal result = new BigDecimal("0.00");
+        if(enRepayAmt==null){
+            enRepayAmt = new BigDecimal(0);
+        }
         if (enRepayAmt.compareTo(sysPercent.getOdvBasic()) < 0){
             result = money.multiply(sysPercent.getOdvReward())
                     .add(enRepayAmt.subtract(money).multiply(sysPercent.getOdvLow()));
@@ -659,6 +689,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return result;
     }
     private BigDecimal calMoneyTwo(BigDecimal enRepayAmt,BigDecimal money,SysPercent sysPercent){
+        if(enRepayAmt==null){
+            enRepayAmt = new BigDecimal(0);
+        }
         BigDecimal result = new BigDecimal("0.00");
         BigDecimal hourseholdRate = new BigDecimal("0.00");//综合户达率
         hourseholdRate = enRepayAmt.divide(money).setScale(2,BigDecimal.ROUND_UP).multiply(CaseBaseConstant.ROUND);
@@ -701,7 +734,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         String last = sdf1.format(timeEnd.getTime());
         beanInfoData.setMonthEnd(last);//上月最后一天
 
-       //获取上月25号
+        //获取上月25号
         Calendar ca25 = Calendar.getInstance();
         ca25.add(Calendar.MONDAY,-1);
         ca25.set(Calendar.DAY_OF_MONTH, 25);
