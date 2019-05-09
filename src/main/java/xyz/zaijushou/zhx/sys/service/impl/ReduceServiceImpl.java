@@ -48,9 +48,9 @@ public class ReduceServiceImpl implements ReduceService {
             SysDictionaryEntity reduceDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getReduceStatus(), SysDictionaryEntity.class);
             temp.setReduceStatusMsg(reduceDic==null?"":reduceDic.getName());
 
-            temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
-            temp.setApproveRepayAmtMsg(temp.getApproveRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getApproveRepayAmt()+""));
-            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+            temp.setMoneyMsg(temp.getMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getMoney().stripTrailingZeros()+""));
+            temp.setApproveRepayAmtMsg(temp.getApproveRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getApproveRepayAmt().stripTrailingZeros()+""));
+            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros()+""));
 
             list.set(i,temp);
         }

@@ -73,17 +73,9 @@ public class LegalServiceImpl implements LegalService {
                 legalEntity.setProgress("");
                 legalEntity.setProgressMsg("未判决");
             }
-            if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
-                legalEntity.setLegalTypeMsg("未退案");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==1){
-                legalEntity.setLegalTypeMsg("正常");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==2){
-                legalEntity.setLegalTypeMsg("暂停");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==3){
-                legalEntity.setLegalTypeMsg("关档");
-            }else if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==4){
-                legalEntity.setLegalTypeMsg("退档");
-            }
+
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+legalEntity.getLegalType(),SysDictionaryEntity.class);
+            legalEntity.setLegalTypeMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
 
             SysUserEntity user = getUserInfo();
@@ -164,16 +156,28 @@ public class LegalServiceImpl implements LegalService {
             LegalEntity legalEntity = dataCaseEntities.get(i);
             if (legalEntity!=null && legalEntity.getLegalStatus()!=null && legalEntity.getLegalStatus()==1){
                 legalEntity.setLegalStatusMsg("已审核");
+            }else if (legalEntity!=null && legalEntity.getLegalStatus()!=null && legalEntity.getLegalStatus()==-1){
+                legalEntity.setLegalStatusMsg("待审核");
+            }else if (legalEntity!=null && legalEntity.getLegalStatus()!=null && legalEntity.getLegalStatus()==-0){
+                legalEntity.setLegalStatusMsg("办案");
             }else{
-                legalEntity.setLegalStatusMsg("未审核");
+                legalEntity.setLegalStatusMsg("待审核");
             }
-            if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("1")){
-                legalEntity.setProgressMsg("判决");
-            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("2")){
+            if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("filing")){
+                legalEntity.setProgressMsg("立案");
+            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("back")){
                 legalEntity.setProgressMsg("收案");
+            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("presv")){
+                legalEntity.setProgressMsg("保全");
+            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("court")){
+                legalEntity.setProgressMsg("开庭");
+            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("decree")){
+                legalEntity.setProgressMsg("判决");
+            }else if (legalEntity.getProgress()!=null && legalEntity.getProgress().equals("enforce")){
+                legalEntity.setProgressMsg("执行");
             }else{
-                legalEntity.setProgress("");
-                legalEntity.setProgressMsg("未判决");
+                legalEntity.setProgress("back");
+                legalEntity.setProgressMsg("收案");
             }
             if (legalEntity.getLegalType()!=null && legalEntity.getLegalType()==0){
                 legalEntity.setLegalTypeMsg("未退案");

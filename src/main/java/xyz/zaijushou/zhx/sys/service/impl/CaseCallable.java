@@ -67,11 +67,11 @@ public class CaseCallable implements Callable<List<DataCaseEntity>> {
         if (StringUtils.notEmpty(temp.getDistributeHistory())){
             temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
         }
-        temp.setMoneyMsg(temp.getMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
-        temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt()+""));
-        temp.setBalanceMsg(temp.getBalance()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance()+""));
-        temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
-        temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0.00": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
+        temp.setMoneyMsg(temp.getMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getMoney().stripTrailingZeros()+""));
+        temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt().stripTrailingZeros()+""));
+        temp.setBalanceMsg(temp.getBalance()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance().stripTrailingZeros()+""));
+        temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt().stripTrailingZeros()+""));
+        temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros()+""));
         list.set(index,temp);
         return list;
     }

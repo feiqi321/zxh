@@ -104,12 +104,12 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
             collection.setOdv(user == null ? "" : user.getUserName());
         }
 
-        collection.setBankAmtMsg(collection.getBankAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
-        collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
-        collection.setNewMoneyMsg(collection.getNewMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
-        collection.setBalanceMsg(collection.getBalance()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
-        collection.setMoneyMsg(collection.getMoney()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
-        collection.setRepayAmtMsg(collection.getRepayAmt()==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
+        collection.setBankAmtMsg(collection.getBankAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt().stripTrailingZeros()+""));
+        collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt().stripTrailingZeros()+""));
+        collection.setNewMoneyMsg(collection.getNewMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney().stripTrailingZeros()+""));
+        collection.setBalanceMsg(collection.getBalance()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance().stripTrailingZeros()+""));
+        collection.setMoneyMsg(collection.getMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney().stripTrailingZeros()+""));
+        collection.setRepayAmtMsg(collection.getRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt().stripTrailingZeros()+""));
 
         if(collection.getDistributeStatus()==null || collection.getDistributeStatus()==2){
             collection.setDistributeStatusMsg("未分配");

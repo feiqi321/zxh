@@ -225,19 +225,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
 
         int countCase = 0;//列表案量
-        BigDecimal sumMoney = new BigDecimal("0.00");//列表金额
+        BigDecimal sumMoney = new BigDecimal("0");//列表金额
         int countCasePay = 0;//列表还款案量
-        BigDecimal sumPayMoney = new BigDecimal("0.00");//列表还款数额
-        BigDecimal sumRepay = new BigDecimal("0.00");//列表CP值
-        BigDecimal sumBank = new BigDecimal("0.00");//列表PTP值
+        BigDecimal sumPayMoney = new BigDecimal("0");//列表还款数额
+        BigDecimal sumRepay = new BigDecimal("0");//列表CP值
+        BigDecimal sumBank = new BigDecimal("0");//列表PTP值
         List<String> caseIds = new ArrayList<String>();//案件ID数组
         if(StringUtils.isEmpty(list)) {
             collectionReturn.setCountCase(countCase);
             collectionReturn.setCountCasePay(countCasePay);
-            collectionReturn.setSumBank(sumRepay);
-            collectionReturn.setSumMoney(sumMoney);
-            collectionReturn.setSumRepay(sumBank);
-            collectionReturn.setSumPayMoney(sumPayMoney);
+            collectionReturn.setSumBank(sumRepay.stripTrailingZeros());
+            collectionReturn.setSumMoney(sumMoney.stripTrailingZeros());
+            collectionReturn.setSumRepay(sumBank.stripTrailingZeros());
+            collectionReturn.setSumPayMoney(sumPayMoney.stripTrailingZeros());
             webResponse.setData(collectionReturn);
             return  webResponse;
         }
@@ -271,13 +271,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setCountCase(count);
         collectionReturn.setCountCasePay(countCasePay);
         //collectionReturn.setSumBank(sumBank);
-        collectionReturn.setSumBankMsg(sumBank==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumBank+""));
+        collectionReturn.setSumBankMsg(sumBank==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumBank.stripTrailingZeros()+""));
         //collectionReturn.setSumMoney(sumMoney);
-        collectionReturn.setSumMoneyMsg(sumMoney==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumMoney+""));
+        collectionReturn.setSumMoneyMsg(sumMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumMoney.stripTrailingZeros()+""));
         //collectionReturn.setSumRepay(sumRepay);
-        collectionReturn.setSumRepayMsg(sumRepay==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumRepay+""));
+        collectionReturn.setSumRepayMsg(sumRepay==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumRepay.stripTrailingZeros()+""));
         //collectionReturn.setSumPayMoney(sumPayMoney);
-        collectionReturn.setSumPayMoneyMsg(sumPayMoney==null?"￥0.00": "￥"+ FmtMicrometer.fmtMicrometer(sumPayMoney+""));
+        collectionReturn.setSumPayMoneyMsg(sumPayMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumPayMoney.stripTrailingZeros()+""));
         webResponse.setData(collectionReturn);
         webResponse.setTotalNum(count);
         return webResponse;
@@ -353,8 +353,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 Calendar dTime = Calendar.getInstance();
                 dTime.setTime(beanInfo.getDateSearchStart());
                 while(!dTime.getTime().after(beanInfo.getDateSearchEnd())){
-                    bean.setDateStart(sdf.parse(sdf1.format(dTime.getTime()) + sdf2.format(dateStart)));
-                    bean.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())+sdf2.format(dateEnd)));;
+                 /*   bean.setDateStart(sdf.parse(sdf1.format(dTime.getTime()) + sdf2.format(dateStart)));
+                    bean.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())+sdf2.format(dateEnd)));;*/
+                    bean.setDateStart(sdf.parse(sdf2.format(dateStart)));
+                    bean.setDateEnd(sdf.parse(sdf2.format(dateEnd)));;
                     countSum += dataCollectionTelMapper.statisticsCollectionSum(bean);
                     countCon += dataCollectionTelMapper.statisticsCollectionCon(bean);
                     countCase += dataCollectionTelMapper.statisticsCollectionCase(bean);

@@ -56,10 +56,10 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 temp.setRepayType("对公还款");
             }
 
-            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
-            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
-            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
-            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
+            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
+            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
+            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
             pageData.set(i,temp);
         }
         return PageInfo.of(pageData);
@@ -83,10 +83,10 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 temp.setRepayType("对公还款");
             }
 
-            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
-            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
-            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
-            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
+            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney().stripTrailingZeros()+""));
+            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney().stripTrailingZeros()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney().stripTrailingZeros()+""));
+            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt().stripTrailingZeros()+""));
             pageData.set(i,temp);
         }
         return PageInfo.of(pageData);
@@ -249,12 +249,12 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationMapper.listByCaseId(bean);
         for (int i=0;i<list.size();i++){
             DataCaseBankReconciliationEntity temp = list.get(i);
-            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0.00"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney().stripTrailingZeros()+""));
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRepayType(),SysDictionaryEntity.class);
             temp.setRepayType(sysDictionaryEntity.getName());
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
             temp.setRemark(sysDictionaryEntity2.getName());
-            temp.setConfirmMoneyMsg("￥0.00");
+            temp.setConfirmMoneyMsg("￥0");
             list.set(i,temp);
         }
 
