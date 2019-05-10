@@ -1292,11 +1292,8 @@
                 #{item}
             </foreach>
         </if>
-        <if test="batchFlag != null and batchFlag!=''">
-            and c.batch_no in
-            <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
-                #{item}
-            </foreach>
+        <if test="collectStatus != null and collectStatus!=''">
+            AND  c.collect_status = #{collectStatus}
         </if>
 
         <if test="odv != null and odv!=''">

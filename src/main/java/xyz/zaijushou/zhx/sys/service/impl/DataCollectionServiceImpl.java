@@ -406,11 +406,39 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionState(beanInfo);
+        List<CollectionStatistic> resultList = new ArrayList<CollectionStatistic>();
+        CollectionStatistic nullCollectionStatistic = new CollectionStatistic();
         for(CollectionStatistic colInfno : colList){
             if(StringUtils.notEmpty(colInfno.getCollectStatus())){
                 SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ colInfno.getCollectStatus(), SysDictionaryEntity.class);
-                colInfno.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
+                if (collectDic==null || collectDic.getName()==null || collectDic.getName().equals("")){
+                    nullCollectionStatistic.setCollectStatusMsg("未知");
+                    nullCollectionStatistic.setPaidMoney((nullCollectionStatistic.getPaidMoney()==null?new BigDecimal(0):nullCollectionStatistic.getPaidMoney()).add(colInfno.getPaidMoney().stripTrailingZeros()));
+                    nullCollectionStatistic.setCommisionMoney((nullCollectionStatistic.getCommisionMoney()==null?new BigDecimal(0):nullCollectionStatistic.getCommisionMoney()).add(colInfno.getCommisionMoney().stripTrailingZeros()));
+                    nullCollectionStatistic.setSumCase(nullCollectionStatistic.getSumCase()+colInfno.getSumCase());
+                }else {
+                    if (colInfno.getPaidMoney()==null){
+                        colInfno.setPaidMoney(new BigDecimal(0));
+                    }else{
+                        colInfno.setPaidMoney(colInfno.getPaidMoney().stripTrailingZeros());
+                    }
+                    if (colInfno.getCommisionMoney()==null){
+                        colInfno.setCommisionMoney(new BigDecimal(0));
+                    }else{
+                        colInfno.setCommisionMoney(colInfno.getCommisionMoney().stripTrailingZeros());
+                    }
+                    colInfno.setCollectStatusMsg(collectDic == null ? "" : collectDic.getName());
+                    resultList.add(colInfno);
+                }
+            }else{
+                nullCollectionStatistic.setCollectStatusMsg("未知");
+                nullCollectionStatistic.setPaidMoney((nullCollectionStatistic.getPaidMoney()==null?new BigDecimal(0):nullCollectionStatistic.getPaidMoney()).add(colInfno.getPaidMoney().stripTrailingZeros()));
+                nullCollectionStatistic.setCommisionMoney((nullCollectionStatistic.getCommisionMoney()==null?new BigDecimal(0):nullCollectionStatistic.getCommisionMoney()).add(colInfno.getCommisionMoney().stripTrailingZeros()));
+                nullCollectionStatistic.setSumCase(nullCollectionStatistic.getSumCase()+colInfno.getSumCase());
             }
+        }
+        if(StringUtils.notEmpty(nullCollectionStatistic.getCollectStatusMsg())){
+            resultList.add(nullCollectionStatistic);
         }
         int totalPageNum = 0 ;
         if (count%beanInfo.getPageSize()>0){
@@ -420,7 +448,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         webResponse.setTotalNum(count);
         webResponse.setTotalPageNum(totalPageNum);
-        webResponse.setData(colList);
+        webResponse.setData(resultList);
         return webResponse;
     }
 
@@ -450,7 +478,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return webResponse;
         }
         if (beanInfo.getsType() == 0){//查询个人
-            beanInfo.setOdv(user.getUserName());//当前用户
+            beanInfo.setOdv(user.getId()+"");//当前用户
         }
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
