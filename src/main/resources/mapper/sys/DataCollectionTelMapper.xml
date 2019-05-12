@@ -94,25 +94,25 @@
 
     <select id="pageCollectionDay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.StatisticReturn">
         SELECT
-        distinct(dct.odv)
+        distinct(da.odv)
         from
-        data_collection_tel dct
+        data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
 
         <if test="dateStart != null">
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
         </if>
         <if test="area != null and area!=''">
-            AND area like CONCAT('%',#{area},'%')
+            AND da.area like CONCAT('%',#{area},'%')
         </if>
         <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+            AND da.client like CONCAT('%',#{client},'%')
         </if>
         <if test="odvAttr != null">
-            <foreach collection="odvAttr" item="item" separator="," open="and odv in (" close=")">
+            <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
                 #{item}
             </foreach>
         </if>
@@ -120,24 +120,24 @@
 
     <select id="pageCollectionMonth" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.StatisticReturn">
         SELECT
-        distinct(dct.odv)
+        distinct(da.odv)
         from
-        data_collection_tel dct
+        data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and DATE_FORMAT(start_time, '%Y-%m')>=  DATE_FORMAT(#{monthStart}, '%Y-%m')   ]]>
+            <![CDATA[   and DATE_FORMAT(dct.collect_time, '%Y-%m')>=  DATE_FORMAT(#{monthStart}, '%Y-%m')   ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(start_time, '%Y-%m')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m')   ]]>
+            <![CDATA[   and DATE_FORMAT(dct.collect_time, '%Y-%m')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m')   ]]>
         </if>
         <if test="area != null and area!=''">
-            AND area like CONCAT('%',#{area},'%')
+            AND da.area like CONCAT('%',#{area},'%')
         </if>
         <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+            AND da.client like CONCAT('%',#{client},'%')
         </if>
         <if test="odvAttr != null">
-            <foreach collection="odvAttr" item="item" separator="," open="and odv in (" close=")">
+            <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
                 #{item}
             </foreach>
         </if>
@@ -145,24 +145,24 @@
 
     <select id="pageCollectionDayAction" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        distinct(dct.odv)
+        distinct(da.odv)
         from
-        data_collection_tel dct
+        data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
         </if>
         <if test="area != null and area!=''">
-            AND area like CONCAT('%',#{area},'%')
+            AND da.area like CONCAT('%',#{area},'%')
         </if>
         <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+            AND da.client like CONCAT('%',#{client},'%')
         </if>
         <if test="odvAttr != null">
-            <foreach collection="odvAttr" item="item" separator="," open="and odv in (" close=")">
+            <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
                 #{item}
             </foreach>
         </if>
@@ -170,18 +170,18 @@
 
     <select id="countCollectionDayAction" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        result as collectionResult,COUNT(result) as countResult
+        dct.result as collectionResult,COUNT(result) as countResult
         from
-        data_collection_tel dct
+        data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="odv != null and odv!=''">
-            AND odv like CONCAT('%',#{odv},'%')
+            AND da.odv = #{odv}
         </if>
         <if test="dateStart != null">
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
         </if>
         GROUP BY result
     </select>

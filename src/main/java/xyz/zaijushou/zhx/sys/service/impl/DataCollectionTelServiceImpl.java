@@ -2,11 +2,14 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -51,11 +54,13 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 int sumConPhoneNum = 0;//接通电话数
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ conInfo.getOdv(), SysUserEntity.class);
+                conInfo.setOdv(user.getUserName());
                 List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
                 for (String str : timeAreaAttr){
                     CollectionStatistic col = new CollectionStatistic();
                     col.setArea(str);//时间区域
-                    col.setOdv(conInfo.getOdv());
+
                     Date dateStart = sdf2.parse(str.split("-")[0]);
                     Date dateEnd = sdf2.parse(str.split("-")[1]);
                     Calendar dTime = Calendar.getInstance();
@@ -110,6 +115,8 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 int sumConPhoneNum = 0;//接通电话数
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ conInfo.getOdv(), SysUserEntity.class);
+                conInfo.setOdv(user.getUserName());
                 List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
                 Calendar dTime = Calendar.getInstance();
                 Date dateEnd = new Date() ;
@@ -249,7 +256,8 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             return new PageInfo<>();
         }
         for (CollectionStatistic col : list){
-            bean.setOdv(col.getOdv());
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ col.getOdv(), SysUserEntity.class);
+            col.setOdv(user.getUserName());
             List<CollectionStatistic> colData = dataCollectionTelMapper.countCollectionDayAction(bean);
             if (StringUtils.notEmpty(colData)){
                 ConnectionListToInfo(colData,col);

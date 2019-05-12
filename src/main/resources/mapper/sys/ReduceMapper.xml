@@ -46,13 +46,13 @@
     dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,
     dcr.reduce_data as reduceData,dcr.reduce_flag as reduceFlag,dcr.file_name as fileName,dcr.file_uuid as fileUuid
     from
-    data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
+    data_reduce_apply dcr LEFT JOIN data_case dc on dcr.case_id = dc.id
     where dcr.delete_flag = 0 and dcr.seqno is not null
     <if test="area != null and area!=''">
         AND dc.collect_area like CONCAT('%',#{area},'%')
     </if>
     <if test="seqno != null and seqno!=''">
-        AND dcr.seqno like CONCAT('%',#{seqno},'%')
+        AND dc.seqno like CONCAT('%',#{seqno},'%')
     </if>
     <if test="targetName != null and targetName!=''">
         AND dc.name like CONCAT('%',#{targetName},'%')
