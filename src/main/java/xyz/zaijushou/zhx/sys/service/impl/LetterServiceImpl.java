@@ -61,6 +61,7 @@ public class LetterServiceImpl implements LetterService {
 
         for (int i=0;i<list.size();i++){
             Letter temp = list.get(i);
+            temp.setRelationer(temp.getRelationer()==null?"":(temp.getRelationer().equals("null")?"":temp.getRelationer()));
             if (temp.getCollectStatus()==0){
                 temp.setCollectStatusMsg("");
             }else{
@@ -114,6 +115,7 @@ public class LetterServiceImpl implements LetterService {
         }
         for (int i=0;i<list.size();i++){
             Letter temp = list.get(i);
+            temp.setRelationer(temp.getRelationer()==null?"":(temp.getRelationer().equals("null")?"":temp.getRelationer()));
             if (temp.getCollectStatus()==0){
                 temp.setCollectStatusMsg("");
             }else{
@@ -189,6 +191,7 @@ public class LetterServiceImpl implements LetterService {
         List<Letter> list = letterMapper.findByCaseId(letter);
         for(int i=0;i<list.size();i++){
             Letter temp = list.get(i);
+            temp.setRelationer(temp.getRelationer()==null?"":(temp.getRelationer().equals("null")?"":temp.getRelationer()));
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getApplyer(), SysUserEntity.class);
             temp.setApplyer(user==null?"":user.getUserName());
             if (temp.getStatus()==null || temp.getStatus().equals("0")){
