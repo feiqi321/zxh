@@ -124,10 +124,12 @@ public class LetterServiceImpl implements LetterService {
             }
             if(StringUtils.isEmpty(temp.getModule())){
                 temp.setModule("");
+                temp.setModuleId("");
             }else{
                 SysModule sysModule = new SysModule();
                 sysModule.setId(Integer.parseInt(temp.getModule()));
                 SysModule moduleTemp = sysModuleMapper.selectModuleById(sysModule);
+                temp.setModuleId(temp.getModule());
                 temp.setModule(moduleTemp==null?"":moduleTemp.getTitle());
             }
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getApplyer(), SysUserEntity.class);

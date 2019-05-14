@@ -74,6 +74,7 @@ public class Letter extends CommonEntity {
     //信函次数
     private int times;
     //信函模板
+    private String moduleId;
     private String module;
     //信函状态(0待发 1确认申请  2撤销)
     private String status;
@@ -99,6 +100,14 @@ public class Letter extends CommonEntity {
     private Map exportConf;
 
     private List exportKeyList;
+
+    public String getModuleId() {
+        return moduleId;
+    }
+
+    public void setModuleId(String moduleId) {
+        this.moduleId = moduleId;
+    }
 
     public Map getExportConf() {
         return exportConf;

@@ -1199,22 +1199,22 @@
                     </foreach>
                 </if>
                 <if test="name != null and name!='' and queryMethod=='2'.toString()">
-                    AND t.name like CONCAT('%',#{name},'%')
+                    AND t.name = #{name}
                 </if>
                 <if test="cardNo != null and cardNo!='' and queryMethod=='2'.toString()">
-                    AND t.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no = #{cardNo}
                 </if>
                 <if test="unitName != null and unitName!='' and queryMethod=='2'.toString()">
-                    AND t.unit_name like CONCAT('%',#{unitName},'%')
+                    AND t.unit_name = #{unitName}
                 </if>
                 <if test="identNo != null and identNo!='' and queryMethod=='2'.toString()">
-                    AND t.ident_no like CONCAT('%',#{identNo},'%')
+                    AND t.ident_no = #{identNo}
                 </if>
                 <if test="address != null and address!='' and queryMethod=='2'.toString()">
-                    AND d.address like CONCAT('%',#{address},'%')
+                    AND d.address = #{address}
                 </if>
                 <if test="tel != null and tel!='' and queryMethod=='2'.toString()">
-                    AND l.tel like CONCAT('%',#{tel},'%')
+                    AND l.tel = #{tel}
                 </if>
             </trim>
         </where>
@@ -1251,25 +1251,25 @@
                 </if>
 
                 <if test="client != null and client!='' and queryMethod='2'">
-                    AND t.client like CONCAT('%',#{client},'%')
+                    AND t.client = #{client}
                 </if>
                 <if test="name != null and name!='' and queryMethod='2'">
-                    AND t.name like CONCAT('%',#{name},'%')
+                    AND t.name = #{name}
                 </if>
                 <if test="cardNo != null and cardNo!='' and queryMethod='2'">
-                    AND t.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no = #{cardNo}
                 </if>
                 <if test="unitName != null and unitName!='' and queryMethod='2'">
-                    AND t.unit_name like CONCAT('%',#{unitName},'%')
+                    AND t.unit_name = #{unitName}
                 </if>
                 <if test="identNo != null and identNo!='' and queryMethod='2'">
-                    AND t.ident_no like CONCAT('%',#{identNo},'%')
+                    AND t.ident_no = #{identNo}
                 </if>
                 <if test="address != null and address!='' and queryMethod='2'">
-                    AND d.address like CONCAT('%',#{address},'%')
+                    AND d.address = #{address}
                 </if>
                 <if test="tel != null and tel!='' and queryMethod='2'">
-                    AND l.tel like CONCAT('%',#{tel},'%')
+                    AND l.tel  = #{tel}
                 </if>
             </trim>
         </where>
@@ -2567,7 +2567,7 @@
         from data_case da
         where da.delete_flag = 0
         <if test="seqNo != null and seqNo != ''">
-            and da.seq_no like concat('%', #{seqNo}, '%')
+            and da.seq_no = #{seqNo}
         </if>
     </select>
 

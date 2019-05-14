@@ -55,10 +55,6 @@ public class RedisInitConfig implements ApplicationRunner {
 
         List<SysAuthorityEntity> allAuthority = sysAuthorityService.listAllAuthorities(new SysAuthorityEntity());
 
-        List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
-
-        List<DataCaseEntity> allCase = dataCaseMapper.listAllCaseInfo(new DataCaseEntity());
-
         List<SysDictionaryEntity> allDic = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
 
         initUserInfo(allUser);
@@ -66,9 +62,12 @@ public class RedisInitConfig implements ApplicationRunner {
         initButtonInfo(allButton);
         initAuthorityInfo(allAuthority);
         initRoleInfo();
+        initDic(allDic);
+        List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
+        List<DataCaseEntity> allCase = dataCaseMapper.listAllCaseInfo(new DataCaseEntity());
         initBatch(allBatch);
         initCase(allCase);
-        initDic(allDic);
+
     }
     private void initDic(List<SysDictionaryEntity> allDic){
         RedisUtils.refreshDicEntity(allDic, RedisKeyPrefix.SYS_DIC);
