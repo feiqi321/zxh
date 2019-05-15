@@ -55,7 +55,9 @@ public class RedisInitConfig implements ApplicationRunner {
 
         List<SysAuthorityEntity> allAuthority = sysAuthorityService.listAllAuthorities(new SysAuthorityEntity());
 
+
         List<SysDictionaryEntity> allDic = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
+
 
         initUserInfo(allUser);
         initMenuInfo(allMenu);
@@ -63,9 +65,10 @@ public class RedisInitConfig implements ApplicationRunner {
         initAuthorityInfo(allAuthority);
         initRoleInfo();
         initDic(allDic);
+
         List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
-        List<DataCaseEntity> allCase = dataCaseMapper.listAllCaseInfo(new DataCaseEntity());
         initBatch(allBatch);
+        List<DataCaseEntity> allCase = dataCaseMapper.listAllCaseInfo(new DataCaseEntity());
         initCase(allCase);
 
     }

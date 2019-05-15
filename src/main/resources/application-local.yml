@@ -11,7 +11,7 @@ spring:
     host: 116.62.124.251
     port: 7777
     password: redis
-
+    timeout: 20000
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
