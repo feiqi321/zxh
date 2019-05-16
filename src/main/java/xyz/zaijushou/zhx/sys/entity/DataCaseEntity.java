@@ -346,9 +346,20 @@ public class DataCaseEntity extends CommonEntity {
     private String contactUnitTel6;
     private String contactMobile6;
     private String contactUnit6;
+
+    public List<String> getUserName() {
+        return userName;
+    }
+
+    public void setUserName(List<String> userName) {
+        this.userName = userName;
+    }
+
     private String contactAddress6;
     private String contactIdentType6;
     private String contactRelation6;
+
+    private List<String> userName;
 
     public String getRemark1() {
         return remark1;
