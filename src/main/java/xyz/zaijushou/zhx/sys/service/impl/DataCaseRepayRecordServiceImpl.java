@@ -71,6 +71,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         if(!CollectionUtils.isEmpty(dictSet)) {
             List<SysDictionaryEntity> dictList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
             for(SysDictionaryEntity dict : dictList) {
+                if (dict ==null){
+                    continue;
+                }
                 dictMap.put(dict.getId() + "", dict);
             }
         }
@@ -282,6 +285,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
             Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
             for(SysDictionaryEntity entity : clientList) {
+                if (entity==null){
+                    continue;
+                }
                 dictMap.put(entity.getId() + "", entity);
             }
             for (DataCaseRepayRecordEntity entity : list) {

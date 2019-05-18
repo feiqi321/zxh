@@ -26,6 +26,8 @@ public interface LetterService {
 
     public WebResponse findByCaseId(Letter letter);
 
+    public WebResponse updateModule(Letter letter);
+
     public List<LetterExportEntity> pageExportList(Letter letter);
 
     public List<LetterExportEntity> totalExportList(Letter letter);

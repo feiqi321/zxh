@@ -208,6 +208,10 @@ public class LetterServiceImpl implements LetterService {
         return WebResponse.success(list);
     }
 
+    public WebResponse updateModule(Letter letter){
+        letterMapper.updateModule(letter);
+        return WebResponse.success();
+    }
 
     public List<LetterExportEntity> pageExportList(Letter letter){
         String[] clients = letter.getClients();

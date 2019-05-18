@@ -2,6 +2,8 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.common.web.WebResponse;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @Service
 public class DataCollectServiceImpl implements DataCollectService {
+    private static Logger logger = LoggerFactory.getLogger(DataCollectServiceImpl.class);
     @Resource
     private DataCollectionMapper dataCollectionMapper;
 
@@ -38,6 +41,7 @@ public class DataCollectServiceImpl implements DataCollectService {
     }
 
     public WebResponse pageDataCollect(DataCollectionEntity bean){
+        logger.info("组装查询开始");
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = bean.getClients();
         if (clients == null || clients.length==0 || StringUtils.isEmpty(clients[0])){
@@ -63,8 +67,10 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else {
             bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         }
+        logger.info("查询开始");
         List<DataCollectionEntity> list = dataCollectionMapper.pageDataCollect(bean);
         List<DataCollectionEntity> resultList = new ArrayList<DataCollectionEntity>();
+        logger.info("组装结果："+list.size());
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
@@ -90,7 +96,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             resultList.add(temp);
         }
         webResponse.setData(PageInfo.of(resultList));
-
+        logger.info("结束查询："+list.size());
         return webResponse;
     }
 

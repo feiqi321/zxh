@@ -406,6 +406,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     @Override
     public WebResponse pageCaseListOnly(DataCaseEntity dataCaseEntity) throws Exception{
+        logger.info("开始组装查询条件");
         WebResponse webResponse = WebResponse.buildResponse();
         ExecutorService executor = Executors.newFixedThreadPool(20);
         int totalCaseNum=0;
@@ -529,9 +530,10 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setDistributeStatusFlag(null);
         }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
-
+        logger.info("开始查询");
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.pageBatchBoundsCaseList(dataCaseEntity);
+            logger.info("结束查询");
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 totalAmt = totalAmt.add(temp.getMoney());
@@ -553,6 +555,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }else {
             list = dataCaseMapper.pageCaseMangeList(dataCaseEntity);
+            logger.info("结束查询");
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
@@ -575,6 +578,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
 
         }
+        logger.info("完成属性的拼接");
         totalCaseNum = new Long(PageInfo.of(list).getTotal()).intValue();
         CaseResponse caseResponse = new CaseResponse();
         caseResponse.setTotalCaseNum(totalCaseNum);
@@ -585,6 +589,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         caseResponse.setTotalPtp(totalPtp);
         caseResponse.setPageInfo(PageInfo.of(list));
         webResponse.setData(caseResponse);
+        logger.info("开始返回");
         return webResponse;
     }
 
@@ -1717,7 +1722,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setProvince(province);
         }else{
             province = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ province.getId(), SysDictionaryEntity.class);
-            dataCaseDetail.setProvince(province);
+            if (province==null){
+                province = new SysDictionaryEntity();
+                province.setName("");
+                dataCaseDetail.setProvince(province);
+            }else {
+                dataCaseDetail.setProvince(province);
+            }
         }
 
         SysDictionaryEntity city = dataCaseDetail.getCity();
@@ -1726,8 +1737,14 @@ public class DataCaseServiceImpl implements DataCaseService {
             city.setName("");
             dataCaseDetail.setCity(city);
         }else{
-            city = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ city.getId(), SysDictionaryEntity.class);
-            dataCaseDetail.setCity(city);
+            city = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + city.getId(), SysDictionaryEntity.class);
+            if (city==null){
+                city = new SysDictionaryEntity();
+                city.setName("");
+                dataCaseDetail.setCity(city);
+            }else {
+                dataCaseDetail.setCity(city);
+            }
         }
 
         SysDictionaryEntity county = dataCaseDetail.getCounty();
@@ -1737,7 +1754,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setCounty(county);
         }else{
             county = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ county.getId(), SysDictionaryEntity.class);
-            dataCaseDetail.setCounty(county);
+            if (county==null){
+                county = new SysDictionaryEntity();
+                county.setName("");
+                dataCaseDetail.setCounty(county);
+            }else {
+                dataCaseDetail.setCounty(county);
+            }
         }
 
         //电话

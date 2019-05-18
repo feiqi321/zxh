@@ -279,4 +279,13 @@ public class LetterAction {
         return webResponse;
 
     }
+
+    @ApiOperation(value = "修改信函模板", notes = "修改信函模板")
+    @PostMapping("/letter/updateModule")
+    public Object updateModule(@RequestBody Letter bean) {
+
+        WebResponse webResponse = letterService.updateModule(bean);
+        return webResponse;
+
+    }
 }

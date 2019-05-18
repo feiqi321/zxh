@@ -207,19 +207,32 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return webResponse;
         }
         //查询个人  and 查询部门
-        if (dataCollectionEntity.getsType() == 0){
-            dataCollectionEntity.setOdv(user.getId()+"");
-        }else if (dataCollectionEntity.getsType() == 1 && StringUtils.isEmpty(dataCollectionEntity.getDept())){
-            List<Integer> deptList = new ArrayList<Integer>();
-            SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
-            //查询标识
-            organizationEntity.setTypeFlag(1);
-            List<SysOrganizationEntity> orgList =  sysOrganizationService.listChildOrganization(organizationEntity);
-            for (SysOrganizationEntity orgEntity : orgList){
-                deptList.add(orgEntity.getId());
+        if (user.getId()==1){
+
+        }else {
+            if (dataCollectionEntity.getsType() == 0) {
+                dataCollectionEntity.setOdv(user.getId() + "");
+            } else if (dataCollectionEntity.getsType() == 1 && StringUtils.isEmpty(dataCollectionEntity.getDept())) {
+                List<String> deptList = new ArrayList<String>();
+                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+
+                //查询标识
+                organizationEntity.setTypeFlag(1);
+                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization(organizationEntity);
+                for (SysOrganizationEntity orgEntity : orgList) {
+                    deptList.add(orgEntity.getId()+"");
+                }
+                dataCollectionEntity.setDeptFlag(1);
+                SysNewUserEntity queryUser = new SysNewUserEntity();
+                queryUser.setDepartIdsSet(new HashSet(deptList));
+                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+                String[] odvs = new String[odvList.size()];
+                for (int i=0;i<odvList.size();i++){
+                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                    odvs[i] = sysNewUserEntity.getId()+"";
+                }
+                dataCollectionEntity.setOdvs(odvs);
             }
-            dataCollectionEntity.setDeptFlag(1);
-            dataCollectionEntity.setDepts(deptList.toArray(new Integer[deptList.size()]));
         }
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");

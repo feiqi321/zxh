@@ -238,6 +238,11 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+  <update id="updateModule" parameterType="xyz.zaijushou.zhx.sys.entity.Letter" >
+    update letter set module = #{module}
+    where id = #{id}
+  </update>
+
   <update id="confirmSynergy" parameterType="xyz.zaijushou.zhx.sys.entity.Letter">
         update letter set synergy_date=#{synergyDate},synergy_result=#{synergyResult},status=1 where id =#{id}
   </update>

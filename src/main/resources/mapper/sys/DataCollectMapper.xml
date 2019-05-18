@@ -605,6 +605,12 @@
                 <if test="odv != null and odv!=''">
                     AND t.odv = #{odv}
                 </if>
+                <if test="odvs != null and odvs.length > 0">
+                    and t.odv in
+                    <foreach collection="odvs" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -1104,7 +1110,7 @@
             c.delete_flag = 0 and t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  c.dept like CONCAT('%',#{dept},'%')
+                    AND  t.dept like CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
                     AND t.collect_area like CONCAT('%',#{area},'%')

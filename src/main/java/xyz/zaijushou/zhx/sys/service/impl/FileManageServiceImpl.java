@@ -111,7 +111,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCaseInterestEntity.setCaseId(temp.getId());
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
                     temp.setInterestDate(sdf.format(new Date()));
-                    temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt());
+                    temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt()+"");
                     dateCaseMapper.updateInterest(temp);
                 }else{
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
@@ -122,7 +122,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCaseInterestEntity.setCaseId(temp.getId());
                     dataCaseInterestMapper.saveInterest(dataCaseInterestEntity);
                     temp.setInterestDate(sdf.format(new Date()));
-                    temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt());
+                    temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt()+"");
                     dateCaseMapper.updateInterest(temp);
                 }else{
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");

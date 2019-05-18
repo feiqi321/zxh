@@ -145,9 +145,9 @@ public class DataCaseEntity extends CommonEntity {
 
     private String caseDeadline;    //委案期限
 
-    private BigDecimal rmb; //人民币
-    private BigDecimal hkd; //港币
-    private BigDecimal foreignCurrency; //外币
+    private String rmb; //人民币
+    private String hkd; //港币
+    private String foreignCurrency; //外币
     private String gender;  //性别
     private String identType;   //证件类型
     private SysNewUserEntity collectionUser;    //催收员
@@ -172,7 +172,7 @@ public class DataCaseEntity extends CommonEntity {
     private String qq;  //QQ
     private String email;   //邮箱
     private String birthday;    //生日
-    private Integer age;    //年龄
+    private String age;    //年龄
     private SysDictionaryEntity province;   //省份
     private SysDictionaryEntity city;   //城市
     private SysDictionaryEntity county; //区县
@@ -187,45 +187,45 @@ public class DataCaseEntity extends CommonEntity {
     private String accountNo;   //账号
     private String accountName; //账户名称
     private String cardType;    //卡类
-    private BigDecimal principle;   //本金
-    private BigDecimal loanRate;    //贷款利率
+    private String principle;   //本金
+    private String loanRate;    //贷款利率
     private BigDecimal residualPrinciple;    //剩余本金
-    private BigDecimal monthlyRepayments;   //每月还款
-    private BigDecimal minimumPayment;  //最低还款额
-    private BigDecimal creditLine;  //信用额度
-    private BigDecimal fixedQuota;  //固定额度
+    private String monthlyRepayments;   //每月还款
+    private String minimumPayment;  //最低还款额
+    private String creditLine;  //信用额度
+    private String fixedQuota;  //固定额度
     private String defaultLevel;    //拖欠级别
     private BigDecimal lastRepayMoney;  //最后还款金额
     private Date lastRepayDate; //最后还款日
-    private Date lastConsumeDate;   //最后消费日
-    private Date lastWithdrawDate;  //最后提现日
-    private Date stopCardDate;  //停卡日
-    private Date activeCardDate;    //开卡日
+    private String lastConsumeDate;   //最后消费日
+    private String lastWithdrawDate;  //最后提现日
+    private String stopCardDate;  //停卡日
+    private String activeCardDate;    //开卡日
     private String billDate;  //账单日
     private String billCycle;   //账单周期
     private BigDecimal outstandingAmount;  //未出账金额
     private String mainDeputyCard;  //是否主副卡
     private String deputyCardUserName;  //副卡卡人
-    private Date loanDate;    //贷款日期
-    private Date loanDeadline;  //贷款截止日
-    private Date overdueDate;   //逾期日
-    private Double overduePeriods;  //逾期期数
+    private String loanDate;    //贷款日期
+    private String loanDeadline;  //贷款截止日
+    private String overdueDate;   //逾期日
+    private String overduePeriods;  //逾期期数
     private Double overdueDays; //逾期天数
     private Integer overdueTimes;   //曾逾期次数
-    private Double entrustPeriods;  //委案期数
-    private Date repayDeadline; //还款期限
-    private Double repaidPeriods;   //已还期数
+    private String entrustPeriods;  //委案期数
+    private String repayDeadline; //还款期限
+    private String repaidPeriods;   //已还期数
     private String loanType;    //信贷分类
     private String collectionType;  //催收分类
-    private BigDecimal overdueMoney;    //逾期金额
-    private BigDecimal overduePrinciple;    //逾期本金
-    private BigDecimal overdueInterest; //逾期利息
-    private BigDecimal overdueManagementCost;   //逾期管理费
-    private BigDecimal overdueDefaultInterest;  //逾期罚息
-    private BigDecimal penalty; //违约金
-    private BigDecimal lateFee; //滞纳金
-    private BigDecimal overrunFee;  //超限费
-    private BigDecimal bail;    //保证金
+    private String overdueMoney;    //逾期金额
+    private String overduePrinciple;    //逾期本金
+    private String overdueInterest; //逾期利息
+    private String overdueManagementCost;   //逾期管理费
+    private String overdueDefaultInterest;  //逾期罚息
+    private String penalty; //违约金
+    private String lateFee; //滞纳金
+    private String overrunFee;  //超限费
+    private String bail;    //保证金
     private String currencyType;    //币种
     private String lastCollectionRecord;    //原催收记录
     private String overdueBillTime; //逾期账龄
@@ -234,9 +234,9 @@ public class DataCaseEntity extends CommonEntity {
 
     private String contractNo;  //合同编号
     private String dealer;  //经销商
-    private Date applyDate;   //申请日期
-    private Date policyExpiryDate;  //保单到期日
-    private BigDecimal cardPrice;   //车价
+    private String applyDate;   //申请日期
+    private String policyExpiryDate;  //保单到期日
+    private String cardPrice;   //车价
     private String cardModel;   //车型
     private String brand;   //品牌
     private String engineNo;    //发动机号
@@ -255,7 +255,7 @@ public class DataCaseEntity extends CommonEntity {
     //缺少字段
     private String inteviewStatus;    //外访状态
 
-    private BigDecimal latestOverdueMoney;  //最新欠款
+    private String latestOverdueMoney;  //最新欠款
 
     private String interestDate; //利息导入时间
 
@@ -358,6 +358,246 @@ public class DataCaseEntity extends CommonEntity {
     private String contactAddress6;
     private String contactIdentType6;
     private String contactRelation6;
+
+    public String getPrinciple() {
+        return principle;
+    }
+
+    public void setPrinciple(String principle) {
+        this.principle = principle;
+    }
+
+    public String getLoanRate() {
+        return loanRate;
+    }
+
+    public void setLoanRate(String loanRate) {
+        this.loanRate = loanRate;
+    }
+
+    public String getMonthlyRepayments() {
+        return monthlyRepayments;
+    }
+
+    public void setMonthlyRepayments(String monthlyRepayments) {
+        this.monthlyRepayments = monthlyRepayments;
+    }
+
+    public String getMinimumPayment() {
+        return minimumPayment;
+    }
+
+    public void setMinimumPayment(String minimumPayment) {
+        this.minimumPayment = minimumPayment;
+    }
+
+    public String getCreditLine() {
+        return creditLine;
+    }
+
+    public void setCreditLine(String creditLine) {
+        this.creditLine = creditLine;
+    }
+
+    public String getFixedQuota() {
+        return fixedQuota;
+    }
+
+    public void setFixedQuota(String fixedQuota) {
+        this.fixedQuota = fixedQuota;
+    }
+
+    public String getLastConsumeDate() {
+        return lastConsumeDate;
+    }
+
+    public void setLastConsumeDate(String lastConsumeDate) {
+        this.lastConsumeDate = lastConsumeDate;
+    }
+
+    public String getLastWithdrawDate() {
+        return lastWithdrawDate;
+    }
+
+    public void setLastWithdrawDate(String lastWithdrawDate) {
+        this.lastWithdrawDate = lastWithdrawDate;
+    }
+
+    public String getStopCardDate() {
+        return stopCardDate;
+    }
+
+    public void setStopCardDate(String stopCardDate) {
+        this.stopCardDate = stopCardDate;
+    }
+
+    public String getActiveCardDate() {
+        return activeCardDate;
+    }
+
+    public void setActiveCardDate(String activeCardDate) {
+        this.activeCardDate = activeCardDate;
+    }
+
+    public String getLoanDate() {
+        return loanDate;
+    }
+
+    public void setLoanDate(String loanDate) {
+        this.loanDate = loanDate;
+    }
+
+    public String getLoanDeadline() {
+        return loanDeadline;
+    }
+
+    public void setLoanDeadline(String loanDeadline) {
+        this.loanDeadline = loanDeadline;
+    }
+
+    public String getOverdueDate() {
+        return overdueDate;
+    }
+
+    public void setOverdueDate(String overdueDate) {
+        this.overdueDate = overdueDate;
+    }
+
+    public String getOverduePeriods() {
+        return overduePeriods;
+    }
+
+    public void setOverduePeriods(String overduePeriods) {
+        this.overduePeriods = overduePeriods;
+    }
+
+    public String getEntrustPeriods() {
+        return entrustPeriods;
+    }
+
+    public void setEntrustPeriods(String entrustPeriods) {
+        this.entrustPeriods = entrustPeriods;
+    }
+
+    public String getRepayDeadline() {
+        return repayDeadline;
+    }
+
+    public void setRepayDeadline(String repayDeadline) {
+        this.repayDeadline = repayDeadline;
+    }
+
+    public String getRepaidPeriods() {
+        return repaidPeriods;
+    }
+
+    public void setRepaidPeriods(String repaidPeriods) {
+        this.repaidPeriods = repaidPeriods;
+    }
+
+    public String getOverdueMoney() {
+        return overdueMoney;
+    }
+
+    public void setOverdueMoney(String overdueMoney) {
+        this.overdueMoney = overdueMoney;
+    }
+
+    public String getOverduePrinciple() {
+        return overduePrinciple;
+    }
+
+    public void setOverduePrinciple(String overduePrinciple) {
+        this.overduePrinciple = overduePrinciple;
+    }
+
+    public String getOverdueInterest() {
+        return overdueInterest;
+    }
+
+    public void setOverdueInterest(String overdueInterest) {
+        this.overdueInterest = overdueInterest;
+    }
+
+    public String getOverdueManagementCost() {
+        return overdueManagementCost;
+    }
+
+    public void setOverdueManagementCost(String overdueManagementCost) {
+        this.overdueManagementCost = overdueManagementCost;
+    }
+
+    public String getOverdueDefaultInterest() {
+        return overdueDefaultInterest;
+    }
+
+    public void setOverdueDefaultInterest(String overdueDefaultInterest) {
+        this.overdueDefaultInterest = overdueDefaultInterest;
+    }
+
+    public String getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(String penalty) {
+        this.penalty = penalty;
+    }
+
+    public String getLateFee() {
+        return lateFee;
+    }
+
+    public void setLateFee(String lateFee) {
+        this.lateFee = lateFee;
+    }
+
+    public String getOverrunFee() {
+        return overrunFee;
+    }
+
+    public void setOverrunFee(String overrunFee) {
+        this.overrunFee = overrunFee;
+    }
+
+    public String getBail() {
+        return bail;
+    }
+
+    public void setBail(String bail) {
+        this.bail = bail;
+    }
+
+    public String getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(String applyDate) {
+        this.applyDate = applyDate;
+    }
+
+    public String getPolicyExpiryDate() {
+        return policyExpiryDate;
+    }
+
+    public void setPolicyExpiryDate(String policyExpiryDate) {
+        this.policyExpiryDate = policyExpiryDate;
+    }
+
+    public String getCardPrice() {
+        return cardPrice;
+    }
+
+    public void setCardPrice(String cardPrice) {
+        this.cardPrice = cardPrice;
+    }
+
+    public String getLatestOverdueMoney() {
+        return latestOverdueMoney;
+    }
+
+    public void setLatestOverdueMoney(String latestOverdueMoney) {
+        this.latestOverdueMoney = latestOverdueMoney;
+    }
 
     private List<String> userName;
 
@@ -1850,28 +2090,32 @@ public class DataCaseEntity extends CommonEntity {
         this.caseDeadline = caseDeadline;
     }
 
-    public BigDecimal getRmb() {
+    public String getRmb() {
         return rmb;
     }
 
-    public void setRmb(BigDecimal rmb) {
+    public void setRmb(String rmb) {
         this.rmb = rmb;
     }
 
-    public BigDecimal getHkd() {
+    public String getHkd() {
         return hkd;
     }
 
-    public void setHkd(BigDecimal hkd) {
+    public void setHkd(String hkd) {
         this.hkd = hkd;
     }
 
-    public BigDecimal getForeignCurrency() {
+    public String getForeignCurrency() {
         return foreignCurrency;
     }
 
-    public void setForeignCurrency(BigDecimal foreignCurrency) {
+    public void setForeignCurrency(String foreignCurrency) {
         this.foreignCurrency = foreignCurrency;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public String getGender() {
@@ -2042,12 +2286,8 @@ public class DataCaseEntity extends CommonEntity {
         this.birthday = birthday;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public SysDictionaryEntity getProvince() {
@@ -2154,21 +2394,6 @@ public class DataCaseEntity extends CommonEntity {
         this.cardType = cardType;
     }
 
-    public BigDecimal getPrinciple() {
-        return principle;
-    }
-
-    public void setPrinciple(BigDecimal principle) {
-        this.principle = principle;
-    }
-
-    public BigDecimal getLoanRate() {
-        return loanRate;
-    }
-
-    public void setLoanRate(BigDecimal loanRate) {
-        this.loanRate = loanRate;
-    }
 
     public BigDecimal getResidualPrinciple() {
         return residualPrinciple;
@@ -2178,37 +2403,7 @@ public class DataCaseEntity extends CommonEntity {
         this.residualPrinciple = residualPrinciple;
     }
 
-    public BigDecimal getMonthlyRepayments() {
-        return monthlyRepayments;
-    }
 
-    public void setMonthlyRepayments(BigDecimal monthlyRepayments) {
-        this.monthlyRepayments = monthlyRepayments;
-    }
-
-    public BigDecimal getMinimumPayment() {
-        return minimumPayment;
-    }
-
-    public void setMinimumPayment(BigDecimal minimumPayment) {
-        this.minimumPayment = minimumPayment;
-    }
-
-    public BigDecimal getCreditLine() {
-        return creditLine;
-    }
-
-    public void setCreditLine(BigDecimal creditLine) {
-        this.creditLine = creditLine;
-    }
-
-    public BigDecimal getFixedQuota() {
-        return fixedQuota;
-    }
-
-    public void setFixedQuota(BigDecimal fixedQuota) {
-        this.fixedQuota = fixedQuota;
-    }
 
     public String getDefaultLevel() {
         return defaultLevel;
@@ -2232,38 +2427,6 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setLastRepayDate(Date lastRepayDate) {
         this.lastRepayDate = lastRepayDate;
-    }
-
-    public Date getLastConsumeDate() {
-        return lastConsumeDate;
-    }
-
-    public void setLastConsumeDate(Date lastConsumeDate) {
-        this.lastConsumeDate = lastConsumeDate;
-    }
-
-    public Date getLastWithdrawDate() {
-        return lastWithdrawDate;
-    }
-
-    public void setLastWithdrawDate(Date lastWithdrawDate) {
-        this.lastWithdrawDate = lastWithdrawDate;
-    }
-
-    public Date getStopCardDate() {
-        return stopCardDate;
-    }
-
-    public void setStopCardDate(Date stopCardDate) {
-        this.stopCardDate = stopCardDate;
-    }
-
-    public Date getActiveCardDate() {
-        return activeCardDate;
-    }
-
-    public void setActiveCardDate(Date activeCardDate) {
-        this.activeCardDate = activeCardDate;
     }
 
     public String getBillCycle() {
@@ -2298,37 +2461,6 @@ public class DataCaseEntity extends CommonEntity {
         this.deputyCardUserName = deputyCardUserName;
     }
 
-    public Date getLoanDate() {
-        return loanDate;
-    }
-
-    public void setLoanDate(Date loanDate) {
-        this.loanDate = loanDate;
-    }
-
-    public Date getLoanDeadline() {
-        return loanDeadline;
-    }
-
-    public void setLoanDeadline(Date loanDeadline) {
-        this.loanDeadline = loanDeadline;
-    }
-
-    public Date getOverdueDate() {
-        return overdueDate;
-    }
-
-    public void setOverdueDate(Date overdueDate) {
-        this.overdueDate = overdueDate;
-    }
-
-    public Double getOverduePeriods() {
-        return overduePeriods;
-    }
-
-    public void setOverduePeriods(Double overduePeriods) {
-        this.overduePeriods = overduePeriods;
-    }
 
     public Double getOverdueDays() {
         return overdueDays;
@@ -2346,29 +2478,7 @@ public class DataCaseEntity extends CommonEntity {
         this.overdueTimes = overdueTimes;
     }
 
-    public Double getEntrustPeriods() {
-        return entrustPeriods;
-    }
 
-    public void setEntrustPeriods(Double entrustPeriods) {
-        this.entrustPeriods = entrustPeriods;
-    }
-
-    public Date getRepayDeadline() {
-        return repayDeadline;
-    }
-
-    public void setRepayDeadline(Date repayDeadline) {
-        this.repayDeadline = repayDeadline;
-    }
-
-    public Double getRepaidPeriods() {
-        return repaidPeriods;
-    }
-
-    public void setRepaidPeriods(Double repaidPeriods) {
-        this.repaidPeriods = repaidPeriods;
-    }
 
     public String getLoanType() {
         return loanType;
@@ -2386,77 +2496,10 @@ public class DataCaseEntity extends CommonEntity {
         this.collectionType = collectionType;
     }
 
-    public BigDecimal getOverdueMoney() {
-        return overdueMoney;
-    }
 
-    public void setOverdueMoney(BigDecimal overdueMoney) {
-        this.overdueMoney = overdueMoney;
-    }
 
-    public BigDecimal getOverduePrinciple() {
-        return overduePrinciple;
-    }
 
-    public void setOverduePrinciple(BigDecimal overduePrinciple) {
-        this.overduePrinciple = overduePrinciple;
-    }
 
-    public BigDecimal getOverdueInterest() {
-        return overdueInterest;
-    }
-
-    public void setOverdueInterest(BigDecimal overdueInterest) {
-        this.overdueInterest = overdueInterest;
-    }
-
-    public BigDecimal getOverdueManagementCost() {
-        return overdueManagementCost;
-    }
-
-    public void setOverdueManagementCost(BigDecimal overdueManagementCost) {
-        this.overdueManagementCost = overdueManagementCost;
-    }
-
-    public BigDecimal getOverdueDefaultInterest() {
-        return overdueDefaultInterest;
-    }
-
-    public void setOverdueDefaultInterest(BigDecimal overdueDefaultInterest) {
-        this.overdueDefaultInterest = overdueDefaultInterest;
-    }
-
-    public BigDecimal getPenalty() {
-        return penalty;
-    }
-
-    public void setPenalty(BigDecimal penalty) {
-        this.penalty = penalty;
-    }
-
-    public BigDecimal getLateFee() {
-        return lateFee;
-    }
-
-    public void setLateFee(BigDecimal lateFee) {
-        this.lateFee = lateFee;
-    }
-
-    public BigDecimal getOverrunFee() {
-        return overrunFee;
-    }
-
-    public void setOverrunFee(BigDecimal overrunFee) {
-        this.overrunFee = overrunFee;
-    }
-
-    public BigDecimal getBail() {
-        return bail;
-    }
-
-    public void setBail(BigDecimal bail) {
-        this.bail = bail;
-    }
 
     public String getCurrencyType() {
         return currencyType;
@@ -2506,29 +2549,6 @@ public class DataCaseEntity extends CommonEntity {
         this.dealer = dealer;
     }
 
-    public Date getApplyDate() {
-        return applyDate;
-    }
-
-    public void setApplyDate(Date applyDate) {
-        this.applyDate = applyDate;
-    }
-
-    public Date getPolicyExpiryDate() {
-        return policyExpiryDate;
-    }
-
-    public void setPolicyExpiryDate(Date policyExpiryDate) {
-        this.policyExpiryDate = policyExpiryDate;
-    }
-
-    public BigDecimal getCardPrice() {
-        return cardPrice;
-    }
-
-    public void setCardPrice(BigDecimal cardPrice) {
-        this.cardPrice = cardPrice;
-    }
 
     public String getCardModel() {
         return cardModel;
@@ -2570,13 +2590,6 @@ public class DataCaseEntity extends CommonEntity {
         this.inteviewStatus = inteviewStatus;
     }
 
-    public BigDecimal getLatestOverdueMoney() {
-        return latestOverdueMoney;
-    }
-
-    public void setLatestOverdueMoney(BigDecimal latestOverdueMoney) {
-        this.latestOverdueMoney = latestOverdueMoney;
-    }
 
     public String getLastCall() {
         return lastCall;

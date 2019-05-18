@@ -203,6 +203,9 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
             Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
             for(SysDictionaryEntity entity : clientList) {
+                if (entity==null){
+                    continue;
+                }
                 dictMap.put(entity.getId() + "", entity);
             }
             for (DataCaseBankReconciliationEntity entity : list) {

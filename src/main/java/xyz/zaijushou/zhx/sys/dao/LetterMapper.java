@@ -31,6 +31,7 @@ public interface LetterMapper {
 
     List<Letter> findByCaseId(Letter letter);
 
+    void updateModule(Letter letter);
 
     int updateByPrimaryKeySelective(Letter record);
 
