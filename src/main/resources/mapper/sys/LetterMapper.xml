@@ -301,10 +301,10 @@
               <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
             </if>
             <if test="applyDateStart != null and applyDateStart!=''">
-              <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+              <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
             </if>
             <if test="applyDateEnd != null and applyDateEnd!=''" >
-              <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+              <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
             </if>
           </trim>
         </where>
@@ -359,10 +359,10 @@
           <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
         </if>
         <if test="applyDateStart != null and applyDateStart!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
         </if>
         <if test="applyDateEnd != null and applyDateEnd!=''" >
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
         </if>
       </trim>
     </where>
@@ -417,10 +417,10 @@
           <![CDATA[   and d.money >=  #{caseAmtEnd}   ]]>
         </if>
         <if test="applyDateStart != null and applyDateStart!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
         </if>
         <if test="applyDateEnd != null and applyDateEnd!=''" >
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
         </if>
       </trim>
     </where>
@@ -483,10 +483,10 @@
           <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
         </if>
         <if test="applyDateStart != null and applyDateStart!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
         </if>
         <if test="applyDateEnd != null and applyDateEnd!=''" >
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
         </if>
       </trim>
     </where>
@@ -540,10 +540,10 @@
           <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
         </if>
         <if test="applyDateStart != null and applyDateStart!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
         </if>
         <if test="applyDateEnd != null and applyDateEnd!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
         </if>
       </trim>
     </where>
@@ -597,10 +597,10 @@
           <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
         </if>
         <if test="applyDateStart != null and applyDateStart!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
         </if>
         <if test="applyDateEnd != null and applyDateEnd!=''" >
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
         </if>
       </trim>
     </where>
@@ -654,10 +654,10 @@
           <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
         </if>
         <if test="applyDateStart != null and applyDateStart!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')>=  DATE_FORMAT(#{applyDateStart}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
         </if>
         <if test="applyDateEnd != null and applyDateEnd!=''">
-          <![CDATA[   and DATE_FORMAT(d.synergy_date, '%Y-%m-%d')<=  DATE_FORMAT(#{applyDateEnd}, '%Y-%m-%d')   ]]>
+          <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
         </if>
       </trim>
     </where>

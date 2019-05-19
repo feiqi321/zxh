@@ -14,8 +14,8 @@
         actual_time as actualTime,
         email as email,
         remark as remark,
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        create_user as [createUser.id],
+        update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag
@@ -33,8 +33,8 @@
         login_fail_times as loginFailTimes,
         remark as remark,
         enable,
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        create_user as [createUser.id],
+        update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag
@@ -94,8 +94,8 @@
         address,
         status,
 
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        create_user as [createUser.id],
+        update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag
@@ -171,16 +171,16 @@
 
     <select id="listAllUserRoles" parameterType="xyz.zaijushou.zhx.sys.entity.SysToUserRole" resultType="xyz.zaijushou.zhx.sys.entity.SysToUserRole">
         select
-            user_id as 'user.id',
-            role_id as 'role.id'
+            user_id as [user.id],
+            role_id as [role.id]
         from sys_user_role
         where delete_flag = '0'
     </select>
 
     <select id="listAllUserRolesByUserId" parameterType="xyz.zaijushou.zhx.sys.entity.SysToUserRole" resultType="xyz.zaijushou.zhx.sys.entity.SysToUserRole">
         select
-        user_id as 'user.id',
-        role_id as 'role.id'
+        user_id as [user.id],
+        role_id as [role.id]
         from sys_user_role
         where delete_flag = '0' and user_id = #{user.id}
     </select>
@@ -221,7 +221,7 @@
 
     <insert id="saveNewUser"  parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" useGeneratedKeys="true" keyProperty="id">
         <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -264,7 +264,7 @@
             <if test="position != null">#{position},</if>
             <if test="loginNameCount != null">#{loginNameCount},</if>
             0,
-            now(),
+            GETDATE(),
         </trim>
     </insert>
 
@@ -341,7 +341,8 @@
         su.position
         from
         (
-        select * from sys_user where delete_flag = 0
+        select top ${pageSize} *  from (
+        SELECT  row_number() over(ORDER BY ${orderBy} ${sort}) as rownumber,* FROM sys_user WHERE delete_flag = 0
         <if test="status != null ">
             AND  status = #{status,jdbcType=INTEGER}
         </if>
@@ -360,8 +361,8 @@
         <if test="userName != null and userName!=''">
             AND  username like CONCAT('%',#{userName},'%')
         </if>
-        order by ${orderBy} ${sort}
-        limit ${pageNum},${pageSize}
+        ) temp_row
+        where rownumber>((${pageNum}-1)*${pageSize})
         )su
         LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
@@ -391,8 +392,8 @@
            select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
         su.status,su.enable,su.username as userName,so.org_name department,
-        su.create_time as createTime,su.create_user as 'createUser.id',
-        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.create_time as createTime,su.create_user as [createUser.id],
+        su.update_user as [updateUser.id],su.update_time as updateTime,
         su.delete_flag as deleteFlag,
         sr.role_name as role,
         su.leave_time as leaveTime,su.actual_time as actualTime,
@@ -411,8 +412,8 @@
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
         su.status,su.enable,su.username as userName,
-        su.create_time as createTime,su.create_user as 'createUser.id',
-        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.create_time as createTime,su.create_user as [createUser.id],
+        su.update_user as [updateUser.id],su.update_time as updateTime,
         su.delete_flag as deleteFlag,
         sr.role_name as role,
         su.leave_time as leaveTime
@@ -591,8 +592,8 @@
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_name as loginName,
         su.status,su.enable,su.username as userName,so.org_name department,
-        su.create_time as createTime,su.create_user as 'createUser.id',
-        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.create_time as createTime,su.create_user as [createUser.id],
+        su.update_user as [updateUser.id],su.update_time as updateTime,
         su.delete_flag as deleteFlag,
         sr.role_name as role,
         su.leave_time as leaveTime,

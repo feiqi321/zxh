@@ -7,7 +7,7 @@
     <!--插入数据信息-->
     <insert id="saveModule" parameterType="xyz.zaijushou.zhx.sys.entity.SysModule" >
         <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         replace  into sys_module
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -21,7 +21,7 @@
             <if test="title != null">#{title},</if>
             <if test="context != null">#{context},</if>
             0,
-            now(),
+            GETDATE(),
         </trim>
     </insert>
 

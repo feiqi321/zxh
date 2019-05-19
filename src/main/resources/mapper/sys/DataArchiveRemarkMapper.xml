@@ -7,7 +7,7 @@
     <!--插入数据信息-->
     <insert id="saveRemark" parameterType="xyz.zaijushou.zhx.sys.entity.DataArchiveRemarkEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert into data_archive_remark
         <trim prefix="(" suffix=")" suffixOverrides=",">

@@ -7,7 +7,7 @@
     <!--插入数据信息-->
     <insert id="saveTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert into data_collection_tel
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -100,10 +100,10 @@
         where dct.delete_flag = 0
 
         <if test="dateStart != null">
-            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
         </if>
         <if test="area != null and area!=''">
             AND da.area like CONCAT('%',#{area},'%')
@@ -125,10 +125,10 @@
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and DATE_FORMAT(dct.collect_time, '%Y-%m')>=  DATE_FORMAT(#{monthStart}, '%Y-%m')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dct.collect_time, 'YYYY-MM')>=  dbo.fnFormatDate(#{monthStart}, 'YYYY-MM')   ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(dct.collect_time, '%Y-%m')<=  DATE_FORMAT(#{monthEnd}, '%Y-%m')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dct.collect_time, 'YYYY-MM')<=  dbo.fnFormatDate(#{monthEnd}, 'YYYY-MM')   ]]>
         </if>
         <if test="area != null and area!=''">
             AND da.area like CONCAT('%',#{area},'%')
@@ -150,10 +150,10 @@
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
         </if>
         <if test="area != null and area!=''">
             AND da.area like CONCAT('%',#{area},'%')
@@ -178,10 +178,10 @@
             AND da.odv = #{odv}
         </if>
         <if test="dateStart != null">
-            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(dct.collect_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
         </if>
         GROUP BY result
     </select>
@@ -193,10 +193,10 @@
         from data_collection_tel dct
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &gt;= DATE_FORMAT(#{dateStart}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
         </if>
         <if test="dateEnd != null" >
-            and DATE_FORMAT(dct.start_time, '%Y-%m-%d') &lt;= DATE_FORMAT(#{dateEnd}, '%Y-%m-%d')
+            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
         </if>
         <if test="odv != null and odv!=''">
             AND odv like CONCAT('%',#{odv},'%')

@@ -81,7 +81,7 @@ public class ExcelBatchExportConstant {
         COL80("uploadTime", "上传时间", "upload_time as uploadTime", String.class),
         COL90("userCount", "户数", "user_count as userCount", String.class),
         COL100("totalAmt", "总金额", "total_amt as totalAmt",  BigDecimal.class),
-        COL110("createTime", "录入时间", "DATE_FORMAT(create_time,'%Y-%m-%d %H:%i:%S') as createTime",  String.class),
+        COL110("createTime", "录入时间", "format(create_time,'yyyy-MM-dd HH:mm:ss') as createTime",  String.class),
         COL120("creatUser", "录入人员", "create_user as creatUser",  String.class),
         COL130("remark", "备注", "remark",  String.class),
         ;

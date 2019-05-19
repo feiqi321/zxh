@@ -68,8 +68,8 @@
         unit as unit,
         sort as sort,
         remark as remark,
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        create_user as '[createUser.id]',
+        update_user as '[updateUser.id]',
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag

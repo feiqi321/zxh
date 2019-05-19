@@ -7,7 +7,7 @@
     <sql id="colSql">
         id as id,
         menu_label as menuLabel,
-        parent_id as 'parent.id',
+        parent_id as [parent.id],
         menu_url as menuUrl,
         menu_level as menuLevel,
         leaf_node as leafNode,
@@ -15,8 +15,8 @@
         menu_icon as menuIcon,
         sort as sort,
         remark as remark,
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        create_user as [createUser.id],
+        update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag

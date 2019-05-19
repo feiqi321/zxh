@@ -6,46 +6,46 @@
 
     <sql id="colSql">
         r.id as id,
-        r.data_case as 'dataCase.id',
-        c.collect_status as 'dataCase.collectStatus',
-        c.batch_no as 'dataCase.batchNo',
-        c.client as 'dataCase.client',
-        c.seq_no as 'dataCase.seqNo',
-        c.ident_no as 'dataCase.identNo',
-        c.card_no as 'dataCase.cardNo',
-        c.card_type as 'dataCase.cardType',
-        c.account as 'dataCase.account',
-        c.currency_type as 'dataCase.currencyType',
-        c.archive_no as 'dataCase.archiveNo',
-        c.name as 'dataCase.name',
-        c.money as 'dataCase.money',
-        c.balance as 'dataCase.balance',
-        c.en_repay_amt as 'dataCase.enRepayAmt',
-        c.account_age as 'dataCase.overdueBillTime',
-        c.principle as 'dataCase.principle',
-        c.last_repay_date as 'dataCase.lastRepayDate',
-        c.case_date as 'dataCase.caseDate',
-        c.odv as 'dataCase.collectionUser.id',
-        c.credit_line as 'dataCase.creditLine',
-        c.home_address as 'dataCase.homeAddress',
-        c.home_tel_number as 'dataCase.homeTelNumber',
-        c.unit_name as 'dataCase.unitName',
-        c.unit_address as 'dataCase.unitAddress',
-        c.tel as 'dataCase.tel',
-        c.unit_tel_number as 'dataCase.unitTelNumber',
-        c.m_val as 'dataCase.mVal',
-        c.commission_money as 'dataCase.commissionMoney',
-        r.collect_user as 'collectUser.id',
+        r.data_case as [dataCase.id],
+        c.collect_status as [dataCase.collectStatus],
+        c.batch_no as [dataCase.batchNo],
+        c.client as [dataCase.client],
+        c.seq_no as [dataCase.seqNo],
+        c.ident_no as [dataCase.identNo],
+        c.card_no as [dataCase.cardNo],
+        c.card_type as [dataCase.cardType],
+        c.account as [dataCase.account],
+        c.currency_type as [dataCase.currencyType],
+        c.archive_no as [dataCase.archiveNo],
+        c.name as [dataCase.name],
+        c.money as [dataCase.money],
+        c.balance as [dataCase.balance],
+        c.en_repay_amt as [dataCase.enRepayAmt],
+        c.account_age as [dataCase.overdueBillTime],
+        c.principle as [dataCase.principle],
+        c.last_repay_date as [dataCase.lastRepayDate],
+        c.case_date as [dataCase.caseDate],
+        c.odv as [dataCase.collectionUser.id],
+        c.credit_line as [dataCase.creditLine],
+        c.home_address as [dataCase.homeAddress],
+        c.home_tel_number as [dataCase.homeTelNumber],
+        c.unit_name as [dataCase.unitName],
+        c.unit_address as [dataCase.unitAddress],
+        c.tel as [dataCase.tel],
+        c.unit_tel_number as [dataCase.unitTelNumber],
+        c.m_val as [dataCase.mVal],
+        c.commission_money as [dataCase.commissionMoney],
+        r.collect_user as [collectUser.id],
         r.repay_date as repayDate,
         r.repay_money as repayMoney,
         r.repay_user as repayUser,
-        r.repay_type as 'repayType.id',
-        r.confirm_user as 'confirmUser.id',
+        r.repay_type as [repayType.id],
+        r.confirm_user as [confirmUser.id],
         r.confirm_time as confirmTime,
         r.record_status as recordStatus,
         r.remark as remark,
-        r.create_user as 'createUser.id',
-        r.update_user as 'updateUser.id',
+        r.create_user as [createUser.id],
+        r.update_user as [updateUser.id],
         r.create_time as createTime,
         r.update_time as updateTime,
         r.delete_flag as deleteFlag
@@ -156,8 +156,8 @@
 
     <select id="queryCaseSum" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
-        ifnull(sum(t.m_val), 0) as 'dataCase.mVal',
-        ifnull(sum(t.commission_money),0) as 'dataCase.commissionMoney'
+        ifnull(sum(t.m_val), 0) as '[.mVal],
+        ifnull(sum(t.commission_money),0) as [dataCase.commissionMoney]
         from (
         select
         distinct c.id, c.m_val, c.commission_money
@@ -752,8 +752,8 @@
     <select id="listBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
         id as id,
-        settle_flag as 'settleFlag',
-        repay_money as 'repayMoney'
+        settle_flag as [settleFlag],
+        repay_money as [repayMoney]
         from data_case_repay_record
         where data_case = #{dataCase.id}
         and record_status = 0
@@ -763,7 +763,7 @@
     <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
             id as id,
-            data_case as 'dataCase.id'
+            data_case as [dataCase.id]
         from data_case_repay_record
         where id = #{id}
         and delete_flag = 0

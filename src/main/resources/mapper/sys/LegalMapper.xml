@@ -448,7 +448,7 @@
   </update>
 
   <delete id="checkLegal" parameterType="xyz.zaijushou.zhx.sys.entity.LegalEntity" >
-    update legal set legal_status = #{legalStatus},owner = #{owner},checker=#{checker},check_date=now()
+    update legal set legal_status = #{legalStatus},owner = #{owner},checker=#{checker},check_date=GETDATE()
     where id = #{id}
   </delete>
 

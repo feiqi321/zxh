@@ -7,7 +7,7 @@
     <!--插入数据信息-->
     <insert id="saveRepay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert into data_case_repay
         <trim prefix="(" suffix=")" suffixOverrides=",">

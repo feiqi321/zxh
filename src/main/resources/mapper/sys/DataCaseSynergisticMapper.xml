@@ -6,45 +6,45 @@
 
     <sql id="colSql">
         s.id as id,
-        s.case_id as 'dataCase.id',
-        c.collect_status as 'dataCase.collectStatus',
-        c.batch_no as 'dataCase.batchNo',
-        c.client as 'dataCase.client',
-        c.seq_no as 'dataCase.seqNo',
-        c.ident_no as 'dataCase.identNo',
-        c.card_no as 'dataCase.cardNo',
-        c.card_type as 'dataCase.cardType',
-        c.account as 'dataCase.account',
-        c.currency_type as 'dataCase.currencyType',
-        c.archive_no as 'dataCase.archiveNo',
-        c.name as 'dataCase.name',
-        c.money as 'dataCase.money',
-        c.en_repay_amt as 'dataCase.enRepayAmt',
-        c.principle as 'dataCase.principle',
-        c.last_repay_date as 'dataCase.lastRepayDate',
-        c.case_date as 'dataCase.caseDate',
-        c.collection_user as 'dataCase.collectionUser.id',
-        c.credit_line as 'dataCase.creditLine',
-        c.home_address as 'dataCase.homeAddress',
-        c.home_tel_number as 'dataCase.homeTelNumber',
-        c.unit_name as 'dataCase.unitName',
-        c.unit_address as 'dataCase.unitAddress',
-        c.tel as 'dataCase.tel',
-        c.unit_tel_number as 'dataCase.unitTelNumber',
-        s.synergistic_type as 'synergisticType.id',
+        s.case_id as [dataCase.id],
+        c.collect_status as [dataCase.collectStatus],
+        c.batch_no as [dataCase.batchNo],
+        c.client as [dataCase.client],
+        c.seq_no as [dataCase.seqNo],
+        c.ident_no as [dataCase.identNo],
+        c.card_no as [dataCase.cardNo],
+        c.card_type as [dataCase.cardType],
+        c.account as [dataCase.account],
+        c.currency_type as [dataCase.currencyType],
+        c.archive_no as [dataCase.archiveNo],
+        c.name as [dataCase.name],
+        c.money as [dataCase.money],
+        c.en_repay_amt as [dataCase.enRepayAmt],
+        c.principle as [dataCase.principle],
+        c.last_repay_date as [dataCase.lastRepayDate],
+        c.case_date as [dataCase.caseDate],
+        c.collection_user as [dataCase.collectionUser.id],
+        c.credit_line as [dataCase.creditLine],
+        c.home_address as [dataCase.homeAddress],
+        c.home_tel_number as [dataCase.homeTelNumber],
+        c.unit_name as [dataCase.unitName],
+        c.unit_address as [dataCase.unitAddress],
+        c.tel as [dataCase.tel],
+        c.unit_tel_number as [dataCase.unitTelNumber],
+        s.synergistic_type as [synergisticType.id],
         s.apply_content as applyContent,
         s.apply_time as applyTime,
-        c.odv as 'applyUser.id',
-        c.latest_overdue_money as 'dataCase.latestOverdueMoney',
-        c.apply_order_no as 'dataCase.applyOrderNo',
+        c.odv as [applyUser.id],
+        c.latest_overdue_money as [dataCase.latestOverdueMoney],
+        c.apply_order_no as [dataCase.applyOrderNo],
         s.synergistic_time as synergisticTime,
-        s.synergistic_user as 'synergisticUser.id',
+        s.synergistic_user as [synergisticUser.id],
         s.synergistic_result as synergisticResult,
-        s.synergistic_apply_status as 'applyStatus',
-        s.synergistic_finish_status as 'finishStatus',
+        s.synergistic_apply_status as [applyStatus],
+        s.synergistic_finish_status as [finishStatus],
         s.remark as remark,
-        s.create_user as 'createUser.id',
-        s.update_user as 'updateUser.id',
+        s.create_user as [createUser.id],
+        s.update_user as [updateUser.id],
         s.create_time as createTime,
         s.update_time as updateTime,
         s.delete_flag as deleteFlag
@@ -361,7 +361,7 @@
     <select id="countNum"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">
 
         select
-        a.id as 'synergisticType.id', a.name as 'synergisticType.name', b.countNum as countNum from
+        a.id as [synergisticType.id], a.name as [synergisticType.name], b.countNum as countNum from
         (select
         id, name
         from sys_data_dictionary
@@ -428,7 +428,7 @@
     <!--插入数据信息-->
     <insert id="saveBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity" >
         <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert  into data_case_synergistic
         (
@@ -453,7 +453,7 @@
                 #{reddemCode.applyStatus},
                 #{reddemCode.finishStatus},
                 0,
-                now()
+                GETDATE()
             )
         </foreach >
     </insert>
@@ -461,7 +461,7 @@
     <!--插入数据信息-->
     <insert id="saveApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity" >
         <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert  into data_case_synergistic
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -481,17 +481,17 @@
             <if test="synergisticType !=  null">#{synergisticType},</if>
             <if test="applyer != null">#{applyer},</if>
             <if test="applyContent != null">#{applyContent},</if>
-            now(),
+            GETDATE(),
             0,
             0,
             0,
-            now(),
+            GETDATE(),
         </trim>
     </insert>
     <!--插入数据信息-->
     <insert id="saveResult" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity" >
         <selectKey keyProperty="id" order="AFTER"  resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert  into data_case_synergistic
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -513,11 +513,11 @@
             <if test="synergisticType != null">#{synergisticType},</if>
             <if test="synergisticUser != null">#{synergisticUser},</if>
             <if test="synergisticResult != null">#{synergisticResult},</if>
-            now(),
+            GETDATE(),
             1,
             0,
             0,
-            now(),
+            GETDATE(),
         </trim>
     </insert>
 </mapper>

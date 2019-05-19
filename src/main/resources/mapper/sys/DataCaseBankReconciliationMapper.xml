@@ -6,30 +6,30 @@
 
     <sql id="colSql">
         b.id as id,
-        b.data_case as 'dataCase.id',
+        b.data_case as '[dataCase.id]',
         b.cp_money as cpMoney,
         b.cp_date as cpDate,
         b.repay_user as repayUser,
         b.repay_type as repayType,
-        b.submit_user as 'submitUser.id',
+        b.submit_user as '[submitUser.id]',
         b.submit_time as submitTime,
         b.status as status,
-        c.batch_no as 'dataCase.batchNo',
-        c.card_no as 'dataCase.cardNo',
-        c.ident_no as 'dataCase.identNo',
-        c.name as 'dataCase.name',
-        c.seq_no as 'dataCase.seqNo',
-        c.client as 'dataCase.client',
-        c.money as 'dataCase.money',
-        c.en_repay_amt as 'dataCase.enRepayAmt',
-        c.balance as 'dataCase.balance',
-        c.card_type as 'dataCase.cardType',
-        c.account as 'dataCase.account',
-        c.currency_type as 'dataCase.currencyType',
-        c.archive_no as 'dataCase.archiveNo',
+        c.batch_no as '[dataCase.batchNo]',
+        c.card_no as '[dataCase.cardNo]',
+        c.ident_no as '[dataCase.identNo]',
+        c.name as '[dataCase.name]',
+        c.seq_no as '[dataCase.seqNo]',
+        c.client as '[dataCase.client]',
+        c.money as '[dataCase.money]',
+        c.en_repay_amt as '[dataCase.enRepayAmt]',
+        c.balance as '[dataCase.balance]',
+        c.card_type as '[dataCase.cardType]',
+        c.account as '[dataCase.account]',
+        c.currency_type as '[dataCase.currencyType]',
+        c.archive_no as '[dataCase.archiveNo]',
         b.remark as remark,
-        b.create_user as 'createUser.id',
-        b.update_user as 'updateUser.id',
+        b.create_user as '[createUser.id]',
+        b.update_user as '[updateUser.id]',
         b.create_time as createTime,
         b.update_time as updateTime,
         b.delete_flag as deleteFlag
@@ -469,21 +469,20 @@
     </insert>
 
     <select id="findLatestCpByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
-        select
+        select top 1
         id as id,
-        data_case as 'dataCase.id',
-        cp_money as 'cpMoney'
+        data_case as '[dataCase.id]',
+        cp_money as '[cpMoney]'
         from data_case_bank_reconciliation
         where data_case = #{dataCase.id}
         and status = 0
         order by id desc
-        limit 1
     </select>
 
     <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
         select
             id as id,
-            data_case as 'dataCase.id'
+            data_case as '[dataCase.id]'
         from data_case_bank_reconciliation
         where id = #{id}
         and delete_flag = 0
@@ -492,17 +491,17 @@
     <select id="listByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
         select
         b.id as id,
-        b.data_case as 'dataCase.id',
+        b.data_case as '[dataCase.id]',
         b.cp_money as cpMoney,
         b.cp_date as cpDate,
         b.repay_user as repayUser,
         b.repay_type as repayType,
-        b.submit_user as 'submitUser.id',
+        b.submit_user as '[submitUser.id]',
         b.submit_time as submitTime,
         b.status as status,
         b.remark as remark,
-        b.create_user as 'createUser.id',
-        b.update_user as 'updateUser.id',
+        b.create_user as '[createUser.id]',
+        b.update_user as '[updateUser.id',
         b.create_time as createTime,
         b.update_time as updateTime,
         b.delete_flag as deleteFlag

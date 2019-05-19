@@ -7,11 +7,11 @@
     <sql id="colSql">
         id as id,
         button_label as buttonLabel,
-        menu_id as 'parentMenu.id',
+        menu_id as [parentMenu.id],
         button_auth_symbol as buttonAuthSymbol,
         remark as remark,
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        create_user as [createUser.id],
+        update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag
@@ -26,8 +26,8 @@
 
     <select id="listAllButtonAuthorities" parameterType="xyz.zaijushou.zhx.sys.entity.SysToButtonAuthority" resultType="xyz.zaijushou.zhx.sys.entity.SysToButtonAuthority">
         select
-            button_id as 'button.id',
-            authority_id as 'authority.id'
+            button_id as [button.id],
+            authority_id as [authority.id]
         from sys_button_authority
         where delete_flag = '0'
     </select>

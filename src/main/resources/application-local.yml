@@ -3,9 +3,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     #url: jdbc:mysql://116.62.124.251:3306/zhx?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8
-    url=jdbc:sqlserver://116.62.124.251:1433;databasename=zhx
-    username: root
-    password: qifei
+    url: jdbc:sqlserver://116.62.124.251:1433;databasename=zhx
+    username: sa
+    password: Qf@1985qweasdzxc
     druid:
       filters: stat,wall
   redis:

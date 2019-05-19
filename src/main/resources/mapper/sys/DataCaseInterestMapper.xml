@@ -7,7 +7,7 @@
     <!--插入数据信息-->
     <insert id="saveInterest" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert  into data_case_interest
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -50,7 +50,7 @@
             <if test="yearFee != null">#{yearFee},</if>
             <if test="elseFee != null">#{elseFee},</if>
             <if test="sheetFee != null">#{sheetFee},</if>
-            now(),
+            GETDATE(),
             0,
         </trim>
     </insert>

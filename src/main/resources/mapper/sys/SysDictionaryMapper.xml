@@ -12,9 +12,9 @@
         status,
         number,
         sys_flag as sysFlag,
-        dictionary_id as 'parent.id',
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        dictionary_id as [parent.id],
+        create_user as [createUser.id],
+        update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag
@@ -35,7 +35,7 @@
     <!--新增数据-->
     <insert id="saveDataAfter" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert into sys_data_dictionary
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -129,12 +129,11 @@
 
     <!--根据名称获取数据组-->
     <select id="listDataByName" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
-        select
+        select top 1
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
         where delete_flag = 0 and dictionary_id = (
         select id from sys_data_dictionary where name = #{name}
-        LIMIT 1
         )
         <if test="currentName != null and currentName!=''">
             AND name like CONCAT('%',#{currentName},'%')

@@ -88,24 +88,24 @@
     </if>
 
     <if test="completeTimeStart != null and completeTimeStart!=''">
-        <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
+        <![CDATA[   and dbo.fnFormatDate(dcr.complete_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{completeTimeStart}, 'yyyy-MM-dd')   ]]>
     </if>
     <if test="completeTimeEnd != null and completeTimeEnd!=''" >
-        <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')<=  DATE_FORMAT(#{completeTimeEnd}, '%Y-%m-%d')   ]]>
+        <![CDATA[   and dbo.fnFormatDate(dcr.complete_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{completeTimeEnd}, 'yyyy-MM-dd')   ]]>
     </if>
 
     <if test="reduceReferTimeStart != null and reduceReferTimeStart!=''">
-        <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceReferTimeStart}, '%Y-%m-%d')   ]]>
+        <![CDATA[   and dbo.fnFormatDate(dc.create_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{reduceReferTimeStart}, 'yyyy-MM-dd')   ]]>
     </if>
     <if test="reduceReferTimeEnd != null and reduceReferTimeEnd!=''" >
-        <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceReferTimeEnd}, '%Y-%m-%d')   ]]>
+        <![CDATA[   and dbo.fnFormatDate(dc.create_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{reduceReferTimeEnd}, 'yyyy-MM-dd')   ]]>
     </if>
 
     <if test="reduceValidTimeStart != null and reduceValidTimeStart!=''">
-        <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceValidTimeStart}, '%Y-%m-%d')   ]]>
+        <![CDATA[   and dbo.fnFormatDate(dcr.reduce_valid_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{reduceValidTimeStart}, 'yyyy-MM-dd')   ]]>
     </if>
     <if test="reduceValidTimeEnd != null and reduceValidTimeEnd!=''" >
-        <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
+        <![CDATA[   and dbo.fnFormatDate(dcr.reduce_valid_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{reduceValidTimeEnd}, 'yyyy-MM-dd')   ]]>
     </if>
     order by ${orderBy} ${sort}
 </select>
@@ -155,24 +155,24 @@
         </if>
 
         <if test="completeTimeStart != null and completeTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.complete_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{completeTimeStart}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="completeTimeEnd != null and completeTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')<=  DATE_FORMAT(#{completeTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.complete_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{completeTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
 
         <if test="reduceReferTimeStart != null and reduceReferTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceReferTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.create_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{reduceReferTimeStart}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="reduceReferTimeEnd != null and reduceReferTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceReferTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.create_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{reduceReferTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
 
         <if test="reduceValidTimeStart != null and reduceValidTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceValidTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.reduce_valid_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{reduceValidTimeStart}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="reduceValidTimeEnd != null and reduceValidTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.reduce_valid_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{reduceValidTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
         order by ${orderBy} ${sort}
     </select>
@@ -222,24 +222,24 @@
         </if>
 
         <if test="completeTimeStart != null and completeTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')>=  DATE_FORMAT(#{completeTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.complete_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{completeTimeStart}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="completeTimeEnd != null and completeTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(dcr.complete_time, '%Y-%m-%d')<=  DATE_FORMAT(#{completeTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.complete_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{completeTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
 
         <if test="reduceReferTimeStart != null and reduceReferTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceReferTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.create_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{reduceReferTimeStart}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="reduceReferTimeEnd != null and reduceReferTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(dc.create_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceReferTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.create_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{reduceReferTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
 
         <if test="reduceValidTimeStart != null and reduceValidTimeStart!=''">
-            <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')>=  DATE_FORMAT(#{reduceValidTimeStart}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.reduce_valid_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{reduceValidTimeStart}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="reduceValidTimeEnd != null and reduceValidTimeEnd!=''" >
-            <![CDATA[   and DATE_FORMAT(dcr.reduce_valid_time, '%Y-%m-%d')<=  DATE_FORMAT(#{reduceValidTimeEnd}, '%Y-%m-%d')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dcr.reduce_valid_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{reduceValidTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
         order by ${orderBy} ${sort}
     </select>

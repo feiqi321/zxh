@@ -7,7 +7,7 @@
     <sql id="colSql">
         id as id,
         org_name as orgName,
-        parent_id as 'parent.id',
+        parent_id as [parent.id],
         org_nature as orgNature,
         legal_person as legalPerson,
         user_num as userNum,
@@ -15,8 +15,8 @@
         main_industry as mainIndustry,
         sort as sort,
         remark as remark,
-        create_user as 'createUser.id',
-        update_user as 'updateUser.id',
+        create_user as [createUser.id],
+        update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
         delete_flag as deleteFlag
@@ -24,7 +24,7 @@
 
     <insert id="saveOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-            SELECT LAST_INSERT_ID()
+            SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert into sys_organization
         <trim prefix="(" suffix=")" suffixOverrides=",">
