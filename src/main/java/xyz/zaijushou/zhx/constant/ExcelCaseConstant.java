@@ -28,7 +28,7 @@ public class ExcelCaseConstant {
         COL150(150, "催收区域ID", "collectionArea.id", SysDictionaryEntity.class, Integer.class),
         COL160(160, "催收小结", "collectInfo", String.class),
         COL170(170, "M值系数", "mVal", String.class),
-        COL180(180, "公司佣金比率", "commissionRate", Double.class),
+        COL180(180, "公司佣金比率", "commissionRate", String.class),
         COL190(190, "公司佣金金额", "commissionMoney", BigDecimal.class),
         COL200(200, "家庭号码", "homeTelNumber", String.class),
         COL210(210, "单位号码", "unitTelNumber", String.class),
@@ -267,7 +267,7 @@ public class ExcelCaseConstant {
         COL541(541, "业务类型", "businessType", String.class),
         COL550(550, "催收小结", "collectInfo", String.class),
         COL560(560, "M值系数", "mVal", String.class),
-        COL570(570, "公司佣金比率", "commissionRate", Double.class),
+        COL570(570, "公司佣金比率", "commissionRate", String.class),
         COL580(580, "公司佣金金额", "commissionMoney", BigDecimal.class),
         COL590(590, "电邮", "email", String.class),
         COL600(600, "预计退案日", "expectTime", String.class),
@@ -559,7 +559,7 @@ public class ExcelCaseConstant {
         COL1690(1690, "警告", "warning", String.class),
         COL1700(1700, "自定义信息", "selfInfo", String.class),
         COL1710(1710, "最新催记", "newCase", String.class),
-        COL1720(1720, "公司佣金比率", "commissionRate", Double.class),
+        COL1720(1720, "公司佣金比率", "commissionRate", String.class),
         ;
 
 
@@ -783,7 +783,7 @@ public class ExcelCaseConstant {
         COL1690("warning", "警告", "'' as warning", String.class),
         COL1700("selfInfo", "自定义信息", "da.remark as selfInfo", String.class),
         COL1710("newCase", "最新催记", "da.new_case as newCase", String.class),
-        COL1720("commissionRate", "公司佣金比率", "da.commission_rate as commissionRate", Double.class),
+        COL1720("commissionRate", "公司佣金比率", "da.commission_rate as commissionRate", String.class),
         ;
 
 

@@ -698,10 +698,12 @@
             repay_user,
             repay_type,
             remark,
+            record_status,
+            delete_flag,
             create_user,
             update_user
         )
-        value
+        VALUES
         (
             #{dataCase.id},
             #{collectUser.id},
@@ -711,6 +713,8 @@
             #{repayUser},
             #{repayType.id},
             #{remark},
+            '0',
+            0,
             #{createUser.id},
             #{updateUser.id}
         )

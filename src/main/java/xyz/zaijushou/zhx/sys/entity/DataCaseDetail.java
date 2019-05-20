@@ -113,7 +113,7 @@ public class DataCaseDetail {
     private String identType;   //证件类型
     private SysNewUserEntity collectionUser;    //催收员
     private SysDictionaryEntity collectionArea; //催收区域
-    private Double commissionRate;  //公司佣金比率
+    private String commissionRate;  //公司佣金比率
     private BigDecimal commissionMoney; //公司佣金金额
     private String homeTelNumber;   //家庭号码
     private String unitTelNumber;    //单位号码
@@ -1437,11 +1437,11 @@ public class DataCaseDetail {
         this.collectionArea = collectionArea;
     }
 
-    public Double getCommissionRate() {
+    public String getCommissionRate() {
         return commissionRate;
     }
 
-    public void setCommissionRate(Double commissionRate) {
+    public void setCommissionRate(String commissionRate) {
         this.commissionRate = commissionRate;
     }
 
