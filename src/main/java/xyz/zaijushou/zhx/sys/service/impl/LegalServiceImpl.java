@@ -79,7 +79,7 @@ public class LegalServiceImpl implements LegalService {
 
 
             SysUserEntity user = getUserInfo();
-            if (StringUtils.isNotEmpty(legalEntity.getOwner()) && user.getId()==Integer.valueOf(legalEntity.getOwner())){
+            if (StringUtils.isNotEmpty(legalEntity.getOwner()) && user.getId()==Integer.valueOf(legalEntity.getOwner().equals("NULL")?"0":legalEntity.getOwner())){
                 legalEntity.setCuurentUser(true);
             }else{
                 legalEntity.setCuurentUser(false);

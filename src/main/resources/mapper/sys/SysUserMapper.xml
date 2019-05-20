@@ -356,10 +356,10 @@
             AND  department = #{department}
         </if>
         <if test="number != null and number!=''">
-            AND  number like CONCAT('%',#{number},'%')
+            AND  number like dbo.CONCAT('%',#{number},'%')
         </if>
         <if test="userName != null and userName!=''">
-            AND  username like CONCAT('%',#{userName},'%')
+            AND  username like dbo.CONCAT('%',#{userName},'%')
         </if>
         ) temp_row
         where rownumber>((${pageNum}-1)*${pageSize})
@@ -380,10 +380,10 @@
             AND  department = #{department}
         </if>
         <if test="number != null and number!=''">
-            AND  number like CONCAT('%',#{number},'%')
+            AND  number like dbo.CONCAT('%',#{number},'%')
         </if>
         <if test="userName != null and userName!=''">
-            AND  username like CONCAT('%',#{userName},'%')
+            AND  username like dbo.CONCAT('%',#{userName},'%')
         </if>
     </select>
 
@@ -425,7 +425,7 @@
             AND  sr.role_name = #{role}
         </if>
         <if test="userName != null and userName!=''">
-            AND username like CONCAT('%',#{username},'%')
+            AND username like dbo.CONCAT('%',#{username},'%')
         </if>
     </select>
 
@@ -545,7 +545,7 @@
     </update>
     
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="java.lang.Integer">
-          select count(id) from sys_user where login_name LIKE CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
+          select count(id) from sys_user where login_name LIKE dbo.CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
     </select>
 
     <select id="listByNameSet" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
@@ -611,10 +611,10 @@
             AND  department = #{department}
         </if>
         <if test="number != null and number!=''">
-            AND  number like CONCAT('%',#{number},'%')
+            AND  number like dbo.CONCAT('%',#{number},'%')
         </if>
         <if test="userName != null and userName!=''">
-            AND  username like CONCAT('%',#{userName},'%')
+            AND  username like dbo.CONCAT('%',#{userName},'%')
         </if>
         order by ${orderBy} ${sort}
         )su
@@ -633,7 +633,7 @@
     <select id="listParent" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
 
         select <include refid="colSqlWithoutPassword"/> from sys_user where department in
-        (select id from sys_organization where parent_id = (select department from sys_user where id=#{id}))
+        (select parent_id from sys_organization where id = (select department from sys_user where id=#{id}))
         and delete_flag=0
 
     </select>

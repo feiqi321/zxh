@@ -84,7 +84,7 @@ public class DataCollectionEntity extends CommonEntity {
     //催收记录
     private String collectInfo;
     //谈判方式
-    private int method;
+    private String method;
 
     private String methodMsg;
 
@@ -1338,11 +1338,11 @@ public class DataCollectionEntity extends CommonEntity {
         this.collectInfo = collectInfo;
     }
 
-    public int getMethod() {
+    public String getMethod() {
         return method;
     }
 
-    public void setMethod(int method) {
+    public void setMethod(String method) {
         this.method = method;
     }
 

@@ -365,7 +365,7 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  dept like CONCAT('%',#{dept},'%')
+                    AND  dept like dbo.CONCAT('%',#{dept},'%')
                 </if>
                 <if test="startTime != null and startTime!=''">
                     <![CDATA[   and dbo.fnFormatDate(create_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd')   ]]>
@@ -382,7 +382,7 @@
         c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure,c.collect_time as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmt,t.expect_time as expectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
         c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
-        t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
+        t.seq_no as seqNo,t.color,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
@@ -391,7 +391,7 @@
            t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  t.dept like CONCAT('%',#{dept},'%')
+                    AND  t.dept like dbo.CONCAT('%',#{dept},'%')
                 </if>
                 <if test="collectionType != null and collectionType!=''">
                     AND c.collection_type = #{collectionType}
@@ -406,7 +406,7 @@
                     </foreach>
                 </if>
                 <if test="measure != null and measure!=''">
-                    AND c.measure like CONCAT('%',#{measure},'%')
+                    AND c.measure like dbo.CONCAT('%',#{measure},'%')
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
@@ -425,24 +425,24 @@
                     AND t.case_status l= #{caseStatus}
                 </if>
                 <if test="result != null and result!=''">
-                    AND c.result like CONCAT('%',#{result},'%')
+                    AND c.result like dbo.CONCAT('%',#{result},'%')
                 </if>
 
                 <if test="cardNo != null and cardNo!=''">
-                    AND t.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no like dbo.CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    AND c.collect_info like CONCAT('%',#{collectInfo},'%')
+                    AND c.collect_info like dbo.CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND t.color like CONCAT('%',#{color},'%')
+                    AND t.color like dbo.CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND t.seq_no like CONCAT('%',#{seqno},'%')
+                    AND t.seq_no like dbo.CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="name != null and name!=''">
-                    AND t.name like CONCAT('%',#{name},'%')
+                    AND t.name like dbo.CONCAT('%',#{name},'%')
                 </if>
 
                 <if test="odv != null and odv!=''">
@@ -483,15 +483,15 @@
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND c.tel_name like CONCAT('%',#{telName},'%')
+                    AND c.tel_name like dbo.CONCAT('%',#{telName},'%')
                 </if>
 
                 <if test="telPhone != null and telPhone!=''">
-                    AND c.tel_phone like CONCAT('%',#{telPhone},'%')
+                    AND c.tel_phone like dbo.CONCAT('%',#{telPhone},'%')
                 </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND c.tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                    AND c.tel_phone like dbo.CONCAT('%',#{collectPhoneAddr},'%')
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
@@ -571,7 +571,7 @@
     </select>
     <select id="pageMyCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,t.distribute_status  as distributeStatus,
-        t.tel,t.remark as result,t.repay_date as repayTime,t.collect_date as collectTime,t.summary as collectInfo,t.next_foll_date as nextFollDate,
+        t.tel,t.remark as result,t.repay_date as repayTime,t.summary as collectInfo,
         t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd') as distributeTime,
         t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
@@ -580,7 +580,7 @@
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus,c.nextFollDate,c.collectTime
         from data_case t left JOIN (
         select id,next_foll_date as nextFollDate,max(collect_time) as collectTime,case_id as caseId
-        from data_collection  group by case_id order by id DESC) c on t.id = c.caseId
+        from data_collection  group by case_id,id,next_foll_date order by id DESC) c on t.id = c.caseId
         <where>
             t.delete_flag = 0
             <trim suffixOverrides=",">
@@ -588,7 +588,7 @@
                     and t.distribute_status= #{distributeStatus}
                 </if>
                 <if test="dept != null and dept!=''">
-                    AND  t.dept like CONCAT('%',#{dept},'%')
+                    AND  t.dept like dbo.CONCAT('%',#{dept},'%')
                 </if>
                 <if test="deptFlag != null and deptFlag!=''">
                     and t.dept in
@@ -629,20 +629,20 @@
                 </if>
 
                 <if test="cardNo != null and cardNo!=''">
-                    AND t.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no like dbo.CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    AND t.summary like CONCAT('%',#{collectInfo},'%')
+                    AND t.summary like dbo.CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND t.color like CONCAT('%',#{color},'%')
+                    AND t.color like dbo.CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND t.seq_no like CONCAT('%',#{seqno},'%')
+                    AND t.seq_no like dbo.CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="name != null and name!=''">
-                    AND t.name like CONCAT('%',#{name},'%')
+                    AND t.name like dbo.CONCAT('%',#{name},'%')
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
@@ -671,7 +671,7 @@
                     and t.remark = #{remark}
                 </if>
                 <if test="telPhone != null and telPhone!=''">
-                    AND t.mobile like CONCAT('%',#{telPhone},'%')
+                    AND t.mobile like dbo.CONCAT('%',#{telPhone},'%')
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
@@ -766,19 +766,19 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  dept like CONCAT('%',#{dept},'%')
+                    AND  dept like dbo.CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
-                    AND area like CONCAT('%',#{area},'%')
+                    AND area like dbo.CONCAT('%',#{area},'%')
                 </if>
                 <if test="odv != null and odv!=''">
-                    AND odv  like CONCAT('%',#{odv},'%')
+                    AND odv  like dbo.CONCAT('%',#{odv},'%')
                 </if>
                 <if test="measure != null and measure!=''">
-                    AND measure like CONCAT('%',#{measure},'%')
+                    AND measure like dbo.CONCAT('%',#{measure},'%')
                 </if>
                 <if test="collectMeasure != null and collectMeasure!=''">
-                    AND measure like CONCAT('%',#{collectMeasure},'%')
+                    AND measure like dbo.CONCAT('%',#{collectMeasure},'%')
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and client in
@@ -794,30 +794,30 @@
                 </if>
 
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND case_status like CONCAT('%',#{caseStatus},'%')
+                    AND case_status like dbo.CONCAT('%',#{caseStatus},'%')
                 </if>
                 <if test="result != null and result!=''">
-                    AND result like CONCAT('%',#{result},'%')
+                    AND result like dbo.CONCAT('%',#{result},'%')
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    AND ident_no like CONCAT('%',#{identNo},'%')
+                    AND ident_no like dbo.CONCAT('%',#{identNo},'%')
                 </if>
 
                 <if test="cardNo != null and cardNo!=''">
-                    AND card_no like CONCAT('%',#{cardNo},'%')
+                    AND card_no like dbo.CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    AND collect_info like CONCAT('%',#{collectInfo},'%')
+                    AND collect_info like dbo.CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND color like CONCAT('%',#{color},'%')
+                    AND color like dbo.CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND seqno like CONCAT('%',#{seqno},'%')
+                    AND seqno like dbo.CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="targetName != null and targetName!=''">
-                    AND target_name like CONCAT('%',#{targetName},'%')
+                    AND target_name like dbo.CONCAT('%',#{targetName},'%')
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
@@ -850,15 +850,15 @@
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND tel_name like CONCAT('%',#{telName},'%')
+                    AND tel_name like dbo.CONCAT('%',#{telName},'%')
                 </if>
 
                 <if test="telPhone != null and telPhone!=''">
-                    AND tel_phone like CONCAT('%',#{telPhone},'%')
+                    AND tel_phone like dbo.CONCAT('%',#{telPhone},'%')
                 </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                    AND tel_phone like dbo.CONCAT('%',#{collectPhoneAddr},'%')
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
@@ -935,7 +935,7 @@
             c.delete_flag = 0 and t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  c.dept like CONCAT('%',#{dept},'%')
+                    AND  c.dept like dbo.CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
                     AND t.collect_area = #{area}
@@ -947,7 +947,7 @@
                     </foreach>
                 </if>
                 <if test="measure != null and measure!=''">
-                    AND c.measure like CONCAT('%',#{measure},'%')
+                    AND c.measure like dbo.CONCAT('%',#{measure},'%')
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
@@ -959,7 +959,7 @@
                     AND t.status  = #{caseStatus}
                 </if>
                 <if test="result != null and result!=''">
-                    AND c.result like CONCAT('%',#{result},'%')
+                    AND c.result like dbo.CONCAT('%',#{result},'%')
                 </if>
                 <if test="batchFlag != null and batchFlag!=''">
                     and t.batch_no in
@@ -968,20 +968,20 @@
                     </foreach>
                 </if>
                 <if test="cardNo != null and cardNo!=''">
-                    AND t.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no like dbo.CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    AND c.collect_info like CONCAT('%',#{collectInfo},'%')
+                    AND c.collect_info like dbo.CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND t.color like CONCAT('%',#{color},'%')
+                    AND t.color like dbo.CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND t.seq_no like CONCAT('%',#{seqno},'%')
+                    AND t.seq_no like dbo.CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="targetName != null and targetName!=''">
-                    AND c.target_name like CONCAT('%',#{targetName},'%')
+                    AND c.target_name like dbo.CONCAT('%',#{targetName},'%')
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
@@ -1014,12 +1014,12 @@
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND c.tel_name like CONCAT('%',#{telName},'%')
+                    AND c.tel_name like dbo.CONCAT('%',#{telName},'%')
                 </if>
 
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND c.tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                    AND c.tel_phone like dbo.CONCAT('%',#{collectPhoneAddr},'%')
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
@@ -1110,10 +1110,10 @@
             c.delete_flag = 0 and t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  t.dept like CONCAT('%',#{dept},'%')
+                    AND  t.dept like dbo.CONCAT('%',#{dept},'%')
                 </if>
                 <if test="area != null and area!=''">
-                    AND t.collect_area like CONCAT('%',#{area},'%')
+                    AND t.collect_area like dbo.CONCAT('%',#{area},'%')
                 </if>
                 <if test="odvFlag != null and odvFlag!=''">
                     and t.odv in
@@ -1122,7 +1122,7 @@
                     </foreach>
                 </if>
                 <if test="measure != null and measure!=''">
-                    AND c.measure like CONCAT('%',#{measure},'%')
+                    AND c.measure like dbo.CONCAT('%',#{measure},'%')
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
@@ -1131,10 +1131,10 @@
                     </foreach>
                 </if>
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND t.status like CONCAT('%',#{caseStatus},'%')
+                    AND t.status like dbo.CONCAT('%',#{caseStatus},'%')
                 </if>
                 <if test="result != null and result!=''">
-                    AND c.result like CONCAT('%',#{result},'%')
+                    AND c.result like dbo.CONCAT('%',#{result},'%')
                 </if>
                 <if test="batchFlag != null and batchFlag!=''">
                     and t.batch_no in
@@ -1143,20 +1143,20 @@
                     </foreach>
                 </if>
                 <if test="cardNo != null and cardNo!=''">
-                    AND t.card_no like CONCAT('%',#{cardNo},'%')
+                    AND t.card_no like dbo.CONCAT('%',#{cardNo},'%')
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    AND c.collect_info like CONCAT('%',#{collectInfo},'%')
+                    AND c.collect_info like dbo.CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND t.color like CONCAT('%',#{color},'%')
+                    AND t.color like dbo.CONCAT('%',#{color},'%')
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND t.seq_no like CONCAT('%',#{seqno},'%')
+                    AND t.seq_no like dbo.CONCAT('%',#{seqno},'%')
                 </if>
 
                 <if test="name != null and name!=''">
-                    AND t.name like CONCAT('%',#{name},'%')
+                    AND t.name like dbo.CONCAT('%',#{name},'%')
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
@@ -1189,11 +1189,11 @@
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND c.tel_name like CONCAT('%',#{telName},'%')
+                    AND c.tel_name like dbo.CONCAT('%',#{telName},'%')
                 </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND c.tel_phone like CONCAT('%',#{collectPhoneAddr},'%')
+                    AND c.tel_phone like dbo.CONCAT('%',#{collectPhoneAddr},'%')
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
@@ -1303,7 +1303,7 @@
         </if>
 
         <if test="odv != null and odv!=''">
-            AND  c.odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="accountAge != null and accountAge !=''">
             and c.account_age = #{accountAge}
@@ -1331,7 +1331,7 @@
         </if>
 
         <if test="odv != null and odv!=''">
-            AND  c.odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="accountAge != null and accountAge !=''">
             and c.account_age = #{accountAge}
@@ -1362,10 +1362,10 @@
             and c.account_age = #{accountAge}
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1374,7 +1374,7 @@
             </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
-            AND target_name like CONCAT('%',#{targetName},'%')
+            AND target_name like dbo.CONCAT('%',#{targetName},'%')
         </if>
         GROUP BY c.batch_no
     </select>
@@ -1402,10 +1402,10 @@
             and c.account_age = #{accountAge}
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1414,16 +1414,16 @@
             </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
-            AND target_name like CONCAT('%',#{targetName},'%')
+            AND target_name like dbo.CONCAT('%',#{targetName},'%')
         </if>
     </select>
 
-    <select id="pageStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+    <select id="statisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         SELECT
         c.batch_no as batchNo,dc.target_name as targetName,c.seq_no as seqno,c.client,c.account_age as accountAge,
         c.money,c.m_val as mVal,c.bank_amt as bankAmt,dc.bank_time as bankTime,
-        IFNULL(c.bank_amt*c.m_val,0) as repaidAmtM,
-        IFNULL(c.pro_repay_amt*c.m_val,0) as repaidBankAmtM,
+        ISNULL(c.bank_amt*c.m_val,0) as repaidAmtM,
+        ISNULL(c.pro_repay_amt*c.m_val,0) as repaidBankAmtM,
         c.pro_repay_amt as repayAmt, c.pro_repay_date as repayTime,c.en_repay_amt as enRepayAmt,
         c.expect_time as expectTime,dc.pay_name as payName,dc.pay_method as payMethod,dc.confim_name as confimName,
         dc.confim_time as confimTime,c.business_type as businessType
@@ -1431,13 +1431,13 @@
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
         <if test="targetName != null and targetName!=''">
-            AND target_name like CONCAT('%',#{targetName},'%')
+            AND target_name like dbo.CONCAT('%',#{targetName},'%')
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1490,13 +1490,13 @@
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
         <if test="targetName != null and targetName!=''">
-            AND target_name like CONCAT('%',#{targetName},'%')
+            AND target_name like dbo.CONCAT('%',#{targetName},'%')
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like CONCAT('%',#{odv},'%')
+            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1559,13 +1559,13 @@
         </if>
 
         <if test="dept != null and dept!=''">
-            AND  c.dept like CONCAT('%',#{dept},'%')
+            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
         </if>
         <if test="odv != null and odv!=''">
-            AND c.odv  like CONCAT('%',#{odv},'%')
+            AND c.odv  like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="client != null and client!=''">
-            AND client like CONCAT('%',#{client},'%')
+            AND client like dbo.CONCAT('%',#{client},'%')
         </if>
         <if test="batchNo != null and batchNo !=''">
             and c.batch_no = #{batchNo}

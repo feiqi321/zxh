@@ -1,10 +1,10 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/zhx?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&characterEncoding=utf-8
-    username: root
-    password: qifei
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://192.168.25.205:1433;databasename=zhx
+    username: sa
+    password: frsoft@2019
     druid:
       filters: stat,wall
   redis:

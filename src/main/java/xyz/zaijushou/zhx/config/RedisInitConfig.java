@@ -40,7 +40,6 @@ public class RedisInitConfig implements ApplicationRunner {
     private DataCaseMapper dataCaseMapper;
 
     @Resource
-
     private SysDictionaryMapper sysDictionaryMapper;
 
 

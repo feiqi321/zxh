@@ -10,6 +10,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by looyer on 2019/3/21.
@@ -23,7 +24,12 @@ public class SelectFilterServiceImpl implements SelectFilterService {
 
     public void save(SelectFilterEntity bean){
         bean.setUserId(getUserInfo().getId());
-        selectFilterMapper.saveFilter(bean);
+        SelectFilterEntity selectFilterEntity =  selectFilterMapper.selectByModule(bean);
+        if (selectFilterEntity==null) {
+            selectFilterMapper.saveFilter(bean);
+        }else{
+            selectFilterMapper.updateFilter(bean);
+        }
     }
 
     public SelectFilterEntity selectByModule(SelectFilterEntity bean){

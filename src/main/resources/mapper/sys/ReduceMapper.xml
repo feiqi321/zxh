@@ -49,13 +49,13 @@
     data_reduce_apply dcr LEFT JOIN data_case dc on dcr.case_id = dc.id
     where dcr.delete_flag = 0 and dcr.seqno is not null
     <if test="area != null and area!=''">
-        AND dc.collect_area like CONCAT('%',#{area},'%')
+        AND dc.collect_area like dbo.CONCAT('%',#{area},'%')
     </if>
     <if test="seqno != null and seqno!=''">
-        AND dc.seqno like CONCAT('%',#{seqno},'%')
+        AND dc.seqno like dbo.CONCAT('%',#{seqno},'%')
     </if>
     <if test="targetName != null and targetName!=''">
-        AND dc.name like CONCAT('%',#{targetName},'%')
+        AND dc.name like dbo.CONCAT('%',#{targetName},'%')
     </if>
     <if test="batchNo != null and batchNo!=''">
         and dc.batch_no = #{batchNo}
@@ -64,13 +64,13 @@
         and dc.collect_status = #{collectStatus}
     </if>
     <if test="client != null and client!=''">
-        AND dc.client like CONCAT('%',#{client},'%')
+        AND dc.client like dbo.CONCAT('%',#{client},'%')
     </if>
     <if test="accountAge != null and accountAge !=''">
         and dc.overdue_bill_time = #{accountAge}
     </if>
     <if test="odv != null and odv!=''">
-        AND dc.odv  like CONCAT('%',#{odv},'%')
+        AND dc.odv  like dbo.CONCAT('%',#{odv},'%')
     </if>
     <if test="reduceStatus != null and reduceStatus!=''">
         and dc.reduce_status = #{reduceStatus}
@@ -119,13 +119,13 @@
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
         where dcr.delete_flag = 0 and dcr.seqno is not null
         <if test="area != null and area!=''">
-            AND dc.collect_area like CONCAT('%',#{area},'%')
+            AND dc.collect_area like dbo.CONCAT('%',#{area},'%')
         </if>
         <if test="seqno != null and seqno!=''">
-            AND dcr.seqno like CONCAT('%',#{seqno},'%')
+            AND dcr.seqno like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="targetName != null and targetName!=''">
-            AND dc.name like CONCAT('%',#{targetName},'%')
+            AND dc.name like dbo.CONCAT('%',#{targetName},'%')
         </if>
         <if test="batchNo != null and batchNo!=''">
             and dc.batch_no = #{batchNo}
@@ -134,13 +134,13 @@
             and dc.collect_status = #{collectStatus}
         </if>
         <if test="client != null and client!=''">
-            AND dc.client like CONCAT('%',#{client},'%')
+            AND dc.client like dbo.CONCAT('%',#{client},'%')
         </if>
         <if test="accountAge != null and accountAge !=''">
             and dc.overdue_bill_time = #{accountAge}
         </if>
         <if test="odv != null and odv!=''">
-            AND dc.odv  like CONCAT('%',#{odv},'%')
+            AND dc.odv  like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="reduceStatus != null and reduceStatus!=''">
             and dc.reduce_status = #{reduceStatus}
@@ -186,13 +186,13 @@
         data_reduce_apply dcr LEFT JOIN data_case dc on dcr.seqno = dc.seq_no
         where dcr.delete_flag = 0 and dcr.seqno is not null
         <if test="area != null and area!=''">
-            AND dc.collect_area like CONCAT('%',#{area},'%')
+            AND dc.collect_area like dbo.CONCAT('%',#{area},'%')
         </if>
         <if test="seqno != null and seqno!=''">
-            AND dcr.seqno like CONCAT('%',#{seqno},'%')
+            AND dcr.seqno like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="targetName != null and targetName!=''">
-            AND dc.name like CONCAT('%',#{targetName},'%')
+            AND dc.name like dbo.CONCAT('%',#{targetName},'%')
         </if>
         <if test="batchNo != null and batchNo!=''">
             and dc.batch_no = #{batchNo}
@@ -201,13 +201,13 @@
             and dc.collect_status = #{collectStatus}
         </if>
         <if test="client != null and client!=''">
-            AND dc.client like CONCAT('%',#{client},'%')
+            AND dc.client like dbo.CONCAT('%',#{client},'%')
         </if>
         <if test="accountAge != null and accountAge !=''">
             and dc.overdue_bill_time = #{accountAge}
         </if>
         <if test="odv != null and odv!=''">
-            AND dc.odv  like CONCAT('%',#{odv},'%')
+            AND dc.odv  like dbo.CONCAT('%',#{odv},'%')
         </if>
         <if test="reduceStatus != null and reduceStatus!=''">
             and dc.reduce_status = #{reduceStatus}

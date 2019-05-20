@@ -37,5 +37,5 @@ public interface DataCollectionService {
 
     public WebResponse pageStatisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
 
-    public WebResponse pageStatisticsCollectionPay(CollectionStatistic dataCollectionEntity);
+    public WebResponse statisticsCollectionPay(CollectionStatistic dataCollectionEntity);
 }

@@ -244,9 +244,9 @@
         da.remark as selfInfo,
         da.birthday as birthday,
         da.age as age,
-        0 as 'province.id',
-        0 as 'city.id',
-        0 as 'county.id',
+        0 as [province.id],
+        0 as [city.id],
+        0 as [county.id],
         da.expect_retire_case_date as expectRetireCaseDate,
         da.goods as goods,
         da.commercial_tenant as commercialTenant,
@@ -402,7 +402,7 @@
         <where>
             <trim suffixOverrides=",">
                 <if test="remark != null and remark!=''">
-                    remark like CONCAT('%',#{remark},'%')
+                    remark like dbo.CONCAT('%',#{remark},'%')
                 </if>
             </trim>
         </where>
@@ -1015,7 +1015,7 @@
         <where>
             <trim suffixOverrides=",">
                 <if test="remark != null and remark!=''">
-                    remark like CONCAT('%',#{remark},'%')
+                    remark like dbo.CONCAT('%',#{remark},'%')
                 </if>
             </trim>
         </where>
@@ -2695,6 +2695,7 @@
         ) r on t.id = r.data_case
         where t.business_type  in ('上汽长账龄上汽拖车','上汽长账龄其他')
         and <![CDATA[t.settle_date>=#{repayDateStart} and t.settle_date <=#{repayDateEnd}]]>
+        group by t.money,t.business_type as businessType,t.settle_date,t.settle_flag
     </select>
 
     <select id="selectTsCase2"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -2706,6 +2707,6 @@
             <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
         ) r on t.id = r.data_case
         where t.business_type  in ('上汽短期','安吉蓝海')
-        group by t.business_type
+        group by t.business_type,t.money
     </select>
 </mapper>

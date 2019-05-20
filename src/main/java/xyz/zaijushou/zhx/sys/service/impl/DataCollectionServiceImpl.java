@@ -517,7 +517,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public WebResponse pageStatisticsCollectionPay(CollectionStatistic beanInfo){
+    public WebResponse statisticsCollectionPay(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = beanInfo.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
@@ -542,9 +542,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         CollectionStatistic collectionReturn = new CollectionStatistic();
         //我的还款列表统计查询
-        List<DataCollectionEntity> colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);
+        List<DataCollectionEntity> colList = dataCollectionMapper.statisticsCollectionPay(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionPay(beanInfo);
         int totalPageNum = 0 ;
+        if (beanInfo.getPageSize()==null || beanInfo.getPageSize()==0){
+            beanInfo.setPageSize(100);
+        }
         if (count%beanInfo.getPageSize()>0){
             totalPageNum = count/beanInfo.getPageSize()+1;
         }else{
@@ -561,7 +564,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
 
         DataCaseEntity tempCase = new DataCaseEntity();
-        tempCase.setOdv(user.getUserName());//当前催收员
+        tempCase.setOdv(user.getId()+"");//当前催收员
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
         Date actualTime = sysNewUserEntity.getActualTime();//转正时间
 
@@ -588,10 +591,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //如果转正时间没有或者不在本月，则按照正常判断进行，
         // 如果在本月的1号-25号之间，则本月所有的累计还款都要跟1万比较，低于1万没有提成，如果在25号-月末之间，则不判断1万的底线，全部都要计算提成
         //我的还款统计，上月和当月金额统计 查询
-        getLastMData(collectionReturn,actualTime,tempCase);
-        getThisMData(collectionReturn,actualTime,tempCase);
+        //getLastMData(collectionReturn,actualTime,tempCase);
+        //getThisMData(collectionReturn,actualTime,tempCase);
         //获取三个不同列表的统计金额
-        getStatisticsData(collectionReturn,beanInfo);
+        //getStatisticsData(collectionReturn,beanInfo);
 
         webResponse.setTotalNum(count);
         webResponse.setTotalPageNum(totalPageNum);

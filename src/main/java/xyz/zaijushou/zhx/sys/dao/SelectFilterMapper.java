@@ -11,6 +11,8 @@ public interface SelectFilterMapper {
 
     public void saveFilter(SelectFilterEntity bean);
 
+    public void updateFilter(SelectFilterEntity bean);
+
 
     public SelectFilterEntity selectByModule(SelectFilterEntity bean);
 

@@ -130,7 +130,7 @@ public class DataCollectionController {
     @ApiOperation(value = "催收管理-我的还款统计", notes = "催收管理-我的还款统计")
     @PostMapping("/dataCollection/statistics/pay")
     public Object statisticsCollectionPay(@RequestBody CollectionStatistic bean) {
-        WebResponse webResponse = dataCollectionService.pageStatisticsCollectionPay(bean);
+        WebResponse webResponse = dataCollectionService.statisticsCollectionPay(bean);
         return webResponse;
     }
 

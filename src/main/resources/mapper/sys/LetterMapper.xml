@@ -280,13 +280,13 @@
               </foreach>
             </if>
             <if test="seqno != null and seqno!=''">
-              AND  d.seq_no like CONCAT('%',#{seqno},'%')
+              AND  d.seq_no like dbo.CONCAT('%',#{seqno},'%')
             </if>
             <if test="module != null and module!=''">
               AND  t.module = #{module}
             </if>
             <if test="name != null and name!=''">
-              AND  d.name like CONCAT('%',#{name},'%')
+              AND  d.name like dbo.CONCAT('%',#{name},'%')
             </if>
             <if test="applyer != null and applyer!=''">
               AND  d.odv = #{applyer}
@@ -338,13 +338,13 @@
           </foreach>
         </if>
         <if test="seqno != null and seqno!=''">
-          AND  d.seq_no like CONCAT('%',#{seqno},'%')
+          AND  d.seq_no like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="module != null and module!=''">
           AND  t.module = #{module}
         </if>
         <if test="name != null and name!=''">
-          AND  d.name like CONCAT('%',#{name},'%')
+          AND  d.name like dbo.CONCAT('%',#{name},'%')
         </if>
         <if test="applyer != null and applyer!=''">
           AND  d.odv = #{applyer}
@@ -396,13 +396,13 @@
           </foreach>
         </if>
         <if test="seqno != null and seqno!=''">
-          AND  d.seq_no like CONCAT('%',#{seqno},'%')
+          AND  d.seq_no like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="module != null and module!=''">
           AND  t.module = #{module}
         </if>
         <if test="name != null and name!=''">
-          AND  t.name like CONCAT('%',#{name},'%')
+          AND  t.name like dbo.CONCAT('%',#{name},'%')
         </if>
         <if test="applyer != null and applyer!=''">
           AND  d.odv = #{applyer}
@@ -462,13 +462,13 @@
           </foreach>
         </if>
         <if test="seqno != null and seqno!=''">
-          AND  d.seq_no like CONCAT('%',#{seqno},'%')
+          AND  d.seq_no like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="module != null and module!=''">
           AND  t.module = #{module}
         </if>
         <if test="name != null and name!=''">
-          AND  t.name like CONCAT('%',#{name},'%')
+          AND  t.name like dbo.CONCAT('%',#{name},'%')
         </if>
         <if test="applyer != null and applyer!=''">
           AND  d.odv = #{applyer}
@@ -519,13 +519,13 @@
           </foreach>
         </if>
         <if test="seqno != null and seqno!=''">
-          AND d.seq_no like CONCAT('%',#{seqno},'%')
+          AND d.seq_no like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="module != null and module!=''">
           AND t.module = #{module}
         </if>
         <if test="name != null and name!=''">
-          AND t.name like CONCAT('%',#{name},'%')
+          AND t.name like dbo.CONCAT('%',#{name},'%')
         </if>
         <if test="applyer != null and applyer!=''">
           AND d.odv = #{applyer}
@@ -576,13 +576,13 @@
           </foreach>
         </if>
         <if test="seqno != null and seqno!=''">
-          AND  d.seq_no like CONCAT('%',#{seqno},'%')
+          AND  d.seq_no like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="module != null and module!=''">
           AND  t.module = #{module}
         </if>
         <if test="name != null and name!=''">
-          AND  t.name like CONCAT('%',#{name},'%')
+          AND  t.name like dbo.CONCAT('%',#{name},'%')
         </if>
         <if test="applyer != null and applyer!=''">
           AND  d.odv = #{applyer}
@@ -633,13 +633,13 @@
           </foreach>
         </if>
         <if test="seqno != null and seqno!=''">
-          AND d.seq_no like CONCAT('%',#{seqno},'%')
+          AND d.seq_no like dbo.CONCAT('%',#{seqno},'%')
         </if>
         <if test="module != null and module!=''">
           AND t.module = #{module}
         </if>
         <if test="name != null and name!=''">
-          AND t.name like CONCAT('%',#{name},'%')
+          AND t.name like dbo.CONCAT('%',#{name},'%')
         </if>
         <if test="applyer != null and applyer!=''">
           AND d.odv = #{applyer}

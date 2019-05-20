@@ -156,8 +156,8 @@
 
     <select id="queryCaseSum" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
-        ifnull(sum(t.m_val), 0) as '[.mVal],
-        ifnull(sum(t.commission_money),0) as [dataCase.commissionMoney]
+        ISNULL(sum(t.m_val), 0) as [dataCase.mVal],
+        ISNULL(sum(t.commission_money),0) as [dataCase.commissionMoney]
         from (
         select
         distinct c.id, c.m_val, c.commission_money
@@ -260,7 +260,7 @@
 
     <select id="queryRepaySum" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select
-        ifnull(sum(r.repay_money), 0) as repayMoney
+        ISNULL(sum(r.repay_money), 0) as repayMoney
         from data_case_repay_record r
         left join data_case c on r.data_case = c.id
         where r.delete_flag = 0

@@ -104,16 +104,16 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="name != null and name!=''">
-                    AND  name like CONCAT('%',#{name},'%')
+                    AND  name like dbo.CONCAT('%',#{name},'%')
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    AND ident_no like CONCAT('%',#{identNo},'%')
+                    AND ident_no like dbo.CONCAT('%',#{identNo},'%')
                 </if>
                 <if test="mobile != null and mobile!=''">
-                    AND mobile  like CONCAT('%',#{mobile},'%')
+                    AND mobile  like dbo.CONCAT('%',#{mobile},'%')
                 </if>
                 <if test="address != null and address!=''">
-                    AND address like CONCAT('%',#{address},'%')
+                    AND address like dbo.CONCAT('%',#{address},'%')
                 </if>
                 <if test="startTime != null and startTime!=''">
                      <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd')   ]]>
@@ -135,16 +135,16 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="name != null and name!=''">
-                    AND  name like CONCAT('%',#{name},'%')
+                    AND  name like dbo.CONCAT('%',#{name},'%')
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    AND ident_no like CONCAT('%',#{identNo},'%')
+                    AND ident_no like dbo.CONCAT('%',#{identNo},'%')
                 </if>
                 <if test="mobile != null and mobile!=''">
-                    AND mobile  like CONCAT('%',#{mobile},'%')
+                    AND mobile  like dbo.CONCAT('%',#{mobile},'%')
                 </if>
                 <if test="address != null and address!=''">
-                    AND address like CONCAT('%',#{address},'%')
+                    AND address like dbo.CONCAT('%',#{address},'%')
                 </if>
                 <if test="startTime != null and startTime!=''">
                     <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd')   ]]>
