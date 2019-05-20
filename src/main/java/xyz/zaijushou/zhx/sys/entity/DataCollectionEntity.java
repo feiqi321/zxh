@@ -184,7 +184,10 @@ public class DataCollectionEntity extends CommonEntity {
 
     private BigDecimal repaidAmtM;//已还款金额的提成金额（M）
     private BigDecimal repaidBankAmtM;//银行查账金额的提成金额（M）
+    private String repaidAmtMMsg;//已还款金额的提成金额（M）
+    private String repaidBankAmtMMsg;//银行查账金额的提成金额（M）
     private BigDecimal mVal;//M值系数
+    private String mValMsg;
 
     private String archiveNo;//档案号
 
@@ -277,6 +280,30 @@ public class DataCollectionEntity extends CommonEntity {
      * 业务类型
      */
     private String businessType;
+
+    public String getRepaidAmtMMsg() {
+        return repaidAmtMMsg;
+    }
+
+    public void setRepaidAmtMMsg(String repaidAmtMMsg) {
+        this.repaidAmtMMsg = repaidAmtMMsg;
+    }
+
+    public String getRepaidBankAmtMMsg() {
+        return repaidBankAmtMMsg;
+    }
+
+    public void setRepaidBankAmtMMsg(String repaidBankAmtMMsg) {
+        this.repaidBankAmtMMsg = repaidBankAmtMMsg;
+    }
+
+    public String getmValMsg() {
+        return mValMsg;
+    }
+
+    public void setmValMsg(String mValMsg) {
+        this.mValMsg = mValMsg;
+    }
 
     public String getBusinessType() {
         return businessType;

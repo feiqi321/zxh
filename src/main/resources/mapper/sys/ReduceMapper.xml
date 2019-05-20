@@ -30,7 +30,7 @@
 
     <select id="pageReduceApply" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
     select dc.id as caseId,
-    dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,dc.money as money,
+    dc.collect_area as area,dc.client,dc.batch_no as batchNo,dc.name as targetName,
     dc.odv,dc.reduce_status as reduceStatus,
     dc.collect_status as collectStatus,dc.money,
     dc.reduce_update_time as reduceUpdateTime, dc.en_repay_amt as enRepayAmt,
@@ -40,7 +40,7 @@
     dcr.apply_status as applyStatus,
     dcr.reduce_type as reduceType,dcr.relation,
     dcr.repay_amt as repayAmt,dcr.create_time as createTime,
-    dcr.id,dcr.reduce_valid_time as reduceValidTime,dcr.seqno as seqno,dcr.approve_repay_amt as approveRepayAmt,
+    dcr.id,dcr.reduce_valid_time as reduceValidTime,dc.seq_no as seqno,dcr.approve_repay_amt as approveRepayAmt,
     dcr.reduce_result as reduceResult,
     dcr.payer ,dcr.contact_way as contactWay,dcr.sex ,dcr.age,dcr.visit_flag as visitFlag,
     dcr.join_flag as joinFlag,dcr.connect_flag as connectFlag,dcr.reduce_reason as reduceReason,

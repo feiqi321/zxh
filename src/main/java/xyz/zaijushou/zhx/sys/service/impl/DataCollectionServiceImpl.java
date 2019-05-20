@@ -555,12 +555,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         for(int i=0;i<colList.size();i++){
             DataCollectionEntity collection = colList.get(i);
-            collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt()+""));
-            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt()+""));
-            collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney()+""));
-            collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance()+""));
-            collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney()+""));
-            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt()+""));
+            SysDictionaryEntity client = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getClient(), SysDictionaryEntity.class);
+            collection.setClient(client==null?"":client.getName());
+            SysDictionaryEntity account_age = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getAccountAge(), SysDictionaryEntity.class);
+            collection.setAccountAge(account_age==null?"":account_age.getName());
+            SysUserEntity temp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ collection.getConfimName(), SysUserEntity.class);
+            collection.setConfimName(temp==null?"":temp.getUserName());
+            collection.setmValMsg(collection.getmVal()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getmVal().stripTrailingZeros()+""));
+            collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt().stripTrailingZeros()+""));
+            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt().stripTrailingZeros()+""));
+            collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney().stripTrailingZeros()+""));
+            collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance().stripTrailingZeros()+""));
+            collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney().stripTrailingZeros()+""));
+            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt().stripTrailingZeros()+""));
+            collection.setRepaidAmtMMsg(collection.getRepaidAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidAmtM().stripTrailingZeros()+""));
+            collection.setRepaidBankAmtMMsg(collection.getRepaidBankAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidBankAmtM().stripTrailingZeros()+""));
         }
 
         DataCaseEntity tempCase = new DataCaseEntity();

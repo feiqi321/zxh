@@ -108,6 +108,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 temp.getDataCase().setCommissionMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getCommissionMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getCommissionMoney().stripTrailingZeros()+"")));
                 temp.getDataCase().setBalanceMsg(temp.getDataCase()==null?"":(temp.getDataCase().getBalance()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getBalance().stripTrailingZeros()+"")));
                 temp.setRepayMoneyMsg(temp.getRepayMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayMoney().stripTrailingZeros()+""));
+                SysDictionaryEntity client = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getDataCase().getClient(), SysDictionaryEntity.class);
+                temp.getDataCase().setClient(client==null?"":client.getName());
             }
             if (temp.getBankReconciliation()==null){
                 DataCaseBankReconciliationEntity bean =  new DataCaseBankReconciliationEntity();
@@ -137,6 +139,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getCollectUser().getId(), SysUserEntity.class);
                 temp.getCollectUser().setUserName(user == null ? "" : user.getUserName());
             }
+
             list.set(i,temp);
         }
         return PageInfo.of(list);

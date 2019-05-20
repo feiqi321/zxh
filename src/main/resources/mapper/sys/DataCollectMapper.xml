@@ -1419,25 +1419,26 @@
     </select>
 
     <select id="statisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        SELECT
-        c.batch_no as batchNo,dc.target_name as targetName,c.seq_no as seqno,c.client,c.account_age as accountAge,
-        c.money,c.m_val as mVal,c.bank_amt as bankAmt,dc.bank_time as bankTime,
-        ISNULL(c.bank_amt*c.m_val,0) as repaidAmtM,
-        ISNULL(c.pro_repay_amt*c.m_val,0) as repaidBankAmtM,
+        select top 100
+        c.batch_no as batchNo,c.name as targetName,c.seq_no as seqno,c.client,c.account_age as accountAge,
+        c.money,c.m_val as mVal,b.cp_money as bankAmt,b.cp_date as bankTime,
+        ISNULL(b.cp_money*c.m_val,0) as repaidAmtM,
+        ISNULL(c.en_repay_amt*c.m_val,0) as repaidBankAmtM,
         c.pro_repay_amt as repayAmt, c.pro_repay_date as repayTime,c.en_repay_amt as enRepayAmt,
-        c.expect_time as expectTime,dc.pay_name as payName,dc.pay_method as payMethod,dc.confim_name as confimName,
-        dc.confim_time as confimTime,c.business_type as businessType
-        from
-        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
-        where  dc.delete_flag = 0
+        c.expect_time as expectTime,r.repay_user as payName,r.repay_type as payMethod,r.confirm_user as confimName,
+        r.confirm_time as confimTime,c.business_type as businessType
+        from data_case c
+        left join data_case_repay_record r on c.id = r.data_case
+        left join data_case_bank_reconciliation b on c.id = b.data_case
+        where  c.delete_flag = 0
         <if test="targetName != null and targetName!=''">
-            AND target_name like dbo.CONCAT('%',#{targetName},'%')
+            AND c.name = #{targetName}
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
+            AND  c.dept = #{dept}
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
+            AND  c.odv = #{odv}
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1469,10 +1470,10 @@
             <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDated(dc.bank_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{bankTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and b.cp_date>= #{bankTimeStart}  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{bankTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and b.cp_date<= #{bankTimeEnd}   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
             <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
@@ -1480,7 +1481,6 @@
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
             <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
-
     </select>
 
     <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
@@ -1490,13 +1490,13 @@
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
         <if test="targetName != null and targetName!=''">
-            AND target_name like dbo.CONCAT('%',#{targetName},'%')
+            AND target_name = #{targetName}
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
+            AND  c.dept = #{dept}
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
+            AND  c.odv = #{odv}
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1528,10 +1528,10 @@
             <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDated(dc.bank_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{bankTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')>=  #{bankTimeStart}   ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{bankTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<= #{bankTimeEnd}  ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
             <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
