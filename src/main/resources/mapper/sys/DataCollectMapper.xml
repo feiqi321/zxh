@@ -1706,7 +1706,7 @@
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
             #{item}
         </foreach>
-        group by case_id order by id DESC
+        group by case_id,id,next_foll_date as nextFollDate order by id DESC
     </select>
 
 
