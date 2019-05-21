@@ -6,7 +6,6 @@ import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface SysUserMapper {
@@ -105,4 +104,7 @@ public interface SysUserMapper {
     List<SysNewUserEntity> listParent(SysNewUserEntity userEntity);
 
     List<SysNewUserEntity> listUserByDept(SysNewUserEntity userEntity);
+
+
+    SysNewUserEntity findDepartment(Integer id);
 }

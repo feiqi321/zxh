@@ -1,7 +1,9 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ public interface SysOrganizationMapper {
     void updateOrg(SysOrganizationEntity organizationEntity);
 
     void deleteOrg(SysOrganizationEntity organizationEntity);
+
+    List<SysNewUserEntity> findById(String department);
 }

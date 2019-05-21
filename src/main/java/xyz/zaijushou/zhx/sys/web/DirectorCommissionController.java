@@ -1,10 +1,25 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import xyz.zaijushou.zhx.sys.service.DirectorCommissionService;
+
+import javax.annotation.Resource;
+
 /**
  * @author lsl
- * @Date:2019/4/28
- * @Time:20:20
  * 总监提成查询
  */
+@RestController
+@RequestMapping("/directorCommission")
 public class DirectorCommissionController {
+
+    @Resource
+    DirectorCommissionService directorCommissionService;
+
+    @PostMapping("/query")
+    public Object findDirectorCommission() {
+        return directorCommissionService.findDirectorCommission();
+    }
 }

@@ -648,4 +648,8 @@
 
     </select>
 
+    <select id="findDepartment" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        select department from sys_user where id=#{id}
+    </select>
+
 </mapper>

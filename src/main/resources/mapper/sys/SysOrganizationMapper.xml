@@ -98,4 +98,25 @@
         order by sort
     </select>
 
+    <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+with tem_table(id,parent_id,org_name,curlevel)
+as
+(
+select   id, parent_id, org_name, 1 as level
+     from
+           dbo.sys_organization
+     where
+           parent_id = #{department}
+union all
+select   a.id,  a.parent_id,  a.org_name, b.curlevel+1
+    from
+         dbo.sys_organization  a
+    inner join
+         tem_table  b
+    on (a.parent_id = b.id)
+)
+select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from tem_table,sys_user where tem_table.id=sys_user.department
+
+    </select>
+
 </mapper>
