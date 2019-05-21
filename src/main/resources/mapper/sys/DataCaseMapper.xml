@@ -2677,7 +2677,9 @@
         from data_case t LEFT JOIN (
             select repay_money as repayMoney,data_case
             from data_case_repay_record
-            where  <![CDATA[repay_date>=#{repayDateStart} and repay_date <=#{repayDateEnd}]]>
+            where 1=1
+            <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
+             <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
             <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
          ) r on t.id = r.data_case
          where t.business_type not in ('上汽长账龄上汽拖车','上汽长账龄其他','上汽短期','安吉蓝海') and t.business_type is not null
@@ -2694,8 +2696,9 @@
         <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
         ) r on t.id = r.data_case
         where t.business_type  in ('上汽长账龄上汽拖车','上汽长账龄其他')
-        and <![CDATA[t.settle_date>=#{repayDateStart} and t.settle_date <=#{repayDateEnd}]]>
-        group by t.money,t.business_type as businessType,t.settle_date,t.settle_flag
+        <![CDATA[   and dbo.fnFormatDate(t.settle_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
+        <![CDATA[   and dbo.fnFormatDate(t.settle_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
+        group by t.money,t.business_type ,t.settle_date,t.settle_flag
     </select>
 
     <select id="selectTsCase2"  resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

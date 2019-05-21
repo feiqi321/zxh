@@ -602,10 +602,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //如果转正时间没有或者不在本月，则按照正常判断进行，
         // 如果在本月的1号-25号之间，则本月所有的累计还款都要跟1万比较，低于1万没有提成，如果在25号-月末之间，则不判断1万的底线，全部都要计算提成
         //我的还款统计，上月和当月金额统计 查询
-        //getLastMData(collectionReturn,actualTime,tempCase);
-        //getThisMData(collectionReturn,actualTime,tempCase);
+        getLastMData(collectionReturn,actualTime,tempCase);
+        getThisMData(collectionReturn,actualTime,tempCase);
         //获取三个不同列表的统计金额
-        //getStatisticsData(collectionReturn,beanInfo);
+        getStatisticsData(collectionReturn,beanInfo);
 
         webResponse.setTotalNum(count);
         webResponse.setTotalPageNum(totalPageNum);
