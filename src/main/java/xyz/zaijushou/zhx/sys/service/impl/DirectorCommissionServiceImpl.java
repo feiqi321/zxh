@@ -156,7 +156,7 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
                 }
             }
         }
-        map.put("comissionSettings", sysStandard);
+        map.put("commissionSettings", sysStandard);
         map.put("staffs", level);
         WebResponse webResponse = WebResponse.buildResponse();
         webResponse.setTotalNum(listStaffs.size());
