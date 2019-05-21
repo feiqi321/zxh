@@ -569,7 +569,170 @@
     select count(t.id)
     from data_case t where t.odv=#{odv} and t.distribute_status=1
     </select>
+    <select id="showCollectTime" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select max(collect_time) as collectTime from data_collection
+        where case_id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        group by case_id
+    </select>
     <select id="pageMyCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,t.distribute_status  as distributeStatus,
+        t.tel,t.remark as result,t.repay_date as repayTime,t.summary as collectInfo,
+        t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd') as distributeTime,
+        t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,
+        t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
+        t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
+        t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
+        dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
+        from data_case t
+        <where>
+            t.delete_flag = 0
+            <trim suffixOverrides=",">
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and t.distribute_status= #{distributeStatus}
+                </if>
+                <if test="dept != null and dept!=''">
+                    AND  t.dept like dbo.CONCAT('%',#{dept},'%')
+                </if>
+                <if test="deptFlag != null and deptFlag!=''">
+                    and t.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="collectionType != null and collectionType!=''">
+                    AND t.collection_type = #{collectionType}
+                </if>
+                <if test="area != null and area!=''">
+                    AND t.collect_area = #{area}
+                </if>
+                <if test="odv != null and odv!=''">
+                    AND t.odv = #{odv}
+                </if>
+                <if test="odvs != null and odvs.length > 0">
+                    and t.odv in
+                    <foreach collection="odvs" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and t.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="batchFlag != null and batchFlag!=''">
+                    and t.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="caseStatus != null and caseStatus!=''">
+                    AND t.case_status l= #{caseStatus}
+                </if>
+
+                <if test="cardNo != null and cardNo!=''">
+                    AND t.card_no like dbo.CONCAT('%',#{cardNo},'%')
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    AND t.summary like dbo.CONCAT('%',#{collectInfo},'%')
+                </if>
+                <if test="color != null and color!=''">
+                    AND t.color like dbo.CONCAT('%',#{color},'%')
+                </if>
+                <if test="seqno != null and seqno!=''">
+                    AND t.seq_no like dbo.CONCAT('%',#{seqno},'%')
+                </if>
+
+                <if test="name != null and name!=''">
+                    AND t.name like dbo.CONCAT('%',#{name},'%')
+                </if>
+
+                <if test="accountAge != null and accountAge!=''">
+                    and t.account_age = #{accountAge}
+                </if>
+                <if test="identNo != null and identNo!=''">
+                    and t.ident_no = #{identNo}
+                </if>
+
+                <if test="collectStatus != null and collectStatus!=''">
+                    and t.collect_status = #{collectStatus}
+                </if>
+
+                <if test="caseType != null and caseType!=''">
+                    and t.case_type = #{caseType}
+                </if>
+
+                <if test="archiveNo != null and archiveNo!=''">
+                    and t.archive_no = #{archiveNo}
+                </if>
+
+                <if test="repayStatus != null and repayStatus!=''">
+                    and t.repay_status = #{repayStatus}
+                </if>
+                <if test="remark != null and remark!=''">
+                    and t.remark = #{remark}
+                </if>
+                <if test="telPhone != null and telPhone!=''">
+                    AND t.mobile = #{telPhone}
+                </if>
+
+                <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')>=  #{caseAllotTimeStart}  ]]>
+                </if>
+                <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')<= #{caseAllotTimeEnd}  ]]>
+                </if>
+                <if test="lastFollDateStart != null and lastFollDateStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')>=  #{lastFollDateStart}   ]]>
+                </if>
+                <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')<=  #{lastFollDateEnd}  ]]>
+                </if>
+                <if test="expectTimeStart != null and expectTimeStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
+                </if>
+                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
+                </if>
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
+                </if>
+                <if test="repayTimeStart != null and repayTimeStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
+                </if>
+                <if test="repayTimeEnd != null and repayTimeEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
+                </if>
+                <if test="nextFollDateStart != null and nextFollDateStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')>=  #{nextFollDateStart}   ]]>
+                </if>
+                <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')<=  #{nextFollDateEnd}  ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''">
+                    <![CDATA[   and t.money>=  #{moneyEnd}  ]]>
+                </if>
+                <if test="moneyStart != null and moneyStart!=''" >
+                    <![CDATA[   and t.moneyStart<=  #{moneyStart}   ]]>
+                </if>
+                <if test="countFollowEnd != null and countFollowEnd!=''">
+                    <![CDATA[   and t.collect_times>=  #{countFollowEnd}  ]]>
+                </if>
+                <if test="countFollowStart != null and countFollowStart!=''" >
+                    <![CDATA[   and t.collect_times<=  #{countFollowStart}   ]]>
+                </if>
+            </trim>
+        </where>
+        order by ${orderBy} ${sort}
+    </select>
+    <!--<select id="pageMyCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,t.distribute_status  as distributeStatus,
         t.tel,t.remark as result,t.repay_date as repayTime,t.summary as collectInfo,
         t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd') as distributeTime,
@@ -671,7 +834,7 @@
                     and t.remark = #{remark}
                 </if>
                 <if test="telPhone != null and telPhone!=''">
-                    AND t.mobile like dbo.CONCAT('%',#{telPhone},'%')
+                    AND t.mobile = #{telPhone}
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
@@ -725,7 +888,7 @@
             </trim>
         </where>
         order by ${orderBy} ${sort}
-    </select>
+    </select>-->
 
 
     <select id="listDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">

@@ -24,12 +24,14 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     DataCollectionEntity collection;
     List<DataCollectionEntity> list;
+    Map collectMap;
     int index;
 
-    CollectCaseCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, int index){
+    CollectCaseCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, int index,Map collectMap){
         this.collection = dataCollectionEntity;
         this.list = list;
         this.index = index;
+        this.collectMap = collectMap;
     }
     public static int differentDays(Date date1,Date date2)
     {
@@ -80,7 +82,8 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
                     collection.setLeaveDays("0");
                 }
             }
-
+        DataCollectionEntity dataCollectionEntity = (DataCollectionEntity)collectMap.get(collection.getCaseId());
+        collection.setCollectTime(dataCollectionEntity==null?"":dataCollectionEntity.getCollectTime());
 
         SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
         collection.setTelType(telTypeDic==null?"":telTypeDic.getName());

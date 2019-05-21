@@ -244,6 +244,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
+        int[] caseIdArray = new int[list.size()];
+        for (int i=0;i<list.size();i++){
+            caseIdArray[i] = list.get(i).getId();
+        }
+        Map collectMap = new HashMap();
+        if (caseIdArray.length>0){
+            DataCollectionEntity dataCollectionEntity1 = new DataCollectionEntity();
+            dataCollectionEntity1.setIds(caseIdArray);
+            List<DataCollectionEntity> collectList = dataCollectionMapper.showCollectTime(dataCollectionEntity1);
+            for (int i=0;i<collectList.size();i++){
+                DataCollectionEntity tempCollect = collectList.get(i);
+                collectMap.put(tempCollect.getCaseId(),tempCollect);
+            }
+        }
+
 
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0");//列表金额
@@ -275,7 +290,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
-            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i);
+            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i,collectMap);
             Future<List<DataCollectionEntity>> future = executor.submit(collectCaseCallable);
 
         }
@@ -563,7 +578,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setConfimName(temp==null?"":temp.getUserName());
             collection.setBankTime(collection.getBankTime()==null?"":(collection.getBankTime().equals("")?"":collection.getBankTime().substring(0,10)) );
             collection.setRepayTime(collection.getRepayTime()==null?"":(collection.getRepayTime().equals("")?"":collection.getRepayTime().substring(0,10)) );
-            collection.setmValMsg(collection.getmVal()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getmVal().stripTrailingZeros()+""));
+            collection.setmValMsg(collection.getmVal()==null?"": FmtMicrometer.fmtMicrometer(collection.getmVal().stripTrailingZeros()+""));
             collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt().stripTrailingZeros()+""));
             collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt().stripTrailingZeros()+""));
             collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney().stripTrailingZeros()+""));

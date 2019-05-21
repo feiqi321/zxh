@@ -443,7 +443,6 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setSort(" desc");
         }
         userEntity.setPageNum((userEntity.getPageNum()-1)*userEntity.getPageSize());
-
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
         for (int i=0;i<list.size();i++){
             SysNewUserEntity sysNewUserEntity = list.get(i);
