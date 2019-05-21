@@ -280,6 +280,10 @@
                 username = #{userName},
             </if>
 
+            <if test="loginName != null and loginName != ''">
+                login_name = #{loginName},
+            </if>
+
             <if test="number != null and number != ''">
                 number = #{number},
             </if>
@@ -328,7 +332,7 @@
     <select id="userDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_fail_times as loginFailTimes,
-        su.status,su.enable,su.username as userName,so.org_name department,
+        su.status,su.enable,su.username as userName,so.org_name department,su.login_name as loginName,
         su.create_time as createTime,su.create_user as 'createUser.id',
         su.update_user as 'updateUser.id',su.update_time as updateTime,
         su.delete_flag as deleteFlag,
@@ -391,7 +395,7 @@
     <select id="getDataById" resultMap="UserResultMap">
            select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
-        su.status,su.enable,su.username as userName,so.org_name department,
+        su.status,su.enable,su.username as userName,so.org_name department,su.login_name as loginName,
         su.create_time as createTime,su.create_user as [createUser.id],
         su.update_user as [updateUser.id],su.update_time as updateTime,
         su.delete_flag as deleteFlag,

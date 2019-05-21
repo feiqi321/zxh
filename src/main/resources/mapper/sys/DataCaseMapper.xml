@@ -543,34 +543,34 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{repayDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{repayDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  #{caseDateEnd}  ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{expectStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  #{expectStartTime}   ]]>
                 </if>
                 <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{expectEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  #{expectEndTime}  ]]>
                 </if>
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{realReturnStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  #{realReturnStartTime}  ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{realReturnEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  #{realReturnEndTime}   ]]>
                 </if>
                 <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectStartDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  #{collectStartDate}   ]]>
                 </if>
                 <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectEndDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  #{collectEndDate}   ]]>
                 </if>
 
             </trim>
@@ -711,34 +711,34 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{repayDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{repayDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  #{caseDateStart}  ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{expectStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  #{expectStartTime}   ]]>
                 </if>
                 <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{expectEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  #{expectEndTime}   ]]>
                 </if>
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{realReturnStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  #{realReturnStartTime}  ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{realReturnEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  #{realReturnEndTime}   ]]>
                 </if>
                 <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectStartDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  #{collectStartDate}   ]]>
                 </if>
                 <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectEndDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  #{collectEndDate}   ]]>
                 </if>
 
             </trim>
@@ -879,34 +879,34 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDated(da.repay_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{repayDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDated(da.repay_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{repayDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{expectStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  #{expectStartTime}   ]]>
                 </if>
                 <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{expectEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  #{expectEndTime}  ]]>
                 </if>
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{realReturnStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  #{realReturnStartTime}   ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{realReturnEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  #{realReturnEndTime}  ]]>
                 </if>
                 <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectStartDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  #{collectStartDate}   ]]>
                 </if>
                 <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectEndDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  #{collectEndDate}   ]]>
                 </if>
             </trim>
         </where>
@@ -979,29 +979,29 @@
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDated(da.repay_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{repayDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDated(da.repay_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{repayDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.money, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{moneyStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.money, 'yyyy-MM-dd ')>=  #{moneyStart}   ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.money, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{moneyEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.money, 'yyyy-MM-dd ')<=  #{moneyEnd}   ]]>
                 </if>
 
                 <if test="realRepayDateStart != null and realRepayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{realRepayDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  #{realRepayDateStart}  ]]>
                 </if>
                 <if test="realRepayDateEnd != null and realRepayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{realRepayDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  #{realRepayDateEnd}   ]]>
                 </if>
             </trim>
         </where>
@@ -1118,10 +1118,10 @@
                     and client = #{client}
                 </if>
                 <if test="synergyStartTime != null and synergyStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{synergyStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')>=  #{synergyStartTime}   ]]>
                 </if>
                 <if test="synergyEndTime != null and synergyEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{synergyEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')<=  #{synergyEndTime}   ]]>
                 </if>
             </trim>
         </where>
@@ -1144,10 +1144,10 @@
                     and client = #{client}
                 </if>
                 <if test="synergyStartTime != null and synergyStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{synergyStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')>=  #{synergyStartTime}  ]]>
                 </if>
                 <if test="synergyEndTime != null and synergyEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{synergyEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(synergy_date, 'yyyy-MM-dd ')<=  #{synergyEndTime}   ]]>
                 </if>
             </trim>
         </where>
@@ -2337,34 +2337,34 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{repayDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{repayDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')>=  #{caseDateStart}  ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd ')<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{expectStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')>=  #{expectStartTime}   ]]>
                 </if>
                 <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{expectEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd ')<=  #{expectEndTime}   ]]>
                 </if>
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{realReturnStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')>=  #{realReturnStartTime}   ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{realReturnEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd ')<=  #{realReturnEndTime}   ]]>
                 </if>
                 <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectStartDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>= #{collectStartDate}  ]]>
                 </if>
                 <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectEndDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd ')>=  #{collectEndDate}   ]]>
                 </if>
 
             </trim>
@@ -2464,10 +2464,10 @@
                     and t.license = #{license}
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{expectStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd ')>=  #{expectStartTime}   ]]>
                 </if>
                 <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{expectEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd ')<=  #{expectEndTime}   ]]>
                 </if>
 
                 <if test="collectHand != null and collectHand!=''">
@@ -2486,10 +2486,10 @@
                     and t.bank = #{bank}
                 </if>
                 <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectStartDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd ')>=  #{collectStartDate}   ]]>
                 </if>
                 <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{collectEndDate}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd ')>=  #{collectEndDate}   ]]>
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
@@ -2505,29 +2505,29 @@
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd ')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd ')<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDated(t.repay_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{repayDateStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDated(t.repay_date, 'yyyy-MM-dd ')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{repayDateEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd ')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="moneyStart != null and moneyStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.money, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{moneyStart}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.money, 'yyyy-MM-dd ')>=  #{moneyStart}   ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.money, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{moneyEnd}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.money, 'yyyy-MM-dd ')<=  #{moneyEnd}   ]]>
                 </if>
 
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.real_return_time, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{realReturnStartTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.real_return_time, 'yyyy-MM-dd ')>= #{realReturnStartTime}  ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.real_return_time, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{realReturnEndTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.real_return_time, 'yyyy-MM-dd ')<=  #{realReturnEndTime}   ]]>
                 </if>
             </trim>
         </where>

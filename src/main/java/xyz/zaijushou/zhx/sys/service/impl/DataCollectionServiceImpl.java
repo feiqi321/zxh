@@ -561,6 +561,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setAccountAge(account_age==null?"":account_age.getName());
             SysUserEntity temp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ collection.getConfimName(), SysUserEntity.class);
             collection.setConfimName(temp==null?"":temp.getUserName());
+            collection.setBankTime(collection.getBankTime()==null?"":(collection.getBankTime().equals("")?"":collection.getBankTime().substring(0,10)) );
+            collection.setRepayTime(collection.getRepayTime()==null?"":(collection.getRepayTime().equals("")?"":collection.getRepayTime().substring(0,10)) );
             collection.setmValMsg(collection.getmVal()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getmVal().stripTrailingZeros()+""));
             collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt().stripTrailingZeros()+""));
             collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt().stripTrailingZeros()+""));

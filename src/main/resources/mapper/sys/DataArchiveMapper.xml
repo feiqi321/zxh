@@ -116,10 +116,10 @@
                     AND address like dbo.CONCAT('%',#{address},'%')
                 </if>
                 <if test="startTime != null and startTime!=''">
-                     <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd')   ]]>
+                     <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')>=  #{startTime}   ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{endTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')<=  #{endTime}   ]]>
                 </if>
             </trim>
         </where>
@@ -135,22 +135,22 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="name != null and name!=''">
-                    AND  name like dbo.CONCAT('%',#{name},'%')
+                    AND  name = #{name}
                 </if>
                 <if test="identNo != null and identNo!=''">
-                    AND ident_no like dbo.CONCAT('%',#{identNo},'%')
+                    AND ident_no = #{identNo}
                 </if>
                 <if test="mobile != null and mobile!=''">
-                    AND mobile  like dbo.CONCAT('%',#{mobile},'%')
+                    AND mobile  = #{mobile}
                 </if>
                 <if test="address != null and address!=''">
-                    AND address like dbo.CONCAT('%',#{address},'%')
+                    AND address = #{address}
                 </if>
                 <if test="startTime != null and startTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')>=  #{startTime}  ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{endTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(update_time, 'yyyy-MM-dd')<=  #{endTime}   ]]>
                 </if>
             </trim>
         </where>

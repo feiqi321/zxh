@@ -37,6 +37,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">user_id,</if>
             <if test="roleId != null">role_id,</if>
+            delete_flag,
             <if test="createUser != null and createUser.id != null">create_user,</if>
             <if test="updateUser != null and updateUser.id != null">update_user,</if>
         </trim>
@@ -44,6 +45,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">#{userId},</if>
             <if test="roleId != null">#{roleId},</if>
+            0,
             <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
             <if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>
         </trim>

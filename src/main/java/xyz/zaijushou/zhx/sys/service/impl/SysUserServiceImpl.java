@@ -275,8 +275,8 @@ public class SysUserServiceImpl implements SysUserService {
         if (userEntity.getLoginNameCount()==0){
             userEntity.setLoginNameCount(1);
         }
-        if(StringUtils.isEmpty(userEntity.getNumber())){
-            return webResponse.error("500","用户编号为空");
+        if(StringUtils.isEmpty(userEntity.getLoginName())){
+            return webResponse.error("500","用户账号为空");
         }
         SysNewUserEntity bean = new SysNewUserEntity();
         bean.setUserName(userEntity.getUserName());
@@ -291,7 +291,7 @@ public class SysUserServiceImpl implements SysUserService {
                 return webResponse.error("500","新增的用户编号重复");
             }
         }
-        userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
+        //userEntity.setLoginName(userEntity.getNumber());//编号作为登录名
         SysPasswordEntity passwordEntity = sysPasswordMapper.selectPassword();
 
         String password = "";

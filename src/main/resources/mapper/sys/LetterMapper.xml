@@ -280,13 +280,13 @@
               </foreach>
             </if>
             <if test="seqno != null and seqno!=''">
-              AND  d.seq_no like dbo.CONCAT('%',#{seqno},'%')
+              AND  d.seq_no = #{seqno}
             </if>
             <if test="module != null and module!=''">
               AND  t.module = #{module}
             </if>
             <if test="name != null and name!=''">
-              AND  d.name like dbo.CONCAT('%',#{name},'%')
+              AND  d.name = #{name}
             </if>
             <if test="applyer != null and applyer!=''">
               AND  d.odv = #{applyer}
@@ -301,10 +301,10 @@
               <![CDATA[   and d.money <=  #{caseAmtEnd}   ]]>
             </if>
             <if test="applyDateStart != null and applyDateStart!=''">
-              <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{applyDateStart}, 'yyyy-MM-dd ')   ]]>
+              <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')>=  #{applyDateStart}   ]]>
             </if>
             <if test="applyDateEnd != null and applyDateEnd!=''" >
-              <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{applyDateEnd}, 'yyyy-MM-dd ')   ]]>
+              <![CDATA[   and dbo.fnFormatDate(d.synergy_date, 'yyyy-MM-dd ')<=  #{applyDateEnd}  ]]>
             </if>
           </trim>
         </where>

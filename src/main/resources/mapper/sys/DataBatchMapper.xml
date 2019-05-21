@@ -113,10 +113,10 @@
                 </if>
 
                 <if test="startTime != null and startTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  #{startTime}   ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{endTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<= #{endTime}   ]]>
                 </if>
             </trim>
         </where>
@@ -162,10 +162,10 @@
                 </if>
 
                 <if test="startTime != null and startTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  #{startTime}   ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{endTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<= #{endTime}   ]]>
                 </if>
             </trim>
         </where>
@@ -196,10 +196,10 @@
                 </if>
 
                 <if test="startTime != null and startTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  #{startTime} ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{endTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<=  #{endTime}  ]]>
                 </if>
             </trim>
         </where>
@@ -261,10 +261,10 @@
                 </if>
 
                 <if test="startTime != null and startTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')>=  #{startTime}   ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<=  dbo.fnFormatDate(#{endTime}, 'yyyy-MM-dd ')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd ')<=  #{endTime}   ]]>
                 </if>
             </trim>
         </where>

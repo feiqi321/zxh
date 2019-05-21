@@ -368,10 +368,10 @@
                     AND  dept like dbo.CONCAT('%',#{dept},'%')
                 </if>
                 <if test="startTime != null and startTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(create_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{startTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(create_time, 'yyyy-MM-dd')>=  #{startTime}   ]]>
                 </if>
                 <if test="endTime != null and endTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(create_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{endTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(create_time, 'yyyy-MM-dd')<=  #{endTime}   ]]>
                 </if>
             </trim>
         </where>
@@ -495,57 +495,57 @@
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseAllotTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')>= #{caseAllotTimeStart}  ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseAllotTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')<= #{caseAllotTimeEnd}   ]]>
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{nextFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')>=  #{nextFollDateStart}  ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{nextFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')<=  #{nextFollDateEnd}   ]]>
                 </if>
 
                 <if test="lastFollDateStart != null and lastFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{lastFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')>= #{lastFollDateStart}  ]]>
                 </if>
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{lastFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')<=  #{lastFollDateEnd}   ]]>
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{bailStartDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}   ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{bailEndDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{collectStartTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')>=  #{collectStartTime}   ]]>
                 </if>
                 <if test="collectEndTime != null and collectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{collectEndTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')<=  #{collectEndTime}   ]]>
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
                 </if>
 
                 <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
                 </if>
                 <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
                 </if>
 
                 <if test="moneyEnd != null and moneyEnd!=''">
@@ -675,40 +675,40 @@
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseAllotTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')>=  #{caseAllotTimeStart}  ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseAllotTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')<= #{caseAllotTimeEnd}  ]]>
                 </if>
                 <if test="lastFollDateStart != null and lastFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{lastFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')>=  #{lastFollDateStart}   ]]>
                 </if>
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{lastFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')<=  #{lastFollDateEnd}  ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
                 </if>
                 <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
                 </if>
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{nextFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')>=  #{nextFollDateStart}   ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{nextFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')<=  #{nextFollDateEnd}  ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''">
                     <![CDATA[   and t.money>=  #{moneyEnd}  ]]>
@@ -862,57 +862,57 @@
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(case_allot_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseAllotTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(case_allot_time, 'yyyy-MM-dd')>=  #{caseAllotTimeStart}   ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(case_allot_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseAllotTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(case_allot_time, 'yyyy-MM-dd')<=  #{caseAllotTimeEnd}   ]]>
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(next_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{nextFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(next_foll_date, 'yyyy-MM-dd')>=  #{nextFollDateStart}   ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(next_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{nextFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(next_foll_date, 'yyyy-MM-dd')<=  #{nextFollDateEnd})   ]]>
                 </if>
 
                 <if test="lastFollDateStart != null and lastFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(last_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{lastFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(last_foll_date, 'yyyy-MM-dd')>=  #{lastFollDateStart}   ]]>
                 </if>
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(last_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{lastFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(last_foll_date, 'yyyy-MM-dd')<=  #{lastFollDateEnd}   ]]>
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{bailStartDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}   ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{bailEndDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd')<= #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(collect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{collectStartTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(collect_time, 'yyyy-MM-dd')>=  #{collectStartTime}   ]]>
                 </if>
                 <if test="collectEndTime != null and collectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(collect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{collectEndTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(collect_time, 'yyyy-MM-dd')<=  #{collectEndTime}   ]]>
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(case_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(case_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
                 </if>
 
                 <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(repay_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(repay_time, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
                 </if>
                 <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(repay_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(repay_time, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
@@ -1014,59 +1014,59 @@
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND c.tel_name like dbo.CONCAT('%',#{telName},'%')
+                    AND c.tel_name = #{telName}
                 </if>
 
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND c.tel_phone like dbo.CONCAT('%',#{collectPhoneAddr},'%')
+                    AND c.tel_phone = #{collectPhoneAddr}
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{nextFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')>=  #{nextFollDateStart}  ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{nextFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')<=  #{nextFollDateEnd}   ]]>
                 </if>
 
                 <if test="lastFollDateStart != null and lastFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{lastFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')>= #{lastFollDateStart}  ]]>
                 </if>
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{lastFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')<=  #{lastFollDateEnd}  ]]>
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{bailStartDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}  ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{bailEndDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>= #{expectTimeStart}   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{collectStartTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')>=  #{collectStartTime}   ]]>
                 </if>
                 <if test="collectEndTime != null and collectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{collectEndTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')<=  #{collectEndTime}   ]]>
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}  ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
                 </if>
 
                 <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
                 </if>
                 <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
@@ -1110,10 +1110,10 @@
             c.delete_flag = 0 and t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  t.dept like dbo.CONCAT('%',#{dept},'%')
+                    AND  t.dept = #{dept}
                 </if>
                 <if test="area != null and area!=''">
-                    AND t.collect_area like dbo.CONCAT('%',#{area},'%')
+                    AND t.collect_area  = #{area}
                 </if>
                 <if test="odvFlag != null and odvFlag!=''">
                     and t.odv in
@@ -1122,7 +1122,7 @@
                     </foreach>
                 </if>
                 <if test="measure != null and measure!=''">
-                    AND c.measure like dbo.CONCAT('%',#{measure},'%')
+                    AND c.measure = #{measure}
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
@@ -1131,10 +1131,10 @@
                     </foreach>
                 </if>
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND t.status like dbo.CONCAT('%',#{caseStatus},'%')
+                    AND t.status = #{caseStatus}
                 </if>
                 <if test="result != null and result!=''">
-                    AND c.result like dbo.CONCAT('%',#{result},'%')
+                    AND c.result = #{result}
                 </if>
                 <if test="batchFlag != null and batchFlag!=''">
                     and t.batch_no in
@@ -1143,20 +1143,20 @@
                     </foreach>
                 </if>
                 <if test="cardNo != null and cardNo!=''">
-                    AND t.card_no like dbo.CONCAT('%',#{cardNo},'%')
+                    AND t.card_no = #{cardNo}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     AND c.collect_info like dbo.CONCAT('%',#{collectInfo},'%')
                 </if>
                 <if test="color != null and color!=''">
-                    AND t.color like dbo.CONCAT('%',#{color},'%')
+                    AND t.color = #{color}
                 </if>
                 <if test="seqno != null and seqno!=''">
-                    AND t.seq_no like dbo.CONCAT('%',#{seqno},'%')
+                    AND t.seq_no = #{seqno}
                 </if>
 
                 <if test="name != null and name!=''">
-                    AND t.name like dbo.CONCAT('%',#{name},'%')
+                    AND t.name = #{name}
                 </if>
 
                 <if test="accountAge != null and accountAge!=''">
@@ -1189,58 +1189,58 @@
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND c.tel_name like dbo.CONCAT('%',#{telName},'%')
+                    AND c.tel_name = #{telName}
                 </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND c.tel_phone like dbo.CONCAT('%',#{collectPhoneAddr},'%')
+                    AND c.tel_phone = #{collectPhoneAddr}
                 </if>
 
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{nextFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')>=  #{nextFollDateStart}   ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{nextFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.next_foll_date, 'yyyy-MM-dd')<=  #{nextFollDateEnd}   ]]>
                 </if>
 
                 <if test="lastFollDateStart != null and lastFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{lastFollDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')>=  #{lastFollDateStart}   ]]>
                 </if>
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{lastFollDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.last_foll_date, 'yyyy-MM-dd')<=  #{lastFollDateEnd}   ]]>
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{bailStartDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}  ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{bailEndDate}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}  ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{collectStartTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')>=  #{collectStartTime}   ]]>
                 </if>
                 <if test="collectEndTime != null and collectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{collectEndTime}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd')<=  #{collectEndTime}   ]]>
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{caseDateStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{caseDateEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
                 </if>
 
                 <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
                 </if>
                 <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(c.repay_time, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
                 </if>
 
                 <if test="moneyStart != null and moneyStart!=''">
@@ -1331,7 +1331,7 @@
         </if>
 
         <if test="odv != null and odv!=''">
-            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
+            AND  c.odv = #{odv}
         </if>
         <if test="accountAge != null and accountAge !=''">
             and c.account_age = #{accountAge}
@@ -1362,10 +1362,10 @@
             and c.account_age = #{accountAge}
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
+            AND  c.dept = #{dept}
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
+            AND  c.odv = #{odv}
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1374,7 +1374,7 @@
             </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
-            AND target_name like dbo.CONCAT('%',#{targetName},'%')
+            AND target_name = #{targetName}
         </if>
         GROUP BY c.batch_no
     </select>
@@ -1402,10 +1402,10 @@
             and c.account_age = #{accountAge}
         </if>
         <if test="dept != null and dept!=''">
-            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
+            AND  c.dept = #{dept}
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
+            AND  c.odv = #{odv}
         </if>
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
@@ -1414,7 +1414,7 @@
             </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
-            AND target_name like dbo.CONCAT('%',#{targetName},'%')
+            AND target_name = #{targetName}
         </if>
     </select>
 
@@ -1424,7 +1424,7 @@
         c.money,c.m_val as mVal,b.cp_money as bankAmt,b.cp_date as bankTime,
         ISNULL(b.cp_money*c.m_val,0) as repaidAmtM,
         ISNULL(c.en_repay_amt*c.m_val,0) as repaidBankAmtM,
-        c.pro_repay_amt as repayAmt, c.pro_repay_date as repayTime,c.en_repay_amt as enRepayAmt,
+        r.repay_money as repayAmt, r.repay_date as repayTime,c.en_repay_amt as enRepayAmt,
         c.expect_time as expectTime,r.repay_user as payName,r.repay_type as payMethod,r.confirm_user as confimName,
         r.confirm_time as confimTime,c.business_type as businessType
         from data_case c
@@ -1464,22 +1464,22 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and b.cp_date>= #{bankTimeStart}  ]]>
+            <![CDATA[   and r.repay_date>= #{bankTimeStart}  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and b.cp_date<= #{bankTimeEnd}   ]]>
+            <![CDATA[   and r.repay_date<= #{bankTimeEnd}   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<= #{expectTimeEnd} ]]>
         </if>
     </select>
 
@@ -1522,10 +1522,10 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
             <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')>=  #{bankTimeStart}   ]]>
@@ -1534,10 +1534,10 @@
             <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<= #{bankTimeEnd}  ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
         </if>
 
     </select>
@@ -1552,10 +1552,10 @@
         where dc.delete_flag = 0
 
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{monthStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{monthStart}  ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{monthEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{monthEnd}   ]]>
         </if>
 
         <if test="dept != null and dept!=''">
@@ -1576,22 +1576,22 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{repayTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{repayTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDated(dc.bank_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{bankTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDated(dc.bank_time, 'yyyy-MM-dd')>=  #{bankTimeStart}   ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{bankTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<=  #{bankTimeEnd}   ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  dbo.fnFormatDate(#{expectTimeStart}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  dbo.fnFormatDate(#{expectTimeEnd}, 'yyyy-MM-dd')   ]]>
+            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
         </if>
     </select>
 
