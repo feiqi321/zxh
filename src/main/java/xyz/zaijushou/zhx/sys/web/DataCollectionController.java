@@ -143,4 +143,18 @@ public class DataCollectionController {
         return WebResponse.success(list);
 
     }
+
+    @ApiOperation(value = "催收管理-催收员提成", notes = "催收管理-催收员提成")
+    @PostMapping("/dataCollection/loadDataOdv")
+    public Object loadDataOdv() {
+        WebResponse webResponse = dataCollectionService.loadDataOdv();
+        return webResponse;
+    }
+
+    @ApiOperation(value = "催收管理-经理提成", notes = "催收管理-经理提成")
+    @PostMapping("/dataCollection/loadDataManage")
+    public Object loadDataManage() {
+        WebResponse webResponse = dataCollectionService.loadDataManage();
+        return webResponse;
+    }
 }

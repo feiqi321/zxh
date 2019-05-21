@@ -599,10 +599,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         SysNewUserEntity userNew = sysUserMapper.getDataById(user.getId());
         List<String> userName = new ArrayList<String>();
         for (SysRoleEntity roleEntity : userNew.getRoleList()){
-            if (roleEntity.getId() == 4){//催收员
+            if (roleEntity.getId() == 15){//催收员
                 userName.add(user.getUserName());
                 tempCase.setCaseType("1");
-            }else if (roleEntity.getId() == 9){//经理
+            }else if (roleEntity.getId() == 16){//经理
                 SysNewUserEntity userEntity = new SysNewUserEntity();
                 userEntity.setId(user.getId());
                 List<SysNewUserEntity> userList = sysUserMapper.listParent(userEntity);
@@ -625,6 +625,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         webResponse.setTotalNum(count);
         webResponse.setTotalPageNum(totalPageNum);
         webResponse.setData(collectionReturn);
+        return webResponse;
+    }
+
+    public WebResponse loadDataOdv(){
+        WebResponse webResponse = WebResponse.buildResponse();
+
+        return webResponse;
+    }
+
+    public WebResponse loadDataManage(){
+        WebResponse webResponse = WebResponse.buildResponse();
+
         return webResponse;
     }
     /**

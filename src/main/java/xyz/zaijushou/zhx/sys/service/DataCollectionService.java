@@ -38,4 +38,8 @@ public interface DataCollectionService {
     public WebResponse pageStatisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
 
     public WebResponse statisticsCollectionPay(CollectionStatistic dataCollectionEntity);
+
+    public WebResponse loadDataOdv();
+
+    public WebResponse loadDataManage();
 }
