@@ -47,8 +47,7 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
         Integer id = JwtTokenUtil.tokenData().getInteger("userId");
         // 通过用户id 查到department
         SysNewUserEntity sysNewUserEntity = sysUserMapper.findDepartment(id);
-//        String department = sysNewUserEntity.getDepartment();
-        String department = "80";
+       String department = sysNewUserEntity.getDepartment();
         // 查到id下所有的组织下所有催收员
         List<SysNewUserEntity> list = sysOrganizationMapper.findById(department);
         List<Staffs> listStaffs = new ArrayList<>();
