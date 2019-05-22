@@ -383,7 +383,7 @@
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmt,t.expect_time as expectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
         c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
         t.seq_no as seqNo,t.color,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
-        t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,
+        t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t RIGHT  JOIN (select * from data_collection where delete_flag = 0) c on c.case_id = t.id
@@ -583,7 +583,7 @@
         t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd') as distributeTime,
         t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
-        t.account_age as accountAge,t.case_date as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
+        t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t
@@ -896,7 +896,7 @@
         t2.dept,t2.odv,t1.measure,t1.collect_time as collectTime,t1.target_name as targetName,t1.relation,t1.tel_type as telType,
         t1.mobile,t1.result,t1.method,t1.repay_time as repayTime,t1.create_time as createTime,
         t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.collect_status collectStatus,t1.reduce_status as reduceStatus,
-        t2.account_age as accountAge,t2.case_date as caseDate,t2.card_no as cardNo,t2.ident_no as identNo,
+        t2.account_age as accountAge,dbo.fnFormatDate(t2.case_date, 'yyyy-MM-dd') as caseDate,t2.card_no as cardNo,t2.ident_no as identNo,
         t2.money,t2.balance,t2.bank_amt as bankAmt,t1.collect_info as collectInfo,t2.over_days as overDays,
         t2.en_repay_amt as enRepayAmt,t1.next_foll_date as nextFollDate,t1.leave_days as leaveDays,t1.new_money as moneyStart,
         t1.last_phone_time as lastPhoneTime,t1.remind,t1.count_follow as countFollow,t1.collection_type as collectionType,

@@ -24,7 +24,7 @@
         c.account_age as [dataCase.overdueBillTime],
         c.principle as [dataCase.principle],
         c.last_repay_date as [dataCase.lastRepayDate],
-        c.case_date as [dataCase.caseDate],
+        dbo.fnFormatDate(c.case_date, 'yyyy-MM-dd') as [dataCase.caseDate],
         c.odv as [dataCase.collectionUser.id],
         c.credit_line as [dataCase.creditLine],
         c.home_address as [dataCase.homeAddress],

@@ -100,10 +100,10 @@
         where dct.delete_flag = 0
 
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
         </if>
         <if test="area != null and area!=''">
             AND da.area like dbo.CONCAT('%',#{area},'%')
@@ -150,10 +150,10 @@
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
         </if>
         <if test="area != null and area!=''">
             AND da.area like dbo.CONCAT('%',#{area},'%')
@@ -178,10 +178,10 @@
             AND da.odv = #{odv}
         </if>
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
         </if>
         GROUP BY result
     </select>
@@ -193,10 +193,10 @@
         from data_collection_tel dct
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd ') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd ') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd ')
+            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
         </if>
         <if test="odv != null and odv!=''">
             AND odv like dbo.CONCAT('%',#{odv},'%')
