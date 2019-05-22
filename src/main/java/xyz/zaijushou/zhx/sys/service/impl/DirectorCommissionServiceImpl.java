@@ -47,14 +47,18 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
         Integer id = JwtTokenUtil.tokenData().getInteger("userId");
         // 通过用户id 查到department
         SysNewUserEntity sysNewUserEntity = sysUserMapper.findDepartment(id);
-       String department = sysNewUserEntity.getDepartment();
-        // 查到id下所有的组织下所有催收员
+        String department = sysNewUserEntity.getDepartment();
+        // 查到id下所有的组织下所有在职催收员
         List<SysNewUserEntity> list = sysOrganizationMapper.findById(department);
         List<Staffs> listStaffs = new ArrayList<>();
         Staffs staffs;
         Date actualTime;
-        Calendar timeStart;
-        Calendar timeEnd;
+        Calendar timeStart = Calendar.getInstance();
+        // 设置为1号
+        timeStart.set(Calendar.DAY_OF_MONTH, 1);
+        Calendar timeEnd = Calendar.getInstance();
+        timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+
         for (SysNewUserEntity sysUserEntity : list) {
             String userName = sysUserEntity.getUserName();
             staffs = new Staffs();
@@ -65,19 +69,10 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
             tempCase.setOdv(sysUserEntity.getId() + "");
             // 转正时间
             actualTime = sysUserEntity.getActualTime();
-
-
             CollectionStatistic beanInfoData = new CollectionStatistic();
-            timeStart = Calendar.getInstance();
-            timeEnd = Calendar.getInstance();
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-            timeStart.add(Calendar.MONTH, 0);    //得到前一个月
-            timeStart.set(Calendar.DAY_OF_MONTH, 1);//设置为1号
-
             String first = sdf1.format(timeStart.getTime());
             beanInfoData.setMonthStart(first);//月第一天
-
-            timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
             String last = sdf1.format(timeEnd.getTime());
             // 月最后一天
             beanInfoData.setMonthEnd(last);
@@ -110,8 +105,8 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
             CollectionStatistic collectionStatic = dataCollectionMapper.statisticsCollectionPayM(beanInfoData);
             // 已还款提成金额
             BigDecimal commission = collectionStatic.getRepaidAmt();
-            staffs.setCommissionMsg(collectionStatic.getRepaidAmt() == null ? "" : "￥" + FmtMicrometer.fmtMicrometer(collectionStatic.getRepaidAmt().stripTrailingZeros() + ""));
-            staffs.setPaidMoneyMsg(result == null ? "" : "￥" + FmtMicrometer.fmtMicrometer(result.stripTrailingZeros() + ""));
+            staffs.setCommissionMsg(collectionStatic.getRepaidAmt() == null ? "" : FmtMicrometer.fmtMicrometer(collectionStatic.getRepaidAmt().stripTrailingZeros() + ""));
+            staffs.setPaidMoneyMsg(result == null ? "" : FmtMicrometer.fmtMicrometer(result.stripTrailingZeros() + ""));
             // 提成金额
             staffs.setCommission(commission);
             // 还款金额
@@ -119,16 +114,9 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
             staffs.setActualTime(actualTime);
             listStaffs.add(staffs);
         }
-
-        HashMap<String, Object> map = new HashMap<>(16);
+        HashMap<String, Object> map = new HashMap<>(2);
         SysStandard sysStandard = sysPercentService.listStandard();
         Level level = new Level();
-
-        timeStart = Calendar.getInstance();
-        // 设置为1号
-        timeStart.set(Calendar.DAY_OF_MONTH, 1);
-        timeEnd = Calendar.getInstance();
-        timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
 
         ArrayList<Staffs> list0 = new ArrayList<>();
         ArrayList<Staffs> list1 = new ArrayList<>();
@@ -200,7 +188,7 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
             }
             percentData.setClient(caseList2.get(i).getBusinessType());
             SysPercent percent = sysPercentMapper.findByClient(percentData);
-            String settleDate = caseList2.get(i).getSettleDate();
+//            String settleDate = caseList2.get(i).getSettleDate();
             // 1 已结清 0 未结清
             String settleFlag = caseList2.get(i).getSettleFlag();
             caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt() == null ? new BigDecimal(0) : caseList1.get(i).getEnRepayAmt());
@@ -266,7 +254,7 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
     }
 
     private BigDecimal calPaidMoney(BigDecimal enRepayAmt, SysPercent sysPercent) {
-        BigDecimal result = new BigDecimal("0.00");
+        BigDecimal result;
         if (enRepayAmt == null) {
             enRepayAmt = new BigDecimal(0);
         }
@@ -311,7 +299,7 @@ public class DirectorCommissionServiceImpl implements DirectorCommissionService 
         }
         BigDecimal result = new BigDecimal("0.00");
         // 综合户达率
-        BigDecimal hourseholdRate = new BigDecimal("0.00");
+        BigDecimal hourseholdRate;
         hourseholdRate = enRepayAmt.divide(money).setScale(2, BigDecimal.ROUND_UP).multiply(CaseBaseConstant.ROUND);
         if (enRepayAmt.compareTo(sysPercent.getOdvBasic()) < 0) {
             result = enRepayAmt.multiply(sysPercent.getOdvLow());

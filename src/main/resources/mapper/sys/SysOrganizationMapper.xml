@@ -115,7 +115,7 @@ select   a.id,  a.parent_id,  a.org_name, b.curlevel+1
          tem_table  b
     on (a.parent_id = b.id)
 )
-select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from tem_table,sys_user where tem_table.id=sys_user.department
+select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1
 
     </select>
 
