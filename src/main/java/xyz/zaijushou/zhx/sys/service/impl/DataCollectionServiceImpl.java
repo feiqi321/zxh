@@ -953,7 +953,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else {
             if (actualTime==null || actualTime.compareTo(timeStart.getTime())<0 || actualTime.compareTo(timeEnd.getTime())>0) {
                 tempCase.setRepayDateEnd(last);
-                result = royaltyType(tempCase,1);
+                result = royaltyManage(tempCase,1);
             }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
                 tempCase.setRepayDateEnd(day25);
                 result = royaltyManage(tempCase,2);
