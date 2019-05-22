@@ -46,6 +46,8 @@ public interface SysUserMapper {
      */
     List<SysNewUserEntity> userDataList(SysNewUserEntity userEntity);
 
+    List<SysNewUserEntity> userDataListIn(SysNewUserEntity userEntity);
+
     int countUserData(SysNewUserEntity userEntity);
 
     List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity);
