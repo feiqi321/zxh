@@ -242,6 +242,7 @@
             <if test="status != null">status,</if>
             <if test="position != null">position,</if>
             <if test="loginNameCount != null">login_name_count,</if>
+            login_fail_times,
             delete_flag,
             create_time,
         </trim>
@@ -263,6 +264,7 @@
             1,
             <if test="position != null">#{position},</if>
             <if test="loginNameCount != null">#{loginNameCount},</if>
+            0,
             0,
             GETDATE(),
         </trim>
@@ -356,8 +358,11 @@
                 #{item}
             </foreach>
         </if>
-        <if test="department != null and department!=''">
-            AND  department = #{department}
+        <if test="accountStatus != null and accountStatus==2">
+            AND  (enable = 0 or <![CDATA[ login_fail_times >= 3 ]]>)
+        </if>
+        <if test="accountStatus != null and accountStatus==1">
+            AND  enable=1 and  <![CDATA[ login_fail_times < 3 ]]>
         </if>
         <if test="number != null and number!=''">
             AND  number like dbo.CONCAT('%',#{number},'%')
@@ -620,7 +625,6 @@
         <if test="userName != null and userName!=''">
             AND  username like dbo.CONCAT('%',#{userName},'%')
         </if>
-        order by ${orderBy} ${sort}
         )su
         LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
