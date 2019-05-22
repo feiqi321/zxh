@@ -83,6 +83,8 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> listAllCaseInfo(DataCaseEntity bean);
 
+    public List<DataCaseEntity> listInitAllCaseInfo(DataCaseEntity bean);
+
     public int countUserCase(DataCaseEntity bean);
 
 

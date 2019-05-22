@@ -12,6 +12,7 @@ public class DataCaseEntity extends CommonEntity {
     private String idStr;
     private String idFlag;
     private String[] ids;
+    private Integer maxId;
     private String batchNo; //批次编号 查询条件  列表
     private String batchNoFlag;
     private String[] batchNos;
@@ -2677,5 +2678,13 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setSettleFlag(String settleFlag) {
         this.settleFlag = settleFlag;
+    }
+
+    public Integer getMaxId() {
+        return maxId;
+    }
+
+    public void setMaxId(Integer maxId) {
+        this.maxId = maxId;
     }
 }

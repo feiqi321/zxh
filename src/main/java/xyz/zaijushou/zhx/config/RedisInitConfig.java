@@ -65,10 +65,19 @@ public class RedisInitConfig implements ApplicationRunner {
         initRoleInfo();
         initDic(allDic);
 
-      /*  List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
+       /* List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
         initBatch(allBatch);
-        List<DataCaseEntity> allCase = dataCaseMapper.listAllCaseInfo(new DataCaseEntity());
-        initCase(allCase);*/
+        for (int i=0;i<60;i++){
+            DataCaseEntity DataCaseEntity = new DataCaseEntity();
+            DataCaseEntity.setId(i*100000);
+            DataCaseEntity.setMaxId((i+1)*100000);
+            List<DataCaseEntity> allCase = dataCaseMapper.listInitAllCaseInfo(DataCaseEntity);
+            if (allCase.size()==0){
+                break;
+            }
+            initCase(allCase);
+        }*/
+
 
     }
     private void initDic(List<SysDictionaryEntity> allDic){

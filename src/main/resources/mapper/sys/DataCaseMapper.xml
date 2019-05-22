@@ -549,10 +549,10 @@
                     <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
+                    <![CDATA[   and da.case_date>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}  ]]>
+                    <![CDATA[   and da.case_date<=  #{caseDateEnd}  ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
                     <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
@@ -717,10 +717,10 @@
                     <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}  ]]>
+                    <![CDATA[   and da.case_date>=  #{caseDateStart}  ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
+                    <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
                     <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
@@ -885,10 +885,10 @@
                     <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
+                    <![CDATA[   and da.case_date>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
+                    <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
                     <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
@@ -979,10 +979,10 @@
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
+                    <![CDATA[   and da.case_date>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
+                    <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
                     <![CDATA[   and dbo.fnFormatDated(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
@@ -1288,6 +1288,16 @@
         <if test="id != null and id!=''">
             and da.id = #{id}
         </if>
+    </select>
+
+    <select id="listInitAllCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select top 100000 da.id,da.card_no as cardNo,
+        da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,
+        da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardo,da.ident_no as identNo,
+        da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,
+        da.bank_amt as bankAmt,da.batch_no as batchNo
+        from data_case da
+        where da.delete_flag = 0 and <![CDATA[   and da.id>#{id}  and  da.id <= #{maxId}]]>
     </select>
 
     <select id="listBySeqNoSet" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -2343,10 +2353,10 @@
                     <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}  ]]>
+                    <![CDATA[   and da.case_date>=  #{caseDateStart}  ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
+                    <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
                     <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
@@ -2505,10 +2515,10 @@
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')>=  #{caseDateStart}   ]]>
+                    <![CDATA[   and t.case_date>=  #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd')<=  #{caseDateEnd}   ]]>
+                    <![CDATA[   and t.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
                     <![CDATA[   and dbo.fnFormatDated(t.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
