@@ -173,13 +173,19 @@
         insert into sys_role_menu
             (
               role_id,
-              menu_id
+              menu_id,
+              create_time,
+              update_time,
+              delete_flag
             )
         values
           <foreach collection="menus" item="menu" separator=",">
               (
                 #{id},
-                #{menu.id}
+                #{menu.id},
+                GETDATE(),
+                GETDATE(),
+                0
               )
           </foreach>
     </insert>
@@ -195,13 +201,19 @@
         insert into sys_role_button
         (
         role_id,
-        button_id
+        button_id,
+        create_time,
+        update_time,
+        delete_flag
         )
         values
         <foreach collection="buttons" item="button" separator=",">
             (
             #{id},
-            #{button.id}
+            #{button.id},
+            GETDATE(),
+            GETDATE(),
+            0
             )
         </foreach>
     </insert>
