@@ -17,7 +17,7 @@ public class ExcelUserConstant {
         COL40(40, "*角色", "role", String.class),
         COL50(50, "性别", "sex", String.class),
         COL60(60, "手机号", "mobile", String.class),
-        COL70(70, "座机号", "officePhone", String.class),
+        COL70(70, "坐席号", "officePhone", String.class),
         COL80(80, "入职日期", "joinTime", Date.class),
         COL90(90, "下组日期", "actualTime", Date.class),
         ;
