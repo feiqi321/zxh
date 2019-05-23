@@ -370,6 +370,9 @@
         <if test="userName != null and userName!=''">
             AND  username like dbo.CONCAT('%',#{userName},'%')
         </if>
+        <if test="loginName != null and loginName!=''">
+            AND  login_name like dbo.CONCAT('%',#{loginName},'%')
+        </if>
         ) temp_row
         where rownumber>((${pageNum}-1)*${pageSize})
         )su
