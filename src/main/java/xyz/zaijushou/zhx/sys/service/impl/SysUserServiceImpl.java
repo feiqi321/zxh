@@ -441,7 +441,6 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtils.isEmpty(userEntity.getSort())){
             userEntity.setSort(" desc");
         }
-        userEntity.setPageNum((userEntity.getPageNum()-1)*userEntity.getPageSize());
 
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
 
