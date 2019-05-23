@@ -245,7 +245,6 @@ public class SysUserServiceImpl implements SysUserService {
         userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex(password.trim())));//保存加密密码
         userEntity.setCreateTime(new Date());
         userEntity.setDeleteFlag(0);//默认正常
-
         sysUserMapper.saveNewUser(userEntity);
         //保存角色中间表
         SysUserRoleEntity roleEntity = new SysUserRoleEntity();
@@ -442,8 +441,9 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtils.isEmpty(userEntity.getSort())){
             userEntity.setSort(" desc");
         }
-        userEntity.setPageNum((userEntity.getPageNum()-1)*userEntity.getPageSize());
+
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
+
         for (int i=0;i<list.size();i++){
             SysNewUserEntity sysNewUserEntity = list.get(i);
             if (sysNewUserEntity.getLoginFailTimes()>=3 ||  sysNewUserEntity.getEnable()==0){

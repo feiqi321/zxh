@@ -19,6 +19,8 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private String userName;
 
+    private Integer accountStatus;
+
     /**
      * 手机号
      */
@@ -98,6 +100,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public Integer getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(Integer accountStatus) {
+        this.accountStatus = accountStatus;
+    }
 
     public Date getActualTime() {
         return actualTime;
