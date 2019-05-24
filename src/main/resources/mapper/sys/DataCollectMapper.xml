@@ -1773,7 +1773,7 @@
             <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDated(dc.bank_time, 'yyyy-MM-dd')>=  #{bankTimeStart}   ]]>
+            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')>=  #{bankTimeStart}   ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
             <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<=  #{bankTimeEnd}   ]]>

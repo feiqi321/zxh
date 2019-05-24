@@ -379,6 +379,7 @@
         LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
+        order by ${orderBy} ${sort}
     </select>
 
     <select id="countUserData" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">
@@ -396,6 +397,9 @@
         </if>
         <if test="userName != null and userName!=''">
             AND  username like dbo.CONCAT('%',#{userName},'%')
+        </if>
+        <if test="loginName != null and loginName!=''">
+            AND  login_name like dbo.CONCAT('%',#{loginName},'%')
         </if>
     </select>
 
