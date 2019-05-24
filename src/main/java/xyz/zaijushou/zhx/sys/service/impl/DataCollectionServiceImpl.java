@@ -264,7 +264,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             //dataCollectionMapper.createTemp();
             dataCollectionMapper.saveBatchCollect(dataCollectionEntity1);
             List<DataCollectionEntity> collectList = dataCollectionMapper.showCollectTime();
-            dataCollectionMapper.deletBatchCollect(dataCollectionEntity);
+            dataCollectionMapper.deletBatchCollect(dataCollectionEntity1);
             for (int i=0;i<collectList.size();i++){
                 DataCollectionEntity tempCollect = collectList.get(i);
                 collectMap.put(tempCollect.getCaseId(),tempCollect);
