@@ -55,8 +55,12 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ conInfo.getOdv(), SysUserEntity.class);
-                conInfo.setOdv(user.getUserName());
+                bean.setOdv(conInfo.getdOdv());
                 List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
+
+                List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(bean);
+                List<CollectionStatistic> conList = dataCollectionTelMapper.statisticsCollectionCon(bean);
+                List<CollectionStatistic> caseList = dataCollectionTelMapper.statisticsCollectionCase(bean);
                 for (String str : timeAreaAttr){
                     CollectionStatistic col = new CollectionStatistic();
                     col.setArea(str);//时间区域
@@ -65,20 +69,33 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                     Date dateEnd = sdf2.parse(str.split("-")[1]);
                     Calendar dTime = Calendar.getInstance();
                     dTime.setTime(bean.getDateSearchStart());
-                    while(!dTime.getTime().after(bean.getDateSearchEnd())){
-                        col.setDateStart(sdf.parse(sdf1.format(dTime.getTime()) + sdf2.format(dateStart)));
-                        col.setDateEnd(sdf.parse(sdf1.format(dTime.getTime())+sdf2.format(dateEnd)));
-                        int telNum = dataCollectionTelMapper.statisticsCollectionSum(col);
-                        int conNum = dataCollectionTelMapper.statisticsCollectionCon(col);
-                        int caseNum = dataCollectionTelMapper.statisticsCollectionCase(col);
-                        col.setCountPhoneNum(col.getCountPhoneNum()+telNum);
-                        col.setCountConPhoneNum(col.getCountConPhoneNum()+conNum);
-                        col.setCountCasePhoneNum(col.getCountCasePhoneNum()+caseNum);
-                        sumPhoneNum += telNum;
-                        sumConPhoneNum += conNum;
-                        sumCasePhoneNum += caseNum;
-                        dTime.add(Calendar.DAY_OF_MONTH,1);
+                    int telNum = 0;
+                    int conNum = 0;
+                    int caseNum = 0;
+                    for (CollectionStatistic collection : sumList){
+                        if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                                && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
+                            telNum++;
+                            sumPhoneNum++;
+                        }
                     }
+                    for (CollectionStatistic collection : conList){
+                        if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                                && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
+                            conNum++;
+                            sumConPhoneNum++;
+                        }
+                    }
+                    for (CollectionStatistic collection : caseList){
+                        if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                                && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
+                            caseNum++;
+                            sumCasePhoneNum++;
+                        }
+                    }
+                    col.setCountPhoneNum(telNum);
+                    col.setCountConPhoneNum(conNum);
+                    col.setCountCasePhoneNum(caseNum);
                     colList.add(col);
                 }
                 conInfo.setList(colList);
@@ -115,35 +132,56 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 int sumConPhoneNum = 0;//接通电话数
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数
-                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ conInfo.getOdv(), SysUserEntity.class);
-                conInfo.setOdv(user.getUserName());
+                conInfo.setOdv(conInfo.getdOdv());
                 List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
-                Calendar dTime = Calendar.getInstance();
-                Date dateEnd = new Date() ;
+
+                List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(bean);
+                List<CollectionStatistic> conList = dataCollectionTelMapper.statisticsCollectionCon(bean);
+                List<CollectionStatistic> caseList = dataCollectionTelMapper.statisticsCollectionCase(bean);
+
                 try {
+                    Calendar dTime = Calendar.getInstance();
+                    Date dateEnd = new Date() ;
                     dTime.setTime(sdf1.parse(bean.getMonthStart()));
                     dateEnd = sdf1.parse(bean.getMonthEnd());
+
+                    while(!dTime.getTime().after(dateEnd)){
+                        CollectionStatistic col = new CollectionStatistic();
+                        col.setOdv(conInfo.getOdv());
+                        col.setDateStart(getDateInfo(dTime.getTime(),1));
+                        col.setDateEnd(getDateInfo(dTime.getTime(),0));
+
+                        for (CollectionStatistic collection : sumList){
+                            if(sdf.parse(collection.getCollectTime()).getTime()>= col.getDateStart().getTime()
+                                    && sdf.parse(collection.getCollectTime()).getTime()<= col.getDateEnd().getTime()){
+                                sumPhoneNum++;
+                            }
+                        }
+                        for (CollectionStatistic collection : conList){
+                            if(sdf.parse(collection.getCollectTime()).getTime()>=  col.getDateStart().getTime()
+                                    && sdf.parse(collection.getCollectTime()).getTime()<=  col.getDateEnd().getTime()){
+                                sumConPhoneNum++;
+                            }
+                        }
+                        for (CollectionStatistic collection : caseList){
+                            if(sdf.parse(collection.getCollectTime()).getTime()>=  col.getDateStart().getTime()
+                                    && sdf.parse(collection.getCollectTime()).getTime()<=  col.getDateEnd().getTime()){
+                                sumCasePhoneNum++;
+                            }
+                        }
+                        col.setCountPhoneNum(sumConPhoneNum);
+                        col.setCountConPhoneNum(sumPhoneNum);
+                        col.setCountCasePhoneNum(sumConPhoneNum);
+
+                        col.setArea(sdf1.format(dTime.getTime()));
+                        colList.add(col);
+                        dTime.add(Calendar.MONTH,1);
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                while(!dTime.getTime().after(dateEnd)){
-                    CollectionStatistic col = new CollectionStatistic();
-                    col.setOdv(conInfo.getOdv());
-                    col.setDateStart(getDateInfo(dTime.getTime(),1));
-                    col.setDateEnd(getDateInfo(dTime.getTime(),0));
-                    int telNum = dataCollectionTelMapper.statisticsCollectionSum(col);
-                    int conNum = dataCollectionTelMapper.statisticsCollectionCon(col);
-                    int caseNum = dataCollectionTelMapper.statisticsCollectionCase(col);
-                    col.setCountPhoneNum(col.getCountPhoneNum()+telNum);
-                    col.setCountConPhoneNum(col.getCountConPhoneNum()+conNum);
-                    col.setCountCasePhoneNum(col.getCountCasePhoneNum()+caseNum);
-                    sumPhoneNum += telNum;
-                    sumConPhoneNum += conNum;
-                    sumCasePhoneNum += caseNum;
-                    col.setArea(sdf1.format(dTime.getTime()));
-                    colList.add(col);
-                    dTime.add(Calendar.MONTH,1);
-                }
+
+
                 conInfo.setList(colList);
                 conInfo.setSumCasePhoneNum(sumCasePhoneNum);
                 conInfo.setSumConPhoneNum(sumConPhoneNum);

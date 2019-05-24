@@ -133,7 +133,17 @@ public class CollectionStatistic extends CommonEntity {
 
     private String phoneTime;
 
+    private String collectTime;
+
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+
+    public String getCollectTime() {
+        return collectTime;
+    }
+
+    public void setCollectTime(String collectTime) {
+        this.collectTime = collectTime;
+    }
 
     public String getCollectStatusMsg() {
         return collectStatusMsg;
