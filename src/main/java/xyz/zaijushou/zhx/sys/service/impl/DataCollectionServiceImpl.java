@@ -740,17 +740,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         return result;
     }
-    public WebResponse loadDataOdv(){
-        WebResponse webResponse = WebResponse.buildResponse();
 
-        return webResponse;
-    }
-
-    public WebResponse loadDataManage(){
-        WebResponse webResponse = WebResponse.buildResponse();
-
-        return webResponse;
-    }
 
     /**
      * 催收员提成
