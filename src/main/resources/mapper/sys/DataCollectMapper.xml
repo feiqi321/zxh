@@ -569,14 +569,42 @@
     select count(t.id)
     from data_case t where t.odv=#{odv} and t.distribute_status=1
     </select>
-    <select id="showCollectTime" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select dbo.fnFormatDate(max(collect_time), 'yyyy-MM-dd HH:mm') as collectTime from data_collection
+    <select id="showCollectTime"  resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select max(t1.collect_time) as collectDate ,t2.case_id as caseId from data_collection t1 right
+        join collect t2 on t1.case_id = t2.case_id
+        group by t2.case_id
+    </select>
+    <update id="createTemp">
+        create table #collect(
+             case_id  int
+        )
+    </update>
+    <update id="deleteTemp">
+        IF object_id('tempdb..#collect') is not null Begin
+            drop table #collect
+        End
+    </update>
+
+    <delete id="deletBatchCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        delete from collect
         where case_id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
             #{item}
         </foreach>
-        group by case_id
-    </select>
+
+    </delete>
+    <insert id="saveBatchCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        insert into collect
+        (
+        case_id
+        )
+        values
+        <foreach collection ="ids" item="reddemCode" index= "index" separator =",">
+            (
+            #{reddemCode}
+            )
+        </foreach >
+    </insert>
     <select id="pageMyCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,t.distribute_status  as distributeStatus,
         t.tel,t.remark as result,t.repay_date as repayTime,t.summary as collectInfo,

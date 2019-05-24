@@ -5,11 +5,21 @@ package xyz.zaijushou.zhx.sys.entity;
  */
 public class DirectorOdv {
 
+    private String odv;
+
     private String name;
 
     private String amount;
 
     private String commission;
+
+    public String getOdv() {
+        return odv;
+    }
+
+    public void setOdv(String odv) {
+        this.odv = odv;
+    }
 
     public String getName() {
         return name;

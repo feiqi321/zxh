@@ -4,6 +4,7 @@ import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +64,8 @@ public class DataCollectionEntity extends CommonEntity {
     private String clientFlag;
     //催收时间
     private String collectTime;
+
+    private Date collectDate;
     //催收时间  开始时间
     private String collectStartTime;
     //催收时间  结束
@@ -1526,5 +1529,13 @@ public class DataCollectionEntity extends CommonEntity {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public Date getCollectDate() {
+        return collectDate;
+    }
+
+    public void setCollectDate(Date collectDate) {
+        this.collectDate = collectDate;
     }
 }

@@ -34,7 +34,15 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> pageMyCollect(DataCollectionEntity bean);
 
-    public List<DataCollectionEntity> showCollectTime(DataCollectionEntity bean);
+    public List<DataCollectionEntity> showCollectTime();
+
+    public void deleteTemp();
+
+    public void createTemp();
+
+    public void saveBatchCollect(DataCollectionEntity bean);
+
+    public void deletBatchCollect(DataCollectionEntity bean);
 
     public List<DataCollectionEntity> findMaxByCaseId(DataCollectionEntity bean);
 
