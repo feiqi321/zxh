@@ -52,7 +52,7 @@
         AND dc.collect_area = #{area}
     </if>
     <if test="seqno != null and seqno!=''">
-        AND dc.seqno = #{seqno}
+        AND dc.seq_no = #{seqno}
     </if>
     <if test="targetName != null and targetName!=''">
         AND dc.name = #{targetName}
