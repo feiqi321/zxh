@@ -516,10 +516,10 @@
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}   ]]>
+                    <![CDATA[   and c.bail_date >=  #{bailStartDate}   ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  #{bailEndDate}   ]]>
+                    <![CDATA[   and c.bail_date <=  #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
                     <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
@@ -1074,10 +1074,10 @@
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}   ]]>
+                    <![CDATA[   and bail_date >=  #{bailStartDate}   ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(bail_date, 'yyyy-MM-dd')<= #{bailEndDate}   ]]>
+                    <![CDATA[   and bail_date <= #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
                     <![CDATA[   and dbo.fnFormatDate(expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
@@ -1228,10 +1228,10 @@
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}  ]]>
+                    <![CDATA[   and c.bail_date >=  #{bailStartDate}  ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  #{bailEndDate}   ]]>
+                    <![CDATA[   and c.bail_date <=  #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
                     <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>= #{expectTimeStart}   ]]>
@@ -1402,10 +1402,10 @@
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')>=  #{bailStartDate}  ]]>
+                    <![CDATA[   and c.bail_date >=  #{bailStartDate}  ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(c.bail_date, 'yyyy-MM-dd')<=  #{bailEndDate}   ]]>
+                    <![CDATA[   and c.bail_date <=  #{bailEndDate}   ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
                     <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
