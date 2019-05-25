@@ -379,16 +379,17 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         beanInfo.setOdv(user.getId()+"");//当前用户
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
         Calendar time = Calendar.getInstance();
 
         try {
-            Date nowDate = sdf1.parse(sdf1.format(new Date()));
+            Date startNow = sdf.parse(sdf1.format(new Date())+" 00:00:01");
+            Date endNow = sdf.parse(sdf1.format(new Date())+" 23:59:59");
             //循环查询日期条件的时间范围
-            beanInfo.setDateSearchStart(beanInfo.getDateSearchStart()==null ? nowDate:beanInfo.getDateSearchStart());
-            beanInfo.setDateSearchEnd(beanInfo.getDateSearchEnd()==null ? nowDate:beanInfo.getDateSearchEnd());
+            beanInfo.setDateSearchStart(beanInfo.getDateSearchStart()==null ? startNow:beanInfo.getDateSearchStart());
+            beanInfo.setDateSearchEnd(beanInfo.getDateSearchEnd()==null ? endNow:beanInfo.getDateSearchEnd());
             List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(beanInfo);
             List<CollectionStatistic> conList = dataCollectionTelMapper.statisticsCollectionCon(beanInfo);
             List<CollectionStatistic> caseList = dataCollectionTelMapper.statisticsCollectionCase(beanInfo);
@@ -449,7 +450,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public WebResponse pageStatisticsCollectionState(CollectionStatistic beanInfo){
+    public WebResponse statisticsCollectionState(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = beanInfo.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
@@ -500,14 +501,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if(StringUtils.notEmpty(nullCollectionStatistic.getCollectStatusMsg())){
             resultList.add(nullCollectionStatistic);
         }
-        int totalPageNum = 0 ;
-        if (count%beanInfo.getPageSize()>0){
-            totalPageNum = count/beanInfo.getPageSize()+1;
-        }else{
-            totalPageNum = count/beanInfo.getPageSize();
-        }
         webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
         webResponse.setData(resultList);
         return webResponse;
     }
@@ -518,7 +512,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public WebResponse pageStatisticsCollectionBatch(CollectionStatistic beanInfo){
+    public WebResponse statisticsCollectionBatch(CollectionStatistic beanInfo){
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = beanInfo.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
@@ -543,14 +537,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionBatch(beanInfo);
-        int totalPageNum = 0 ;
-        if (count%beanInfo.getPageSize()>0){
-            totalPageNum = count/beanInfo.getPageSize()+1;
-        }else{
-            totalPageNum = count/beanInfo.getPageSize();
-        }
         webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
         webResponse.setData(colList);
         return webResponse;
     }

@@ -33,9 +33,9 @@ public interface DataCollectionService {
 
     public List<CollectionStatistic> statisticsCollectionDay(CollectionStatistic dataCollectionEntity);
 
-    public WebResponse pageStatisticsCollectionState(CollectionStatistic dataCollectionEntity);
+    public WebResponse statisticsCollectionState(CollectionStatistic dataCollectionEntity);
 
-    public WebResponse pageStatisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
+    public WebResponse statisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
 
     public WebResponse statisticsCollectionPay(CollectionStatistic dataCollectionEntity);
 

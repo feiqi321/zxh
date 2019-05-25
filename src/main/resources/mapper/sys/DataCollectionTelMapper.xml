@@ -48,26 +48,26 @@
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
         where dc.delete_flag = 0
         <if test="dateStart != null">
-            and dc.collect_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dc.collect_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'YYYY-MM')>=  dbo.fnFormatDate(#{monthStart}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'YYYY-MM')<=  dbo.fnFormatDate(#{monthEnd}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
         </if>
         <if test="dateSearchStart != null">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'yyyy-MM-dd')>=  #{dateSearchStart}  ]]>
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
         </if>
         <if test="dateSearchEnd != null">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'yyyy-MM-dd')<=  #{dateSearchEnd}   ]]>
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
         </if>
 
         <if test="odv != null and odv!=''">
-            AND da.odv like dbo.CONCAT('%',#{odv},'%')
+            AND da.odv =#{odv}
         </if>
     </select>
 
@@ -77,28 +77,26 @@
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
         where dc.delete_flag = 0 and dc.result in (select id from sys_data_dictionary where dictionary_id = 14 and sys_flag=1 )
         <if test="dateStart != null">
-            and dc.collect_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dc.collect_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
-
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'YYYY-MM')>=  dbo.fnFormatDate(#{monthStart}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'YYYY-MM')<=  dbo.fnFormatDate(#{monthEnd}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
         </if>
-
         <if test="dateSearchStart != null">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'yyyy-MM-dd')>=  #{dateSearchStart}  ]]>
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
         </if>
         <if test="dateSearchEnd != null">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'yyyy-MM-dd')<=  #{dateSearchEnd}   ]]>
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
         </if>
 
         <if test="odv != null and odv!=''">
-            AND da.odv like dbo.CONCAT('%',#{odv},'%')
+            AND da.odv = #{odv}
         </if>
     </select>
 
@@ -108,22 +106,22 @@
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
         where dc.delete_flag = 0
         <if test="dateStart != null">
-            and dc.collect_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dc.collect_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'YYYY-MM')>=  dbo.fnFormatDate(#{monthStart}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'YYYY-MM')<=  dbo.fnFormatDate(#{monthEnd}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
         </if>
         <if test="dateSearchStart != null">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'yyyy-MM-dd')>=  #{dateSearchStart}  ]]>
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
         </if>
         <if test="dateSearchEnd != null">
-            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'yyyy-MM-dd')<=  #{dateSearchEnd}   ]]>
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
         </if>
         <if test="odv != null and odv!=''">
             AND da.odv = #{odv}

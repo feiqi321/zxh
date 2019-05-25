@@ -391,7 +391,7 @@
            t.delete_flag = 0 and c.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
-                    AND  t.dept like dbo.CONCAT('%',#{dept},'%')
+                    AND  t.dept =#{dept}
                 </if>
                 <if test="collectionType != null and collectionType!=''">
                     AND c.collection_type = #{collectionType}
@@ -406,7 +406,7 @@
                     </foreach>
                 </if>
                 <if test="measure != null and measure!=''">
-                    AND c.measure like dbo.CONCAT('%',#{measure},'%')
+                    AND c.measure =#{measure}
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
@@ -422,14 +422,14 @@
                 </if>
 
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND t.case_status l= #{caseStatus}
+                    AND t.case_status = #{caseStatus}
                 </if>
                 <if test="result != null and result!=''">
-                    AND c.result like dbo.CONCAT('%',#{result},'%')
+                    AND c.result =#{result}
                 </if>
 
                 <if test="cardNo != null and cardNo!=''">
-                    AND t.card_no like dbo.CONCAT('%',#{cardNo},'%')
+                    AND t.card_no =#{cardNo}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     AND c.collect_info like dbo.CONCAT('%',#{collectInfo},'%')
@@ -483,15 +483,15 @@
                 </if>
 
                 <if test="telName != null and telName!=''">
-                    AND c.tel_name like dbo.CONCAT('%',#{telName},'%')
+                    AND c.tel_name =#{telName}
                 </if>
 
                 <if test="telPhone != null and telPhone!=''">
-                    AND c.tel_phone like dbo.CONCAT('%',#{telPhone},'%')
+                    AND c.tel_phone =#{telPhone}
                 </if>
 
                 <if test="collectPhoneAddr != null and collectPhoneAddr!=''">
-                    AND c.tel_phone like dbo.CONCAT('%',#{collectPhoneAddr},'%')
+                    AND c.tel_phone =#{collectPhoneAddr}
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
@@ -1494,7 +1494,7 @@
         </if>
 
         <if test="odv != null and odv!=''">
-            AND  c.odv like dbo.CONCAT('%',#{odv},'%')
+            AND  c.odv = #{odv}
         </if>
         <if test="accountAge != null and accountAge !=''">
             and c.account_age = #{accountAge}

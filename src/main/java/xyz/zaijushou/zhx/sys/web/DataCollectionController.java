@@ -111,7 +111,7 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/statistics/state")
     public Object statisticsCollectionState(@RequestBody CollectionStatistic bean) {
 
-        WebResponse webResponse = dataCollectionService.pageStatisticsCollectionState(bean);
+        WebResponse webResponse = dataCollectionService.statisticsCollectionState(bean);
 
         return webResponse;
 
@@ -121,7 +121,7 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/statistics/batch")
     public Object statisticsCollectionBatch(@RequestBody CollectionStatistic bean) {
 
-        WebResponse webResponse = dataCollectionService.pageStatisticsCollectionBatch(bean);
+        WebResponse webResponse = dataCollectionService.statisticsCollectionBatch(bean);
 
         return webResponse;
 
