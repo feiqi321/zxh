@@ -101,10 +101,10 @@
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.expectStartTime != null">
-            and c.expect_start_time >= #{expectStartTime}
+            and c.expect_time >= #{dataCase.expectStartTime}
         </if>
         <if test="dataCase != null and dataCase.expectEndTime != null">
-            and c.expect_start_time &lt;= #{expectEndTime}
+            and c.expect_time &lt;= #{dataCase.expectEndTime}
         </if>
         <if test="dataCase != null and dataCase.caseType != null">
             and c.case_type = #{dataCase.caseType}
@@ -208,10 +208,10 @@
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.expectStartTime != null">
-            and c.expect_start_time >= #{expectStartTime}
+            and c.expect_time >= #{dataCase.expectStartTime}
         </if>
         <if test="dataCase != null and dataCase.expectEndTime != null">
-            and c.expect_start_time &lt;= #{expectEndTime}
+            and c.expect_time &lt;= #{dataCase.expectEndTime}
         </if>
         <if test="dataCase != null and dataCase.caseType != null">
             and c.case_type = #{dataCase.caseType}
@@ -308,10 +308,10 @@
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.expectStartTime != null">
-            and c.expect_start_time >= #{expectStartTime}
+            and c.expect_time >= #{dataCase.expectStartTime}
         </if>
         <if test="dataCase != null and dataCase.expectEndTime != null">
-            and c.expect_start_time &lt;= #{expectEndTime}
+            and c.expect_time &lt;= #{dataCase.expectEndTime}
         </if>
         <if test="dataCase != null and dataCase.caseType != null">
             and c.case_type = #{dataCase.caseType}
@@ -407,10 +407,10 @@
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.expectStartTime != null">
-            and c.expect_start_time >= #{expectStartTime}
+            and c.expect_time >= #{dataCase.expectStartTime}
         </if>
         <if test="dataCase != null and dataCase.expectEndTime != null">
-            and c.expect_start_time &lt;= #{expectEndTime}
+            and c.expect_time &lt;= #{dataCase.expectEndTime}
         </if>
         <if test="dataCase != null and dataCase.caseType != null">
             and c.case_type = #{dataCase.caseType}
@@ -515,10 +515,10 @@
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.expectStartTime != null">
-            and c.expect_start_time >= #{expectStartTime}
+            and c.expect_time >= #{dataCase.expectStartTime}
         </if>
         <if test="dataCase != null and dataCase.expectEndTime != null">
-            and c.expect_start_time &lt;= #{expectEndTime}
+            and c.expect_time &lt;= #{dataCase.expectEndTime}
         </if>
         <if test="dataCase != null and dataCase.caseType != null">
             and c.case_type = #{dataCase.caseType}
@@ -622,10 +622,10 @@
             and c.case_date &lt;= #{dataCase.caseDateEnd}
         </if>
         <if test="dataCase != null and dataCase.expectStartTime != null">
-            and c.expect_start_time >= #{expectStartTime}
+            and c.expect_time >= #{dataCase.expectStartTime}
         </if>
         <if test="dataCase != null and dataCase.expectEndTime != null">
-            and c.expect_start_time &lt;= #{expectEndTime}
+            and c.expect_time &lt;= #{dataCase.expectEndTime}
         </if>
         <if test="dataCase != null and dataCase.caseType != null">
             and c.case_type = #{dataCase.caseType}
