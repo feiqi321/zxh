@@ -2690,8 +2690,8 @@
             select repay_money as repayMoney,data_case
             from data_case_repay_record
             where 1=1
-            <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
-             <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
+            <![CDATA[   and  convert(datetime,repay_date, 20) >= convert(datetime,#{repayDateStart}, 20) ]]>
+             <![CDATA[   and convert(datetime,repay_date, 20) <= convert(datetime,#{repayDateEnd}, 20) ]]>
             <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
          ) r on t.id = r.data_case
          where t.business_type not in ('上汽长账龄上汽拖车','上汽长账龄其他','上汽短期','安吉蓝海')
@@ -2706,8 +2706,8 @@
         select repay_money as repayMoney,data_case
         from data_case_repay_record
         where  1=1
-        <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
-        <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
+        <![CDATA[   and convert(datetime,repay_date, 20) >= convert(datetime,#{repayDateStart}, 20)   ]]>
+        <![CDATA[   and convert(datetime,repay_date, 20) <= convert(datetime,#{repayDateEnd}, 20)   ]]>
         <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
         ) r on t.id = r.data_case
         where t.business_type  in ('上汽长账龄上汽拖车','上汽长账龄其他') and r.data_case is not null
@@ -2720,8 +2720,8 @@
             select repay_money as repayMoney,data_case
             from data_case_repay_record
             where  1=1
-            <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
-            <![CDATA[   and dbo.fnFormatDate(repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
+            <![CDATA[   and convert(datetime,repay_date, 20) >= convert(datetime,#{repayDateStart}, 20)   ]]>
+            <![CDATA[   and convert(datetime,repay_date, 20) <= convert(datetime,#{repayDateEnd}, 20)   ]]>
             <if test="odv != null and odv != ''"> and collect_user = #{odv}</if>
         ) r on t.id = r.data_case
         where t.business_type  in ('上汽短期','安吉蓝海') and r.data_case is not null
