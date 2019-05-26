@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.sys.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.models.auth.In;
+import org.apache.poi.ss.formula.functions.Count;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
@@ -121,6 +123,10 @@ public class CollectionStatistic extends CommonEntity {
     private int countInvalidCall;
 
     private String collectionResult;
+
+    private List<String> collectionDics;
+    private List<Integer> collectionDicResults;
+
     private int countResult;
     //对象姓名
     private String  targetName;
@@ -132,6 +138,22 @@ public class CollectionStatistic extends CommonEntity {
     private String phone;
 
     private String phoneTime;
+
+    public List<String> getCollectionDics() {
+        return collectionDics;
+    }
+
+    public void setCollectionDics(List<String> collectionDics) {
+        this.collectionDics = collectionDics;
+    }
+
+    public List<Integer> getCollectionDicResults() {
+        return collectionDicResults;
+    }
+
+    public void setCollectionDicResults(List<Integer> collectionDicResults) {
+        this.collectionDicResults = collectionDicResults;
+    }
 
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
 

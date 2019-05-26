@@ -45,4 +45,6 @@ public class CaseBaseConstant {
 
     public static BigDecimal ROUND = new BigDecimal("100");
 
+    public static int COLLECTION_TYPE = 406;
+
 }

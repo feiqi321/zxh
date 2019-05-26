@@ -152,4 +152,12 @@
             AND  dictionary_id = #{parent.id}
         </if>
     </select>
+
+    <select id="getCollectionDataByDicId"  resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity" parameterType="int">
+        select
+        <include refid="dataDictionaryInfo"/>
+        from sys_data_dictionary
+        where delete_flag = '0' and status = 1 and dictionary_id = #{id,jdbcType=INTEGER}
+        order by id
+    </select>
 </mapper>

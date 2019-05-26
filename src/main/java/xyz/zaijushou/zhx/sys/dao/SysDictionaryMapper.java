@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.dao;
 
+import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
@@ -27,4 +28,6 @@ public interface SysDictionaryMapper {
     List<SysDictionaryEntity> getDataByParentId(Integer parentId);
 
     void deleteById(SysDictionaryEntity dictionary);
+
+    List<SysDictionaryEntity> getCollectionDataByDicId(Integer id);
 }
