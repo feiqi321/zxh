@@ -11,6 +11,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.OdvPercentage;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -155,6 +156,13 @@ public class DataCollectionController {
     @PostMapping("/dataCollection/loadDataManage")
     public Object loadDataManage() {
         WebResponse webResponse = dataCollectionService.loadDataManage();
+        return webResponse;
+    }
+
+    @ApiOperation(value = "催收管理-催收员提成", notes = "催收管理-催收员提成")
+    @PostMapping("/dataCollection/showOdv")
+    public Object showOdv(OdvPercentage bean) {
+        WebResponse webResponse = dataCollectionService.showOdv(bean);
         return webResponse;
     }
 }

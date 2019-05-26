@@ -66,7 +66,7 @@ public class RedisInitConfig implements ApplicationRunner {
         initDic(allDic);
 
        /* List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
-        initBatch(allBatch);
+        initBatch(allBatch);*/
         for (int i=0;i<60;i++){
             DataCaseEntity DataCaseEntity = new DataCaseEntity();
             DataCaseEntity.setId(i*100000);
@@ -76,7 +76,7 @@ public class RedisInitConfig implements ApplicationRunner {
                 break;
             }
             initCase(allCase);
-        }*/
+        }
 
 
     }

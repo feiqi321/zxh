@@ -5,6 +5,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.OdvPercentage;
 
 import java.util.List;
 
@@ -40,6 +41,8 @@ public interface DataCollectionService {
     public WebResponse statisticsCollectionPay(CollectionStatistic dataCollectionEntity);
 
     public WebResponse loadDataOdv();
+
+    public WebResponse showOdv(OdvPercentage bean);
 
     public WebResponse loadDataManage();
 }

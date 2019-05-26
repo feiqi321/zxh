@@ -61,6 +61,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Resource
     private SysRoleMapper sysRoleMapper;
+    @Resource
+    private OdvMapper odvMapper;
+    @Resource
+    private ManageMapper manageMapper;
 
 
     @Override
@@ -633,8 +637,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //如果转正时间没有或者不在本月，则按照正常判断进行，
         // 如果在本月的1号-25号之间，则本月所有的累计还款都要跟1万比较，低于1万没有提成，如果在25号-月末之间，则不判断1万的底线，全部都要计算提成
         //我的还款统计，上月和当月金额统计 查询
-        getThisMData(collectionReturn,actualTime,tempCase);
-        getLastMData(collectionReturn,actualTime,tempCase);
+       /* getThisMData(collectionReturn,actualTime,tempCase);
+        getLastMData(collectionReturn,actualTime,tempCase);*/
+        getOldLastMData(collectionReturn,beanInfo);
+        getOldThisMData(collectionReturn,beanInfo);
         //获取三个不同列表的统计金额
         getStatisticsData(collectionReturn,beanInfo);
 
@@ -642,6 +648,49 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         webResponse.setTotalPageNum(totalPageNum);
         webResponse.setData(collectionReturn);
         return webResponse;
+    }
+
+    private void getOldLastMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
+        CollectionStatistic beanInfoData = new CollectionStatistic();
+        Calendar timeStart = Calendar.getInstance();
+        Calendar timeEnd = Calendar.getInstance();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        timeStart.add(Calendar.MONTH, -1);    //得到前一个月
+        timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
+        beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//上月第一天
+        timeEnd.set(Calendar.DAY_OF_MONTH,0);
+        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//上月最后一天
+        CollectionStatistic collectonStatic =
+                dataCollectionMapper.statisticsCollectionPayM(beanInfoData);
+        collectionReturn.setLastBankAmt(collectonStatic.getBankAmtC());
+        collectionReturn.setLastPaidMoney(collectonStatic.getPaidMoney());
+        collectionReturn.setLastRepaidAmt(collectonStatic.getRepaidAmt());
+        collectionReturn.setLastRepayAmt(collectonStatic.getRepayAmtP());
+        collectionReturn.setLastRepaidBankAmt(collectonStatic.getRepaidBankAmt());
+    }
+   /* paidMoney;//已还款金额
+    bankAmt;//上月銀行对账金额
+    repayAmt;//上月承諾还款金额-PTP
+    repaidAmt;//已还款金额的提成金额（M）
+    repaidBankAmt;//月银行查账金额的提成金额（M）*/
+
+    private void getOldThisMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
+        CollectionStatistic beanInfoData = new CollectionStatistic();
+        Calendar timeStart = Calendar.getInstance();
+        Calendar timeEnd = Calendar.getInstance();
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        timeStart.add(Calendar.MONTH, 0);    //得到前一个月
+        timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
+        beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//月第一天
+        timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//月最后一天
+        CollectionStatistic collectonStatic =
+                dataCollectionMapper.statisticsCollectionPayM(beanInfoData);
+        collectionReturn.setThisBankAmt(collectonStatic.getBankAmtC());
+        collectionReturn.setThisPaidMoney(collectonStatic.getPaidMoney());
+        collectionReturn.setThisRepaidAmt(collectonStatic.getRepaidAmt());
+        collectionReturn.setThisRepayAmt(collectonStatic.getRepayAmtP());
+        collectionReturn.setThisRepaidBankAmt(collectonStatic.getRepaidBankAmt());
     }
 
     /**
@@ -703,23 +752,23 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 if ("已结清".equals(settleFlag)){
                     if (type == 1 ||
                             ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
-                            if ("阶梯累加".equals(percent.getEnable())){
-                                result = result.add(
-                                        percent.getManageRewardRange2().multiply(caseList1.get(i).getEnRepayAmt())
-                                );
-                                if (num1 == 0){
-                                    result = result.add(percent.getManageRewardRange1());
-                                }
-                                num1 = 1;
-                            }else if("特殊1".equals(percent.getEnable())){
-                                result = result.add(
-                                        percent.getManageRewardRange6().multiply(caseList1.get(i).getEnRepayAmt())
-                                );
-                                if (num2 == 0){
-                                    result = result.add(percent.getManageRewardRange5());
-                                }
-                                num2 = 2;
+                        if ("阶梯累加".equals(percent.getEnable())){
+                            result = result.add(
+                                    percent.getManageRewardRange2().multiply(caseList1.get(i).getEnRepayAmt())
+                            );
+                            if (num1 == 0){
+                                result = result.add(percent.getManageRewardRange1());
                             }
+                            num1 = 1;
+                        }else if("特殊1".equals(percent.getEnable())){
+                            result = result.add(
+                                    percent.getManageRewardRange6().multiply(caseList1.get(i).getEnRepayAmt())
+                            );
+                            if (num2 == 0){
+                                result = result.add(percent.getManageRewardRange5());
+                            }
+                            num2 = 2;
+                        }
                     }
                 }
             }
@@ -1126,23 +1175,50 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
 
     public WebResponse loadDataOdv(){
-        List<DirectorOdv> list = new ArrayList<DirectorOdv>();
+        List<OdvPercentage> list = new ArrayList<OdvPercentage>();
         DataCaseEntity tempCase = new DataCaseEntity();
         SysUserEntity user = getUserInfo();
-        tempCase.setOdv(user.getId()+"");//当前催收员
-        tempCase.setCaseType("1");
+        //tempCase.setOdv(user.getId()+"");//当前催收员
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        OdvPercentage odvPercentage = new OdvPercentage();
+        odvPercentage.setOdv(user.getId());
+        odvPercentage.setLineDate(sdf.format(new Date()));
+        list = odvMapper.list(odvPercentage);
+
+        /*tempCase.setCaseType("1");
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
         Date actualTime = sysNewUserEntity.getActualTime();//转正时间
-        list = this.getOdvDate(actualTime,tempCase);
+        list = this.getOdvDate(actualTime,tempCase);*/
+        return WebResponse.success(list);
+    }
+
+    public WebResponse showOdv(OdvPercentage bean){
+        List<OdvPercentage> list = new ArrayList<OdvPercentage>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        OdvPercentage odvPercentage = new OdvPercentage();
+        odvPercentage.setOdv(bean.getOdv());
+        odvPercentage.setLineDate(sdf.format(new Date()));
+        list = odvMapper.list(odvPercentage);
         return WebResponse.success(list);
     }
 
     public WebResponse loadDataManage(){
-        List<DirectorOdv> list = new ArrayList<DirectorOdv>();
+        List<ManagePercentage> list = new ArrayList<ManagePercentage>();
         DataCaseEntity tempCase = new DataCaseEntity();
         SysUserEntity user = getUserInfo();
-        tempCase.setOdv(user.getId()+"");//当前催收员
-        tempCase.setCaseType("1");
+        //tempCase.setOdv(user.getId()+"");//当前经理
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        ManagePercentage managePercentage = new ManagePercentage();
+        managePercentage.setManage(user.getId());
+        managePercentage.setLineDate(sdf.format(new Date()));
+        list = manageMapper.list(managePercentage);
+        for (int i=0;i<list.size();i++){
+            ManagePercentage temp = list.get(i);
+            SysUserEntity odvUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdvName(odvUser.getUserName());
+            list.set(i,temp);
+        }
+        /*tempCase.setCaseType("1");
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
         Date actualTime = sysNewUserEntity.getActualTime();//转正时间
         List<String> userName = new ArrayList<String>();
@@ -1151,11 +1227,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         userEntity.setId(user.getId());
         List<SysNewUserEntity> userList = sysUserMapper.listParent(userEntity);
         tempCase.setCaseType("2");
-        list = this.getManageDate(actualTime,tempCase,userList);
+        list = this.getManageDate(actualTime,tempCase,userList);*/
         return WebResponse.success(list);
     }
 
-    //催收员提成统计
+   /* //催收员提成统计
     private List<DirectorOdv> getOdvDate(Date actualTime, DataCaseEntity tempCase){
         CollectionStatistic beanInfoData = new CollectionStatistic();
         List<DirectorOdv> list = new ArrayList<DirectorOdv>();
@@ -1199,12 +1275,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
 
-    /**
+    *//**
      * 催收员提成
      * @param tempCase
      * @param type
      * @return
-     */
+     *//*
     private List<DirectorOdv> royaltyOdvType(DataCaseEntity tempCase,int type){
         List<DirectorOdv> list = new ArrayList<DirectorOdv>();
         //获取案件条线类型
@@ -1320,12 +1396,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         return list;
     }
 
-    /**
+    *//**
      * 经理提成
      * @param tempCase
      * @param type
      * @return
-     */
+     *//*
     private List<DirectorOdv>  royaltyManageList(DataCaseEntity tempCase,int type){
 
         List<DirectorOdv> list = new ArrayList<DirectorOdv>();
@@ -1410,5 +1486,5 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             directorOdv.setCommission(result.stripTrailingZeros().toPlainString());
         }
         return list;
-    }
+    }*/
 }

@@ -136,16 +136,16 @@
         where dct.delete_flag = 0
 
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.collect_time&gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="area != null and area!=''">
-            AND da.area like dbo.CONCAT('%',#{area},'%')
+            AND da.area = #{area}
         </if>
         <if test="client != null and client!=''">
-            AND da.client like dbo.CONCAT('%',#{client},'%')
+            AND da.client = #{client}
         </if>
         <if test="odvAttr != null">
             <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
@@ -161,16 +161,16 @@
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(dct.collect_time, 'YYYY-MM')>=  dbo.fnFormatDate(#{monthStart}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dct.collect_time>=  convert(datetime,#{monthStart}, 20)  ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and dbo.fnFormatDate(dct.collect_time, 'YYYY-MM')<=  dbo.fnFormatDate(#{monthEnd}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dct.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
         </if>
         <if test="area != null and area!=''">
-            AND da.area like dbo.CONCAT('%',#{area},'%')
+            AND da.area = #{area}
         </if>
         <if test="client != null and client!=''">
-            AND da.client like dbo.CONCAT('%',#{client},'%')
+            AND da.client = #{client}
         </if>
         <if test="odvAttr != null">
             <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
@@ -186,16 +186,16 @@
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.collect_time &lt;=  convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="area != null and area!=''">
-            AND da.area like dbo.CONCAT('%',#{area},'%')
+            AND da.area = #{area}
         </if>
         <if test="client != null and client!=''">
-            AND da.client like dbo.CONCAT('%',#{client},'%')
+            AND da.client= #{client}
         </if>
         <if test="odvAttr != null">
             <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
@@ -214,10 +214,10 @@
             AND da.odv = #{odv}
         </if>
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         GROUP BY result
     </select>
@@ -229,13 +229,13 @@
         from data_collection_tel dct
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.start_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.start_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="odv != null and odv!=''">
-            AND odv like dbo.CONCAT('%',#{odv},'%')
+            AND odv = #{odv}
         </if>
         <if test="collectionResult != null and collectionResult!=''">
             AND result = #{collectionResult}
