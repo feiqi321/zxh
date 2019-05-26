@@ -1655,22 +1655,22 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
+            <![CDATA[   and convert(datetime,c.pro_repay_date, 20) >= convert(datetime,#{repayTimeStart}, 20)   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
+            <![CDATA[   and convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and r.repay_date>= #{bankTimeStart}  ]]>
+            <![CDATA[   and r.repay_date>= convert(datetime,#{bankTimeStart}, 20)  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and r.repay_date<= #{bankTimeEnd}   ]]>
+            <![CDATA[   and r.repay_date<=  convert(datetime,#{bankTimeEnd}, 20)  ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
+            <![CDATA[   and convert(datetime,c.expect_time, 20) >= convert(datetime,#{expectTimeStart}, 20)]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<= #{expectTimeEnd} ]]>
+            <![CDATA[   and convert(datetime,c.expect_time, 20) <= convert(datetime,#{expectTimeEnd}, 20) ]]>
         </if>
     </select>
 
@@ -1713,22 +1713,22 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
+            <![CDATA[   and  convert(datetime,c.pro_repay_date, 20) >= convert(datetime,#{repayTimeStart}, 20)  ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
+            <![CDATA[   and  convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')>=  #{bankTimeStart}   ]]>
+            <![CDATA[   and convert(datetime,dc.bank_time, 20) >= convert(datetime,#{bankTimeStart}, 20) ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<= #{bankTimeEnd}  ]]>
+            <![CDATA[   and convert(datetime,dc.bank_time, 20) <= convert(datetime,#{bankTimeEnd}, 20) ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
+            <![CDATA[   and convert(datetime,c.expect_time, 20) >= convert(datetime,#{expectTimeStart}, 20)  ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
+            <![CDATA[   and convert(datetime,c.expect_time, 20) <= convert(datetime,#{expectTimeEnd}, 20)   ]]>
         </if>
 
     </select>
@@ -1743,20 +1743,20 @@
         where dc.delete_flag = 0
 
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{monthStart}  ]]>
+            <![CDATA[   and convert(datetime,c.pro_repay_date, 20) >= convert(datetime,#{monthStart}, 20)  ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{monthEnd}   ]]>
+            <![CDATA[   and convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{monthEnd}, 20)  ]]>
         </if>
 
         <if test="dept != null and dept!=''">
-            AND  c.dept like dbo.CONCAT('%',#{dept},'%')
+            AND  c.dept = #{dept}
         </if>
         <if test="odv != null and odv!=''">
-            AND c.odv  like dbo.CONCAT('%',#{odv},'%')
+            AND c.odv  = #{odv}
         </if>
         <if test="client != null and client!=''">
-            AND client like dbo.CONCAT('%',#{client},'%')
+            AND client = #{client}
         </if>
         <if test="batchNo != null and batchNo !=''">
             and c.batch_no = #{batchNo}
@@ -1767,22 +1767,22 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
+            <![CDATA[   and  convert(datetime,c.pro_repay_date, 20) >= convert(datetime,#{repayTimeStart}, 20)  ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.pro_repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
+            <![CDATA[   and  convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')>=  #{bankTimeStart}   ]]>
+            <![CDATA[   and convert(datetime,dc.bank_time, 20) >= convert(datetime,#{bankTimeStart}, 20)  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(dc.bank_time, 'yyyy-MM-dd')<=  #{bankTimeEnd}   ]]>
+            <![CDATA[   and   convert(datetime,dc.bank_time, 20) <= convert(datetime,#{bankTimeEnd}, 20) ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
+            <![CDATA[   and convert(datetime,c.expect_time, 20) >= convert(datetime,#{expectTimeStart}, 20)  ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and dbo.fnFormatDate(c.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
+            <![CDATA[   and convert(datetime,c.expect_time, 20) <= convert(datetime,#{expectTimeEnd}, 20)  ]]>
         </if>
     </select>
 
