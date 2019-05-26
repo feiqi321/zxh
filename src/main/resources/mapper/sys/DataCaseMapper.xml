@@ -1291,7 +1291,7 @@
     </select>
 
     <select id="listInitAllCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select top 100000 da.id,da.card_no as cardNo,
+        select top 100000 da.id,da.card_no as cardNo,da.odv,
         da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,
         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardo,da.ident_no as identNo,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,
@@ -2593,7 +2593,9 @@
     </select>
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          SELECT id,batch_no as batchNo,money,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,card_no as cardNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,name from data_case where id = #{id}
+          SELECT id,batch_no as batchNo,money,odv,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,business_type as businessType,card_no as cardNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,name,
+          dbo.fnFormatDate(t.settle_date, 'yyyy-MM-dd') as settleDate,t.settle_flag as settleFlag
+          from data_case where id = #{id}
     </select>
 
     <select id="findSameBatchCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

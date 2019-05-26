@@ -45,7 +45,7 @@
 
     <select id="list" parameterType="xyz.zaijushou.zhx.sys.entity.OdvPercentage" resultType="xyz.zaijushou.zhx.sys.entity.OdvPercentage">
         select
-        id,odv,line,line_date as lineDate,repay_amt repayAmt ,percentage
+        id,odv,line,line_date as lineDate,repay_amt asrepayAmt ,percentage
         from odv_percentage
         <where>
             1=1

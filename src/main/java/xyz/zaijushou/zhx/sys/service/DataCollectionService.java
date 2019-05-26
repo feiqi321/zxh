@@ -45,4 +45,9 @@ public interface DataCollectionService {
     public WebResponse showOdv(OdvPercentage bean);
 
     public WebResponse loadDataManage();
+
+    public void calRoyalti(Integer caseId);
+
+    public void calRoyaltiManage(Integer caseId);
+
 }

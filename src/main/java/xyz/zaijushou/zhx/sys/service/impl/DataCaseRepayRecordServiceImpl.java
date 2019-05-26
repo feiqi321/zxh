@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseRepayRecordService;
+import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
@@ -35,9 +36,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     private SysUserService sysUserService;//用户业务控制层
     @Resource
     private DataCaseMapper dataCaseMapper;
-
     @Resource
     private DataCaseRemarkMapper dataCaseRemarkMapper;
+    @Resource
+    private DataCollectionService dataCollectionService;
 
 
     @Override
@@ -201,11 +203,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             return;
         }
         dataCaseRepayRecordMapper.addList(dataEntities);
-        for(DataCaseRepayRecordEntity entity : dataEntities) {
-            updateDataCaseBalance(entity);
-        }
+
         for (int i=0;i<dataEntities.size();i++){
             DataCaseRepayRecordEntity entity = dataEntities.get(i);
+            updateDataCaseBalance(entity);
             DataOpLog log = new DataOpLog();
             log.setType("案件管理");
             log.setContext("已还款："+(entity.getRepayMoney()==null?"0":entity.getRepayMoney())+"，还款日期："+(entity.getRepayUser()==null?"":entity.getRepayUser())+"，备注： "+(entity.getRemark()==null?"":entity.getRemark()));
@@ -245,7 +246,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
         }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
-
+        dataCollectionService.calRoyalti(dataCaseEntity.getId());
+        dataCollectionService.calRoyaltiManage(dataCaseEntity.getId());
     }
 
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
