@@ -39,7 +39,11 @@
             <if test="remark != null">remark,</if>
             <if test="createUser != null and createUser.id != null">create_user,</if>
             <if test="updateUser != null and updateUser.id != null">update_user,</if>
+            create_time,
+            update_time,
+            delete_flag,
         </trim>
+
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orgName != null">#{orgName},</if>
@@ -53,7 +57,11 @@
             <if test="remark != null">#{remark},</if>
             <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
             <if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>
+            GETDATE(),
+            GETDATE(),
+            0,
         </trim>
+
     </insert>
 
     <update id="updateOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">

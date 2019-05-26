@@ -154,8 +154,17 @@ public class CollectionStatistic extends CommonEntity {
     public void setCollectionDicResults(List<Integer> collectionDicResults) {
         this.collectionDicResults = collectionDicResults;
     }
+    private String collectTime;
 
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+
+    public String getCollectTime() {
+        return collectTime;
+    }
+
+    public void setCollectTime(String collectTime) {
+        this.collectTime = collectTime;
+    }
 
     public String getCollectStatusMsg() {
         return collectStatusMsg;

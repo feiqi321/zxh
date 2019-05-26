@@ -268,7 +268,7 @@ public class DataCaseEntity extends CommonEntity {
 
     private Date distributeDate;    //分配时间
 
-    private Date nextFollowDate;    //下次跟进日期
+    private String nextFollowDate;    //下次跟进日期
 
     private BigDecimal totalOverdueMoney;   //总欠款（委案金融+公司佣金）
 
@@ -2616,11 +2616,11 @@ public class DataCaseEntity extends CommonEntity {
         this.distributeDate = distributeDate;
     }
 
-    public Date getNextFollowDate() {
+    public String getNextFollowDate() {
         return nextFollowDate;
     }
 
-    public void setNextFollowDate(Date nextFollowDate) {
+    public void setNextFollowDate(String nextFollowDate) {
         this.nextFollowDate = nextFollowDate;
     }
 

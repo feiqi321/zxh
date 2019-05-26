@@ -20,11 +20,11 @@ public interface DataCollectionTelMapper {
     public List<DataCollectionTelEntity> findAll(DataCollectionTelEntity entity);
 
 
-    public int statisticsCollectionSum(CollectionStatistic bean);
+    public List<CollectionStatistic> statisticsCollectionSum(CollectionStatistic bean);
 
-    public int statisticsCollectionCon(CollectionStatistic bean);
+    public List<CollectionStatistic> statisticsCollectionCon(CollectionStatistic bean);
 
-    public int statisticsCollectionCase(CollectionStatistic bean);
+    public List<CollectionStatistic> statisticsCollectionCase(CollectionStatistic bean);
 
     public List<StatisticReturn> pageCollectionDay(CollectionStatistic entity);
 

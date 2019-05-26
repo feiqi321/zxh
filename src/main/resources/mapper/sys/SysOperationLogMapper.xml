@@ -36,6 +36,9 @@
             <if test="userLoginName != null">user_login_name,</if>
             <if test="requestBody != null">request_body,</if>
             <if test="responseBody != null">response_body,</if>
+            create_time,
+            update_time,
+            delete_flag,
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -47,6 +50,9 @@
             <if test="userLoginName != null">#{userLoginName},</if>
             <if test="requestBody != null">#{requestBody},</if>
             <if test="responseBody != null">#{responseBody},</if>
+            GETDATE(),
+            GETDATE(),
+            0,
         </trim>
     </insert>
 

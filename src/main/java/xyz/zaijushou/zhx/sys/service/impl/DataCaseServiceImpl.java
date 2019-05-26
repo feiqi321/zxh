@@ -547,6 +547,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 CaseCallable caseCallable = new CaseCallable(list,temp,i);
                 Future<List<DataCaseEntity>> future = executor.submit(caseCallable);
             }
+
+            executor.shutdown();
             while(true){
                 if(executor.isTerminated()){
                     break;

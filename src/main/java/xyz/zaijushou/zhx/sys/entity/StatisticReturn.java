@@ -14,6 +14,7 @@ import java.util.List;
 public class StatisticReturn extends CommonEntity {
 
     private String odv;
+    private String dOdv;
     private int sumConPhoneNum;//接通电话数
     private int sumPhoneNum;//总通话数
     private int sumCasePhoneNum;//通话涉及到的案件数
@@ -57,5 +58,13 @@ public class StatisticReturn extends CommonEntity {
 
     public void setList(List<CollectionStatistic> list) {
         this.list = list;
+    }
+
+    public String getdOdv() {
+        return dOdv;
+    }
+
+    public void setdOdv(String dOdv) {
+        this.dOdv = dOdv;
     }
 }

@@ -747,13 +747,13 @@
     </select>
 
     <select id="pageBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select id, batch_no as batchNo,client,collect_area as collectArea,dept,odv,status,area,expect_time as expectTime,color,new_case as newCase, da.odv as [collectionUser.id],
+        select id, batch_no as batchNo,client,collect_area as collectArea,dept,odv,status,area,expect_time as expectTime,color,new_case as newCase, odv as [collectionUser.id],
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,collect_hand as collectHand,
         real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,dbo.fnFormatDate(distribute_time,'yyyy-MM-dd  HH:mm') as distributeTime,
         money as money,balance as balance,overdue_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,collect_result as collectInfo,
-        bank_amt as bankAmt,en_repay_amt as enRepayAmt,pro_repay_amt as proRepayAmt,comment,pro_repay_amt as proRepayAmt,collect_times as collectTimes
+        bank_amt as bankAmt,en_repay_amt as enRepayAmt,comment,pro_repay_amt as proRepayAmt,collect_times as collectTimes
          from data_case where ident_no in (
-        select da.ident_no
+        select  top 100000 da.ident_no
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
             da.delete_flag = 0
@@ -1297,7 +1297,7 @@
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,
         da.bank_amt as bankAmt,da.batch_no as batchNo
         from data_case da
-        where da.delete_flag = 0 and <![CDATA[   and da.id>#{id}  and  da.id <= #{maxId}]]>
+        where da.delete_flag = 0  <![CDATA[   and da.id>#{id}  and  da.id <= #{maxId}]]>
     </select>
 
     <select id="listBySeqNoSet" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

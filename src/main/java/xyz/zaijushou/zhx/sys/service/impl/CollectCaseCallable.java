@@ -82,8 +82,9 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
                     collection.setLeaveDays("0");
                 }
             }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         DataCollectionEntity dataCollectionEntity = (DataCollectionEntity)collectMap.get(collection.getCaseId());
-        collection.setCollectTime(dataCollectionEntity==null?"":dataCollectionEntity.getCollectTime());
+        collection.setCollectTime(dataCollectionEntity==null?"":sdf.format(dataCollectionEntity.getCollectDate()));
 
         SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
         collection.setTelType(telTypeDic==null?"":telTypeDic.getName());

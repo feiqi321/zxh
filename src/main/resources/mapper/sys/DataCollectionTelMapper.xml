@@ -43,49 +43,85 @@
     </select>
 
     <!--统计拨打电话量，可能存在没有接通的-->
-    <select id="statisticsCollectionSum" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
-        select count(dc.id) as countTotal
+    <select id="statisticsCollectionSum" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        select dc.collect_time as collectTime
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
         where dc.delete_flag = 0
         <if test="dateStart != null">
-            and dc.collect_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dc.collect_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
+        </if>
+        <if test="monthStart != null and monthStart!=''">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
+        </if>
+        <if test="monthEnd != null and monthEnd!=''" >
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
+        </if>
+        <if test="dateSearchStart != null">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
+        </if>
+        <if test="dateSearchEnd != null">
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
         </if>
 
         <if test="odv != null and odv!=''">
-            AND da.odv like dbo.CONCAT('%',#{odv},'%')
+            AND da.odv =#{odv}
         </if>
     </select>
 
     <!--统计接通电话量-->
-    <select id="statisticsCollectionCon" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
-        select count(dc.id) as countCon
+    <select id="statisticsCollectionCon" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        select dc.collect_time as collectTime
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
         where dc.delete_flag = 0 and dc.result in (select id from sys_data_dictionary where dictionary_id = 14 and sys_flag=1 )
         <if test="dateStart != null">
-            and dc.collect_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dc.collect_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
+        </if>
+        <if test="monthStart != null and monthStart!=''">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
+        </if>
+        <if test="monthEnd != null and monthEnd!=''" >
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
+        </if>
+        <if test="dateSearchStart != null">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
+        </if>
+        <if test="dateSearchEnd != null">
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
         </if>
 
         <if test="odv != null and odv!=''">
-            AND da.odv like dbo.CONCAT('%',#{odv},'%')
+            AND da.odv = #{odv}
         </if>
     </select>
 
     <!--拨打电话存在的案件数量-->
-    <select id="statisticsCollectionCase" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="java.lang.Integer">
-        select count(DISTINCT(dc.case_id)) as countCasePhoneNum
+    <select id="statisticsCollectionCase" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        select dc.collect_time as collectTime
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
         where dc.delete_flag = 0
         <if test="dateStart != null">
-            and dc.collect_time &gt;= #{dateStart}
+            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dc.collect_time &lt;= #{dateEnd}
+            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
+        </if>
+        <if test="monthStart != null and monthStart!=''">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
+        </if>
+        <if test="monthEnd != null and monthEnd!=''" >
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
+        </if>
+        <if test="dateSearchStart != null">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
+        </if>
+        <if test="dateSearchEnd != null">
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
         </if>
         <if test="odv != null and odv!=''">
             AND da.odv = #{odv}
@@ -94,22 +130,22 @@
 
     <select id="pageCollectionDay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.StatisticReturn">
         SELECT
-        distinct(da.odv)
+        distinct(da.odv) as dOdv
         from
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
 
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.collect_time&gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="area != null and area!=''">
-            AND da.area like dbo.CONCAT('%',#{area},'%')
+            AND da.area = #{area}
         </if>
         <if test="client != null and client!=''">
-            AND da.client like dbo.CONCAT('%',#{client},'%')
+            AND da.client = #{client}
         </if>
         <if test="odvAttr != null">
             <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
@@ -120,21 +156,21 @@
 
     <select id="pageCollectionMonth" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.StatisticReturn">
         SELECT
-        distinct(da.odv)
+        distinct(da.odv) as dOdv
         from
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dbo.fnFormatDate(dct.collect_time, 'YYYY-MM')>=  dbo.fnFormatDate(#{monthStart}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dct.collect_time>=  convert(datetime,#{monthStart}, 20)  ]]>
         </if>
         <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and dbo.fnFormatDate(dct.collect_time, 'YYYY-MM')<=  dbo.fnFormatDate(#{monthEnd}, 'YYYY-MM')   ]]>
+            <![CDATA[   and dct.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
         </if>
         <if test="area != null and area!=''">
-            AND da.area like dbo.CONCAT('%',#{area},'%')
+            AND da.area = #{area}
         </if>
         <if test="client != null and client!=''">
-            AND da.client like dbo.CONCAT('%',#{client},'%')
+            AND da.client = #{client}
         </if>
         <if test="odvAttr != null">
             <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
@@ -150,16 +186,16 @@
         data_collection dct LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.collect_time &lt;=  convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="area != null and area!=''">
-            AND da.area like dbo.CONCAT('%',#{area},'%')
+            AND da.area = #{area}
         </if>
         <if test="client != null and client!=''">
-            AND da.client like dbo.CONCAT('%',#{client},'%')
+            AND da.client= #{client}
         </if>
         <if test="odvAttr != null">
             <foreach collection="odvAttr" item="item" separator="," open="and da.odv in (" close=")">
@@ -178,10 +214,10 @@
             AND da.odv = #{odv}
         </if>
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.collect_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         GROUP BY result
     </select>
@@ -193,13 +229,13 @@
         from data_collection_tel dct
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd') &gt;= dbo.fnFormatDate(#{dateStart}, 'yyyy-MM-dd')
+            and dct.start_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dbo.fnFormatDate(dct.start_time, 'yyyy-MM-dd') &lt;= dbo.fnFormatDate(#{dateEnd}, 'yyyy-MM-dd')
+            and dct.start_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="odv != null and odv!=''">
-            AND odv like dbo.CONCAT('%',#{odv},'%')
+            AND odv = #{odv}
         </if>
         <if test="collectionResult != null and collectionResult!=''">
             AND result = #{collectionResult}

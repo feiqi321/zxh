@@ -5,6 +5,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.OdvPercentage;
 
 import java.util.List;
 
@@ -33,13 +34,15 @@ public interface DataCollectionService {
 
     public List<CollectionStatistic> statisticsCollectionDay(CollectionStatistic dataCollectionEntity);
 
-    public WebResponse pageStatisticsCollectionState(CollectionStatistic dataCollectionEntity);
+    public WebResponse statisticsCollectionState(CollectionStatistic dataCollectionEntity);
 
-    public WebResponse pageStatisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
+    public WebResponse statisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
 
     public WebResponse statisticsCollectionPay(CollectionStatistic dataCollectionEntity);
 
     public WebResponse loadDataOdv();
+
+    public WebResponse showOdv(OdvPercentage bean);
 
     public WebResponse loadDataManage();
 }
