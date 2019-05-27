@@ -15,6 +15,11 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 @Service
 public class SysRoleServiceImpl implements SysRoleService {
@@ -137,9 +142,38 @@ public class SysRoleServiceImpl implements SysRoleService {
             }
         }
         RedisUtils.deleteKeysWihtPrefix(RedisKeyPrefix.USER_ROLE);
-        for (Map.Entry<Integer, SysUserEntity> entry : userRolesMap.entrySet()) {
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_ROLE + entry.getValue().getId(), entry.getValue().getRoles() == null ? new JSONArray().toJSONString() : JSONArray.toJSONString(entry.getValue().getRoles()));
+
+        // 将map转为list
+        List<SysUserEntity> list = userRolesMap.values().stream().collect(Collectors.toList());
+        // 创建一个线程池
+        ExecutorService exec = Executors.newFixedThreadPool(20);
+        // 定义一个任务集合
+        List<Callable<Integer>> tasks = new ArrayList<Callable<Integer>>();
+        Callable<Integer> task = null;
+
+        for (int i = 0;i<list.size();i++) {
+
+            SysUserEntity sysUserEntity = list.get(i);
+
+            task = new Callable<Integer>() {
+
+                @Override
+                public Integer call() throws Exception {
+                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_ROLE + sysUserEntity.getId(), sysUserEntity.getRoles() == null ? new JSONArray().toJSONString() : JSONArray.toJSONString(sysUserEntity.getRoles()));
+                    return 1;
+                }
+            };
+            // 这里提交的任务容器列表和返回的Future列表存在顺序对应的关系
+            tasks.add(task);
         }
+
+        try {
+            List<Future<Integer>> results = exec.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // 关闭线程池
+        exec.shutdown();
     }
 
     private Map<Integer, SysRoleEntity> initRoleAuthority(Map<Integer, SysRoleEntity> roleMap, List<SysButtonEntity> allButton) {

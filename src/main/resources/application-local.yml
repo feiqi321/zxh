@@ -9,9 +9,9 @@ spring:
     druid:
       filters: stat,wall
   redis:
-    host: 116.62.124.251
+    host: 120.78.154.219
     port: 7777
-    password: redis
+    password: 1qaz@WSX
     timeout: 50000
     lettuce:
           pool:
