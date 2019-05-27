@@ -970,7 +970,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     repaidAmt;//已还款金额的提成金额（M）
     repaidBankAmt;//月银行查账金额的提成金额（M）*/
 
-   /* private void getThisMData(Date actualTime, DataCaseEntity tempCase){
+  /*  private void getThisMData(Date actualTime, DataCaseEntity tempCase){
         CollectionStatistic beanInfoData = new CollectionStatistic();
         Calendar timeStart = Calendar.getInstance();
         Calendar timeEnd = Calendar.getInstance();
@@ -1006,17 +1006,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
 
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
-            tempCase.setRepayDateEnd(day25);
-            //25到月底
-            tempCase.setRepayDateStart(day25);
-            tempCase.setRepayDateEnd(last);
             if ("1".equals(tempCase.getCaseType())){
+                tempCase.setRepayDateEnd(day25);
                 result = royaltyType(tempCase,2);
+                //25到月底
+                tempCase.setRepayDateStart(day25);
+                tempCase.setRepayDateEnd(last);
                 result = result.add(royaltyType(tempCase,2));
             }else{
                 for (String userId : tempCase.getUserName()){
+                    tempCase.setRepayDateEnd(day25);
                     tempCase.setOdv(userId);
                     result = result.add(royaltyType(tempCase,2));
+                    //25到月底
+                    tempCase.setRepayDateStart(day25);
+                    tempCase.setRepayDateEnd(last);
                     result = result.add(royaltyType(tempCase,2));
                 }
             }
@@ -1029,7 +1033,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 for (String userId : tempCase.getUserName()){
                     tempCase.setOdv(userId);
                     result = result.add(royaltyType(tempCase,3));
-                    result = result.add(royaltyType(tempCase,1));
                 }
             }
         }
