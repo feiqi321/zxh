@@ -1614,7 +1614,7 @@
     </select>
 
     <select id="statisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select top 100
+        select
         c.batch_no as batchNo,c.name as targetName,c.seq_no as seqno,c.client,c.account_age as accountAge,
         c.money,c.m_val as mVal,b.cp_money as bankAmt,b.cp_date as bankTime,
         ISNULL(b.cp_money*c.m_val,0) as repaidAmtM,
