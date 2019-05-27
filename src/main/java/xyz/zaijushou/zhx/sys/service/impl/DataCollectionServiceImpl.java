@@ -466,9 +466,23 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             beanInfo.setBatchFlag("1");
         }
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+            //获取前月的第一天
+            Calendar   cal_1=Calendar.getInstance();//获取当前日期
+            cal_1.add(Calendar.MONTH, -1);
+            cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+            beanInfo.setDateStart(cal_1.getTime());
+
+
+            //获取前月的最后一天
+            Calendar cale = Calendar.getInstance();
+            cale.set(Calendar.DAY_OF_MONTH, 0);//设置为1号,当前日期既为本月第一天
+            beanInfo.setDateEnd(cale.getTime());
+
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
-        int count = dataCollectionMapper.countStatisticsCollectionState(beanInfo);
+       /* int count = dataCollectionMapper.countStatisticsCollectionState(beanInfo);*/
         List<CollectionStatistic> resultList = new ArrayList<CollectionStatistic>();
         CollectionStatistic nullCollectionStatistic = new CollectionStatistic();
         for(CollectionStatistic colInfno : colList){
@@ -503,7 +517,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if(StringUtils.notEmpty(nullCollectionStatistic.getCollectStatusMsg())){
             resultList.add(nullCollectionStatistic);
         }
-        webResponse.setTotalNum(count);
+/*        webResponse.setTotalNum(count);*/
         webResponse.setData(resultList);
         return webResponse;
     }
@@ -538,8 +552,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionBatch(beanInfo);
-        int count = dataCollectionMapper.countStatisticsCollectionBatch(beanInfo);
-        webResponse.setTotalNum(count);
+        //int count = dataCollectionMapper.countStatisticsCollectionBatch(beanInfo);
+        //webResponse.setTotalNum(count);
         webResponse.setData(colList);
         return webResponse;
     }
@@ -574,6 +588,20 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             beanInfo.setOdv(user.getId()+"");//当前用户
         }
         CollectionStatistic collectionReturn = new CollectionStatistic();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (beanInfo.getRepayTimeStart()==null || beanInfo.getRepayTimeStart().equals("")){
+            //获取前月的第一天
+            Calendar   cal_1=Calendar.getInstance();//获取当前日期
+            cal_1.add(Calendar.MONTH, -1);
+            cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+            collectionReturn.setRepayTimeStart(format.format(cal_1.getTime()));
+        }
+        if (beanInfo.getRepayTimeEnd()==null || beanInfo.getRepayTimeEnd().equals("")) {
+            //获取前月的最后一天
+            Calendar cale = Calendar.getInstance();
+            cale.set(Calendar.DAY_OF_MONTH, 0);//设置为1号,当前日期既为本月第一天
+            collectionReturn.setRepayTimeEnd(format.format(cale.getTime()));
+        }
         //我的还款列表统计查询
         List<DataCollectionEntity> colList = dataCollectionMapper.statisticsCollectionPay(beanInfo);
         int count = dataCollectionMapper.countStatisticsCollectionPay(beanInfo);
@@ -1189,7 +1217,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         String part1 = "京东白条,太平洋,I贷,平安后手181-360天,平安后手361-720天,平安后手721天+,平安前手,中信抢案,中信普案,财富0-90天,财富91-180天,财富181-360天,财富361-720天,财富721天+,浦发M3,浦发1手,浦发2手,浦发3手,捷信,银谷M3以下,银谷M4-M6,银谷M7-M9,银谷M10+,宜信1手,宜信2手,宜信3手,宜信4手,小牛0-90天,小牛91-180天,小牛181-360天,小牛361-720天,小牛721天+";
         String part2 = "上汽长账龄上汽拖车,上汽长账龄其他";
         String part3 = "上汽短期,安吉蓝海";
-        if (tempCase!=null && part1.indexOf(tempCase.getBusinessType())>0){
+        if (tempCase!=null && part1.indexOf(tempCase.getBusinessType().trim())>=0){
             BigDecimal resultBean = new BigDecimal("0.00");
             percentData.setClient(tempCase.getBusinessType());
             SysPercent percent =  sysPercentMapper.findByClient(percentData);
@@ -1204,7 +1232,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         }
         //特殊1
-        if (tempCase!=null && part2.indexOf(tempCase.getBusinessType())>0){
+        if (tempCase!=null && part2.indexOf(tempCase.getBusinessType().trim())>=0){
             BigDecimal resultBean = new BigDecimal("0.00");
 
             percentData.setClient(tempCase.getBusinessType());
@@ -1221,7 +1249,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
         }
         //特殊2
-        if (tempCase!=null && part3.indexOf(tempCase.getBusinessType())>0){
+        if (tempCase!=null && part3.indexOf(tempCase.getBusinessType().trim())>=0){
             BigDecimal numHoursPay = new BigDecimal(0);//当月回款户数
             BigDecimal numHoursMoney = new BigDecimal(0);//当月委案户数
 
@@ -1258,7 +1286,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     private void royaltyTypeManage(DataCaseEntity tempCase,int type,ManagePercentage managePercentage){
-
+        managePercentage.setRepayAmt(managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt());
         BigDecimal resultManage = new BigDecimal("0.00");
 
         //获取案件条线类型

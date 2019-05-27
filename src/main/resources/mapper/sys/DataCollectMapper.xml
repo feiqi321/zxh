@@ -1483,6 +1483,8 @@
         from
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.delete_flag = 0
+        and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
+        and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         <if test="clientFlag != null and clientFlag!=''">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -1536,6 +1538,8 @@
         from
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.delete_flag = 0
+        and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
+        and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         <if test="clientFlag != null and clientFlag!=''">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -1565,7 +1569,7 @@
             </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
-            AND target_name = #{targetName}
+            AND  dc.target_name = #{targetName}
         </if>
         GROUP BY c.batch_no
     </select>
@@ -1605,7 +1609,7 @@
             </foreach>
         </if>
         <if test="targetName != null and targetName!=''">
-            AND target_name = #{targetName}
+            AND dc.target_name = #{targetName}
         </if>
     </select>
 

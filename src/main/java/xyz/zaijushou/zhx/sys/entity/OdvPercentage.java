@@ -1,13 +1,13 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 import java.math.BigDecimal;
 
 /**
  * Created by looyer on 2019/5/25.
  */
-public class OdvPercentage {
-
-    private Integer id;
+public class OdvPercentage extends CommonEntity {
 
     private Integer odv;
 
@@ -18,14 +18,6 @@ public class OdvPercentage {
     private BigDecimal repayAmt;
 
     private BigDecimal percentage;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getOdv() {
         return odv;

@@ -708,7 +708,7 @@
             #{dataCase.id},
             #{collectUser.id},
             #{confirmUser.id},
-            #{repayDate},
+            convert(datetime,#{repayDate}, 20),
             #{repayMoney},
             #{repayUser},
             #{repayType.id},

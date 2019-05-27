@@ -1,13 +1,13 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 import java.math.BigDecimal;
 
 /**
  * Created by looyer on 2019/5/25.
  */
-public class ManagePercentage {
-
-    private Integer id;
+public class ManagePercentage extends CommonEntity {
 
     private Integer manage;
 
@@ -27,14 +27,6 @@ public class ManagePercentage {
 
     public void setOdvName(String odvName) {
         this.odvName = odvName;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Integer getManage() {
