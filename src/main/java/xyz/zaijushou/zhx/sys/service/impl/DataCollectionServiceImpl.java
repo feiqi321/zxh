@@ -1015,6 +1015,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 result = result.add(royaltyType(tempCase,2));
             }else{
                 for (String userId : tempCase.getUserName()){
+                    tempCase.setRepayDateStart(first);
                     tempCase.setRepayDateEnd(day25);
                     tempCase.setOdv(userId);
                     result = result.add(royaltyType(tempCase,2));
