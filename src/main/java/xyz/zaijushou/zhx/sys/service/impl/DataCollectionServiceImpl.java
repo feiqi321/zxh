@@ -468,17 +468,17 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-            //获取前月的第一天
-            Calendar   cal_1=Calendar.getInstance();//获取当前日期
-            cal_1.add(Calendar.MONTH, -1);
-            cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
-            beanInfo.setDateStart(cal_1.getTime());
+        //获取前月的第一天
+        Calendar   cal_1=Calendar.getInstance();//获取当前日期
+        cal_1.add(Calendar.MONTH, -1);
+        cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+        beanInfo.setDateStart(cal_1.getTime());
 
 
-            //获取前月的最后一天
-            Calendar cale = Calendar.getInstance();
-            cale.set(Calendar.DAY_OF_MONTH, 0);//设置为1号,当前日期既为本月第一天
-            beanInfo.setDateEnd(cale.getTime());
+        //获取前月的最后一天
+        Calendar cale = Calendar.getInstance();
+        cale.set(Calendar.DAY_OF_MONTH, 0);//设置为1号,当前日期既为本月第一天
+        beanInfo.setDateEnd(cale.getTime());
 
         List<CollectionStatistic> colList =
                 dataCollectionMapper.statisticsCollectionState(beanInfo);
@@ -1172,19 +1172,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
 
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
+            bean.setRepayDateStart(first);
             bean.setRepayDateEnd(day25);
+            royaltyTypeManage(bean,2,managePercentage);
             //25到月底
             bean.setRepayDateStart(day25);
             bean.setRepayDateEnd(last);
-
             royaltyTypeManage(bean,2,managePercentage);
-            royaltyTypeManage(bean,2,managePercentage);
-
-
         }else if (actualTime.compareTo(ca25.getTime())>=0){
             bean.setRepayDateEnd(last);
             royaltyTypeManage(bean,3,managePercentage);
-            royaltyTypeManage(bean,1,managePercentage);
         }
         SysNewUserEntity userEntity = new SysNewUserEntity();
         userEntity.setId(bean.getOdv()==null?0:(bean.getOdv().equals("")?0:Integer.parseInt(bean.getOdv())));
@@ -1314,9 +1311,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
 
             if (resultBean.compareTo(percent.getManageReward()) >=0){
-                    resultManage = resultManage.add(
-                            percent.getManageRewardRange1().add(resultBean.multiply(percent.getManageRewardRange2()))
-                    );
+                resultManage = resultManage.add(
+                        percent.getManageRewardRange1().add(resultBean.multiply(percent.getManageRewardRange2()))
+                );
             }
 
         }
@@ -1368,9 +1365,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
 
             if (resultBean.compareTo(percent.getManageReward()) >=0){
-                    resultManage = resultManage.add(
-                            calSpecialManagTwo(numHoursPay,numHoursMoney,percent)
-                    );
+                resultManage = resultManage.add(
+                        calSpecialManagTwo(numHoursPay,numHoursMoney,percent)
+                );
             }
 
         }
