@@ -105,17 +105,20 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     @Async
     public void refreshRoleRedis() {
+        try {
+            List<SysRoleEntity> allRole = listAllRoles(new SysRoleEntity());
 
-        List<SysRoleEntity> allRole = listAllRoles(new SysRoleEntity());
+            refreshRoleInfo(allRole);
 
-        refreshRoleInfo(allRole);
+            refreshUserRole(allRole);
+            Map<Integer, SysRoleEntity> roleMap = refreshRoleMenu(allRole);
 
-        refreshUserRole(allRole);
-        Map<Integer, SysRoleEntity> roleMap = refreshRoleMenu(allRole);
-
-        List<SysButtonEntity> allButton = RedisUtils.scanEntityWithKeyPrefix(RedisKeyPrefix.BUTTON_INFO, SysButtonEntity.class);
-        roleMap = initRoleButton(roleMap, allButton);
-        initRoleAuthority(roleMap, allButton);
+            List<SysButtonEntity> allButton = RedisUtils.scanEntityWithKeyPrefix(RedisKeyPrefix.BUTTON_INFO, SysButtonEntity.class);
+            roleMap = initRoleButton(roleMap, allButton);
+            initRoleAuthority(roleMap, allButton);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void refreshRoleInfo(List<SysRoleEntity> allRole) {

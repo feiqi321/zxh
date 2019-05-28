@@ -33,36 +33,55 @@ public class RedisUtils {
     }
 
     public static void refreshCommonEntityWithId(List list, String redisKeyPrefix) {
-        RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
-        for (Object object : list) {
-            CommonEntity commonEntity = (CommonEntity) object;
-            stringRedisTemplate.opsForValue().set(redisKeyPrefix + commonEntity.getId(), JSONObject.toJSONString(object));
+        try {
+            RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+            for (Object object : list) {
+                CommonEntity commonEntity = (CommonEntity) object;
+                stringRedisTemplate.opsForValue().set(redisKeyPrefix + commonEntity.getId(), JSONObject.toJSONString(object));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     public static void refreshBatchEntity(List list, String redisKeyPrefix) {
         //RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
-        for (Object object : list) {
-            DataBatchEntity dataBatchEntity = (DataBatchEntity) object;
-            stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataBatchEntity.getBatchNo(), JSONObject.toJSONString(object));
+        try {
+            for (Object object : list) {
+                DataBatchEntity dataBatchEntity = (DataBatchEntity) object;
+                stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataBatchEntity.getBatchNo(), JSONObject.toJSONString(object));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
     public static void refreshDicEntity(List list, String redisKeyPrefix) {
-        RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
-        for (Object object : list) {
-            SysDictionaryEntity bean = (SysDictionaryEntity) object;
-            stringRedisTemplate.opsForValue().set(redisKeyPrefix + bean.getId(), JSONObject.toJSONString(object));
-            stringRedisTemplate.opsForValue().set(redisKeyPrefix + bean.getName(), JSONObject.toJSONString(object));
+        try {
+            RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+            for (Object object : list) {
+                SysDictionaryEntity bean = (SysDictionaryEntity) object;
+
+                stringRedisTemplate.opsForValue().set(redisKeyPrefix + bean.getId(), JSONObject.toJSONString(object));
+                stringRedisTemplate.opsForValue().set(redisKeyPrefix + bean.getName(), JSONObject.toJSONString(object));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 
     public static void refreshCaseEntity(List list, String redisKeyPrefix) {
         //RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
-        for (Object object : list) {
-            DataCaseEntity dataCaseEntity = (DataCaseEntity) object;
-            stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataCaseEntity.getSeqNo(), JSONObject.toJSONString(object));
-            stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate(), JSONObject.toJSONString(object));
+        try {
+            for (Object object : list) {
+                DataCaseEntity dataCaseEntity = (DataCaseEntity) object;
+                //logger.info(redisKeyPrefix + dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate());
+                //logger.info(JSONObject.toJSONString(object));
+                stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataCaseEntity.getSeqNo(), JSONObject.toJSONString(object));
+                stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataCaseEntity.getCardNo() + "@" + dataCaseEntity.getCaseDate(), JSONObject.toJSONString(object));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
