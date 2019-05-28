@@ -343,6 +343,7 @@ public class ExcelCaseUtils {
                             setCellValue(method.invoke(entity), cell, excelEnum.getAttrClazz()[0]);
                         }
                     }
+
                 }
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 logger.error("excel解析错误：{}", e);
