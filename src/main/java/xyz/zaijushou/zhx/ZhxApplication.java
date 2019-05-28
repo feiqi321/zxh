@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import javax.annotation.Resource;
 @SpringBootApplication
 @ServletComponentScan({"xyz.zaijushou.zhx.filter"})
 @MapperScan("xyz.zaijushou.zhx.**.dao")
+@EnableAsync //开启异步调用
 public class ZhxApplication {
 
     public static void main(String[] args) {
