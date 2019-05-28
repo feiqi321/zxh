@@ -422,7 +422,7 @@
                 </if>
 
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND t.case_status = #{caseStatus}
+                    AND t.status = #{caseStatus}
                 </if>
                 <if test="result != null and result!=''">
                     AND c.result =#{result}
@@ -1285,7 +1285,7 @@
 
         <if test="ids != null and ids.length >0">
             where c.id in
-            <foreach collection="ids" item="item" open="(" close=")">
+            <foreach collection="ids" item="item" separator ="," open="(" close=")">
                 #{item}
             </foreach>
         </if>
