@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
@@ -102,6 +103,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     }
 
     @Override
+    @Async
     public void refreshRoleRedis() {
         try {
             List<SysRoleEntity> allRole = listAllRoles(new SysRoleEntity());
