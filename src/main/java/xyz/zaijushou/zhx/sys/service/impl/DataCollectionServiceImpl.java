@@ -634,6 +634,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setRepaidAmtMMsg(collection.getRepaidAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidAmtM().stripTrailingZeros()+""));
             collection.setRepaidBankAmtMMsg(collection.getRepaidBankAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidBankAmtM().stripTrailingZeros()+""));
         }
+        collectionReturn.setList(colList);
 /*
         DataCaseEntity tempCase = new DataCaseEntity();
         tempCase.setOdv(user.getId()+"");//当前催收员
