@@ -41,7 +41,7 @@ public class RedisUtils {
     }
 
     public static void refreshBatchEntity(List list, String redisKeyPrefix) {
-        RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+        //RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
         for (Object object : list) {
             DataBatchEntity dataBatchEntity = (DataBatchEntity) object;
             stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataBatchEntity.getBatchNo(), JSONObject.toJSONString(object));
@@ -58,7 +58,7 @@ public class RedisUtils {
     }
 
     public static void refreshCaseEntity(List list, String redisKeyPrefix) {
-        RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+        //RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
         for (Object object : list) {
             DataCaseEntity dataCaseEntity = (DataCaseEntity) object;
             stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataCaseEntity.getSeqNo(), JSONObject.toJSONString(object));
