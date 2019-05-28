@@ -806,7 +806,7 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="clientFlag != null and clientFlag!=''">
+                <if test="clientFlag != null and clientFlag!='' and client!=null and client.size()>0 ">
                     and da.client in
                     <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
                         #{item}
@@ -848,7 +848,7 @@
                     and da.overdue_days = #{overDays}
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
-                    and dc.collectInfo = #{collectInfo}
+                    and dc.collect_info = #{collectInfo}
                 </if>
                 <if test="dept != null and dept!=''">
                     and da.dept = #{dept}
@@ -879,7 +879,7 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDated(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
                     <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
@@ -985,7 +985,7 @@
                     <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDated(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
                     <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
@@ -2521,7 +2521,7 @@
                     <![CDATA[   and t.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDated(t.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
                     <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
