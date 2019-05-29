@@ -2,6 +2,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1082,7 +1083,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Transactional
     @Override
     public void saveCaseList(List<DataCaseEntity> dataCaseEntities,String batchNo) {
-        BigDecimal totalAmt = new BigDecimal(0);
+        final BigDecimal totalAmt = new BigDecimal(0);
         List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
         Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
         for(SysDictionaryEntity entity : dictionaryList) {
@@ -1112,14 +1113,103 @@ public class DataCaseServiceImpl implements DataCaseService {
         //DataCaseEntity updateCaseEntity = new DataCaseEntity();
         //List<DataCaseRemarkEntity> remarks = new ArrayList<>();
         List<DataCaseContactsEntity> contacts = new ArrayList<>();
+
+        List<DataCaseTelEntity>  telEntityList = Lists.newArrayList();
+        List<DataCaseEntity> tempList = Lists.newArrayList();
+
+        //修改批次信息
+        final DataBatchEntity dataBatchEntity = new DataBatchEntity();
+        dataBatchEntity.setBatchNo(batchNo);
+        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        dataBatchEntity.setUploadTime(sdf.format(new Date()));
+        dataBatchEntity.setTotalAmt(BigDecimal.ZERO);
+        dataBatchEntity.setUserCount(dataCaseEntities.size());
+
         for(DataCaseEntity entity : dataCaseEntities) {
-            dataCaseMapper.saveCase(entity);
-            totalAmt = totalAmt.add(entity.getMoney());
 
+            if(tempList.size() < 1000 ){
+                tempList.add(entity);
 
+                if (StringUtils.notEmpty(entity.getContactName1()) || StringUtils.notEmpty(entity.getContactMobile1())) {
+                    DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
+                    dataCaseTelEntity1.setCaseId(entity.getId());
+                    dataCaseTelEntity1.setName(entity.getContactName1());
+                    dataCaseTelEntity1.setIdentNo(entity.getContactIdentNo1());
+                    dataCaseTelEntity1.setRelation(entity.getContactRelation1());
+                    dataCaseTelEntity1.setTel(entity.getContactMobile1());
+                    dataCaseTelEntity1.setTelStatusMsg("未知");
+                    telEntityList.add(dataCaseTelEntity1);
+                }
+                if (StringUtils.notEmpty(entity.getContactName2()) || StringUtils.notEmpty(entity.getContactMobile2())) {
+                    DataCaseTelEntity dataCaseTelEntity2 = new DataCaseTelEntity();
+                    dataCaseTelEntity2.setCaseId(entity.getId());
+                    dataCaseTelEntity2.setName(entity.getContactName2());
+                    dataCaseTelEntity2.setIdentNo(entity.getContactIdentNo2());
+                    dataCaseTelEntity2.setRelation(entity.getContactRelation2());
+                    dataCaseTelEntity2.setTel(entity.getContactMobile2());
+                    dataCaseTelEntity2.setTelStatusMsg("未知");
+                    telEntityList.add(dataCaseTelEntity2);
+                }
+                if (StringUtils.notEmpty(entity.getContactName3()) || StringUtils.notEmpty(entity.getContactMobile3())) {
+                    DataCaseTelEntity dataCaseTelEntity3 = new DataCaseTelEntity();
+                    dataCaseTelEntity3.setCaseId(entity.getId());
+                    dataCaseTelEntity3.setName(entity.getContactName3());
+                    dataCaseTelEntity3.setIdentNo(entity.getContactIdentNo3());
+                    dataCaseTelEntity3.setRelation(entity.getContactRelation3());
+                    dataCaseTelEntity3.setTel(entity.getContactMobile3());
+                    dataCaseTelEntity3.setTelStatusMsg("未知");
+                    telEntityList.add(dataCaseTelEntity3);
+                }
+                if (StringUtils.notEmpty(entity.getContactName4()) || StringUtils.notEmpty(entity.getContactMobile4())) {
+                    DataCaseTelEntity dataCaseTelEntity4 = new DataCaseTelEntity();
+                    dataCaseTelEntity4.setCaseId(entity.getId());
+                    dataCaseTelEntity4.setName(entity.getContactName4());
+                    dataCaseTelEntity4.setIdentNo(entity.getContactIdentNo4());
+                    dataCaseTelEntity4.setRelation(entity.getContactRelation4());
+                    dataCaseTelEntity4.setTel(entity.getContactMobile4());
+                    dataCaseTelEntity4.setTelStatusMsg("未知");
+                    telEntityList.add(dataCaseTelEntity4);
+                }
+                if (StringUtils.notEmpty(entity.getContactName5()) || StringUtils.notEmpty(entity.getContactMobile5())) {
+                    DataCaseTelEntity dataCaseTelEntity5 = new DataCaseTelEntity();
+                    dataCaseTelEntity5.setCaseId(entity.getId());
+                    dataCaseTelEntity5.setName(entity.getContactName5());
+                    dataCaseTelEntity5.setIdentNo(entity.getContactIdentNo5());
+                    dataCaseTelEntity5.setRelation(entity.getContactRelation5());
+                    dataCaseTelEntity5.setTel(entity.getContactMobile5());
+                    dataCaseTelEntity5.setTelStatusMsg("未知");
+                    telEntityList.add(dataCaseTelEntity5);
+                }
+                if (StringUtils.notEmpty(entity.getContactName6()) || StringUtils.notEmpty(entity.getContactMobile6())) {
+                    DataCaseTelEntity dataCaseTelEntity6 = new DataCaseTelEntity();
+                    dataCaseTelEntity6.setCaseId(entity.getId());
+                    dataCaseTelEntity6.setName(entity.getContactName6());
+                    dataCaseTelEntity6.setIdentNo(entity.getContactIdentNo6());
+                    dataCaseTelEntity6.setRelation(entity.getContactRelation6());
+                    dataCaseTelEntity6.setTel(entity.getContactMobile6());
+                    dataCaseTelEntity6.setTelStatusMsg("未知");
+                    telEntityList.add(dataCaseTelEntity6);
+                }
+            }else{
+                dataCaseMapper.saveBatchCase(tempList);
+                tempList.stream().forEach(d->{
+                    BigDecimal tmp = dataBatchEntity.getTotalAmt();
+                    dataBatchEntity.setTotalAmt(tmp.add(d.getMoney()));
+                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + d.getSeqNo(), JSONObject.toJSONString(d),20);
+                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + d.getCardNo()+"@"+d.getCaseDate(), JSONObject.toJSONString(d));
+                });
+                tempList.clear();
+                dataCaseTelMapper.saveBatchTel(telEntityList);
+                telEntityList.clear();
+            }
 
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
+//            dataCaseMapper.saveCase(entity);
+//            totalAmt = totalAmt.add(entity.getMoney());
+//
+//
+//
+//            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity),20);
+//            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
            /* if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
                 for (DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
                     remark.setCaseId(entity.getId());
@@ -1127,67 +1217,67 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
             }*/
             //int i = 0;
-            //联系人添加到案件电话中
-            if (StringUtils.notEmpty(entity.getContactName1()) || StringUtils.notEmpty(entity.getContactMobile1())) {
-                DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
-                dataCaseTelEntity1.setCaseId(entity.getId());
-                dataCaseTelEntity1.setName(entity.getContactName1());
-                dataCaseTelEntity1.setIdentNo(entity.getContactIdentNo1());
-                dataCaseTelEntity1.setRelation(entity.getContactRelation1());
-                dataCaseTelEntity1.setTel(entity.getContactMobile1());
-                dataCaseTelEntity1.setTelStatusMsg("未知");
-                dataCaseTelMapper.saveTel(dataCaseTelEntity1);
-            }
-            if (StringUtils.notEmpty(entity.getContactName2()) || StringUtils.notEmpty(entity.getContactMobile2())) {
-                DataCaseTelEntity dataCaseTelEntity2 = new DataCaseTelEntity();
-                dataCaseTelEntity2.setCaseId(entity.getId());
-                dataCaseTelEntity2.setName(entity.getContactName2());
-                dataCaseTelEntity2.setIdentNo(entity.getContactIdentNo2());
-                dataCaseTelEntity2.setRelation(entity.getContactRelation2());
-                dataCaseTelEntity2.setTel(entity.getContactMobile2());
-                dataCaseTelEntity2.setTelStatusMsg("未知");
-                dataCaseTelMapper.saveTel(dataCaseTelEntity2);
-            }
-            if (StringUtils.notEmpty(entity.getContactName3()) || StringUtils.notEmpty(entity.getContactMobile3())) {
-                DataCaseTelEntity dataCaseTelEntity3 = new DataCaseTelEntity();
-                dataCaseTelEntity3.setCaseId(entity.getId());
-                dataCaseTelEntity3.setName(entity.getContactName3());
-                dataCaseTelEntity3.setIdentNo(entity.getContactIdentNo3());
-                dataCaseTelEntity3.setRelation(entity.getContactRelation3());
-                dataCaseTelEntity3.setTel(entity.getContactMobile3());
-                dataCaseTelEntity3.setTelStatusMsg("未知");
-                dataCaseTelMapper.saveTel(dataCaseTelEntity3);
-            }
-            if (StringUtils.notEmpty(entity.getContactName4()) || StringUtils.notEmpty(entity.getContactMobile4())) {
-                DataCaseTelEntity dataCaseTelEntity4 = new DataCaseTelEntity();
-                dataCaseTelEntity4.setCaseId(entity.getId());
-                dataCaseTelEntity4.setName(entity.getContactName4());
-                dataCaseTelEntity4.setIdentNo(entity.getContactIdentNo4());
-                dataCaseTelEntity4.setRelation(entity.getContactRelation4());
-                dataCaseTelEntity4.setTel(entity.getContactMobile4());
-                dataCaseTelEntity4.setTelStatusMsg("未知");
-                dataCaseTelMapper.saveTel(dataCaseTelEntity4);
-            }
-            if (StringUtils.notEmpty(entity.getContactName5()) || StringUtils.notEmpty(entity.getContactMobile5())) {
-                DataCaseTelEntity dataCaseTelEntity5 = new DataCaseTelEntity();
-                dataCaseTelEntity5.setCaseId(entity.getId());
-                dataCaseTelEntity5.setName(entity.getContactName5());
-                dataCaseTelEntity5.setIdentNo(entity.getContactIdentNo5());
-                dataCaseTelEntity5.setRelation(entity.getContactRelation5());
-                dataCaseTelEntity5.setTel(entity.getContactMobile5());
-                dataCaseTelEntity5.setTelStatusMsg("未知");
-                dataCaseTelMapper.saveTel(dataCaseTelEntity5);
-            }
-            if (StringUtils.notEmpty(entity.getContactName6()) || StringUtils.notEmpty(entity.getContactMobile6())) {
-                DataCaseTelEntity dataCaseTelEntity6 = new DataCaseTelEntity();
-                dataCaseTelEntity6.setCaseId(entity.getId());
-                dataCaseTelEntity6.setName(entity.getContactName6());
-                dataCaseTelEntity6.setIdentNo(entity.getContactIdentNo6());
-                dataCaseTelEntity6.setRelation(entity.getContactRelation6());
-                dataCaseTelEntity6.setTel(entity.getContactMobile6());
-                dataCaseTelEntity6.setTelStatusMsg("未知");
-                dataCaseTelMapper.saveTel(dataCaseTelEntity6);
-            }
+//            //联系人添加到案件电话中
+//            if (StringUtils.notEmpty(entity.getContactName1()) || StringUtils.notEmpty(entity.getContactMobile1())) {
+//                DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
+//                dataCaseTelEntity1.setCaseId(entity.getId());
+//                dataCaseTelEntity1.setName(entity.getContactName1());
+//                dataCaseTelEntity1.setIdentNo(entity.getContactIdentNo1());
+//                dataCaseTelEntity1.setRelation(entity.getContactRelation1());
+//                dataCaseTelEntity1.setTel(entity.getContactMobile1());
+//                dataCaseTelEntity1.setTelStatusMsg("未知");
+//                dataCaseTelMapper.saveTel(dataCaseTelEntity1);
+//            }
+//            if (StringUtils.notEmpty(entity.getContactName2()) || StringUtils.notEmpty(entity.getContactMobile2())) {
+//                DataCaseTelEntity dataCaseTelEntity2 = new DataCaseTelEntity();
+//                dataCaseTelEntity2.setCaseId(entity.getId());
+//                dataCaseTelEntity2.setName(entity.getContactName2());
+//                dataCaseTelEntity2.setIdentNo(entity.getContactIdentNo2());
+//                dataCaseTelEntity2.setRelation(entity.getContactRelation2());
+//                dataCaseTelEntity2.setTel(entity.getContactMobile2());
+//                dataCaseTelEntity2.setTelStatusMsg("未知");
+//                dataCaseTelMapper.saveTel(dataCaseTelEntity2);
+//            }
+//            if (StringUtils.notEmpty(entity.getContactName3()) || StringUtils.notEmpty(entity.getContactMobile3())) {
+//                DataCaseTelEntity dataCaseTelEntity3 = new DataCaseTelEntity();
+//                dataCaseTelEntity3.setCaseId(entity.getId());
+//                dataCaseTelEntity3.setName(entity.getContactName3());
+//                dataCaseTelEntity3.setIdentNo(entity.getContactIdentNo3());
+//                dataCaseTelEntity3.setRelation(entity.getContactRelation3());
+//                dataCaseTelEntity3.setTel(entity.getContactMobile3());
+//                dataCaseTelEntity3.setTelStatusMsg("未知");
+//                dataCaseTelMapper.saveTel(dataCaseTelEntity3);
+//            }
+//            if (StringUtils.notEmpty(entity.getContactName4()) || StringUtils.notEmpty(entity.getContactMobile4())) {
+//                DataCaseTelEntity dataCaseTelEntity4 = new DataCaseTelEntity();
+//                dataCaseTelEntity4.setCaseId(entity.getId());
+//                dataCaseTelEntity4.setName(entity.getContactName4());
+//                dataCaseTelEntity4.setIdentNo(entity.getContactIdentNo4());
+//                dataCaseTelEntity4.setRelation(entity.getContactRelation4());
+//                dataCaseTelEntity4.setTel(entity.getContactMobile4());
+//                dataCaseTelEntity4.setTelStatusMsg("未知");
+//                dataCaseTelMapper.saveTel(dataCaseTelEntity4);
+//            }
+//            if (StringUtils.notEmpty(entity.getContactName5()) || StringUtils.notEmpty(entity.getContactMobile5())) {
+//                DataCaseTelEntity dataCaseTelEntity5 = new DataCaseTelEntity();
+//                dataCaseTelEntity5.setCaseId(entity.getId());
+//                dataCaseTelEntity5.setName(entity.getContactName5());
+//                dataCaseTelEntity5.setIdentNo(entity.getContactIdentNo5());
+//                dataCaseTelEntity5.setRelation(entity.getContactRelation5());
+//                dataCaseTelEntity5.setTel(entity.getContactMobile5());
+//                dataCaseTelEntity5.setTelStatusMsg("未知");
+//                dataCaseTelMapper.saveTel(dataCaseTelEntity5);
+//            }
+//            if (StringUtils.notEmpty(entity.getContactName6()) || StringUtils.notEmpty(entity.getContactMobile6())) {
+//                DataCaseTelEntity dataCaseTelEntity6 = new DataCaseTelEntity();
+//                dataCaseTelEntity6.setCaseId(entity.getId());
+//                dataCaseTelEntity6.setName(entity.getContactName6());
+//                dataCaseTelEntity6.setIdentNo(entity.getContactIdentNo6());
+//                dataCaseTelEntity6.setRelation(entity.getContactRelation6());
+//                dataCaseTelEntity6.setTel(entity.getContactMobile6());
+//                dataCaseTelEntity6.setTelStatusMsg("未知");
+//                dataCaseTelMapper.saveTel(dataCaseTelEntity6);
+//            }
 
             /*if (entity.getContacts()!=null && entity.getContacts().size()>0) {
                 for (DataCaseContactsEntity contact : entity.getContacts()) {
@@ -1217,13 +1307,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
 
         }*/
-        //修改批次信息
-        DataBatchEntity dataBatchEntity = new DataBatchEntity();
-        dataBatchEntity.setBatchNo(batchNo);
-        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        dataBatchEntity.setUploadTime(sdf.format(new Date()));
-        dataBatchEntity.setTotalAmt(totalAmt);
-        dataBatchEntity.setUserCount(dataCaseEntities.size());
+//        //修改批次信息
+//        DataBatchEntity dataBatchEntity = new DataBatchEntity();
+//        dataBatchEntity.setBatchNo(batchNo);
+//        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        dataBatchEntity.setUploadTime(sdf.format(new Date()));
+//        dataBatchEntity.setTotalAmt(totalAmt);
+//        dataBatchEntity.setUserCount(dataCaseEntities.size());
         dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
 

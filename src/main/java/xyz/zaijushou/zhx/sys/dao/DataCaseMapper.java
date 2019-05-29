@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import xyz.zaijushou.zhx.sys.entity.DataCaseDetail;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseTelExport;
@@ -14,6 +15,8 @@ import java.util.List;
 public interface DataCaseMapper {
 
     public int saveCase(DataCaseEntity bean);
+
+    public int saveBatchCase(@Param("list") List<DataCaseEntity> list);
 
     public void updateCase(DataCaseEntity bean);
 
@@ -94,6 +97,8 @@ public interface DataCaseMapper {
     List<DataCaseEntity> listBySeqNoSet(DataCaseEntity queryEntity);
 
     void updateBySeqNo(DataCaseEntity entity);
+
+    void updateBatchBySeqNo(@Param("records") List<DataCaseEntity> entityList);
 
     void updateRemark(DataCaseEntity entity);
 

@@ -1313,122 +1313,122 @@
     </select>
 
     <update id="updateBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case
-        <set >
+    update data_case
+    <set >
         <trim suffixOverrides=",">
-         <if test="caseDate != null and caseDate != ''">
-            case_date = #{caseDate},
-        </if>
-        <if test="money != null and money != ''">
-            money = #{money},
-        </if>
+            <if test="caseDate != null and caseDate != ''">
+                case_date = #{caseDate},
+            </if>
+            <if test="money != null and money != ''">
+                money = #{money},
+            </if>
             <if test="businessType != null and businessType != ''">
                 business_type = #{businessType},
             </if>
-        <if test="caseDeadline != null and caseDeadline != ''">
-            case_deadline = #{caseDeadline},
-        </if>
-        <if test="collectHand != null and collectHand != ''">
-            collect_hand = #{collectHand},
-        </if>
-        <if test="rmb != null and rmb != ''">
-            rmb = #{rmb},
-        </if>
-        <if test="hkd != null and hkd != ''">
-            hkd = #{hkd},
-        </if>
-        <if test="foreignCurrency != null and foreignCurrency != ''">
-            foreign_currency = #{foreignCurrency},
-        </if>
-        <if test="gender != null and gender != ''">
-            gender = #{gender},
-        </if>
-        <if test="name != null and name != ''">
-            name = #{name},
-        </if>
-        <if test="cardNo != null and cardNo != ''">
-            card_no = #{cardNo},
-        </if>
-        <if test="identNo != null and identNo != ''">
-            ident_no = #{identNo},
-        </if>
-        <if test="identType != null and identType != ''">
-            ident_type = #{identType},
-        </if>
+            <if test="caseDeadline != null and caseDeadline != ''">
+                case_deadline = #{caseDeadline},
+            </if>
+            <if test="collectHand != null and collectHand != ''">
+                collect_hand = #{collectHand},
+            </if>
+            <if test="rmb != null and rmb != ''">
+                rmb = #{rmb},
+            </if>
+            <if test="hkd != null and hkd != ''">
+                hkd = #{hkd},
+            </if>
+            <if test="foreignCurrency != null and foreignCurrency != ''">
+                foreign_currency = #{foreignCurrency},
+            </if>
+            <if test="gender != null and gender != ''">
+                gender = #{gender},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="cardNo != null and cardNo != ''">
+                card_no = #{cardNo},
+            </if>
+            <if test="identNo != null and identNo != ''">
+                ident_no = #{identNo},
+            </if>
+            <if test="identType != null and identType != ''">
+                ident_type = #{identType},
+            </if>
 
-      <if test="collectionUser != null and collectionUser.id != null">
+            <if test="collectionUser != null and collectionUser.id != null">
                 odv = #{collectionUser.id},
             </if>
             <if test="collectionArea != null and collectionArea.id != null">
                 collection_area = #{collectionArea.id},
             </if>
-        <if test="collectInfo != null and collectInfo != ''">
-            collect_result = #{collectInfo},
-        </if>
-        <if test="mVal != null and mVal != ''">
-            m_val = #{mVal},
-        </if>
-        <if test="commissionRate != null and commissionRate != ''">
-            commission_rate = #{commissionRate},
-        </if>
-        <if test="commissionMoney != null and commissionMoney != ''">
-            commission_money = #{commissionMoney},
-        </if>
-        <if test="homeTelNumber != null and homeTelNumber != ''">
-            home_tel_number = #{homeTelNumber},
-        </if>
-        <if test="unitTelNumber != null and unitTelNumber != ''">
-            unit_tel_number = #{unitTelNumber},
-        </if>
-        <if test="tel != null and tel != null">
-            tel = #{tel},
-        </if>
-        <if test="unitTelNumber != null and unitTelNumber != ''">
-            unit_name = #{unitName},
-        </if>
-        <if test="caseUserPosition != null and caseUserPosition != ''">
-            case_user_position = #{caseUserPosition},
-        </if>
-        <if test="caseUserDepart != null and caseUserDepart != ''">
-            case_user_depart = #{caseUserDepart},
-        </if>
-        <if test="unitAddress != null and unitAddress != ''">
-            unit_address = #{unitAddress},
-        </if>
-        <if test="unitZipCode != null and unitZipCode != ''">
-            unit_zip_code = #{unitZipCode},
-        </if>
-        <if test="homeAddress != null and homeAddress != ''">
-            home_address = #{homeAddress},
-        </if>
-        <if test="homeZipCode != null and homeZipCode != ''">
-            home_zip_code = #{homeZipCode},
-        </if>
-        <if test="statementAddress != null and statementAddress != ''">
-            statement_address = #{statementAddress},
-        </if>
-        <if test="statementZipCode != null and statementZipCode != ''">
-            statement_zip_code = #{statementZipCode},
-        </if>
-        <if test="censusRegisterAddress != null and censusRegisterAddress != ''">
-            census_register_address = #{censusRegisterAddress},
-        </if>
-        <if test="censusRegisterZipCode != null and censusRegisterZipCode != ''">
-            census_register_zip_code = #{censusRegisterZipCode},
-        </if>
-        <if test="qq != null and qq != ''">
-            qq = #{qq},
-        </if>
-        <if test="email != null and email != ''">
-            email = #{email},
-        </if>
-        <if test="birthday != null and birthday != ''">
-            birthday = #{birthday},
-        </if>
-        <if test="age != null and age != ''">
-            age = #{age},
-        </if>
-        <if test="province != null and province.id != null">
+            <if test="collectInfo != null and collectInfo != ''">
+                collect_result = #{collectInfo},
+            </if>
+            <if test="mVal != null and mVal != ''">
+                m_val = #{mVal},
+            </if>
+            <if test="commissionRate != null and commissionRate != ''">
+                commission_rate = #{commissionRate},
+            </if>
+            <if test="commissionMoney != null and commissionMoney != ''">
+                commission_money = #{commissionMoney},
+            </if>
+            <if test="homeTelNumber != null and homeTelNumber != ''">
+                home_tel_number = #{homeTelNumber},
+            </if>
+            <if test="unitTelNumber != null and unitTelNumber != ''">
+                unit_tel_number = #{unitTelNumber},
+            </if>
+            <if test="tel != null and tel != null">
+                tel = #{tel},
+            </if>
+            <if test="unitTelNumber != null and unitTelNumber != ''">
+                unit_name = #{unitName},
+            </if>
+            <if test="caseUserPosition != null and caseUserPosition != ''">
+                case_user_position = #{caseUserPosition},
+            </if>
+            <if test="caseUserDepart != null and caseUserDepart != ''">
+                case_user_depart = #{caseUserDepart},
+            </if>
+            <if test="unitAddress != null and unitAddress != ''">
+                unit_address = #{unitAddress},
+            </if>
+            <if test="unitZipCode != null and unitZipCode != ''">
+                unit_zip_code = #{unitZipCode},
+            </if>
+            <if test="homeAddress != null and homeAddress != ''">
+                home_address = #{homeAddress},
+            </if>
+            <if test="homeZipCode != null and homeZipCode != ''">
+                home_zip_code = #{homeZipCode},
+            </if>
+            <if test="statementAddress != null and statementAddress != ''">
+                statement_address = #{statementAddress},
+            </if>
+            <if test="statementZipCode != null and statementZipCode != ''">
+                statement_zip_code = #{statementZipCode},
+            </if>
+            <if test="censusRegisterAddress != null and censusRegisterAddress != ''">
+                census_register_address = #{censusRegisterAddress},
+            </if>
+            <if test="censusRegisterZipCode != null and censusRegisterZipCode != ''">
+                census_register_zip_code = #{censusRegisterZipCode},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                birthday = #{birthday},
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age},
+            </if>
+            <if test="province != null and province.id != null">
                 province = #{province.id},
             </if>
             <if test="city != null and city.id != null">
@@ -1437,57 +1437,57 @@
             <if test="county != null and county.id != null">
                 county = #{county.id},
             </if>
-        <if test="expectTime != null and expectTime != ''">
-            expect_time = #{expectTime},
-        </if>
-        <if test="goods != null and goods != ''">
-            goods = #{goods},
-        </if>
-        <if test="commercialTenant != null and commercialTenant != ''">
-            commercial_tenant = #{commercialTenant},
-        </if>
-        <if test="archiveNo != null and archiveNo != ''">
-            archive_no = #{archiveNo},
-        </if>
-        <if test="applyOrderNo != null and applyOrderNo != ''">
-            apply_order_no = #{applyOrderNo},
-        </if>
-        <if test="socialSecurityComputerNo != null and socialSecurityComputerNo != ''">
-            social_security_computer_no = #{socialSecurityComputerNo},
-        </if>
-        <if test="socialSecurityCardNo != null and socialSecurityCardNo != ''">
-            social_security_card_no = #{socialSecurityCardNo},
-        </if>
-        <if test="bank != null and bank != ''">
-            bank = #{bank},
-        </if>
-        <if test="accountNo != null and accountNo != ''">
-            account_no = #{accountNo},
-        </if>
-        <if test="accountName != null and accountName != ''">
-            account_name = #{accountName},
-        </if>
-        <if test="cardType != null and cardType != ''">
-            card_type = #{cardType},
-        </if>
-        <if test="principle != null and principle != ''">
-            principle = #{principle},
-        </if>
-        <if test="loanRate != null and loanRate != ''">
-            loan_rate = #{loanRate},
-        </if>
-        <if test="residualPrinciple != null and residualPrinciple != ''">
-            residual_principle = #{residualPrinciple},
-        </if>
-        <if test="monthlyRepayments != null and monthlyRepayments != ''">
-            monthly_repayments = #{monthlyRepayments},
-        </if>
-         <if test="minimumPayment != null and minimumPayment != ''">
-            minimum_payment = #{minimumPayment},
-        </if>
-        <if test="creditLine != null and creditLine != ''">
-            credit_line = #{creditLine},
-        </if>
+            <if test="expectTime != null and expectTime != ''">
+                expect_time = #{expectTime},
+            </if>
+            <if test="goods != null and goods != ''">
+                goods = #{goods},
+            </if>
+            <if test="commercialTenant != null and commercialTenant != ''">
+                commercial_tenant = #{commercialTenant},
+            </if>
+            <if test="archiveNo != null and archiveNo != ''">
+                archive_no = #{archiveNo},
+            </if>
+            <if test="applyOrderNo != null and applyOrderNo != ''">
+                apply_order_no = #{applyOrderNo},
+            </if>
+            <if test="socialSecurityComputerNo != null and socialSecurityComputerNo != ''">
+                social_security_computer_no = #{socialSecurityComputerNo},
+            </if>
+            <if test="socialSecurityCardNo != null and socialSecurityCardNo != ''">
+                social_security_card_no = #{socialSecurityCardNo},
+            </if>
+            <if test="bank != null and bank != ''">
+                bank = #{bank},
+            </if>
+            <if test="accountNo != null and accountNo != ''">
+                account_no = #{accountNo},
+            </if>
+            <if test="accountName != null and accountName != ''">
+                account_name = #{accountName},
+            </if>
+            <if test="cardType != null and cardType != ''">
+                card_type = #{cardType},
+            </if>
+            <if test="principle != null and principle != ''">
+                principle = #{principle},
+            </if>
+            <if test="loanRate != null and loanRate != ''">
+                loan_rate = #{loanRate},
+            </if>
+            <if test="residualPrinciple != null and residualPrinciple != ''">
+                residual_principle = #{residualPrinciple},
+            </if>
+            <if test="monthlyRepayments != null and monthlyRepayments != ''">
+                monthly_repayments = #{monthlyRepayments},
+            </if>
+            <if test="minimumPayment != null and minimumPayment != ''">
+                minimum_payment = #{minimumPayment},
+            </if>
+            <if test="creditLine != null and creditLine != ''">
+                credit_line = #{creditLine},
+            </if>
             <if test="fixedQuota != null and fixedQuota != ''">
                 fixed_quota = #{fixedQuota},
             </if>
@@ -1549,51 +1549,51 @@
                 entrust_periods = #{entrustPeriods},
             </if>
             <if test="repayDeadline != null">
-                  repay_deadline = #{repayDeadline},
-              </if>
-              <if test="repaidPeriods != null and repaidPeriods != ''">
-                  repaid_periods = #{repaidPeriods},
-              </if>
-             <if test="loanType != null and loanType != ''">
-                  loan_type = #{loanType},
-              </if>
-              <if test="collectionType != null and collectionType != ''">
-                  collection_type = #{collectionType},
-              </if>
-              <if test="overdueMoney != null and overdueMoney != ''">
-                  overdue_money = #{overdueMoney},
-              </if>
-              <if test="overduePrinciple != null and overduePrinciple != ''">
-                  overdue_principle = #{overduePrinciple},
-              </if>
-              <if test="overdueInterest != null and overdueInterest != ''">
-                  overdue_interest = #{overdueInterest},
-              </if>
-              <if test="overdueManagementCost != null and overdueManagementCost != ''">
-                  overdue_management_cost = #{overdueManagementCost},
-              </if>
-              <if test="overdueDefaultInterest != null and overdueDefaultInterest != ''">
-                  overdue_default_interest = #{overdueDefaultInterest},
-              </if>
-              <if test="penalty != null and penalty != ''">
-                  penalty = #{penalty},
-              </if>
-              <if test="lateFee != null and lateFee != ''">
-                  late_fee = #{lateFee},
-              </if>
-              <if test="overrunFee != null and overrunFee != ''">
-                  overrun_fee = #{overrunFee},
-              </if>
-              <if test="bail != null and bail != ''">
-                  bail = #{bail},
-              </if>
-              <if test="currencyType != null and currencyType != ''">
-                  currency_type = #{currencyType},
-              </if>
-              <if test="lastCollectionRecord != null and lastCollectionRecord != ''">
-                  last_collection_record = #{lastCollectionRecord},
-              </if>
-             <if test="overdueBillTime != null and overdueBillTime != ''">
+                repay_deadline = #{repayDeadline},
+            </if>
+            <if test="repaidPeriods != null and repaidPeriods != ''">
+                repaid_periods = #{repaidPeriods},
+            </if>
+            <if test="loanType != null and loanType != ''">
+                loan_type = #{loanType},
+            </if>
+            <if test="collectionType != null and collectionType != ''">
+                collection_type = #{collectionType},
+            </if>
+            <if test="overdueMoney != null and overdueMoney != ''">
+                overdue_money = #{overdueMoney},
+            </if>
+            <if test="overduePrinciple != null and overduePrinciple != ''">
+                overdue_principle = #{overduePrinciple},
+            </if>
+            <if test="overdueInterest != null and overdueInterest != ''">
+                overdue_interest = #{overdueInterest},
+            </if>
+            <if test="overdueManagementCost != null and overdueManagementCost != ''">
+                overdue_management_cost = #{overdueManagementCost},
+            </if>
+            <if test="overdueDefaultInterest != null and overdueDefaultInterest != ''">
+                overdue_default_interest = #{overdueDefaultInterest},
+            </if>
+            <if test="penalty != null and penalty != ''">
+                penalty = #{penalty},
+            </if>
+            <if test="lateFee != null and lateFee != ''">
+                late_fee = #{lateFee},
+            </if>
+            <if test="overrunFee != null and overrunFee != ''">
+                overrun_fee = #{overrunFee},
+            </if>
+            <if test="bail != null and bail != ''">
+                bail = #{bail},
+            </if>
+            <if test="currencyType != null and currencyType != ''">
+                currency_type = #{currencyType},
+            </if>
+            <if test="lastCollectionRecord != null and lastCollectionRecord != ''">
+                last_collection_record = #{lastCollectionRecord},
+            </if>
+            <if test="overdueBillTime != null and overdueBillTime != ''">
                 overdue_bill_time = #{overdueBillTime},
             </if>
             <if test="contractNo != null and contractNo != ''">
@@ -1813,8 +1813,516 @@
                 remark6 = #{remark6},
             </if>
         </trim>
+    </set>
+    where seq_no = #{seqNo}
+</update>
+
+    <update id="updateBatchBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        <foreach collection ="records" item="record" separator=";" >
+
+        update data_case
+        <set >
+            <trim suffixOverrides=",">
+                <if test="record.caseDate != null and record.caseDate != ''">
+                    case_date = #{record.caseDate},
+                </if>
+                <if test="record.money != null and record.money != ''">
+                    money = #{record.money},
+                </if>
+                <if test="record.businessType != null and record.businessType != ''">
+                    business_type = #{record.businessType},
+                </if>
+                <if test="record.caseDeadline != null and record.caseDeadline != ''">
+                    case_deadline = #{record.caseDeadline},
+                </if>
+                <if test="record.collectHand != null and record.collectHand != ''">
+                    collect_hand = #{record.collectHand},
+                </if>
+                <if test="record.rmb != null and record.rmb != ''">
+                    rmb = #{record.rmb},
+                </if>
+                <if test="record.hkd != null and record.hkd != ''">
+                    hkd = #{record.hkd},
+                </if>
+                <if test="record.foreignCurrency != null and record.foreignCurrency != ''">
+                    foreign_currency = #{record.foreignCurrency},
+                </if>
+                <if test="record.gender != null and record.gender != ''">
+                    gender = #{record.gender},
+                </if>
+                <if test="record.name != null and record.name != ''">
+                    name = #{record.name},
+                </if>
+                <if test="record.cardNo != null and record.cardNo != ''">
+                    card_no = #{record.cardNo},
+                </if>
+                <if test="record.identNo != null and record.identNo != ''">
+                    ident_no = #{record.identNo},
+                </if>
+                <if test="record.identType != null and record.identType != ''">
+                    ident_type = #{record.identType},
+                </if>
+
+                <if test="record.collectionUser != null and record.collectionUser.id != null">
+                    odv = #{record.collectionUser.id},
+                </if>
+                <if test="record.collectionArea != null and record.collectionArea.id != null">
+                    collection_area = #{record.collectionArea.id},
+                </if>
+                <if test="record.collectInfo != null and record.collectInfo != ''">
+                    collect_result = #{record.collectInfo},
+                </if>
+                <if test="record.mVal != null and record.mVal != ''">
+                    m_val = #{record.mVal},
+                </if>
+                <if test="record.commissionRate != null and record.commissionRate != ''">
+                    commission_rate = #{record.commissionRate},
+                </if>
+                <if test="record.commissionMoney != null and record.commissionMoney != ''">
+                    commission_money = #{record.commissionMoney},
+                </if>
+                <if test="record.homeTelNumber != null and record.homeTelNumber != ''">
+                    home_tel_number = #{record.homeTelNumber},
+                </if>
+                <if test="record.unitTelNumber != null and record.unitTelNumber != ''">
+                    unit_tel_number = #{record.unitTelNumber},
+                </if>
+                <if test="record.tel != null and record.tel != null">
+                    tel = #{record.tel},
+                </if>
+                <if test="record.unitTelNumber != null and record.unitTelNumber != ''">
+                    unit_name = #{record.unitName},
+                </if>
+                <if test="record.caseUserPosition != null and record.caseUserPosition != ''">
+                    case_user_position = #{record.caseUserPosition},
+                </if>
+                <if test="record.caseUserDepart != null and record.caseUserDepart != ''">
+                    case_user_depart = #{record.caseUserDepart},
+                </if>
+                <if test="record.unitAddress != null and record.unitAddress != ''">
+                    unit_address = #{record.unitAddress},
+                </if>
+                <if test="record.unitZipCode != null and record.unitZipCode != ''">
+                    unit_zip_code = #{record.unitZipCode},
+                </if>
+                <if test="record.homeAddress != null and record.homeAddress != ''">
+                    home_address = #{record.homeAddress},
+                </if>
+                <if test="record.homeZipCode != null and record.homeZipCode != ''">
+                    home_zip_code = #{record.homeZipCode},
+                </if>
+                <if test="record.statementAddress != null and record.statementAddress != ''">
+                    statement_address = #{record.statementAddress},
+                </if>
+                <if test="record.statementZipCode != null and record.statementZipCode != ''">
+                    statement_zip_code = #{record.statementZipCode},
+                </if>
+                <if test="record.censusRegisterAddress != null and record.censusRegisterAddress != ''">
+                    census_register_address = #{record.censusRegisterAddress},
+                </if>
+                <if test="record.censusRegisterZipCode != null and record.censusRegisterZipCode != ''">
+                    census_register_zip_code = #{record.censusRegisterZipCode},
+                </if>
+                <if test="record.qq != null and record.qq != ''">
+                    qq = #{record.qq},
+                </if>
+                <if test="record.email != null and record.email != ''">
+                    email = #{record.email},
+                </if>
+                <if test="record.birthday != null and record.birthday != ''">
+                    birthday = #{record.birthday},
+                </if>
+                <if test="record.age != null and record.age != ''">
+                    age = #{record.age},
+                </if>
+                <if test="record.province != null and record.province.id != null">
+                    province = #{record.province.id},
+                </if>
+                <if test="record.city != null and record.city.id != null">
+                    city = #{record.city.id},
+                </if>
+                <if test="record.county != null and record.county.id != null">
+                    county = #{record.county.id},
+                </if>
+                <if test="record.expectTime != null and record.expectTime != ''">
+                    expect_time = #{record.expectTime},
+                </if>
+                <if test="record.goods != null and record.goods != ''">
+                    goods = #{record.goods},
+                </if>
+                <if test="record.commercialTenant != null and record.commercialTenant != ''">
+                    commercial_tenant = #{record.commercialTenant},
+                </if>
+                <if test="record.archiveNo != null and record.archiveNo != ''">
+                    archive_no = #{record.archiveNo},
+                </if>
+                <if test="record.applyOrderNo != null and record.applyOrderNo != ''">
+                    apply_order_no = #{record.applyOrderNo},
+                </if>
+                <if test="record.socialSecurityComputerNo != null and record.socialSecurityComputerNo != ''">
+                    social_security_computer_no = #{record.socialSecurityComputerNo},
+                </if>
+                <if test="record.socialSecurityCardNo != null and record.socialSecurityCardNo != ''">
+                    social_security_card_no = #{record.socialSecurityCardNo},
+                </if>
+                <if test="record.bank != null and record.bank != ''">
+                    bank = #{record.bank},
+                </if>
+                <if test="record.accountNo != null and record.accountNo != ''">
+                    account_no = #{record.accountNo},
+                </if>
+                <if test="record.accountName != null and record.accountName != ''">
+                    account_name = #{record.accountName},
+                </if>
+                <if test="record.cardType != null and record.cardType != ''">
+                    card_type = #{record.cardType},
+                </if>
+                <if test="record.principle != null and record.principle != ''">
+                    principle = #{record.principle},
+                </if>
+                <if test="record.loanRate != null and record.loanRate != ''">
+                    loan_rate = #{record.loanRate},
+                </if>
+                <if test="record.residualPrinciple != null and record.residualPrinciple != ''">
+                    residual_principle = #{record.residualPrinciple},
+                </if>
+                <if test="record.monthlyRepayments != null and record.monthlyRepayments != ''">
+                    monthly_repayments = #{record.monthlyRepayments},
+                </if>
+                <if test="record.minimumPayment != null and record.minimumPayment != ''">
+                    minimum_payment = #{record.minimumPayment},
+                </if>
+                <if test="record.creditLine != null and record.creditLine != ''">
+                    credit_line = #{record.creditLine},
+                </if>
+                <if test="record.fixedQuota != null and record.fixedQuota != ''">
+                    fixed_quota = #{record.fixedQuota},
+                </if>
+                <if test="record.defaultLevel != null and record.defaultLevel != ''">
+                    default_level = #{record.defaultLevel},
+                </if>
+                <if test="record.lastRepayMoney != null and record.lastRepayMoney != ''">
+                    last_repay_money = #{record.lastRepayMoney},
+                </if>
+                <if test="record.lastRepayDate != null">
+                    last_repay_date = #{record.lastRepayDate},
+                </if>
+                <if test="record.lastConsumeDate != null">
+                    last_consume_date = #{record.lastConsumeDate},
+                </if>
+                <if test="record.lastWithdrawDate != null">
+                    last_withdraw_date = #{record.lastWithdrawDate},
+                </if>
+                <if test="record.stopCardDate != null">
+                    stop_card_date = #{record.stopCardDate},
+                </if>
+                <if test="record.activeCardDate != null ">
+                    active_card_date = #{record.activeCardDate},
+                </if>
+                <if test="record.billDate != null and record.billDate != ''">
+                    bill_date = #{record.billDate},
+                </if>
+                <if test="record.billCycle != null and record.billCycle != ''">
+                    bill_cycle = #{record.billCycle},
+                </if>
+                <if test="record.outstandingAmount != null and record.outstandingAmount != ''">
+                    outstanding_amount = #{record.outstandingAmount},
+                </if>
+                <if test="record.mainDeputyCard != null and record.mainDeputyCard != ''">
+                    main_deputy_card = #{record.mainDeputyCard},
+                </if>
+                <if test="record.deputyCardUserName != null and record.deputyCardUserName != ''">
+                    deputy_card_user_name = #{record.deputyCardUserName},
+                </if>
+                <if test="record.loanDate != null ">
+                    loan_date = #{record.loanDate},
+                </if>
+                <if test="record.loanDeadline != null">
+                    loan_deadline = #{record.loanDeadline},
+                </if>
+                <if test="record.overdueDate != null ">
+                    overdue_date = #{record.overdueDate},
+                </if>
+                <if test="record.overduePeriods != null and record.overduePeriods != ''">
+                    overdue_periods = #{record.overduePeriods},
+                </if>
+                <if test="record.overdueDays != null">
+                    overdue_days = #{record.overdueDays},
+                </if>
+                <if test="record.overdueTimes != null and record.overdueTimes != ''">
+                    overdue_times = #{record.overdueTimes},
+                </if>
+                <if test="record.entrustPeriods != null and record.entrustPeriods != ''">
+                    entrust_periods = #{record.entrustPeriods},
+                </if>
+                <if test="record.repayDeadline != null">
+                    repay_deadline = #{record.repayDeadline},
+                </if>
+                <if test="record.repaidPeriods != null and record.repaidPeriods != ''">
+                    repaid_periods = #{record.repaidPeriods},
+                </if>
+                <if test="record.loanType != null and record.loanType != ''">
+                    loan_type = #{record.loanType},
+                </if>
+                <if test="record.collectionType != null and record.collectionType != ''">
+                    collection_type = #{record.collectionType},
+                </if>
+                <if test="record.overdueMoney != null and record.overdueMoney != ''">
+                    overdue_money = #{record.overdueMoney},
+                </if>
+                <if test="record.overduePrinciple != null and record.overduePrinciple != ''">
+                    overdue_principle = #{record.overduePrinciple},
+                </if>
+                <if test="record.overdueInterest != null and record.overdueInterest != ''">
+                    overdue_interest = #{record.overdueInterest},
+                </if>
+                <if test="record.overdueManagementCost != null and record.overdueManagementCost != ''">
+                    overdue_management_cost = #{record.overdueManagementCost},
+                </if>
+                <if test="record.overdueDefaultInterest != null and record.overdueDefaultInterest != ''">
+                    overdue_default_interest = #{record.overdueDefaultInterest},
+                </if>
+                <if test="record.penalty != null and record.penalty != ''">
+                    penalty = #{record.penalty},
+                </if>
+                <if test="record.lateFee != null and record.lateFee != ''">
+                    late_fee = #{record.lateFee},
+                </if>
+                <if test="record.overrunFee != null and record.overrunFee != ''">
+                    overrun_fee = #{record.overrunFee},
+                </if>
+                <if test="record.bail != null and record.bail != ''">
+                    bail = #{record.bail},
+                </if>
+                <if test="record.currencyType != null and record.currencyType != ''">
+                    currency_type = #{record.currencyType},
+                </if>
+                <if test="record.lastCollectionRecord != null and record.lastCollectionRecord != ''">
+                    last_collection_record = #{record.lastCollectionRecord},
+                </if>
+                <if test="record.overdueBillTime != null and record.overdueBillTime != ''">
+                    overdue_bill_time = #{record.overdueBillTime},
+                </if>
+                <if test="record.contractNo != null and record.contractNo != ''">
+                    contract_no = #{record.contractNo},
+                </if>
+                <if test="record.overDays != null and record.overDays != ''">
+                    over_days = #{record.overDays},
+                </if>
+                <if test="record.dealer != null and record.dealer != ''">
+                    dealer = #{record.dealer},
+                </if>
+                <if test="record.applyDate != null">
+                    apply_date = #{record.applyDate},
+                </if>
+                <if test="record.repayDate != null and record.repayDate != ''">
+                    repay_date = #{record.repayDate},
+                </if>
+                <if test="record.policyExpiryDate != null">
+                    policy_expiry_date = #{record.policyExpiryDate},
+                </if>
+                <if test="record.cardPrice != null and record.cardPrice != ''">
+                    card_price = #{record.cardPrice},
+                </if>
+                <if test="record.cardModel != null and record.cardModel != ''">
+                    card_model = #{record.cardModel},
+                </if>
+                <if test="record.license != null and record.license != ''">
+                    license = #{record.license},
+                </if>
+                <if test="record.brand != null and record.brand != ''">
+                    brand = #{record.brand},
+                </if>
+                <if test="record.vin != null and record.vin != ''">
+                    vin = #{record.vin},
+                </if>
+                <if test="record.engineNo != null and record.engineNo != ''">
+                    engine_no = #{record.engineNo},
+                </if>
+                <if test="record.contactName1 != null and record.contactName1 != ''">
+                    contactName1 = #{record.contactName1},
+                </if>
+                <if test="record.contactIdentNo1 != null and record.contactIdentNo1 != ''">
+                    contactIdentNo1 = #{record.contactIdentNo1},
+                </if>
+                <if test="record.contactIdentType1 != null and record.contactIdentType1 != ''">
+                    contactIdentType1 = #{record.contactIdentType1},
+                </if>
+                <if test="record.contactRelation1 != null and record.contactRelation1 != ''">
+                    contactRelation1 = #{record.contactRelation1},
+                </if>
+                <if test="record.contactHomeTel1 != null and record.contactHomeTel1 != ''">
+                    contactHomeTel1 = #{record.contactHomeTel1},
+                </if>
+                <if test="record.contactUnitTel1 != null and record.contactUnitTel1 != ''">
+                    contactUnitTel1 = #{record.contactUnitTel1},
+                </if>
+                <if test="record.contactMobile1 != null and record.contactMobile1 != ''">
+                    contactMobile1 = #{record.contactMobile1},
+                </if>
+                <if test="record.contactUnit1 != null and record.contactUnit1 != ''">
+                    contactUnit1 = #{record.contactUnit1},
+                </if>
+                <if test="record.contactAddress1 != null and record.contactAddress1 != ''">
+                    contactAddress1 = #{record.contactAddress1},
+                </if>
+                <if test="record.contactName2 != null and record.contactName2 != ''">
+                    contactName2 = #{record.contactName2},
+                </if>
+                <if test="record.contactIdentNo2 != null and record.contactIdentNo2 != ''">
+                    contactIdentNo2 = #{record.contactIdentNo2},
+                </if>
+                <if test="record.contactIdentType2 != null and record.contactIdentType2 != ''">
+                    contactIdentType1 = #{record.contactIdentType1},
+                </if>
+                <if test="record.contactRelation2 != null and record.contactRelation2 != ''">
+                    contactRelation2 = #{record.contactRelation2},
+                </if>
+                <if test="record.contactHomeTel2 != null and record.contactHomeTel2 != ''">
+                    contactHomeTel2 = #{record.contactHomeTel2},
+                </if>
+                <if test="record.contactUnitTel2 != null and record.contactUnitTel2 != ''">
+                    contactUnitTel2 = #{record.contactUnitTel2},
+                </if>
+                <if test="record.contactMobile2 != null and record.contactMobile2 != ''">
+                    contactMobile2 = #{record.contactMobile2},
+                </if>
+                <if test="record.contactUnit2 != null and record.contactUnit2 != ''">
+                    contactUnit2 = #{record.contactUnit2},
+                </if>
+                <if test="record.contactAddress2 != null and record.contactAddress2 != ''">
+                    contactAddress2 = #{record.contactAddress2},
+                </if>
+                <if test="record.contactName3 != null and record.contactName3 != ''">
+                    contactName3 = #{record.contactName3},
+                </if>
+                <if test="record.contactIdentNo3 != null and record.contactIdentNo3 != ''">
+                    contactIdentNo3 = #{record.contactIdentNo3},
+                </if>
+                <if test="record.contactIdentType3 != null and record.contactIdentType3 != ''">
+                    contactIdentType3 = #{record.contactIdentType3},
+                </if>
+                <if test="record.contactRelation3 != null and record.contactRelation3 != ''">
+                    contactRelation3 = #{record.contactRelation3},
+                </if>
+                <if test="record.contactHomeTel3 != null and record.contactHomeTel3 != ''">
+                    contactHomeTel3 = #{record.contactHomeTel3},
+                </if>
+                <if test="record.contactUnitTel3 != null and record.contactUnitTel3 != ''">
+                    contactUnitTel3 = #{record.contactUnitTel3},
+                </if>
+                <if test="record.contactMobile3 != null and record.contactMobile3 != ''">
+                    contactMobile3 = #{record.contactMobile3},
+                </if>
+                <if test="record.contactUnit3 != null and record.contactUnit3 != ''">
+                    contactUnit3 = #{record.contactUnit3},
+                </if>
+                <if test="record.contactAddress3 != null and record.contactAddress3 != ''">
+                    contactAddress3 = #{record.contactAddress3},
+                </if>
+                <if test="record.contactName4 != null and record.contactName4 != ''">
+                    contactName4 = #{record.contactName4},
+                </if>
+                <if test="record.contactIdentNo4 != null and record.contactIdentNo4 != ''">
+                    contactIdentNo4 = #{record.contactIdentNo4},
+                </if>
+                <if test="record.contactIdentType4 != null and record.contactIdentType4 != ''">
+                    contactIdentType4 = #{record.contactIdentType4},
+                </if>
+                <if test="record.contactRelation4 != null and record.contactRelation4 != ''">
+                    contactRelation4 = #{record.contactRelation4},
+                </if>
+                <if test="record.contactHomeTel4 != null and record.contactHomeTel4 != ''">
+                    contactHomeTel4 = #{record.contactHomeTel4},
+                </if>
+                <if test="record.contactUnitTel4 != null and record.contactUnitTel4 != ''">
+                    contactUnitTel4 = #{record.contactUnitTel4},
+                </if>
+                <if test="record.contactMobile4 != null and record.contactMobile4 != ''">
+                    contactMobile4 = #{record.contactMobile4},
+                </if>
+                <if test="record.contactUnit4 != null and record.contactUnit4 != ''">
+                    contactUnit4 = #{record.contactUnit4},
+                </if>
+                <if test="record.contactAddress4 != null and record.contactAddress4 != ''">
+                    contactAddress4 = #{record.contactAddress4},
+                </if>
+                <if test="record.contactName5 != null and record.contactName5 != ''">
+                    contactName5 = #{record.contactName5},
+                </if>
+                <if test="record.contactIdentNo5 != null and record.contactIdentNo5 != ''">
+                    contactIdentNo5 = #{record.contactIdentNo5},
+                </if>
+                <if test="record.contactIdentType5 != null and record.contactIdentType5 != ''">
+                    contactIdentType5 = #{record.contactIdentType5},
+                </if>
+                <if test="record.contactRelation5 != null and record.contactRelation5 != ''">
+                    contactRelation5 = #{record.contactRelation5},
+                </if>
+                <if test="record.contactHomeTel5 != null and record.contactHomeTel5 != ''">
+                    contactHomeTel5 = #{record.contactHomeTel5},
+                </if>
+                <if test="record.contactUnitTel5 != null and record.contactUnitTel5 != ''">
+                    contactUnitTel5 = #{record.contactUnitTel5},
+                </if>
+                <if test="record.contactMobile5 != null and record.contactMobile5 != ''">
+                    contactMobile5 = #{record.contactMobile5},
+                </if>
+                <if test="record.contactUnit5 != null and record.contactUnit5 != ''">
+                    contactUnit5 = #{record.contactUnit5},
+                </if>
+                <if test="record.contactAddress5 != null and record.contactAddress5 != ''">
+                    contactAddress5 = #{record.contactAddress5},
+                </if>
+                <if test="record.contactName6 != null and record.contactName6 != ''">
+                    contactName6 = #{record.contactName6},
+                </if>
+                <if test="record.contactIdentNo6 != null and record.contactIdentNo6 != ''">
+                    contactIdentNo6 = #{record.contactIdentNo6},
+                </if>
+                <if test="record.contactIdentType6 != null and record.contactIdentType6 != ''">
+                    contactIdentType6 = #{record.contactIdentType6},
+                </if>
+                <if test="record.contactRelation6 != null and record.contactRelation6 != ''">
+                    contactRelation6 = #{record.contactRelation6},
+                </if>
+                <if test="record.contactHomeTel6 != null and record.contactHomeTel6 != ''">
+                    contactHomeTel6 = #{record.contactHomeTel6},
+                </if>
+                <if test="record.contactUnitTel6 != null and record.contactUnitTel6 != ''">
+                    contactUnitTel6 = #{record.contactUnitTel6},
+                </if>
+                <if test="record.contactMobile6 != null and record.contactMobile6 != ''">
+                    contactMobile6 = #{record.contactMobile6},
+                </if>
+                <if test="record.contactUnit6 != null and record.contactUnit6 != ''">
+                    contactUnit6 = #{record.contactUnit6},
+                </if>
+                <if test="record.contactAddress6 != null and record.contactAddress6 != ''">
+                    contactAddress6 = #{record.contactAddress6},
+                </if>
+                <if test="record.remark1 != null and record.remark1 != ''">
+                    remark1 = #{record.remark1},
+                </if>
+                <if test="record.remark2 != null and record.remark2 != ''">
+                    remark2 = #{record.remark2},
+                </if>
+                <if test="record.remark3 != null and record.remark3 != ''">
+                    remark3 = #{record.remark3},
+                </if>
+                <if test="record.remark4 != null and record.remark4 != ''">
+                    remark4 = #{record.remark4},
+                </if>
+                <if test="record.remark5 != null and record.remark5 != ''">
+                    remark5 = #{record.remark5},
+                </if>
+                <if test="record.remark6 != null and record.remark6 != ''">
+                    remark6 = #{record.remark6},
+                </if>
+            </trim>
         </set>
-            where seq_no = #{seqNo}
+        where seq_no = #{record.seqNo}
+        </foreach>
     </update>
 
     <insert id="saveCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -2191,6 +2699,383 @@
         #{contactUnit6},
         #{contactAddress6}
         )
+    </insert>
+
+    <insert id="saveBatchCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT @@IDENTITY AS 'Identity'
+        </selectKey>
+        insert into data_case
+        (
+        seq_no,
+        case_date,
+        money,
+        dept,
+        client,
+        case_deadline,
+        collect_hand,
+        rmb,
+        hkd,
+        foreign_currency,
+        gender,
+        business_type,
+        name,
+        card_no,
+        ident_no,
+        ident_type,
+
+            odv,
+
+
+            collection_area,
+
+        collect_result,
+        m_val,
+        commission_rate,
+        commission_money,
+        home_tel_number,
+        unit_tel_number,
+        tel,
+        unit_name,
+        case_user_position,
+        case_user_depart,
+        unit_address,
+        unit_zip_code,
+        home_address,
+        home_zip_code,
+        statement_address,
+        statement_zip_code,
+        census_register_address,
+        census_register_zip_code,
+        qq,
+        email,
+        birthday,
+        age,
+
+            province,
+
+            city,
+
+            county,
+
+        expect_time,
+        goods,
+        commercial_tenant,
+        archive_no,
+        apply_order_no,
+        social_security_computer_no,
+        social_security_card_no,
+        bank,
+        account,
+        account_name,
+        card_type,
+        principle,
+        loan_rate,
+        residual_principle,
+        monthly_repayments,
+        minimum_payment,
+        credit_line,
+        fixed_quota,
+        default_level,
+        last_repay_money,
+        last_repay_date,
+        last_consume_date,
+        last_withdraw_date,
+        stop_card_date,
+        active_card_date,
+        bill_date,
+        bill_cycle,
+        outstanding_amount,
+        main_deputy_card,
+        deputy_card_user_name,
+        loan_date,
+        loan_deadline,
+        overdue_date,
+        overdue_periods,
+        overdue_days,
+        overdue_times,
+        entrust_periods,
+        repay_deadline,
+        repaid_periods,
+        loan_type,
+        collection_type,
+        overdue_money,
+        overdue_principle,
+        overdue_interest,
+        overdue_management_cost,
+        overdue_default_interest,
+        penalty,
+        late_fee,
+        overrun_fee,
+        bail,
+        currency_type,
+        last_collection_record,
+        account_age,
+        contract_no,
+        over_days,
+        dealer,
+        apply_date,
+        repay_date,
+        policy_expiry_date,
+        card_price,
+        card_model,
+        license,
+        brand,
+        vin,
+        engine_no,
+        batch_no,
+        distribute_history,
+        collect_times,
+        distribute_status,
+        remark1,
+        remark2,
+        remark3,
+        remark4,
+        remark5,
+        remark6,
+        contactName1,
+        contactIdentNo1,
+        contactIdentType1,
+        contactRelation1,
+        contactHomeTel1,
+        contactUnitTel1,
+        contactMobile1,
+        contactUnit1,
+        contactAddress1,
+        contactName2,
+        contactIdentNo2,
+        contactIdentType2,
+        contactRelation2,
+        contactHomeTel2,
+        contactUnitTel2,
+        contactMobile2,
+        contactUnit2,
+        contactAddress2,
+        contactName3,
+        contactIdentNo3,
+        contactIdentType3,
+        contactRelation3,
+        contactHomeTel3,
+        contactUnitTel3,
+        contactMobile3,
+        contactUnit3,
+        contactAddress3,
+        contactName4,
+        contactIdentNo4,
+        contactIdentType4,
+        contactRelation4,
+        contactHomeTel4,
+        contactUnitTel4,
+        contactMobile4,
+        contactUnit4,
+        contactAddress4,
+        contactName5,
+        contactIdentNo5,
+        contactIdentType5,
+        contactRelation5,
+        contactHomeTel5,
+        contactUnitTel5,
+        contactMobile5,
+        contactUnit5,
+        contactAddress5,
+        contactName6,
+        contactIdentNo6,
+        contactIdentType6,
+        contactRelation6,
+        contactHomeTel6,
+        contactUnitTel6,
+        contactMobile6,
+        contactUnit6,
+        contactAddress6
+        )
+        values
+
+        <foreach collection="list" item="record" separator=",">
+
+
+        (
+        #{record.seqNo},
+        #{record.caseDate},
+        #{record.money},
+        #{record.dept},
+        #{record.client},
+        #{record.caseDeadline},
+        #{record.collectHand},
+        #{record.rmb},
+        #{record.hkd},
+        #{record.foreignCurrency},
+        #{record.gender},
+        #{record.businessType},
+        #{record.name},
+        #{record.cardNo},
+        #{record.identNo},
+        #{record.identType},
+
+            #{record.collectionUser.id},
+
+
+            #{record.collectionArea.id},
+
+        #{record.collectInfo},
+        #{record.mVal},
+        #{record.commissionRate},
+        #{record.commissionMoney},
+        #{record.homeTelNumber},
+        #{record.unitTelNumber},
+        #{record.tel},
+        #{record.unitName},
+        #{record.caseUserPosition},
+        #{record.caseUserDepart},
+        #{record.unitAddress},
+        #{record.unitZipCode},
+        #{record.homeAddress},
+        #{record.homeZipCode},
+        #{record.statementAddress},
+        #{record.statementZipCode},
+        #{record.censusRegisterAddress},
+        #{record.censusRegisterZipCode},
+        #{record.qq},
+        #{record.email},
+        #{record.birthday},
+        #{record.age},
+
+            #{record.province.id},
+
+            #{record.city.id},
+
+            #{record.county.id},
+
+        #{record.expectTime},
+        #{record.goods},
+        #{record.commercialTenant},
+        #{record.archiveNo},
+        #{record.applyOrderNo},
+        #{record.socialSecurityComputerNo},
+        #{record.socialSecurityCardNo},
+        #{record.bank},
+        #{record.account},
+        #{record.accountName},
+        #{record.cardType},
+        #{record.principle},
+        #{record.loanRate},
+        #{record.residualPrinciple},
+        #{record.monthlyRepayments},
+        #{record.minimumPayment},
+        #{record.creditLine},
+        #{record.fixedQuota},
+        #{record.defaultLevel},
+        #{record.lastRepayMoney},
+        #{record.lastRepayDate},
+        #{record.lastConsumeDate},
+        #{record.lastWithdrawDate},
+        #{record.stopCardDate},
+        #{record.activeCardDate},
+        #{record.billDate},
+        #{record.billCycle},
+        #{record.outstandingAmount},
+        #{record.mainDeputyCard},
+        #{record.deputyCardUserName},
+        #{record.loanDate},
+        #{record.loanDeadline},
+        #{record.overdueDate},
+        #{record.overduePeriods},
+        #{record.overdueDays},
+        #{record.overdueTimes},
+        #{record.entrustPeriods},
+        #{record.repayDeadline},
+        #{record.repaidPeriods},
+        #{record.loanType},
+        #{record.collectionType},
+        #{record.overdueMoney},
+        #{record.overduePrinciple},
+        #{record.overdueInterest},
+        #{record.overdueManagementCost},
+        #{record.overdueDefaultInterest},
+        #{record.penalty},
+        #{record.lateFee},
+        #{record.overrunFee},
+        #{record.bail},
+        #{record.currencyType},
+        #{record.lastCollectionRecord},
+        #{record.accountAge},
+        #{record.contractNo},
+        #{record.overDays},
+        #{record.dealer},
+        #{record.applyDate},
+        #{record.repayDate},
+        #{record.policyExpiryDate},
+        #{record.cardPrice},
+        #{record.cardModel},
+        #{record.license},
+        #{record.brand},
+        #{record.vin},
+        #{record.engineNo},
+        #{record.batchNo},
+        '',
+        0,
+        1,
+        #{record.remark1},
+        #{record.remark2},
+        #{record.remark3},
+        #{record.remark4},
+        #{record.remark5},
+        #{record.remark6},
+        #{record.contactName1},
+        #{record.contactIdentNo1},
+        #{record.contactIdentType1},
+        #{record.contactRelation1},
+        #{record.contactHomeTel1},
+        #{record.contactUnitTel1},
+        #{record.contactMobile1},
+        #{record.contactUnit1},
+        #{record.contactAddress1},
+        #{record.contactName2},
+        #{record.contactIdentNo2},
+        #{record.contactIdentType2},
+        #{record.contactRelation2},
+        #{record.contactHomeTel2},
+        #{record.contactUnitTel2},
+        #{record.contactMobile2},
+        #{record.contactUnit2},
+        #{record.contactAddress2},
+        #{record.contactName3},
+        #{record.contactIdentNo3},
+        #{record.contactIdentType3},
+        #{record.contactRelation3},
+        #{record.contactHomeTel3},
+        #{record.contactUnitTel3},
+        #{record.contactMobile3},
+        #{record.contactUnit3},
+        #{record.contactAddress3},
+        #{record.contactName4},
+        #{record.contactIdentNo4},
+        #{record.contactIdentType4},
+        #{record.contactRelation4},
+        #{record.contactHomeTel4},
+        #{record.contactUnitTel4},
+        #{record.contactMobile4},
+        #{record.contactUnit4},
+        #{record.contactAddress4},
+        #{record.contactName5},
+        #{record.contactIdentNo5},
+        #{record.contactIdentType5},
+        #{record.contactRelation5},
+        #{record.contactHomeTel5},
+        #{record.contactUnitTel5},
+        #{record.contactMobile5},
+        #{record.contactUnit5},
+        #{record.contactAddress5},
+        #{record.contactName6},
+        #{record.contactIdentNo6},
+        #{record.contactIdentType6},
+        #{record.contactRelation6},
+        #{record.contactHomeTel6},
+        #{record.contactUnitTel6},
+        #{record.contactMobile6},
+        #{record.contactUnit6},
+        #{record.contactAddress6}
+        )
+        </foreach>
     </insert>
 
     <select id="selectCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

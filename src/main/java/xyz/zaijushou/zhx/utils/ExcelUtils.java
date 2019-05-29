@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.utils;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -12,8 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelEnum;
+import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
@@ -30,8 +35,12 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static xyz.zaijushou.zhx.common.web.WebResponse.buildResponse;
 
 @Component
 public class ExcelUtils {
@@ -152,6 +161,145 @@ public class ExcelUtils {
             }
         }
         return resultList;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public  <T,R> WebResponse importExcel(MultipartFile file, ExcelEnum[] enums, Class<T> entityClazz, Function<List<T>, ? extends R> mapper, int dealCnt) throws IOException {
+        List<T> resultList = new ArrayList<>();
+        WebResponse response = WebResponse.buildResponse();
+        int succesLines = 0;
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
+
+        InputStream inputStream = file.getInputStream();
+        String fileName = file.getOriginalFilename();
+        Workbook workbook;
+        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else {
+            workbook = new HSSFWorkbook(inputStream);
+        }
+        evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        Map<String, ExcelEnum> excelEnumMap = new HashMap<>();
+        for (ExcelEnum value : enums) {
+            excelEnumMap.put(value.getCol(), value);
+        }
+        Sheet sheet = workbook.getSheetAt(0);
+        Row header = sheet.getRow(0);
+        Map<Integer, ExcelEnum> colMap = new HashMap<>();
+        logger.debug("列数：{}", header.getLastCellNum());
+        for (int i = 0; i < header.getLastCellNum(); i++) {
+            Cell cell = header.getCell(i);
+            if(cell == null) {
+                colMap.put(i, null);
+                continue;
+            }
+            String cellValue = cell.getStringCellValue();
+
+            colMap.put(i, excelEnumMap.get(cellValue.toString().trim()));
+        }
+        for (int i = 1; i <= sheet.getPhysicalNumberOfRows()-1; i++) {
+            try {
+                Row row = sheet.getRow(i);
+                T entity = entityClazz.getConstructor().newInstance();
+                if (row==null){
+                    entity = null;
+                    continue;
+                }
+                if ((row.getCell(0)==null || row.getCell(0).toString().equals("")) && (row.getCell(1)==null ||  row.getCell(1).toString().equals("")) && (row.getCell(2)==null || row.getCell(2).toString().equals(""))  && (row.getCell(3)==null ||  row.getCell(3).toString().equals(""))){
+                    entity = null;
+                    continue;
+                }
+                for (int k = 0; k < header.getLastCellNum(); k++) {
+                    Cell cell = row.getCell(k);
+                    /*if (k==92){
+                        System.out.println(111);
+                    }*/
+                    ExcelEnum excelEnum = colMap.get(k);
+                    if (excelEnum == null) {
+                        continue;
+                    }
+                    String attr = excelEnum.getAttr();
+                    Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);
+                    if (matcher.find()) {
+                        int index = Integer.parseInt(matcher.group(0).substring(1, 2));
+                        String firstAttr = attr.substring(0, matcher.start());
+                        String secondAttr = attr.substring(matcher.end());
+                        Method firstAttrGetMethod = entityClazz.getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                        Object object = firstAttrGetMethod.invoke(entity);
+                        if (object == null) {
+                            Method firstAttrSetMethod = entityClazz.getMethod("set" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1), List.class);
+                            firstAttrSetMethod.invoke(entity, new ArrayList<>());
+                        }
+                        List subList = (List) firstAttrGetMethod.invoke(entity);
+                        if (subList.size() == index) {
+                            Class clazz = excelEnum.getAttrClazz()[0];
+                            Constructor constructor = clazz.getConstructor();
+                            Object obj = constructor.newInstance();
+                            subList.add(obj);
+                        }
+                        Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
+
+                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1]));
+                    } else {
+                        matcher = Pattern.compile("\\.").matcher(attr);
+                        if (matcher.find()) {
+                            String firstAttr = attr.substring(0, matcher.start());
+                            String secondAttr = attr.substring(matcher.end());
+                            Method firstAttrGetMethod = entityClazz.getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                            Object object = firstAttrGetMethod.invoke(entity);
+                            if (object == null) {
+                                Class clazz = excelEnum.getAttrClazz()[0];
+                                Constructor constructor = clazz.getConstructor();
+                                Object obj = constructor.newInstance();
+                                Method firstAttrSetMethod = entityClazz.getMethod("set" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1), excelEnum.getAttrClazz()[0]);
+                                firstAttrSetMethod.invoke(entity, obj);
+                            }
+                            object = firstAttrGetMethod.invoke(entity);
+                            Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
+                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1]));
+                        } else {
+                            Method method = entity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), excelEnum.getAttrClazz()[0]);
+                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0]));
+                        }
+                    }
+
+                }
+                if (entity!=null) {
+                    resultList.add(entity);
+                }
+                //判断集合大小 达到条件出发操作
+                if(resultList.size() >= dealCnt){
+                    //处理数据
+                    mapper.apply(resultList);
+//                    List<R> listR = resultList.stream().map(mapper).collect(Collectors.toList());
+
+                    succesLines = succesLines + resultList.size();
+                    //清空集合
+                    resultList.clear();
+                }
+            }catch (IllegalArgumentException al){
+                logger.error("检测数据有误：{}", al.getMessage());
+                throw new IllegalArgumentException(al.getMessage());
+            }
+            catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+                logger.error("excel解析错误：{}", e);
+                throw new IOException("excel解析错误", e);
+            } catch (ParseException e) {
+                logger.error("excel日期解析错误：{}", e);
+                throw new IOException("excel日期解析错误", e);
+            } catch (Exception e) {
+                logger.error("excel解析错误：{}", e);
+                throw new IOException("excel解析错误", e);
+            }
+        }
+
+        if(!CollectionUtils.isEmpty(resultList)){
+            mapper.apply(resultList);
+            succesLines = succesLines + resultList.size();
+        }
+
+        response.setMsg(sucessStr.append(succesLines).toString());
+        return response;
     }
 
     private static Object cellValue(Cell cell, Class clazz) throws ParseException {
