@@ -132,8 +132,8 @@ public class LetterServiceImpl implements LetterService {
                 temp.setModuleId(temp.getModule());
                 temp.setModule(moduleTemp==null?"":moduleTemp.getTitle());
             }
-            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getApplyer(), SysUserEntity.class);
-            temp.setApplyer(user==null?"":user.getUserName());
+//            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getApplyer(), SysUserEntity.class);
+//            temp.setApplyer(user==null?"":user.getUserName());
 
             temp.setCaseAmtMsg(temp.getCaseAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCaseAmt().stripTrailingZeros()+""));
             temp.setRepayAmtMsg(temp.getRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getRepayAmt().stripTrailingZeros()+""));
