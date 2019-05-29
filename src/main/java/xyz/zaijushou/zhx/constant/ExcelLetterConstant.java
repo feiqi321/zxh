@@ -186,6 +186,7 @@ public class ExcelLetterConstant {
         COL32("unitTelNumber", "单位号码", "d.unit_tel_number as unitTelNumber", String.class),
         COL33("latestOverdueMoney", "最新欠款", "d.latest_overdue_money as latestOverdueMoney", String.class),
         COL34("latestOverdueDate", "最新欠款导入时间", "'' as latestOverdueDate", String.class),
+        COL35("applyer", "申请人", "t.applyer", String.class),
         ;
 
         private String pageCol;
