@@ -253,7 +253,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
         logger.info("********************查询案件结束");
-        int[] caseIdArray = new int[list.size()];
+        /*int[] caseIdArray = new int[list.size()];
         for (int i=0;i<list.size();i++){
             caseIdArray[i] = list.get(i).getId();
         }
@@ -272,7 +272,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 collectMap.put(tempCollect.getCaseId(),tempCollect);
             }
             logger.info("********************处理完毕催收时间");
-        }
+        }*/
 
 
         int countCase = 0;//列表案量
@@ -305,7 +305,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
             sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
             sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
-            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i,collectMap);
+            CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i);
             Future<List<DataCollectionEntity>> future = executor.submit(collectCaseCallable);
 
         }

@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import sun.java2d.pipe.SpanShapeRenderer;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.*;
@@ -966,7 +967,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
-        int[] caseIdArray = new int[list.size()];
+        /*int[] caseIdArray = new int[list.size()];
         for (int i=0;i<list.size();i++){
             caseIdArray[i] = list.get(i).getId();
         }
@@ -981,7 +982,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 DataCollectionEntity tempCollect = collectList.get(i);
                 collectMap.put(tempCollect.getCaseId(),tempCollect);
             }
-        }
+        }*/
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
@@ -991,7 +993,6 @@ public class DataCaseServiceImpl implements DataCaseService {
 
             SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
             temp.setAccountAge(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
-            temp.setCollectDate(collectMap.get(temp.getId())==null?"":(((DataCollectionEntity)collectMap.get(temp.getId())).getCollectTime()));
 
             temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
             temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
@@ -1042,59 +1043,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
             }
         }
-        Set<Integer> caseIdsSet = new HashSet<>();
-        DataCaseEntity updateCaseEntity = new DataCaseEntity();
-        List<DataCaseRemarkEntity> remarks = new ArrayList<>();
-        List<DataCaseContactsEntity> contacts = new ArrayList<>();
+
         for(DataCaseEntity entity : dataCaseEntities) {
-            //totalAmt = totalAmt.add(entity.getMoney());
             dataCaseMapper.updateBySeqNo(entity);
-            /*caseIdsSet.add(entity.getId());
-            if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
-                for (DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
-                    remark.setCaseId(entity.getId());
-                    remarks.add(remark);
-                }
-            }
-            int i = 0;
-            if (entity.getContacts()!=null && entity.getContacts().size()>0) {
-                for (DataCaseContactsEntity contact : entity.getContacts()) {
-                    contact.setCaseId(entity.getId());
-                    contacts.add(contact);
-                    contact.setSort((++i) * 10);
-                }
-            }*/
         }
-        ;
-        //批量新增备注
-        /*if(remarks.size()>0) {
-            updateCaseEntity.setCaseRemarks(remarks);
-            updateCaseEntity.setContacts(contacts);
-            //批量删除备注
-            DataCaseRemarkEntity remarkEntity = new DataCaseRemarkEntity();
-            remarkEntity.setCaseIdsSet(caseIdsSet);
-            dataCaseRemarkMapper.deleteCaseRemarkBatchByCaseIds(remarkEntity);
-            dataCaseRemarkMapper.insertCaseRemarkBatch(updateCaseEntity);
-        }*/
 
-        //批量新增联系人
-        /*if (contacts.size()>0){
-            //批量删除联系人
-            DataCaseContactsEntity contactsEntity = new DataCaseContactsEntity();
-            contactsEntity.setCaseIdsSet(caseIdsSet);
-            dataCaseContactsMapper.deleteCaseContactsBatchByCaseIds(contactsEntity);
-            dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
-
-
-        }*/
-        /*//修改批次信息
-        DataBatchEntity dataBatchEntity = new DataBatchEntity();
-        dataBatchEntity.setBatchNo(batchNo);
-        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        dataBatchEntity.setUploadTime(sdf.format(new Date()));
-        dataBatchEntity.setTotalAmt(totalAmt);
-        dataBatchEntity.setUserCount(dataCaseEntities.size());
-        dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);*/
     }
 
     @Transactional
@@ -1220,117 +1173,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                 telEntityList.clear();
             }
 
-//            dataCaseMapper.saveCase(entity);
-//            totalAmt = totalAmt.add(entity.getMoney());
-//
-//
-//
-//            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity),20);
-//            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
-           /* if (entity.getCaseRemarks()!=null && entity.getCaseRemarks().size()>0) {
-                for (DataCaseRemarkEntity remark : entity.getCaseRemarks()) {
-                    remark.setCaseId(entity.getId());
-                    remarks.add(remark);
-                }
-            }*/
-            //int i = 0;
-//            //联系人添加到案件电话中
-//            if (StringUtils.notEmpty(entity.getContactName1()) || StringUtils.notEmpty(entity.getContactMobile1())) {
-//                DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
-//                dataCaseTelEntity1.setCaseId(entity.getId());
-//                dataCaseTelEntity1.setName(entity.getContactName1());
-//                dataCaseTelEntity1.setIdentNo(entity.getContactIdentNo1());
-//                dataCaseTelEntity1.setRelation(entity.getContactRelation1());
-//                dataCaseTelEntity1.setTel(entity.getContactMobile1());
-//                dataCaseTelEntity1.setTelStatusMsg("未知");
-//                dataCaseTelMapper.saveTel(dataCaseTelEntity1);
-//            }
-//            if (StringUtils.notEmpty(entity.getContactName2()) || StringUtils.notEmpty(entity.getContactMobile2())) {
-//                DataCaseTelEntity dataCaseTelEntity2 = new DataCaseTelEntity();
-//                dataCaseTelEntity2.setCaseId(entity.getId());
-//                dataCaseTelEntity2.setName(entity.getContactName2());
-//                dataCaseTelEntity2.setIdentNo(entity.getContactIdentNo2());
-//                dataCaseTelEntity2.setRelation(entity.getContactRelation2());
-//                dataCaseTelEntity2.setTel(entity.getContactMobile2());
-//                dataCaseTelEntity2.setTelStatusMsg("未知");
-//                dataCaseTelMapper.saveTel(dataCaseTelEntity2);
-//            }
-//            if (StringUtils.notEmpty(entity.getContactName3()) || StringUtils.notEmpty(entity.getContactMobile3())) {
-//                DataCaseTelEntity dataCaseTelEntity3 = new DataCaseTelEntity();
-//                dataCaseTelEntity3.setCaseId(entity.getId());
-//                dataCaseTelEntity3.setName(entity.getContactName3());
-//                dataCaseTelEntity3.setIdentNo(entity.getContactIdentNo3());
-//                dataCaseTelEntity3.setRelation(entity.getContactRelation3());
-//                dataCaseTelEntity3.setTel(entity.getContactMobile3());
-//                dataCaseTelEntity3.setTelStatusMsg("未知");
-//                dataCaseTelMapper.saveTel(dataCaseTelEntity3);
-//            }
-//            if (StringUtils.notEmpty(entity.getContactName4()) || StringUtils.notEmpty(entity.getContactMobile4())) {
-//                DataCaseTelEntity dataCaseTelEntity4 = new DataCaseTelEntity();
-//                dataCaseTelEntity4.setCaseId(entity.getId());
-//                dataCaseTelEntity4.setName(entity.getContactName4());
-//                dataCaseTelEntity4.setIdentNo(entity.getContactIdentNo4());
-//                dataCaseTelEntity4.setRelation(entity.getContactRelation4());
-//                dataCaseTelEntity4.setTel(entity.getContactMobile4());
-//                dataCaseTelEntity4.setTelStatusMsg("未知");
-//                dataCaseTelMapper.saveTel(dataCaseTelEntity4);
-//            }
-//            if (StringUtils.notEmpty(entity.getContactName5()) || StringUtils.notEmpty(entity.getContactMobile5())) {
-//                DataCaseTelEntity dataCaseTelEntity5 = new DataCaseTelEntity();
-//                dataCaseTelEntity5.setCaseId(entity.getId());
-//                dataCaseTelEntity5.setName(entity.getContactName5());
-//                dataCaseTelEntity5.setIdentNo(entity.getContactIdentNo5());
-//                dataCaseTelEntity5.setRelation(entity.getContactRelation5());
-//                dataCaseTelEntity5.setTel(entity.getContactMobile5());
-//                dataCaseTelEntity5.setTelStatusMsg("未知");
-//                dataCaseTelMapper.saveTel(dataCaseTelEntity5);
-//            }
-//            if (StringUtils.notEmpty(entity.getContactName6()) || StringUtils.notEmpty(entity.getContactMobile6())) {
-//                DataCaseTelEntity dataCaseTelEntity6 = new DataCaseTelEntity();
-//                dataCaseTelEntity6.setCaseId(entity.getId());
-//                dataCaseTelEntity6.setName(entity.getContactName6());
-//                dataCaseTelEntity6.setIdentNo(entity.getContactIdentNo6());
-//                dataCaseTelEntity6.setRelation(entity.getContactRelation6());
-//                dataCaseTelEntity6.setTel(entity.getContactMobile6());
-//                dataCaseTelEntity6.setTelStatusMsg("未知");
-//                dataCaseTelMapper.saveTel(dataCaseTelEntity6);
-//            }
-
-            /*if (entity.getContacts()!=null && entity.getContacts().size()>0) {
-                for (DataCaseContactsEntity contact : entity.getContacts()) {
-                    contact.setCaseId(entity.getId());
-                    contacts.add(contact);
-                    contact.setSort((++i) * 10);
-                    //联系人添加到
-                    DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
-                    dataCaseTelEntity.setCaseId(entity.getId());
-                    dataCaseTelEntity.setName(contact.getName());
-                    dataCaseTelEntity.setIdentNo(contact.getIdentNo());
-                    dataCaseTelEntity.setRelation(contact.getRelation());
-                    dataCaseTelEntity.setTel(contact.getMobile());
-                    dataCaseTelEntity.setTelStatusMsg("未知");
-                    dataCaseTelMapper.saveTel(dataCaseTelEntity);
-                }
-            }*/
         }
-        /*updateCaseEntity.setCaseRemarks(remarks);
-        updateCaseEntity.setContacts(contacts);
-        //批量新增备注
-        if (remarks.size()>0) {
-            dataCaseRemarkMapper.insertCaseRemarkBatch(updateCaseEntity);
-        }
-        //批量新增联系人
-        if (contacts.size()>0) {
-            dataCaseContactsMapper.insertCaseContactsBatch(updateCaseEntity);
+        dataCaseMapper.saveBatchCase(tempList);
+        dataCaseTelMapper.saveBatchTel(telEntityList);
 
-        }*/
-//        //修改批次信息
-//        DataBatchEntity dataBatchEntity = new DataBatchEntity();
-//        dataBatchEntity.setBatchNo(batchNo);
-//        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//        dataBatchEntity.setUploadTime(sdf.format(new Date()));
-//        dataBatchEntity.setTotalAmt(totalAmt);
-//        dataBatchEntity.setUserCount(dataCaseEntities.size());
         dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
 

@@ -164,24 +164,24 @@ public class FileManageServiceImpl implements FileManageService {
             if (StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
-                        if (dataCaseEntity.getColor().equals("0")){
-                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
-                        }else if (dataCaseEntity.getColor().equals("1")){
-                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
-                        }else if (dataCaseEntity.getColor().equals("2")){
-                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
-                        }
-                        dateCaseMapper.updateComment(dataCaseEntity);
-                        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
-                        dataCaseCommentEntity.setCaseId(temp.getId());
-                        dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
-                        SysUserEntity user = this.getUserInfo();
-                        dataCaseCommentEntity.setCreatUser(user.getId());
-                        dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
-                        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
-                        dataCollectionEntity.setColor(dataCaseEntity.getColor());
-                        dataCollectionEntity.setCaseId(temp.getId()+"");
-                        dataCollectionMapper.addColor(dataCollectionEntity);
+                    if (dataCaseEntity.getColor().equals("0")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
+                    }else if (dataCaseEntity.getColor().equals("1")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
+                    }else if (dataCaseEntity.getColor().equals("2")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
+                    }
+                    dateCaseMapper.updateComment(dataCaseEntity);
+                    DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+                    dataCaseCommentEntity.setCaseId(temp.getId());
+                    dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
+                    SysUserEntity user = this.getUserInfo();
+                    dataCaseCommentEntity.setCreatUser(user.getId());
+                    dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
+                    DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+                    dataCollectionEntity.setColor(dataCaseEntity.getColor());
+                    dataCollectionEntity.setCaseId(temp.getId()+"");
+                    dataCollectionMapper.addColor(dataCollectionEntity);
 
                 }else{
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
@@ -189,24 +189,24 @@ public class FileManageServiceImpl implements FileManageService {
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getSeqNo(),DataCaseEntity.class);
                 if (temp!=null){
-                        if (dataCaseEntity.getColor().equals("0")){
-                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
-                        }else if (dataCaseEntity.getColor().equals("1")){
-                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
-                        }else if (dataCaseEntity.getColor().equals("2")){
-                            dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
-                        }
-                        dateCaseMapper.updateComment(dataCaseEntity);
-                        DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
-                        dataCaseCommentEntity.setCaseId(temp.getId());
-                        dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
-                        SysUserEntity user = this.getUserInfo();
-                        dataCaseCommentEntity.setCreatUser(user.getId());
-                        dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
-                        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
-                        dataCollectionEntity.setColor(dataCaseEntity.getColor());
-                        dataCollectionEntity.setCaseId(temp.getId()+"");
-                        dataCollectionMapper.addColor(dataCollectionEntity);
+                    if (dataCaseEntity.getColor().equals("0")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
+                    }else if (dataCaseEntity.getColor().equals("1")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
+                    }else if (dataCaseEntity.getColor().equals("2")){
+                        dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
+                    }
+                    dateCaseMapper.updateComment(dataCaseEntity);
+                    DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
+                    dataCaseCommentEntity.setCaseId(temp.getId());
+                    dataCaseCommentEntity.setComment(dataCaseEntity.getComment());
+                    SysUserEntity user = this.getUserInfo();
+                    dataCaseCommentEntity.setCreatUser(user.getId());
+                    dataCaseCommentMapper.saveComment(dataCaseCommentEntity);
+                    DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+                    dataCollectionEntity.setColor(dataCaseEntity.getColor());
+                    dataCollectionEntity.setCaseId(temp.getId()+"");
+                    dataCollectionMapper.addColor(dataCollectionEntity);
 
                 }else{
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
@@ -282,7 +282,7 @@ public class FileManageServiceImpl implements FileManageService {
     public WebResponse batchCollect(List<DataCollectionEntity> list){
 
         WebResponse webResponse = WebResponse.buildResponse();
-
+        List<DataCollectionEntity> saveList = new ArrayList<DataCollectionEntity>();
         List<DataOpLog> logList = new ArrayList<DataOpLog>();
 
         for (int i=0;i<list.size();i++){
@@ -291,8 +291,10 @@ public class FileManageServiceImpl implements FileManageService {
             if (StringUtils.isEmpty(dataCollectionEntity.getSeqno())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getCardNo()+"@"+dataCollectionEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
-                    dataCollectionEntity.setName(temp.getName());
+
                     dataCollectionEntity.setCaseId(temp.getId()+"");
+                    temp.setCollectDate(dataCollectionEntity.getCollectTime());
+                    /* dataCollectionEntity.setName(temp.getName());
                     dataCollectionEntity.setExpectTime(temp.getExpectTime());
                     dataCollectionEntity.setCollectTime(temp.getCollectDate());
                     dataCollectionEntity.setCollectInfo(temp.getCollectInfo());
@@ -303,10 +305,6 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setCaseStatus(temp.getStatus());
                     dataCollectionEntity.setAccountAge(temp.getAccountAge());
                     dataCollectionEntity.setEnRepayAmt(temp.getEnRepayAmt());
-                    dataCollectionEntity.setPayName("");
-                    dataCollectionEntity.setPayMethod("");
-                    dataCollectionEntity.setConfimName("");
-                    dataCollectionEntity.setConfimTime("");
                     dataCollectionEntity.setMoney(temp.getMoney());
                     dataCollectionEntity.setBalance(temp.getBalance());
                     dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()==null?"0":temp.getMVal()));
@@ -314,12 +312,9 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setNextFollDate(temp.getNextFollowDate()==null?"":temp.getNextFollowDate().toString());
                     dataCollectionEntity.setCountFollow(temp.getCollectTimes()+"");
                     dataCollectionEntity.setLastPhoneTime(temp.getLastCall());
-                    dataCollectionEntity.setLeaveDays("");
                     dataCollectionEntity.setReduceAmt(new BigDecimal(0));
-                    dataCollectionEntity.setReduceStatus(temp.getReduceStatus());
-                    dataCollectionEntity.setReduceUpdateTime("");
-                    dataCollectionEntity.setReduceReferTime("");
-                    //dataCollectionMapper.saveCollection(dataCollectionEntity);
+                    dataCollectionEntity.setReduceStatus(temp.getReduceStatus());*/
+
                     dateCaseMapper.addCollectTimes(temp);
                     DataOpLog log = new DataOpLog();
                     log.setType("电话催收");
@@ -336,8 +331,9 @@ public class FileManageServiceImpl implements FileManageService {
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCollectionEntity.setCaseId(temp.getId()+"");
-                    dataCollectionEntity.setName(temp.getName());
-                    dataCollectionEntity.setExpectTime(temp.getExpectTime());
+                    temp.setCollectDate(dataCollectionEntity.getCollectTime());
+                    /* dataCollectionEntity.setName(temp.getName());
+                   dataCollectionEntity.setExpectTime(temp.getExpectTime());
                     dataCollectionEntity.setCollectTime(temp.getCollectDate());
                     dataCollectionEntity.setCollectInfo(temp.getCollectInfo());
                     dataCollectionEntity.setCaseType(temp.getCaseType());
@@ -347,10 +343,6 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setCaseStatus(temp.getStatus());
                     dataCollectionEntity.setAccountAge(temp.getAccountAge());
                     dataCollectionEntity.setEnRepayAmt(temp.getEnRepayAmt());
-                    dataCollectionEntity.setPayName("");
-                    dataCollectionEntity.setPayMethod("");
-                    dataCollectionEntity.setConfimName("");
-                    dataCollectionEntity.setConfimTime("");
                     dataCollectionEntity.setMoney(temp.getMoney());
                     dataCollectionEntity.setBalance(temp.getBalance());
                     dataCollectionEntity.setmVal(new BigDecimal(temp.getMVal()==null?"0":temp.getMVal()));
@@ -358,12 +350,9 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setNextFollDate(temp.getNextFollowDate()==null?"":temp.getNextFollowDate().toString());
                     dataCollectionEntity.setCountFollow(temp.getCollectTimes()+"");
                     dataCollectionEntity.setLastPhoneTime(temp.getLastCall());
-                    dataCollectionEntity.setLeaveDays("");
                     dataCollectionEntity.setReduceAmt(new BigDecimal(0));
-                    dataCollectionEntity.setReduceStatus(temp.getReduceStatus());
-                    dataCollectionEntity.setReduceUpdateTime("");
-                    dataCollectionEntity.setReduceReferTime("");
-                    //dataCollectionMapper.saveCollection(dataCollectionEntity);
+                    dataCollectionEntity.setReduceStatus(temp.getReduceStatus());*/
+
                     dateCaseMapper.addCollectTimes(temp);
 
                     DataOpLog log = new DataOpLog();
@@ -378,11 +367,20 @@ public class FileManageServiceImpl implements FileManageService {
 
                 }
             }
-            list.set(i,dataCollectionEntity);
+            saveList.add(dataCollectionEntity);
+            if (i>0 && i%1000==0){
+                dataCollectionMapper.saveBatchCollection(saveList);
+                dataLogService.saveBatchDataLog(logList);
+                saveList.clear();
+                logList.clear();
+            }
+            //list.set(i,dataCollectionEntity);
 
         }
-        dataCollectionMapper.saveBatchCollection(list);
+        dataCollectionMapper.saveBatchCollection(saveList);
         dataLogService.saveBatchDataLog(logList);
+
+
         webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;

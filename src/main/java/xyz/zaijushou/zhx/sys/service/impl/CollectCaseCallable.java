@@ -24,14 +24,12 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     DataCollectionEntity collection;
     List<DataCollectionEntity> list;
-    Map collectMap;
     int index;
 
-    CollectCaseCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, int index,Map collectMap){
+    CollectCaseCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, int index){
         this.collection = dataCollectionEntity;
         this.list = list;
         this.index = index;
-        this.collectMap = collectMap;
     }
     public static int differentDays(Date date1,Date date2)
     {
@@ -70,9 +68,9 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
     }
     public List<DataCollectionEntity> call() throws Exception{
 
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             if (StringUtils.notEmpty(collection.getCollectTime())){
-                collection.setLastPhoneTime(collection.getCollectTime());
+                collection.setLastPhoneTime(collection==null?"":sdf.format(collection.getCollectDate()));
                 collection.setLeaveDays(differentDays(format.parse(collection.getCollectTime()),new Date())+"");
             }else{
                 collection.setLastPhoneTime(collection.getDistributeTime());
@@ -82,9 +80,9 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
                     collection.setLeaveDays("0");
                 }
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        DataCollectionEntity dataCollectionEntity = (DataCollectionEntity)collectMap.get(collection.getCaseId());
-        collection.setCollectTime(dataCollectionEntity==null?"":sdf.format(dataCollectionEntity.getCollectDate()));
+
+        /*collection.setCollectTime(collection==null?"":sdf.format(collection.getCollectDate()));
+        collection.setLastPhoneTime(collection==null?"":sdf.format(collection.getCollectDate()));*/
 
         SysDictionaryEntity telTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getTelType(),SysDictionaryEntity.class);
         collection.setTelType(telTypeDic==null?"":telTypeDic.getName());

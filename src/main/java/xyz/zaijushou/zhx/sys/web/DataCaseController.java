@@ -440,125 +440,102 @@ public class DataCaseController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
-
-
-
-//        InputStream inputStream = file.getInputStream();
-//        Workbook workbook = null;
-//        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
-//            workbook = new XSSFWorkbook(inputStream);
-//        } else {
-//            workbook = new HSSFWorkbook(inputStream);
-//        }
-//        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
-//        Row row = workbook.getSheetAt(0).getRow(0);
-//        String modelType = "";
-//        for (int i=0;i<cols;i++){
-//            Cell cell = row.getCell(i);
-//            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("配偶姓名")){
-//                modelType = "chedai";
-//            }else if(cell!=null && cell.getStringCellValue()!=null){
-//                modelType = "biaozhun";
-//            }
-//        }
-//        List<DataCaseEntity> dataCaseEntities;
-//        if(modelType.equals("biaozhun")) {
-        try {
-            WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class,(caseEntityList)->{
-                doDataCase(caseEntityList);
-                return null;},500);
-            return response;
-        }catch (Exception ex){
-            return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), ex.getMessage());
+        InputStream inputStream = file.getInputStream();
+        Workbook workbook = null;
+        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else {
+            workbook = new HSSFWorkbook(inputStream);
         }
+        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+        Row row = workbook.getSheetAt(0).getRow(0);
+        String modelType = "";
+        for (int i=0;i<cols;i++){
+            Cell cell = row.getCell(i);
+            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("配偶姓名")){
+                modelType = "chedai";
+            }else if(cell!=null && cell.getStringCellValue()!=null){
+                modelType = "biaozhun";
+            }
+        }
+        List<DataCaseEntity> dataCaseEntities;
+        if(modelType.equals("biaozhun")) {
+            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
+        } else {
+            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
+        }
+        if(dataCaseEntities.size() == 0) {
+            return WebResponse.success("更新0条数据");
+        }
+        Set<String> seqNoSet = new HashSet<>();
+        for(int i = 0; i < dataCaseEntities.size(); i ++) {
 
-//        } else {
-//            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
-//           /* for(int i = 0; i < dataCaseEntities.size(); i ++) {
-//                DataCaseEntity entity = dataCaseEntities.get(i);
-//                if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().get(0) != null) {
-//                    dataCaseEntities.get(i).getContacts().get(0).setRelation("配偶");
-//                }
-////                if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().size() >= 2 && entity.getContacts().get(1) != null) {
-////                    dataCaseEntities.get(i).getContacts().get(1).setRelation("担保人");
-////                }
-//            }*/
-//        }
-//        if(dataCaseEntities.size() == 0) {
-//            return WebResponse.success("更新0条数据");
-//        }
-//        Set<String> seqNoSet = new HashSet<>();
-//        for(int i = 0; i < dataCaseEntities.size(); i ++) {
-//
-//            if(dataCaseEntities.get(i).getCollectionArea() != null && dataCaseEntities.get(i).getCollectionArea().getId() != null) {
-//                SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + dataCaseEntities.get(i).getCollectionArea().getId(), SysDictionaryEntity.class);
-//                dataCaseEntities.get(i).setCollectArea(collectAreaEntity == null ? "" : dataCaseEntities.get(i).getCollectionArea().getId() + "");
-//            }
-//            if(dataCaseEntities.get(i).getCollectionUser()!=null && dataCaseEntities.get(i).getCollectionUser().getId()!=null) {
-//                SysNewUserEntity userEntity = new SysNewUserEntity();
-//                userEntity.setRole("催收员");
-//                List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
-//                Map collectUserMap = new HashMap();
-//                for (int m=0;m<userInfoEntity.size();m++){
-//                    SysNewUserEntity sysNewUserEntity = userInfoEntity.get(m);
-//                    collectUserMap.put(sysNewUserEntity.getId(),sysNewUserEntity);
-//                }
-//                if (collectUserMap.get(dataCaseEntities.get(i).getCollectionUser().getId())==null){
-//                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收员id不正确，请核实后再上传");
-//                }
-//
-//            }
-//            if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo()) && (StringUtils.isEmpty(dataCaseEntities.get(i).getCardNo()) &&  StringUtils.isEmpty(dataCaseEntities.get(i).getCaseDate()))) {
-//                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
-//            }
-//            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getAccountAge())){
-//                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getAccountAge(),SysDictionaryEntity.class);
-//                if (sysDictionaryEntity==null){
-//                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行逾期账龄值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的逾期账龄是否均填写正确");
-//                }else{
-//                    dataCaseEntities.get(i).setAccountAge(sysDictionaryEntity.getId()+"");
-//                }
-//            }
-//            //语音 手机号 视频 留言
-//            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getCollectionType())){
-//                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getCollectionType(),SysDictionaryEntity.class);
-//                if (sysDictionaryEntity==null){
-//                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收分类值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的催收分类是否均填写正确");
-//                }else{
-//                    dataCaseEntities.get(i).setCollectionType(sysDictionaryEntity.getId()+"");
-//                }
-//            }
-//            seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
-//        }
-//        DataCaseEntity queryEntity = new DataCaseEntity();
-//        queryEntity.setSeqNoSet(seqNoSet);
-//        List<DataCaseEntity> existCaseList = dataCaseService.listBySeqNoSet(queryEntity);
-//        Map<String, DataCaseEntity> existCaseMap = new HashMap<>();
-//        for(DataCaseEntity entity : existCaseList) {
-//            existCaseMap.put(entity.getSeqNo(), entity);
-//        }
-//        int succesLines = 0;
-//        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
-//        for(int i = 0; i < dataCaseEntities.size(); i ++) {
-//            DataCaseEntity entity = dataCaseEntities.get(i);
-//            if(!existCaseMap.containsKey(entity.getSeqNo())) {
-//                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getCardNo()+"@"+dataCaseEntities.get(i).getCaseDate(),DataCaseEntity.class);
-//                if (dataCaseEntity==null){
-//                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件不存在，请修改后重新上传");
-//                }else{
-//                    dataCaseEntities.get(i).setSeqNo(dataCaseEntity.getSeqNo());
-//                    dataCaseEntities.get(i).setId(dataCaseEntity.getId());
-//                }
-//            }
-//            dataCaseEntities.get(i).setId(existCaseMap.get(entity.getSeqNo()).getId());
-//            succesLines = succesLines+1;
-//        }
-//        dataCaseService.updateCaseList(dataCaseEntities);
-//        WebResponse webResponse = WebResponse.buildResponse();
-//        webResponse.setCode("100");
-//        sucessStr.append(succesLines);
-//        webResponse.setMsg(sucessStr.toString());
-//        return WebResponse.success();
+            if(dataCaseEntities.get(i).getCollectionArea() != null && dataCaseEntities.get(i).getCollectionArea().getId() != null) {
+                SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + dataCaseEntities.get(i).getCollectionArea().getId(), SysDictionaryEntity.class);
+                dataCaseEntities.get(i).setCollectArea(collectAreaEntity == null ? "" : dataCaseEntities.get(i).getCollectionArea().getId() + "");
+            }
+            if(dataCaseEntities.get(i).getCollectionUser()!=null && dataCaseEntities.get(i).getCollectionUser().getId()!=null) {
+                SysNewUserEntity userEntity = new SysNewUserEntity();
+                userEntity.setRole("催收员");
+                List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
+                Map collectUserMap = new HashMap();
+                for (int m=0;m<userInfoEntity.size();m++){
+                    SysNewUserEntity sysNewUserEntity = userInfoEntity.get(m);
+                    collectUserMap.put(sysNewUserEntity.getId(),sysNewUserEntity);
+                }
+                if (collectUserMap.get(dataCaseEntities.get(i).getCollectionUser().getId())==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收员id不正确，请核实后再上传");
+                }
+
+            }
+            if(StringUtils.isEmpty(dataCaseEntities.get(i).getSeqNo()) && (StringUtils.isEmpty(dataCaseEntities.get(i).getCardNo()) &&  StringUtils.isEmpty(dataCaseEntities.get(i).getCaseDate()))) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+            }
+            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getAccountAge())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getAccountAge(),SysDictionaryEntity.class);
+                if (sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行逾期账龄值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的逾期账龄是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).setAccountAge(sysDictionaryEntity.getId()+"");
+                }
+            }
+            //语音 手机号 视频 留言
+            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getCollectionType())){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getCollectionType(),SysDictionaryEntity.class);
+                if (sysDictionaryEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收分类值"+dataCaseEntities.get(i).getCollectionType()+"不在枚举配置中，并检查excel的催收分类是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).setCollectionType(sysDictionaryEntity.getId()+"");
+                }
+            }
+            seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
+        }
+        DataCaseEntity queryEntity = new DataCaseEntity();
+        queryEntity.setSeqNoSet(seqNoSet);
+        List<DataCaseEntity> existCaseList = dataCaseService.listBySeqNoSet(queryEntity);
+        Map<String, DataCaseEntity> existCaseMap = new HashMap<>();
+        for(DataCaseEntity entity : existCaseList) {
+            existCaseMap.put(entity.getSeqNo(), entity);
+        }
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:"+dataCaseEntities.size());
+        for(int i = 0; i < dataCaseEntities.size(); i ++) {
+            DataCaseEntity entity = dataCaseEntities.get(i);
+            if(!existCaseMap.containsKey(entity.getSeqNo())) {
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getCardNo()+"@"+dataCaseEntities.get(i).getCaseDate(),DataCaseEntity.class);
+                if (dataCaseEntity==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件不存在，请修改后重新上传");
+                }else{
+                    dataCaseEntities.get(i).setSeqNo(dataCaseEntity.getSeqNo());
+                    dataCaseEntities.get(i).setId(dataCaseEntity.getId());
+                }
+            }
+            dataCaseEntities.get(i).setId(existCaseMap.get(entity.getSeqNo()).getId());
+        }
+        dataCaseService.updateCaseList(dataCaseEntities);
+        WebResponse webResponse = WebResponse.buildResponse();
+        webResponse.setCode("100");
+        webResponse.setMsg(sucessStr.toString());
+        return WebResponse.success();
     }
 
     private void doDataCase(List<DataCaseEntity> caseEntityList){

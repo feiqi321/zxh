@@ -20,6 +20,9 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by looyer on 2019/1/29.
@@ -103,6 +106,7 @@ public class DataCollectServiceImpl implements DataCollectService {
 
     public WebResponse totalDataCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         String[] clients = bean.getClients();
         if (clients == null || clients.length==0 || StringUtils.isEmpty(clients[0])){
             bean.setClientFlag(null);
@@ -130,7 +134,7 @@ public class DataCollectServiceImpl implements DataCollectService {
         List<DataCollectExportEntity> list = dataCollectionMapper.totalDataCollect(bean);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
+            /*SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
 
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
@@ -146,8 +150,21 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setMethod(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user==null?"":user.getUserName());
-            list.set(i,temp);
+            temp.setOdv(user==null?"":user.getUserName());*/
+            CollectExportCallable collectExportCallable = new CollectExportCallable(list,temp,i);
+            Future<List<DataCollectExportEntity>> future = executor.submit(collectExportCallable);
+            //list.set(i,temp);
+        }
+        executor.shutdown();
+        while(true){
+            if(executor.isTerminated()){
+                break;
+            }
+            try {
+                Thread.sleep(100);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         webResponse.setData(list);
 

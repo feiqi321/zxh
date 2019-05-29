@@ -85,7 +85,7 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="batchNo != null and batchNo!=''">
-                    AND  batch_no like dbo.CONCAT('%',#{batchNo},'%')
+                    AND  batch_no = #{batchNo}
                 </if>
                 <if test="batchNoFlag != null and batchNoFlag!=''">
                     and batch_no in
@@ -106,10 +106,10 @@
                     </foreach>
                 </if>
                 <if test="area != null and area!=''">
-                    AND area  like dbo.CONCAT('%',#{area},'%')
+                    AND area  = #{area}
                 </if>
                 <if test="caseType != null and caseType!=''">
-                    AND case_type like dbo.CONCAT('%',#{caseType},'%')
+                    AND case_type = #{caseType}
                 </if>
 
                 <if test="startTime != null and startTime!=''">
@@ -134,7 +134,7 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="batchNo != null and batchNo!=''">
-                    AND  batch_no like dbo.CONCAT('%',#{batchNo},'%')
+                    AND  batch_no = #{batchNo}
                 </if>
                 <if test="batchNoFlag != null and batchNoFlag!=''">
                     and batch_no in
@@ -155,10 +155,10 @@
                     </foreach>
                 </if>
                 <if test="area != null and area!=''">
-                    AND area  like dbo.CONCAT('%',#{area},'%')
+                    AND area  = #{area}
                 </if>
                 <if test="caseType != null and caseType!=''">
-                    AND case_type like dbo.CONCAT('%',#{caseType},'%')
+                    AND case_type = #{caseType}
                 </if>
 
                 <if test="startTime != null and startTime!=''">
@@ -180,19 +180,19 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="batchNo != null and batchNo!=''">
-                    AND  batch_no like dbo.CONCAT('%',#{batchNo},'%')
+                    AND  batch_no = #{batchNo}
                 </if>
                 <if test="batchStatus != null and batchStatus!=''">
-                    AND  batch_status like dbo.CONCAT('%',#{batchStatus},'%')
+                    AND  batch_status = #{batchStatus}
                 </if>
                 <if test="client != null and client!=''">
-                    AND client like dbo.CONCAT('%',#{client},'%')
+                    AND client = #{client}
                 </if>
                 <if test="area != null and area!=''">
-                    AND area  like dbo.CONCAT('%',#{area},'%')
+                    AND area  = #{area}
                 </if>
                 <if test="caseType != null and caseType!=''">
-                    AND case_type like dbo.CONCAT('%',#{caseType},'%')
+                    AND case_type = #{caseType}
                 </if>
 
                 <if test="startTime != null and startTime!=''">
@@ -228,7 +228,7 @@
         <where>
             <trim suffixOverrides=",">
                 <if test="batchNo != null and batchNo!=''">
-                    AND batch_no like dbo.CONCAT('%',#{batchNo},'%')
+                    AND batch_no = #{batchNo}
                 </if>
             </trim>
         </where>
@@ -245,19 +245,19 @@
             delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="batchNo != null and batchNo!=''">
-                    AND  batch_no like dbo.CONCAT('%',#{batchNo},'%')
+                    AND  batch_no = #{batchNo}
                 </if>
                 <if test="batchStatus != null and batchStatus!=''">
-                    AND  batch_status like dbo.CONCAT('%',#{batchStatus},'%')
+                    AND  batch_status = #{batchStatus}
                 </if>
                 <if test="client != null and client!=''">
-                    AND client like dbo.CONCAT('%',#{client},'%')
+                    AND client = #{client}
                 </if>
                 <if test="area != null and area!=''">
-                    AND area  like dbo.CONCAT('%',#{area},'%')
+                    AND area  = #{area}
                 </if>
                 <if test="caseType != null and caseType!=''">
-                    AND case_type like dbo.CONCAT('%',#{caseType},'%')
+                    AND case_type = #{caseType}
                 </if>
 
                 <if test="startTime != null and startTime!=''">

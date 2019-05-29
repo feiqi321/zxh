@@ -1162,8 +1162,8 @@
 
     <select id="pageCaseTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
-        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd HH:mm') as caseDate,t.collect_status as collectStatus,t.collect_date as collectDate,
-        t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv
+        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd HH:mm') as caseDate,t.collect_status as collectStatus,dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd HH:mm') as collectDate,
+        t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv,t.comment
         from data_case t    LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
             <trim suffixOverrides=",">
@@ -3497,7 +3497,7 @@
     </select>
 
     <update id="addCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set collect_times = collect_times+1 where id =#{id}
+        update data_case set collect_times = collect_times+1,collect_date = convert(datetime,#{collectDate}, 20) where id =#{id}
     </update>
 
     <update id="addBatchCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
