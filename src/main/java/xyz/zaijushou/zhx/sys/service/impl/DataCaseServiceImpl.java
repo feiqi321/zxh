@@ -990,7 +990,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
             SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
             temp.setAccountAge(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
-            temp.setCollectDate((((DataCollectionEntity)collectMap.get(temp.getId())).getCollectTime()));
+            temp.setCollectDate(collectMap.get(temp.getId())==null?"":(((DataCollectionEntity)collectMap.get(temp.getId())).getCollectTime()));
 
             temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
             temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
