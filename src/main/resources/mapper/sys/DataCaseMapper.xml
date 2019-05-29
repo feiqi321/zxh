@@ -1162,10 +1162,9 @@
 
     <select id="pageCaseTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
-        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.collect_status as collectStatus,t.collect_date as collectDate,
+        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd HH:mm') as caseDate,t.collect_status as collectStatus,t.collect_date as collectDate,
         t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv
-        from data_case t LEFT JOIN data_case_tel l on t.id = l.case_id
-                      LEFT  JOIN data_case_address d on t.id = d.case_id
+        from data_case t    LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
             <trim suffixOverrides=",">
                 <if test="clientFlag != null and clientFlag!='' and queryMethod=='1'.toString()" >
@@ -1190,7 +1189,7 @@
                     and d.address = #{address}
                 </if>
                 <if test="tel != null and tel!='' and queryMethod=='1'.toString()">
-                    and l.tel = #{tel}
+                    and t.tel = #{tel}
                 </if>
                 <if test="clientFlag != null and clientFlag!='' and queryMethod=='2'.toString()" >
                     and t.client in
@@ -1214,7 +1213,7 @@
                     AND d.address = #{address}
                 </if>
                 <if test="tel != null and tel!='' and queryMethod=='2'.toString()">
-                    AND l.tel = #{tel}
+                    AND t.tel = #{tel}
                 </if>
             </trim>
         </where>
