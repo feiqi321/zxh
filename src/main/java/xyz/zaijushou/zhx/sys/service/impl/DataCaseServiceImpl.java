@@ -966,6 +966,22 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
+        int[] caseIdArray = new int[list.size()];
+        for (int i=0;i<list.size();i++){
+            caseIdArray[i] = list.get(i).getId();
+        }
+        Map collectMap = new HashMap();
+        if (caseIdArray.length>0){
+            DataCollectionEntity dataCollectionEntity1 = new DataCollectionEntity();
+            dataCollectionEntity1.setIds(caseIdArray);
+            dataCollectionMapper.saveBatchCollect(dataCollectionEntity1);
+            List<DataCollectionEntity> collectList = dataCollectionMapper.showCollectTime();
+            dataCollectionMapper.deletBatchCollect(dataCollectionEntity1);
+            for (int i=0;i<collectList.size();i++){
+                DataCollectionEntity tempCollect = collectList.get(i);
+                collectMap.put(tempCollect.getCaseId(),tempCollect);
+            }
+        }
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
@@ -975,6 +991,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
             SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
             temp.setAccountAge(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
+            temp.setCollectDate(collectMap.get(temp.getId())==null?"":(((DataCollectionEntity)collectMap.get(temp.getId())).getCollectTime()));
 
             temp.setMoneyMsg(temp.getMoney()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney()+""));
             temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt()+""));
