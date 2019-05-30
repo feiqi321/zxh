@@ -657,12 +657,6 @@ public class DataCaseController {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
         } else {
             dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
-            /*for(int i = 0; i < dataCaseEntities.size(); i ++) {
-                DataCaseEntity entity = dataCaseEntities.get(i);
-                if(entity != null && !CollectionUtils.isEmpty(entity.getContacts()) && entity.getContacts().get(0) != null) {
-                    dataCaseEntities.get(i).getContacts().get(0).setRelation("配偶");
-                }
-            }*/
         }
         if(dataCaseEntities.size() == 0) {
             return WebResponse.success("添加0条数据");
