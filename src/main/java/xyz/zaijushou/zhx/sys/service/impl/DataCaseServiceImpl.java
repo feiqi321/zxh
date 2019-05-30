@@ -1175,8 +1175,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
 
         }
-        dataCaseMapper.saveBatchCase(tempList);
-        dataCaseTelMapper.saveBatchTel(telEntityList);
+        if (!CollectionUtils.isEmpty(tempList)){
+            dataCaseMapper.saveBatchCase(tempList);
+        }
+
+        if (!CollectionUtils.isEmpty(telEntityList)){
+            dataCaseTelMapper.saveBatchTel(telEntityList);
+        }
 
         dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
