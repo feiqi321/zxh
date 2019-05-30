@@ -1053,7 +1053,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Transactional
     @Override
     public void saveCaseList(List<DataCaseEntity> dataCaseEntities,String batchNo) {
-        final BigDecimal totalAmt = new BigDecimal(0);
+
         List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
         Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
         for(SysDictionaryEntity entity : dictionaryList) {
@@ -1080,9 +1080,6 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
             }
         }
-        //DataCaseEntity updateCaseEntity = new DataCaseEntity();
-        //List<DataCaseRemarkEntity> remarks = new ArrayList<>();
-        List<DataCaseContactsEntity> contacts = new ArrayList<>();
 
         List<DataCaseTelEntity>  telEntityList = Lists.newArrayList();
         List<DataCaseEntity> tempList = Lists.newArrayList();
@@ -1096,21 +1093,21 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataBatchEntity.setUserCount(dataCaseEntities.size());
 
         for(DataCaseEntity entity : dataCaseEntities) {
-
-            if(tempList.size() < 1000 ){
+            dataCaseMapper.saveCase(entity);
+         /*   if(tempList.size() < 1000 ){
                 tempList.add(entity);
             }else{
                 dataCaseMapper.saveBatchCase(tempList);
-                tempList.stream().forEach(d->{
+                tempList.stream().forEach(d->{*/
                     BigDecimal tmp = dataBatchEntity.getTotalAmt();
-                    dataBatchEntity.setTotalAmt(tmp.add(d.getMoney()));
-                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + d.getSeqNo(), JSONObject.toJSONString(d),20);
-                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + d.getCardNo()+"@"+d.getCaseDate(), JSONObject.toJSONString(d));
+                    dataBatchEntity.setTotalAmt(tmp.add(entity.getMoney()));
+                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity),20);
+                    stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
 
 
                     if (StringUtils.notEmpty(entity.getContactName1()) || StringUtils.notEmpty(entity.getContactMobile1())) {
                         DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
-                        dataCaseTelEntity1.setCaseId(d.getId());
+                        dataCaseTelEntity1.setCaseId(entity.getId());
                         dataCaseTelEntity1.setName(entity.getContactName1());
                         dataCaseTelEntity1.setIdentNo(entity.getContactIdentNo1());
                         dataCaseTelEntity1.setRelation(entity.getContactRelation1());
@@ -1120,7 +1117,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }
                     if (StringUtils.notEmpty(entity.getContactName2()) || StringUtils.notEmpty(entity.getContactMobile2())) {
                         DataCaseTelEntity dataCaseTelEntity2 = new DataCaseTelEntity();
-                        dataCaseTelEntity2.setCaseId(d.getId());
+                        dataCaseTelEntity2.setCaseId(entity.getId());
                         dataCaseTelEntity2.setName(entity.getContactName2());
                         dataCaseTelEntity2.setIdentNo(entity.getContactIdentNo2());
                         dataCaseTelEntity2.setRelation(entity.getContactRelation2());
@@ -1130,7 +1127,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }
                     if (StringUtils.notEmpty(entity.getContactName3()) || StringUtils.notEmpty(entity.getContactMobile3())) {
                         DataCaseTelEntity dataCaseTelEntity3 = new DataCaseTelEntity();
-                        dataCaseTelEntity3.setCaseId(d.getId());
+                        dataCaseTelEntity3.setCaseId(entity.getId());
                         dataCaseTelEntity3.setName(entity.getContactName3());
                         dataCaseTelEntity3.setIdentNo(entity.getContactIdentNo3());
                         dataCaseTelEntity3.setRelation(entity.getContactRelation3());
@@ -1140,7 +1137,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }
                     if (StringUtils.notEmpty(entity.getContactName4()) || StringUtils.notEmpty(entity.getContactMobile4())) {
                         DataCaseTelEntity dataCaseTelEntity4 = new DataCaseTelEntity();
-                        dataCaseTelEntity4.setCaseId(d.getId());
+                        dataCaseTelEntity4.setCaseId(entity.getId());
                         dataCaseTelEntity4.setName(entity.getContactName4());
                         dataCaseTelEntity4.setIdentNo(entity.getContactIdentNo4());
                         dataCaseTelEntity4.setRelation(entity.getContactRelation4());
@@ -1150,7 +1147,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }
                     if (StringUtils.notEmpty(entity.getContactName5()) || StringUtils.notEmpty(entity.getContactMobile5())) {
                         DataCaseTelEntity dataCaseTelEntity5 = new DataCaseTelEntity();
-                        dataCaseTelEntity5.setCaseId(d.getId());
+                        dataCaseTelEntity5.setCaseId(entity.getId());
                         dataCaseTelEntity5.setName(entity.getContactName5());
                         dataCaseTelEntity5.setIdentNo(entity.getContactIdentNo5());
                         dataCaseTelEntity5.setRelation(entity.getContactRelation5());
@@ -1160,7 +1157,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }
                     if (StringUtils.notEmpty(entity.getContactName6()) || StringUtils.notEmpty(entity.getContactMobile6())) {
                         DataCaseTelEntity dataCaseTelEntity6 = new DataCaseTelEntity();
-                        dataCaseTelEntity6.setCaseId(d.getId());
+                        dataCaseTelEntity6.setCaseId(entity.getId());
                         dataCaseTelEntity6.setName(entity.getContactName6());
                         dataCaseTelEntity6.setIdentNo(entity.getContactIdentNo6());
                         dataCaseTelEntity6.setRelation(entity.getContactRelation6());
@@ -1168,20 +1165,26 @@ public class DataCaseServiceImpl implements DataCaseService {
                         dataCaseTelEntity6.setTelStatusMsg("未知");
                         telEntityList.add(dataCaseTelEntity6);
                     }
-                });
-                tempList.clear();
-                dataCaseTelMapper.saveBatchTel(telEntityList);
-                telEntityList.clear();
-            }
+                    if (telEntityList.size()>=1000){
+                        dataCaseTelMapper.saveBatchTel(telEntityList);
+                        telEntityList.clear();
+                    }
+               // });
+                //tempList.clear();
+                //dataCaseTelMapper.saveBatchTel(telEntityList);
+                //telEntityList.clear();
+            //}
 
         }
-        if (!CollectionUtils.isEmpty(tempList)){
+        dataCaseTelMapper.saveBatchTel(telEntityList);
+        telEntityList.clear();
+     /*   if (!CollectionUtils.isEmpty(tempList)){
             dataCaseMapper.saveBatchCase(tempList);
-        }
+        }*/
 
-        if (!CollectionUtils.isEmpty(telEntityList)){
+        /*if (!CollectionUtils.isEmpty(telEntityList)){
             dataCaseTelMapper.saveBatchTel(telEntityList);
-        }
+        }*/
 
         dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }

@@ -722,8 +722,7 @@ public class DataCaseController {
         for(DataCaseEntity entity : existCaseList) {
             existCaseMap.put(entity.getSeqNo(), entity);
         }
-        int succesLines = 0;
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:");
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:"+dataCaseEntities.size());
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataCaseEntity entity = dataCaseEntities.get(i);
             if (StringUtils.isNotEmpty(entity.getSeqNo())){
@@ -737,12 +736,10 @@ public class DataCaseController {
                 }
             }
             dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
-            succesLines =succesLines+1;
         }
         dataCaseService.saveCaseList(dataCaseEntities,batch.getBatchNo());
         WebResponse webResponse = WebResponse.buildResponse();
         webResponse.setCode("100");
-        sucessStr.append(succesLines);
         webResponse.setMsg(sucessStr.toString());
         return WebResponse.success();
     }
