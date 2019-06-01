@@ -377,8 +377,12 @@ public class FileManageServiceImpl implements FileManageService {
             //list.set(i,dataCollectionEntity);
 
         }
-        dataCollectionMapper.saveBatchCollection(saveList);
-        dataLogService.saveBatchDataLog(logList);
+        if (saveList.size()>0) {
+            dataCollectionMapper.saveBatchCollection(saveList);
+        }
+        if (logList.size()>0) {
+            dataLogService.saveBatchDataLog(logList);
+        }
 
 
         webResponse.setMsg("导入成功");

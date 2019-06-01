@@ -231,23 +231,6 @@ public class DataCollectController {
 
         List<DataCollectionEntity> dataCollectionEntities = ExcelUtils.importExcel(file, ExcelCollectConstant.CaseCollect.values(), DataCollectionEntity.class);
 
-        SysDictionaryEntity dictionary = new SysDictionaryEntity();
-        dictionary.setName("催收结果");
-        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.listDataByName(dictionary);
-        Map dicMap = new HashMap();
-        for (int m=0;m<dictionaryEntityList.size();m++){
-            SysDictionaryEntity temp = dictionaryEntityList.get(m);
-            dicMap.put(temp.getId(),temp);
-        }
-
-        SysDictionaryEntity telDic = new SysDictionaryEntity();
-        telDic.setName("电话类型");
-        List<SysDictionaryEntity> dicTelList = dictionaryService.listDataByName(telDic);
-        Map dicTelMap = new HashMap();
-        for (int m=0;m<dicTelList.size();m++){
-            SysDictionaryEntity temp = dicTelList.get(m);
-            dicTelMap.put(temp.getName(),temp);
-        }
         for (int i=0;i<dataCollectionEntities.size();i++){
             DataCollectionEntity temp = dataCollectionEntities.get(i);
             if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getSeqno())){
@@ -264,19 +247,23 @@ public class DataCollectController {
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
                 }
             }
-
-            if (StringUtils.notEmpty(dataCollectionEntities.get(i).getResultId())) {
-                if (dataCollectionEntities.get(i).getResultId() != null && dicMap.get(Integer.parseInt(dataCollectionEntities.get(i).getResultId())) == null) {
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收结果id不正确，请核实后再上传");
-                }
-            }
-            if (StringUtils.notEmpty(dataCollectionEntities.get(i).getTelType())) {
-                if (dicTelMap.get(dataCollectionEntities.get(i).getTelType()) == null) {
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型不正确，请核实后再上传");
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getResultId())) {
+                SysDictionaryEntity resultDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + dataCollectionEntities.get(i).getResultId(), SysDictionaryEntity.class);
+                if (resultDic == null) {
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行催收结果id" + dataCollectionEntities.get(i).getResultId() + "不在枚举配置中，并检查excel的催收结果id是否均填写正确");
                 } else {
-                    dataCollectionEntities.get(i).setTelType(((SysDictionaryEntity) dicTelMap.get(dataCollectionEntities.get(i).getTelType())).getId() + "");
+                    dataCollectionEntities.get(i).setResultId(resultDic.getId() + "");
                 }
             }
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getTelType())) {
+                SysDictionaryEntity telTypeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + dataCollectionEntities.get(i).getTelType(), SysDictionaryEntity.class);
+                if (telTypeDic == null) {
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行电话类型" + dataCollectionEntities.get(i).getTelType() + "不在枚举配置中，并检查excel的电话类型是否均填写正确");
+                } else {
+                    dataCollectionEntities.get(i).setTelType(telTypeDic.getId() + "");
+                }
+            }
+
         }
 
         WebResponse webResponse =fileManageService.batchCollect(dataCollectionEntities);
