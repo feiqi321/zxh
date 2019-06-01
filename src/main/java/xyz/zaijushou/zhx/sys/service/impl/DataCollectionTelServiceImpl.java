@@ -2,11 +2,14 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.CaseBaseConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
@@ -50,14 +53,35 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         String[] timeAreaAttr = {"00:00-8:00","08:00-12:00","12:00-18:00","18:00-24:00"};
         List<StatisticReturn> list = Lists.newArrayList();
 
+        int pageNo = bean.getPageNum();
+        int pageSize = bean.getPageSize();
+        int total = 0;
+
         try {
+            if(CollectionUtils.isEmpty(bean.getOdvAttr())){
+
+                Set<String >  redisUserIds = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.USER_INFO);
+                List<String>  allUserList  =  CollectionUtils.isEmpty(redisUserIds) ? Collections.EMPTY_LIST
+                        : redisUserIds.stream().map(i->i.replaceFirst(RedisKeyPrefix.USER_INFO,"")).collect(Collectors.toList());
+                bean.setOdvAttr(allUserList);
+            }
+            total = bean.getOdvAttr().size();
+            int start = (pageNo-1)*pageSize;
+            int end = start + pageSize;
+            int k = 0;
             for (String odv: bean.getOdvAttr()) {
+                if(start > k  ){
+                    continue;
+                }
+                if( k >= end){
+                    break;
+                }
                 int sumConPhoneNum = 0;//接通电话数
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odv, SysUserEntity.class);
                 StatisticReturn conInfo = new StatisticReturn();
-                conInfo.setOdv(user .getUserName());
+                conInfo.setOdv(user.getUserName());
                 List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
                 bean.setOdv(odv);
                 List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(bean);
@@ -104,12 +128,17 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 conInfo.setSumCasePhoneNum(sumCasePhoneNum);
                 conInfo.setSumConPhoneNum(sumConPhoneNum);
                 conInfo.setSumPhoneNum(sumPhoneNum);
+                ++k;
                 list.add(conInfo);
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return  PageInfo.of(list);
+        PageInfo p = PageInfo.of(list);
+        p.setPageNum(pageNo);
+        p.setPageSize(pageSize);
+        p.setTotal(total);
+        return  p;
     }
 
     @Override
@@ -130,7 +159,28 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         }
         List<StatisticReturn> list = Lists.newArrayList();
 
+        if(CollectionUtils.isEmpty(bean.getOdvAttr())){
+
+            Set<String >  redisUserIds = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.USER_INFO);
+            List<String>  allUserList  =  CollectionUtils.isEmpty(redisUserIds) ? Collections.EMPTY_LIST
+                    : redisUserIds.stream().map(i->i.replaceFirst(RedisKeyPrefix.USER_INFO,"")).collect(Collectors.toList());
+            bean.setOdvAttr(allUserList);
+        }
+
+        int pageNo = bean.getPageNum();
+        int pageSize = bean.getPageSize();
+
+        int total = bean.getOdvAttr().size();
+        int start = (pageNo-1)*pageSize;
+        int end = start + pageSize;
+        int k = 0;
         for (String odv: bean.getOdvAttr()) {
+            if(start > k  ){
+                continue;
+            }
+            if( k >= end){
+                break;
+            }
             int sumConPhoneNum = 0;//接通电话数
             int sumPhoneNum = 0;//总通话数
             int sumCasePhoneNum = 0;//通话涉及到的案件数
@@ -187,9 +237,16 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             conInfo.setSumCasePhoneNum(sumCasePhoneNum);
             conInfo.setSumConPhoneNum(sumConPhoneNum);
             conInfo.setSumPhoneNum(sumPhoneNum);
+            ++k;
             list.add(conInfo);
         }
-        return  PageInfo.of(list);
+
+        PageInfo p = PageInfo.of(list);
+        p.setPageNum(pageNo);
+        p.setPageSize(pageSize);
+        p.setTotal(total);
+        return  p;
+
     }
 
     private Date getDateInfo(Date date,int type){
@@ -270,7 +327,28 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         }
         List<CollectionStatistic> list = Lists.newArrayList();
 
-        for (String odv : bean.getOdvAttr()){
+        if(CollectionUtils.isEmpty(bean.getOdvAttr())){
+
+            Set<String >  redisUserIds = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.USER_INFO);
+            List<String>  allUserList  =  CollectionUtils.isEmpty(redisUserIds) ? Collections.EMPTY_LIST
+                    : redisUserIds.stream().map(i->i.replaceFirst(RedisKeyPrefix.USER_INFO,"")).collect(Collectors.toList());
+            bean.setOdvAttr(allUserList);
+        }
+
+        int pageNo = bean.getPageNum();
+        int pageSize = bean.getPageSize();
+
+        int total = bean.getOdvAttr().size();
+        int start = (pageNo-1)*pageSize;
+        int end = start + pageSize;
+        int k = 0;
+        for (String odv: bean.getOdvAttr()) {
+            if(start > k  ){
+                continue;
+            }
+            if( k >= end){
+                break;
+            }
             bean.setOdv(odv);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odv, SysUserEntity.class);
             CollectionStatistic col = new CollectionStatistic();
@@ -279,9 +357,14 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             List<SysDictionaryEntity> collectionIds = sysDictionaryMapper.getCollectionDataByDicId(CaseBaseConstant.COLLECTION_TYPE);
             List<String> descs = collectionIds.stream().map(each -> each.getDescription()).collect(Collectors.toList());
             ConnectionListToInfo(descs,colData, col);
+            ++k;
             list.add(col);
         }
-        return  PageInfo.of(list);
+        PageInfo p = PageInfo.of(list);
+        p.setPageNum(pageNo);
+        p.setPageSize(pageSize);
+        p.setTotal(total);
+        return  p;
     }
     //1-114查询无效,2-DX1,3-DX2,4-DX3,5-DX4,6-承诺还款,7-可联本人,8-可联村委,
     // 9-可联第三人,10-可联家人,11-空号错号,12-网搜无效,13-无人接听,14-无效电话
