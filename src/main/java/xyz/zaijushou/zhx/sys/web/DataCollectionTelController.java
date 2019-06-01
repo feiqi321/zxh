@@ -69,7 +69,7 @@ public class DataCollectionTelController {
             sysOperationLogService.insertRequest(operationLog);
             ExcelUtils.exportTempleteDay(response,list,realname);
         }else{
-            String fileName = new String(("day-export").getBytes(), "ISO8859_1");
+            String fileName = new String(("单日统计查询导出").getBytes(), "ISO8859_1");
             String realname = fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             List<StatisticReturn>  list = new ArrayList<StatisticReturn>();
             ExcelUtils.exportTempleteDay(response,list,realname);
@@ -99,7 +99,7 @@ public class DataCollectionTelController {
             PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionMonth(bean);
             List<StatisticReturn>  list = pageInfo.getList();
            //导出
-            String fileName = new String(("day-export").getBytes(), "ISO8859_1");
+            String fileName = new String(("月度统计查询导出").getBytes(), "ISO8859_1");
             String realname = fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
             SysOperationLogEntity operationLog = new SysOperationLogEntity();
@@ -138,7 +138,7 @@ public class DataCollectionTelController {
         }
 
 
-        String realname = "每日动作统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        String realname = "每日动作统计查询导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
         operationLog.setRequestBody(realname);

@@ -661,8 +661,6 @@ public class DataCaseController {
         if(dataCaseEntities.size() == 0) {
             return WebResponse.success("添加0条数据");
         }
-        Map<String, Integer> countMap = new HashMap<>();
-        Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
             DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+batch.getBatchNo(),DataBatchEntity.class);
             dataCaseEntities.get(i).setClient(batchEntity ==null ?"":batchEntity.getClient());
@@ -703,30 +701,10 @@ public class DataCaseController {
                     dataCaseEntities.get(i).setCollectionType(sysDictionaryEntity.getId()+"");
                 }
             }
-            seqNoSet.add(dataCaseEntities.get(i).getSeqNo());
-            countMap.put(dataCaseEntities.get(i).getSeqNo(), countMap.get(dataCaseEntities.get(i).getSeqNo()) == null ? 1 : countMap.get(dataCaseEntities.get(i).getSeqNo()) + 1);
-        }
-        StringBuilder builder = new StringBuilder();
-        for(Map.Entry<String, Integer> entry : countMap.entrySet()) {
-            if(entry.getValue() > 1) {
-                builder.append(entry.getKey()).append(" ");
-            }
-        }
-        if(StringUtils.isNoneEmpty(builder.toString())) {
-            return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "存在重复的个案序列号：" + builder.toString());
-        }
-        DataCaseEntity queryEntity = new DataCaseEntity();
-        queryEntity.setSeqNoSet(seqNoSet);
-        List<DataCaseEntity> existCaseList = dataCaseService.listBySeqNoSet(queryEntity);
-        Map<String, DataCaseEntity> existCaseMap = new HashMap<>();
-        for(DataCaseEntity entity : existCaseList) {
-            existCaseMap.put(entity.getSeqNo(), entity);
-        }
-        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:"+dataCaseEntities.size());
-        for(int i = 0; i < dataCaseEntities.size(); i ++) {
-            DataCaseEntity entity = dataCaseEntities.get(i);
-            if (StringUtils.isNotEmpty(entity.getSeqNo())){
-                if(existCaseMap.containsKey(entity.getSeqNo())) {
+
+            if (StringUtils.isNotEmpty(dataCaseEntities.get(i).getSeqNo())){
+                DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntities.get(i).getSeqNo(),DataCaseEntity.class);
+                if (dataCaseEntity!=null) {
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件已存在，请修改后重新上传");
                 }
             }else{
@@ -735,8 +713,41 @@ public class DataCaseController {
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行案件已存在，请修改后重新上传");
                 }
             }
+
+            if(dataCaseEntities.get(i).getCollectionUser()!=null && dataCaseEntities.get(i).getCollectionUser().getId()!=null) {
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + dataCaseEntities.get(i).getCollectionUser().getId(), SysUserEntity.class);
+                dataCaseEntities.get(i).setDept(user == null ? "" : user.getDepartment());
+            }
+            if (dataCaseEntities.get(i).getProvince()!=null && StringUtils.isNotEmpty(dataCaseEntities.get(i).getProvince().getName())){
+                SysDictionaryEntity provicneDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getProvince().getName(),SysDictionaryEntity.class);
+                if (provicneDic==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行省"+dataCaseEntities.get(i).getProvince().getName()+"不在枚举配置中，并检查excel的省是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).getProvince().setId(provicneDic.getId());
+                }
+            }
+            if (dataCaseEntities.get(i).getCity()!=null && StringUtils.isNotEmpty(dataCaseEntities.get(i).getCity().getName())){
+                SysDictionaryEntity cityDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getCity().getName(),SysDictionaryEntity.class);
+                if (cityDic==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行市"+dataCaseEntities.get(i).getCity().getName()+"不在枚举配置中，并检查excel的市是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).getCity().setId(cityDic.getId());
+                }
+            }
+            if (dataCaseEntities.get(i).getCounty()!=null && StringUtils.isNotEmpty(dataCaseEntities.get(i).getCounty().getName())){
+                SysDictionaryEntity countyDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataCaseEntities.get(i).getCounty().getName(),SysDictionaryEntity.class);
+                if (countyDic==null){
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行县"+dataCaseEntities.get(i).getCounty().getName()+"不在枚举配置中，并检查excel的县是否均填写正确");
+                }else{
+                    dataCaseEntities.get(i).getCounty().setId(countyDic.getId());
+                }
+            }
+
             dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
+
         }
+        StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:"+dataCaseEntities.size());
+
         dataCaseService.saveCaseList(dataCaseEntities,batch.getBatchNo());
         WebResponse webResponse = WebResponse.buildResponse();
         webResponse.setCode("100");

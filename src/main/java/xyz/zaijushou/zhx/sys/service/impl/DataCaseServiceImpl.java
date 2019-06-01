@@ -1054,35 +1054,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void saveCaseList(List<DataCaseEntity> dataCaseEntities,String batchNo) {
 
-        List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
-        Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
-        for(SysDictionaryEntity entity : dictionaryList) {
-            dictMap.put(entity.getName(), entity);
-        }
-        //下面这段代码逻辑，判断导入的省份是否在字典里，如果存在，则更新案件省份的id，并相应继续判断地市和区县
-        for(int i = 0; i < dataCaseEntities.size(); i ++) {
-            DataCaseEntity entity = dataCaseEntities.get(i);
-            if(entity.getCollectionUser()!=null && entity.getCollectionUser().getId()!=null) {
-                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + entity.getCollectionUser().getId(), SysUserEntity.class);
-                entity.setDept(user == null ? "" : user.getDepartment());
-            }
-            if(entity.getProvince() != null && !StringUtils.isEmpty(entity.getProvince().getName()) && dictMap.containsKey(entity.getProvince().getName())) {
-                dataCaseEntities.get(i).getProvince().setId(dictMap.get(entity.getProvince().getName()).getId());
-                if(entity.getCity() != null && !StringUtils.isEmpty(entity.getCity().getName()) && dictMap.containsKey(entity.getCity().getName())) {
-                    if(dictMap.get(entity.getProvince().getName()).getId().equals(dictMap.get(entity.getCity().getName()).getParent().getId())) {
-                        dataCaseEntities.get(i).getCity().setId(dictMap.get(entity.getCity().getName()).getId());
-                        if(entity.getCounty() != null && !StringUtils.isEmpty(entity.getCounty().getName()) && dictMap.containsKey(entity.getCounty().getName())) {
-                            if(dictMap.get(entity.getCity().getName()).getId().equals(dictMap.get(entity.getCounty().getName()).getParent().getId())) {
-                                dataCaseEntities.get(i).getCounty().setId(dictMap.get(entity.getCounty().getName()).getId());
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         List<DataCaseTelEntity>  telEntityList = Lists.newArrayList();
-        List<DataCaseEntity> tempList = Lists.newArrayList();
 
         //修改批次信息
         final DataBatchEntity dataBatchEntity = new DataBatchEntity();
@@ -1094,11 +1066,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         for(DataCaseEntity entity : dataCaseEntities) {
             dataCaseMapper.saveCase(entity);
-         /*   if(tempList.size() < 1000 ){
-                tempList.add(entity);
-            }else{
-                dataCaseMapper.saveBatchCase(tempList);
-                tempList.stream().forEach(d->{*/
+
             BigDecimal tmp = dataBatchEntity.getTotalAmt();
             dataBatchEntity.setTotalAmt(tmp.add(entity.getMoney()));
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity),20);
@@ -1169,22 +1137,11 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseTelMapper.saveBatchTel(telEntityList);
                 telEntityList.clear();
             }
-            // });
-            //tempList.clear();
-            //dataCaseTelMapper.saveBatchTel(telEntityList);
-            //telEntityList.clear();
-            //}
 
         }
         dataCaseTelMapper.saveBatchTel(telEntityList);
         telEntityList.clear();
-     /*   if (!CollectionUtils.isEmpty(tempList)){
-            dataCaseMapper.saveBatchCase(tempList);
-        }*/
 
-        /*if (!CollectionUtils.isEmpty(telEntityList)){
-            dataCaseTelMapper.saveBatchTel(telEntityList);
-        }*/
 
         dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
