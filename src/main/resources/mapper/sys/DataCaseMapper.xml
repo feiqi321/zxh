@@ -3478,8 +3478,20 @@
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
           SELECT id,batch_no as batchNo,money,odv,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,business_type as businessType,card_no as cardNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,name,
-          dbo.fnFormatDate(settle_date, 'yyyy-MM-dd') as settleDate,settle_flag as settleFlag
+          dbo.fnFormatDate(settle_date, 'yyyy-MM-dd') as settleDate,settle_flag as settleFlag,en_repay_amt as enRepayAmt
           from data_case where id = #{id}
+    </select>
+
+    <select id="findThisMonthById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select top 1 sum(r.repayMoney) as enRepayAmt ,dbo.fnFormatDate(t.settle_date, 'yyyy-MM-dd') as settleDate,t.settle_flag as settleFlag
+        from data_case t LEFT JOIN (
+        select repay_money as repayMoney,data_case
+        from data_case_repay_record
+        where data_case=#{id}
+        <![CDATA[   and  convert(datetime,repay_date, 20) >= convert(datetime,#{repayDateStart}, 20) ]]>
+        <![CDATA[   and convert(datetime,repay_date, 20) <= convert(datetime,#{repayDateEnd}, 20) ]]>
+        ) r on t.id = r.data_case
+        group by t.settle_flag,t.settle_date order by settle_date desc
     </select>
 
     <select id="findSameBatchCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

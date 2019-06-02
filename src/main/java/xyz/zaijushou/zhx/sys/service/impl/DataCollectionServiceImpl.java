@@ -887,7 +887,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                         .add((enRepayAmt.subtract(sysPercent.getOdvBasic())).multiply(sysPercent.getOdvReward()));
             }else {
                 result = sysPercent.getOdvBasic().multiply(sysPercent.getOdvLow())
-                        .add(((sysPercent.getOdvHighBasic().subtract(sysPercent.getOdvHighBasic())).multiply(sysPercent.getOdvReward())))
+                        .add(((sysPercent.getOdvHighBasic().subtract(sysPercent.getOdvBasic())).multiply(sysPercent.getOdvReward())))
                         .add(enRepayAmt.subtract(sysPercent.getOdvHighBasic()).multiply(sysPercent.getOdvHighReward()));
             }
         }else {
@@ -1114,19 +1114,35 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (actualTime==null || actualTime.compareTo(timeStart.getTime())<0 || actualTime.compareTo(timeEnd.getTime())>0) {
             //阶梯累加
             bean.setRepayDateEnd(last);
+            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
+            bean.setSettleDate(tempCase.getSettleDate());
+            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeOdv(bean,1);
 
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
             bean.setRepayDateEnd(day25);
+            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
+            bean.setSettleDate(tempCase.getSettleDate());
+            bean.setSettleFlag(tempCase.getSettleFlag());
+            royaltyTypeOdv(bean,2);
             //25到月底
             bean.setRepayDateStart(day25);
             bean.setRepayDateEnd(last);
-
+            DataCaseEntity tempCase2 = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase2.getEnRepayAmt());
+            bean.setSettleDate(tempCase2.getSettleDate());
+            bean.setSettleFlag(tempCase2.getSettleFlag());
             royaltyTypeOdv(bean,2);
-            //royaltyTypeOdv(bean,2);
+
 
         }else if (actualTime.compareTo(ca25.getTime())>=0){
             bean.setRepayDateEnd(last);
+            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
+            bean.setSettleDate(tempCase.getSettleDate());
+            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeOdv(bean,3);
         }
 

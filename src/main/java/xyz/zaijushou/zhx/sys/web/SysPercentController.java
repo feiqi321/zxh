@@ -91,13 +91,13 @@ public class SysPercentController {
                 }else if (sysPercent.getOdvReward2Msg().matches(reg)){
                     if (sysPercent.getEnable().equals("阶梯累加")){
                         //未使用这个
-                        sysPercent.setOdvReward(new BigDecimal("0"));
+                        sysPercent.setOdvReward2(new BigDecimal("0"));
                     }else if (sysPercent.getEnable().equals("特殊1")){
                         //基础提成超过委按金额百分比
                         sysPercent.setOdvReward2(sysPercent.getOdvReward2Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvReward2Msg()).divide(new BigDecimal(100)));
                     }else if (sysPercent.getEnable().equals("特殊2")){
                         //户
-                        sysPercent.setOdvReward(sysPercent.getOdvReward2Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvReward2Msg()));
+                        sysPercent.setOdvReward2(sysPercent.getOdvReward2Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvReward2Msg()));
                     }
 
                 }else{
@@ -110,7 +110,7 @@ public class SysPercentController {
                 }else if (sysPercent.getOdvReward3Msg().matches(reg)){
                     if (sysPercent.getEnable().equals("阶梯累加")){
                         //未使用这个
-                        sysPercent.setOdvReward(new BigDecimal("0"));
+                        sysPercent.setOdvReward3(new BigDecimal("0"));
                     }else if (sysPercent.getEnable().equals("特殊1")){
                         //低标提成超过委按金额百分比
                         sysPercent.setOdvReward3(sysPercent.getOdvReward3Msg()==null?new BigDecimal(0):new BigDecimal(sysPercent.getOdvReward3Msg()).divide(new BigDecimal(100)));
