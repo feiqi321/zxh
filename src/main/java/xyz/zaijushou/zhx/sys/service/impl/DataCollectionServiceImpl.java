@@ -635,31 +635,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setRepaidBankAmtMMsg(collection.getRepaidBankAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidBankAmtM().stripTrailingZeros()+""));
         }
         collectionReturn.setList(colList);
-/*
-        DataCaseEntity tempCase = new DataCaseEntity();
-        tempCase.setOdv(user.getId()+"");//当前催收员
-        SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(user.getId());
-        Date actualTime = sysNewUserEntity.getActualTime();//转正时间
 
-        collectionReturn.setList(colList);
-        //用户信息 包括角色
-        SysNewUserEntity userNew = sysUserMapper.getDataById(user.getId());
-        List<String> userName = new ArrayList<String>();
-        for (SysRoleEntity roleEntity : userNew.getRoleList()){
-            if (roleEntity.getId() == 15){//催收员
-                userName.add(user.getId()+"");
-                tempCase.setCaseType("1");
-            }else if (roleEntity.getId() == 16){//经理
-                SysNewUserEntity userEntity = new SysNewUserEntity();
-                userEntity.setId(user.getId());
-                List<SysNewUserEntity> userList = sysUserMapper.listParent(userEntity);
-                for (SysNewUserEntity newUser : userList){
-                    userName.add(newUser.getId()+"");
-                }
-                tempCase.setCaseType("2");
-            }
-        }
-        tempCase.setUserName(userName);*/
 
         //如果转正时间没有或者不在本月，则按照正常判断进行，
         // 如果在本月的1号-25号之间，则本月所有的累计还款都要跟1万比较，低于1万没有提成，如果在25号-月末之间，则不判断1万的底线，全部都要计算提成
@@ -721,105 +697,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
 
-    /**
-     * 催收员提成
-     * @param tempCase
-     * @param type
-     * @return
-     */
-   /* private BigDecimal royaltyType(DataCaseEntity tempCase,int type){
-        BigDecimal result = new BigDecimal("0.00");
-        BigDecimal resultManage = new BigDecimal("0.00");
-
-        //获取案件条线类型
-        SysPercent percentData = new SysPercent();
-        List<DataCaseEntity> caseList1 = caseMapper.selectCommonCase(tempCase);
-        for (int i = 0; i < caseList1.size(); i++) {
-            BigDecimal resultBean = new BigDecimal("0.00");
-            if (caseList1.get(i)==null){
-                continue;
-            }
-            percentData.setClient(caseList1.get(i).getBusinessType());
-            SysPercent percent =  sysPercentMapper.findByClient(percentData);
-            caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
-            if (StringUtils.notEmpty(percent)){
-                if (type == 1 ||
-                        ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
-                    resultBean = royaltyCalculate(caseList1.get(i).getEnRepayAmt(),null,percent);
-                    result = result.add(resultBean);
-                }
-            }
-            if("2".equals(tempCase.getCaseType())){//经理
-                if (resultBean.compareTo(percent.getManageReward()) >=0){
-                    resultManage = resultManage.add(
-                            percent.getManageRewardRange1().add(resultBean.multiply(percent.getManageRewardRange2()))
-                    );
-                }
-            }
-        }
-        //特殊1
-        List<DataCaseEntity> caseList2 = caseMapper.selectTsCase1(tempCase);
-        for (int i = 0; i < caseList2.size(); i++) {
-            BigDecimal resultBean = new BigDecimal("0.00");
-            if (caseList2.get(i)==null){
-                continue;
-            }
-            percentData.setClient(caseList2.get(i).getBusinessType());
-            SysPercent percent =  sysPercentMapper.findByClient(percentData);
-            String settleDate = caseList2.get(i).getSettleDate();
-            String settleFlag = caseList2.get(i).getSettleFlag();//1 已结清 0 未结清
-            caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
-            if ("已结清".equals(settleFlag)){
-                if (type == 1 ||
-                        ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
-                    resultBean = royaltyCalculate( caseList2.get(i).getEnRepayAmt(), caseList2.get(i).getMoney(),percent);
-                    result = result.add(resultBean);
-                }
-            }
-            if("2".equals(tempCase.getCaseType())){//经理
-                if (resultBean.compareTo(percent.getManageReward()) >=0){
-                    resultManage = resultManage.add(
-                            percent.getManageRewardRange1().add(resultBean.multiply(percent.getManageRewardRange2()))
-                    );
-                }
-            }
-        }
-        //特殊2
-        List<DataCaseEntity> caseList3 = caseMapper.selectTsCase2(tempCase);
-        if (StringUtils.notEmpty(caseList3)){
-            BigDecimal numHoursPay = new BigDecimal(0);//当月回款户数
-            BigDecimal numHoursMoney = new BigDecimal(0);//当月委案户数
-            BigDecimal resultBean = new BigDecimal("0.00");
-            for (int i = 0; i < caseList3.size(); i++) {
-                caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
-                if (type == 1 ||
-                        ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
-                    numHoursPay = numHoursPay.add(calHoursValue(caseList3.get(i).getEnRepayAmt()));
-                    numHoursMoney = numHoursMoney.add(calHoursValue(caseList3.get(i).getMoney()));
-                }
-            }
-            percentData.setClient(caseList3.get(0).getBusinessType());
-            SysPercent percent =  sysPercentMapper.findByClient(percentData);
-
-            if("2".equals(tempCase.getCaseType())){//经理
-                if (resultBean.compareTo(percent.getManageReward()) >=0){
-                    resultManage = resultManage.add(
-                            calSpecialManagTwo(numHoursPay,numHoursMoney,percent)
-                    );
-                }
-            }else{
-                result = result.add(
-                        royaltyCalculate(numHoursPay,numHoursMoney,percent)
-                );
-            }
-        }
-
-        if("2".equals(tempCase.getCaseType())) {//经理
-            return resultManage;
-        }else{//业务员
-            return result;
-        }
-    }*/
     /**
      * 根据回款金额，算户数
      * @param value
@@ -965,81 +842,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         collectionReturn.setRepaidBankAmt(collectonStatic.getRepaidBankAmt());
     }
 
-   /* paidMoney;//已还款金额
-    bankAmt;//上月銀行对账金额
-    repayAmt;//上月承諾还款金额-PTP
-    repaidAmt;//已还款金额的提成金额（M）
-    repaidBankAmt;//月银行查账金额的提成金额（M）*/
-
-  /*  private void getThisMData(Date actualTime, DataCaseEntity tempCase){
-        CollectionStatistic beanInfoData = new CollectionStatistic();
-        Calendar timeStart = Calendar.getInstance();
-        Calendar timeEnd = Calendar.getInstance();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-        timeStart.add(Calendar.MONTH, 0);    //得到前一个月
-        timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
-
-        String first = sdf1.format(timeStart.getTime());
-        beanInfoData.setMonthStart(first);//月第一天
-
-        timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
-        String last = sdf1.format(timeEnd.getTime());
-        beanInfoData.setMonthEnd(last);//月最后一天
-
-        //获取当前月25号
-        Calendar ca25 = Calendar.getInstance();
-        ca25.set(Calendar.DAY_OF_MONTH, 25);
-        String day25 = sdf1.format(ca25.getTime());
-
-        tempCase.setRepayDateStart(first);
-
-        BigDecimal result = new BigDecimal("0.00");
-        if (actualTime==null || actualTime.compareTo(timeStart.getTime())<0 || actualTime.compareTo(timeEnd.getTime())>0) {
-            //阶梯累加
-            tempCase.setRepayDateEnd(last);
-            if ("1".equals(tempCase.getCaseType())){//催收员
-                result = royaltyType(tempCase,1);
-            }else{
-                for (String userId : tempCase.getUserName()){
-                    tempCase.setOdv(userId);
-                    result = result.add(royaltyType(tempCase,1));
-                }
-            }
-
-        }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
-            if ("1".equals(tempCase.getCaseType())){
-                tempCase.setRepayDateEnd(day25);
-                result = royaltyType(tempCase,2);
-                //25到月底
-                tempCase.setRepayDateStart(day25);
-                tempCase.setRepayDateEnd(last);
-                result = result.add(royaltyType(tempCase,2));
-            }else{
-                for (String userId : tempCase.getUserName()){
-                    tempCase.setRepayDateStart(first);
-                    tempCase.setRepayDateEnd(day25);
-                    tempCase.setOdv(userId);
-                    result = result.add(royaltyType(tempCase,2));
-                    //25到月底
-                    tempCase.setRepayDateStart(day25);
-                    tempCase.setRepayDateEnd(last);
-                    result = result.add(royaltyType(tempCase,2));
-                }
-            }
-
-        }else if (actualTime.compareTo(ca25.getTime())>=0){
-            tempCase.setRepayDateEnd(last);
-            if ("1".equals(tempCase.getCaseType())){
-                result = royaltyType(tempCase,3);
-            }else{
-                for (String userId : tempCase.getUserName()){
-                    tempCase.setOdv(userId);
-                    result = result.add(royaltyType(tempCase,3));
-                }
-            }
-        }
-
-    }*/
 
 
     public WebResponse loadDataOdv(){
