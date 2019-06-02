@@ -986,20 +986,35 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (actualTime==null || actualTime.compareTo(timeStart.getTime())<0 || actualTime.compareTo(timeEnd.getTime())>0) {
             //阶梯累加
             bean.setRepayDateEnd(last);
-
+            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
+            bean.setSettleDate(tempCase.getSettleDate());
+            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeManage(bean,1,managePercentage);
 
 
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
             bean.setRepayDateStart(first);
             bean.setRepayDateEnd(day25);
+            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
+            bean.setSettleDate(tempCase.getSettleDate());
+            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeManage(bean,2,managePercentage);
             //25到月底
             bean.setRepayDateStart(day25);
             bean.setRepayDateEnd(last);
+            DataCaseEntity tempCase2 = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase2.getEnRepayAmt());
+            bean.setSettleDate(tempCase2.getSettleDate());
+            bean.setSettleFlag(tempCase2.getSettleFlag());
             royaltyTypeManage(bean,2,managePercentage);
         }else if (actualTime.compareTo(ca25.getTime())>=0){
             bean.setRepayDateEnd(last);
+            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
+            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
+            bean.setSettleDate(tempCase.getSettleDate());
+            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeManage(bean,3,managePercentage);
         }
         SysNewUserEntity userEntity = new SysNewUserEntity();
