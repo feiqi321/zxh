@@ -133,7 +133,7 @@
         <include refid="dataDictionaryInfo"/>
         from sys_data_dictionary
         where delete_flag = 0 and dictionary_id = (
-        select id from sys_data_dictionary where name = #{name}
+        select top 1 id from sys_data_dictionary where name = #{name}
         )
         <if test="currentName != null and currentName!=''">
             AND name like dbo.CONCAT('%',#{currentName},'%')
