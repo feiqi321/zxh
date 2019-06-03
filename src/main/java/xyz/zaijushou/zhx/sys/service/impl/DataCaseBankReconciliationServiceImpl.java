@@ -183,9 +183,7 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             if(entity != null && entity.getDataCase()!= null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                 userIdsSet.add(RedisKeyPrefix.USER_INFO + entity.getDataCase().getCollectionUser().getId());
             }
-            if(entity != null && entity.getDataCase() != null && org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
-                dictSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
-            }
+
             if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
                 caseIdsSet.add(entity.getDataCase().getId());
             }
@@ -199,49 +197,32 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 }
             }
         }
-        if(!CollectionUtils.isEmpty(dictSet)) {
-            List<SysDictionaryEntity> clientList = RedisUtils.scanEntityWithKeys(dictSet, SysDictionaryEntity.class);
-            Map<String, SysDictionaryEntity> dictMap = new HashMap<>();
-            for(SysDictionaryEntity entity : clientList) {
-                if (entity==null){
-                    continue;
-                }
-                dictMap.put(entity.getId() + "", entity);
-            }
-            for (DataCaseBankReconciliationEntity entity : list) {
-                if(entity != null && entity.getDataCase() != null && org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
-                    if(dictMap.get(entity.getDataCase().getClient()) != null) {
-                        entity.getDataCase().setClient(dictMap.get(entity.getDataCase().getClient()).getName());
-                    }
-                }
-            }
-        }
-        /*DataCaseRemarkEntity queryRemarks = new DataCaseRemarkEntity();
-        if (caseIdsSet.size()>0) {
-            queryRemarks.setCaseIdsSet(caseIdsSet);
-            queryRemarks.setCaseIdsSetFlag("1");
-        }else{
-            queryRemarks.setCaseIdsSetFlag(null);
-        }
-        List<DataCaseRemarkEntity> remarks = dataCaseRemarkMapper.listByCaseIds(queryRemarks);
-        Map<Integer, List<DataCaseRemarkEntity>> remarkMap = new HashMap<>();
-        for(DataCaseRemarkEntity entity : remarks) {
-            if(!remarkMap.containsKey(entity.getCaseId())) {
-                remarkMap.put(entity.getCaseId(), new ArrayList<>());
-            }
-            remarkMap.get(entity.getCaseId()).add(entity);
-        }*/
+
         for (DataCaseBankReconciliationEntity entity : list) {
-            /*if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
-                entity.getDataCase().setCaseRemarks(remarkMap.get(entity.getDataCase().getId()));
-            }*/
+
             if (entity != null && entity.getRepayType() != null){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType(),SysDictionaryEntity.class);
                 entity.setRepayType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
-            if (entity != null && entity.getDataCase() != null && entity.getDataCase().getAccountAge() != null){
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getClient(),SysDictionaryEntity.class);
+                entity.getDataCase().setClient(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            }
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getAccountAge())) {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getAccountAge(),SysDictionaryEntity.class);
                 entity.getDataCase().setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            }
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getProvince()!=null && entity.getDataCase().getProvince().getId()!=null) {
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getProvince().getId(),SysDictionaryEntity.class);
+                entity.getDataCase().setProvince(sysDictionaryEntity);
+            }
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getCity()!=null && entity.getDataCase().getCity().getId()!=null) {
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getCity().getId(),SysDictionaryEntity.class);
+                entity.getDataCase().setCity(sysDictionaryEntity);
+            }
+            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getCounty()!=null && entity.getDataCase().getCounty().getId()!=null) {
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getCounty().getId(),SysDictionaryEntity.class);
+                entity.getDataCase().setCounty(sysDictionaryEntity);
             }
         }
         return list;
