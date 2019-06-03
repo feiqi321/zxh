@@ -743,33 +743,33 @@
             #{item.confirmUser.id},
             #{item.repayDate},
             #{item.repayMoney},
-            #{item.repayUser},
-            #{item.repayType.id},
-            #{item.settleFlag},
-            #{item.remark},
-            #{item.createUser.id},
-            #{item.updateUser.id}
-            )
-        </foreach>
-    </insert>
+             #{item.repayUser},
+             #{item.repayType.id},
+             #{item.settleFlag},
+             #{item.remark},
+             #{item.createUser.id},
+             #{item.updateUser.id}
+             )
+         </foreach>
+     </insert>
 
-    <select id="listBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
-        select
-        id as id,
-        settle_flag as [settleFlag],
-        repay_money as [repayMoney]
-        from data_case_repay_record
-        where data_case = #{dataCase.id}
-        and record_status = 0
-        and delete_flag = 0
-    </select>
+     <select id="listBySeqNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+         select
+         id as id,
+         settle_flag as [settleFlag],
+         repay_money as [repayMoney]
+         from data_case_repay_record
+         where data_case = #{dataCase.id}
+         and record_status = 0
+         and delete_flag = 0
+     </select>
 
-    <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
-        select
-            id as id,
-            data_case as [dataCase.id]
-        from data_case_repay_record
-        where id = #{id}
-        and delete_flag = 0
-    </select>
-</mapper>
+     <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+         select
+             id as id,
+             data_case as [dataCase.id]
+         from data_case_repay_record
+         where id = #{id}
+         and delete_flag = 0
+     </select>
+ </mapper>
