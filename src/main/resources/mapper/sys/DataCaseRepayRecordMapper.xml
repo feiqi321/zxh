@@ -733,7 +733,8 @@
         settle_flag,
         remark,
         create_user,
-        update_user
+        update_user,
+        delete_flag
         )
         values
         <foreach collection="list" separator="," item="item">
@@ -748,7 +749,8 @@
              #{item.settleFlag},
              #{item.remark},
              #{item.createUser.id},
-             #{item.updateUser.id}
+             #{item.updateUser.id},
+            0
              )
          </foreach>
      </insert>

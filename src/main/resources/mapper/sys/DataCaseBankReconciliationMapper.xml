@@ -6,30 +6,30 @@
 
     <sql id="colSql">
         b.id as id,
-        b.data_case as '[dataCase.id]',
+        b.data_case as [dataCase.id],
         b.cp_money as cpMoney,
         b.cp_date as cpDate,
         b.repay_user as repayUser,
         b.repay_type as repayType,
-        b.submit_user as '[submitUser.id]',
+        b.submit_user as [submitUser.id],
         b.submit_time as submitTime,
         b.status as status,
-        c.batch_no as '[dataCase.batchNo]',
-        c.card_no as '[dataCase.cardNo]',
-        c.ident_no as '[dataCase.identNo]',
-        c.name as '[dataCase.name]',
-        c.seq_no as '[dataCase.seqNo]',
-        c.client as '[dataCase.client]',
-        c.money as '[dataCase.money]',
-        c.en_repay_amt as '[dataCase.enRepayAmt]',
-        c.balance as '[dataCase.balance]',
-        c.card_type as '[dataCase.cardType]',
-        c.account as '[dataCase.account]',
-        c.currency_type as '[dataCase.currencyType]',
-        c.archive_no as '[dataCase.archiveNo]',
+        c.batch_no as [dataCase.batchNo],
+        c.card_no as [dataCase.cardNo],
+        c.ident_no as [dataCase.identNo],
+        c.name as [dataCase.name],
+        c.seq_no as [dataCase.seqNo],
+        c.client as [dataCase.client],
+        c.money as [dataCase.money],
+        c.en_repay_amt as [dataCase.enRepayAmt],
+        c.balance as [dataCase.balance],
+        c.card_type as [dataCase.cardType],
+        c.account as [dataCase.account],
+        c.currency_type as [dataCase.currencyType],
+        c.archive_no as [dataCase.archiveNo],
         b.remark as remark,
-        b.create_user as '[createUser.id]',
-        b.update_user as '[updateUser.id]',
+        b.create_user as [createUser.id],
+        b.update_user as [updateUser.id],
         b.create_time as createTime,
         b.update_time as updateTime,
         b.delete_flag as deleteFlag
@@ -453,7 +453,8 @@
         cp_date,
         remark,
         create_user,
-        update_user
+        update_user,
+        delete_flag
         )
         values
         <foreach collection="list" separator="," item="item">
@@ -463,7 +464,8 @@
             #{item.cpDate},
             #{item.remark},
             #{item.createUser.id},
-            #{item.updateUser.id}
+            #{item.updateUser.id},
+            0
             )
         </foreach>
     </insert>
