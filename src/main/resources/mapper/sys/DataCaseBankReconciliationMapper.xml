@@ -454,7 +454,8 @@
         remark,
         create_user,
         update_user,
-        delete_flag
+        delete_flag,
+        status
         )
         values
         <foreach collection="list" separator="," item="item">
@@ -465,6 +466,7 @@
             #{item.remark},
             #{item.createUser.id},
             #{item.updateUser.id},
+            0,
             0
             )
         </foreach>
@@ -473,8 +475,8 @@
     <select id="findLatestCpByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
         select top 1
         id as id,
-        data_case as '[dataCase.id]',
-        cp_money as '[cpMoney]'
+        data_case as [dataCase.id],
+        cp_money as [cpMoney]
         from data_case_bank_reconciliation
         where data_case = #{dataCase.id}
         and status = 0
@@ -493,17 +495,17 @@
     <select id="listByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseBankReconciliationEntity">
         select
         b.id as id,
-        b.data_case as '[dataCase.id]',
+        b.data_case as [dataCase.id],
         b.cp_money as cpMoney,
         b.cp_date as cpDate,
         b.repay_user as repayUser,
         b.repay_type as repayType,
-        b.submit_user as '[submitUser.id]',
+        b.submit_user as [submitUser.id],
         b.submit_time as submitTime,
         b.status as status,
         b.remark as remark,
-        b.create_user as '[createUser.id]',
-        b.update_user as '[updateUser.id',
+        b.create_user as [createUser.id],
+        b.update_user as [updateUser.id],
         b.create_time as createTime,
         b.update_time as updateTime,
         b.delete_flag as deleteFlag
@@ -524,7 +526,9 @@
             submit_user,
             remark,
             create_user,
-            update_user
+            update_user,
+            delete_flag,
+            status
         )
         values
         (
@@ -536,7 +540,9 @@
             #{submitUser.id},
             #{remark},
             #{createUser.id},
-            #{updateUser.id}
+            #{updateUser.id},
+            0,
+            0
         )
     </insert>
 

@@ -267,6 +267,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
                 dictSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getClient());
             }
+            if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getAccountAge())) {
+                dictSet.add(RedisKeyPrefix.SYS_DIC + entity.getDataCase().getAccountAge());
+            }
             if(entity != null && entity.getDataCase() != null && entity.getDataCase().getId() != null) {
                 caseIdsSet.add(entity.getDataCase().getId());
             }
@@ -278,6 +281,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 if (entity != null && entity.getDataCase() != null && entity.getDataCase().getCollectionUser() != null && entity.getDataCase().getCollectionUser().getId() != null) {
                     entity.getDataCase().setCollectionUser(userMap.get(entity.getDataCase().getCollectionUser().getId()));
                 }
+
                 if (entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
                     entity.setCollectUser(userMap.get(entity.getCollectUser().getId()));
                 }
@@ -299,6 +303,11 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
                     if(dictMap.get(entity.getDataCase().getClient()) != null) {
                         entity.getDataCase().setClient(dictMap.get(entity.getDataCase().getClient()).getName());
+                    }
+                }
+                if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getAccountAge())) {
+                    if(dictMap.get(entity.getDataCase().getAccountAge()) != null) {
+                        entity.getDataCase().setAccountAge(dictMap.get(entity.getDataCase().getAccountAge()).getName());
                     }
                 }
             }

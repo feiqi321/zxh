@@ -237,11 +237,11 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             }*/
             if (entity != null && entity.getRepayType() != null){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType(),SysDictionaryEntity.class);
-                entity.setRepayType(sysDictionaryEntity.getName());
+                entity.setRepayType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
             if (entity != null && entity.getDataCase() != null && entity.getDataCase().getAccountAge() != null){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getAccountAge(),SysDictionaryEntity.class);
-                entity.getDataCase().setAccountAge(sysDictionaryEntity.getName());
+                entity.getDataCase().setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
         }
         return list;

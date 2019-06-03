@@ -732,6 +732,7 @@
         repay_type,
         settle_flag,
         remark,
+        record_status,
         create_user,
         update_user,
         delete_flag
@@ -748,6 +749,7 @@
              #{item.repayType.id},
              #{item.settleFlag},
              #{item.remark},
+            0,
              #{item.createUser.id},
              #{item.updateUser.id},
             0

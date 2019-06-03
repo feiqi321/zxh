@@ -515,7 +515,8 @@ public class ExcelUtils {
                 }
             }
         } else if (Double.class == clazz) {
-            Double doubleValue = (Double) value;
+            System.out.println("@@"+value);
+            Double doubleValue = Double.valueOf(value==null?"0":value.toString());
             cell.setCellValue(doubleValue);
         } else if (Integer.class == clazz) {
             Integer intValue = (Integer) value;
