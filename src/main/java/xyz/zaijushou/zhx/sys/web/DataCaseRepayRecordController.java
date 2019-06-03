@@ -29,6 +29,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -286,6 +287,7 @@ public class DataCaseRepayRecordController {
                 }
 
             }
+            entity.setRepayMoney(entity.getRepayMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
             if(StringUtils.isNotEmpty(entity.getSettleFlag()) && (
                     "是".equals(entity.getSettleFlag().trim()) ||
                             "Y".equals(entity.getSettleFlag().trim()) ||
