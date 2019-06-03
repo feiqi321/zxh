@@ -1040,8 +1040,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             SysPercent percent =  sysPercentMapper.findByClient(percentData);
             tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
             if (StringUtils.notEmpty(percent)){
-                if (type == 1 ||
-                        ((type == 2||type==3) && tempCase.getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
+                if (type == 1 || type == 2 ||
+                        (type==3 && tempCase.getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
                     resultBean = royaltyCalculate(tempCase.getEnRepayAmt(),null,percent);
                     odvPercentage.setPercentage(resultBean);
                 }
@@ -1058,8 +1058,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             String settleFlag = tempCase.getSettleFlag();//1 已结清 0 未结清
             tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
             if ("已结清".equals(settleFlag)){
-                if (type == 1 ||
-                        ((type == 2||type==3) && tempCase.getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
+                if (type == 1 ||type == 2 ||
+                        (type==3 && tempCase.getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
                     resultBean = royaltyCalculate( tempCase.getEnRepayAmt(), tempCase.getMoney(),percent);
                     odvPercentage.setPercentage(resultBean);
                 }
@@ -1071,8 +1071,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             BigDecimal numHoursMoney = new BigDecimal(0);//当月委案户数
 
             tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
-            if (type == 1 ||
-                    ((type == 2||type==3) && tempCase.getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
+            if (type == 1 || type == 2 ||
+                    (type==3 && tempCase.getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
                 numHoursPay = numHoursPay.add(calHoursValue(tempCase.getEnRepayAmt()));
                 numHoursMoney = numHoursMoney.add(calHoursValue(tempCase.getMoney()));
             }
@@ -1118,8 +1118,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             SysPercent percent =  sysPercentMapper.findByClient(percentData);
             caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
             if (StringUtils.notEmpty(percent)){
-                if (type == 1 ||
-                        ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
+                if (type == 1 || type == 2 ||
+                        (type==3 && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
                     managePercentage.setRepayAmt(managePercentage.getRepayAmt().add(caseList1.get(i).getEnRepayAmt()));
                     resultBean = royaltyCalculate(caseList1.get(i).getEnRepayAmt(),null,percent);
 
@@ -1147,19 +1147,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
             managePercentage.setRepayAmt(managePercentage.getRepayAmt().add(caseList1.get(i).getEnRepayAmt()));
             if ("已结清".equals(settleFlag)){
-                if (type == 1 ||
-                        ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
+                if (type == 1 || type == 2||
+                        (type==3 && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
                     resultBean = royaltyCalculate( caseList2.get(i).getEnRepayAmt(), caseList2.get(i).getMoney(),percent);
 
                 }
             }
-            if("2".equals(tempCase.getCaseType())){//经理
-                if (resultBean.compareTo(percent.getManageReward()) >=0){
+
+            if (resultBean.compareTo(percent.getManageReward()) >=0){
                     resultManage = resultManage.add(
                             percent.getManageRewardRange1().add(resultBean.multiply(percent.getManageRewardRange2()))
                     );
-                }
             }
+
         }
         //特殊2
         List<DataCaseEntity> caseList3 = caseMapper.selectTsCase2(tempCase);
@@ -1170,8 +1170,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             for (int i = 0; i < caseList3.size(); i++) {
                 caseList1.get(i).setEnRepayAmt(caseList1.get(i).getEnRepayAmt()==null?new BigDecimal(0):caseList1.get(i).getEnRepayAmt());
                 managePercentage.setRepayAmt(managePercentage.getRepayAmt().add(caseList1.get(i).getEnRepayAmt()));
-                if (type == 1 ||
-                        ((type == 2||type==3) && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
+                if (type == 1 || type == 2||
+                        (type==3 && caseList1.get(i).getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0)){
                     numHoursPay = numHoursPay.add(calHoursValue(caseList3.get(i).getEnRepayAmt()));
                     numHoursMoney = numHoursMoney.add(calHoursValue(caseList3.get(i).getMoney()));
                 }
