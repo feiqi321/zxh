@@ -589,18 +589,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         CollectionStatistic collectionReturn = new CollectionStatistic();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        if (beanInfo.getRepayTimeStart()==null || beanInfo.getRepayTimeStart().equals("")){
+        if (beanInfo.getExpectTimeStart()==null || beanInfo.getExpectTimeStart().equals("")){
             //获取前月的第一天
             Calendar   cal_1=Calendar.getInstance();//获取当前日期
             cal_1.add(Calendar.MONTH, -1);
             cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
-            collectionReturn.setRepayTimeStart(format.format(cal_1.getTime()));
+            collectionReturn.setExpectTimeStart(format.format(cal_1.getTime()));
         }
-        if (beanInfo.getRepayTimeEnd()==null || beanInfo.getRepayTimeEnd().equals("")) {
+        if (beanInfo.getExpectTimeEnd()==null || beanInfo.getExpectTimeEnd().equals("")) {
             //获取前月的最后一天
             Calendar cale = Calendar.getInstance();
             cale.set(Calendar.DAY_OF_MONTH, 0);//设置为1号,当前日期既为本月第一天
-            collectionReturn.setRepayTimeEnd(format.format(cale.getTime()));
+            collectionReturn.setExpectTimeEnd(format.format(cale.getTime()));
         }
         //我的还款列表统计查询
         List<DataCollectionEntity> colList = dataCollectionMapper.statisticsCollectionPay(beanInfo);
@@ -654,7 +654,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     private void getOldLastMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
-        CollectionStatistic beanInfoData = new CollectionStatistic();
+        /*CollectionStatistic beanInfoData = new CollectionStatistic();
         Calendar timeStart = Calendar.getInstance();
         Calendar timeEnd = Calendar.getInstance();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -662,9 +662,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
         beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//上月第一天
         timeEnd.set(Calendar.DAY_OF_MONTH,0);
-        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//上月最后一天
+        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//上月最后一天*/
         CollectionStatistic collectonStatic =
-                dataCollectionMapper.statisticsCollectionPayM(beanInfoData);
+                dataCollectionMapper.statisticsCollectionPayM(beanInfo);
         collectionReturn.setLastBankAmt(collectonStatic.getBankAmtC());
         collectionReturn.setLastPaidMoney(collectonStatic.getPaidMoney());
         collectionReturn.setLastRepaidAmt(collectonStatic.getRepaidAmt());
@@ -678,7 +678,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     repaidBankAmt;//月银行查账金额的提成金额（M）*/
 
     private void getOldThisMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
-        CollectionStatistic beanInfoData = new CollectionStatistic();
+    /*    CollectionStatistic beanInfoData = new CollectionStatistic();
         Calendar timeStart = Calendar.getInstance();
         Calendar timeEnd = Calendar.getInstance();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -686,9 +686,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
         beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//月第一天
         timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
-        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//月最后一天
+        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//月最后一天*/
         CollectionStatistic collectonStatic =
-                dataCollectionMapper.statisticsCollectionPayM(beanInfoData);
+                dataCollectionMapper.statisticsCollectionPayM(beanInfo);
         collectionReturn.setThisBankAmt(collectonStatic.getBankAmtC());
         collectionReturn.setThisPaidMoney(collectonStatic.getPaidMoney());
         collectionReturn.setThisRepaidAmt(collectonStatic.getRepaidAmt());

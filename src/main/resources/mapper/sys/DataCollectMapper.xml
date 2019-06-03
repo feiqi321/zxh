@@ -1739,11 +1739,12 @@
 
     <select id="statisticsCollectionPayM" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        ISNULL(sum(c.en_repay_amt),0) as paidMoney , ISNULL(sum(c.bank_amt),0) as bankAmtC,
+        ISNULL(sum(dc.repay_money),0) as paidMoney , ISNULL(sum(r.cp_money),0) as bankAmtC,
         ISNULL(sum(c.pro_repay_amt),0) as repayAmtP,
-        ISNULL(sum(c.en_repay_amt*dc.m_val),0) as repaidAmt,ISNULL(sum(c.bank_amt*c.m_val),0) as repaidBankAmt
+        ISNULL(sum(dc.repay_money*c.m_val),0) as repaidAmt,ISNULL(sum(r.cp_money*c.m_val),0) as repaidBankAmt
         from
-        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
+        data_case_repay_record dc LEFT JOIN data_case c on dc.data_case = c.id
+        LEFT  JOIN  data_case_bank_reconciliation r on dc.data_case = r.data_case
         where dc.delete_flag = 0
 
         <if test="monthStart != null and monthStart!=''">
@@ -1777,16 +1778,16 @@
             <![CDATA[   and  convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and convert(datetime,dc.bank_time, 20) >= convert(datetime,#{bankTimeStart}, 20)  ]]>
+            <![CDATA[   and r.cp_date >= convert(datetime,#{bankTimeStart}, 20)  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and   convert(datetime,dc.bank_time, 20) <= convert(datetime,#{bankTimeEnd}, 20) ]]>
+            <![CDATA[   and   r.cp_date <= convert(datetime,#{bankTimeEnd}, 20) ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and convert(datetime,c.expect_time, 20) >= convert(datetime,#{expectTimeStart}, 20)  ]]>
+            <![CDATA[   and dc.repay_date >= convert(datetime,#{expectTimeStart}, 20)  ]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and convert(datetime,c.expect_time, 20) <= convert(datetime,#{expectTimeEnd}, 20)  ]]>
+            <![CDATA[   and dc.repay_date <= convert(datetime,#{expectTimeEnd}, 20)  ]]>
         </if>
     </select>
 
