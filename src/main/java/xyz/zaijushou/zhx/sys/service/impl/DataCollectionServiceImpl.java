@@ -654,15 +654,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     private void getOldLastMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
-        /*CollectionStatistic beanInfoData = new CollectionStatistic();
-        Calendar timeStart = Calendar.getInstance();
-        Calendar timeEnd = Calendar.getInstance();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-        timeStart.add(Calendar.MONTH, -1);    //得到前一个月
-        timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
-        beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//上月第一天
-        timeEnd.set(Calendar.DAY_OF_MONTH,0);
-        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//上月最后一天*/
         CollectionStatistic collectonStatic =
                 dataCollectionMapper.statisticsCollectionPayM(beanInfo);
         collectionReturn.setLastBankAmt(collectonStatic.getBankAmtC());
@@ -678,15 +669,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     repaidBankAmt;//月银行查账金额的提成金额（M）*/
 
     private void getOldThisMData(CollectionStatistic collectionReturn,CollectionStatistic beanInfo){
-    /*    CollectionStatistic beanInfoData = new CollectionStatistic();
-        Calendar timeStart = Calendar.getInstance();
-        Calendar timeEnd = Calendar.getInstance();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-        timeStart.add(Calendar.MONTH, 0);    //得到前一个月
-        timeStart.set(Calendar.DAY_OF_MONTH,1);//设置为1号
-        beanInfoData.setMonthStart(sdf1.format(timeStart.getTime()));//月第一天
-        timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
-        beanInfoData.setMonthEnd(sdf1.format(timeEnd.getTime()));//月最后一天*/
         CollectionStatistic collectonStatic =
                 dataCollectionMapper.statisticsCollectionPayM(beanInfo);
         collectionReturn.setThisBankAmt(collectonStatic.getBankAmtC());

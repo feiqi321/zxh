@@ -1665,27 +1665,28 @@
             <![CDATA[   and convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and r.repay_date>= convert(datetime,#{bankTimeStart}, 20)  ]]>
+            <![CDATA[   and b.cp_date>= convert(datetime,#{bankTimeStart}, 20)  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and r.repay_date<=  convert(datetime,#{bankTimeEnd}, 20)  ]]>
+            <![CDATA[   and b.cp_date<=  convert(datetime,#{bankTimeEnd}, 20)  ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and convert(datetime,c.expect_time, 20) >= convert(datetime,#{expectTimeStart}, 20)]]>
+            <![CDATA[   and r.repay_date >= convert(datetime,#{expectTimeStart}, 20)]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and convert(datetime,c.expect_time, 20) <= convert(datetime,#{expectTimeEnd}, 20) ]]>
+            <![CDATA[   and r.repay_date <= convert(datetime,#{expectTimeEnd}, 20) ]]>
         </if>
     </select>
 
     <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
         SELECT
         count(1) as sum
-        from
-        data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
-        where  dc.delete_flag = 0
+        from data_case c
+        left join data_case_repay_record r on c.id = r.data_case
+        left join data_case_bank_reconciliation b on c.id = b.data_case
+        where  c.delete_flag = 0
         <if test="targetName != null and targetName!=''">
-            AND target_name = #{targetName}
+            AND c.name = #{targetName}
         </if>
         <if test="dept != null and dept!=''">
             AND  c.dept = #{dept}
@@ -1717,22 +1718,22 @@
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">
-            <![CDATA[   and  convert(datetime,c.pro_repay_date, 20) >= convert(datetime,#{repayTimeStart}, 20)  ]]>
+            <![CDATA[   and convert(datetime,c.pro_repay_date, 20) >= convert(datetime,#{repayTimeStart}, 20)   ]]>
         </if>
         <if test="repayTimeEnd != null and repayTimeEnd!=''">
-            <![CDATA[   and  convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
+            <![CDATA[   and convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and convert(datetime,dc.bank_time, 20) >= convert(datetime,#{bankTimeStart}, 20) ]]>
+            <![CDATA[   and b.cp_date>= convert(datetime,#{bankTimeStart}, 20)  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and convert(datetime,dc.bank_time, 20) <= convert(datetime,#{bankTimeEnd}, 20) ]]>
+            <![CDATA[   and b.cp_date<=  convert(datetime,#{bankTimeEnd}, 20)  ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and convert(datetime,c.expect_time, 20) >= convert(datetime,#{expectTimeStart}, 20)  ]]>
+            <![CDATA[   and r.repay_date >= convert(datetime,#{expectTimeStart}, 20)]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and convert(datetime,c.expect_time, 20) <= convert(datetime,#{expectTimeEnd}, 20)   ]]>
+            <![CDATA[   and r.repay_date <= convert(datetime,#{expectTimeEnd}, 20) ]]>
         </if>
 
     </select>
