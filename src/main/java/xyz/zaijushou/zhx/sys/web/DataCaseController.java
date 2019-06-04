@@ -27,6 +27,8 @@ import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.*;
+import xyz.zaijushou.zhx.sys.service.impl.CaseExportCallable;
+import xyz.zaijushou.zhx.sys.service.impl.CaseImportCallable;
 import xyz.zaijushou.zhx.utils.ExcelCaseUtils;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
@@ -39,6 +41,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -645,6 +650,8 @@ public class DataCaseController {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请上传批次号");
         }
         String fileName = file.getOriginalFilename();
+        ExecutorService executor = Executors.newFixedThreadPool(20);
+        List<WebResponse> list = new ArrayList<WebResponse>();
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
         operationLog.setRequestBody(fileName);
@@ -679,7 +686,7 @@ public class DataCaseController {
             return WebResponse.success("添加0条数据");
         }
         for(int i = 0; i < dataCaseEntities.size(); i ++) {
-            DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+batch.getBatchNo(),DataBatchEntity.class);
+            /*DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+batch.getBatchNo(),DataBatchEntity.class);
             dataCaseEntities.get(i).setClient(batchEntity ==null ?"":batchEntity.getClient());
             if(dataCaseEntities.get(i).getCollectionArea() != null && dataCaseEntities.get(i).getCollectionArea().getId() != null) {
                 SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + dataCaseEntities.get(i).getCollectionArea().getId(), SysDictionaryEntity.class);
@@ -753,8 +760,23 @@ public class DataCaseController {
                 }
             }
 
-            dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());
-
+            dataCaseEntities.get(i).setBatchNo(batch.getBatchNo());*/
+            CaseImportCallable caseCallable = new CaseImportCallable(list,dataCaseEntities.get(i),batch,i);
+            Future<List<WebResponse>> future = executor.submit(caseCallable);
+        }
+        executor.shutdown();
+        while(true){
+            if(executor.isTerminated()){
+                break;
+            }
+            try {
+                Thread.sleep(100);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        if (list.size()>0){
+            return list.get(0);
         }
         StringBuffer sucessStr = new StringBuffer("导入成功，总计导入行数为:"+dataCaseEntities.size());
 

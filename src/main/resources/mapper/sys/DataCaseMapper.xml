@@ -2511,7 +2511,8 @@
         contactUnitTel6,
         contactMobile6,
         contactUnit6,
-        contactAddress6
+        contactAddress6,
+        delete_flag
         )
         values
         (
@@ -2696,7 +2697,8 @@
         #{contactUnitTel6},
         #{contactMobile6},
         #{contactUnit6},
-        #{contactAddress6}
+        #{contactAddress6},
+        0
         )
     </insert>
 
@@ -2885,7 +2887,8 @@
         contactUnitTel6,
         contactMobile6,
         contactUnit6,
-        contactAddress6
+        contactAddress6,
+        delete_flag
         )
         values
 
@@ -3072,7 +3075,8 @@
         #{record.contactUnitTel6},
         #{record.contactMobile6},
         #{record.contactUnit6},
-        #{record.contactAddress6}
+        #{record.contactAddress6},
+            0
         )
         </foreach>
     </insert>

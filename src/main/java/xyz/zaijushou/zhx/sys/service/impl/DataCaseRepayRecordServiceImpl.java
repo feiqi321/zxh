@@ -246,8 +246,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
         }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
-        dataCollectionService.calRoyalti(dataCaseEntity.getId());
-        dataCollectionService.calRoyaltiManage(dataCaseEntity.getId());
+        /*dataCollectionService.calRoyalti(dataCaseEntity.getId());
+        dataCollectionService.calRoyaltiManage(dataCaseEntity.getId());*/
     }
 
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
