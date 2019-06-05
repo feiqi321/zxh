@@ -687,7 +687,6 @@ public class DataCaseController {
         for(DataCaseEntity entity : caseEntityList) {
             dataCaseMapper.updateBySeqNo(entity);
         }
-        //dataCaseMapper.updateBatchBySeqNo(caseEntityList);
 
     }
 

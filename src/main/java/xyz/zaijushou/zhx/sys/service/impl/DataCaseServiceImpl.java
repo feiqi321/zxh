@@ -1037,9 +1037,9 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataBatchEntity.setUploadTime(sdf.format(new Date()));
         dataBatchEntity.setTotalAmt(BigDecimal.ZERO);
         dataBatchEntity.setUserCount(dataCaseEntities.size());
-
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         for(DataCaseEntity entity : dataCaseEntities) {
-            dataCaseMapper.saveCase(entity);
+            /*dataCaseMapper.saveCase(entity);
 
             BigDecimal tmp = dataBatchEntity.getTotalAmt();
             dataBatchEntity.setTotalAmt(tmp.add(entity.getMoney()));
@@ -1106,12 +1106,25 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseTelEntity6.setTel(entity.getContactMobile6());
                 dataCaseTelEntity6.setTelStatusMsg("未知");
                 telEntityList.add(dataCaseTelEntity6);
-            }
-            if (telEntityList.size()>=1000){
+            }*/
+            CaseSaveCallable caseCallable = new CaseSaveCallable(telEntityList,entity,dataBatchEntity,dataCaseMapper,stringRedisTemplate);
+            Future<List<DataCaseTelEntity>> future = executor.submit(caseCallable);
+            if (telEntityList.size()>=500){
                 dataCaseTelMapper.saveBatchTel(telEntityList);
                 telEntityList.clear();
             }
 
+        }
+        executor.shutdown();
+        while(true){
+            if(executor.isTerminated()){
+                break;
+            }
+            try {
+                Thread.sleep(100);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
         }
         dataCaseTelMapper.saveBatchTel(telEntityList);
         telEntityList.clear();
