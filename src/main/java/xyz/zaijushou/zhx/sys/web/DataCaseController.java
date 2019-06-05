@@ -435,7 +435,7 @@ public class DataCaseController {
         return webResponse;
     }
 
-    @ApiOperation(value = "导入更新案件", notes = "导入更新案件")
+   /* @ApiOperation(value = "导入更新案件", notes = "导入更新案件")
     @PostMapping("/dataCase/updateCase/import")
     public Object dataCaseUpdateCaseImport(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
@@ -558,6 +558,54 @@ public class DataCaseController {
         webResponse.setCode("100");
         webResponse.setMsg(sucessStr.toString());
         return WebResponse.success();
+    }*/
+    @ApiOperation(value = "导入更新案件", notes = "导入更新案件")
+    @PostMapping("/dataCase/updateCase/import")
+    public Object dataCaseUpdateCaseImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+        logger.info(fileName);
+
+        InputStream inputStream = file.getInputStream();
+        Workbook workbook = null;
+        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else {
+            workbook = new HSSFWorkbook(inputStream);
+        }
+        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+        Row row = workbook.getSheetAt(0).getRow(0);
+        String modelType = "";
+        for (int i=0;i<cols;i++){
+            Cell cell = row.getCell(i);
+            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("配偶姓名")){
+                modelType = "chedai";
+            }else if(cell!=null && cell.getStringCellValue()!=null){
+                modelType = "biaozhun";
+            }
+        }
+
+        try {
+            if(modelType.equals("biaozhun")) {
+                WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class,(caseEntityList)->{
+                    doDataCase(caseEntityList);
+                    return null;},500);
+                return response;
+            } else {
+                WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class,(caseEntityList)->{
+                    doDataCase(caseEntityList);
+                    return null;},500);
+                return response;
+            }
+
+        }catch (Exception ex){
+            return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), ex.getMessage());
+        }
+
     }
 
     private void doDataCase(List<DataCaseEntity> caseEntityList){
@@ -634,12 +682,12 @@ public class DataCaseController {
                 }
             }
 
-
-
         });
 
-
-        dataCaseMapper.updateBatchBySeqNo(caseEntityList);
+        for(DataCaseEntity entity : caseEntityList) {
+            dataCaseMapper.updateBySeqNo(entity);
+        }
+        //dataCaseMapper.updateBatchBySeqNo(caseEntityList);
 
     }
 
