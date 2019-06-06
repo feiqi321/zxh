@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.dao;
 import org.apache.ibatis.annotations.Mapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -98,4 +99,10 @@ public interface DataCollectionMapper {
     public List<DataCollectionEntity> detailTelCurentCollect2(DataCollectionEntity bean);
 
     public DataCollectionEntity findById(DataCollectionEntity bean);
+
+
+    BigDecimal getRangeCommission(String businessType);
+
+    BigDecimal getCaseCommission1();
+
 }

@@ -1907,4 +1907,17 @@
     </select>
 
 
+    <!-- 经理阶段提成 -->
+    <select id="getRangeCommission" parameterType="java.lang.String" resultType="java.math.BigDecimal">
+
+
+    </select>
+
+    <!-- 经理特殊1提成 -->
+    <select id="getCaseCommission1"  resultType="java.math.BigDecimal">
+
+
+    </select>
+
+
 </mapper>
