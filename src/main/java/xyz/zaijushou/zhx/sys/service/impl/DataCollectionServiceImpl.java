@@ -773,16 +773,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //含高标 低标提成=低标金额*低标+（已还金额-低标金额）*低标提成+（已还金额-高标金额）*高标提成
 
         //基本提成
-        baseAmount = isLow ? enRepayAmt.multiply(odvLow) : odvBasic.multiply(odvLow);
+        baseAmount = isLow ?  odvBasic.multiply(odvLow): enRepayAmt.multiply(odvLow);
 
         if(isLow){
             //低标提成
-            lowAmount = isHigh ? enRepayAmt.subtract(odvBasic).multiply(odvReward)
-                    : odvHighBasic.subtract(odvBasic).multiply(odvReward);
+            lowAmount = isHigh ?odvHighBasic.subtract(odvBasic).multiply(odvReward)
+                    : enRepayAmt.subtract(odvBasic).multiply(odvReward);
 
             if (isHigh){
                 //高标提成
-                highAmount =  enRepayAmt.subtract(odvHighReward).multiply(odvHighReward);
+                highAmount =  enRepayAmt.subtract(sysPercent.getOdvHighBasic()).multiply(odvHighReward);
             }
         }
 
@@ -947,6 +947,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         DataCaseEntity bean = new DataCaseEntity();
         bean.setId(caseId);
         bean = caseMapper.findById(bean);
+        if (StringUtils.isEmpty(bean.getBusinessType())){
+            return ;
+        }
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(Integer.parseInt(bean.getOdv()==null?"0":(bean.getOdv().equals("")?"0":bean.getOdv())));
         Date actualTime = sysNewUserEntity.getActualTime();//转正时间
 
@@ -976,8 +979,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             bean.setRepayDateEnd(last);
             DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
             bean.setEnRepayAmt(tempCase.getEnRepayAmt());
-            bean.setSettleDate(tempCase.getSettleDate());
-            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeOdv(bean,1);
 
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
@@ -1045,10 +1046,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (actualTime==null || actualTime.compareTo(timeStart.getTime())<0 || actualTime.compareTo(timeEnd.getTime())>0) {
             //阶梯累加
             bean.setRepayDateEnd(last);
-            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
+            /*DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
             bean.setEnRepayAmt(tempCase.getEnRepayAmt());
             bean.setSettleDate(tempCase.getSettleDate());
-            bean.setSettleFlag(tempCase.getSettleFlag());
+            bean.setSettleFlag(tempCase.getSettleFlag());*/
             royaltyTypeManage(bean,1,managePercentage);
 
 
@@ -1084,9 +1085,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         List<ManagePercentage> manageList = manageMapper.list(managePercentage);
         if (manageList.size()>0){
+            managePercentage.setRepayAmt(managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt());
+            managePercentage.setPercentage(managePercentage.getPercentage()==null?new BigDecimal(0):managePercentage.getPercentage());
             managePercentage.setId(manageList.get(0).getId());
             manageMapper.update(managePercentage);
         }else{
+            managePercentage.setRepayAmt(managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt());
+            managePercentage.setPercentage(managePercentage.getPercentage()==null?new BigDecimal(0):managePercentage.getPercentage());
             manageMapper.save(managePercentage);
         }
 
@@ -1122,10 +1127,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //提成初始化,未达标时,提成为0元
         BigDecimal resultBean = new BigDecimal("0.00");
         //获取提成计算信息
-        SysPercent percent =  sysPercentMapper.findByClient(percentData);
         //设置条线
         String client = tempCase.getBusinessType();
         percentData.setClient(client);
+        SysPercent percent =  sysPercentMapper.findByClient(percentData);
         //设置已还金额
         tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
 

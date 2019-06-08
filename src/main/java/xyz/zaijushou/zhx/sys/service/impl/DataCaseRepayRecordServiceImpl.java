@@ -234,7 +234,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         Integer lastId = 0;
         DataCaseRepayRecordEntity lastRecord = null;
         for(DataCaseRepayRecordEntity recordEntity : records) {
-            repayMoney = repayMoney.add(recordEntity.getRepayMoney());
+            repayMoney = repayMoney.add(recordEntity.getRepayMoney()==null?new BigDecimal(0):recordEntity.getRepayMoney());
             if(recordEntity.getId() > lastId) {
                 lastId = recordEntity.getId();
                 lastRecord = recordEntity;
@@ -246,8 +246,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
         }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
-        /*dataCollectionService.calRoyalti(dataCaseEntity.getId());
-        dataCollectionService.calRoyaltiManage(dataCaseEntity.getId());*/
+        dataCollectionService.calRoyalti(dataCaseEntity.getId());
+        dataCollectionService.calRoyaltiManage(dataCaseEntity.getId());
     }
 
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
