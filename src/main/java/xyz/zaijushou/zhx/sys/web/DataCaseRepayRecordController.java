@@ -72,6 +72,7 @@ public class DataCaseRepayRecordController {
         if(entity.getRepayMoney()==null){
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请输入还款金额");
         }
+
         dataCaseRepayRecordService.save(entity);
         return WebResponse.success();
     }

@@ -103,6 +103,11 @@ public interface DataCollectionMapper {
 
     BigDecimal getRangeCommission(int odv);
 
+    BigDecimal getRangeCommissionRepayAmt();
+
+    BigDecimal getCaseCommission1();
     BigDecimal getCaseCommission1(int odv);
+
+    BigDecimal getCaseCommission1Repay();
 
 }

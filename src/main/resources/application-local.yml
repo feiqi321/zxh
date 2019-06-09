@@ -13,12 +13,11 @@ spring:
     port: 7777
     password: 1qaz@WSX
     timeout: 50000
-    lettuce:
-          pool:
-            max-idle: 30
-            min-idle: 10
-            max-active: 30
-            max-wait: -1
+    maxTotal: 100
+    maxIdle: 20
+    maxWaitMillis: 10000
+    testOnBorrow : true
+    testOnReturn: true
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
