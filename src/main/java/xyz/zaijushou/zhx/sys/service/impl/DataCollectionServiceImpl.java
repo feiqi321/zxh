@@ -970,7 +970,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //获取当前月25号
         Calendar ca25 = Calendar.getInstance();
         ca25.set(Calendar.DAY_OF_MONTH, 25);
-        String day25 = sdf1.format(ca25.getTime());
 
         bean.setRepayDateStart(first);
 
@@ -980,30 +979,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
             bean.setEnRepayAmt(tempCase.getEnRepayAmt());
             royaltyTypeOdv(bean,1);
-
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
-            bean.setRepayDateEnd(day25);
-            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
-            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
-            bean.setSettleDate(tempCase.getSettleDate());
-            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeOdv(bean,2);
-            //25到月底
-            bean.setRepayDateStart(day25);
-            bean.setRepayDateEnd(last);
-            DataCaseEntity tempCase2 = caseMapper.findThisMonthById(bean);
-            bean.setEnRepayAmt(tempCase2.getEnRepayAmt());
-            bean.setSettleDate(tempCase2.getSettleDate());
-            bean.setSettleFlag(tempCase2.getSettleFlag());
-            royaltyTypeOdv(bean,2);
-
-
         }else if (actualTime.compareTo(ca25.getTime())>=0){
-            bean.setRepayDateEnd(last);
-            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
-            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
-            bean.setSettleDate(tempCase.getSettleDate());
-            bean.setSettleFlag(tempCase.getSettleFlag());
             royaltyTypeOdv(bean,3);
         }
 
