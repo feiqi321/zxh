@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
@@ -246,8 +247,13 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
         }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
-        dataCollectionService.calRoyalti(dataCaseEntity.getId());
-        dataCollectionService.calRoyaltiManage(dataCaseEntity.getId());
+        this.royalti(dataCaseEntity.getId());
+    }
+
+    @Async
+    public void royalti(Integer id){
+        dataCollectionService.calRoyalti(id);
+        dataCollectionService.calRoyaltiManage(id);
     }
 
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
