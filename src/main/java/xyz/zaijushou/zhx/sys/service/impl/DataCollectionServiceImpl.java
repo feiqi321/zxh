@@ -1094,7 +1094,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         odvPercentage.setLine(tempCase.getBusinessType());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         odvPercentage.setLineDate(sdf.format(new Date()));
-        odvPercentage.setRepayAmt(tempCase.getEnRepayAmt());
+
         //获取案件条线类型
         SysPercent percentData = new SysPercent();
         String part1 = "京东白条,太平洋,I贷,平安后手181-360天,平安后手361-720天,平安后手721天+,平安前手,中信抢案,中信普案,财富0-90天,财富91-180天,财富181-360天,财富361-720天,财富721天+,浦发M3,浦发1手,浦发2手,浦发3手,捷信,银谷M3以下,银谷M4-M6,银谷M7-M9,银谷M10+,宜信1手,宜信2手,宜信3手,宜信4手,小牛0-90天,小牛91-180天,小牛181-360天,小牛361-720天,小牛721天+";
@@ -1109,8 +1109,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         String client = tempCase.getBusinessType();
         percentData.setClient(client);
         SysPercent percent =  sysPercentMapper.findByClient(percentData);
-        //设置已还金额
-        tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
 
         //提成标识
         boolean isCommission = tempCase.getEnRepayAmt().compareTo(CaseBaseConstant.MLOW)>=0;
@@ -1119,7 +1117,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         //阶段
         if (part1.indexOf(client.trim())>=0 && isCalculate){
-
+            odvPercentage.setRepayAmt(tempCase.getEnRepayAmt());
+            //设置已还金额
+            tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
             resultBean = this.calPaidMoney(tempCase.getEnRepayAmt(),percent);
 
         }
