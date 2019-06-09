@@ -646,8 +646,16 @@
 
     <select id="listParent" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
 
+    select <include refid="colSqlWithoutPassword"/> from sys_user where department in
+    (select parent_id from sys_organization where id = (select department from sys_user where id=#{id}))
+    and delete_flag=0
+
+</select>
+
+    <select id="showManage" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
+
         select <include refid="colSqlWithoutPassword"/> from sys_user where department in
-        (select parent_id from sys_organization where id = (select department from sys_user where id=#{id}))
+        (select department from sys_user where id=#{id}) and id in (select user_id from sys_user_role where role_id=16)
         and delete_flag=0
 
     </select>

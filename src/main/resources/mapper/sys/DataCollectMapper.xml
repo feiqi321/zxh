@@ -1922,15 +1922,15 @@
 		GROUP BY a.line,b.manage_reward
     </select>
 
-    <select id="getRangeCommissionRepayAmt" resultType="java.math.BigDecimal">
+    <select id="getRangeCommissionRepayAmt" resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">
         SELECT
-        COUNT(id)*300+ SUM(repay_amt)*0.3
+        sum(a.repay_amt) as repayAmt
         FROM
         odv_percentage
         WHERE
         line IN ( SELECT client FROM sys_percent WHERE enable = '阶梯累加' )
         AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-        AND repay_amt >= 1000
+         AND a.odv = #{odv}
     </select>
 
     <!-- 经理特殊1提成 -->
@@ -1950,15 +1950,14 @@
     </select>
 
     <!-- 经理特殊1提成 -->
-    <select id="getCaseCommission1Repay"  resultType="java.math.BigDecimal">
+    <select id="getCaseCommission1Repay"  resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">
         SELECT
-        COUNT(id)*300+ SUM(repay_amt)*0.3
+        sum(a.repay_amt) as repayAmt
         FROM
         odv_percentage
         WHERE
         line IN ( SELECT client FROM sys_percent WHERE enable = '特殊1' )
         AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-        AND repay_amt >= 2500
-
+        AND a.odv = #{odv}
     </select>
 </mapper>

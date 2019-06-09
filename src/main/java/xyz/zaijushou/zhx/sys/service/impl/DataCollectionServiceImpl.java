@@ -1037,7 +1037,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         SysNewUserEntity userEntity = new SysNewUserEntity();
         userEntity.setId(bean.getOdv()==null?0:(bean.getOdv().equals("")?0:Integer.parseInt(bean.getOdv())));
-        List<SysNewUserEntity> userList = sysUserMapper.listParent(userEntity);
+        List<SysNewUserEntity> userList = sysUserMapper.showManage(userEntity);
         if (userList.size()>0){
             managePercentage.setManage(userList.get(0).getId());
         }
@@ -1185,17 +1185,17 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (part1.indexOf(tempCase.getBusinessType().trim())>=0){
             BigDecimal rangeCommission = dataCollectionMapper.getRangeCommission(managePercentage.getOdv());
             managePercentage.setPercentage(rangeCommission);
+            BigDecimal repayCommissionRepay = dataCollectionMapper.getRangeCommissionRepayAmt(managePercentage.getOdv());
+            managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(repayCommissionRepay==null?new BigDecimal(0):repayCommissionRepay));
         }
-        BigDecimal repayCommissionRepay = dataCollectionMapper.getRangeCommissionRepayAmt();
-        managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(repayCommissionRepay==null?new BigDecimal(0):repayCommissionRepay));
 
         //二、经理特殊1提成
         if (part2.indexOf(tempCase.getBusinessType().trim())>=0){
             BigDecimal caseCommission1 = dataCollectionMapper.getCaseCommission1(managePercentage.getOdv());
             managePercentage.setPercentage(caseCommission1);
+            BigDecimal caseCommission1Repay = dataCollectionMapper.getCaseCommission1Repay(managePercentage.getOdv());
+            managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(caseCommission1Repay==null?new BigDecimal(0):caseCommission1Repay));
         }
-        BigDecimal caseCommission1Repay = dataCollectionMapper.getCaseCommission1Repay();
-        managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(caseCommission1Repay==null?new BigDecimal(0):caseCommission1Repay));
 
         if (part3.indexOf(tempCase.getBusinessType().trim())>=0){
             //三、经理特殊2提成
@@ -1272,7 +1272,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         BigDecimal odvRewardRange2 = percent.getManageRewardRange2()==null?new BigDecimal(0):percent.getManageRewardRange2();
         //安吉蓝海 提成
         BigDecimal reward2 =  composite2.compareTo(odvRewardRange2)>=0 ? odvReward2: new BigDecimal("0.0");
-
 
 
 

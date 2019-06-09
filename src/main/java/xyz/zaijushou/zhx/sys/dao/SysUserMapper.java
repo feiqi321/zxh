@@ -105,6 +105,8 @@ public interface SysUserMapper {
 
     List<SysNewUserEntity> listParent(SysNewUserEntity userEntity);
 
+    List<SysNewUserEntity> showManage(SysNewUserEntity userEntity);
+
     List<SysNewUserEntity> listUserByDept(SysNewUserEntity userEntity);
 
 
