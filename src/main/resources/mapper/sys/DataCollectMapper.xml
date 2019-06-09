@@ -1924,13 +1924,13 @@
 
     <select id="getRangeCommissionRepayAmt" resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">
         SELECT
-        sum(a.repay_amt) as repayAmt
+        sum(repay_amt) as repayAmt
         FROM
         odv_percentage
         WHERE
         line IN ( SELECT client FROM sys_percent WHERE enable = '阶梯累加' )
         AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-         AND a.odv = #{odv}
+         AND odv = #{odv}
     </select>
 
     <!-- 经理特殊1提成 -->
@@ -1952,12 +1952,12 @@
     <!-- 经理特殊1提成 -->
     <select id="getCaseCommission1Repay"  resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">
         SELECT
-        sum(a.repay_amt) as repayAmt
+        sum(repay_amt) as repayAmt
         FROM
         odv_percentage
         WHERE
         line IN ( SELECT client FROM sys_percent WHERE enable = '特殊1' )
         AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-        AND a.odv = #{odv}
+        AND odv = #{odv}
     </select>
 </mapper>

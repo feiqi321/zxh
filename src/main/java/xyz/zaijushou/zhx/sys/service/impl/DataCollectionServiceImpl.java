@@ -992,6 +992,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public void calRoyaltiManage(Integer caseId){
+
         ManagePercentage managePercentage = new ManagePercentage();
 
         DataCaseEntity bean = new DataCaseEntity();
