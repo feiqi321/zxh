@@ -5,6 +5,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by looyer on 2019/1/29.
@@ -101,11 +102,9 @@ public interface DataCollectionMapper {
     public DataCollectionEntity findById(DataCollectionEntity bean);
 
 
-    BigDecimal getRangeCommission(int odv);
+    BigDecimal getRangeCommission(Integer odv);
 
     BigDecimal getRangeCommissionRepayAmt(int odv);
-
-    BigDecimal getCaseCommission1(int odv);
 
     BigDecimal getCaseCommission1Repay(int odv);
 

@@ -1910,16 +1910,25 @@
     <!-- 经理阶段提成 -->
     <select id="getRangeCommission" parameterType = "java.lang.Integer"  resultType="java.math.BigDecimal">
         SELECT
-            (CASE WHEN (SUM(a.repay_amt * b.manage_reward_range2)>b.manage_reward) THEN manage_reward_range1 ELSE 0 END) + SUM(a.repay_amt * b.manage_reward_range2)
+	      SUM (commission) as total
         FROM
-        	odv_percentage a
-				LEFT JOIN sys_percent b ON b.client = a.line
-        WHERE
-            a.line IN (SELECT client FROM sys_percent WHERE enable = '阶梯累加')
-            AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-            AND a.repay_amt >= b.manage_reward
-            AND a.odv = #{odv}
-		GROUP BY a.line,b.manage_reward,b.manage_reward_range1
+          (  SELECT
+				  CASE WHEN
+				  	a.repay_amt > b.manage_reward
+				  THEN
+				  	b.manage_reward_range1 + a.repay_amt * b.manage_reward_range2
+				  ELSE
+				  	a.repay_amt * b.manage_reward_range2
+				  END AS commission
+              FROM
+        	      odv_percentage a
+			  LEFT JOIN sys_percent b ON b.client = a.line
+              WHERE
+                  a.line IN (SELECT client FROM sys_percent WHERE enable IN ('特殊1','阶梯累加'))
+              AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
+              AND a.repay_amt >= b.manage_reward
+              AND a.odv = #{odv}
+			  GROUP BY a.repay_amt,b.manage_reward,b.manage_reward_range1,b.manage_reward_range2) as a
     </select>
 
     <select id="getRangeCommissionRepayAmt" resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">
@@ -1933,21 +1942,6 @@
          AND odv = #{odv}
     </select>
 
-    <!-- 经理特殊1提成 -->
-    <select id="getCaseCommission1" parameterType = "java.lang.Integer" resultType="java.math.BigDecimal">
-        SELECT
-            (CASE WHEN (SUM(a.repay_amt * b.manage_reward_range2)>b.manage_reward) THEN manage_reward_range1 ELSE 0 END) + SUM(a.repay_amt * b.manage_reward_range2)
-        FROM
-        	odv_percentage a
-				LEFT JOIN sys_percent b ON b.client = a.line
-        WHERE
-            a.line IN (SELECT client FROM sys_percent WHERE enable = '特殊1')
-            AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-            AND a.repay_amt >= b.manage_reward
-            AND a.odv = #{odv}
-		GROUP BY a.line,b.manage_reward,b.manage_reward_range1
-
-    </select>
 
     <!-- 经理特殊1提成 -->
     <select id="getCaseCommission1Repay"  resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">

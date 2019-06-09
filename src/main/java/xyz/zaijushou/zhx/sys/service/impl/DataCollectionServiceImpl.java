@@ -1173,77 +1173,59 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     private void royaltyTypeManage(DataCaseEntity tempCase,int type,ManagePercentage managePercentage){
-        // TODO: 2019/6/7 以下为伪代码，还需具体进行实现
-
-        String part1 = "京东白条,太平洋,I贷,平安后手181-360天,平安后手361-720天,平安后手721天+,平安前手,中信抢案,中信普案,财富0-90天,财富91-180天,财富181-360天,财富361-720天,财富721天+,浦发M3,浦发1手,浦发2手,浦发3手,捷信,银谷M3以下,银谷M4-M6,银谷M7-M9,银谷M10+,宜信1手,宜信2手,宜信3手,宜信4手,小牛0-90天,小牛91-180天,小牛181-360天,小牛361-720天,小牛721天+";
-        String part2 = "上汽长账龄上汽拖车,上汽长账龄其他";
-        String part3 = "上汽短期,安吉蓝海";
 
         SysPercent percentData = new SysPercent();
 
         SysPercent percent;
-        //一、经理阶梯提成
-        if (part1.indexOf(tempCase.getBusinessType().trim())>=0){
-            BigDecimal rangeCommission = dataCollectionMapper.getRangeCommission(managePercentage.getOdv());
-            managePercentage.setPercentage(rangeCommission);
-            BigDecimal repayCommissionRepay = dataCollectionMapper.getRangeCommissionRepayAmt(managePercentage.getOdv());
-            managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(repayCommissionRepay==null?new BigDecimal(0):repayCommissionRepay));
+        //一、经理阶梯提成、特殊1提成
+        BigDecimal rangeCommission = dataCollectionMapper.getRangeCommission(managePercentage.getOdv());
+        managePercentage.setPercentage(rangeCommission);
+
+        //三、经理特殊2提成
+        BigDecimal caseCommission2;
+
+        //         -------------------------------上汽短期---------------------------------------
+        tempCase.setBusinessType("上汽短期");
+        List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById2(tempCase);
+        BigDecimal numHoursPay = new BigDecimal(0);//当月回款户数
+        BigDecimal numHoursMoney = new BigDecimal(0); //当月委案户数
+        BigDecimal enRepayAmtTotal = new BigDecimal(0); //当月委案户数
+        BigDecimal moneyTotal = new BigDecimal(0); //当月委案户数
+        for (int i = 0; i < caseList.size(); i++) {
+            DataCaseEntity temp = caseList.get(i);
+            //当月回款户数
+            numHoursPay = numHoursPay.add(calHoursValue(temp.getEnRepayAmt()));
+            //当月委案户数
+            numHoursMoney = numHoursMoney.add(calHoursValue(temp.getMoney()));
+            //当月还款总额
+            enRepayAmtTotal = enRepayAmtTotal.add(temp.getEnRepayAmt());
+            managePercentage.setRepayAmt((managePercentage.getRepayAmt() == null ? new BigDecimal(0) : managePercentage.getRepayAmt()).add(temp.getEnRepayAmt() == null ? new BigDecimal(0) : temp.getEnRepayAmt()));
+            //但与委案总额
+            moneyTotal = moneyTotal.add(temp.getMoney());
         }
 
-        //二、经理特殊1提成
-        if (part2.indexOf(tempCase.getBusinessType().trim())>=0){
-            BigDecimal caseCommission1 = dataCollectionMapper.getCaseCommission1(managePercentage.getOdv());
-            managePercentage.setPercentage(caseCommission1);
-            BigDecimal caseCommission1Repay = dataCollectionMapper.getCaseCommission1Repay(managePercentage.getOdv());
-            managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(caseCommission1Repay==null?new BigDecimal(0):caseCommission1Repay));
-        }
+        //上汽短租综合达标率
+        BigDecimal composite1 = numHoursMoney.compareTo(new BigDecimal(0)) <= 0 ? new BigDecimal(0) : numHoursPay.divide(numHoursMoney);
 
-        if (part3.indexOf(tempCase.getBusinessType().trim())>=0){
-            //三、经理特殊2提成
-            BigDecimal caseCommission2;
+        percentData.setClient(tempCase.getBusinessType());
+        percent = sysPercentMapper.findByClient(percentData);
 
-            //         -------------------------------上汽短期---------------------------------------
-            tempCase.setBusinessType("上汽短期");
-            List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById2(tempCase);
-            BigDecimal numHoursPay = new BigDecimal(0);//当月回款户数
-            BigDecimal numHoursMoney = new BigDecimal(0); //当月委案户数
-            BigDecimal enRepayAmtTotal = new BigDecimal(0); //当月委案户数
-            BigDecimal moneyTotal = new BigDecimal(0); //当月委案户数
-            for (int i=0;i<caseList.size();i++) {
-                DataCaseEntity temp = caseList.get(i);
-                //当月回款户数
-                numHoursPay = numHoursPay.add(calHoursValue(temp.getEnRepayAmt()));
-                //当月委案户数
-                numHoursMoney = numHoursMoney.add(calHoursValue(temp.getMoney()));
-                //当月还款总额
-                enRepayAmtTotal = enRepayAmtTotal.add(temp.getEnRepayAmt());
-                managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(temp.getEnRepayAmt()==null?new BigDecimal(0):temp.getEnRepayAmt()));
-                //但与委案总额
-                moneyTotal = moneyTotal.add(temp.getMoney());
-            }
-
-            //上汽短租综合达标率
-            BigDecimal composite1 = numHoursMoney.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): numHoursPay.divide(numHoursMoney);
-
-            percentData.setClient(tempCase.getBusinessType());
-            percent =  sysPercentMapper.findByClient(percentData);
-
-            //上汽短租综合达标率 提成基数
-            BigDecimal odvReward = percent.getManageReward();
-            //上汽短租综合达标率 提成标准
-            BigDecimal odvRewardRange1 = percent.getManageRewardRange1();
-            //上汽短租 提成
-            BigDecimal reward1 =  composite1.compareTo(odvRewardRange1)>=0 ? odvReward: new BigDecimal("0.0");
+        //上汽短租综合达标率 提成基数
+        BigDecimal odvReward = percent.getManageReward();
+        //上汽短租综合达标率 提成标准
+        BigDecimal odvRewardRange1 = percent.getManageRewardRange1();
+        //上汽短租 提成
+        BigDecimal reward1 = composite1.compareTo(odvRewardRange1) >= 0 ? odvReward : new BigDecimal("0.0");
 
 //         -------------------------------上汽短期回款---------------------------------------
-            //上汽短回款完成率
-            BigDecimal composite3 = moneyTotal.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): enRepayAmtTotal.divide(moneyTotal);
-            //上汽短回款完成率 提成基数
-            BigDecimal odvReward3 = percent.getManageRewardRange5();
-            //上汽短回款完成率 标准
-            BigDecimal odvRewardRange3 = percent.getManageRewardRange4();
-            //上汽短回款 提成
-            BigDecimal reward3 =  composite3.compareTo(odvRewardRange3)>=0 ? odvReward3: new BigDecimal("0.0");
+        //上汽短回款完成率
+        BigDecimal composite3 = moneyTotal.compareTo(new BigDecimal(0)) <= 0 ? new BigDecimal(0) : enRepayAmtTotal.divide(moneyTotal);
+        //上汽短回款完成率 提成基数
+        BigDecimal odvReward3 = percent.getManageRewardRange5();
+        //上汽短回款完成率 标准
+        BigDecimal odvRewardRange3 = percent.getManageRewardRange4();
+        //上汽短回款 提成
+        BigDecimal reward3 = composite3.compareTo(odvRewardRange3) >= 0 ? odvReward3 : new BigDecimal("0.0");
 
 
 // -------------------------------安吉蓝海---------------------------------------
@@ -1263,8 +1245,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //安吉蓝海综合达标率
         BigDecimal composite2 = numHoursMoney2.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): numHoursPay2.divide(numHoursMoney2);
 
-            percentData.setClient(tempCase.getBusinessType());
-            percent =  sysPercentMapper.findByClient(percentData);
+        percentData.setClient(tempCase.getBusinessType());
+        percent =  sysPercentMapper.findByClient(percentData);
 
 
         //安吉蓝海综合达标率 提成基数
@@ -1283,10 +1265,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         BigDecimal reward4 = reward1.compareTo(zero) > 0 && reward1.compareTo(zero) > 0 && reward1.compareTo(zero) > 0
                 ? odvReward4 : new BigDecimal("0.0");
 
-            caseCommission2 = reward1.add(reward2).add(reward3).add(reward4);
+        caseCommission2 = reward1.add(reward2).add(reward3).add(reward4);
 
-            managePercentage.setPercentage(caseCommission2);
-        }
+            managePercentage.setPercentage(caseCommission2.add(rangeCommission));
+
 
 
 
