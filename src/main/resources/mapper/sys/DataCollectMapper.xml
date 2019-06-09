@@ -1919,7 +1919,7 @@
             AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
             AND a.repay_amt >= b.manage_reward
             AND a.odv = #{odv}
-		GROUP BY a.line,b.manage_reward
+		GROUP BY a.line,b.manage_reward,b.manage_reward_range1
     </select>
 
     <select id="getRangeCommissionRepayAmt" resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">
@@ -1945,7 +1945,7 @@
             AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
             AND a.repay_amt >= b.manage_reward
             AND a.odv = #{odv}
-		GROUP BY a.line,b.manage_reward
+		GROUP BY a.line,b.manage_reward,b.manage_reward_range1
 
     </select>
 
