@@ -1199,7 +1199,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private void royaltyTypeManage(DataCaseEntity tempCase,int type,ManagePercentage managePercentage){
         // TODO: 2019/6/7 以下为伪代码，还需具体进行实现
         //一、经理阶段提成
-        BigDecimal rangeCommission = dataCollectionMapper.getRangeCommission(tempCase.getBusinessType());
+        BigDecimal rangeCommission = dataCollectionMapper.getRangeCommission();
 
         //二、经理特殊1提成
         BigDecimal caseCommission1 = dataCollectionMapper.getCaseCommission1();

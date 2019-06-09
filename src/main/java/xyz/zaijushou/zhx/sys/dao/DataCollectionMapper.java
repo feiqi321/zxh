@@ -101,7 +101,7 @@ public interface DataCollectionMapper {
     public DataCollectionEntity findById(DataCollectionEntity bean);
 
 
-    BigDecimal getRangeCommission(String businessType);
+    BigDecimal getRangeCommission();
 
     BigDecimal getCaseCommission1();
 

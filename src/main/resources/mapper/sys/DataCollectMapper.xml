@@ -1908,14 +1908,27 @@
 
 
     <!-- 经理阶段提成 -->
-    <select id="getRangeCommission" parameterType="java.lang.String" resultType="java.math.BigDecimal">
-
-
+    <select id="getRangeCommission" resultType="java.math.BigDecimal">
+        SELECT
+        	COUNT(id)*300+ SUM(repay_amt)*0.3
+        FROM
+        	odv_percentage
+        WHERE
+            line IN ( SELECT client FROM sys_percent WHERE enable = '阶梯累加' )
+            AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
+            AND repay_amt >= 1000
     </select>
 
     <!-- 经理特殊1提成 -->
     <select id="getCaseCommission1"  resultType="java.math.BigDecimal">
-
+        SELECT
+        	COUNT(id)*300+ SUM(repay_amt)*0.3
+        FROM
+        	odv_percentage
+        WHERE
+            line IN ( SELECT client FROM sys_percent WHERE enable = '特殊1' )
+            AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
+            AND repay_amt >= 2500
 
     </select>
 
