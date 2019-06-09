@@ -3514,7 +3514,7 @@
                 <![CDATA[   and settle_date <= convert(datetime,#{repayDateEnd}, 20) ]]>
             </if>
         </where>
-        ) t left JOIN (
+        ) t INNER JOIN (
         select sum(repay_money) as repayMoney,data_case
         from data_case_repay_record
         where data_case in (select id from data_case where business_type = #{businessType})
@@ -3604,12 +3604,12 @@
         set en_repay_amt = #{enRepayAmt},
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
             <if test="settleFlag != null and settleFlag == '已结清'.toString()">
-                settle_flag = #{settleFlag},status = 3,settle_date=GETDATE()
+                settle_flag = #{settleFlag},status = 3
             </if>
             <if test="settleFlag != null and settleFlag != '已结清'">
                 settle_flag = #{settleFlag},
             </if>
-            balance = money - #{enRepayAmt}
+            balance = money - #{enRepayAmt},settle_date=GETDATE()
         where id = #{id}
     </update>
 
