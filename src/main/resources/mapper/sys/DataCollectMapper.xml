@@ -1908,27 +1908,33 @@
 
 
     <!-- 经理阶段提成 -->
-    <select id="getRangeCommission" resultType="java.math.BigDecimal">
+    <select id="getRangeCommission" parameterType = "java.lang.Integer"  resultType="java.math.BigDecimal">
         SELECT
-        	COUNT(id)*300+ SUM(repay_amt)*0.3
+            (CASE WHEN (SUM(a.repay_amt * b.manage_reward_range2)>b.manage_reward) THEN manage_reward_range1 ELSE 0 END) + SUM(a.repay_amt * b.manage_reward_range2)
         FROM
-        	odv_percentage
+        	odv_percentage a
+				LEFT JOIN sys_percent b ON b.client = a.line
         WHERE
-            line IN ( SELECT client FROM sys_percent WHERE enable = '阶梯累加' )
-            AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-            AND repay_amt >= 1000
+            a.line IN (SELECT client FROM sys_percent WHERE enable = '阶梯累加')
+            AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
+            AND a.repay_amt >= b.manage_reward
+            AND a.odv = #{odv}
+		GROUP BY a.line,b.manage_reward
     </select>
 
     <!-- 经理特殊1提成 -->
-    <select id="getCaseCommission1"  resultType="java.math.BigDecimal">
+    <select id="getCaseCommission1" parameterType = "java.lang.Integer" resultType="java.math.BigDecimal">
         SELECT
-        	COUNT(id)*300+ SUM(repay_amt)*0.3
+            (CASE WHEN (SUM(a.repay_amt * b.manage_reward_range2)>b.manage_reward) THEN manage_reward_range1 ELSE 0 END) + SUM(a.repay_amt * b.manage_reward_range2)
         FROM
-        	odv_percentage
+        	odv_percentage a
+				LEFT JOIN sys_percent b ON b.client = a.line
         WHERE
-            line IN ( SELECT client FROM sys_percent WHERE enable = '特殊1' )
-            AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-            AND repay_amt >= 2500
+            a.line IN (SELECT client FROM sys_percent WHERE enable = '特殊1')
+            AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
+            AND a.repay_amt >= b.manage_reward
+            AND a.odv = #{odv}
+		GROUP BY a.line,b.manage_reward
 
     </select>
 
