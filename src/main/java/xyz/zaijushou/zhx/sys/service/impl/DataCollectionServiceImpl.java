@@ -798,6 +798,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     private BigDecimal calMoneyOne(BigDecimal enRepayAmt,BigDecimal money,SysPercent sysPercent){
+        if (enRepayAmt.compareTo(new BigDecimal(0))<=0){
+            return new BigDecimal(0);
+        }
 
         boolean flag = enRepayAmt.subtract(money).compareTo(new BigDecimal("0")) >= 0;
         //还款-委案金额
@@ -1127,13 +1130,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (part2.indexOf(client.trim())>=0 && isCalculate){
 
             //todo 特殊1是按照单案件来算的，首先查询出催收员的本月特殊1还款的案件的，然后循环判断案件的的还款金额、结清状态以及委案金额，再进行判断，最后将提成金额合在一起就是此条线的催收员提成统计
-            List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById(tempCase);
+            List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById1(tempCase);
             for (int i=0;i<caseList.size();i++){
                 DataCaseEntity temp = caseList.get(i);
                 String settleFlag = temp.getSettleFlag();//1 已结清 0 未结清
 
-                BigDecimal enRepayAmt = temp.getEnRepayAmt();   //还款金额
+                BigDecimal enRepayAmt = temp.getEnRepayAmt()==null?new BigDecimal(0):temp.getEnRepayAmt();   //还款金额
                 BigDecimal money = temp.getMoney();     //委案金额
+                odvPercentage.setRepayAmt((odvPercentage.getRepayAmt()==null?new BigDecimal(0):odvPercentage.getRepayAmt()).add(enRepayAmt==null?new BigDecimal(0):enRepayAmt));
 
                 if ("上汽长账龄上汽拖车".equals(tempCase.getBusinessType())&&"已结清".equals(settleFlag)) {
                     resultBean = resultBean.add(this.calMoneyOne(enRepayAmt, money, percent));
@@ -1151,11 +1155,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
             // TODO: 2019/6/6 假定汇款户数与委案户数是正确的
             //todo 特殊2的户数是先算单个案件，然后再累计，再判断计算提成的，首先查询出催收员的本月特殊2还款的案件，然后循环算出每个案件的户数，再把催收员的条线的户数以及委案户数合计后再计算
-            List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById(tempCase);
+            List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById2(tempCase);
             BigDecimal numHoursPay = new BigDecimal(0);//当月回款户数
             BigDecimal numHoursMoney = new BigDecimal(0); //当月委案户数
             for (int i=0;i<caseList.size();i++) {
                 DataCaseEntity temp = caseList.get(i);
+
+                odvPercentage.setRepayAmt((odvPercentage.getRepayAmt()==null?new BigDecimal(0):odvPercentage.getRepayAmt()).add(temp.getEnRepayAmt()==null?new BigDecimal(0):temp.getEnRepayAmt()));
+
                 //当月回款户数
                 numHoursPay = numHoursPay.add(calHoursValue(temp.getEnRepayAmt()));
                 //当月委案户数

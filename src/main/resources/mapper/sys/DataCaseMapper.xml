@@ -3502,7 +3502,28 @@
 
     </select>
 
-    <select id="findThisMonthTSById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+    <select id="findThisMonthTSById1" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select  r.repayMoney as enRepayAmt,t.money,t.settle_flag as settleFlag,t.settle_date as settleDate
+        from (
+          select id,money,settle_flag ,settle_date  from  data_case
+        <where>
+            <if test="repayDateStart != null and repayDateStart != ''">
+                <![CDATA[   and  settle_date >= convert(datetime,#{repayDateStart}, 20) ]]>
+            </if>
+            <if test="repayDateEnd != null and repayDateEnd != ''">
+                <![CDATA[   and settle_date <= convert(datetime,#{repayDateEnd}, 20) ]]>
+            </if>
+        </where>
+        ) t left JOIN (
+        select sum(repay_money) as repayMoney,data_case
+        from data_case_repay_record
+        where data_case in (select id from data_case where business_type = #{businessType})
+        group by data_case
+        ) r on t.id = r.data_case
+
+    </select>
+
+    <select id="findThisMonthTSById2" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select  r.repayMoney as enRepayAmt,t.money,t.settle_flag as settleFlag,t.settle_date as settleDate
         from data_case t RIGHT JOIN (
         select sum(repay_money) as repayMoney,data_case
@@ -3583,12 +3604,12 @@
         set en_repay_amt = #{enRepayAmt},
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
             <if test="settleFlag != null and settleFlag == '已结清'.toString()">
-                settle_flag = #{settleFlag},status = 3,
+                settle_flag = #{settleFlag},status = 3,settle_date=GETDATE()
             </if>
             <if test="settleFlag != null and settleFlag != '已结清'">
                 settle_flag = #{settleFlag},
             </if>
-            balance = money - #{enRepayAmt},settle_date=GETDATE()
+            balance = money - #{enRepayAmt}
         where id = #{id}
     </update>
 
