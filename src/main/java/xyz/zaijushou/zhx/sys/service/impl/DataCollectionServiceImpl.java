@@ -1186,8 +1186,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             BigDecimal rangeCommission = dataCollectionMapper.getRangeCommission(managePercentage.getOdv());
             managePercentage.setPercentage(rangeCommission);
         }
-
-
         BigDecimal repayCommissionRepay = dataCollectionMapper.getRangeCommissionRepayAmt();
         managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(repayCommissionRepay==null?new BigDecimal(0):repayCommissionRepay));
 
@@ -1196,7 +1194,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             BigDecimal caseCommission1 = dataCollectionMapper.getCaseCommission1(managePercentage.getOdv());
             managePercentage.setPercentage(caseCommission1);
         }
-        BigDecimal caseCommission1 = dataCollectionMapper.getCaseCommission1();
         BigDecimal caseCommission1Repay = dataCollectionMapper.getCaseCommission1Repay();
         managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(caseCommission1Repay==null?new BigDecimal(0):caseCommission1Repay));
 
@@ -1204,19 +1201,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             //三、经理特殊2提成
             BigDecimal caseCommission2;
 
-        //         -------------------------------上汽短期---------------------------------------
-        tempCase.setBusinessType("上汽短期");
-        List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById2(tempCase);
-        BigDecimal numHoursPay = new BigDecimal(0);//当月回款户数
-        BigDecimal numHoursMoney = new BigDecimal(0); //当月委案户数
-        BigDecimal enRepayAmtTotal = new BigDecimal(0); //当月委案户数
-        BigDecimal moneyTotal = new BigDecimal(0); //当月委案户数
-        for (int i=0;i<caseList.size();i++) {
-            DataCaseEntity temp = caseList.get(i);
-            //当月回款户数
-            numHoursPay = numHoursPay.add(calHoursValue(temp.getEnRepayAmt()));
-            //当月委案户数
-            numHoursMoney = numHoursMoney.add(calHoursValue(temp.getMoney()));
             //         -------------------------------上汽短期---------------------------------------
             tempCase.setBusinessType("上汽短期");
             List<DataCaseEntity> caseList = caseMapper.findThisMonthTSById2(tempCase);
@@ -1230,23 +1214,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 numHoursPay = numHoursPay.add(calHoursValue(temp.getEnRepayAmt()));
                 //当月委案户数
                 numHoursMoney = numHoursMoney.add(calHoursValue(temp.getMoney()));
-
                 //当月还款总额
                 enRepayAmtTotal = enRepayAmtTotal.add(temp.getEnRepayAmt());
+                managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(temp.getEnRepayAmt()==null?new BigDecimal(0):temp.getEnRepayAmt()));
                 //但与委案总额
                 moneyTotal = moneyTotal.add(temp.getMoney());
             }
-            //当月还款总额
-            enRepayAmtTotal = enRepayAmtTotal.add(temp.getEnRepayAmt());
-            managePercentage.setRepayAmt((managePercentage.getRepayAmt()==null?new BigDecimal(0):managePercentage.getRepayAmt()).add(temp.getEnRepayAmt()==null?new BigDecimal(0):temp.getEnRepayAmt()));
-            //但与委案总额
-            moneyTotal = moneyTotal.add(temp.getMoney());
-        }
 
             //上汽短租综合达标率
-            BigDecimal composite1 = numHoursPay.divide(numHoursMoney);
-        //上汽短租综合达标率
-        BigDecimal composite1 = numHoursMoney.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): numHoursPay.divide(numHoursMoney);
+            BigDecimal composite1 = numHoursMoney.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): numHoursPay.divide(numHoursMoney);
 
             percentData.setClient(tempCase.getBusinessType());
             percent =  sysPercentMapper.findByClient(percentData);
@@ -1260,21 +1236,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
 //         -------------------------------上汽短期回款---------------------------------------
             //上汽短回款完成率
-            BigDecimal composite3 = enRepayAmtTotal.divide(moneyTotal);
+            BigDecimal composite3 = moneyTotal.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): enRepayAmtTotal.divide(moneyTotal);
             //上汽短回款完成率 提成基数
             BigDecimal odvReward3 = percent.getManageRewardRange5();
             //上汽短回款完成率 标准
             BigDecimal odvRewardRange3 = percent.getManageRewardRange4();
             //上汽短回款 提成
             BigDecimal reward3 =  composite3.compareTo(odvRewardRange3)>=0 ? odvReward3: new BigDecimal("0.0");
-        //上汽短回款完成率
-        BigDecimal composite3 = moneyTotal.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): enRepayAmtTotal.divide(moneyTotal);
-        //上汽短回款完成率 提成基数
-        BigDecimal odvReward3 = percent.getManageRewardRange5();
-        //上汽短回款完成率 标准
-        BigDecimal odvRewardRange3 = percent.getManageRewardRange4();
-        //上汽短回款 提成
-        BigDecimal reward3 =  composite3.compareTo(odvRewardRange3)>=0 ? odvReward3: new BigDecimal("0.0");
 
 
 // -------------------------------安吉蓝海---------------------------------------
@@ -1293,29 +1261,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         //安吉蓝海综合达标率
         BigDecimal composite2 = numHoursMoney2.compareTo(new BigDecimal(0))<=0?new BigDecimal(0): numHoursPay2.divide(numHoursMoney2);
-            tempCase.setBusinessType("安吉蓝海");
-            List<DataCaseEntity> caseList2 = caseMapper.findThisMonthTSById2(tempCase);
-            BigDecimal numHoursPay2 = new BigDecimal(0);//当月回款户数
-            BigDecimal numHoursMoney2 = new BigDecimal(0); //当月委案户数
-            for (int i=0;i<caseList2.size();i++) {
-                DataCaseEntity temp = caseList2.get(i);
-                //当月回款户数
-                numHoursPay2 = numHoursPay2.add(calHoursValue(temp.getEnRepayAmt()));
-                //当月委案户数
-                numHoursMoney2 = numHoursMoney2.add(calHoursValue(temp.getMoney()));
-            }
-            //安吉蓝海综合达标率
-            BigDecimal composite2 = numHoursPay2.divide(numHoursMoney2);
 
             percentData.setClient(tempCase.getBusinessType());
             percent =  sysPercentMapper.findByClient(percentData);
 
-            //安吉蓝海综合达标率 提成基数
-            BigDecimal odvReward2 = percent.getManageRewardRange3();
-            //安吉蓝海综合达标率 标准
-            BigDecimal odvRewardRange2 = percent.getManageRewardRange2();
-            //安吉蓝海 提成
-            BigDecimal reward2 =  composite2.compareTo(odvRewardRange2)>=0 ? odvReward2: new BigDecimal("0.0");
+
         //安吉蓝海综合达标率 提成基数
         BigDecimal odvReward2 = percent.getManageRewardRange3()==null?new BigDecimal(0):percent.getManageRewardRange3();
         //安吉蓝海综合达标率 标准
@@ -1325,12 +1275,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
 
 
-            //全部达标提成 基数
-            BigDecimal zero = new BigDecimal("0");
-            BigDecimal odvReward4 = percent.getManageRewardRange6();
-            //全部达标提成
-            BigDecimal reward4 = reward1.compareTo(zero) > 0 && reward1.compareTo(zero) > 0 && reward1.compareTo(zero) > 0
-                    ? odvReward4 : new BigDecimal("0.0");
+
         //全部达标提成 基数
         BigDecimal zero = new BigDecimal("0");
         BigDecimal odvReward4 = percent.getManageRewardRange6()==null?new BigDecimal(0):percent.getManageRewardRange6();
