@@ -1,5 +1,8 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import io.swagger.models.auth.In;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
@@ -10,33 +13,47 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
  * Created by looyer on 2019/4/15.
  */
 public class StatisticsCallable implements Callable<List<DataCollectionEntity>> {
-
+    private static Logger logger = LoggerFactory.getLogger(StatisticsCallable.class);
     DataCollectionEntity collection;
     List<DataCollectionEntity> list;
+    Map<Integer, SysUserEntity> userMap;
+    Map<Integer, SysDictionaryEntity> dictMap;
     int index;
 
-    StatisticsCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, int index){
+    StatisticsCallable(List<DataCollectionEntity> list, DataCollectionEntity dataCollectionEntity, Map<Integer, SysDictionaryEntity> dictMap,Map<Integer, SysUserEntity> userMap, int index){
         this.collection = dataCollectionEntity;
         this.list = list;
+        this.dictMap = dictMap;
+        this.userMap = userMap;
         this.index = index;
     }
 
     public List<DataCollectionEntity> call() throws Exception{
-
-        SysDictionaryEntity client = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getClient(), SysDictionaryEntity.class);
-        collection.setClient(client==null?"":client.getName());
+        logger.info(index+"***");
+        if (StringUtils.isEmpty(collection.getClient())){
+            collection.setClient("");
+        }else{
+            collection.setClient(dictMap.get(Integer.parseInt(collection.getClient()))==null?"":dictMap.get(Integer.parseInt(collection.getClient())).getName());
+        }
+        if (StringUtils.isEmpty(collection.getAccountAge())){
+            collection.setAccountAge("");
+        }else{
+            collection.setAccountAge(dictMap.get(Integer.parseInt(collection.getAccountAge()))==null?"":dictMap.get(Integer.parseInt(collection.getAccountAge())).getName());
+        }
+        if (StringUtils.isEmpty(collection.getConfimName())){
+            collection.setConfimName("");
+        }else{
+            collection.setConfimName(userMap.get(Integer.parseInt(collection.getConfimName()))==null?"":userMap.get(Integer.parseInt(collection.getConfimName())).getUserName());
+        }
         collection.setRepaidAmtM(collection.getCpMoney().multiply(collection.getmVal()));
         collection.setRepaidBankAmtM(collection.getEnRepayAmt().multiply(collection.getmVal()));
-        SysDictionaryEntity account_age = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getAccountAge(), SysDictionaryEntity.class);
-        collection.setAccountAge(account_age==null?"":account_age.getName());
-        SysUserEntity temp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ collection.getConfimName(), SysUserEntity.class);
-        collection.setConfimName(temp==null?"":temp.getUserName());
         collection.setBankTime(collection.getBankTime()==null?"":(collection.getBankTime().equals("")?"":collection.getBankTime().substring(0,10)) );
         collection.setRepayTime(collection.getRepayTime()==null?"":(collection.getRepayTime().equals("")?"":collection.getRepayTime().substring(0,10)) );
         collection.setmValMsg(collection.getmVal()==null?"": FmtMicrometer.fmtMicrometer(collection.getmVal().stripTrailingZeros()+""));

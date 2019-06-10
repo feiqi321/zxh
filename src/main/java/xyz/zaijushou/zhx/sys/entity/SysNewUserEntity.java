@@ -14,6 +14,8 @@ import java.util.Set;
 public class SysNewUserEntity extends CommonEntity {
 
     private int[] ids;
+
+    private String[] idStrs;
     /**
      * 姓名
      */
@@ -100,6 +102,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public String[] getIdStrs() {
+        return idStrs;
+    }
+
+    public void setIdStrs(String[] idStrs) {
+        this.idStrs = idStrs;
+    }
 
     public Integer getAccountStatus() {
         return accountStatus;

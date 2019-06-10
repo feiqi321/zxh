@@ -41,25 +41,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCollectionMapper dataCollectionMapper;
     @Resource
     private DataCollectionTelMapper dataCollectionTelMapper;
-    ExecutorService executor = Executors.newFixedThreadPool(20);
     @Resource
     private SysUserMapper sysUserMapper;//用户业务控制层
     @Resource
     private DataCollectionMapper collectionMapper;//催收数据层
     @Resource
     private DataCaseMapper caseMapper;//案件数据层
-
-    private DataCaseServiceImpl dataCaseService;//用户业务控制层
     @Autowired
     private DataLogService dataLogService;
     @Autowired
     private SysOrganizationService sysOrganizationService;
-
+    @Resource
+    private SysDictionaryMapper sysDictionaryMapper;
     @Resource
     private SysPercentMapper sysPercentMapper;
 
-    @Resource
-    private SysRoleMapper sysRoleMapper;
     @Resource
     private OdvMapper odvMapper;
     @Resource
@@ -607,20 +603,21 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //我的还款列表统计查询
         PageHelper.startPage(beanInfo.getPageNum(), beanInfo.getPageSize());
         List<DataCollectionEntity> colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);
-        //int count = dataCollectionMapper.countStatisticsCollectionPay(beanInfo);
-        /*int totalPageNum = 0 ;
-        if (beanInfo.getPageSize()==null || beanInfo.getPageSize()==0){
-            beanInfo.setPageSize(100);
+        List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
+        Map<Integer, SysDictionaryEntity> dictMap = new HashMap<>();
+        for(SysDictionaryEntity entity : dictionaryList) {
+            dictMap.put(entity.getId(), entity);
         }
-        if (count%beanInfo.getPageSize()>0){
-            totalPageNum = count/beanInfo.getPageSize()+1;
-        }else{
-            totalPageNum = count/beanInfo.getPageSize();
-        }*/
+        List<SysUserEntity> userList = sysUserMapper.listAllUsers(new SysUserEntity());
+        Map<Integer, SysUserEntity> userMap = new HashMap<>();
+        for(int i=0;i<colList.size();i++){
+            SysUserEntity temp = userList.get(i);
+            userMap.put(temp.getId(),temp);
+        }
         for(int i=0;i<colList.size();i++){
             DataCollectionEntity collection = colList.get(i);
 
-            StatisticsCallable caseCallable = new StatisticsCallable(colList,collection,i);
+            StatisticsCallable caseCallable = new StatisticsCallable(colList,collection,dictMap,userMap,i);
             Future<List<DataCollectionEntity>> future = thisExecutor.submit(caseCallable);
         }
         thisExecutor.shutdown();
@@ -628,7 +625,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             if(thisExecutor.isTerminated()){
                 break;
             }
-            Thread.sleep(50);
+            Thread.sleep(100);
         }
         collectionReturn.setList(colList);
 

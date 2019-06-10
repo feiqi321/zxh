@@ -442,6 +442,18 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setSort(" desc");
         }
 
+        if (userEntity.getIdStrs()!=null && userEntity.getIdStrs().length>0) {
+            int[] ids = new int[userEntity.getIdStrs().length];
+            for (int i = 0; i < userEntity.getIdStrs().length; i++) {
+                try{
+                    ids[i] = Integer.parseInt(userEntity.getIdStrs()[i]);
+                }catch (Exception e){
+                    ids[i] = 0;
+                }
+            }
+            userEntity.setIds(ids);
+        }
+
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
 
         for (int i=0;i<list.size();i++){

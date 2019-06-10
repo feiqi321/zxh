@@ -63,10 +63,6 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Resource
     private SysDictionaryMapper sysDictionaryMapper;
     @Resource
-    private DataCaseContactsMapper dataCaseContactsMapper;
-    @Resource
-    private DataCaseRemarkMapper dataCaseRemarkMapper;
-    @Resource
     private DataBatchMapper dataBatchMapper;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -78,8 +74,6 @@ public class DataCaseServiceImpl implements DataCaseService {
     private SysUserMapper sysUserMapper;
     @Resource
     private SysRoleMapper sysRoleMapper;
-    @Resource
-    private SysPercentMapper sysPercentMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
