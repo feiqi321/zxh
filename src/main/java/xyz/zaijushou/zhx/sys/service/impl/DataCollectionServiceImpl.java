@@ -1265,7 +1265,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         caseCommission2 = reward1.add(reward2).add(reward3).add(reward4);
 
-            managePercentage.setPercentage(caseCommission2.add(rangeCommission));
+            managePercentage.setPercentage((caseCommission2==null?new BigDecimal(0):caseCommission2).add(rangeCommission==null?new BigDecimal(0):rangeCommission));
 
 
 

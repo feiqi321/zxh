@@ -66,6 +66,7 @@ public class DataCaseDetail {
     private String comment;//评语
 
     private BigDecimal enRepayAmt;//已还金额  列表
+    private String enRepayAmtMsg;
     private BigDecimal bankAmt;//待銀行查账金额-CP 列表
     private String proRepayDate;//承诺还款时间-PTP   列表
     private BigDecimal proRepayAmt;//承诺还款金额-PTP   列表
@@ -338,6 +339,14 @@ public class DataCaseDetail {
     private TelIpManage telIpManage;
     //坐席号
     private String officePhone;
+
+    public String getEnRepayAmtMsg() {
+        return enRepayAmtMsg;
+    }
+
+    public void setEnRepayAmtMsg(String enRepayAmtMsg) {
+        this.enRepayAmtMsg = enRepayAmtMsg;
+    }
 
     public String getContactIdentType2() {
         return contactIdentType2;

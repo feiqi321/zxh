@@ -1612,14 +1612,14 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseDetail.setCollectArea(collectAreaDic==null?"":collectAreaDic.getName());
 
         if (dataCaseDetail.getEnRepayAmt()==null || dataCaseDetail.getEnRepayAmt().compareTo(new BigDecimal(0))==0){
-            dataCaseDetail.setEnRepayAmt(new BigDecimal(0));
+            dataCaseDetail.setEnRepayAmtMsg("0");
         }else{
-            dataCaseDetail.setEnRepayAmt(dataCaseDetail.getEnRepayAmt()==null?new BigDecimal(0): dataCaseDetail.getEnRepayAmt().stripTrailingZeros());
+            dataCaseDetail.setEnRepayAmtMsg(dataCaseDetail.getEnRepayAmt()==null?"0": dataCaseDetail.getEnRepayAmt().stripTrailingZeros().toPlainString());
         }
         if (dataCaseDetail.getBalance()==null || dataCaseDetail.getBalance().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setBalanceMsg("￥0");
         }else{
-            dataCaseDetail.setBalanceMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getBalance().stripTrailingZeros()+""));
+            dataCaseDetail.setBalanceMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getBalance().stripTrailingZeros().toPlainString()));
         }
         if(StringUtils.notEmpty(dataCaseDetail.getLatestOverdueMoney())){
             dataCaseDetail.setInterestDate(dataCaseDetail.getLatestOverdueMoney()+"(于"+dataCaseDetail.getInterestDate()+"导入)");
