@@ -75,7 +75,7 @@ public interface DataCollectionMapper {
 
     public int countStatisticsCollectionBatch(CollectionStatistic bean);
 
-    public List<DataCollectionEntity> statisticsCollectionPay(CollectionStatistic bean);
+    public List<DataCollectionEntity> pageStatisticsCollectionPay(CollectionStatistic bean);
 
     public int countStatisticsCollectionPay(CollectionStatistic bean);
 

@@ -565,7 +565,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @return
      */
     @Override
-    public WebResponse statisticsCollectionPay(CollectionStatistic beanInfo){
+    public WebResponse statisticsCollectionPay(CollectionStatistic beanInfo) throws Exception{
+        ExecutorService thisExecutor = Executors.newFixedThreadPool(20);
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = beanInfo.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
@@ -604,9 +605,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collectionReturn.setExpectTimeEnd(format.format(cale.getTime()));
         }
         //我的还款列表统计查询
-        List<DataCollectionEntity> colList = dataCollectionMapper.statisticsCollectionPay(beanInfo);
-        int count = dataCollectionMapper.countStatisticsCollectionPay(beanInfo);
-        int totalPageNum = 0 ;
+        PageHelper.startPage(beanInfo.getPageNum(), beanInfo.getPageSize());
+        List<DataCollectionEntity> colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);
+        //int count = dataCollectionMapper.countStatisticsCollectionPay(beanInfo);
+        /*int totalPageNum = 0 ;
         if (beanInfo.getPageSize()==null || beanInfo.getPageSize()==0){
             beanInfo.setPageSize(100);
         }
@@ -614,11 +616,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             totalPageNum = count/beanInfo.getPageSize()+1;
         }else{
             totalPageNum = count/beanInfo.getPageSize();
-        }
+        }*/
         for(int i=0;i<colList.size();i++){
             DataCollectionEntity collection = colList.get(i);
-            SysDictionaryEntity client = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getClient(), SysDictionaryEntity.class);
+           /* SysDictionaryEntity client = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getClient(), SysDictionaryEntity.class);
             collection.setClient(client==null?"":client.getName());
+            collection.setRepaidAmtM(collection.getCpMoney().multiply(collection.getmVal()));
+            collection.setRepaidBankAmtM(collection.getEnRepayAmt().multiply(collection.getmVal()));
             SysDictionaryEntity account_age = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getAccountAge(), SysDictionaryEntity.class);
             collection.setAccountAge(account_age==null?"":account_age.getName());
             SysUserEntity temp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ collection.getConfimName(), SysUserEntity.class);
@@ -633,7 +637,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney().stripTrailingZeros()+""));
             collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt().stripTrailingZeros()+""));
             collection.setRepaidAmtMMsg(collection.getRepaidAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidAmtM().stripTrailingZeros()+""));
-            collection.setRepaidBankAmtMMsg(collection.getRepaidBankAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidBankAmtM().stripTrailingZeros()+""));
+            collection.setRepaidBankAmtMMsg(collection.getRepaidBankAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidBankAmtM().stripTrailingZeros()+""));*/
+            StatisticsCallable caseCallable = new StatisticsCallable(colList,collection,i);
+            Future<List<DataCollectionEntity>> future = thisExecutor.submit(caseCallable);
+        }
+        thisExecutor.shutdown();
+        while(true){
+            if(thisExecutor.isTerminated()){
+                break;
+            }
+            Thread.sleep(50);
         }
         collectionReturn.setList(colList);
 
@@ -647,9 +660,10 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         getOldThisMData(collectionReturn,beanInfo);
         //获取三个不同列表的统计金额
         getStatisticsData(collectionReturn,beanInfo);
-
-        webResponse.setTotalNum(count);
-        webResponse.setTotalPageNum(totalPageNum);
+        int count = new Long(PageInfo.of(colList).getTotal()).intValue() ;
+        collectionReturn.setTotalNum(count);
+        /*webResponse.setTotalNum(count);*/
+      /*  webResponse.setTotalPageNum(totalPageNum);*/
         webResponse.setData(collectionReturn);
         return webResponse;
     }

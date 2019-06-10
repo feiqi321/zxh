@@ -92,6 +92,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getClient())) {
                 if(dictMap.get(temp.getDataCase().getClient()) != null) {
                     list.get(i).getDataCase().setClient(dictMap.get(temp.getDataCase().getClient()).getName());
+                }else{
+                    list.get(i).getDataCase().setClient("");
                 }
             }
             if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getOverdueBillTime())) {
@@ -102,6 +104,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getAccountAge())) {
                 if(dictMap.get(temp.getDataCase().getAccountAge()) != null) {
                     list.get(i).getDataCase().setAccountAge(dictMap.get(temp.getDataCase().getAccountAge()).getName());
+                }else{
+                    list.get(i).getDataCase().setAccountAge("");
                 }
             }
             if(temp.getDataCase()==null){
@@ -111,6 +115,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 bean.setRepayMoneyMsg("");
                 temp.setDataCase(bean);
             }else{
+                temp.getDataCase().setCommissionMoney((temp.getDataCase().getmVal()==null?new BigDecimal(0):new BigDecimal(temp.getDataCase().getmVal())).multiply(temp.getRepayMoney()==null?new BigDecimal(0):temp.getRepayMoney()));
                 temp.getDataCase().setMoneyMsg(temp.getDataCase()==null?"":(temp.getDataCase().getMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getMoney().stripTrailingZeros()+"")));
                 temp.getDataCase().setOverdueBalanceMsg(temp.getDataCase()==null?"":(temp.getDataCase().getOverdueBalance()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getOverdueBalance().stripTrailingZeros()+"")));
                 temp.getDataCase().setEnRepayAmtMsg(temp.getDataCase()==null?"":(temp.getDataCase().getEnRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getEnRepayAmt().stripTrailingZeros()+"")));

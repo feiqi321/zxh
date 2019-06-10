@@ -191,6 +191,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String repaidBankAmtMMsg;//银行查账金额的提成金额（M）
     private BigDecimal mVal;//M值系数
     private String mValMsg;
+    private BigDecimal cpMoney;
 
     private String archiveNo;//档案号
 
@@ -283,6 +284,14 @@ public class DataCollectionEntity extends CommonEntity {
      * 业务类型
      */
     private String businessType;
+
+    public BigDecimal getCpMoney() {
+        return cpMoney;
+    }
+
+    public void setCpMoney(BigDecimal cpMoney) {
+        this.cpMoney = cpMoney;
+    }
 
     public String getRepaidAmtMMsg() {
         return repaidAmtMMsg;

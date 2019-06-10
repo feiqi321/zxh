@@ -38,7 +38,7 @@ public interface DataCollectionService {
 
     public WebResponse statisticsCollectionBatch(CollectionStatistic dataCollectionEntity);
 
-    public WebResponse statisticsCollectionPay(CollectionStatistic dataCollectionEntity);
+    public WebResponse statisticsCollectionPay(CollectionStatistic dataCollectionEntity) throws Exception;
 
     public WebResponse loadDataOdv();
 
