@@ -1914,11 +1914,11 @@
         FROM
           (  SELECT
 				  CASE WHEN
-				  	a.repay_amt > b.manage_reward
+				  	a.percentage > b.manage_reward
 				  THEN
-				  	b.manage_reward_range1 + a.repay_amt * b.manage_reward_range2
+				  	b.manage_reward_range1 + a.percentage * b.manage_reward_range2
 				  ELSE
-				  	a.repay_amt * b.manage_reward_range2
+				  	a.percentage * b.manage_reward_range2
 				  END AS commission
               FROM
         	      odv_percentage a
@@ -1926,9 +1926,9 @@
               WHERE
                   a.line IN (SELECT client FROM sys_percent WHERE enable IN ('特殊1','阶梯累加'))
               AND a.line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
-              AND a.repay_amt >= b.manage_reward
+              AND a.percentage >= b.manage_reward
               AND a.odv = #{odv}
-			  GROUP BY a.repay_amt,b.manage_reward,b.manage_reward_range1,b.manage_reward_range2) as a
+			  GROUP BY a.percentage,b.manage_reward,b.manage_reward_range1,b.manage_reward_range2) as a
     </select>
 
     <select id="getRangeCommissionRepayAmt" resultType="java.math.BigDecimal" parameterType = "java.lang.Integer">
