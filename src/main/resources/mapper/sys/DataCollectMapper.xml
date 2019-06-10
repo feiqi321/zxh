@@ -353,8 +353,7 @@
 
     <!--通过Id删除数据信息-->
     <delete id="deleteCollect" parameterType="java.lang.Integer">
-        update data_collection set delete_flag =1
-        where id = #{id}
+        delete from data_collection where id = #{id}
     </delete>
 
     <select id="pageDataCollection" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
@@ -388,7 +387,6 @@
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t RIGHT  JOIN data_collection  c on c.case_id = t.id
         <where>
-           t.delete_flag = 0 and c.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  t.dept =#{dept}

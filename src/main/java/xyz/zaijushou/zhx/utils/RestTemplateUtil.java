@@ -108,12 +108,8 @@ public class RestTemplateUtil {
             // 从响应模型中获取响应实体
             org.apache.http.HttpEntity responseEntity = response.getEntity();
 
-            System.out.println("响应状态为:" + response.getStatusLine());
             if (responseEntity != null) {
                 result = EntityUtils.toString(responseEntity);
-                System.out.println("响应内容长度为:" + responseEntity.getContentLength());
-                System.out.println("响应内容为:" + result);
-
             }
 
         } catch (ClientProtocolException e) {
