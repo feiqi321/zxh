@@ -258,13 +258,13 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
         }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
-        this.royalti(dataCaseEntity.getId());
+        this.royalti(dataCaseEntity.getId(),record.getCollectUser().getId());
     }
 
     @Async
-    public void royalti(Integer id){
-        dataCollectionService.calRoyalti(id);
-        dataCollectionService.calRoyaltiManage(id);
+    public void royalti(Integer id,Integer userId){
+        dataCollectionService.calRoyalti(id,userId);
+        dataCollectionService.calRoyaltiManage(id,userId);
     }
 
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {

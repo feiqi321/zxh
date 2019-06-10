@@ -46,8 +46,8 @@ public interface DataCollectionService {
 
     public WebResponse loadDataManage();
 
-    public void calRoyalti(Integer caseId);
+    public void calRoyalti(Integer caseId,Integer userId);
 
-    public void calRoyaltiManage(Integer caseId);
+    public void calRoyaltiManage(Integer caseId,Integer userId);
 
 }

@@ -1632,8 +1632,9 @@
             AND  c.dept = #{dept}
         </if>
         <if test="odv != null and odv!=''">
-            AND  c.odv = #{odv}
+            AND  (c.odv = #{odv} or r.collect_user = #{odv})
         </if>
+
         <if test="odvFlag != null and odvFlag!=''">
             and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">

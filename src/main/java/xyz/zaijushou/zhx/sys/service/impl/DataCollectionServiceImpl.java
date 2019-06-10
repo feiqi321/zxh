@@ -619,25 +619,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }*/
         for(int i=0;i<colList.size();i++){
             DataCollectionEntity collection = colList.get(i);
-           /* SysDictionaryEntity client = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getClient(), SysDictionaryEntity.class);
-            collection.setClient(client==null?"":client.getName());
-            collection.setRepaidAmtM(collection.getCpMoney().multiply(collection.getmVal()));
-            collection.setRepaidBankAmtM(collection.getEnRepayAmt().multiply(collection.getmVal()));
-            SysDictionaryEntity account_age = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ collection.getAccountAge(), SysDictionaryEntity.class);
-            collection.setAccountAge(account_age==null?"":account_age.getName());
-            SysUserEntity temp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ collection.getConfimName(), SysUserEntity.class);
-            collection.setConfimName(temp==null?"":temp.getUserName());
-            collection.setBankTime(collection.getBankTime()==null?"":(collection.getBankTime().equals("")?"":collection.getBankTime().substring(0,10)) );
-            collection.setRepayTime(collection.getRepayTime()==null?"":(collection.getRepayTime().equals("")?"":collection.getRepayTime().substring(0,10)) );
-            collection.setmValMsg(collection.getmVal()==null?"": FmtMicrometer.fmtMicrometer(collection.getmVal().stripTrailingZeros()+""));
-            collection.setBankAmtMsg(collection.getBankAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt().stripTrailingZeros()+""));
-            collection.setEnRepayAmtMsg(collection.getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getEnRepayAmt().stripTrailingZeros()+""));
-            collection.setNewMoneyMsg(collection.getNewMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getNewMoney().stripTrailingZeros()+""));
-            collection.setBalanceMsg(collection.getBalance()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance().stripTrailingZeros()+""));
-            collection.setMoneyMsg(collection.getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney().stripTrailingZeros()+""));
-            collection.setRepayAmtMsg(collection.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt().stripTrailingZeros()+""));
-            collection.setRepaidAmtMMsg(collection.getRepaidAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidAmtM().stripTrailingZeros()+""));
-            collection.setRepaidBankAmtMMsg(collection.getRepaidBankAmtM()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepaidBankAmtM().stripTrailingZeros()+""));*/
+
             StatisticsCallable caseCallable = new StatisticsCallable(colList,collection,i);
             Future<List<DataCollectionEntity>> future = thisExecutor.submit(caseCallable);
         }
@@ -960,14 +942,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
 
     @Override
-    public void calRoyalti(Integer caseId){
+    public void calRoyalti(Integer caseId,Integer userId){
         DataCaseEntity bean = new DataCaseEntity();
         bean.setId(caseId);
         bean = caseMapper.findById(bean);
+        bean.setOdv(userId+"");
         if (StringUtils.isEmpty(bean.getBusinessType())){
             return ;
         }
-        SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(Integer.parseInt(bean.getOdv()==null?"0":(bean.getOdv().equals("")?"0":bean.getOdv())));
+        SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(userId);
         Date actualTime = sysNewUserEntity.getActualTime();//转正时间
 
         Calendar timeStart = Calendar.getInstance();
@@ -1005,17 +988,18 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     }
 
     @Override
-    public void calRoyaltiManage(Integer caseId){
+    public void calRoyaltiManage(Integer caseId,Integer userId){
 
         ManagePercentage managePercentage = new ManagePercentage();
 
         DataCaseEntity bean = new DataCaseEntity();
         bean.setId(caseId);
         bean = caseMapper.findById(bean);
+        bean.setOdv(userId+"");
         managePercentage.setOdv(bean.getOdv()==null?0:(bean.getOdv().equals("")?0:Integer.parseInt(bean.getOdv())));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         managePercentage.setLineDate(sdf.format(new Date()));
-        SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(Integer.parseInt(bean.getOdv()==null?"0":(bean.getOdv().equals("")?"0":bean.getOdv())));
+        SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(userId);
         Date actualTime = sysNewUserEntity.getActualTime();//转正时间
 
         CollectionStatistic beanInfoData = new CollectionStatistic();
