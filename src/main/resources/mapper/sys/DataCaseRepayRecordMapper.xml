@@ -70,8 +70,8 @@
             and c.batch_no = #{dataCase.batchNo}
         </if>
         <!--todo 回收部门 -->
-        <if test="collectUser != null and collectUser.id != null">
-            and r.collec_user = #{collectUser.id}
+        <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.id != null">
+            and r.collect_user = #{dataCase.collectionUser.id}
         </if>
         <if test="dataCase != null and dataCase.name != null and dataCase.name != ''">
             and c.name = #{dataCase.name}

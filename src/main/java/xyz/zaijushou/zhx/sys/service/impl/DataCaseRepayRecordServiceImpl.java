@@ -64,6 +64,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(record != null && record.getDataCase() != null && StringUtils.isNotEmpty(record.getDataCase().getOverdueBillTime())) {
                 dictSet.add(RedisKeyPrefix.SYS_DIC + record.getDataCase().getOverdueBillTime());
             }
+
         }
         Map<Integer, SysNewUserEntity> userMap = new HashMap<>();
         if(!CollectionUtils.isEmpty(userIdsSet)) {
@@ -96,6 +97,11 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getOverdueBillTime())) {
                 if(dictMap.get(temp.getDataCase().getOverdueBillTime()) != null) {
                     list.get(i).getDataCase().setOverdueBillTime(dictMap.get(temp.getDataCase().getOverdueBillTime()).getName());
+                }
+            }
+            if(temp != null && temp.getDataCase() != null && StringUtils.isNotEmpty(temp.getDataCase().getAccountAge())) {
+                if(dictMap.get(temp.getDataCase().getAccountAge()) != null) {
+                    list.get(i).getDataCase().setAccountAge(dictMap.get(temp.getDataCase().getAccountAge()).getName());
                 }
             }
             if(temp.getDataCase()==null){
