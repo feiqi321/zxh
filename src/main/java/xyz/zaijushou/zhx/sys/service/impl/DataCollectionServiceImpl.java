@@ -346,13 +346,24 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return new ArrayList<>();
         }
         DataCollectionEntity bean = new DataCollectionEntity();
-        bean.setBatchNo(listInfo.get(0).getBatchNo());
-        bean.setIdentNo(listInfo.get(0).getIdentNo());
-        List<DataCollectionEntity> list = collectionMapper.listDataCollect(bean);
-        if (StringUtils.isEmpty(list)){
+        if (listInfo.size()>0 && StringUtils.notEmpty(listInfo.get(0).getBatchNo())) {
+            bean.setBatchNo(listInfo.get(0).getBatchNo());
+            bean.setIdentNo(listInfo.get(0).getIdentNo());
+            List<DataCollectionEntity> list = collectionMapper.listDataCollect(bean);
+            if (StringUtils.isEmpty(list)) {
+                return new ArrayList<>();
+            } else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                for (int i=0;i<list.size();i++){
+                    DataCollectionEntity temp = list.get(i);
+                    temp.setCollectTime(sdf.format(temp.getCollectDate()));
+                    temp.setCaseDate(sdf.format(temp.getCaseDateD()));
+                    list.set(i,temp);
+                }
+                return list;
+            }
+        }else{
             return new ArrayList<>();
-        }else {
-            return list;
         }
     }
 

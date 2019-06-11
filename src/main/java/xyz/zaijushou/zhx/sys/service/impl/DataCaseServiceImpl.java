@@ -1668,7 +1668,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseDetail.setCounty(county);
             }
         }
-
+        logger.info("设置数据字典结束");
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
         dataCaseTelEntity.setCaseId(bean.getId());
@@ -1687,7 +1687,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
             dataCaseTelEntityList.set(i,temp);
         }
-        logger.info("设置数据字典结束");
+        logger.info("设置电话类型结束");
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
         dataCaseCommentEntity.setCaseId(bean.getId());
         List<DataCaseCommentEntity> commentList = dataCaseCommentMapper.findAll(dataCaseCommentEntity);
@@ -1697,6 +1697,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setCreatUserName(user == null ? "" : user.getUserName());
             commentList.set(i,temp);
         }
+        logger.info("设置备注结束");
         DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
         List<DataCaseEntity> sameBatchCaseList = dataCaseMapper.findSameBatchCase(caseTemp);
         dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
@@ -1706,7 +1707,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseEntity.setId(bean.getId());
         List<DataCaseEntity> caseList = new ArrayList<DataCaseEntity>();
         caseList.add(dataCaseEntity);
-
+        logger.info("结束");
         return dataCaseDetail;
     }
 

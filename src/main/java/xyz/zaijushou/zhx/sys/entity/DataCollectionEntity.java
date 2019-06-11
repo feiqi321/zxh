@@ -134,6 +134,7 @@ public class DataCollectionEntity extends CommonEntity {
     private String repayStatus ; //还款状态
 
     //委案日期
+    private Date caseDateD;
     private String caseDate;
     private String caseDateStart;
     private String caseDateEnd;
@@ -284,6 +285,14 @@ public class DataCollectionEntity extends CommonEntity {
      * 业务类型
      */
     private String businessType;
+
+    public Date getCaseDateD() {
+        return caseDateD;
+    }
+
+    public void setCaseDateD(Date caseDateD) {
+        this.caseDateD = caseDateD;
+    }
 
     public BigDecimal getCpMoney() {
         return cpMoney;

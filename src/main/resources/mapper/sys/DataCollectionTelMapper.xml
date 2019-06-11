@@ -46,7 +46,7 @@
     <select id="statisticsCollectionSum" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         select dc.collect_time as collectTime
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
-        where dc.delete_flag = 0
+        <where>
         <if test="dateStart != null">
             and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
@@ -69,13 +69,14 @@
         <if test="odv != null and odv!=''">
             AND da.odv =#{odv}
         </if>
+        </where>
     </select>
 
     <!--统计接通电话量-->
     <select id="statisticsCollectionCon" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         select dc.collect_time as collectTime
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
-        where dc.delete_flag = 0 and dc.result in (select id from sys_data_dictionary where dictionary_id = 14 and sys_flag=1 )
+        where dc.result in (select id from sys_data_dictionary where dictionary_id = 14 and sys_flag=1 )
         <if test="dateStart != null">
             and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
@@ -104,7 +105,7 @@
     <select id="statisticsCollectionCase" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         select dc.collect_time as collectTime
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
-        where dc.delete_flag = 0
+        <where>
         <if test="dateStart != null">
             and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
@@ -126,6 +127,7 @@
         <if test="odv != null and odv!=''">
             AND da.odv = #{odv}
         </if>
+        </where>
     </select>
 
     <select id="pageCollectionDay" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.StatisticReturn">

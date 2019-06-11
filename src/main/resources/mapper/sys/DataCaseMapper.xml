@@ -1279,7 +1279,7 @@
     <select id="listAllCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select da.id,da.card_no as cardNo,
         da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,
-        da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardo,da.ident_no as identNo,
+        da.real_repay_date as realRepayDate ,da.name as name ,da.ident_no as identNo,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,
         da.bank_amt as bankAmt,da.batch_no as batchNo
         from data_case da
