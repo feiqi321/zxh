@@ -12,6 +12,7 @@ import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Api("枚举操作")
 @RestController
@@ -20,6 +21,12 @@ public class SysDictionaryController {
 
     @Resource
     private SysDictionaryService dictionaryService;
+
+    @PostMapping("/loadByType")
+    public Object loadByType() {
+        Map<String,Object> dictionaryEntityList = dictionaryService.loadByType();
+        return WebResponse.success(dictionaryEntityList);
+    }
 
     @ApiOperation(value = "增加数据信息", notes = "增加数据信息")
     @PostMapping("/insert")

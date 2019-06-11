@@ -4,6 +4,7 @@ package xyz.zaijushou.zhx.sys.service;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SysDictionaryService {
     /**
@@ -24,6 +25,12 @@ public interface SysDictionaryService {
      * @return
      */
     List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
+
+    /**
+     * 查询数据集合
+     * @return
+     */
+    Map<String,Object> loadByType();
 
 
     /**

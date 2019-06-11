@@ -14,9 +14,7 @@ import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SysDictionaryServiceImpl implements SysDictionaryService {
@@ -119,6 +117,97 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + dictionary.getParent().getId(), JSONArray.toJSONString(dictList));
             return dictList;
         }
+    }
+
+    /**
+     * 查询数据集合
+     * @return
+     */
+    public Map<String,Object> loadByType(){
+        Map<String,Object>  map = new HashMap<>();
+        //查询枚举数据
+        List<SysDictionaryEntity> dictionaryList = dictionaryMapper.loadByType();
+        List<SysDictionaryEntity> clientList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> repayMethodList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> repayRemarkList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> contextList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> legalTypeList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> collectAreaList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> caseTypeList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> accountAgeList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> collectStatusList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> synerTypeList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> reduceStatusList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> bbList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> collectResultList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> relationList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> telTypeList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> methodList = new ArrayList<SysDictionaryEntity>();//谈判方式
+        List<SysDictionaryEntity> importantList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> moduleList = new ArrayList<SysDictionaryEntity>();
+
+
+        for (int i=0;i<dictionaryList.size();i++){
+            SysDictionaryEntity sysDictionaryEntity = dictionaryList.get(i);
+            if (sysDictionaryEntity.getParent().getId()==300){//委托方
+                clientList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==393){//还款方式
+                repayMethodList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==394){//还款备注
+                repayRemarkList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==395){//申请协催内容
+                contextList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==396){//诉讼案件类型
+                legalTypeList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==398){//催收区域
+                collectAreaList.add(sysDictionaryEntity);
+            } else if (sysDictionaryEntity.getParent().getId()==399){//案件类型
+                caseTypeList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==400){//逾期账龄
+                accountAgeList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==401){//催收状态
+                collectStatusList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==402){//协催类型
+                synerTypeList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==404){//减免状态
+                reduceStatusList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==405){//报备状态
+                bbList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==406){//催收结果
+                collectResultList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==407){//与案人关系
+                relationList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==408){//电话类型
+                telTypeList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==409){//谈判方式
+                methodList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==410){//案件重要等级
+                importantList.add(sysDictionaryEntity);
+            }else if (sysDictionaryEntity.getParent().getId()==411){//催收模板
+                moduleList.add(sysDictionaryEntity);
+            }
+
+
+        }
+        map.put("委托方",clientList);
+        map.put("还款方式",repayMethodList);
+        map.put("还款备注",repayRemarkList);
+        map.put("申请协催内容",contextList);
+        map.put("诉讼案件类型",legalTypeList);
+        map.put("催收区域",collectAreaList);
+        map.put("案件类型",caseTypeList);
+        map.put("逾期账龄",accountAgeList);
+        map.put("催收状态",collectStatusList);
+        map.put("协催类型",synerTypeList);
+        map.put("减免状态",reduceStatusList);
+        map.put("报备状态",bbList);
+        map.put("催收结果",collectResultList);
+        map.put("与案人关系",relationList);
+        map.put("电话类型",telTypeList);
+        map.put("谈判方式",methodList);
+        map.put("案件重要等级",importantList);
+        map.put("催收模板",moduleList);
+        return map;
     }
 
     //递归查询

@@ -19,6 +19,8 @@ public interface SysDictionaryMapper {
 
     List<SysDictionaryEntity> getDataList(SysDictionaryEntity dictionary);
 
+    List<SysDictionaryEntity> loadByType();
+
     List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary);
 
     List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary);
