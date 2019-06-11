@@ -1046,12 +1046,12 @@
     </update>
 
 
-    <select id="nextCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+    <select id="lastCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select top 1  t.id,t.name,t.seq_no as seqNo  from data_case t
        <![CDATA[     where id > #{id}   and odv = #{odv} ]]>
          order by id asc
     </select>
-    <select id="lastCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+    <select id="nextCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select top 1 t.id,t.name,t.seq_no as seqNo  from data_case t
         <![CDATA[     where id < #{id}   and odv = #{odv}   ]]>
         order by id desc
