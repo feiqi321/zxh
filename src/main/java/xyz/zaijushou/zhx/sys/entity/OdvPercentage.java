@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.entity;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by looyer on 2019/5/25.
@@ -18,6 +19,26 @@ public class OdvPercentage extends CommonEntity {
     private BigDecimal repayAmt;
 
     private BigDecimal percentage;
+
+    private Date starttime;
+
+    private Date endtime;
+
+    public Date getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
+    }
+
+    public Date getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(Date endtime) {
+        this.endtime = endtime;
+    }
 
     public Integer getOdv() {
         return odv;

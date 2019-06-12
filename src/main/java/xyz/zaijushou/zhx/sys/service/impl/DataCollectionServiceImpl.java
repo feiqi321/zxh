@@ -984,8 +984,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (actualTime==null || actualTime.compareTo(timeStart.getTime())<0 || actualTime.compareTo(timeEnd.getTime())>0) {
             //阶梯累加
             bean.setRepayDateEnd(last);
-            DataCaseEntity tempCase = caseMapper.findThisMonthById(bean);
-            bean.setEnRepayAmt(tempCase.getEnRepayAmt());
             royaltyTypeOdv(bean,1);
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
             royaltyTypeOdv(bean,2);
@@ -1104,6 +1102,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         //阶段
         if (part1.indexOf(client.trim())>=0 && isCalculate){
+            DataCaseEntity dataCaseEntity = caseMapper.findThisMonthById(tempCase);
+            tempCase.setEnRepayAmt(dataCaseEntity.getEnRepayAmt());
             odvPercentage.setRepayAmt(tempCase.getEnRepayAmt());
             //设置已还金额
             tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());

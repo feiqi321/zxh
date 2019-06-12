@@ -145,6 +145,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         List<SysDictionaryEntity> methodList = new ArrayList<SysDictionaryEntity>();//谈判方式
         List<SysDictionaryEntity> importantList = new ArrayList<SysDictionaryEntity>();
         List<SysDictionaryEntity> moduleList = new ArrayList<SysDictionaryEntity>();
+        List<SysDictionaryEntity> areaList = new ArrayList<SysDictionaryEntity>();
 
 
         for (int i=0;i<dictionaryList.size();i++){
@@ -185,6 +186,8 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
                 importantList.add(sysDictionaryEntity);
             }else if (sysDictionaryEntity.getParent().getId()==411){//催收模板
                 moduleList.add(sysDictionaryEntity);
+            }else{
+                areaList.add(sysDictionaryEntity);
             }
 
 
@@ -207,6 +210,7 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         map.put("谈判方式",methodList);
         map.put("案件重要等级",importantList);
         map.put("催收模板",moduleList);
+        map.put("地区",areaList);
         return map;
     }
 
