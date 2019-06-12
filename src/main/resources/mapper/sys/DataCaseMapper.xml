@@ -1047,13 +1047,37 @@
 
 
     <select id="lastCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        with temp ( [id], [parent_id])
+        as
+        (
+        select id, parent_id
+        from sys_organization
+        where [parent_id] = #{odv}
+        union all
+        select a.id, a.parent_id
+        from sys_organization a
+        inner join temp on a.[parent_id] = temp.[id]
+        )
+
         select top 1  t.id,t.name,t.seq_no as seqNo  from data_case t
-       <![CDATA[     where id > #{id}   and odv = #{odv} ]]>
+       <![CDATA[     where id > #{id} ]]>  and ( odv IN (SELECT id FROM temp) OR odv = #{odv})
          order by id asc
     </select>
     <select id="nextCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        with temp ( [id], [parent_id])
+        as
+        (
+        select id, parent_id
+        from sys_organization
+        where [parent_id] = #{odv}
+        union all
+        select a.id, a.parent_id
+        from sys_organization a
+        inner join temp on a.[parent_id] = temp.[id]
+        )
+
         select top 1 t.id,t.name,t.seq_no as seqNo  from data_case t
-        <![CDATA[     where id < #{id}   and odv = #{odv}   ]]>
+        <![CDATA[     where id < #{id} ]]> and ( odv IN (SELECT id FROM temp) OR odv = #{odv})
         order by id desc
     </select>
 
