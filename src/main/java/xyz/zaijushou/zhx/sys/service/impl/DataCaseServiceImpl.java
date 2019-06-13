@@ -439,11 +439,21 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setIdFlag(null);
         }else{
             String[] ids = dataCaseEntity.getIdStr().split(",");
+
             if (ids == null || ids.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(ids[0])){
                 dataCaseEntity.setIdFlag(null);
             }else {
-                dataCaseEntity.setIdFlag("1");
-                dataCaseEntity.setIds(ids);
+                String[] idsTemp = new String[ids.length];
+                for (int i=0;i<ids.length;i++){
+                    try{
+                        idsTemp[i] = Integer.parseInt(ids[i])+"";
+                        dataCaseEntity.setIdFlag("1");
+                    }catch (Exception e){
+                        idsTemp[i] = "0";
+                    }
+                }
+
+                dataCaseEntity.setIds(idsTemp);
             }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getName())){
