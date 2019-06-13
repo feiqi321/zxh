@@ -2,6 +2,8 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ import java.util.*;
 
 @Service
 public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordService {
-
+    private static Logger logger = LoggerFactory.getLogger(DataCaseRepayRecordServiceImpl.class);
     @Resource
     private DataCaseRepayRecordMapper dataCaseRepayRecordMapper;
     @Autowired
@@ -48,7 +50,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         if(!StringUtils.isEmpty(entity.getOrderBy())){
             entity.setOrderBy(ExcelRepayRecordConstant.RepayRecordSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
         }
+        logger.info("开始查询");
         List<DataCaseRepayRecordEntity> list = combineInfo(dataCaseRepayRecordMapper.pageRepayRecordList(entity));
+        logger.info("结束查询");
         Set<String> userIdsSet = new HashSet<>();
         Set<String> dictSet = new HashSet<>();
         for(DataCaseRepayRecordEntity record : list) {
@@ -66,6 +70,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             }
 
         }
+        logger.info("数据字典结束");
         Map<Integer, SysNewUserEntity> userMap = new HashMap<>();
         if(!CollectionUtils.isEmpty(userIdsSet)) {
             List<SysNewUserEntity> userList = RedisUtils.scanEntityWithKeys(userIdsSet, SysNewUserEntity.class);
@@ -108,6 +113,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                     list.get(i).getDataCase().setAccountAge("");
                 }
             }
+            logger.info("金钱开始");
             if(temp.getDataCase()==null){
                 DataCaseEntity bean = new DataCaseEntity();
                 bean.setMoneyMsg("");
@@ -125,6 +131,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 SysDictionaryEntity client = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getDataCase().getClient(), SysDictionaryEntity.class);
                 temp.getDataCase().setClient(client==null?"":client.getName());
             }
+            logger.info("金钱结束");
             if (temp.getBankReconciliation()==null){
                 DataCaseBankReconciliationEntity bean =  new DataCaseBankReconciliationEntity();
                 temp.setBankReconciliation(bean);
@@ -156,6 +163,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
 
             list.set(i,temp);
         }
+        logger.info("全部结束");
         return PageInfo.of(list);
     }
 
