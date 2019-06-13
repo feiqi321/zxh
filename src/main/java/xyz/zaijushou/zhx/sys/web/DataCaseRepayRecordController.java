@@ -52,6 +52,12 @@ public class DataCaseRepayRecordController {
         return WebResponse.success(pageInfo);
     }
 
+    @PostMapping("/showRepay")
+    public Object showRepay(@RequestBody OdvPercentage entity) {
+        List<DataCaseRepayRecordEntity> pageInfo = dataCaseRepayRecordService.showRepay(entity);
+        return WebResponse.success(pageInfo);
+    }
+
     @PostMapping("/querySum")
     public Object querySum(@RequestBody DataCaseRepayRecordEntity entity) {
         entity = dataCaseRepayRecordService.querySum(entity);

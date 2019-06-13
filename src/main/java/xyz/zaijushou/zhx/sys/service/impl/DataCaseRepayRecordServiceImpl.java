@@ -194,6 +194,25 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
         return userTemp;
     }
+
+    public List<DataCaseRepayRecordEntity> showRepay(OdvPercentage entity){
+        entity.setOdv(getUserInfo().getId());
+        //获取前月的第一天
+        Calendar   cal_1=Calendar.getInstance();//获取当前日期
+        cal_1.set(Calendar.DAY_OF_MONTH,1);//设置为1号,当前日期既为本月第一天
+        entity.setStarttime(cal_1.getTime());
+        Calendar timeEnd = Calendar.getInstance();
+        timeEnd.set(Calendar.DAY_OF_MONTH, timeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
+        entity.setEndtime(timeEnd.getTime());
+        List<DataCaseRepayRecordEntity> list = dataCaseRepayRecordMapper.showRepay(entity);
+        for (int i=0;i<list.size();i++){
+            DataCaseRepayRecordEntity temp = list.get(i);
+            temp.setRepayMoneyMsg(temp.getRepayMoney()==null?"0":temp.getRepayMoney().stripTrailingZeros().toPlainString());
+            list.set(i,temp);
+        }
+        return list;
+    }
+
     @Override
     public List<DataCaseRepayRecordEntity> listRepayRecord(DataCaseRepayRecordEntity repayRecordEntity) {
         return combineInfo(dataCaseRepayRecordMapper.listRepayRecord(repayRecordEntity));

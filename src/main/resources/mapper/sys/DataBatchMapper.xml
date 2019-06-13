@@ -223,7 +223,7 @@
 
 
     <select id="selectBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select  DISTINCT batch_no as batchNo
+        select   DISTINCT top 50 batch_no as batchNo
         from data_batch
         <where>
             <trim suffixOverrides=",">

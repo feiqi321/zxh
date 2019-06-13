@@ -776,4 +776,14 @@
          where id = #{id}
          and delete_flag = 0
      </select>
+
+    <select id="showRepay" parameterType="xyz.zaijushou.zhx.sys.entity.OdvPercentage" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+        select
+        t2.seq_no as [dataCase.seqNo],t1.repay_money as repayMoney,t1.repay_date as repayDate
+        from data_case_repay_record t1
+        left join data_case t2 on t1.data_case =t2.id
+        where t2.business_type = #{line}
+        and t1.collect_user = #{odv}
+        and t1.repay_date  &gt;= #{starttime} and t1.repay_date &lt; = #{endtime}
+    </select>
  </mapper>
