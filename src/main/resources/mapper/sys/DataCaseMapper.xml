@@ -1052,7 +1052,7 @@
         (
         select id, parent_id
         from sys_organization
-        where [parent_id] = #{odv}
+        where [parent_id] = (SELECT department FROM sys_user WHERE id =  #{odv})
         union all
         select a.id, a.parent_id
         from sys_organization a
@@ -1069,7 +1069,7 @@
         (
         select id, parent_id
         from sys_organization
-        where [parent_id] = #{odv}
+        where [parent_id] = (SELECT department FROM sys_user WHERE id =  #{odv})
         union all
         select a.id, a.parent_id
         from sys_organization a
