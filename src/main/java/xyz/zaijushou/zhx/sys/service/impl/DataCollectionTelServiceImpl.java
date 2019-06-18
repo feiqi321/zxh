@@ -10,10 +10,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
-import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -24,6 +21,9 @@ import javax.swing.text.html.Option;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -39,6 +39,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
     @Override
     public PageInfo<StatisticReturn> pageCollectionDay(CollectionStatistic bean){
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         if (StringUtils.isEmpty(bean.getDateSearchStart())){
             bean.setDateSearchStart(new Date());
             bean.setDateStart(new Date());
@@ -69,14 +70,20 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             int start = (pageNo-1)*pageSize;
             int end = start + pageSize;
             int k = 0;
-            for (String odv: bean.getOdvAttr()) {
+            List<String> temp = new ArrayList<>();
+            for (String odv: bean.getOdvAttr()){
                 if(start > k  ){
                     continue;
                 }
                 if( k >= end){
                     break;
                 }
-                int sumConPhoneNum = 0;//接通电话数
+                temp.add(odv);
+                ++k;
+            }
+            bean.setOdvAttr(temp);
+            for (String odv: bean.getOdvAttr()) {
+                /*int sumConPhoneNum = 0;//接通电话数
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odv, SysUserEntity.class);
@@ -128,10 +135,18 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 conInfo.setSumCasePhoneNum(sumCasePhoneNum);
                 conInfo.setSumConPhoneNum(sumConPhoneNum);
                 conInfo.setSumPhoneNum(sumPhoneNum);
-                ++k;
-                list.add(conInfo);
+                list.add(conInfo);*/
+                DayCallable dayCallable = new DayCallable(list,odv,dataCollectionTelMapper,bean);
+                Future<List<StatisticReturn>> future = executor.submit(dayCallable);
             }
-        } catch (ParseException e) {
+            executor.shutdown();
+            while(true){
+                if(executor.isTerminated()){
+                    break;
+                }
+                Thread.sleep(100);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         PageInfo p = PageInfo.of(list);
@@ -143,7 +158,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
     @Override
     public PageInfo<StatisticReturn> pageCollectionMonth(CollectionStatistic bean){
-
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM");
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
@@ -174,14 +189,27 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         int start = (pageNo-1)*pageSize;
         int end = start + pageSize;
         int k = 0;
-        for (String odv: bean.getOdvAttr()) {
+        List<String> temp = new ArrayList<>();
+        for (String odv: bean.getOdvAttr()){
             if(start > k  ){
                 continue;
             }
             if( k >= end){
                 break;
             }
-            int sumConPhoneNum = 0;//接通电话数
+            temp.add(odv);
+            ++k;
+        }
+        bean.setOdvAttr(temp);
+        try {
+            for (String odv : bean.getOdvAttr()) {
+            /*if(start > k  ){
+                continue;
+            }
+            if( k >= end){
+                break;
+            }*/
+           /* int sumConPhoneNum = 0;//接通电话数
             int sumPhoneNum = 0;//总通话数
             int sumCasePhoneNum = 0;//通话涉及到的案件数
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odv, SysUserEntity.class);
@@ -238,7 +266,19 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             conInfo.setSumConPhoneNum(sumConPhoneNum);
             conInfo.setSumPhoneNum(sumPhoneNum);
             ++k;
-            list.add(conInfo);
+            list.add(conInfo);*/
+                MonthCallable monthCallable = new MonthCallable(list, odv, dataCollectionTelMapper, bean);
+                Future<List<StatisticReturn>> future = executor.submit(monthCallable);
+            }
+            executor.shutdown();
+            while (true) {
+                if (executor.isTerminated()) {
+                    break;
+                }
+                Thread.sleep(100);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
         PageInfo p = PageInfo.of(list);
@@ -315,6 +355,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
     @Override
     public PageInfo<CollectionStatistic> pageCollectionDayAction(CollectionStatistic bean){
+        ExecutorService executor = Executors.newFixedThreadPool(20);
         if (StringUtils.isEmpty(bean.getDateSearchStart())){
             bean.setDateStart(new Date());
         }else {
@@ -342,14 +383,27 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         int start = (pageNo-1)*pageSize;
         int end = start + pageSize;
         int k = 0;
-        for (String odv: bean.getOdvAttr()) {
+        List<String> temp = new ArrayList<>();
+        for (String odv: bean.getOdvAttr()){
             if(start > k  ){
                 continue;
             }
             if( k >= end){
                 break;
             }
-            bean.setOdv(odv);
+            temp.add(odv);
+            ++k;
+        }
+        bean.setOdvAttr(temp);
+        try {
+            for (String odv: bean.getOdvAttr()) {
+            /*if(start > k  ){
+                continue;
+            }
+            if( k >= end){
+                break;
+            }*/
+            /*bean.setOdv(odv);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odv, SysUserEntity.class);
             CollectionStatistic col = new CollectionStatistic();
             col.setOdv(user.getUserName());
@@ -358,7 +412,19 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             List<String> descs = collectionIds.stream().map(each -> each.getDescription()).collect(Collectors.toList());
             ConnectionListToInfo(descs,colData, col);
             ++k;
-            list.add(col);
+            list.add(col);*/
+                DayActionCallable dayActionCallable = new DayActionCallable(list, odv, dataCollectionTelMapper,sysDictionaryMapper, bean);
+                Future<List<CollectionStatistic>> future = executor.submit(dayActionCallable);
+            }
+            executor.shutdown();
+            while (true) {
+                if (executor.isTerminated()) {
+                    break;
+                }
+                Thread.sleep(100);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         PageInfo p = PageInfo.of(list);
         p.setPageNum(pageNo);

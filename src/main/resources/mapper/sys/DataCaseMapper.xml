@@ -1026,7 +1026,7 @@
         where id = #{id}
     </update>
     <update id="sendOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set odv = #{odv},dept=#{dept},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=GETDATE(),distribute_status=1
+        update data_case set odv = #{odv},dept=#{dept},distribute_history=distribute_history+#{distributeHistory},distribute_time=GETDATE(),distribute_status=1
         where id = #{id}
     </update>
 
@@ -1117,7 +1117,7 @@
     </update>
     <!--数据模块-按照查询分配业务员-->
     <select id="sendOdvByProperty" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          update data_case set odv = #{odv},dept=#{dept},distribute_history=concat(distribute_history,#{distributeHistory}),distribute_time=GETDATE(),distribute_status=1
+          update data_case set odv = #{odv},dept=#{dept},distribute_history=distribute_history+#{distributeHistory},distribute_time=GETDATE(),distribute_status=1
           where id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
             #{item}
@@ -3631,7 +3631,7 @@
         set en_repay_amt = #{enRepayAmt},
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>
             <if test="settleFlag != null and settleFlag == '已结清'.toString()">
-                settle_flag = #{settleFlag},status = 3
+                settle_flag = #{settleFlag},status = 3,
             </if>
             <if test="settleFlag != null and settleFlag != '已结清'">
                 settle_flag = #{settleFlag},

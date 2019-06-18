@@ -82,7 +82,7 @@ public class CaseImportCallable implements Callable<List<WebResponse>> {
             temp.setDept(user == null ? "" : user.getDepartment());
         }
         if (temp.getProvince()!=null && org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getProvince().getName())){
-            SysDictionaryEntity provicneDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getProvince().getName(),SysDictionaryEntity.class);
+            SysDictionaryEntity provicneDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getProvince().getName().replace("省","").replace("市",""),SysDictionaryEntity.class);
             if (provicneDic==null){
                 list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行省"+temp.getProvince().getName()+"不在枚举配置中，并检查excel的省是否均填写正确"));;
             }else{
@@ -90,7 +90,7 @@ public class CaseImportCallable implements Callable<List<WebResponse>> {
             }
         }
         if (temp.getCity()!=null && org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getCity().getName())){
-            SysDictionaryEntity cityDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCity().getName(),SysDictionaryEntity.class);
+            SysDictionaryEntity cityDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCity().getName().replace("市",""),SysDictionaryEntity.class);
             if (cityDic==null){
                 list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行市"+temp.getCity().getName()+"不在枚举配置中，并检查excel的市是否均填写正确"));;
             }else{

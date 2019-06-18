@@ -348,7 +348,7 @@
         from
         (
         select top ${pageSize} *  from (
-        SELECT  row_number() over(ORDER BY ${orderBy} ${sort}) as rownumber,* FROM sys_user WHERE delete_flag = 0
+        SELECT  row_number() over(ORDER BY id desc) as rownumber,* FROM sys_user WHERE delete_flag = 0
         <if test="status != null ">
             AND  status = #{status,jdbcType=INTEGER}
         </if>
@@ -382,6 +382,7 @@
         LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
+        ORDER BY ${orderBy} ${sort}
     </select>
 
     <select id="countUserData" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="java.lang.Integer">

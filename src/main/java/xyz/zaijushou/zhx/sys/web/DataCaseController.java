@@ -659,12 +659,12 @@ public class DataCaseController {
             }
             //省份检测
             if (caseEntity.getProvince() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getProvince().getName())) {
-                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getProvince().getName(), SysDictionaryEntity.class);
+                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getProvince().getName().replace("省","").replace("市",""), SysDictionaryEntity.class);
                 if (sysDictionaryEntity != null) {
                     caseEntity.getProvince().setId(sysDictionaryEntity.getId());
 
                     if (caseEntity.getCity() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getCity().getName())) {
-                        SysDictionaryEntity sysDictionaryEntity2 = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCity().getName(), SysDictionaryEntity.class);
+                        SysDictionaryEntity sysDictionaryEntity2 = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCity().getName().replace("市",""), SysDictionaryEntity.class);
                         if (sysDictionaryEntity2 != null && sysDictionaryEntity2.getParent() != null && sysDictionaryEntity2.getParent().getId().equals(sysDictionaryEntity.getId())) {
                             caseEntity.getCity().setId(sysDictionaryEntity2.getId());
 
