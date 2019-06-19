@@ -35,8 +35,6 @@ public class CaseSaveCallable implements Callable<List<DataCaseTelEntity>> {
 
     public List<DataCaseTelEntity> call() throws Exception{
 
-        dataCaseMapper.saveCase(entity);
-
         BigDecimal tmp = batch.getTotalAmt();
         batch.setTotalAmt(tmp.add(entity.getMoney()));
         stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity),20);

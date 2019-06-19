@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import sun.java2d.pipe.SpanShapeRenderer;
+import xyz.zaijushou.zhx.common.exception.CustomerException;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.*;
@@ -1031,21 +1032,21 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Transactional
     @Override
     public void saveCaseList(List<DataCaseEntity> dataCaseEntities,String batchNo) {
+        try {
+            List<DataCaseTelEntity> telEntityList = Lists.newArrayList();
 
-        List<DataCaseTelEntity>  telEntityList = Lists.newArrayList();
+            //修改批次信息
+            final DataBatchEntity dataBatchEntity = new DataBatchEntity();
+            dataBatchEntity.setBatchNo(batchNo);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            dataBatchEntity.setUploadTime(sdf.format(new Date()));
+            dataBatchEntity.setTotalAmt(BigDecimal.ZERO);
+            dataBatchEntity.setUserCount(dataCaseEntities.size());
+            ExecutorService executor = Executors.newFixedThreadPool(20);
+            for (DataCaseEntity entity : dataCaseEntities) {
+                dataCaseMapper.saveCase(entity);
 
-        //修改批次信息
-        final DataBatchEntity dataBatchEntity = new DataBatchEntity();
-        dataBatchEntity.setBatchNo(batchNo);
-        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        dataBatchEntity.setUploadTime(sdf.format(new Date()));
-        dataBatchEntity.setTotalAmt(BigDecimal.ZERO);
-        dataBatchEntity.setUserCount(dataCaseEntities.size());
-        ExecutorService executor = Executors.newFixedThreadPool(20);
-        for(DataCaseEntity entity : dataCaseEntities) {
-            /*dataCaseMapper.saveCase(entity);
-
-            BigDecimal tmp = dataBatchEntity.getTotalAmt();
+            /*BigDecimal tmp = dataBatchEntity.getTotalAmt();
             dataBatchEntity.setTotalAmt(tmp.add(entity.getMoney()));
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity),20);
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
@@ -1111,30 +1112,35 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseTelEntity6.setTelStatusMsg("未知");
                 telEntityList.add(dataCaseTelEntity6);
             }*/
-            CaseSaveCallable caseCallable = new CaseSaveCallable(telEntityList,entity,dataBatchEntity,dataCaseMapper,stringRedisTemplate);
-            Future<List<DataCaseTelEntity>> future = executor.submit(caseCallable);
-            if (telEntityList.size()>=500){
+                CaseSaveCallable caseCallable = new CaseSaveCallable(telEntityList, entity, dataBatchEntity, dataCaseMapper, stringRedisTemplate);
+                Future<List<DataCaseTelEntity>> future = executor.submit(caseCallable);
+                if (telEntityList.size() >= 100) {
+                    dataCaseTelMapper.saveBatchTel(telEntityList);
+                    telEntityList.clear();
+                }
+
+            }
+            executor.shutdown();
+            while (true) {
+                if (executor.isTerminated()) {
+                    break;
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (telEntityList.size() > 0) {
                 dataCaseTelMapper.saveBatchTel(telEntityList);
                 telEntityList.clear();
             }
 
+            dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
+        }catch (Exception e){
+            throw new CustomerException(500,"后台异常，请检查数据后后再试");
         }
-        executor.shutdown();
-        while(true){
-            if(executor.isTerminated()){
-                break;
-            }
-            try {
-                Thread.sleep(100);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
-        dataCaseTelMapper.saveBatchTel(telEntityList);
-        telEntityList.clear();
-
-
-        dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
     }
 
 

@@ -593,12 +593,12 @@ public class DataCaseController {
             if(modelType.equals("biaozhun")) {
                 WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class,(caseEntityList)->{
                     doDataCase(caseEntityList);
-                    return null;},500);
+                    return null;},100);
                 return response;
             } else {
                 WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class,(caseEntityList)->{
                     doDataCase(caseEntityList);
-                    return null;},500);
+                    return null;},100);
                 return response;
             }
 
@@ -612,6 +612,7 @@ public class DataCaseController {
         if(CollectionUtils.isEmpty(caseEntityList)){
             return ;
         }
+
         caseEntityList.forEach(caseEntity-> {
             if (caseEntity.getCollectionArea() != null && caseEntity.getCollectionArea().getId() != null) {
                 SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + caseEntity.getCollectionArea().getId(), SysDictionaryEntity.class);
@@ -658,7 +659,7 @@ public class DataCaseController {
                 caseEntity.setDept(user == null ? "" : user.getDepartment());
             }
             //省份检测
-            if (caseEntity.getProvince() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getProvince().getName())) {
+           /* if (caseEntity.getProvince() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getProvince().getName())) {
                 SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getProvince().getName().replace("省","").replace("市",""), SysDictionaryEntity.class);
                 if (sysDictionaryEntity != null) {
                     caseEntity.getProvince().setId(sysDictionaryEntity.getId());
@@ -680,7 +681,7 @@ public class DataCaseController {
 
                     }
                 }
-            }
+            }*/
 
         });
 

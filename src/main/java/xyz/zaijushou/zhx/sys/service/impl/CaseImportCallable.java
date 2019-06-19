@@ -81,7 +81,7 @@ public class CaseImportCallable implements Callable<List<WebResponse>> {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + temp.getCollectionUser().getId(), SysUserEntity.class);
             temp.setDept(user == null ? "" : user.getDepartment());
         }
-        if (temp.getProvince()!=null && org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getProvince().getName())){
+        /*if (temp.getProvince()!=null && org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getProvince().getName())){
             SysDictionaryEntity provicneDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getProvince().getName().replace("省","").replace("市",""),SysDictionaryEntity.class);
             if (provicneDic==null){
                 list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行省"+temp.getProvince().getName()+"不在枚举配置中，并检查excel的省是否均填写正确"));;
@@ -104,7 +104,7 @@ public class CaseImportCallable implements Callable<List<WebResponse>> {
             }else{
                 temp.getCounty().setId(countyDic.getId());
             }
-        }
+        }*/
 
         temp.setBatchNo(batch.getBatchNo());
         

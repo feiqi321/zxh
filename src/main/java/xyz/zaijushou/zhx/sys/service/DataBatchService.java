@@ -22,6 +22,8 @@ public interface DataBatchService {
 
     public WebResponse pageDataBatch(DataBatchEntity bean);
 
+    public WebResponse listClients(DataBatchEntity bean);
+
     public WebResponse totalDataBatch(DataBatchEntity bean);
 
     public WebResponse selectDataBatch(DataBatchEntity bean);

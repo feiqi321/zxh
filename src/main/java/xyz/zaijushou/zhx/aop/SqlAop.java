@@ -61,7 +61,12 @@ public class SqlAop {
         try {
             Object[] args = joinPoint.getArgs();
             CommonEntity commonEntity = (CommonEntity) args[0];
-            Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+            Integer userId = new Integer(1);
+            try {
+                userId = JwtTokenUtil.tokenData().getInteger("userId");
+            }catch(Exception e){
+                userId = 1;
+            }
             SysUserEntity user = new SysUserEntity();
             user.setId(userId);
             commonEntity.setUpdateUser(user);

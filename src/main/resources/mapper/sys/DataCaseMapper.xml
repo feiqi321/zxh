@@ -46,9 +46,9 @@
         da.remark as selfInfo,
         da.birthday as birthday,
         da.age as age,
-        0 as 'province.id',
-        0 as 'city.id',
-        0 as 'county.id',
+        da.province as 'province.name',
+        da.city as 'city.name',
+        da.county as 'county.name',
         da.expect_retire_case_date as expectRetireCaseDate,
         da.goods as goods,
         da.commercial_tenant as commercialTenant,
@@ -244,9 +244,9 @@
         da.remark as selfInfo,
         da.birthday as birthday,
         da.age as age,
-        0 as [province.id],
-        0 as [city.id],
-        0 as [county.id],
+        da.province as [province.name],
+        da.city as [city.name],
+        da.county as [county.name],
         da.expect_retire_case_date as expectRetireCaseDate,
         da.goods as goods,
         da.commercial_tenant as commercialTenant,
@@ -1451,14 +1451,14 @@
             <if test="age != null and age != ''">
                 age = #{age},
             </if>
-            <if test="province != null and province.id != null">
-                province = #{province.id},
+            <if test="province != null and province.name != null">
+                province = #{province.name},
             </if>
-            <if test="city != null and city.id != null">
-                city = #{city.id},
+            <if test="city != null and city.name != null">
+                city = #{city.name},
             </if>
-            <if test="county != null and county.id != null">
-                county = #{county.id},
+            <if test="county != null and county.name != null">
+                county = #{county.name},
             </if>
             <if test="expectTime != null and expectTime != ''">
                 expect_time = #{expectTime},
@@ -2398,13 +2398,13 @@
         email,
         birthday,
         age,
-        <if test="province != null and province.id != null">
+        <if test="province != null and province.name != null">
             province,
         </if>
-        <if test="city != null and city.id != null">
+        <if test="city != null and city.name != null">
             city,
         </if>
-        <if test="county != null and county.id != null">
+        <if test="county != null and county.name != null">
             county,
         </if>
         expect_time,
@@ -2584,14 +2584,14 @@
         #{email},
         #{birthday},
         #{age},
-        <if test="province != null and province.id != null">
-            #{province.id},
+        <if test="province != null and province.name != null">
+            #{province.name},
         </if>
-        <if test="city != null and city.id != null">
-            #{city.id},
+        <if test="city != null and city.name != null">
+            #{city.name},
         </if>
-        <if test="county != null and county.id != null">
-            #{county.id},
+        <if test="county != null and county.name != null">
+            #{county.name},
         </if>
         #{expectTime},
         #{goods},
@@ -2965,11 +2965,11 @@
         #{record.birthday},
         #{record.age},
 
-            #{record.province.id},
+            #{record.province.name},
 
-            #{record.city.id},
+            #{record.city.name},
 
-            #{record.county.id},
+            #{record.county.name},
 
         #{record.expectTime},
         #{record.goods},

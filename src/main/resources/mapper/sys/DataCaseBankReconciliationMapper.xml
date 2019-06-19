@@ -63,14 +63,14 @@
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.id != null">
             and c.collection_user = #{dataCase.collectionUser.id}
         </if>
-        <if test="dataCase != null and dataCase.province != null and dataCase.province.id != null">
-            and c.province = #{dataCase.province.id}
+        <if test="dataCase != null and dataCase.province != null and dataCase.province.name != null">
+            and c.province = #{dataCase.province.name}
         </if>
-        <if test="dataCase != null and dataCase.city != null and dataCase.city.id != null">
-            and c.city = #{dataCase.city.id}
+        <if test="dataCase != null and dataCase.city != null and dataCase.city.name != null">
+            and c.city = #{dataCase.city.name}
         </if>
-        <if test="dataCase != null and dataCase.county != null and dataCase.county.id != null">
-            and c.county = #{dataCase.county.id}
+        <if test="dataCase != null and dataCase.county != null and dataCase.county.name != null">
+            and c.county = #{dataCase.county.name}
         </if>
         <if test="dataCase != null and dataCase.status != null">
             and c.status = #{dataCase.status}
@@ -163,14 +163,14 @@
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.id != null">
             and c.collection_user = #{dataCase.collectionUser.id}
         </if>
-        <if test="dataCase != null and dataCase.province != null and dataCase.province.id != null">
-            and c.province = #{dataCase.province.id}
+        <if test="dataCase != null and dataCase.province != null and dataCase.province.name != null">
+            and c.province = #{dataCase.province.name}
         </if>
-        <if test="dataCase != null and dataCase.city != null and dataCase.city.id != null">
-            and c.city = #{dataCase.city.id}
+        <if test="dataCase != null and dataCase.city != null and dataCase.city.name != null">
+            and c.city = #{dataCase.city.name}
         </if>
-        <if test="dataCase != null and dataCase.county != null and dataCase.county.id != null">
-            and c.county = #{dataCase.county.id}
+        <if test="dataCase != null and dataCase.county != null and dataCase.county.name != null">
+            and c.county = #{dataCase.county.name}
         </if>
         <if test="dataCase != null and dataCase.status != null">
             and c.status = #{dataCase.status}
@@ -261,14 +261,14 @@
     <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.id != null">
         and c.collection_user = #{dataCase.collectionUser.id}
     </if>
-    <if test="dataCase != null and dataCase.province != null and dataCase.province.id != null">
-        and c.province = #{dataCase.province.id}
+    <if test="dataCase != null and dataCase.province != null and dataCase.province.name != null">
+        and c.province = #{dataCase.province.name}
     </if>
-    <if test="dataCase != null and dataCase.city != null and dataCase.city.id != null">
-        and c.city = #{dataCase.city.id}
+    <if test="dataCase != null and dataCase.city != null and dataCase.city.name != null">
+        and c.city = #{dataCase.city.name}
     </if>
-    <if test="dataCase != null and dataCase.county != null and dataCase.county.id != null">
-        and c.county = #{dataCase.county.id}
+    <if test="dataCase != null and dataCase.county != null and dataCase.county.name != null">
+        and c.county = #{dataCase.county.name}
     </if>
     <if test="dataCase != null and dataCase.status != null">
         and c.status = #{dataCase.status}
@@ -363,14 +363,14 @@
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.id != null">
             and c.collection_user = #{dataCase.collectionUser.id}
         </if>
-        <if test="dataCase != null and dataCase.province != null and dataCase.province.id != null">
-            and c.province = #{dataCase.province.id}
+        <if test="dataCase != null and dataCase.province != null and dataCase.province.name != null">
+            and c.province = #{dataCase.province.name}
         </if>
-        <if test="dataCase != null and dataCase.city != null and dataCase.city.id != null">
-            and c.city = #{dataCase.city.id}
+        <if test="dataCase != null and dataCase.city != null and dataCase.city.name != null">
+            and c.city = #{dataCase.city.name}
         </if>
-        <if test="dataCase != null and dataCase.county != null and dataCase.county.id != null">
-            and c.county = #{dataCase.county.id}
+        <if test="dataCase != null and dataCase.county != null and dataCase.county.name != null">
+            and c.county = #{dataCase.county.name}
         </if>
         <if test="dataCase != null and dataCase.status != null">
             and c.status = #{dataCase.status}

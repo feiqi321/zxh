@@ -121,6 +121,15 @@ public class DataBatchController {
 
     }
 
+    @ApiOperation(value = "根据批次号查询委托方", notes = "根据批次号查询委托方")
+    @PostMapping("/dataBatch/listClients")
+    public Object listClients(@RequestBody DataBatchEntity dataBatchEntity) {
+
+        WebResponse webResponse = dataCaseService.listClients(dataBatchEntity);
+        return webResponse;
+
+    }
+
 
     @ApiOperation(value = "批次编号下拉查询", notes = "批次编号下拉查询")
     @PostMapping("/dataBatch/selectBatchNo")

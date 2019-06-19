@@ -350,7 +350,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getAccountAge(),SysDictionaryEntity.class);
                 entity.getDataCase().setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
-            if(entity != null && entity.getDataCase() != null && entity.getDataCase().getProvince()!=null && entity.getDataCase().getProvince().getId()!=null) {
+            /*if(entity != null && entity.getDataCase() != null && entity.getDataCase().getProvince()!=null && entity.getDataCase().getProvince().getId()!=null) {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getProvince().getId(),SysDictionaryEntity.class);
                 entity.getDataCase().setProvince(sysDictionaryEntity);
             }
@@ -361,7 +361,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if(entity != null && entity.getDataCase() != null && entity.getDataCase().getCounty()!=null && entity.getDataCase().getCounty().getId()!=null) {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getCounty().getId(),SysDictionaryEntity.class);
                 entity.getDataCase().setCounty(sysDictionaryEntity);
-            }
+            }*/
         }
 
         return list;

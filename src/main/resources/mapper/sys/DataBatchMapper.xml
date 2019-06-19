@@ -234,6 +234,15 @@
         </where>
     </select>
 
+    <select id="listClients" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+        select    client
+        from data_batch
+        where batch_no in
+        <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
 
     <select id="totalDataBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select id,
