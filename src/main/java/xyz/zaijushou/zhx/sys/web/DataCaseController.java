@@ -74,8 +74,6 @@ public class DataCaseController {
     @Resource
     private ExcelUtils excelUtils;
 
-    @Resource
-    private DataCaseMapper dataCaseMapper;
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")

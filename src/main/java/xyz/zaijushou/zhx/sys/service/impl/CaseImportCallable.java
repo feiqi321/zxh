@@ -10,6 +10,7 @@ import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -81,30 +82,20 @@ public class CaseImportCallable implements Callable<List<WebResponse>> {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + temp.getCollectionUser().getId(), SysUserEntity.class);
             temp.setDept(user == null ? "" : user.getDepartment());
         }
-        /*if (temp.getProvince()!=null && org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getProvince().getName())){
-            SysDictionaryEntity provicneDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getProvince().getName().replace("省","").replace("市",""),SysDictionaryEntity.class);
-            if (provicneDic==null){
-                list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行省"+temp.getProvince().getName()+"不在枚举配置中，并检查excel的省是否均填写正确"));;
-            }else{
-                temp.getProvince().setId(provicneDic.getId());
-            }
+        temp.setMoney(temp.getMoney()==null?new BigDecimal(0):temp.getMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        temp.setBalance(temp.getBalance()==null?new BigDecimal(0):temp.getBalance().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        temp.setRate(temp.getRate()==null?new BigDecimal(0):temp.getRate().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        try{
+            BigDecimal bMval = new BigDecimal(temp.getMVal()==null?"0":temp.getMVal());
+        }catch (Exception e){
+            list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行Mval格式不对，请修改后重新上传"));;
         }
-        if (temp.getCity()!=null && org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getCity().getName())){
-            SysDictionaryEntity cityDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCity().getName().replace("市",""),SysDictionaryEntity.class);
-            if (cityDic==null){
-                list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行市"+temp.getCity().getName()+"不在枚举配置中，并检查excel的市是否均填写正确"));;
-            }else{
-                temp.getCity().setId(cityDic.getId());
-            }
-        }
-        if (temp.getCounty()!=null && org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getCounty().getName())){
-            SysDictionaryEntity countyDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCounty().getName(),SysDictionaryEntity.class);
-            if (countyDic==null){
-                list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行县"+temp.getCounty().getName()+"不在枚举配置中，并检查excel的县是否均填写正确"));;
-            }else{
-                temp.getCounty().setId(countyDic.getId());
-            }
-        }*/
+        temp.setEnRepayAmt(temp.getEnRepayAmt()==null?new BigDecimal(0):temp.getEnRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        temp.setBankAmt(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        temp.setProRepayAmt(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        temp.setCommissionMoney(temp.getCommissionMoney()==null?new BigDecimal(0):temp.getCommissionMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        temp.setLastRepayMoney(temp.getLastRepayMoney()==null?new BigDecimal(0):temp.getLastRepayMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        temp.setOutstandingAmount(temp.getOutstandingAmount()==null?new BigDecimal(0):temp.getOutstandingAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
 
         temp.setBatchNo(batch.getBatchNo());
         

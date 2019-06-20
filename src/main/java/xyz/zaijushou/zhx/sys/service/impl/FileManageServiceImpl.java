@@ -63,7 +63,7 @@ public class FileManageServiceImpl implements FileManageService {
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
 
-        dataCaseTelMapper.saveBatchTel(list);
+        dataCaseTelMapper.insertBatchTel(list);
         webResponse.setMsg( "导入成功");
         webResponse.setCode("100");
 

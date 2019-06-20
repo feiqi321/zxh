@@ -28,6 +28,7 @@ import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -1115,7 +1116,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 CaseSaveCallable caseCallable = new CaseSaveCallable(telEntityList, entity, dataBatchEntity, dataCaseMapper, stringRedisTemplate);
                 Future<List<DataCaseTelEntity>> future = executor.submit(caseCallable);
                 if (telEntityList.size() >= 100) {
-                    dataCaseTelMapper.saveBatchTel(telEntityList);
+                    dataCaseTelMapper.insertBatchTel(telEntityList);
                     telEntityList.clear();
                 }
 
@@ -1133,7 +1134,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
 
             if (telEntityList.size() > 0) {
-                dataCaseTelMapper.saveBatchTel(telEntityList);
+                dataCaseTelMapper.insertBatchTel(telEntityList);
                 telEntityList.clear();
             }
 
@@ -2155,30 +2156,21 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + caseEntity.getCollectionUser().getId(), SysUserEntity.class);
                     caseEntity.setDept(user == null ? "" : user.getDepartment());
                 }
-                //省份检测
-           /* if (caseEntity.getProvince() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getProvince().getName())) {
-                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getProvince().getName().replace("省","").replace("市",""), SysDictionaryEntity.class);
-                if (sysDictionaryEntity != null) {
-                    caseEntity.getProvince().setId(sysDictionaryEntity.getId());
 
-                    if (caseEntity.getCity() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getCity().getName())) {
-                        SysDictionaryEntity sysDictionaryEntity2 = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCity().getName().replace("市",""), SysDictionaryEntity.class);
-                        if (sysDictionaryEntity2 != null && sysDictionaryEntity2.getParent() != null && sysDictionaryEntity2.getParent().getId().equals(sysDictionaryEntity.getId())) {
-                            caseEntity.getCity().setId(sysDictionaryEntity2.getId());
-
-                            if (caseEntity.getCounty() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getCounty().getName())) {
-                                SysDictionaryEntity sysDictionaryEntity3 = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCounty().getName(), SysDictionaryEntity.class);
-                                if (sysDictionaryEntity3 != null && sysDictionaryEntity3.getParent() != null && sysDictionaryEntity3.getParent().getId().equals(sysDictionaryEntity2.getId())) {
-
-                                    caseEntity.getCounty().setId(sysDictionaryEntity3.getId());
-                                }
-                            }
-
-                        }
-
-                    }
+                caseEntity.setMoney(caseEntity.getMoney()==null?null:caseEntity.getMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setBalance(caseEntity.getBalance()==null?null:caseEntity.getBalance().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setRate(caseEntity.getRate()==null?null:caseEntity.getRate().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                try{
+                    BigDecimal bMval = new BigDecimal(caseEntity.getMVal()==null?"0":caseEntity.getMVal());
+                }catch (Exception e){
+                    throw new IllegalArgumentException("个案序列号"+caseEntity.getSeqNo()+"的Mval格式不对，请修改后重新上传");
                 }
-            }*/
+                caseEntity.setEnRepayAmt(caseEntity.getEnRepayAmt()==null?null:caseEntity.getEnRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setBankAmt(caseEntity.getBankAmt()==null?null:caseEntity.getBankAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setProRepayAmt(caseEntity.getProRepayAmt()==null?null:caseEntity.getProRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setCommissionMoney(caseEntity.getCommissionMoney()==null?null:caseEntity.getCommissionMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setLastRepayMoney(caseEntity.getLastRepayMoney()==null?null:caseEntity.getLastRepayMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setOutstandingAmount(caseEntity.getOutstandingAmount()==null?null:caseEntity.getOutstandingAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
 
             });
         try {

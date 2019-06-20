@@ -107,7 +107,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                     if (values != null && values.size() > 0) {
                         for (String value : values) {
                             SysAuthorityEntity[] authorityEntities = JSONArray.parseObject(value, SysAuthorityEntity[].class);
-                            if (authorityEntities.length > 0) {
+                            if (authorityEntities!=null && authorityEntities.length > 0) {
                                 for (SysAuthorityEntity authority : authorityEntities) {
                                     authorities.add(new GrantedAuthorityImpl(authority.getAuthoritySymbol()));
                                 }

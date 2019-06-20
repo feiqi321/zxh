@@ -13,7 +13,7 @@ public interface DataCaseTelMapper {
 
     public int saveTel(DataCaseTelEntity entity);
 
-    public int saveBatchTel(List<DataCaseTelEntity> list);
+    public int insertBatchTel(List<DataCaseTelEntity> list);
 
     public void updateTel(DataCaseTelEntity entity);
 
