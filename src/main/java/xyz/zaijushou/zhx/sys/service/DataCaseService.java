@@ -123,4 +123,6 @@ public interface DataCaseService {
     DataCaseEntity nextCase(DataCaseEntity bean);
 
     DataCaseEntity lastCase(DataCaseEntity bean);
+
+     void doDataCase(List<DataCaseEntity> caseEntityList);
 }

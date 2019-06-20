@@ -159,16 +159,32 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public WebResponse listClients(DataBatchEntity bean){
         List<DataBatchEntity> list = dataBatchMapper.listClients(bean);
-        Integer[] clients = new Integer[list.size()];
+
+        String temp = "";
         for (int i=0;i<list.size();i++){
             DataBatchEntity dataBatchEntity = list.get(i);
             if (StringUtils.isNotEmpty(dataBatchEntity.getClient())){
-                clients[i] = Integer.parseInt(dataBatchEntity.getClient());
-            }else{
-                clients[i] = 0;
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getClient(),SysDictionaryEntity.class);
+                if(sysDictionaryEntity==null){
+
+                }else{
+                    temp = temp+","+dataBatchEntity.getClient();
+                }
+
             }
 
         }
+
+        Integer[] clients = null;
+        if(!temp.equals("")){
+            temp = temp.substring(1);
+            String[] batchStr = temp.split(",");
+            clients = new Integer[batchStr.length];
+            for (int i=0;i<batchStr.length;i++){
+                clients[i] = Integer.parseInt(batchStr[i]);
+            }
+        }
+
         return WebResponse.success(clients);
     }
 

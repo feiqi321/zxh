@@ -223,7 +223,7 @@
 
 
     <select id="selectBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select   DISTINCT top 50 batch_no as batchNo
+        select   top 200 batch_no as batchNo
         from data_batch
         <where>
             <trim suffixOverrides=",">
@@ -232,6 +232,7 @@
                 </if>
             </trim>
         </where>
+        order by id desc
     </select>
 
     <select id="listClients" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">

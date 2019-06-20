@@ -1958,14 +1958,14 @@
                 <if test="record.age != null and record.age != ''">
                     age = #{record.age},
                 </if>
-                <if test="record.province != null and record.province.id != null">
-                    province = #{record.province.id},
+                <if test="record.province != null and record.province.name != null">
+                    province = #{record.province.name},
                 </if>
-                <if test="record.city != null and record.city.id != null">
-                    city = #{record.city.id},
+                <if test="record.city != null and record.city.name != null">
+                    city = #{record.city.name},
                 </if>
-                <if test="record.county != null and record.county.id != null">
-                    county = #{record.county.id},
+                <if test="record.county != null and record.county.name != null">
+                    county = #{record.county.name},
                 </if>
                 <if test="record.expectTime != null and record.expectTime != ''">
                     expect_time = #{record.expectTime},

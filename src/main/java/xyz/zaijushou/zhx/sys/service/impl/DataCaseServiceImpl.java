@@ -1139,6 +1139,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
             dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
         }catch (Exception e){
+            e.printStackTrace();
             throw new CustomerException(500,"后台异常，请检查数据后后再试");
         }
     }
@@ -2098,6 +2099,97 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public void updateCollectInfo(DataCaseEntity dataCaseEntity){
         dataCaseMapper.updateCollectInfo(dataCaseEntity);
+    }
+
+
+    public void doDataCase(List<DataCaseEntity> caseEntityList) {
+        if(CollectionUtils.isEmpty(caseEntityList)){
+            return ;
+        }
+
+            caseEntityList.forEach(caseEntity -> {
+                if (caseEntity.getCollectionArea() != null && caseEntity.getCollectionArea().getId() != null) {
+                    SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + caseEntity.getCollectionArea().getId(), SysDictionaryEntity.class);
+                    caseEntity.setCollectArea(collectAreaEntity == null ? "" : caseEntity.getCollectionArea().getId() + "");
+                }
+                if (caseEntity.getCollectionUser() != null && caseEntity.getCollectionUser().getId() != null) {
+                    /*SysNewUserEntity userEntity = new SysNewUserEntity();
+                    userEntity.setRole("催收员");
+                    List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
+                    Map collectUserMap = new HashMap();
+                    for (int m = 0; m < userInfoEntity.size(); m++) {
+                        SysNewUserEntity sysNewUserEntity = userInfoEntity.get(m);
+                        collectUserMap.put(sysNewUserEntity.getId(), sysNewUserEntity);
+                    }
+                    if (collectUserMap.get(caseEntity.getCollectionUser().getId()) == null) {*/
+                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ caseEntity.getCollectionUser().getId(), SysUserEntity.class);
+                    if (user==null) {
+                        throw new IllegalArgumentException("催收员ID" + caseEntity.getCollectionUser().getId() + "不正确，请核实后再上传");
+                    }
+                   // }
+
+                }
+                if (org.apache.commons.lang3.StringUtils.isEmpty(caseEntity.getSeqNo()) && (org.apache.commons.lang3.StringUtils.isEmpty(caseEntity.getCardNo()) && org.apache.commons.lang3.StringUtils.isEmpty(caseEntity.getCaseDate()))) {
+                    throw new IllegalArgumentException("姓名" + caseEntity.getName() + "的数据未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                }
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(caseEntity.getAccountAge())) {
+                    SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getAccountAge(), SysDictionaryEntity.class);
+                    if (sysDictionaryEntity == null) {
+                        throw new IllegalArgumentException("姓名" + caseEntity.getName() + "的数据逾期账龄值" + caseEntity.getCollectionType() + "不在枚举配置中，并检查excel的逾期账龄是否均填写正确");
+                    } else {
+                        caseEntity.setAccountAge(sysDictionaryEntity.getId() + "");
+                    }
+                }
+                //语音 手机号 视频 留言
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(caseEntity.getCollectionType())) {
+                    SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCollectionType(), SysDictionaryEntity.class);
+                    if (sysDictionaryEntity == null) {
+                        throw new IllegalArgumentException("姓名" + caseEntity.getName() + "的数据行催收分类值" + caseEntity.getCollectionType() + "不在枚举配置中，并检查excel的催收分类是否均填写正确");
+                    } else {
+                        caseEntity.setCollectionType(sysDictionaryEntity.getId() + "");
+                    }
+                }
+
+                //用户检测
+                if (caseEntity.getCollectionUser() != null && caseEntity.getCollectionUser().getId() != null) {
+                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + caseEntity.getCollectionUser().getId(), SysUserEntity.class);
+                    caseEntity.setDept(user == null ? "" : user.getDepartment());
+                }
+                //省份检测
+           /* if (caseEntity.getProvince() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getProvince().getName())) {
+                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getProvince().getName().replace("省","").replace("市",""), SysDictionaryEntity.class);
+                if (sysDictionaryEntity != null) {
+                    caseEntity.getProvince().setId(sysDictionaryEntity.getId());
+
+                    if (caseEntity.getCity() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getCity().getName())) {
+                        SysDictionaryEntity sysDictionaryEntity2 = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCity().getName().replace("市",""), SysDictionaryEntity.class);
+                        if (sysDictionaryEntity2 != null && sysDictionaryEntity2.getParent() != null && sysDictionaryEntity2.getParent().getId().equals(sysDictionaryEntity.getId())) {
+                            caseEntity.getCity().setId(sysDictionaryEntity2.getId());
+
+                            if (caseEntity.getCounty() != null && !xyz.zaijushou.zhx.utils.StringUtils.isEmpty(caseEntity.getCounty().getName())) {
+                                SysDictionaryEntity sysDictionaryEntity3 = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCounty().getName(), SysDictionaryEntity.class);
+                                if (sysDictionaryEntity3 != null && sysDictionaryEntity3.getParent() != null && sysDictionaryEntity3.getParent().getId().equals(sysDictionaryEntity2.getId())) {
+
+                                    caseEntity.getCounty().setId(sysDictionaryEntity3.getId());
+                                }
+                            }
+
+                        }
+
+                    }
+                }
+            }*/
+
+            });
+        try {
+            for (DataCaseEntity entity : caseEntityList) {
+                dataCaseMapper.updateBySeqNo(entity);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new CustomerException(500,"后台异常，请检查数据后后再试");
+        }
+
     }
 
 }

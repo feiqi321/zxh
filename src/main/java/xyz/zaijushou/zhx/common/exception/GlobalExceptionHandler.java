@@ -16,6 +16,15 @@ public class GlobalExceptionHandler {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+	@ExceptionHandler(value = IllegalArgumentException.class)
+	public WebResponse errorHandlerIll(HttpServletRequest request, IllegalArgumentException exception) {
+		WebResponse result = WebResponse.buildResponse();
+		result.setCode("500");
+		result.setMsg(exception.getMessage());
+		exception.printStackTrace();
+		return result;
+	}
+
 	@ExceptionHandler(value = CustomerException.class)
 	public WebResponse errorHandlerOverJson(HttpServletRequest request, CustomerException exception) {
 		WebResponse result = WebResponse.buildResponse();
