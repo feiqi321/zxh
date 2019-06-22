@@ -234,6 +234,16 @@ public class DataCaseDetail {
 
     private String prePercentTips;//预计提成金额 提示
 
+    private Boolean copyAuth;
+
+    public Boolean getCopyAuth() {
+        return copyAuth;
+    }
+
+    public void setCopyAuth(Boolean copyAuth) {
+        this.copyAuth = copyAuth;
+    }
+
     public String getPrePercentTips() {
         return prePercentTips;
     }

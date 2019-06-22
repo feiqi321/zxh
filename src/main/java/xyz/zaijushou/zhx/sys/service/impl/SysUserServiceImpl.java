@@ -66,6 +66,7 @@ public class SysUserServiceImpl implements SysUserService {
         SysToUserRole sysToUserRole = new SysToUserRole();
         sysToUserRole.setUser(user);
         SysUserEntity resultUser = sysUserMapper.findUserInfoWithoutPasswordById(user);
+
         resultUser.setSameBatch(false);
         resultUser.setBusiData(false);
         DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
@@ -158,7 +159,10 @@ public class SysUserServiceImpl implements SysUserService {
                 resultUser.setBusiData(true);
             }
         }
-
+        SysNewUserEntity temp = sysUserMapper.getDataById(resultUser.getId());
+        if(temp.getDepartment()!=null && temp.getDepartment().equals("数据部")){
+            resultUser.setBusiData(false);
+        }
 
         return resultUser;
     }

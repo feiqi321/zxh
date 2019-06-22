@@ -356,8 +356,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 for (int i=0;i<list.size();i++){
                     DataCollectionEntity temp = list.get(i);
-                    temp.setCollectTime(sdf.format(temp.getCollectDate()));
-                    temp.setCaseDate(sdf.format(temp.getCaseDateD()));
+                    temp.setCollectTime(temp.getCollectDate()==null?"":sdf.format(temp.getCollectDate()));
+                    temp.setCaseDate(temp.getCaseDateD()==null?"":sdf.format(temp.getCaseDateD()));
                     list.set(i,temp);
                 }
                 return list;

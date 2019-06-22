@@ -564,6 +564,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 Thread.sleep(50);
             }
         }else {
+            logger.info("开始查询");
             list = dataCaseMapper.pageCaseMangeList(dataCaseEntity);
             logger.info("结束查询");
             for(int i=0;i<list.size();i++){
@@ -1573,6 +1574,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("查询详情结束");
         dataCaseDetail.setCurrentuser(false);
         SysUserEntity curentuser = getUserInfo();
+
         if (curentuser!=null){
             SysNewUserEntity temp = sysUserMapper.getDataById(curentuser.getId());
             dataCaseDetail.setOfficePhone(temp.getOfficePhone());

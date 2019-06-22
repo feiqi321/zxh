@@ -605,8 +605,8 @@
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
                     and da.seq_no in
-                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="seqNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
@@ -772,8 +772,8 @@
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
                     and da.seq_no in
-                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="seqNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
