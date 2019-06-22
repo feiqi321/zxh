@@ -113,20 +113,20 @@
 
         <if test="dataCase != null and dataCase.names != null and dataCase.names != null and dataCase.names.length > 0">
             and c.name in
-            <foreach collection="dataCase.names" item="item4" open="(" close=")" separator=",">
-                #{item4}
+            <foreach collection="dataCase.names" item="item4" open="('" close="')" separator="','">
+                ${item4}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
             and c.seq_no in
-            <foreach collection="dataCase.seqNos" item="item5" open="(" close=")" separator=",">
-                #{item5}
+            <foreach collection="dataCase.seqNos" item="item5" open="('" close="')" separator="','">
+                ${item5}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos != null and dataCase.identNos.length > 0">
             and c.ident_no in
-            <foreach collection="dataCase.identNos" item="item6" open="(" close=")" separator=",">
-                #{item6}
+            <foreach collection="dataCase.identNos" item="item6" open="('" close="')" separator="','">
+                ${item6}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts != null and dataCase.accounts.length > 0">
@@ -208,20 +208,20 @@
 
         <if test="dataCase != null and dataCase.names != null and dataCase.names != null and dataCase.names.length > 0">
             and c.name in
-            <foreach collection="dataCase.names" open="(" close=")" separator=",">
-                #{item}
+            <foreach collection="dataCase.names" open="('" close="')" separator="','">
+                ${item}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
             and c.seq_no in
-            <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
-                #{item}
+            <foreach collection="dataCase.seqNos" open="('" close="')" separator="','">
+                ${item}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos != null and dataCase.identNos.length > 0">
             and c.ident_no in
-            <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
-                #{item}
+            <foreach collection="dataCase.identNos" open="('" close="')" separator="','">
+                ${item}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts != null and dataCase.accounts.length > 0">
@@ -306,20 +306,20 @@
         </if>
         <if test="dataCase != null and dataCase.names != null and dataCase.names.length > 0">
             and c.name in
-            <foreach collection="dataCase.names" open="(" close=")" separator=",">
-                #{item}
+            <foreach collection="dataCase.names" open="('" close="')" separator="','">
+                ${item}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
             and c.seq_no in
-            <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
-                #{item}
+            <foreach collection="dataCase.seqNos" open="('" close="')" separator="','">
+                ${item}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos.length > 0">
             and c.ident_no in
-            <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
-                #{item}
+            <foreach collection="dataCase.identNos" open="('" close="')" separator="','">
+                ${item}
             </foreach>
         </if>
         <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts.length > 0">

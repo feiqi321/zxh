@@ -593,14 +593,14 @@
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and da.id in
-                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="ids" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and da.card_no in
-                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="cardNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
@@ -611,26 +611,26 @@
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and da.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="identNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="nameFlag != null and identNoFlag!=''">
                     and da.name in
-                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="names" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="accountFlag != null and accountFlag!=''">
                     and da.account in
-                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="accounts" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and da.archive_no in
-                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="archiveNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
@@ -760,14 +760,14 @@
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and da.id in
-                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="ids" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and da.card_no in
-                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="cardNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
@@ -784,26 +784,26 @@
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and da.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="identNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="nameFlag != null and identNoFlag!=''">
                     and da.name in
-                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="names" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="accountFlag != null and accountFlag!=''">
                     and da.account in
-                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="accounts" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and da.archive_no in
-                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="archiveNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="clientFlag != null and clientFlag!='' and client!=null and client.size()>0 ">
@@ -3308,44 +3308,44 @@
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and t.id in
-                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-                    #{item}
+                    <foreach item="item" index="index" collection="ids" open="('" separator="','" close="')">
+                        ${item}
                 </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and t.card_no in
-                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="cardNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
                     and t.seq_no in
-                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="seqNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and t.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="identNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="nameFlag != null and identNoFlag!=''">
                     and t.name in
-                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="names" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="accountFlag != null and accountFlag!=''">
                     and t.account in
-                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="accounts" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and t.archive_no in
-                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
-                        #{item}
+                    <foreach item="item" index="index" collection="archiveNos" open="('" separator="','" close="')">
+                        ${item}
                     </foreach>
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
