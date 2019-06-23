@@ -593,44 +593,44 @@
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and da.id in
-                    <foreach item="item" index="index" collection="ids" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and da.card_no in
-                    <foreach item="item" index="index" collection="cardNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
                     and da.seq_no in
-                    <foreach item="item" index="index" collection="seqNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and da.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="nameFlag != null and identNoFlag!=''">
                     and da.name in
-                    <foreach item="item" index="index" collection="names" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="accountFlag != null and accountFlag!=''">
                     and da.account in
-                    <foreach item="item" index="index" collection="accounts" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and da.archive_no in
-                    <foreach item="item" index="index" collection="archiveNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
@@ -760,20 +760,20 @@
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and da.id in
-                    <foreach item="item" index="index" collection="ids" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and da.card_no in
-                    <foreach item="item" index="index" collection="cardNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
                     and da.seq_no in
-                    <foreach item="item" index="index" collection="seqNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
@@ -784,26 +784,26 @@
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and da.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="nameFlag != null and identNoFlag!=''">
                     and da.name in
-                    <foreach item="item" index="index" collection="names" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="accountFlag != null and accountFlag!=''">
                     and da.account in
-                    <foreach item="item" index="index" collection="accounts" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and da.archive_no in
-                    <foreach item="item" index="index" collection="archiveNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="clientFlag != null and clientFlag!='' and client!=null and client.size()>0 ">
@@ -3127,6 +3127,169 @@
         order by ${orderBy} ${sort}
     </select>
 
+    <select id="listSend" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select  da.seq_no as seqNo
+        from data_case da
+        <where>
+            da.delete_flag=0
+            <trim suffixOverrides=",">
+                <if test="idFlag != null and idFlag!=''">
+                    and da.id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="cardNoFlag != null and cardNoFlag!=''">
+                    and da.card_no in
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="seqNoFlag != null and seqNoFlag!=''">
+                    and da.seq_no in
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="identNoFlag != null and identNoFlag!=''">
+                    and da.ident_no in
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="nameFlag != null and identNoFlag!=''">
+                    and da.name in
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="accountFlag != null and accountFlag!=''">
+                    and da.account in
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="archiveNoFlag != null and archiveNoFlag!=''">
+                    and da.archive_no in
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and da.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="batchNoFlag != null and batchNoFlag!=''">
+                    and da.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="odvFlag != null and odvFlag!=''">
+                    and da.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="vin != null and vin!=''">
+                    and da.vin = #{vin}
+                </if>
+                <if test="license != null and license!=''">
+                    and da.license = #{license}
+                </if>
+                <if test="collectHand != null and collectHand!=''">
+                    and da.collect_hand = #{collectHand}
+                </if>
+                <if test="bank != null and bank!=''">
+                    and da.bank = #{bank}
+                </if>
+                <if test="moneyStart != null and moneyStart!=''">
+                    <![CDATA[   and da.money>=  #{moneyStart}  ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''" >
+                    <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
+                </if>
+                <if test="overDays != null and overDays!=''">
+                    and da.overdue_days = #{overDays}
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    and da.summary = #{collectInfo}
+                </if>
+                <if test="batchNo != null and batchNo!=''">
+                    and da.batch_no = #{batchNo}
+                </if>
+                <if test="dept != null and dept!=''">
+                    and da.dept = #{dept}
+                </if>
+                <if test="reduceStatus != null and reduceStatus!=''">
+                    and da.reduce_status = #{reduceStatus}
+                </if>
+                <if test="status != null and status!=''">
+                    and da.status = #{status}
+                </if>
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
+                <if test="collectStatus != null and collectStatus!=''">
+                    and da.collect_status = #{collectStatus}
+                </if>
+                <if test="color != null and color!=''">
+                    and da.color = #{color}
+                </if>
+                <if test="area != null and area!=''">
+                    and da.area = #{area}
+                </if>
+                <if test="caseType != null and caseType!=''">
+                    and da.case_type = #{caseType}
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
+                    and da.odv is not null
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
+                    and (da.odv is  null or da.odv='')
+                </if>
+
+                <if test="collectArea != null and collectArea!=''">
+                    and da.collect_area = #{collectArea}
+                </if>
+                <if test="repayDateStart != null and repayDateStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
+                </if>
+                <if test="repayDateEnd != null and repayDateEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
+                </if>
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and da.case_date>=  #{caseDateStart}  ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
+                </if>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
+                </if>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')<=  #{expectEndTime}   ]]>
+                </if>
+                <if test="realReturnStartTime != null and realReturnStartTime!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd')>=  #{realReturnStartTime}   ]]>
+                </if>
+                <if test="realReturnEndTime != null and realReturnEndTime!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd')<=  #{realReturnEndTime}   ]]>
+                </if>
+                <if test="collectStartDate != null and collectStartDate!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>= #{collectStartDate}  ]]>
+                </if>
+                <if test="collectEndDate != null and collectEndDate!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>=  #{collectEndDate}   ]]>
+                </if>
+
+            </trim>
+        </where>
+    </select>
+
     <select id="totalCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select  da.color,
         <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
@@ -3137,45 +3300,45 @@
             da.delete_flag=0
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
-                    and da.id in
+                    and t.id in
                     <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and da.card_no in
                     <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
                     and da.seq_no in
                     <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and da.ident_no in
                     <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="nameFlag != null and identNoFlag!=''">
                     and da.name in
                     <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="accountFlag != null and accountFlag!=''">
                     and da.account in
                     <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and da.archive_no in
                     <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">
@@ -3308,44 +3471,44 @@
             <trim suffixOverrides=",">
                 <if test="idFlag != null and idFlag!=''">
                     and t.id in
-                    <foreach item="item" index="index" collection="ids" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        '${item}'
                 </foreach>
                 </if>
                 <if test="cardNoFlag != null and cardNoFlag!=''">
                     and t.card_no in
-                    <foreach item="item" index="index" collection="cardNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="seqNoFlag != null and seqNoFlag!=''">
                     and t.seq_no in
-                    <foreach item="item" index="index" collection="seqNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and t.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="nameFlag != null and identNoFlag!=''">
                     and t.name in
-                    <foreach item="item" index="index" collection="names" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="accountFlag != null and accountFlag!=''">
                     and t.account in
-                    <foreach item="item" index="index" collection="accounts" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and t.archive_no in
-                    <foreach item="item" index="index" collection="archiveNos" open="('" separator="','" close="')">
-                        ${item}
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        '${item}'
                     </foreach>
                 </if>
                 <if test="clientFlag != null and clientFlag!=''">

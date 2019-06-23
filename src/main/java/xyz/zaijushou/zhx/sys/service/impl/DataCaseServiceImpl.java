@@ -76,6 +76,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private SysUserMapper sysUserMapper;
     @Resource
     private SysRoleMapper sysRoleMapper;
+    @Resource
+    private SysOperationLogMapper sysOperationLogMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -652,6 +654,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     @Override
     public void sendOdv(DataCaseEntity bean){
+        DataCaseEntity temp = dataCaseMapper.findById(bean);
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ bean.getOdv(), SysUserEntity.class);
         bean.setDistributeHistory(",分配给"+user.getUserName());
         bean.setDept(user==null?"":user.getDepartment());
@@ -665,6 +668,19 @@ public class DataCaseServiceImpl implements DataCaseService {
         log.setOpTime(sdf.format(new Date()));
         log.setCaseId(bean.getId()+"");
         dataLogService.saveDataLog(log);
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setUrl("/send");
+        operationLog.setUserIp("127.0.0.1");
+        operationLog.setUserId(getUserInfo().getId());
+
+        if (StringUtils.isEmpty(temp.getOdv())){
+            operationLog.setRequestBody(getUserInfo().getUserName()+"把"+temp.getSeqNo()+"案件分配给"+user.getUserName());
+        }else{
+            SysUserEntity tempUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            operationLog.setRequestBody(getUserInfo().getUserName()+"把"+temp.getSeqNo()+"案件（从"+tempUser.getUserName()+"）分配给"+user.getUserName());
+        }
+
+        sysOperationLogMapper.insertRequest(operationLog);
     }
     @Override
     public void sendOdvByProperty(DataCaseEntity dataCaseEntity){
@@ -833,10 +849,27 @@ public class DataCaseServiceImpl implements DataCaseService {
             ids[i] =bean.getId()+"";
 
         }
+        DataCaseEntity caseTemp = new DataCaseEntity();
+        BeanUtils.copyProperties(dataCaseEntity,caseTemp);
         dataCaseEntity.setDistributeHistory(",分配给"+user.getUserName());
         dataCaseEntity.setIds(ids);
         dataCaseEntity.setDept(user==null?"":user.getDepartment());
         dataCaseMapper.sendOdvByProperty(dataCaseEntity);
+
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setUrl("/send");
+        operationLog.setUserIp("127.0.0.1");
+        operationLog.setUserId(getUserInfo().getId());
+        String seqNos = "";
+
+        List<DataCaseEntity> tempList = dataCaseMapper.listSend(caseTemp);
+        for (int i=0;i<tempList.size();i++){
+            seqNos = seqNos+","+tempList.get(i).getSeqNo();
+        }
+
+        operationLog.setRequestBody(getUserInfo().getUserName()+"把"+(seqNos==null?"":seqNos.substring(1))+"案件分配给"+user.getUserName());
+
+        sysOperationLogMapper.insertRequest(operationLog);
 
     }
     @Override

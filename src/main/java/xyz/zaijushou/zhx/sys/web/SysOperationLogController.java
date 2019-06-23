@@ -85,6 +85,8 @@ public class SysOperationLogController {
         for(int i = 0; i < logList.size(); i ++) {
             if(logList.get(i).getUrl().equals("/import")){
                 logList.get(i).setLogContent(logList.get(i).getRequestBody());
+            }if(logList.get(i).getUrl().equals("/send")){
+                logList.get(i).setLogContent(logList.get(i).getRequestBody());
             }else {
                 if (typeMap.get(logList.get(i).getUrl()) != null && StringUtils.isNotBlank(typeMap.get(logList.get(i).getUrl()).getLogTemplate())) {
                     String template = typeMap.get(logList.get(i).getUrl()).getLogTemplate();

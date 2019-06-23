@@ -28,6 +28,8 @@ public interface DataCaseMapper {
 
     public  DataCaseEntity findById(DataCaseEntity bean);
 
+    public List<DataCaseEntity> listSend(DataCaseEntity bean);
+
     public  DataCaseEntity findThisMonthById(DataCaseEntity bean);
 
     public  List<DataCaseEntity> findThisMonthTSById1(DataCaseEntity bean);
