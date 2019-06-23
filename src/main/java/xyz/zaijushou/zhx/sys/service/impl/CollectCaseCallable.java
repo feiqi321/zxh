@@ -112,6 +112,7 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
         collection.setBalanceMsg(collection.getBalance()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBalance().stripTrailingZeros()+""));
         collection.setMoneyMsg(collection.getMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getMoney().stripTrailingZeros()+""));
         collection.setRepayAmtMsg(collection.getRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getRepayAmt().stripTrailingZeros()+""));
+        collection.setPrinciple(collection.getPrinciple()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getPrinciple()));
 
         if(collection.getDistributeStatus()==null || collection.getDistributeStatus()==2){
             collection.setDistributeStatusMsg("未分配");

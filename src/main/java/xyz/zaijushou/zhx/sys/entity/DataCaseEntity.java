@@ -74,6 +74,7 @@ public class DataCaseEntity extends CommonEntity {
     private String collectStartDate;
     private String collectEndDate;
     private Integer overDays;//逾期天数 查询条件
+    private String freeDays;//闲置天数
     private String identNo;//证件号 查询条件    列表
     private String[] identNos;
     private String identNoFlag;
@@ -359,6 +360,24 @@ public class DataCaseEntity extends CommonEntity {
     private String contactAddress6;
     private String contactIdentType6;
     private String contactRelation6;
+
+    private Integer leaveDays;
+
+    public Integer getLeaveDays() {
+        return leaveDays;
+    }
+
+    public void setLeaveDays(Integer leaveDays) {
+        this.leaveDays = leaveDays;
+    }
+
+    public String getFreeDays() {
+        return freeDays;
+    }
+
+    public void setFreeDays(String freeDays) {
+        this.freeDays = freeDays;
+    }
 
     public String getPrinciple() {
         return principle;

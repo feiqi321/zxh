@@ -171,6 +171,8 @@ public class DataCollectionEntity extends CommonEntity {
     //闲置天数
     private String leaveDays;
 
+    private String principle;
+
     //预计还款时间
     //承诺日期
     private String repayTime;
@@ -285,6 +287,14 @@ public class DataCollectionEntity extends CommonEntity {
      * 业务类型
      */
     private String businessType;
+
+    public String getPrinciple() {
+        return principle;
+    }
+
+    public void setPrinciple(String principle) {
+        this.principle = principle;
+    }
 
     public Date getCaseDateD() {
         return caseDateD;

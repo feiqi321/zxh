@@ -586,7 +586,7 @@
          da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,dbo.fnFormatDate(da.distribute_time,'yyyy-MM-dd') as distributeTime,
          da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
          da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,collect_result as collectInfo, da.odv as [collectionUser.id],
-        da.collect_times as collectTimes
+        da.collect_times as collectTimes,da.leave_Days as leaveDays,da.principle,da.latest_overdue_money as latestOverdueMoney,da.overdue_date as overdueDate
         from data_case da
         <where>
             da.delete_flag=0
@@ -751,7 +751,7 @@
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,collect_hand as collectHand,
         real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,dbo.fnFormatDate(distribute_time,'yyyy-MM-dd  HH:mm') as distributeTime,
         money as money,balance as balance,overdue_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,collect_result as collectInfo,
-        bank_amt as bankAmt,en_repay_amt as enRepayAmt,comment,pro_repay_amt as proRepayAmt,collect_times as collectTimes
+        bank_amt as bankAmt,en_repay_amt as enRepayAmt,comment,pro_repay_amt as proRepayAmt,collect_times as collectTimes,da.leave_Days as leaveDays,da.principle,da.latest_overdue_money as latestOverdueMoney,da.overdue_date as overdueDate
          from data_case where ident_no in (
         select  top 100000 da.ident_no
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id

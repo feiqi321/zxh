@@ -72,6 +72,8 @@ public class CaseCallable implements Callable<List<DataCaseEntity>> {
         temp.setBalanceMsg(temp.getBalance()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance().stripTrailingZeros()+""));
         temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt().stripTrailingZeros()+""));
         temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros()+""));
+        temp.setPrinciple(temp.getPrinciple()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getPrinciple()));
+        temp.setLatestOverdueMoney(temp.getLatestCollectMomorize()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getLatestCollectMomorize()));
         list.set(index,temp);
         return list;
     }

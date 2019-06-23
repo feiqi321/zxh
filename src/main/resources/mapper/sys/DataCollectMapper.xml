@@ -610,7 +610,7 @@
         t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
-        t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
+        t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,t.principle,
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t
         <where>
