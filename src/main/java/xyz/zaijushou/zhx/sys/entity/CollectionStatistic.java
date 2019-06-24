@@ -58,6 +58,7 @@ public class CollectionStatistic extends CommonEntity {
     //委托方
     private String client;
     private String[] clients;
+    private String[] areas;
     private String clientFlag;
 
     private String batchNo;
@@ -138,6 +139,14 @@ public class CollectionStatistic extends CommonEntity {
     private String phone;
 
     private String phoneTime;
+
+    public String[] getAreas() {
+        return areas;
+    }
+
+    public void setAreas(String[] areas) {
+        this.areas = areas;
+    }
 
     public List<String> getCollectionDics() {
         return collectionDics;

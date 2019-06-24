@@ -76,6 +76,42 @@ public class DataBatchEntity extends CommonEntity {
     private Map exportConf;
 
     private List exportKeyList;
+    /**
+     * 区域数组
+     */
+    private String[] areas;
+    /**
+     * 案件类型数组
+     */
+    private String[] caseTypes;
+    /**
+     * 批次状态数组
+     */
+    private String[] batchStatuss;
+
+    public String[] getAreas() {
+        return areas;
+    }
+
+    public void setAreas(String[] areas) {
+        this.areas = areas;
+    }
+
+    public String[] getCaseTypes() {
+        return caseTypes;
+    }
+
+    public void setCaseTypes(String[] caseTypes) {
+        this.caseTypes = caseTypes;
+    }
+
+    public String[] getBatchStatuss() {
+        return batchStatuss;
+    }
+
+    public void setBatchStatuss(String[] batchStatuss) {
+        this.batchStatuss = batchStatuss;
+    }
 
     public Map getExportConf() {
         return exportConf;

@@ -288,6 +288,112 @@ public class DataCollectionEntity extends CommonEntity {
      */
     private String businessType;
 
+    /**
+     * 逾期数组
+     */
+    private String[] accountAges;
+    private String[] reduceStatuss;
+    /**
+     * 案件状态数组
+     */
+    private String[] statuss;
+    /**
+     * 催收状态数组
+     */
+    private String[] collectStatuss;
+    /**
+     * 案件类型数组
+     */
+    private String[] caseTypes;
+    /**
+     * 标色状态数组
+     */
+    private String[] colors;
+    /**
+     * 减免状态数组
+     */
+    private String[] reliefStatuss;
+    /**
+     * 报备状态数组
+     */
+    private String[] reportStatus;
+    /**
+     * 地区数组
+     */
+    private String[] areas;
+
+    public String[] getAccountAges() {
+        return accountAges;
+    }
+
+    public void setAccountAges(String[] accountAges) {
+        this.accountAges = accountAges;
+    }
+
+    public String[] getReduceStatuss() {
+        return reduceStatuss;
+    }
+
+    public void setReduceStatuss(String[] reduceStatuss) {
+        this.reduceStatuss = reduceStatuss;
+    }
+
+    public String[] getStatuss() {
+        return statuss;
+    }
+
+    public void setStatuss(String[] statuss) {
+        this.statuss = statuss;
+    }
+
+    public String[] getCollectStatuss() {
+        return collectStatuss;
+    }
+
+    public void setCollectStatuss(String[] collectStatuss) {
+        this.collectStatuss = collectStatuss;
+    }
+
+    public String[] getCaseTypes() {
+        return caseTypes;
+    }
+
+    public void setCaseTypes(String[] caseTypes) {
+        this.caseTypes = caseTypes;
+    }
+
+    public String[] getColors() {
+        return colors;
+    }
+
+    public void setColors(String[] colors) {
+        this.colors = colors;
+    }
+
+    public String[] getReliefStatuss() {
+        return reliefStatuss;
+    }
+
+    public void setReliefStatuss(String[] reliefStatuss) {
+        this.reliefStatuss = reliefStatuss;
+    }
+
+    public String[] getReportStatus() {
+        return reportStatus;
+    }
+
+    public void setReportStatus(String[] reportStatus) {
+        this.reportStatus = reportStatus;
+    }
+
+    public String[] getAreas() {
+        return areas;
+    }
+
+    public void setAreas(String[] areas) {
+        this.areas = areas;
+    }
+
     public String getPrinciple() {
         return principle;
     }

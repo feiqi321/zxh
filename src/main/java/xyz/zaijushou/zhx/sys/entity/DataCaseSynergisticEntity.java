@@ -54,6 +54,18 @@ public class DataCaseSynergisticEntity extends CommonEntity {
     private Map exportConf;
 
     private List exportKeyList;
+    /**
+     * 协催类型
+     */
+    private String[] names;
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public void setNames(String[] names) {
+        this.names = names;
+    }
 
     public Map getExportConf() {
         return exportConf;

@@ -558,6 +558,14 @@
                 <if test="countFollowStart != null and countFollowStart!=''" >
                     <![CDATA[   and c.count_follow<=  #{countFollowStart}   ]]>
                 </if>
+
+
+                <if test="areas != null and areas.length > 0 ">
+                    and t.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
             </trim>
         </where>
         order by ${orderBy} ${sort}
@@ -657,7 +665,7 @@
                 </if>
 
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND t.case_status l= #{caseStatus}
+                    AND t.case_status = #{caseStatus}
                 </if>
 
                 <if test="cardNo != null and cardNo!=''">
@@ -680,6 +688,70 @@
                 <if test="accountAge != null and accountAge!=''">
                     and t.account_age = #{accountAge}
                 </if>
+
+                <if test="accountAges != null ">
+                    and t.account_age in
+                    <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="statuss != null ">
+                    and t.case_status in
+                    <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="collectStatuss != null and collectStatuss.length > 0  ">
+                    and t.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="caseTypes != null and caseTypes.length > 0  ">
+                    and t.case_type in
+                    <foreach item="item" index="index" collection="caseTypes" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reliefStatuss != null and reliefStatuss.length > 0  ">
+                    and t.reduce_status in
+                    <foreach item="item" index="index" collection="reliefStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reportStatus != null and reportStatus.length > 0  ">
+                    and t.report_status in
+                    <foreach item="item" index="index" collection="reportStatus" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="colors != null and colors.length > 0 ">
+                    and t.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="areas != null and areas.length > 0 ">
+                    and t.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="odvs != null and odvs.length > 0 ">
+                    and t.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
                 <if test="identNo != null and identNo!=''">
                     and t.ident_no = #{identNo}
                 </if>
@@ -1497,6 +1569,20 @@
         <if test="accountAge != null and accountAge !=''">
             and c.account_age = #{accountAge}
         </if>
+        <if test="accountAges != null and accountAges.length > 0 ">
+            and c.account_age in
+            <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="collectStatuss != null and collectStatuss.length > 0 ">
+            and c.collect_status in
+            <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
         GROUP BY c.collect_status
     </select>
 
@@ -1651,6 +1737,20 @@
 
         <if test="accountAge != null and accountAge !=''">
             and c.account_age = #{accountAge}
+        </if>
+
+        <if test="accountAges != null and accountAges.length > 0 ">
+            and c.account_age in
+            <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="odvs != null and odvs.length > 0 ">
+            and c.odv in
+            <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
 
         <if test="repayTimeStart != null and repayTimeStart!=''">

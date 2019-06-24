@@ -84,6 +84,41 @@
         and dc.id = #{caseId}
     </if>
 
+        <if test="areas != null and areas.length > 0 ">
+            and dc.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dc.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="accountAges != null and accountAges.length > 0 ">
+            and dc.account_age in
+            <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="reduceStatuss != null and reduceStatuss.length > 0 ">
+            and dc.reduce_status in
+            <foreach item="item" index="index" collection="reduceStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="collectStatuss != null and collectStatuss.length > 0 ">
+            and dc.collect_status in
+            <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
     <if test="completeTimeStart != null and completeTimeStart!=''">
         <![CDATA[   and dbo.fnFormatDate(dcr.complete_time, 'yyyy-MM-dd')>=  #{completeTimeStart}   ]]>
     </if>

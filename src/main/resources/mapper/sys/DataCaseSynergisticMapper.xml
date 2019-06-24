@@ -141,6 +141,38 @@
         <if test="orderBy != null and orderBy != '' and sort != null and sort != ''">
             order by ${orderBy} ${sort}
         </if>
+
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.ids != null
+                and dataCase.collectionArea.ids.length > 0">
+            and c.collection_area in
+            <foreach item="item" index="index" collection="dataCase.collectionArea.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.statuss != null
+                and dataCase.statuss.length > 0">
+            and c.status in
+            <foreach item="item" index="index" collection="dataCase.statuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectStatuss != null
+                and dataCase.statuss.length > 0">
+            and c.collect_status in
+            <foreach item="item" index="index" collection="dataCase.collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="synergisticType != null and synergisticType.names != null
+                and synergisticType.names.length > 0">
+            and s.synergistic_type in
+            <foreach item="item" index="index" collection="synergisticType.names" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
     <select id="pageSynergisticExportList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity">

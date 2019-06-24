@@ -118,6 +118,27 @@
                 <if test="endTime != null and endTime!=''" >
                     <![CDATA[   and bail_date <= #{endTime}   ]]>
                 </if>
+
+                <if test="areas != null and areas.length > 0 ">
+                    and area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="caseTypes != null and caseTypes.length > 0 ">
+                    and case_type in
+                    <foreach item="item" index="index" collection="caseTypes" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="batchStatuss != null and batchStatuss.length > 0 ">
+                    and batch_status in
+                    <foreach item="item" index="index" collection="batchStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
             </trim>
         </where>
         order by ${orderBy} ${sort}

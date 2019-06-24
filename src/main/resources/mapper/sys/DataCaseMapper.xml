@@ -741,6 +741,69 @@
                     <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>=  #{collectEndDate}   ]]>
                 </if>
 
+                <if test="collectAreas != null and collectAreas.length > 0 ">
+                    and da.collect_area in
+                    <foreach item="item" index="index" collection="collectAreas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="caseTypes != null and caseTypes.length > 0 ">
+                    and da.case_type in
+                    <foreach item="item" index="index" collection="caseTypes" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="depts != null and depts.length > 0 ">
+                    and da.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reportStatuss != null and reportStatuss.length > 0 ">
+                    and da.report_status in
+                    <foreach item="item" index="index" collection="reportStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reduceStatuss != null and reduceStatuss.length > 0 ">
+                    and da.reduce_status in
+                    <foreach item="item" index="index" collection="reduceStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="statuss != null and statuss.length > 0 ">
+                    and da.status in
+                    <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="accountAges != null and accountAges.length > 0 ">
+                    and da.account_age in
+                    <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="colors != null and colors.length > 0 ">
+                    and da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="areas != null and areas.length > 0 ">
+                    and da.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
             </trim>
         </where>
         order by ${orderBy} ${sort}
@@ -907,6 +970,77 @@
                 </if>
                 <if test="collectEndDate != null and collectEndDate!=''" >
                     <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>=  #{collectEndDate}   ]]>
+                </if>
+
+
+                <if test="collectAreas != null and collectAreas.length > 0 ">
+                    and da.collect_area in
+                    <foreach item="item" index="index" collection="collectAreas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="caseTypes != null and caseTypes.length > 0 ">
+                    and da.case_type in
+                    <foreach item="item" index="index" collection="caseTypes" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="depts != null and depts.length > 0 ">
+                    and da.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reportStatuss != null and reportStatuss.length > 0 ">
+                    and da.report_status in
+                    <foreach item="item" index="index" collection="reportStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reduceStatuss != null and reduceStatuss.length > 0 ">
+                    and da.reduce_status in
+                    <foreach item="item" index="index" collection="reduceStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="statuss != null and statuss.length > 0 ">
+                    and da.status in
+                    <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="accountAges != null and accountAges.length > 0 ">
+                    and da.account_age in
+                    <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="colors != null and colors.length > 0 ">
+                    and da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="areas != null and areas.length > 0 ">
+                    and da.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="distributeStatuss != null and distributeStatuss.length > 0 ">
+                    and t.distribute_status in
+                    <foreach item="item" index="index" collection="distributeStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
             </trim>
         </where>

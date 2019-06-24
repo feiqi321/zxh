@@ -360,6 +360,111 @@ public class DataCaseEntity extends CommonEntity {
     private String contactAddress6;
     private String contactIdentType6;
     private String contactRelation6;
+    /**
+     *
+     */
+    private String[] collectAreas;
+    /**
+     *
+     */
+    private String[] caseTypes;
+    private String[] depts;
+    private String[] reportStatuss;
+    private String[] reduceStatuss;
+    private String[] statuss;
+    private String[] accountAges;
+    private String[] colors;
+    private String[] areas;
+    private String[] distributeStatuss;
+    private String[] collectStatuss;
+
+    public String[] getCollectAreas() {
+        return collectAreas;
+    }
+
+    public void setCollectAreas(String[] collectAreas) {
+        this.collectAreas = collectAreas;
+    }
+
+    public String[] getCaseTypes() {
+        return caseTypes;
+    }
+
+    public void setCaseTypes(String[] caseTypes) {
+        this.caseTypes = caseTypes;
+    }
+
+    public String[] getDepts() {
+        return depts;
+    }
+
+    public void setDepts(String[] depts) {
+        this.depts = depts;
+    }
+
+    public String[] getReportStatuss() {
+        return reportStatuss;
+    }
+
+    public void setReportStatuss(String[] reportStatuss) {
+        this.reportStatuss = reportStatuss;
+    }
+
+    public String[] getReduceStatuss() {
+        return reduceStatuss;
+    }
+
+    public void setReduceStatuss(String[] reduceStatuss) {
+        this.reduceStatuss = reduceStatuss;
+    }
+
+    public String[] getStatuss() {
+        return statuss;
+    }
+
+    public void setStatuss(String[] statuss) {
+        this.statuss = statuss;
+    }
+
+    public String[] getAccountAges() {
+        return accountAges;
+    }
+
+    public void setAccountAges(String[] accountAges) {
+        this.accountAges = accountAges;
+    }
+
+    public String[] getColors() {
+        return colors;
+    }
+
+    public void setColors(String[] colors) {
+        this.colors = colors;
+    }
+
+    public String[] getAreas() {
+        return areas;
+    }
+
+    public void setAreas(String[] areas) {
+        this.areas = areas;
+    }
+
+    public String[] getDistributeStatuss() {
+        return distributeStatuss;
+    }
+
+    public void setDistributeStatuss(String[] distributeStatuss) {
+        this.distributeStatuss = distributeStatuss;
+    }
+
+    public String[] getCollectStatuss() {
+        return collectStatuss;
+    }
+
+    public void setCollectStatuss(String[] collectStatuss) {
+        this.collectStatuss = collectStatuss;
+    }
 
     private Integer leaveDays;
 

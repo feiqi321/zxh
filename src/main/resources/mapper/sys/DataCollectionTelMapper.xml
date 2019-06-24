@@ -69,6 +69,20 @@
         <if test="odv != null and odv!=''">
             AND da.odv =#{odv}
         </if>
+
+            <if test="areas != null and areas.length > 0 ">
+                and dc.area in
+                <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="clients != null and clients.length > 0 ">
+                and dc.client in
+                <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
         </where>
     </select>
 
@@ -99,6 +113,19 @@
         <if test="odv != null and odv!=''">
             AND da.odv = #{odv}
         </if>
+        <if test="areas != null and areas.length > 0 ">
+            and dc.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dc.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
     <!--拨打电话存在的案件数量-->
@@ -127,6 +154,19 @@
         <if test="odv != null and odv!=''">
             AND da.odv = #{odv}
         </if>
+            <if test="areas != null and areas.length > 0 ">
+                and dc.area in
+                <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+
+            <if test="clients != null and clients.length > 0 ">
+                and dc.client in
+                <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
         </where>
     </select>
 
@@ -179,6 +219,20 @@
                 #{item}
             </foreach>
         </if>
+
+        <if test="areas != null and areas.length > 0 ">
+            and dct.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dct.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
     <select id="pageCollectionDayAction" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
@@ -204,6 +258,32 @@
                 #{item}
             </foreach>
         </if>
+        <if test="areas != null and areas.length > 0 ">
+            and dct.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dct.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="areas != null and areas.length > 0 ">
+            and dct.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dct.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
     <select id="countCollectionDayAction" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
@@ -220,6 +300,32 @@
         </if>
         <if test="dateEnd != null" >
             and dct.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
+        </if>
+        <if test="areas != null and areas.length > 0 ">
+            and dct.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dct.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="areas != null and areas.length > 0 ">
+            and dct.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dct.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         GROUP BY result
     </select>
@@ -241,6 +347,19 @@
         </if>
         <if test="collectionResult != null and collectionResult!=''">
             AND result = #{collectionResult}
+        </if>
+        <if test="areas != null and areas.length > 0 ">
+            and dct.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and dct.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
     </select>
 </mapper>

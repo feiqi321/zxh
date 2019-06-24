@@ -35,6 +35,16 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      */
     private Integer type;
 
+    private String[] ids;
+
+    public String[] getIds() {
+        return ids;
+    }
+
+    public void setIds(String[] ids) {
+        this.ids = ids;
+    }
+
     public Integer getSysFlag() {
         return sysFlag;
     }
