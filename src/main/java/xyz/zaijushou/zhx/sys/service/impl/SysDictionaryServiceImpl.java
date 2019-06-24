@@ -260,6 +260,16 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
         return dictionaryMapper.listDataByName(dictionary);
     }
 
+    /**
+     * 根据名称获取数据组
+     * @param dictionary
+     * @return
+     */
+    @Override
+    public  List<SysDictionaryEntity> listDataByPid(SysDictionaryEntity dictionary){
+        return dictionaryMapper.listDataByPid(dictionary);
+    }
+
     @Override
     public  List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary){
         return dictionaryMapper.listDataByDName(dictionary);

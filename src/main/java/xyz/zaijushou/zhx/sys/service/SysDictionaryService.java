@@ -40,6 +40,8 @@ public interface SysDictionaryService {
      */
     List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary);
 
+    List<SysDictionaryEntity> listDataByPid(SysDictionaryEntity dictionary);
+
     List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary);
 
     /**

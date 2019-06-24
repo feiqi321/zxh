@@ -23,6 +23,8 @@ public interface SysDictionaryMapper {
 
     List<SysDictionaryEntity> listDataByName(SysDictionaryEntity dictionary);
 
+    List<SysDictionaryEntity> listDataByPid(SysDictionaryEntity dictionary);
+
     List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary);
 
     List<SysDictionaryEntity> getDataById(Integer id);

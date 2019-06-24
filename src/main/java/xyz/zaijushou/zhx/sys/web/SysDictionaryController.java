@@ -56,6 +56,13 @@ public class SysDictionaryController {
         return WebResponse.success(dictionaryEntityList);
     }
 
+    @ApiOperation(value = "根据父级id查询数据列表", notes = "根据父级id查询数据列表")
+    @PostMapping("/select/list/pid")
+    public Object listDataByPid(@RequestBody SysDictionaryEntity dictionary) {
+        List<SysDictionaryEntity> dictionaryEntityList = dictionaryService.listDataByPid(dictionary);
+        return WebResponse.success(dictionaryEntityList);
+    }
+
     @ApiOperation(value = "根据名称模糊查询数据", notes = "根据名称查询数据")
     @PostMapping("/select/name")
     public Object listDataByDName(@RequestBody SysDictionaryEntity dictionary) {
