@@ -19,5 +19,7 @@ public interface SysOrganizationMapper {
 
     void deleteOrg(SysOrganizationEntity organizationEntity);
 
+    SysOrganizationEntity findByName(String name);
+
     List<SysNewUserEntity> findById(String department);
 }
