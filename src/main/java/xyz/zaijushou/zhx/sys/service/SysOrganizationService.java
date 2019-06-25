@@ -14,4 +14,6 @@ public interface SysOrganizationService {
     void updateOrg(SysOrganizationEntity organizationEntity);
 
     void deleteOrg(SysOrganizationEntity organizationEntity);
+
+    SysOrganizationEntity findByName(String name);
 }

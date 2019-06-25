@@ -82,4 +82,9 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
     public void deleteOrg(SysOrganizationEntity organizationEntity) {
         sysOrganizationMapper.deleteOrg(organizationEntity);
     }
+
+    @Override
+    public SysOrganizationEntity findByName(String name) {
+        return sysOrganizationMapper.findByName(name);
+    }
 }
