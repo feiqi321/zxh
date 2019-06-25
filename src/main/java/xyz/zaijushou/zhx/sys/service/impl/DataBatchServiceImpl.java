@@ -10,6 +10,7 @@ import xyz.zaijushou.zhx.constant.BatchSortEnum;
 import xyz.zaijushou.zhx.constant.CaseSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataBatchService;
@@ -32,6 +33,8 @@ public class DataBatchServiceImpl implements DataBatchService {
     @Resource
     private DataBatchMapper dataBatchMapper;
     @Resource
+    private DataCaseMapper dataCaseMapper;
+    @Resource
     private  StringRedisTemplate stringRedisTemplate;
 
 
@@ -48,10 +51,20 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public void returnCase(DataBatchEntity bean){
         dataBatchMapper.returnCase(bean);
+        bean = dataBatchMapper.selectBatchById(bean.getId());
+        DataCaseEntity datCase = new DataCaseEntity();
+        datCase.setBatchNo(bean.getBatchNo());
+        datCase.setStatus(4);
+        dataCaseMapper.updateCaseByBatch(datCase);
     }
 
     public void recoverCase(DataBatchEntity bean){
         dataBatchMapper.recoverCase(bean);
+        bean = dataBatchMapper.selectBatchById(bean.getId());
+        DataCaseEntity datCase = new DataCaseEntity();
+        datCase.setBatchNo(bean.getBatchNo());
+        datCase.setStatus(1);
+        dataCaseMapper.updateCaseByBatch(datCase);
     }
 
     public void deleteById(DataBatchEntity bean){

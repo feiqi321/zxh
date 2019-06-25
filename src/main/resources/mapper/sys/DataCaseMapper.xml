@@ -3834,6 +3834,12 @@
 
     </update>
 
+    <update id="updateCaseByBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" >
+
+        update data_case set status = #{status} where batch_no = #{batchNo}
+
+    </update>
+
     <select id="pageSeqNos" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         <include refid="colSql"/>

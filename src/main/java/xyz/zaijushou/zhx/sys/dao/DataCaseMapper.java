@@ -20,6 +20,8 @@ public interface DataCaseMapper {
 
     public int saveCase(DataCaseEntity bean);
 
+    void updateCaseByBatch(DataCaseEntity bean);
+
     public int saveBatchCase(@Param("list") List<DataCaseEntity> list);
 
     public void updateCase(DataCaseEntity bean);
