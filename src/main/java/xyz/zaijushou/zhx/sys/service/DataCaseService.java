@@ -33,6 +33,10 @@ public interface DataCaseService {
 
     public void sendOdvByProperty(DataCaseEntity bean);
 
+    public void autoSendByProperty(DataCaseEntity bean);
+
+    public WebResponse querySendByProperty(DataCaseEntity bean);
+
     public void addComment(DataCaseEntity bean);
 
     public void addWarning(DataCaseEntity bean);

@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Created by looyer on 2019/1/25.
  */
-public class DataCaseEntity extends CommonEntity {
+public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseEntity> {
     private String idStr;
     private String idFlag;
     private String[] ids;
@@ -377,6 +377,25 @@ public class DataCaseEntity extends CommonEntity {
     private String[] areas;
     private String[] distributeStatuss;
     private String[] collectStatuss;
+
+    private Integer sendType;
+    private Integer mathType;
+
+    public Integer getSendType() {
+        return sendType;
+    }
+
+    public void setSendType(Integer sendType) {
+        this.sendType = sendType;
+    }
+
+    public Integer getMathType() {
+        return mathType;
+    }
+
+    public void setMathType(Integer mathType) {
+        this.mathType = mathType;
+    }
 
     public String[] getCollectAreas() {
         return collectAreas;
@@ -2810,5 +2829,10 @@ public class DataCaseEntity extends CommonEntity {
 
     public void setMaxId(Integer maxId) {
         this.maxId = maxId;
+    }
+
+    @Override
+    public int compareTo(DataCaseEntity dataCaseEntity) {           //重写Comparable接口的compareTo方法，
+        return dataCaseEntity.money.compareTo(this.getMoney());  // 根据年龄升序排列，降序修改相减顺序即可
     }
 }

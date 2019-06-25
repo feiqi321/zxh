@@ -64,8 +64,8 @@ public class RedisInitConfig implements ApplicationRunner {
         initAuthorityInfo(allAuthority);
         initRoleInfo();
         initDic(allDic);
-/*
-        List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
+
+       /* List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
         initBatch(allBatch);
         for (int i=0;i<120;i++){
             DataCaseEntity DataCaseEntity = new DataCaseEntity();

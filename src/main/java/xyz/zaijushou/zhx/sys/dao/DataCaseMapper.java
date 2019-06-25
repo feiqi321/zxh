@@ -14,6 +14,10 @@ import java.util.List;
 @Mapper
 public interface DataCaseMapper {
 
+    public List<DataCaseEntity> findBySeqNo(DataCaseEntity bean);
+
+    public List<DataCaseEntity> findByCardNo(DataCaseEntity bean);
+
     public int saveCase(DataCaseEntity bean);
 
     public int saveBatchCase(@Param("list") List<DataCaseEntity> list);

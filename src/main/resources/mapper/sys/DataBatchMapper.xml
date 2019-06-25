@@ -20,6 +20,8 @@
             <if test="targetRate != null">target_rate,</if>
             batch_status,
             delete_flag,
+            user_count,
+            total_amt,
             <if test="remark != null">remark,</if>
             create_time,
             <if test="creatUser != null">create_user,</if>
@@ -33,6 +35,8 @@
             <if test="caseType != null">#{caseType},</if>
             <if test="returnTime != null">#{returnTime},</if>
             <if test="targetRate != null">#{targetRate},</if>
+            0,
+            0,
             0,
             0,
             <if test="remark != null">#{remark},</if>

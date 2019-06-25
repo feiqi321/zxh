@@ -35,9 +35,40 @@ public class CaseSaveCallable implements Callable<List<DataCaseTelEntity>> {
 
     public List<DataCaseTelEntity> call() throws Exception{
 
+        /*DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+batch.getBatchNo(),DataBatchEntity.class);
+        entity.setClient(batchEntity ==null ?"":batchEntity.getClient());
+        if(entity.getCollectionArea() != null && entity.getCollectionArea().getId() != null) {
+            SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + entity.getCollectionArea().getId(), SysDictionaryEntity.class);
+            entity.setCollectArea(collectAreaEntity == null ? "" : entity.getCollectionArea().getId() + "");
+        }
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getAccountAge())){
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getAccountAge(),SysDictionaryEntity.class);
+            entity.setAccountAge(sysDictionaryEntity.getId()+"");
+        }
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getCollectionType())){
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getCollectionType(),SysDictionaryEntity.class);
+            entity.setCollectionType(sysDictionaryEntity.getId()+"");
+        }
+
+        entity.setMoney(entity.getMoney()==null?new BigDecimal(0):entity.getMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        entity.setBalance(entity.getBalance()==null?new BigDecimal(0):entity.getBalance().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        entity.setRate(entity.getRate()==null?new BigDecimal(0):entity.getRate().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        try{
+            BigDecimal bMval = new BigDecimal(entity.getMVal()==null?"0":entity.getMVal());
+        }catch (Exception e){
+        }
+        entity.setEnRepayAmt(entity.getEnRepayAmt()==null?new BigDecimal(0):entity.getEnRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        entity.setBankAmt(entity.getBankAmt()==null?new BigDecimal(0):entity.getBankAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        entity.setProRepayAmt(entity.getProRepayAmt()==null?new BigDecimal(0):entity.getProRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        entity.setCommissionMoney(entity.getCommissionMoney()==null?new BigDecimal(0):entity.getCommissionMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        entity.setLastRepayMoney(entity.getLastRepayMoney()==null?new BigDecimal(0):entity.getLastRepayMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+        entity.setOutstandingAmount(entity.getOutstandingAmount()==null?new BigDecimal(0):entity.getOutstandingAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+*/
+
+
         BigDecimal tmp = batch.getTotalAmt();
         batch.setTotalAmt(tmp.add(entity.getMoney()));
-        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity),20);
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
         stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
 
 
