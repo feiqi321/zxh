@@ -207,7 +207,7 @@
 
 
         <if test="dataCase != null and dataCase.caseTypes != null
-                and dataCase.collectStatuss.length > 0">
+                and dataCase.caseTypes.length > 0">
             and c.case_type in
             <foreach item="item" index="index" collection="dataCase.caseTypes" open="(" separator="," close=")">
                 #{item}
@@ -321,6 +321,71 @@
         <if test="repayDateEnd != null">
             and r.repay_date &lt;= #{repayDateEnd}
         </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.ids != null
+                and dataCase.collectionArea.ids.length > 0">
+            and c.collection_area in
+            <foreach item="item" index="index" collection="dataCase.collectionArea.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.batchNos != null
+                and dataCase.batchNos.length > 0">
+            and c.batch_no in
+            <foreach item="item" index="index" collection="dataCase.batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.clients != null
+                and dataCase.clients.length > 0">
+            and c.client in
+            <foreach item="item" index="index" collection="dataCase.clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
+                and dataCase.collectionUser.ids.length > 0">
+            and c.collection_user in
+            <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.statuss != null
+                and dataCase.statuss.length > 0">
+            and c.status in
+            <foreach item="item" index="index" collection="dataCase.statuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.accountAges != null
+                and dataCase.accountAges.length > 0">
+            and c.account_age in
+            <foreach item="item" index="index" collection="dataCase.accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectStatuss != null
+                and dataCase.collectStatuss.length > 0">
+            and c.collect_status in
+            <foreach item="item" index="index" collection="dataCase.collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+
+        <if test="dataCase != null and dataCase.caseTypes != null
+                and dataCase.caseTypes.length > 0">
+            and c.case_type in
+            <foreach item="item" index="index" collection="dataCase.caseTypes" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
         ) t
     </select>
 
@@ -420,6 +485,70 @@
         </if>
         <if test="repayDateEnd != null">
             and r.repay_date &lt;= #{repayDateEnd}
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.ids != null
+                and dataCase.collectionArea.ids.length > 0">
+            and c.collection_area in
+            <foreach item="item" index="index" collection="dataCase.collectionArea.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.batchNos != null
+                and dataCase.batchNos.length > 0">
+            and c.batch_no in
+            <foreach item="item" index="index" collection="dataCase.batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.clients != null
+                and dataCase.clients.length > 0">
+            and c.client in
+            <foreach item="item" index="index" collection="dataCase.clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
+                and dataCase.collectionUser.ids.length > 0">
+            and c.collection_user in
+            <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.statuss != null
+                and dataCase.statuss.length > 0">
+            and c.status in
+            <foreach item="item" index="index" collection="dataCase.statuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.accountAges != null
+                and dataCase.accountAges.length > 0">
+            and c.account_age in
+            <foreach item="item" index="index" collection="dataCase.accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectStatuss != null
+                and dataCase.collectStatuss.length > 0">
+            and c.collect_status in
+            <foreach item="item" index="index" collection="dataCase.collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+
+        <if test="dataCase != null and dataCase.caseTypes != null
+                and dataCase.caseTypes.length > 0">
+            and c.case_type in
+            <foreach item="item" index="index" collection="dataCase.caseTypes" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
     </select>
 
@@ -523,6 +652,70 @@
         <if test="ids != null and ids.length >0">
             and r.id in
             <foreach collection="ids" item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.ids != null
+                and dataCase.collectionArea.ids.length > 0">
+            and c.collection_area in
+            <foreach item="item" index="index" collection="dataCase.collectionArea.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.batchNos != null
+                and dataCase.batchNos.length > 0">
+            and c.batch_no in
+            <foreach item="item" index="index" collection="dataCase.batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.clients != null
+                and dataCase.clients.length > 0">
+            and c.client in
+            <foreach item="item" index="index" collection="dataCase.clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
+                and dataCase.collectionUser.ids.length > 0">
+            and c.collection_user in
+            <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.statuss != null
+                and dataCase.statuss.length > 0">
+            and c.status in
+            <foreach item="item" index="index" collection="dataCase.statuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.accountAges != null
+                and dataCase.accountAges.length > 0">
+            and c.account_age in
+            <foreach item="item" index="index" collection="dataCase.accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectStatuss != null
+                and dataCase.collectStatuss.length > 0">
+            and c.collect_status in
+            <foreach item="item" index="index" collection="dataCase.collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+
+        <if test="dataCase != null and dataCase.caseTypes != null
+                and dataCase.caseTypes.length > 0">
+            and c.case_type in
+            <foreach item="item" index="index" collection="dataCase.caseTypes" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
@@ -634,6 +827,70 @@
                 #{item}
             </foreach>
         </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.ids != null
+                and dataCase.collectionArea.ids.length > 0">
+            and c.collection_area in
+            <foreach item="item" index="index" collection="dataCase.collectionArea.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.batchNos != null
+                and dataCase.batchNos.length > 0">
+            and c.batch_no in
+            <foreach item="item" index="index" collection="dataCase.batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.clients != null
+                and dataCase.clients.length > 0">
+            and c.client in
+            <foreach item="item" index="index" collection="dataCase.clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
+                and dataCase.collectionUser.ids.length > 0">
+            and c.collection_user in
+            <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.statuss != null
+                and dataCase.statuss.length > 0">
+            and c.status in
+            <foreach item="item" index="index" collection="dataCase.statuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.accountAges != null
+                and dataCase.accountAges.length > 0">
+            and c.account_age in
+            <foreach item="item" index="index" collection="dataCase.accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectStatuss != null
+                and dataCase.collectStatuss.length > 0">
+            and c.collect_status in
+            <foreach item="item" index="index" collection="dataCase.collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+
+        <if test="dataCase != null and dataCase.caseTypes != null
+                and dataCase.caseTypes.length > 0">
+            and c.case_type in
+            <foreach item="item" index="index" collection="dataCase.caseTypes" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
     <select id="listRepayRecordExport" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
@@ -738,6 +995,70 @@
         <if test="ids != null and ids.length >0">
             and r.id in
             <foreach collection="ids" item="item" open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="dataCase != null and dataCase.collectionArea != null and dataCase.collectionArea.ids != null
+                and dataCase.collectionArea.ids.length > 0">
+            and c.collection_area in
+            <foreach item="item" index="index" collection="dataCase.collectionArea.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.batchNos != null
+                and dataCase.batchNos.length > 0">
+            and c.batch_no in
+            <foreach item="item" index="index" collection="dataCase.batchNos" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.clients != null
+                and dataCase.clients.length > 0">
+            and c.client in
+            <foreach item="item" index="index" collection="dataCase.clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
+                and dataCase.collectionUser.ids.length > 0">
+            and c.collection_user in
+            <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.statuss != null
+                and dataCase.statuss.length > 0">
+            and c.status in
+            <foreach item="item" index="index" collection="dataCase.statuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.accountAges != null
+                and dataCase.accountAges.length > 0">
+            and c.account_age in
+            <foreach item="item" index="index" collection="dataCase.accountAges" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="dataCase != null and dataCase.collectStatuss != null
+                and dataCase.collectStatuss.length > 0">
+            and c.collect_status in
+            <foreach item="item" index="index" collection="dataCase.collectStatuss" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+
+        <if test="dataCase != null and dataCase.caseTypes != null
+                and dataCase.caseTypes.length > 0">
+            and c.case_type in
+            <foreach item="item" index="index" collection="dataCase.caseTypes" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>

@@ -65,6 +65,7 @@ public class CollectionStatistic extends CommonEntity {
     private String[] batchNos;
     private String batchFlag;
     private String accountAge;//逾期账龄
+    private String[] accountAges;
     private String collectStatusMsg;//催收状态中文显示
     private int collectStatus ; // 催收状态
     private BigDecimal paidMoney;//已还款金额
@@ -139,6 +140,24 @@ public class CollectionStatistic extends CommonEntity {
     private String phone;
 
     private String phoneTime;
+
+    private String[] collectStatuss;
+
+    public String[] getAccountAges() {
+        return accountAges;
+    }
+
+    public void setAccountAges(String[] accountAges) {
+        this.accountAges = accountAges;
+    }
+
+    public String[] getCollectStatuss() {
+        return collectStatuss;
+    }
+
+    public void setCollectStatuss(String[] collectStatuss) {
+        this.collectStatuss = collectStatuss;
+    }
 
     public String[] getAreas() {
         return areas;

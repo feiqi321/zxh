@@ -159,7 +159,7 @@
         </if>
 
         <if test="dataCase != null and dataCase.collectStatuss != null
-                and dataCase.statuss.length > 0">
+                and dataCase.collectStatuss.length > 0">
             and c.collect_status in
             <foreach item="item" index="index" collection="dataCase.collectStatuss" open="(" separator="," close=")">
                 #{item}

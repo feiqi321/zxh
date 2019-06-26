@@ -285,7 +285,11 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
         }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
-        this.royalti(dataCaseEntity.getId(),record.getCollectUser().getId());
+        if (record.getCollectUser().getId()!=null) {
+            this.royalti(dataCaseEntity.getId(), record.getCollectUser().getId());
+        }else if(record.getCollectUser().getId()==null && StringUtils.isNotEmpty(dataCaseEntity.getOdv())){
+            this.royalti(dataCaseEntity.getId(), Integer.parseInt(dataCaseEntity.getOdv()));
+        }
     }
 
     @Async

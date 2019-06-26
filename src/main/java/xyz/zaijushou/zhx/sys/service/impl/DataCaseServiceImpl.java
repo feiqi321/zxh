@@ -539,6 +539,17 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseEntity.setDistributeStatusFlag(null);
         }
+
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("0") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+3];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="1";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            newStatuss[dataCaseEntity.getStatuss().length+2]="3";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         logger.info("开始查询");
         if (dataCaseEntity.isBatchBonds()){
@@ -1464,6 +1475,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataBatchEntity.setUserCount(dataCaseEntities.size());
             ExecutorService executor = Executors.newFixedThreadPool(20);
             for (DataCaseEntity entity : dataCaseEntities) {
+                entity.setBatchNo(batchNo);
                 DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+dataBatchEntity.getBatchNo(),DataBatchEntity.class);
                 entity.setClient(batchEntity ==null ?"":batchEntity.getClient());
                 if(entity.getCollectionArea() != null && entity.getCollectionArea().getId() != null) {
@@ -1494,8 +1506,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 entity.setOutstandingAmount(entity.getOutstandingAmount()==null?new BigDecimal(0):entity.getOutstandingAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 dataCaseMapper.saveCase(entity);
 
-                BigDecimal tmp = batchEntity.getTotalAmt()==null?new BigDecimal(0):batchEntity.getTotalAmt();
-                batchEntity.setTotalAmt(tmp.add(entity.getMoney()));
+                BigDecimal tmp = dataBatchEntity.getTotalAmt()==null?new BigDecimal(0):dataBatchEntity.getTotalAmt();
+                dataBatchEntity.setTotalAmt(tmp.add(entity.getMoney()));
                 stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
                 stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
 

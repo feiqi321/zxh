@@ -394,7 +394,7 @@ public class ExcelCaseConstant {
         COL30(30, "姓名", "name", String.class),
         COL40(40, "委托方", "client", String.class),
         COL50(50, "批次号", "batchNo", String.class),
-        COL60(60, "案件状态", "status", int.class),
+        COL60(60, "案件状态", "statusMsg", int.class),
         COL70(70, "证件号", "identNo", String.class),
         COL80(80, "证件类型", "identType", String.class),
         COL90(90, "性别", "gender", String.class),

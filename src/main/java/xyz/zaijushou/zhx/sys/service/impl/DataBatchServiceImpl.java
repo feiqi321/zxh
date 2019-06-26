@@ -51,7 +51,6 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public void returnCase(DataBatchEntity bean){
         dataBatchMapper.returnCase(bean);
-        bean = dataBatchMapper.selectBatchById(bean.getId());
         DataCaseEntity datCase = new DataCaseEntity();
         datCase.setBatchNo(bean.getBatchNo());
         datCase.setStatus(4);
@@ -60,7 +59,6 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public void recoverCase(DataBatchEntity bean){
         dataBatchMapper.recoverCase(bean);
-        bean = dataBatchMapper.selectBatchById(bean.getId());
         DataCaseEntity datCase = new DataCaseEntity();
         datCase.setBatchNo(bean.getBatchNo());
         datCase.setStatus(1);
@@ -69,6 +67,12 @@ public class DataBatchServiceImpl implements DataBatchService {
 
     public void deleteById(DataBatchEntity bean){
         dataBatchMapper.deleteById(bean.getId());
+        DataCaseEntity caseBean = new DataCaseEntity();
+        caseBean.setBatchNo(bean.getBatchNo());
+        dataCaseMapper.deleteByBatch(caseBean);
+
+        stringRedisTemplate.delete(RedisKeyPrefix.DATA_BATCH + bean.getBatchNo());
+
     }
 
 

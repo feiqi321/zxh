@@ -28,6 +28,8 @@ public interface DataCaseMapper {
 
     public void deleteById(Integer id);
 
+    public void deleteByBatch(DataCaseEntity bean);
+
     public DataCaseDetail detail(DataCaseEntity bean);
 
     public void updateInterest(DataCaseEntity bean);

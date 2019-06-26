@@ -13,6 +13,8 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      */
     private String name;
 
+    private String[] names;
+
     private String currentName;
 
     /**
@@ -36,6 +38,14 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
     private Integer type;
 
     private String[] ids;
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public void setNames(String[] names) {
+        this.names = names;
+    }
 
     public String[] getIds() {
         return ids;

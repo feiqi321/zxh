@@ -689,14 +689,14 @@
                     and t.account_age = #{accountAge}
                 </if>
 
-                <if test="accountAges != null ">
+                <if test="accountAges != null and accountAges.length > 0">
                     and t.account_age in
                     <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
 
-                <if test="statuss != null ">
+                <if test="statuss != null and statuss.length > 0">
                     and t.case_status in
                     <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
                         #{item}

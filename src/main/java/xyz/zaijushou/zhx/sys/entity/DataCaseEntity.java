@@ -380,6 +380,15 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
 
     private Integer sendType;
     private Integer mathType;
+    private String statusMsg;
+
+    public String getStatusMsg() {
+        return statusMsg;
+    }
+
+    public void setStatusMsg(String statusMsg) {
+        this.statusMsg = statusMsg;
+    }
 
     public Integer getSendType() {
         return sendType;
