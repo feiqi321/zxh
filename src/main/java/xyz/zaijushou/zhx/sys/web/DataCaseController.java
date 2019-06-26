@@ -130,8 +130,9 @@ public class DataCaseController {
             webResponse = dataCaseService.pageCaseListOnly(bean);
             logger.info("跳出执行");
         }catch (Exception e){
+            e.printStackTrace();
             webResponse.setCode("500");
-            webResponse.setMsg(e.getMessage());
+            webResponse.setMsg("后台异常");
         }
 
         return webResponse;
@@ -194,7 +195,7 @@ public class DataCaseController {
     @PostMapping("/dataCase/autoSendByProperty")
     public Object autoSendByProperty(@RequestBody DataCaseEntity bean) {
         WebResponse  webResponse= WebResponse.buildResponse();
-        if (bean.getSendType()==null || bean.getSendType()==0){
+        if (bean.getSendType()==null || bean.getSendType().length==0){
             webResponse.setCode("500");
             webResponse.setMsg("分配选项不能为空");
             return webResponse;
@@ -204,7 +205,7 @@ public class DataCaseController {
             webResponse.setMsg("分配方式不能为空");
             return webResponse;
         }
-        if (bean.getOdvs()==null || bean.getOdvs().length==0){
+        if (bean.getSendOdvs()==null || bean.getSendOdvs().length==0){
             webResponse.setCode("500");
             webResponse.setMsg("催收员不能为空");
             return webResponse;

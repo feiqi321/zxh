@@ -558,13 +558,12 @@ public class DataCaseServiceImpl implements DataCaseService {
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 totalAmt = totalAmt.add(temp.getMoney());
-                if (temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
+                if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
                     repayNum = repayNum+1;
                     repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
                 }
-                totalCp = totalCp.add(temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt());
-
+                totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
+                totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
                 CaseCallable caseCallable = new CaseCallable(list,temp,i);
                 Future<List<DataCaseEntity>> future = executor.submit(caseCallable);
             }
@@ -993,7 +992,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
-            list = dataCaseMapper.totalBatchBoundsCaseList(dataCaseEntity);
+            list = dataCaseMapper.autoQuery1(dataCaseEntity);
             for(int i=0;i<list.size();i++) {
                 DataCaseEntity temp = list.get(i);
                 totalCount = totalCount+1;
@@ -1005,7 +1004,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }
             }
         }else {
-            list = dataCaseMapper.totalCaseList(dataCaseEntity);
+            list = dataCaseMapper.autoQuery2(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 totalCount = totalCount+1;
@@ -1130,25 +1129,45 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setIdentNos(identNos);
             }
         }
+        Integer[] sendTypes = dataCaseEntity.getSendType();
+        String sendModule = null;
+        for (int i=0;i<sendTypes.length;i++){
+            if (sendTypes[i]!=1){
+                sendModule = "notodv";
+            }else{
+                sendModule = "";
+                break;
+            }
+        }
+        dataCaseEntity.setSendModule(sendModule);
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
-            list = dataCaseMapper.totalBatchBoundsCaseList(dataCaseEntity);
+            list = dataCaseMapper.autoQuery1(dataCaseEntity);
 
         }else {
-            list = dataCaseMapper.totalCaseList(dataCaseEntity);
+            list = dataCaseMapper.autoQuery2(dataCaseEntity);
 
         }
-        Map<String, List<DataCaseEntity>> map = this.authSend(list,dataCaseEntity.getOdvs(),dataCaseEntity.getSendType(),dataCaseEntity.getMathType());
+        int sendType=0;
+        for (int i=0;i<sendTypes.length;i++){
+            if (sendTypes[i]==3){
+                sendType = 3;
+            }
+        }
+        Map<String, List<DataCaseEntity>> map = this.authSend(list,dataCaseEntity.getSendOdvs(),sendType,dataCaseEntity.getMathType());
         for(Map.Entry<String, List<DataCaseEntity>> entry : map.entrySet()){
             List<DataCaseEntity> odvCaseList = entry.getValue();
             for(int i=0;i<odvCaseList.size();i++){
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odvCaseList.get(i).getOdv(), SysUserEntity.class);
+                odvCaseList.get(i).setDept(user.getDepartment());
+                odvCaseList.get(i).setDistributeHistory(list.get(i).getSeqNo()+"案件分配给"+user.getUserName());
                 dataCaseMapper.sendOdv(odvCaseList.get(i));
                 SysOperationLogEntity operationLog = new SysOperationLogEntity();
                 operationLog.setUrl("/send");
                 operationLog.setUserIp("127.0.0.1");
                 operationLog.setUserId(getUserInfo().getId());
 
-                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odvCaseList.get(i).getOdv(), SysUserEntity.class);
+
                 if (StringUtils.isEmpty(list.get(i).getAccount())){//此时的account肩负之前的odv责任
                     operationLog.setRequestBody(getUserInfo().getUserName()+"把"+list.get(i).getSeqNo()+"案件分配给"+user.getUserName());
                 }else{
@@ -1183,14 +1202,16 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }else {
                         tempList = (List<DataCaseEntity>)map.get(odvs[num]);
                     }
-                    map.put(odvs[num], tempList.add(temp));
+                    tempList.add(temp);
+                    map.put(odvs[num], tempList);
                 }else {
                     if(map.get(odvs[num])==null){
                         tempList = new ArrayList<DataCaseEntity>();
                     }else {
                         tempList = (List<DataCaseEntity>)map.get(odvs[num]);
                     }
-                    map.put(odvs[num], tempList.add(temp));
+                    tempList.add(temp);
+                    map.put(odvs[num], tempList);
                 }
                 temp.setAccount(temp.getOdv());
                 temp.setOdv(odvs[num]);
@@ -1218,8 +1239,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }else {
                         tempList = (List<DataCaseEntity>)map.get(odvs[num]);
                     }
-
-                    map.put(odvs[num], tempList.add(temp));
+                    tempList.add(temp);
+                    map.put(odvs[num], tempList);
                     BigDecimal totalTemp = new BigDecimal(0);
                     for (int m=0;m<tempList.size();m++){
                         totalTemp = totalTemp.add(tempList.get(m).getMoney());
@@ -1242,7 +1263,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                     }else {
                         tempList = (List<DataCaseEntity>)map.get(odvs[num]);
                     }
-                    map.put(odvs[num], tempList.add(temp));
+                    tempList.add(temp);
+                    map.put(odvs[num], tempList);
                     BigDecimal totalTemp = new BigDecimal(0);
                     for (int m=0;m<tempList.size();m++){
                         totalTemp = totalTemp.add(tempList.get(m).getMoney());

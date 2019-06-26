@@ -378,9 +378,27 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String[] distributeStatuss;
     private String[] collectStatuss;
 
-    private Integer sendType;
+    private Integer[] sendType;
     private Integer mathType;
     private String statusMsg;
+    private String[] sendOdvs;
+    private String sendModule;
+
+    public String getSendModule() {
+        return sendModule;
+    }
+
+    public void setSendModule(String sendModule) {
+        this.sendModule = sendModule;
+    }
+
+    public String[] getSendOdvs() {
+        return sendOdvs;
+    }
+
+    public void setSendOdvs(String[] sendOdvs) {
+        this.sendOdvs = sendOdvs;
+    }
 
     public String getStatusMsg() {
         return statusMsg;
@@ -390,11 +408,11 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
         this.statusMsg = statusMsg;
     }
 
-    public Integer getSendType() {
+    public Integer[] getSendType() {
         return sendType;
     }
 
-    public void setSendType(Integer sendType) {
+    public void setSendType(Integer[] sendType) {
         this.sendType = sendType;
     }
 

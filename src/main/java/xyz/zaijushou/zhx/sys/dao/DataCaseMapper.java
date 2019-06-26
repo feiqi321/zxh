@@ -54,6 +54,10 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> totalCaseList(DataCaseEntity bean);
 
+    public List<DataCaseEntity> autoQuery1(DataCaseEntity bean);
+
+    public List<DataCaseEntity> autoQuery2(DataCaseEntity bean);
+
     public List<DataCaseEntity> pageBatchBoundsCaseList(DataCaseEntity bean);
 
     public List<DataCaseEntity> totalBatchBoundsCaseList(DataCaseEntity bean);
