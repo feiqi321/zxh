@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -142,26 +143,28 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     @Override
     public void delete(DataCaseEntity dataCaseEntity){
+        dataCaseMapper.deleteById(dataCaseEntity.getId());
+        DataCaseEntity updateBatchEntity = dataCaseMapper.findById(dataCaseEntity);
+        //修改批次信息
+        DataBatchEntity dataBatchEntity = new DataBatchEntity();
+        dataBatchEntity.setBatchNo(updateBatchEntity.getBatchNo());
+        dataBatchEntity.setTotalAmt(updateBatchEntity.getMoney()==null?new BigDecimal(0):new BigDecimal(0).subtract(updateBatchEntity.getMoney()));
+        dataBatchEntity.setUserCount(-1);
+        dataBatchMapper.updateByBatchNo(dataBatchEntity);
+        this.asyDel(updateBatchEntity);
+    }
+    @Async
+    public void asyDel(DataCaseEntity dataCaseEntity){
         DataCaseAddressEntity dataCaseAddressEntity = new DataCaseAddressEntity();
         dataCaseAddressEntity.setCaseId(dataCaseEntity.getId());
         dataCaseAddressMapper.deleteAddress(dataCaseAddressEntity);
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
         dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
         dataCaseTelMapper.deleteTel(dataCaseTelEntity);
-        dataCaseMapper.deleteById(dataCaseEntity.getId());
-        DataCaseEntity updateBatchEntity = dataCaseMapper.findById(dataCaseEntity);
-        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + updateBatchEntity.getSeqNo());
-        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE+updateBatchEntity.getCardNo()+"@"+updateBatchEntity.getCaseDate());
-        //修改批次信息
-
-        DataBatchEntity dataBatchEntity = new DataBatchEntity();
-        dataBatchEntity.setBatchNo(updateBatchEntity.getBatchNo());
-        SimpleDateFormat sdf  = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        dataBatchEntity.setUploadTime(sdf.format(new Date()));
-        dataBatchEntity.setTotalAmt(updateBatchEntity.getMoney()==null?new BigDecimal(0):new BigDecimal(0).subtract(updateBatchEntity.getMoney()));
-        dataBatchEntity.setUserCount(-1);
-        dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
+        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getSeqNo());
+        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate());
     }
+
     @Override
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity){
         dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());

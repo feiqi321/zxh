@@ -41,4 +41,6 @@ public interface DataBatchMapper {
 
     public void updateUploadTimeByBatchNo(DataBatchEntity bean);
 
+    public void updateByBatchNo(DataBatchEntity bean);
+
 }

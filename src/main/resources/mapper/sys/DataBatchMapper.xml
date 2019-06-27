@@ -322,4 +322,8 @@
     <update id="updateUploadTimeByBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
           update data_batch set upload_time = #{uploadTime},batch_status=1,total_amt = total_amt+#{totalAmt},user_count=user_count+#{userCount} where batch_no = #{batchNo}
     </update>
+
+    <update id="updateByBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+        update data_batch set total_amt = total_amt+#{totalAmt},user_count=user_count+#{userCount} where batch_no = #{batchNo}
+    </update>
 </mapper>

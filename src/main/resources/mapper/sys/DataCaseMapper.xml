@@ -404,7 +404,7 @@
     <select id="pageDataCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         id,money,balance,remark,status,create_time as createTime
-        from data_case
+        from data_case and delete_flag=0
         <where>
             <trim suffixOverrides=",">
                 <if test="remark != null and remark!=''">
@@ -1146,7 +1146,7 @@
         da.bank_amt as bankAmt,dc.collect_info as collectInfo
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         <where>
-            1 = 1
+            da.delete_flag=0
             <trim suffixOverrides=",">
                 <if test="client != null and client!=''">
                     and da.client = #{client}
@@ -1297,9 +1297,10 @@
         id
         from data_case
         <where>
+            delete_flag=0
             <trim suffixOverrides=",">
                 <if test="remark != null and remark!=''">
-                    remark like dbo.CONCAT('%',#{remark},'%')
+                    and remark like dbo.CONCAT('%',#{remark},'%')
                 </if>
             </trim>
         </where>
@@ -1440,7 +1441,7 @@
         count(id) as num
         from data_case
         <where>
-            synergy = #{synergy}
+            synergy = #{synergy} and  delete_flag=0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     and dept = #{dept}
@@ -3409,7 +3410,7 @@
             ${reddemCode}
         </foreach >
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
-        where   da.batch_no = #{batchNo}
+        where   da.batch_no = #{batchNo} and da.delete_flag=0
         order by ${orderBy} ${sort}
     </select>
 
@@ -4357,7 +4358,7 @@
         <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
             ${reddemCode}
         </foreach >
-         from data_case da where da.ident_no in (
+         from data_case da where da.delete_flag=0 and  da.ident_no in (
         select t.ident_no
         from data_case t LEFT JOIN data_collection dc on t.id = dc.case_id
         <where>
@@ -4705,24 +4706,24 @@
           select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
           pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
           collect_date as collectDate
-          from   data_case  where batch_no = #{batchNo} and ident_no = #{identNo} and  <![CDATA[ id <> #{id} ]]>
+          from   data_case  where batch_no = #{batchNo} and ident_no = #{identNo} and  <![CDATA[ id <> #{id} ]]> and delete_flag=0
     </select>
 
     <select id="findBySeqNo" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select seq_no as seqNo
-        from   data_case  where seq_no = #{seqNo}
+        from   data_case  where seq_no = #{seqNo} and delete_flag=0
     </select>
 
     <select id="findByCardNo" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select seq_no as seqNo
-        from   data_case  where card_no = #{cardNo}
+        from   data_case  where card_no = #{cardNo} and delete_flag=0
         <![CDATA[   and case_date >=convert(datetime,#{caseDateStart}, 20) and convert(datetime,#{caseDateEnd}, 20)]]>
     </select>
 
     <select id="findSameCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
           select t.id,t.batch_no as batchNo,t.seq_no as seqNo,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') caseDate,t.card_no as cardNo,t.name,t.client,t.money,t.collect_status as collectStatus,
           t.odv,t.en_repay_amt as enRepayAmt
-          from data_case t where t.ident_no in
+          from data_case t where t.delete_flag=0 and t.ident_no in
           (select ident_no from data_case where id = #{id}) and  <![CDATA[ t.id <> #{id} ]]>
     </select>
 

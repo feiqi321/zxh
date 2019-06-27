@@ -60,6 +60,8 @@ public interface SysUserService {
 
     UserTree userTree();
 
+    UserTree userTreeByRoleId(SysNewUserEntity userEntity);
+
     /**
      * 查询用户信息
      * @param userEntity

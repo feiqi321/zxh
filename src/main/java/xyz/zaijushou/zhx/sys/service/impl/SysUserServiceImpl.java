@@ -654,7 +654,27 @@ public class SysUserServiceImpl implements SysUserService {
         return userTree;
     }
 
-    public void curcleUserTree(UserTree userTree,SysOrganizationEntity sysOrganizationEntity,SysNewUserEntity sysNewUserEntity ){
+    public UserTree userTreeByRoleId(SysNewUserEntity userEntity){
+        UserTree userTree = new UserTree();
+        SysOrganizationEntity sysOrganizationEntity = new SysOrganizationEntity();
+        sysOrganizationEntity.setId(0);
+        List<SysOrganizationEntity> rootList = sysOrganizationMapper.listAllOrganizationsByParentId(sysOrganizationEntity);
+        SysOrganizationEntity root = rootList.get(0);
+        userTree.setId(root.getId());
+        userTree.setName(root.getOrgName());
+        userTree.setType("dept");
+        sysOrganizationEntity.setId(root.getId());
+
+        SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
+        sysNewUserEntity.setDepartment(root.getId()+"");
+        sysNewUserEntity.setRole(userEntity.getRole());
+
+        this.curcleUserTree(userTree,sysOrganizationEntity,sysNewUserEntity);
+
+        return userTree;
+    }
+
+    public Boolean curcleUserTree(UserTree userTree,SysOrganizationEntity sysOrganizationEntity,SysNewUserEntity sysNewUserEntity ){
         List<UserTree> childList = new ArrayList<UserTree>();
         List<SysOrganizationEntity> deptLeafList = sysOrganizationMapper.listAllOrganizationsByParentId(sysOrganizationEntity);
         if (deptLeafList.size()>0){
@@ -667,9 +687,11 @@ public class SysUserServiceImpl implements SysUserService {
 
                 SysNewUserEntity tempUser = new SysNewUserEntity();
                 tempUser.setDepartment(temp.getId()+"");
-
-                curcleUserTree(tempTree,temp,tempUser);
-                childList.add(tempTree);
+                tempUser.setRole(sysNewUserEntity.getRole());
+                boolean b = curcleUserTree(tempTree,temp,tempUser);
+                if (b) {
+                    childList.add(tempTree);
+                }
             }
         }
 
@@ -684,7 +706,11 @@ public class SysUserServiceImpl implements SysUserService {
                 childList.add(tempTree);
             }
         }
-
-        userTree.setChildren(childList);
+        if (childList.size()>0) {
+            userTree.setChildren(childList);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

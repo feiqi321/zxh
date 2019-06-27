@@ -667,6 +667,9 @@
     <select id="listUserByDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
 
         select <include refid="colSqlWithoutPassword"/> from sys_user where department = #{department} and delete_flag=0
+        <if test="role != null and role!=''">
+            AND  id in (select user_id from sys_user_role where role_id=#{role})
+        </if>
 
     </select>
 
