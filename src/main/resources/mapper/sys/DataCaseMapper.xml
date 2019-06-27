@@ -396,6 +396,15 @@
     </delete>
 
     <!--通过Id删除数据信息-->
+    <delete id="deleteByIds" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set delete_flag =1
+        where id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--通过Id删除数据信息-->
     <delete id="deleteByBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set delete_flag =1
         where batch_no = #{batchNo}
