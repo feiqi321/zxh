@@ -202,6 +202,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else if (StringUtils.notEmpty(dataCollectionEntity.getNewCase()) && dataCollectionEntity.getNewCase().equals("0")){
             dataCollectionEntity.setDistributeStatus(3);
         }
+        if (dataCollectionEntity.getStatuss()!=null && Arrays.asList(dataCollectionEntity.getStatuss()).contains("0") ) {
+            String[] newStatuss = new String[dataCollectionEntity.getStatuss().length+3];
+            for (int i=0;i<dataCollectionEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCollectionEntity.getStatuss()[i];
+            }
+            newStatuss[dataCollectionEntity.getStatuss().length]="1";
+            newStatuss[dataCollectionEntity.getStatuss().length+1]="2";
+            newStatuss[dataCollectionEntity.getStatuss().length+2]="3";
+            dataCollectionEntity.setStatuss(newStatuss);
+        }
         WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
 
