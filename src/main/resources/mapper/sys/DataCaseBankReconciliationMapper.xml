@@ -740,7 +740,8 @@
         create_user,
         update_user,
         delete_flag,
-        status
+        status,
+        create_time
         )
         values
         <foreach collection="list" separator="," item="item">
@@ -752,7 +753,8 @@
             #{item.createUser.id},
             #{item.updateUser.id},
             0,
-            0
+            0,
+            GETDATE()
             )
         </foreach>
     </insert>
@@ -813,7 +815,8 @@
             create_user,
             update_user,
             delete_flag,
-            status
+            status,
+            create_time
         )
         values
         (
@@ -827,7 +830,8 @@
             #{createUser.id},
             #{updateUser.id},
             0,
-            0
+            0,
+            GETDATE()
         )
     </insert>
 
