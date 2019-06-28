@@ -21,5 +21,7 @@ public interface SysOrganizationMapper {
 
     SysOrganizationEntity findByName(String name);
 
+    SysOrganizationEntity selectMaxSort();
+
     List<SysNewUserEntity> findById(String department);
 }

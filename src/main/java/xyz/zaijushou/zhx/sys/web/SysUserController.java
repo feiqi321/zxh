@@ -26,10 +26,7 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
-import xyz.zaijushou.zhx.utils.ExcelUserUtils;
-import xyz.zaijushou.zhx.utils.ExcelUtils;
-import xyz.zaijushou.zhx.utils.JwtTokenUtil;
-import xyz.zaijushou.zhx.utils.RedisUtils;
+import xyz.zaijushou.zhx.utils.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -265,7 +262,7 @@ public class SysUserController {
         } else {
             workbook = new HSSFWorkbook(inputStream);
         }
-        List<SysNewUserEntity> userList = ExcelUserUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);;
+        List<SysNewUserEntity> userList = ExcelUserUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);
 
         if(userList.size() == 0) {
             return WebResponse.success("更新0条数据");
@@ -330,6 +327,68 @@ public class SysUserController {
                 response
         );
         return null;
+    }
+
+
+    @ApiOperation(value = "简单导入用户", notes = "简单导入用户")
+    @PostMapping("/simpleImport")
+    public Object simpleImport(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        InputStream inputStream = file.getInputStream();
+        Workbook workbook = null;
+        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+            workbook = new XSSFWorkbook(inputStream);
+        } else {
+            workbook = new HSSFWorkbook(inputStream);
+        }
+
+        List<SysOrganizationEntity>  orgList = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());
+        Map orgMap = new HashMap();
+        for (int i=0;i<orgList.size();i++){
+            SysOrganizationEntity org = orgList.get(i);
+            orgMap.put(org.getOrgName(),org);
+        }
+
+        List<DepartmentEntity> deptList = ExcelUserUtils.importExcel(file, ExcelUserConstant.Dept.values(), DepartmentEntity.class);
+        for (int i=0;i<deptList.size();i++){
+            DepartmentEntity dept = deptList.get(i);
+            if (StringUtils.isEmpty(dept.getUpDept())){
+                return WebResponse.error("500","第"+i+"条记录没有填入上级部门");
+            }
+            if (StringUtils.isEmpty(dept.getDownDept())){
+                return WebResponse.error("500","第"+i+"条记录没有填入部门");
+            }
+        }
+        sysUserService.insertDeptSimple(deptList);
+
+        List<SysNewUserEntity> userList = ExcelSimpleUserUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);;
+
+        int count = 0;
+
+        for (SysNewUserEntity userInfo : userList){
+            ++count;
+            if (StringUtils.isEmpty(userInfo.getDepartment())){
+                return WebResponse.error("500","第"+count+"条记录没有填入部门");
+            }
+            if (orgMap.get(userInfo.getDepartment())==null){
+                return WebResponse.error("500","第"+count+"条记录部门不存在");
+            }
+            userInfo.setDepartId(((SysOrganizationEntity)orgMap.get(userInfo.getDepartment())).getId()+"");
+
+            if (StringUtils.isEmpty(userInfo.getUserName())){
+                return WebResponse.error("500","第"+count+"条记录没有填入姓名");
+            }
+
+        }
+
+        sysUserService.insertSimple(userList);
+
+
+
+
+        WebResponse webResponse = WebResponse.buildResponse();
+        webResponse.setCode("100");
+        return WebResponse.success();
     }
 
 }

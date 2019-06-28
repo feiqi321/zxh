@@ -595,6 +595,59 @@ public class SysUserServiceImpl implements SysUserService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void insertSimple(List<SysNewUserEntity> list) {
+        try{
+            for (SysNewUserEntity userInfo : list){
+                SysUserEntity tempUser = new SysUserEntity();
+                tempUser.setUserName(userInfo.getUserName());
+                List<SysUserEntity> userList = sysUserMapper.listUsersByName(tempUser);
+                if (userList.size()>0){
+                    sysUserMapper.saveNewUser(userInfo);
+                }else{
+                    sysUserMapper.updateDeptByName(userInfo);
+                }
+                this.saveUserBatch(userInfo);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void insertDeptSimple(List<DepartmentEntity> list){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        for (int i=0;i<list.size();i++){
+            DepartmentEntity departmentEntity = list.get(i);
+            SysOrganizationEntity sysOrganizationEntity = sysOrganizationMapper.findByName(departmentEntity.getDownDept());
+            if (sysOrganizationEntity==null){
+                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+                organizationEntity.setOrgName(departmentEntity.getDownDept());
+                SysOrganizationEntity upDept = sysOrganizationMapper.findByName(departmentEntity.getUpDept());
+                if (upDept!=null) {
+                    SysUserEntity createUser  = new SysUserEntity();
+                    createUser.setId(userId);
+                    organizationEntity.setCreateUser(createUser);
+                    organizationEntity.setParent(upDept);
+                    SysOrganizationEntity sortOrg = sysOrganizationMapper.selectMaxSort();
+                    String sort =Integer.parseInt(sortOrg.getSort()==null?"0":(sortOrg.getSort().equals("")?"0":sortOrg.getSort()))+1+"";
+                    String all = "000000";
+                    organizationEntity.setSort(all.substring(0,all.length()-sort.length())+sort);
+                    sysOrganizationMapper.saveOrg(organizationEntity);
+                }
+            }else{
+                SysOrganizationEntity upDept = sysOrganizationMapper.findByName(departmentEntity.getUpDept());
+                if (upDept!=null) {
+                    sysOrganizationEntity.setParent(upDept);
+                    sysOrganizationMapper.updateOrg(sysOrganizationEntity);
+                }
+
+            }
+        }
+
+    }
+
     public List<SysNewUserEntity> userExportList(SysNewUserEntity userEntity){
 
         if(StringUtils.isEmpty(userEntity.getOrderBy())){
@@ -713,4 +766,6 @@ public class SysUserServiceImpl implements SysUserService {
             return false;
         }
     }
+
+
 }

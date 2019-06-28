@@ -37,6 +37,8 @@ public interface SysUserMapper {
 
     void updateDept(SysNewUserEntity userEntity);
 
+    void updateDeptByName(SysNewUserEntity userEntity);
+
     void batchDelete(SysNewUserEntity userEntity);
 
     /**
@@ -71,6 +73,14 @@ public interface SysUserMapper {
      * @return
      */
     List<SysUserEntity> listUsers(SysUserEntity user);
+
+    /**
+     * 根据用户属性查询用户列表
+     * 属性：姓名
+     * @param user
+     * @return
+     */
+    List<SysUserEntity> listUsersByName(SysUserEntity user);
 
     /**
      * 修改密码

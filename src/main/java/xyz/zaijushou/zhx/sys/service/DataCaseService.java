@@ -15,7 +15,7 @@ public interface DataCaseService {
 
     public void update(DataCaseEntity dataCaseEntity);
 
-    public void delete(DataCaseEntity dataCaseEntity);
+    public void delete(List<DataCaseEntity> list);
 
     public List<DataCaseEntity> pageDataCaseList(DataCaseEntity dataCaseEntity);
 

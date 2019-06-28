@@ -82,6 +82,10 @@
         where id = #{id}
     </update>
 
+    <select id="selectMaxSort" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        select max(sort) as sort from sys_organization
+    </select>
+
     <update id="deleteOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         update sys_organization
         set delete_flag = '1'

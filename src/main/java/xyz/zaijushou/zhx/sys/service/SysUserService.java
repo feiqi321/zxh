@@ -3,10 +3,7 @@ package xyz.zaijushou.zhx.sys.service;
 import com.github.pagehelper.PageInfo;
 import org.springframework.security.authentication.BadCredentialsException;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
-import xyz.zaijushou.zhx.sys.entity.UserTree;
+import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.util.List;
 
@@ -107,6 +104,10 @@ public interface SysUserService {
     List<SysNewUserEntity> listByDepartIdsSet(SysNewUserEntity queryUser);
 
    void insertUserList(List<SysNewUserEntity> list);
+
+    void insertSimple(List<SysNewUserEntity> list);
+
+    void insertDeptSimple(List<DepartmentEntity> list);
 
     /**
      * 导出用户列表

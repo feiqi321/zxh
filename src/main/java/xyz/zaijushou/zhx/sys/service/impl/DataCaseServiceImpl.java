@@ -142,27 +142,38 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseMapper.updateCase(dataCaseEntity);
     }
     @Override
-    public void delete(DataCaseEntity dataCaseEntity){
-        dataCaseMapper.deleteById(dataCaseEntity.getId());
-        DataCaseEntity updateBatchEntity = dataCaseMapper.findById(dataCaseEntity);
-        //修改批次信息
-        DataBatchEntity dataBatchEntity = new DataBatchEntity();
-        dataBatchEntity.setBatchNo(updateBatchEntity.getBatchNo());
-        dataBatchEntity.setTotalAmt(updateBatchEntity.getMoney()==null?new BigDecimal(0):new BigDecimal(0).subtract(updateBatchEntity.getMoney()));
-        dataBatchEntity.setUserCount(-1);
-        dataBatchMapper.updateByBatchNo(dataBatchEntity);
-        this.asyDel(updateBatchEntity);
+    public void delete(List<DataCaseEntity> list){
+        String[] ids = new String[list.size()];
+        for (int i=0;i<list.size();i++) {
+            DataCaseEntity dataCaseEntity = list.get(i);
+            ids[i] = dataCaseEntity.getId()+"";
+        }
+        DataCaseEntity temp = new DataCaseEntity();
+        temp.setIds(ids);
+        dataCaseMapper.deleteByIds(temp);
+        this.asyDel(list);
     }
     @Async
-    public void asyDel(DataCaseEntity dataCaseEntity){
-        DataCaseAddressEntity dataCaseAddressEntity = new DataCaseAddressEntity();
-        dataCaseAddressEntity.setCaseId(dataCaseEntity.getId());
-        dataCaseAddressMapper.deleteAddress(dataCaseAddressEntity);
-        DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
-        dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
-        dataCaseTelMapper.deleteTel(dataCaseTelEntity);
-        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getSeqNo());
-        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate());
+    public void asyDel(List<DataCaseEntity> list){
+        for (int i=0;i<list.size();i++) {
+            DataCaseEntity dataCaseEntity = list.get(i);
+            DataCaseEntity updateBatchEntity = dataCaseMapper.findById(dataCaseEntity);
+            //修改批次信息
+            DataBatchEntity dataBatchEntity = new DataBatchEntity();
+            dataBatchEntity.setBatchNo(updateBatchEntity.getBatchNo());
+            dataBatchEntity.setTotalAmt(updateBatchEntity.getMoney() == null ? new BigDecimal(0) : new BigDecimal(0).subtract(updateBatchEntity.getMoney()));
+            dataBatchEntity.setUserCount(-1);
+            dataBatchMapper.updateByBatchNo(dataBatchEntity);
+
+            DataCaseAddressEntity dataCaseAddressEntity = new DataCaseAddressEntity();
+            dataCaseAddressEntity.setCaseId(dataCaseEntity.getId());
+            dataCaseAddressMapper.deleteAddress(dataCaseAddressEntity);
+            DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
+            dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
+            dataCaseTelMapper.deleteTel(dataCaseTelEntity);
+            stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getSeqNo());
+            stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getCardNo() + "@" + dataCaseEntity.getCaseDate());
+        }
     }
 
     @Override

@@ -330,6 +330,8 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+
+
     <!--查询数据集合-->
     <select id="userDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
         select
@@ -519,6 +521,12 @@
         </foreach>
     </update>
 
+    <!--更新员工部门-->
+    <update id="updateDeptByName" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        update sys_user set department = #{departId}
+        where username = #{userName}
+    </update>
+
     <delete id="batchDelete" parameterType="java.lang.Integer">
         delete from sys_user  where id in
         <foreach collection="ids" open="(" close=")" separator="," item="item">
@@ -533,6 +541,16 @@
         where delete_flag = '0'
         <if test="userName != null and userName != ''">
             and username like dbo.CONCAT('%', #{userName}, '%')
+        </if>
+    </select>
+
+    <select id="listUsersByName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        select
+        <include refid="colSqlWithoutPassword"/>
+        from sys_user
+        where delete_flag = '0'
+        <if test="userName != null and userName != ''">
+            and username = #{userName}
         </if>
     </select>
 
