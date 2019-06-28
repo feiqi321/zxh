@@ -33,7 +33,7 @@
 
     <select id="listAll"  resultType="xyz.zaijushou.zhx.sys.entity.CaseTimeAreaEntity">
         select
-        *
+        id,see_flag as seeFlag,time_area as timeArea
         from case_time_area
     </select>
 </mapper>

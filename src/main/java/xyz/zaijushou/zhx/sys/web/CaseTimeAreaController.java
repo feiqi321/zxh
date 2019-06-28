@@ -40,6 +40,7 @@ public class CaseTimeAreaController {
 
     }
 
+
     @ApiOperation(value = "查询记录", notes = "查询记录")
     @PostMapping("/case/time/all")
     public Object findAll() {
