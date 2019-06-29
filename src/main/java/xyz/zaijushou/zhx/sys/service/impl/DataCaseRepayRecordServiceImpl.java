@@ -49,6 +49,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     public PageInfo<DataCaseRepayRecordEntity> pageRepayRecordList(DataCaseRepayRecordEntity entity) {
         if(!StringUtils.isEmpty(entity.getOrderBy())){
             entity.setOrderBy(ExcelRepayRecordConstant.RepayRecordSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
+        }else{
+            entity.setOrderBy("r.create_time");
+            entity.setSort("desc");
         }
         logger.info("开始查询");
         List<DataCaseRepayRecordEntity> list = combineInfo(dataCaseRepayRecordMapper.pageRepayRecordList(entity));

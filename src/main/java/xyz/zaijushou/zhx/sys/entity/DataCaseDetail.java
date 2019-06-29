@@ -15,6 +15,7 @@ public class DataCaseDetail {
     private String batchNo; //批次编号 查询条件  列表
     private String client;//委托方 查询条件
     private BigDecimal money;//委案金额 查询条件    列表
+    private String moneyMsg;//委案金额 查询条件    列表
     private BigDecimal balance;//委案余额    列表
 
     private String balanceMsg;
@@ -2298,5 +2299,11 @@ public class DataCaseDetail {
         this.distributeHistory = distributeHistory;
     }
 
+    public String getMoneyMsg() {
+        return moneyMsg;
+    }
 
+    public void setMoneyMsg(String moneyMsg) {
+        this.moneyMsg = moneyMsg;
+    }
 }

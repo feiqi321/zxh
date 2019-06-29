@@ -79,6 +79,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private SysRoleMapper sysRoleMapper;
     @Resource
     private SysOperationLogMapper sysOperationLogMapper;
+    @Resource
+    private CaseTimeAreaMapper caseTimeAreaMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -673,6 +675,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     //未退案0/正常1/暂停2/关档3/退档4/全部5
     @Override
     public void updateStatus(DataCaseEntity bean){
+        if (bean.getStatus()!=null && bean.getStatus().equals("4")){
+            bean.setReturnTime(new Date());
+        }
         dataCaseMapper.updateStatus(bean);
     }
 
@@ -2074,6 +2079,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (curentuser!=null){
             SysNewUserEntity temp = sysUserMapper.getDataById(curentuser.getId());
             dataCaseDetail.setOfficePhone(temp.getOfficePhone());
+            curentuser.setDepartment(temp.getDepartment());
         }
         int role = 0;
         logger.info("查询角色开始");
@@ -2124,12 +2130,17 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (dataCaseDetail.getEnRepayAmt()==null || dataCaseDetail.getEnRepayAmt().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setEnRepayAmtMsg("0");
         }else{
-            dataCaseDetail.setEnRepayAmtMsg(dataCaseDetail.getEnRepayAmt()==null?"0": dataCaseDetail.getEnRepayAmt().stripTrailingZeros().toPlainString());
+            dataCaseDetail.setEnRepayAmtMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getEnRepayAmt().stripTrailingZeros().toPlainString()));
         }
         if (dataCaseDetail.getBalance()==null || dataCaseDetail.getBalance().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setBalanceMsg("￥0");
         }else{
             dataCaseDetail.setBalanceMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getBalance().stripTrailingZeros().toPlainString()));
+        }
+        if (dataCaseDetail.getMoney()==null || dataCaseDetail.getMoney().compareTo(new BigDecimal(0))==0){
+            dataCaseDetail.setMoneyMsg("￥0");
+        }else{
+            dataCaseDetail.setMoneyMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getMoney().stripTrailingZeros().toPlainString()));
         }
         if(StringUtils.notEmpty(dataCaseDetail.getLatestOverdueMoney())){
             dataCaseDetail.setInterestDate(dataCaseDetail.getLatestOverdueMoney()+"(于"+dataCaseDetail.getInterestDate()+"导入)");
@@ -2215,8 +2226,27 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         logger.info("设置备注结束");
         DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
-        List<DataCaseEntity> sameBatchCaseList = dataCaseMapper.findSameBatchCase(caseTemp);
-        dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
+        List<CaseTimeAreaEntity> timeList = caseTimeAreaMapper.listAll();
+
+        if (timeList.size()>0){
+            CaseTimeAreaEntity caseTimeAreaEntity = timeList.get(0);
+            if (caseTimeAreaEntity.getSeeFlag()==1) {
+                caseTemp.setSeeFlag("1");
+            }else{
+                caseTemp.setSeeFlag("0");
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH,caseTimeAreaEntity.getTimeArea()==null?0:caseTimeAreaEntity.getTimeArea());
+            caseTemp.setReturnTime(cal.getTime());
+        }
+        if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && curentuser.getDepartment().equals("业务部")){
+
+        }else{
+            List<DataCaseEntity> sameBatchCaseList = dataCaseMapper.findSameBatchCase(caseTemp);
+            dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
+        }
+
+
         dataCaseDetail.setDataCaseCommentEntityList(commentList);
         dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
         DataCaseEntity dataCaseEntity = new DataCaseEntity();

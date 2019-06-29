@@ -383,6 +383,24 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String statusMsg;
     private String[] sendOdvs;
     private String sendModule;
+    private Date returnTime;
+    private String seeFlag;
+
+    public String getSeeFlag() {
+        return seeFlag;
+    }
+
+    public void setSeeFlag(String seeFlag) {
+        this.seeFlag = seeFlag;
+    }
+
+    public Date getReturnTime() {
+        return returnTime;
+    }
+
+    public void setReturnTime(Date returnTime) {
+        this.returnTime = returnTime;
+    }
 
     public String getSendModule() {
         return sendModule;
