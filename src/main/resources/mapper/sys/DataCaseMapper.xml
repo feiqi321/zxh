@@ -4711,11 +4711,19 @@
 
     </select>
 
-    <select id="findSameBatchCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+    <select id="findSameBatchCase1" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
           select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
           pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
           collect_date as collectDate
-          from   data_case  where batch_no = #{batchNo} and ident_no = #{identNo} and  <![CDATA[ id <> #{id} ]]> and delete_flag=0
+          from   data_case  where  ident_no = #{identNo} and status!=4 and  <![CDATA[ id <> #{id} ]]> and delete_flag=0
+
+    </select>
+
+    <select id="findSameBatchCase2" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
+        pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
+        collect_date as collectDate
+        from   data_case  where  ident_no = #{identNo} and status=4 and  <![CDATA[ id <> #{id} ]]> and delete_flag=0
         <if test="returnTime != null">
             <![CDATA[   and return_time >= #{returnTime} ]]>
         </if>

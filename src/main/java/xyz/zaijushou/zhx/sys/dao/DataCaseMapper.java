@@ -130,7 +130,9 @@ public interface DataCaseMapper {
 
     List<DataCaseEntity> listByBatchNos(String[] batchNos);
     //同批次共债案件
-    List<DataCaseEntity> findSameBatchCase(DataCaseEntity dataCaseEntity);
+    List<DataCaseEntity> findSameBatchCase1(DataCaseEntity dataCaseEntity);
+
+    List<DataCaseEntity> findSameBatchCase2(DataCaseEntity dataCaseEntity);
     //共债案件
     List<DataCaseEntity> findSameCase(DataCaseEntity dataCaseEntity);
 

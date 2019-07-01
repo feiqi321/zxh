@@ -2432,23 +2432,29 @@ public class DataCaseServiceImpl implements DataCaseService {
             cal.add(Calendar.DAY_OF_MONTH,caseTimeAreaEntity.getTimeArea()==null?0:-caseTimeAreaEntity.getTimeArea());
             caseTemp.setReturnTime(cal.getTime());
         }
+        List<DataCaseEntity> list = dataCaseMapper.findSameBatchCase1(caseTemp);
         if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && curentuser.getDepartment().equals("业务部")){
-            return new ArrayList<DataCaseEntity>();
+
         }else{
-            List<DataCaseEntity> list = dataCaseMapper.findSameBatchCase(caseTemp);
-            for (int i=0;i<list.size();i++){
-                DataCaseEntity temp = list.get(i);
-                SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getAccountAge(), SysDictionaryEntity.class);
-                temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
-                temp.setMoneyMsg(temp.getMoney()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney().stripTrailingZeros()+""));
-                temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt().stripTrailingZeros()+""));
-                temp.setBalanceMsg(temp.getBalance()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance().stripTrailingZeros()+""));
-                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt().stripTrailingZeros()+""));
-                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros()+""));
-                list.set(i,temp);
+            List<DataCaseEntity> list2 = dataCaseMapper.findSameBatchCase2(caseTemp);
+            if (list2!=null && list2.size()>0){
+                list.addAll(list2);
             }
-            return list;
         }
+        if(list!=null) {
+            for (int i = 0; i < list.size(); i++) {
+                DataCaseEntity temp = list.get(i);
+                SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getAccountAge(), SysDictionaryEntity.class);
+                temp.setAccountAge(accountAgeDic == null ? "" : accountAgeDic.getName());
+                temp.setMoneyMsg(temp.getMoney() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getMoney().stripTrailingZeros() + ""));
+                temp.setBankAmtMsg(temp.getBankAmt() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getBankAmt().stripTrailingZeros() + ""));
+                temp.setBalanceMsg(temp.getBalance() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getBalance().stripTrailingZeros() + ""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getProRepayAmt().stripTrailingZeros() + ""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros() + ""));
+                list.set(i, temp);
+            }
+        }
+        return list;
 
     }
 
