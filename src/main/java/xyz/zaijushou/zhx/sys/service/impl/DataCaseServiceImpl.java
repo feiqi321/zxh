@@ -675,7 +675,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     //未退案0/正常1/暂停2/关档3/退档4/全部5
     @Override
     public void updateStatus(DataCaseEntity bean){
-        if (bean.getStatus()!=null && bean.getStatus().equals("4")){
+        if (bean.getStatus()!=null && bean.getStatus().equals(4)){
             bean.setReturnTime(new Date());
         }
         dataCaseMapper.updateStatus(bean);
@@ -2239,12 +2239,12 @@ public class DataCaseServiceImpl implements DataCaseService {
             cal.add(Calendar.DAY_OF_MONTH,caseTimeAreaEntity.getTimeArea()==null?0:caseTimeAreaEntity.getTimeArea());
             caseTemp.setReturnTime(cal.getTime());
         }
-        if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && curentuser.getDepartment().equals("业务部")){
-
+       /* if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && curentuser.getDepartment().equals("业务部")){
+            dataCaseDetail.setSameBatchCaseList(new ArrayList<DataCaseEntity>());
         }else{
             List<DataCaseEntity> sameBatchCaseList = dataCaseMapper.findSameBatchCase(caseTemp);
             dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
-        }
+        }*/
 
 
         dataCaseDetail.setDataCaseCommentEntityList(commentList);
@@ -2414,19 +2414,42 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public List<DataCaseEntity> sameBatchCaseList(DataCaseEntity bean){
         DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
-        List<DataCaseEntity> list = dataCaseMapper.findSameBatchCase(caseTemp);
-        for (int i=0;i<list.size();i++){
-            DataCaseEntity temp = list.get(i);
-            SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getAccountAge(), SysDictionaryEntity.class);
-            temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
-            temp.setMoneyMsg(temp.getMoney()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney().stripTrailingZeros()+""));
-            temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt().stripTrailingZeros()+""));
-            temp.setBalanceMsg(temp.getBalance()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance().stripTrailingZeros()+""));
-            temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt().stripTrailingZeros()+""));
-            temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros()+""));
-            list.set(i,temp);
+        SysUserEntity curentuser = getUserInfo();
+        if (curentuser!=null){
+            SysNewUserEntity temp = sysUserMapper.getDataById(curentuser.getId());
+            curentuser.setDepartment(temp.getDepartment());
         }
-        return list;
+        List<CaseTimeAreaEntity> timeList = caseTimeAreaMapper.listAll();
+
+        if (timeList.size()>0){
+            CaseTimeAreaEntity caseTimeAreaEntity = timeList.get(0);
+            if (caseTimeAreaEntity.getSeeFlag()==1) {
+                caseTemp.setSeeFlag("1");
+            }else{
+                caseTemp.setSeeFlag("0");
+            }
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH,caseTimeAreaEntity.getTimeArea()==null?0:-caseTimeAreaEntity.getTimeArea());
+            caseTemp.setReturnTime(cal.getTime());
+        }
+        if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && curentuser.getDepartment().equals("业务部")){
+            return new ArrayList<DataCaseEntity>();
+        }else{
+            List<DataCaseEntity> list = dataCaseMapper.findSameBatchCase(caseTemp);
+            for (int i=0;i<list.size();i++){
+                DataCaseEntity temp = list.get(i);
+                SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getAccountAge(), SysDictionaryEntity.class);
+                temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
+                temp.setMoneyMsg(temp.getMoney()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getMoney().stripTrailingZeros()+""));
+                temp.setBankAmtMsg(temp.getBankAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBankAmt().stripTrailingZeros()+""));
+                temp.setBalanceMsg(temp.getBalance()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getBalance().stripTrailingZeros()+""));
+                temp.setProRepayAmtMsg(temp.getProRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getProRepayAmt().stripTrailingZeros()+""));
+                temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros()+""));
+                list.set(i,temp);
+            }
+            return list;
+        }
+
     }
 
     public void saveCaseAddress(DataCaseAddressEntity bean){

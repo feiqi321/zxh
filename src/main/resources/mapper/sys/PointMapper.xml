@@ -15,6 +15,7 @@
             <if test="sendUser != null">send_user,</if>
             delete_flag,
             create_time,
+            is_view
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -23,6 +24,7 @@
             <if test="sendUser != null">#{sendUser},</if>
             0,
             GETDATE(),
+            2
         </trim>
     </insert>
 
@@ -32,7 +34,7 @@
     </update>
 
     <select id="list"  resultType="xyz.zaijushou.zhx.sys.entity.Notice">
-        select id,receive_user as receiveUser,context,send_user as sendUser,createTime
+        select id,receive_user as receiveUser,context,send_user as sendUser,createTime,is_view
         from notice
         where receive_user=#{receiveUser} and delete_flag=0
     </select>
@@ -42,14 +44,24 @@
         where id = #{id}
     </update>
 
+    <update id="view" parameterType="xyz.zaijushou.zhx.sys.entity.Notice">
+        update notice set is_view=1
+        where receive_user = #{receiveUser}
+    </update>
+
     <select id="pageList"  resultType="xyz.zaijushou.zhx.sys.entity.Notice">
-        select id,receive_user as receiveUser,context,send_user as sendUser,create_time as createTime
+        select id,receive_user as receiveUser,context,send_user as sendUser,create_time as createTime,is_view
         from notice where delete_flag=0
-        <where>
             <if test="receiveUser != null">
                 and receive_user = #{receiveUser}
             </if>
-        </where>
+            <if test="starttime != null and starttime != ''">
+                <![CDATA[   and create_time >=convert(datetime,#{starttime}, 20) ]]>
+            </if>
+            <if test="endTime != null and endTime != ''">
+                <![CDATA[  and create_time <= convert(datetime,#{endTime}, 20)]]>
+            </if>
+
     </select>
 
 </mapper>

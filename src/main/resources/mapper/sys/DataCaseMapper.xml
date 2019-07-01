@@ -1324,7 +1324,7 @@
         where id = #{id}
     </update>
 
-    <update id="updateStatus" parameterType="java.lang.Integer">
+    <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set status = #{status},return_time=#{returnTime}
         where id = #{id}
     </update>
@@ -4729,7 +4729,7 @@
     <select id="findByCardNo" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select seq_no as seqNo
         from   data_case  where card_no = #{cardNo} and delete_flag=0
-        <![CDATA[   and case_date >=convert(datetime,#{caseDateStart}, 20) and convert(datetime,#{caseDateEnd}, 20)]]>
+        <![CDATA[   and case_date >=convert(datetime,#{caseDateStart}, 20) and case_date <= convert(datetime,#{caseDateEnd}, 20)]]>
     </select>
 
     <select id="findSameCase" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

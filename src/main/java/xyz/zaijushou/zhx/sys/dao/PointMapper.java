@@ -17,6 +17,8 @@ public interface PointMapper {
 
     void save(Notice notice);
 
+    void view(Notice notice);
+
     void update(Notice notice);
 
     void delete(Notice notice);

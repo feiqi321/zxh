@@ -19,6 +19,46 @@ public class Notice extends CommonEntity {
 
     private String sendUserName;
 
+    private String starttime;
+
+    private String endTime;
+
+    private Integer isView;
+
+    private String viewMsg;
+
+    public String getViewMsg() {
+        return viewMsg;
+    }
+
+    public void setViewMsg(String viewMsg) {
+        this.viewMsg = viewMsg;
+    }
+
+    public Integer getIsView() {
+        return isView;
+    }
+
+    public void setIsView(Integer isView) {
+        this.isView = isView;
+    }
+
+    public String getStarttime() {
+        return starttime;
+    }
+
+    public void setStarttime(String starttime) {
+        this.starttime = starttime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
     public Integer[] getReceiveUsers() {
         return receiveUsers;
     }

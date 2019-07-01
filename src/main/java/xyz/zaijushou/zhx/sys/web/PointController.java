@@ -63,6 +63,12 @@ public class PointController {
         return WebResponse.buildResponse();
 
     }
+    @ApiOperation(value = "列表查询", notes = "列表查询")
+    @PostMapping("/personPageList")
+    public Object personPageList(@RequestBody Notice notice) {
+        return  pointService.personPageList(notice);
+
+    }
 
     @ApiOperation(value = "列表查询", notes = "列表查询")
     @PostMapping("/pageList")
