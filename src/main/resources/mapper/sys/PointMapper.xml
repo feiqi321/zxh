@@ -34,9 +34,9 @@
     </update>
 
     <select id="list"  resultType="xyz.zaijushou.zhx.sys.entity.Notice">
-        select id,receive_user as receiveUser,context,send_user as sendUser,createTime,is_view
+        select id,receive_user as receiveUser,context,send_user as sendUser,create_time as createTime,is_view as isView
         from notice
-        where receive_user=#{receiveUser} and delete_flag=0
+        where receive_user=#{receiveUser} and delete_flag=0 and is_view=2 order by id desc
     </select>
 
     <update id="delete" parameterType="xyz.zaijushou.zhx.sys.entity.Notice">
@@ -49,7 +49,7 @@
         where receive_user = #{receiveUser}
     </update>
 
-    <select id="pageList"  resultType="xyz.zaijushou.zhx.sys.entity.Notice">
+    <select id="pageList"  parameterType="xyz.zaijushou.zhx.sys.entity.Notice" resultType="xyz.zaijushou.zhx.sys.entity.Notice">
         select id,receive_user as receiveUser,context,send_user as sendUser,create_time as createTime,is_view
         from notice where delete_flag=0
             <if test="receiveUser != null">

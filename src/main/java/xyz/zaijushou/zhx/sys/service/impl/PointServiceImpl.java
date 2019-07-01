@@ -53,6 +53,12 @@ public class PointServiceImpl implements PointService {
 
     public WebResponse pageList(Notice notice){
         WebResponse webResponse = WebResponse.buildResponse();
+        if (notice.getStarttime()!=null && notice.getStarttime()!=""){
+            notice.setStarttime(notice.getStarttime()+" 00:00:01");
+        }
+        if (notice.getEndTime()!=null && notice.getEndTime()!=""){
+            notice.setEndTime(notice.getEndTime()+" 23:59:59");
+        }
         List<Notice> list = pointMapper.pageList(notice);
         for (int i=0;i<list.size();i++){
             Notice temp = list.get(i);
@@ -68,6 +74,40 @@ public class PointServiceImpl implements PointService {
                 if(sysNewUserEntity!=null){
                     temp.setSendUserName(sysNewUserEntity.getUserName());
                 }
+            }
+            list.set(i,temp);
+        }
+        webResponse.setData(PageInfo.of(list));
+        webResponse.setCode("100");
+        return webResponse;
+    }
+
+    public WebResponse personPageList(){
+        Notice notice = new Notice();
+        WebResponse webResponse = WebResponse.buildResponse();
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        notice.setReceiveUser(userId);
+        pointMapper.view(notice);
+        List<Notice> list = pointMapper.pageList(notice);
+        for (int i=0;i<list.size();i++){
+            Notice temp = list.get(i);
+            if (temp.getReceiveUser()!=null){
+                SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(temp.getReceiveUser());
+                if(sysNewUserEntity!=null){
+                    temp.setReceiveUserName(sysNewUserEntity.getUserName());
+                }
+            }
+
+            if (temp.getSendUser()!=null){
+                SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(temp.getSendUser());
+                if(sysNewUserEntity!=null){
+                    temp.setSendUserName(sysNewUserEntity.getUserName());
+                }
+            }
+            if (temp.getIsView()==null || temp.getIsView()==2){
+                temp.setViewMsg("未阅览");
+            }else{
+                temp.setViewMsg("已阅览");
             }
             list.set(i,temp);
         }

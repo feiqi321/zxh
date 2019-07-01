@@ -26,13 +26,12 @@
             <level>ERROR</level>
         </filter>
         <File>/app/zhx/logs/error.log</File>
-        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>/app/zhx/logs/zhx.error.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxFileSize>100MB</maxFileSize>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/app/zhx/logs/error.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>90</maxHistory>
         </rollingPolicy>
         <encoder>
-            <Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level] %ip:${port} [%thread] %logger{36} -%msg%n</Pattern>
+            <Pattern>${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} %-4L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}</Pattern>
         </encoder>
     </appender>
 

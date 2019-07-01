@@ -18,6 +18,6 @@ public interface PointService {
 
     public WebResponse pageList(Notice notice);
 
-    public WebResponse personPageList(Notice notice);
+    public WebResponse personPageList();
 
 }
