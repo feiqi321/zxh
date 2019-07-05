@@ -124,22 +124,22 @@ public class MonthCallable implements Callable<List<StatisticReturn>> {
                 col.setDateEnd(getDateInfo(dTime.getTime(),0));
 
                 for (CollectionStatistic collection : sumList){
-                    if(sdf.parse(collection.getCollectTime()).getTime()>= col.getDateStart().getTime()
-                            && sdf.parse(collection.getCollectTime()).getTime()<= col.getDateEnd().getTime()){
+                   /* if(sdf.parse(collection.getCollectTime()).getTime()>= col.getDateStart().getTime()
+                            && sdf.parse(collection.getCollectTime()).getTime()<= col.getDateEnd().getTime()){*/
                         sumPhoneNum++;
-                    }
+                   // }
                 }
                 for (CollectionStatistic collection : conList){
-                    if(sdf.parse(collection.getCollectTime()).getTime()>=  col.getDateStart().getTime()
-                            && sdf.parse(collection.getCollectTime()).getTime()<=  col.getDateEnd().getTime()){
+                   /* if(sdf.parse(collection.getCollectTime()).getTime()>=  col.getDateStart().getTime()
+                            && sdf.parse(collection.getCollectTime()).getTime()<=  col.getDateEnd().getTime()){*/
                         sumConPhoneNum++;
-                    }
+                    //}
                 }
                 for (CollectionStatistic collection : caseList){
-                    if(sdf.parse(collection.getCollectTime()).getTime()>=  col.getDateStart().getTime()
-                            && sdf.parse(collection.getCollectTime()).getTime()<=  col.getDateEnd().getTime()){
+                    /*if(sdf.parse(collection.getCollectTime()).getTime()>=  col.getDateStart().getTime()
+                            && sdf.parse(collection.getCollectTime()).getTime()<=  col.getDateEnd().getTime()){*/
                         sumCasePhoneNum++;
-                    }
+                    //}
                 }
                 col.setCountPhoneNum(sumConPhoneNum);
                 col.setCountConPhoneNum(sumPhoneNum);

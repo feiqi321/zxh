@@ -59,25 +59,25 @@ public class DayCallable implements Callable<List<StatisticReturn>> {
             int conNum = 0;
             int caseNum = 0;
             for (CollectionStatistic collection : sumList){
-                if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                /*if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
                         && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
-                    telNum++;
+                    telNum++;*/
                     sumPhoneNum++;
-                }
+               // }
             }
             for (CollectionStatistic collection : conList){
-                if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                /*if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
                         && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
-                    conNum++;
+                    conNum++;*/
                     sumConPhoneNum++;
-                }
+                //}
             }
             for (CollectionStatistic collection : caseList){
-                if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+               /* if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
                         && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
-                    caseNum++;
+                    caseNum++;*/
                     sumCasePhoneNum++;
-                }
+                //}
             }
             col.setCountPhoneNum(telNum);
             col.setCountConPhoneNum(conNum);

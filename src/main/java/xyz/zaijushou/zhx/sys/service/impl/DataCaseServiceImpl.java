@@ -2433,7 +2433,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             caseTemp.setReturnTime(cal.getTime());
         }
         List<DataCaseEntity> list = dataCaseMapper.findSameBatchCase1(caseTemp);
-        if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && curentuser.getDepartment().equals("业务部")){
+        if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && (curentuser.getDepartment().indexOf("业务")>0)){
 
         }else{
             List<DataCaseEntity> list2 = dataCaseMapper.findSameBatchCase2(caseTemp);

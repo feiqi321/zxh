@@ -160,7 +160,7 @@ public class SysUserServiceImpl implements SysUserService {
             }
         }
         SysNewUserEntity temp = sysUserMapper.getDataById(resultUser.getId());
-        if(temp.getDepartment()!=null && temp.getDepartment().equals("数据部")){
+        if(temp.getDepartment()!=null && (temp.getDepartment().indexOf("数据")>0)){
             resultUser.setBusiData(false);
         }
 
@@ -720,7 +720,7 @@ public class SysUserServiceImpl implements SysUserService {
 
         SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
         sysNewUserEntity.setDepartment(root.getId()+"");
-        sysNewUserEntity.setRole(userEntity.getRole());
+        sysNewUserEntity.setRoles(userEntity.getRoles());
 
         this.curcleUserTree(userTree,sysOrganizationEntity,sysNewUserEntity);
 
@@ -740,7 +740,7 @@ public class SysUserServiceImpl implements SysUserService {
 
                 SysNewUserEntity tempUser = new SysNewUserEntity();
                 tempUser.setDepartment(temp.getId()+"");
-                tempUser.setRole(sysNewUserEntity.getRole());
+                tempUser.setRoles(sysNewUserEntity.getRoles());
                 boolean b = curcleUserTree(tempTree,temp,tempUser);
                 if (b) {
                     childList.add(tempTree);

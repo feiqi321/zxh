@@ -685,10 +685,16 @@
     <select id="listUserByDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
 
         select <include refid="colSqlWithoutPassword"/> from sys_user where department = #{department} and delete_flag=0
-        <if test="role != null and role!=''">
-            AND  id in (select user_id from sys_user_role where role_id=#{role})
-        </if>
-
+        AND  id in (select user_id from sys_user_role
+        <where>
+            <if test="roles != null and roles.length > 0">
+                role_id in
+                <foreach item="item" index="index" collection="roles" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        )
     </select>
 
     <select id="findDepartment" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">

@@ -322,6 +322,26 @@ public class DataCollectionEntity extends CommonEntity {
      */
     private String[] areas;
 
+    private String seq;
+
+    private Integer isEnable;
+
+    public Integer getIsEnable() {
+        return isEnable;
+    }
+
+    public void setIsEnable(Integer isEnable) {
+        this.isEnable = isEnable;
+    }
+
+    public String getSeq() {
+        return seq;
+    }
+
+    public void setSeq(String seq) {
+        this.seq = seq;
+    }
+
     public String[] getAccountAges() {
         return accountAges;
     }

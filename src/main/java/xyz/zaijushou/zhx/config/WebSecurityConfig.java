@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-ui.html",
             "/csrf",
             "/fileManage/download",
+            "/statistics/collection/dataCollection/save",
             "/fileManage/downloadArchive",
             "/webjars/**"
             // other public endpoints of your API may be appended to this array
@@ -72,6 +73,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
+                .and()
+                .authorizeRequests()
                 .anyRequest().authenticated()  // 所有请求需要身份认证
                 .and()
                 .exceptionHandling()

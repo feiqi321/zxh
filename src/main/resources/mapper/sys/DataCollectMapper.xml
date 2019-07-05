@@ -89,6 +89,8 @@
             <if test="createUser != null and createUser.id!=null">create_user,</if>
             delete_flag,
             create_time,
+            seq,
+            is_enable
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -169,6 +171,8 @@
             <if test="createUser != null and createUser.id!=null">#{createUser.id},</if>
             0,
             GETDATE(),
+            #{seq},
+            #{isEnable}
         </trim>
     </insert>
 

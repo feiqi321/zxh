@@ -65,8 +65,8 @@ public class PointController {
     }
     @ApiOperation(value = "列表查询", notes = "列表查询")
     @PostMapping("/personPageList")
-    public Object personPageList() {
-        return  pointService.personPageList();
+    public Object personPageList(@RequestBody Notice notice) {
+        return  pointService.pagePersonList(notice);
 
     }
 

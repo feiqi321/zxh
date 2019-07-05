@@ -82,8 +82,7 @@ public class PointServiceImpl implements PointService {
         return webResponse;
     }
 
-    public WebResponse personPageList(){
-        Notice notice = new Notice();
+    public WebResponse pagePersonList(Notice notice){
         WebResponse webResponse = WebResponse.buildResponse();
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         notice.setReceiveUser(userId);

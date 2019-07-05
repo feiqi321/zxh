@@ -11,35 +11,36 @@
         </selectKey>
         insert into data_collection_tel
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="tel != null">tel,</if>
-            <if test="name != null">name,</if>
-            <if test="status != null">status,</if>
-            <if test="startTime != null">start_time,</if>
-            <if test="endTime != null">end_time,</if>
-            <if test="collectionId != null">collection_id,</if>
+            <if test="userData != null">userData,</if>
+            <if test="remark != null">remark,</if>
+            collect_time,
+            timeLength,
+            create_time
         </trim>
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="tel != null">#{tel},</if>
-            <if test="name != null">#{name},</if>
-            <if test="startTime != null">#{startTime},</if>
-            <if test="endTime != null">#{endTime},</if>
-            <if test="status != null">#{status},</if>
-            <if test="collectionId != null">#{collectionId},</if>
+            <if test="userData != null">#{userData},</if>
+            <if test="remark != null">#{remark},</if>
+            #{collectTime},
+            #{timeLength},
+            GETDATE()
         </trim>
     </insert>
 
-
+    <update id="updateCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity" >
+        update data_collection set collect_time =#{collectTime},is_enable=#{isEnable}
+        where seq = #{userData}
+    </update>
 
     <!--通过Id删除数据信息-->
     <delete id="deleteTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity">
         delete from data_collection_tel
-        where collection_id = #{collectionId}
+        where id = #{id}
     </delete>
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity">
-        select id,tel,collection_id
-        from data_collection_tel where collection_id = #{collectionId}
+        select top 1 id,userData,timeLength,collect_time as collectTime
+        from data_collection_tel where userData = #{userData}
     </select>
 
     <!--统计拨打电话量，可能存在没有接通的-->
@@ -90,7 +91,7 @@
     <select id="statisticsCollectionCon" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         select dc.collect_time as collectTime
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
-        where dc.result in (select id from sys_data_dictionary where dictionary_id = 14 and sys_flag=1 )
+        where dc.is_enable=1
         <if test="dateStart != null">
             and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
@@ -130,7 +131,7 @@
 
     <!--拨打电话存在的案件数量-->
     <select id="statisticsCollectionCase" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
-        select dc.collect_time as collectTime
+        select DISTINCT da.id
         from data_collection dc LEFT JOIN data_case da on dc.case_id = da.id
         <where>
         <if test="dateStart != null">
@@ -332,31 +333,31 @@
 
     <select id="pageCollectionTelInfo" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         SELECT
-        start_time as phoneTime,name as targetName,tel as phone,type as connectionType,content,result as collectionResult,
-        repay_time as repayTime,repay_amt as repayAmtP,odv
-        from data_collection_tel dct
+        dct.collect_time as phoneTime,dct.target_name as targetName,dct.mobile as phone,dct.tel_type as connectionType,dct.collect_info as content,dct.result as collectionResult,
+        dct.repay_time as repayTime,dct.repay_amt as repayAmtP,da.odv
+        from data_collection dct  LEFT JOIN data_case da on dct.case_id = da.id
         where dct.delete_flag = 0
         <if test="dateStart != null">
-            and dct.start_time &gt;= convert(datetime,#{dateStart}, 20)
+            and dct.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         </if>
         <if test="dateEnd != null" >
-            and dct.start_time &lt;= convert(datetime,#{dateEnd}, 20)
+            and dct.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
         </if>
         <if test="odv != null and odv!=''">
-            AND odv = #{odv}
+            AND da.odv = #{odv}
         </if>
         <if test="collectionResult != null and collectionResult!=''">
-            AND result = #{collectionResult}
+            AND dct.result = #{collectionResult}
         </if>
         <if test="areas != null and areas.length > 0 ">
-            and dct.area in
+            and da.area in
             <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
 
         <if test="clients != null and clients.length > 0 ">
-            and dct.client in
+            and da.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>

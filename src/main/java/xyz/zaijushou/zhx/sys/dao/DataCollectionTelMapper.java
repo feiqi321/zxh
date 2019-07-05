@@ -17,7 +17,9 @@ public interface DataCollectionTelMapper {
 
     public void deleteTel(DataCollectionTelEntity entity);
 
-    public List<DataCollectionTelEntity> findAll(DataCollectionTelEntity entity);
+    public void updateCollect(DataCollectionTelEntity entity);
+
+    DataCollectionTelEntity findAll(DataCollectionTelEntity entity);
 
 
     public List<CollectionStatistic> statisticsCollectionSum(CollectionStatistic bean);

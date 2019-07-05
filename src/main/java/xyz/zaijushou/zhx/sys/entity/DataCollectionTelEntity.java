@@ -2,71 +2,70 @@ package xyz.zaijushou.zhx.sys.entity;
 
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
+import java.util.Date;
+
 /**
  * Created by looyer on 2019/1/25.
  */
 public class DataCollectionTelEntity extends CommonEntity {
-    private String tel;
-    private String name;
-    private int collectionId;
-    private String startTime;
-    private String endTime;
-    private String followTime;//下次跟进时间
-    private int status;
 
-    public String getTel() {
-        return tel;
+    private Notify notify;
+
+    private Authentication authentication;
+
+    private Integer timeLength;
+
+    private String userData;
+
+    private Date collectTime;
+
+    private Integer isEnable;
+
+    public Integer getTimeLength() {
+        return timeLength;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setTimeLength(Integer timeLength) {
+        this.timeLength = timeLength;
     }
 
-    public String getName() {
-        return name;
+    public Date getCollectTime() {
+        return collectTime;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCollectTime(Date collectTime) {
+        this.collectTime = collectTime;
     }
 
-    public int getCollectionId() {
-        return collectionId;
+    public Integer getIsEnable() {
+        return isEnable;
     }
 
-    public void setCollectionId(int collectionId) {
-        this.collectionId = collectionId;
+    public void setIsEnable(Integer isEnable) {
+        this.isEnable = isEnable;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getUserData() {
+        return userData;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setUserData(String userData) {
+        this.userData = userData;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public Notify getNotify() {
+        return notify;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setNotify(Notify notify) {
+        this.notify = notify;
     }
 
-    public int getStatus() {
-        return status;
+    public Authentication getAuthentication() {
+        return authentication;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getFollowTime() {
-        return followTime;
-    }
-
-    public void setFollowTime(String followTime) {
-        this.followTime = followTime;
+    public void setAuthentication(Authentication authentication) {
+        this.authentication = authentication;
     }
 }

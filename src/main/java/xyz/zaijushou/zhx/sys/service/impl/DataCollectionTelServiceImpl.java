@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,24 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
     @Resource
     private SysDictionaryMapper sysDictionaryMapper;
+
+    public void save(DataCollectionTelEntity bean){
+
+        bean.setRemark(JSONObject.toJSON(bean).toString());
+        bean.setUserData(bean.getNotify().getUserData());
+
+        int timeLength = Integer.parseInt(bean.getNotify().getTimeLength()==null?"0":(bean.getNotify().getTimeLength().equals("")?"0":bean.getNotify().getTimeLength()));
+        bean.setTimeLength(timeLength);
+        if (timeLength/60>0){
+            bean.setIsEnable(1);
+        }else{
+            bean.setIsEnable(0);
+        }
+        Long timestamp = Long.parseLong(bean.getNotify().getAnswerTime()==null?"0":(bean.getNotify().getAnswerTime().equals("")?"0":bean.getNotify().getAnswerTime()));
+        bean.setCollectTime(new Date(timestamp));
+        dataCollectionTelMapper.saveTel(bean);
+        dataCollectionTelMapper.updateCollect(bean);
+    }
 
     @Override
     public PageInfo<StatisticReturn> pageCollectionDay(CollectionStatistic bean){
@@ -506,10 +525,41 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         }else {
             bean.setDateStart(bean.getDateStart());
         }
+        SysDictionaryEntity dictionary = new SysDictionaryEntity();
+        dictionary.setName(bean.getCollectionResult());
+        List<SysDictionaryEntity> dictList = sysDictionaryMapper.listDataByDName(dictionary);
+        if (dictList!=null && dictList.size()>0){
+            bean.setCollectionResult(dictList.get(0).getId()+"");
+        }else{
+            bean.setCollectionResult("");
+        }
         List<CollectionStatistic> list = dataCollectionTelMapper.pageCollectionTelInfo(bean);
         if (StringUtils.isEmpty(list)){
             return new PageInfo<>();
         }
+        for (int i=0;i<list.size();i++){
+            CollectionStatistic temp = list.get(i);
+            if (StringUtils.notEmpty(temp.getConnectionType())){
+                SysDictionaryEntity connectType = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getConnectionType(), SysDictionaryEntity.class);
+                if (connectType!=null){
+                    temp.setConnectionType(connectType.getName());
+                }
+            }
+            if (StringUtils.notEmpty(temp.getCollectionResult())){
+                SysDictionaryEntity resultDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getCollectionResult(), SysDictionaryEntity.class);
+                if (resultDic!=null){
+                    temp.setCollectionResult(resultDic.getName());
+                }
+            }
+            if (StringUtils.notEmpty(temp.getOdv())){
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+                if (user!=null){
+                    temp.setOdv(user.getUserName());
+                }
+            }
+            list.set(i,temp);
+        }
+
         return  PageInfo.of(list);
     }
 }

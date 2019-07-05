@@ -40,6 +40,8 @@ public class SysNewUserEntity extends CommonEntity {
 
     private String role;
 
+    private String[] roles;
+
     /**
      * 员工角色list
      */
@@ -102,6 +104,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
+    }
 
     public String[] getIdStrs() {
         return idStrs;

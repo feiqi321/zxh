@@ -13,9 +13,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelDayActionExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelDayExportConstant;
 import xyz.zaijushou.zhx.constant.ExcelMonthExportConstant;
-import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
-import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
@@ -41,6 +39,16 @@ public class DataCollectionTelController {
     private DataCollectionTelService dataCollectionTelService;
     @Autowired
     private SysOperationLogService sysOperationLogService;
+
+    @ApiOperation(value = "新增电催回调", notes = "新增催收")
+    @PostMapping("/dataCollection/save")
+    public Object save(@RequestBody DataCollectionTelEntity bean) {
+
+        dataCollectionTelService.save(bean);
+
+        return WebResponse.success();
+
+    }
 
     @ApiOperation(value = "电催员电催单日统计", notes = "电催员电催单日统计")
     @PostMapping("/day")

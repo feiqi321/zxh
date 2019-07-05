@@ -55,7 +55,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private SysDictionaryMapper sysDictionaryMapper;
     @Resource
     private SysPercentMapper sysPercentMapper;
-
     @Resource
     private OdvMapper odvMapper;
     @Resource
@@ -74,6 +73,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         SysUserEntity sysUserEntity = getUserInfo();
         beanInfo.setCreateUser(sysUserEntity);
         SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getCollectStatus(),SysDictionaryEntity.class);
+        DataCollectionTelEntity dataCollectionTelEntity = new DataCollectionTelEntity();
+        dataCollectionTelEntity.setUserData(beanInfo.getSeq());
+        dataCollectionTelEntity = dataCollectionTelMapper.findAll(dataCollectionTelEntity);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        beanInfo.setCollectTime(dataCollectionTelEntity==null?null:(dataCollectionTelEntity.getCollectTime()==null?null:sdf.format(dataCollectionTelEntity.getCollectTime())));
+        if (dataCollectionTelEntity!=null && dataCollectionTelEntity.getTimeLength()!=null && dataCollectionTelEntity.getTimeLength()/60>0){
+            beanInfo.setIsEnable(1);
+        }else{
+            beanInfo.setIsEnable(0);
+        }
         dataCollectionMapper.saveCollection(beanInfo);
 
         if (StringUtils.notEmpty(beanInfo.getsType())){
@@ -101,7 +110,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getMobile()+"[手机]，通话内容："+(beanInfo.getCollectInfo()==null?"":beanInfo.getCollectInfo())+"，催收状态： "+(sysDictionaryEntity==null?"":sysDictionaryEntity.getName()));
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
         log.setOpTime(sdf.format(new Date()));
         log.setCaseId(beanInfo.getCaseId());
         dataLogService.saveDataLog(log);

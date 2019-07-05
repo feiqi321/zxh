@@ -50,6 +50,7 @@ public class CollectionStatistic extends CommonEntity {
     private int sType;
     private String dept;
     private String odv;
+    private String odvName;
     private String[] odvs;
     private String odvFlag;
     private List<String> odvAttr;//催收员数组
@@ -142,6 +143,14 @@ public class CollectionStatistic extends CommonEntity {
     private String phoneTime;
 
     private String[] collectStatuss;
+
+    public String getOdvName() {
+        return odvName;
+    }
+
+    public void setOdvName(String odvName) {
+        this.odvName = odvName;
+    }
 
     public String[] getAccountAges() {
         return accountAges;
