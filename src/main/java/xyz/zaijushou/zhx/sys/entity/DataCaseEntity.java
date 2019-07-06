@@ -385,6 +385,24 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String sendModule;
     private Date returnTime;
     private String seeFlag;
+    private Integer cleanCollect;
+    private Integer cleanTimes;
+
+    public Integer getCleanCollect() {
+        return cleanCollect;
+    }
+
+    public void setCleanCollect(Integer cleanCollect) {
+        this.cleanCollect = cleanCollect;
+    }
+
+    public Integer getCleanTimes() {
+        return cleanTimes;
+    }
+
+    public void setCleanTimes(Integer cleanTimes) {
+        this.cleanTimes = cleanTimes;
+    }
 
     public String getSeeFlag() {
         return seeFlag;

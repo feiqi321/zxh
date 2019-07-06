@@ -16,6 +16,26 @@ public class DataCaseSendQuery implements Serializable
 
     private String unAmt;
 
+    private Integer unCount;
+
+    private Integer enCount;
+
+    public Integer getUnCount() {
+        return unCount;
+    }
+
+    public void setUnCount(Integer unCount) {
+        this.unCount = unCount;
+    }
+
+    public Integer getEnCount() {
+        return enCount;
+    }
+
+    public void setEnCount(Integer enCount) {
+        this.enCount = enCount;
+    }
+
     public Integer getTotalCount() {
         return totalCount;
     }

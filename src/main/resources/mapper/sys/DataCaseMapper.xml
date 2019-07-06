@@ -3894,7 +3894,7 @@
     </select>
 
     <select id="autoQuery1" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select  da.id,da.odv,da.money,da.distribute_history as distributeHistory
+        select  da.id,da.odv,da.seq_no as seqNo,da.money,da.distribute_history as distributeHistory
         from data_case da where da.ident_no in (
         select t.ident_no
         from data_case t LEFT JOIN data_collection dc on t.id = dc.case_id
@@ -4126,7 +4126,7 @@
     </select>
 
     <select id="autoQuery2" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        select  da.id,da.odv,da.money,da.distribute_history as distributeHistory
+        select  da.id,da.odv,da.seq_no as seqNo,da.money,da.distribute_history as distributeHistory
         from data_case da
         <where>
             da.delete_flag=0

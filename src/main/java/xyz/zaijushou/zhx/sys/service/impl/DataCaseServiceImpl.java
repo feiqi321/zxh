@@ -905,6 +905,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public WebResponse querySendByProperty(DataCaseEntity dataCaseEntity){
         Integer totalCount=0;
+        Integer enCount = 0;
+        Integer unCount = 0;
         BigDecimal totalAmt = new BigDecimal(0);
         BigDecimal enAmt= new BigDecimal(0);
         BigDecimal unAmt= new BigDecimal(0);
@@ -1017,8 +1019,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                 totalCount = totalCount+1;
                 totalAmt = totalAmt.add(temp.getMoney());
                 if (StringUtils.isEmpty(temp.getOdv())){
+                    unCount = unCount+1;
                     unAmt = unAmt.add(temp.getMoney());
                 }else{
+                    enCount = enCount+1;
                     enAmt = enAmt.add(temp.getMoney());
                 }
             }
@@ -1029,14 +1033,18 @@ public class DataCaseServiceImpl implements DataCaseService {
                 totalCount = totalCount+1;
                 totalAmt = totalAmt.add(temp.getMoney());
                 if (StringUtils.isEmpty(temp.getOdv())){
+                    unCount = unCount+1;
                     unAmt = unAmt.add(temp.getMoney());
                 }else{
+                    enCount = enCount+1;
                     enAmt = enAmt.add(temp.getMoney());
                 }
             }
         }
         DataCaseSendQuery dataCaseSendQuery = new DataCaseSendQuery();
         dataCaseSendQuery.setTotalCount(totalCount);
+        dataCaseSendQuery.setEnCount(enCount);
+        dataCaseSendQuery.setUnCount(unCount);
         dataCaseSendQuery.setTotalAmt("￥"+FmtMicrometer.fmtMicrometer(totalAmt.stripTrailingZeros().toPlainString()));
         dataCaseSendQuery.setEnAmt("￥"+FmtMicrometer.fmtMicrometer(enAmt.stripTrailingZeros().toPlainString()));
         dataCaseSendQuery.setUnAmt("￥"+FmtMicrometer.fmtMicrometer(unAmt.stripTrailingZeros().toPlainString()));
