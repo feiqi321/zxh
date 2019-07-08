@@ -186,6 +186,30 @@ public class DataCaseController {
         return webResponse;
     }
 
+    @ApiOperation(value = "查询自动分配结果", notes = "查询自动分配结果")
+    @PostMapping("/dataCase/autoSendByPropertyResult")
+    public Object autoSendByPropertyResult(@RequestBody DataCaseEntity bean) {
+        WebResponse  webResponse= WebResponse.buildResponse();
+        if (bean.getSendType()==null || bean.getSendType().length==0){
+            webResponse.setCode("500");
+            webResponse.setMsg("分配选项不能为空");
+            return webResponse;
+        }
+        if (bean.getMathType()==null || bean.getMathType()==0){
+            webResponse.setCode("500");
+            webResponse.setMsg("分配方式不能为空");
+            return webResponse;
+        }
+        if (bean.getSendOdvs()==null || bean.getSendOdvs().length==0){
+            webResponse.setCode("500");
+            webResponse.setMsg("催收员不能为空");
+            return webResponse;
+        }
+
+        dataCaseService.autoSendByPropertyResult(bean);
+        return WebResponse.success();
+    }
+
     @ApiOperation(value = "自动分配", notes = "自动分配")
     @PostMapping("/dataCase/autoSendByProperty")
     public Object autoSendByProperty(@RequestBody DataCaseEntity bean) {
@@ -205,6 +229,7 @@ public class DataCaseController {
             webResponse.setMsg("催收员不能为空");
             return webResponse;
         }
+
          dataCaseService.autoSendByProperty(bean);
         return WebResponse.success();
     }

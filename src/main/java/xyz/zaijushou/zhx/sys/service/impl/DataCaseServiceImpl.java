@@ -1054,6 +1054,190 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     @Override
+    public WebResponse autoSendByPropertyResult(DataCaseEntity dataCaseEntity){
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
+            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setSort("desc");
+        }else {
+            dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        }
+        String[] clients = dataCaseEntity.getClients();
+        if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
+            dataCaseEntity.setClientFlag(null);
+        }else{
+            dataCaseEntity.setClientFlag("1");
+        }
+        String[] odvs = dataCaseEntity.getOdvs();
+        if (odvs == null || odvs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(odvs[0])){
+            dataCaseEntity.setOdvFlag(null);
+        }else{
+            dataCaseEntity.setOdvFlag("1");
+        }
+        String[] batchNos = dataCaseEntity.getBatchNos();
+        if (batchNos == null || batchNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(batchNos[0])){
+            dataCaseEntity.setBatchNoFlag(null);
+        }else{
+            dataCaseEntity.setBatchNoFlag("1");
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdStr())){
+            dataCaseEntity.setIdFlag(null);
+        }else{
+            String[] ids = dataCaseEntity.getIdStr().split(",");
+            if (ids == null || ids.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(ids[0])){
+                dataCaseEntity.setIdFlag(null);
+            }else {
+                dataCaseEntity.setIdFlag("1");
+                dataCaseEntity.setIds(ids);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getName())){
+            dataCaseEntity.setNameFlag(null);
+        }else{
+            String[] names = dataCaseEntity.getName().split(",");
+            if (names == null || names.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(names[0])){
+                dataCaseEntity.setNameFlag(null);
+            }else {
+                dataCaseEntity.setNameFlag("1");
+                dataCaseEntity.setNames(names);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getArchiveNo())){
+            dataCaseEntity.setArchiveNoFlag(null);
+        }else{
+            String[] archiveNos = dataCaseEntity.getArchiveNo().split(",");
+            if (archiveNos == null || archiveNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(archiveNos[0])){
+                dataCaseEntity.setArchiveNoFlag(null);
+            }else {
+                dataCaseEntity.setArchiveNoFlag("1");
+                dataCaseEntity.setArchiveNos(archiveNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getAccount())){
+            dataCaseEntity.setAccountFlag(null);
+        }else{
+            String[] accounts = dataCaseEntity.getAccount().split(",");
+            if (accounts == null || accounts.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(accounts[0])){
+                dataCaseEntity.setAccountFlag(null);
+            }else {
+                dataCaseEntity.setAccountFlag("1");
+                dataCaseEntity.setAccounts(accounts);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getCardNo())){
+            dataCaseEntity.setCardNoFlag(null);
+        }else{
+            String[] cardNos = dataCaseEntity.getCardNo().split(",");
+            if (cardNos == null || cardNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(cardNos[0])){
+                dataCaseEntity.setCardNoFlag(null);
+            }else {
+                dataCaseEntity.setCardNoFlag("1");
+                dataCaseEntity.setCardNos(cardNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
+            dataCaseEntity.setSeqNoFlag(null);
+        }else{
+            String[] seqNos = dataCaseEntity.getSeqNo().split(",");
+            if (seqNos == null || seqNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(seqNos[0])){
+                dataCaseEntity.setSeqNoFlag(null);
+            }else {
+                dataCaseEntity.setSeqNoFlag("1");
+                dataCaseEntity.setSeqNos(seqNos);
+            }
+        }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdentNo())){
+            dataCaseEntity.setIdentNoFlag(null);
+        }else{
+            String[] identNos = dataCaseEntity.getIdentNo().split(",");
+            if (identNos == null || identNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(identNos[0])){
+                dataCaseEntity.setIdentNoFlag(null);
+            }else {
+                dataCaseEntity.setIdentNoFlag("1");
+                dataCaseEntity.setIdentNos(identNos);
+            }
+        }
+        Integer[] sendTypes = dataCaseEntity.getSendType();
+        String sendModule = null;
+        for (int i=0;i<sendTypes.length;i++){
+            if (sendTypes[i]!=1){
+                sendModule = "notodv";
+            }else{
+                sendModule = "";
+                break;
+            }
+        }
+        dataCaseEntity.setSendModule(sendModule);
+        List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+        if (dataCaseEntity.isBatchBonds()){
+            list = dataCaseMapper.autoQuery1(dataCaseEntity);
+
+        }else {
+            list = dataCaseMapper.autoQuery2(dataCaseEntity);
+
+        }
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity tempCase = list.get(i);
+            tempCase.setPercent("1");
+            list.set(i,tempCase);
+        }
+        Map percentMap = new HashMap();
+        String[] sendOdvs = null;
+        List<String> strList = Arrays.asList(dataCaseEntity.getSendOdvs());
+        List<String> odvList = new ArrayList<String>(strList);//转换为ArrayLsit
+        String[] odvPercents = dataCaseEntity.getOdvPercent();
+        Boolean percentFlag = false;
+        for (int i=0;i<dataCaseEntity.getSendOdvs().length;i++){
+            if (dataCaseEntity.getSendOdvs()[i]!=null && !dataCaseEntity.getSendOdvs()[i].trim().equals("")  && !dataCaseEntity.getSendOdvs()[i].trim().equals("0")){
+                percentFlag = true;
+                break;
+            }
+        }
+        if (percentFlag) {
+            for (int i = 0; i < odvList.size(); i++) {
+                String odvPercent = odvPercents[i];
+                if (odvPercent == null || odvPercents.equals("") || odvPercents.equals("0")) {
+                    odvList.remove(i);
+                } else {
+                    percentMap.put(odvList.get(i),odvPercents[i]);
+                }
+            }
+            sendOdvs = new String[odvList.size()];
+            sendOdvs = odvList.toArray(sendOdvs);
+        }else{
+            sendOdvs = dataCaseEntity.getSendOdvs();
+            for (int i=0;i<sendOdvs.length;i++){
+                percentMap.put(sendOdvs[i],1);
+            }
+        }
+
+        int sendType=0;
+        for (int i=0;i<sendTypes.length;i++){
+            if (sendTypes[i]==3){
+                sendType = 3;
+            }
+        }
+        List<ShowSendCase> odvShowList = new ArrayList<ShowSendCase>();
+        Map<String, List<DataCaseEntity>> map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
+        for (int i=0;i<dataCaseEntity.getSendOdvs().length;i++){
+            String thisOdv = dataCaseEntity.getSendOdvs()[i];
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ thisOdv, SysUserEntity.class);
+            ShowSendCase showCase = new ShowSendCase();
+            showCase.setOdv(user==null?"":user.getUserName());
+            showCase.setPercent(dataCaseEntity.getOdvPercent()[i]);
+            List<DataCaseEntity> odvCaseList = map.get(thisOdv);
+            showCase.setCaseNum(odvCaseList.size()+"");
+            BigDecimal caseAmt = new BigDecimal(0);
+            for (int m=0;m<odvCaseList.size();m++){
+                caseAmt = caseAmt.add(odvCaseList.get(m).getMoney());
+            }
+            showCase.setCaseAmt("￥"+FmtMicrometer.fmtMicrometer(caseAmt.stripTrailingZeros().toPlainString()));
+            odvShowList.add(showCase);
+        }
+
+        return WebResponse.success(odvShowList);
+    }
+
+    @Override
     public void autoSendByProperty(DataCaseEntity dataCaseEntity){
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
             dataCaseEntity.setOrderBy("id");
@@ -1175,13 +1359,49 @@ public class DataCaseServiceImpl implements DataCaseService {
             list = dataCaseMapper.autoQuery2(dataCaseEntity);
 
         }
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity tempCase = list.get(i);
+            tempCase.setPercent("1");
+            list.set(i,tempCase);
+        }
+        Map percentMap = new HashMap();
+        String[] sendOdvs = null;
+        List<String> strList = Arrays.asList(dataCaseEntity.getSendOdvs());
+        List<String> odvList = new ArrayList<String>(strList);//转换为ArrayLsit
+        String[] odvPercents = dataCaseEntity.getOdvPercent();
+        Boolean percentFlag = false;
+        for (int i=0;i<dataCaseEntity.getSendOdvs().length;i++){
+            if (dataCaseEntity.getSendOdvs()[i]!=null && !dataCaseEntity.getSendOdvs()[i].trim().equals("")  && !dataCaseEntity.getSendOdvs()[i].trim().equals("0")){
+                percentFlag = true;
+                break;
+            }
+        }
+        if (percentFlag) {
+            for (int i = 0; i < odvList.size(); i++) {
+                String odvPercent = odvPercents[i];
+                if (odvPercent == null || odvPercents.equals("") || odvPercents.equals("0")) {
+                    odvList.remove(i);
+                } else {
+                    percentMap.put(odvList.get(i),odvPercents[i]);
+                }
+            }
+            sendOdvs = new String[odvList.size()];
+            sendOdvs = odvList.toArray(sendOdvs);
+        }else{
+            sendOdvs = dataCaseEntity.getSendOdvs();
+            for (int i=0;i<sendOdvs.length;i++){
+                percentMap.put(sendOdvs[i],1);
+            }
+        }
+
         int sendType=0;
         for (int i=0;i<sendTypes.length;i++){
             if (sendTypes[i]==3){
                 sendType = 3;
             }
         }
-        Map<String, List<DataCaseEntity>> map = this.authSend(list,dataCaseEntity.getSendOdvs(),sendType,dataCaseEntity.getMathType());
+
+        Map<String, List<DataCaseEntity>> map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
         for(Map.Entry<String, List<DataCaseEntity>> entry : map.entrySet()){
             List<DataCaseEntity> odvCaseList = entry.getValue();
             for(int i=0;i<odvCaseList.size();i++){
@@ -1209,7 +1429,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     }
 
-    public Map<String, List<DataCaseEntity>> authSend(List<DataCaseEntity> list,String[] odvs,Integer sendType,Integer authType){
+    public Map<String, List<DataCaseEntity>> authSend(List<DataCaseEntity> list,String[] odvs,Map percentMap,Integer sendType,Integer authType){
         Map map = new HashMap();
 
         if (authType==1){
@@ -1275,6 +1495,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     DataCaseEntity orderCase = new DataCaseEntity();
                     orderCase.setOdv(odvs[num]);
                     orderCase.setMoney(totalTemp);
+                    orderCase.setPercent(percentMap.get(odvs[num])==null?"1":percentMap.get(odvs[num]).toString());
                     orderList.add(orderCase);
                     if (num == odvs.length-1) {
                         Collections.reverse(orderList);
@@ -1299,6 +1520,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     DataCaseEntity orderCase = new DataCaseEntity();
                     orderCase.setOdv(odvs[num]);
                     orderCase.setMoney(totalTemp);
+                    orderCase.setPercent(percentMap.get(odvs[num])==null?"1":percentMap.get(odvs[num]).toString());
                     orderList.add(orderCase);
                     if (num == odvs.length-1) {
                         Collections.reverse(orderList);

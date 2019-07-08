@@ -387,6 +387,24 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String seeFlag;
     private Integer cleanCollect;
     private Integer cleanTimes;
+    private String[] odvPercent;
+    private String percent;
+
+    public String getPercent() {
+        return percent;
+    }
+
+    public void setPercent(String percent) {
+        this.percent = percent;
+    }
+
+    public String[] getOdvPercent() {
+        return odvPercent;
+    }
+
+    public void setOdvPercent(String[] odvPercent) {
+        this.odvPercent = odvPercent;
+    }
 
     public Integer getCleanCollect() {
         return cleanCollect;
@@ -2896,6 +2914,8 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
 
     @Override
     public int compareTo(DataCaseEntity dataCaseEntity) {           //重写Comparable接口的compareTo方法，
-        return dataCaseEntity.money.compareTo(this.getMoney());  // 根据年龄升序排列，降序修改相减顺序即可
+        BigDecimal thisMoney = this.getMoney().divide(new BigDecimal(dataCaseEntity.getPercent()==null?"1":dataCaseEntity.getPercent()),BigDecimal.ROUND_HALF_UP);
+        BigDecimal dataMoney = dataCaseEntity.getMoney().divide(new BigDecimal(dataCaseEntity.getPercent()==null?"1":dataCaseEntity.getPercent()),BigDecimal.ROUND_HALF_UP);
+        return dataMoney.compareTo(thisMoney);  // 根据年龄升序排列，降序修改相减顺序即可
     }
 }

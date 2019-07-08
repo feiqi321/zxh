@@ -35,6 +35,8 @@ public interface DataCaseService {
 
     public void autoSendByProperty(DataCaseEntity bean);
 
+    public WebResponse autoSendByPropertyResult(DataCaseEntity bean);
+
     public WebResponse querySendByProperty(DataCaseEntity bean);
 
     public void addComment(DataCaseEntity bean);
