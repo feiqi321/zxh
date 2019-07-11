@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.service;
 import com.github.pagehelper.PageInfo;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.ReduceFileList;
 
 import java.util.List;
 
@@ -36,4 +37,8 @@ public interface ReduceService {
     public DataCollectionEntity findApplyById(DataCollectionEntity bean);
 
     public void updateApplyStatus(DataCollectionEntity bean);
+
+    public void delete(ReduceFileList bean);
+
+    public List<ReduceFileList> listFile(ReduceFileList bean);
 }

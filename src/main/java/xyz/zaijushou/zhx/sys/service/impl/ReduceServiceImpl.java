@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.ReduceApplyEnum;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.ReduceFileListMapper;
 import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
@@ -28,6 +29,8 @@ public class ReduceServiceImpl implements ReduceService {
     private ReduceMapper reduceMapper;
     @Resource
     private DataCaseMapper caseMapper;
+    @Resource
+    private ReduceFileListMapper reduceFileListMapper;
 
     @Override
     public PageInfo<DataCollectionEntity> pageReduce(DataCollectionEntity bean){
@@ -260,7 +263,15 @@ public class ReduceServiceImpl implements ReduceService {
             reduceMapper.saveReduceApply(bean);
         }else {
             reduceMapper.updateReduceApply(bean);
+            if (StringUtils.notEmpty(bean.getFileName())) {
+                ReduceFileList fileList = new ReduceFileList();
+                fileList.setFileId(bean.getFileUuid());
+                fileList.setFileName(bean.getFileName());
+                fileList.setReduceId(bean.getId());
+                reduceFileListMapper.saveFile(fileList);
+            }
         }
+
     }
     @Override
     public DataCollectionEntity findApplyById(DataCollectionEntity bean){
@@ -271,4 +282,16 @@ public class ReduceServiceImpl implements ReduceService {
     public void updateApplyStatus(DataCollectionEntity bean){
         reduceMapper.updateApplyStatus(bean);
     }
+
+    @Override
+    public void delete(ReduceFileList bean){
+        reduceFileListMapper.delete(bean);
+    }
+
+    @Override
+    public List<ReduceFileList> listFile(ReduceFileList bean){
+        return reduceFileListMapper.listFile(bean);
+    }
+
+
 }

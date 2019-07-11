@@ -11,6 +11,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.dao.ReduceMapper;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.Letter;
+import xyz.zaijushou.zhx.sys.entity.ReduceFileList;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
@@ -219,6 +220,36 @@ public class FileManageController {
                     }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @ApiOperation(value = "下载单个减免附件", notes = "下载单个减免附件")
+    @PostMapping("/reduce/sigle/download")
+    public Object reduceSingleDownload(HttpServletRequest request, HttpServletResponse response, @RequestBody ReduceFileList bean) throws Exception {
+
+        try {
+                //文件下载类型--二进制文件
+                response.setContentType("application/octet-stream");
+
+                if (StringUtils.notEmpty(bean) && StringUtils.notEmpty(bean.getFileId())){
+                    //下载的文件携带这个名称
+                    response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(bean.getFileName(), "UTF-8"));
+                    FileInputStream fis = new FileInputStream(detailFile+bean.getFileId());
+                    byte[] f = new byte[fis.available()];
+                    if (f != null){
+                        fis.read(f);
+                        fis.close();
+
+                        ServletOutputStream sos = response.getOutputStream();
+                        sos.write(f);
+
+                        sos.flush();
+                        sos.close();
+                    }
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }

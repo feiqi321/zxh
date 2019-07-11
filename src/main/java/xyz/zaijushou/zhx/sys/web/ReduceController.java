@@ -17,10 +17,8 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelReduceConstant;
 import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.FileList;
 import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -202,5 +200,20 @@ public class ReduceController {
         bean.setFileUuid(fileUuid);
         reduceService.saveReduceApply(bean);
         return WebResponse.success();
+    }
+
+    @ApiOperation(value = "删除附件信息", notes = "删除附件信息")
+    @PostMapping("/reduce/file/delete")
+    public Object deleteFile(@RequestBody ReduceFileList bean ) throws IOException {
+
+        reduceService.delete(bean);
+        return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查询附件信息", notes = "查询附件信息")
+    @PostMapping("/reduce/file/list")
+    public Object listFile(@RequestBody ReduceFileList bean ) throws IOException {
+
+        return WebResponse.success( reduceService.listFile(bean));
     }
 }
