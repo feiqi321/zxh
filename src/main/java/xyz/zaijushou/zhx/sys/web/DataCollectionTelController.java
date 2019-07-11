@@ -1,9 +1,12 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +37,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/statistics/collection")
 public class DataCollectionTelController {
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private DataCollectionTelService dataCollectionTelService;
     @Autowired
@@ -43,7 +46,7 @@ public class DataCollectionTelController {
     @ApiOperation(value = "新增电催回调", notes = "新增催收")
     @PostMapping("/dataCollection/save")
     public Object save(@RequestBody DataCollectionTelEntity bean) {
-
+        logger.info("电催回调:"+JSONObject.toJSON(bean).toString());
         dataCollectionTelService.save(bean);
 
         return WebResponse.success();

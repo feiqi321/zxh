@@ -56,6 +56,8 @@ public interface DataCaseMapper {
 
     public List<DataCaseEntity> totalCaseList(DataCaseEntity bean);
 
+    public List<DataCaseEntity> totalSendCaseList(DataCaseEntity bean);
+
     public List<DataCaseEntity> autoQuery1(DataCaseEntity bean);
 
     public List<DataCaseEntity> autoQuery2(DataCaseEntity bean);
@@ -63,6 +65,8 @@ public interface DataCaseMapper {
     public List<DataCaseEntity> pageBatchBoundsCaseList(DataCaseEntity bean);
 
     public List<DataCaseEntity> totalBatchBoundsCaseList(DataCaseEntity bean);
+
+    public List<DataCaseEntity> totalSendBatchBoundsCaseList(DataCaseEntity bean);
 
     public List<DataCaseEntity> selectCaseList(DataCaseEntity bean);
 
@@ -73,6 +77,10 @@ public interface DataCaseMapper {
     public void sumCaseMoney(DataCaseEntity bean);
 
     public void sendOdv(DataCaseEntity bean);
+
+    public void cleanTimes(DataCaseEntity bean);
+
+    public void cleanCollect(DataCaseEntity bean);
 
     public void watchDetail(DataCaseEntity bean);
 

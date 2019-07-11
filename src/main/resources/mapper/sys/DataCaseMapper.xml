@@ -140,6 +140,7 @@
         da.settle_flag as settleFlag,
         da.interest_date as interestDate,
         da.latest_overdue_money as latestOverdueMoney,
+        da.real_return_time as realReturnTime,
         da.remark1,
         da.remark2,
         da.remark3,
@@ -359,7 +360,7 @@
             <if test="rate != null">rate,</if>
             <if test="remark != null">remark,</if>
             <if test="realReturnTime != null">real_return_time,</if>
-            <if test="status != null">status,</if>
+            status,
             delete_flag,
             create_time,
         </trim>
@@ -371,7 +372,7 @@
             <if test="rate != null">#{rate},</if>
             <if test="remark != null">#{remark},</if>
             <if test="realReturnTime != null">#{real_return_time},</if>
-            <if test="status != null">#{status},</if>
+            1,
             0,
             GETDATE(),
         </trim>
@@ -1633,6 +1634,9 @@
     update data_case
     <set >
         <trim suffixOverrides=",">
+            <if test="realReturnTime != null and realReturnTime != ''">
+                real_return_time = #{realReturnTime},
+            </if>
             <if test="caseDate != null and caseDate != ''">
                 case_date = #{caseDate},
             </if>
@@ -2831,7 +2835,9 @@
         contactUnit6,
         contactAddress6,
         delete_flag,
-        create_time
+        status,
+        create_time,
+        real_return_time
         )
         values
         (
@@ -3018,7 +3024,9 @@
         #{contactUnit6},
         #{contactAddress6},
         0,
-        GETDATE()
+        1,
+        GETDATE(),
+        #{realReturnTime}
         )
     </insert>
 
@@ -3208,7 +3216,9 @@
         contactMobile6,
         contactUnit6,
         contactAddress6,
-        delete_flag
+        delete_flag,
+        status,
+        real_return_time
         )
         values
 
@@ -3396,7 +3406,9 @@
         #{record.contactMobile6},
         #{record.contactUnit6},
         #{record.contactAddress6},
-            0
+            0,
+            1,
+            #{realReturnTime}
         )
         </foreach>
     </insert>
@@ -3892,6 +3904,257 @@
         </where>
         order by ${orderBy} ${sort}
     </select>
+
+    <select id="totalSendCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select  <include refid="colSql"/>
+        from data_case da
+        <where>
+            da.delete_flag=0
+            <trim suffixOverrides=",">
+                <if test="idFlag != null and idFlag!=''">
+                    and t.id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="cardNoFlag != null and cardNoFlag!=''">
+                    and da.card_no in
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="seqNoFlag != null and seqNoFlag!=''">
+                    and da.seq_no in
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="identNoFlag != null and identNoFlag!=''">
+                    and da.ident_no in
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="nameFlag != null and identNoFlag!=''">
+                    and da.name in
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="accountFlag != null and accountFlag!=''">
+                    and da.account in
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="archiveNoFlag != null and archiveNoFlag!=''">
+                    and da.archive_no in
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and da.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="batchNoFlag != null and batchNoFlag!=''">
+                    and da.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="odvFlag != null and odvFlag!=''">
+                    and da.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="vin != null and vin!=''">
+                    and da.vin = #{vin}
+                </if>
+                <if test="license != null and license!=''">
+                    and da.license = #{license}
+                </if>
+                <if test="collectHand != null and collectHand!=''">
+                    and da.collect_hand = #{collectHand}
+                </if>
+                <if test="bank != null and bank!=''">
+                    and da.bank = #{bank}
+                </if>
+                <if test="moneyStart != null and moneyStart!=''">
+                    <![CDATA[   and da.money>=  #{moneyStart}  ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''" >
+                    <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
+                </if>
+                <if test="overDays != null and overDays!=''">
+                    and da.overdue_days = #{overDays}
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    and da.summary = #{collectInfo}
+                </if>
+                <if test="batchNo != null and batchNo!=''">
+                    and da.batch_no = #{batchNo}
+                </if>
+                <if test="dept != null and dept!=''">
+                    and da.dept = #{dept}
+                </if>
+                <if test="reduceStatus != null and reduceStatus!=''">
+                    and da.reduce_status = #{reduceStatus}
+                </if>
+                <if test="status != null and status!=''">
+                    and da.status = #{status}
+                </if>
+                <if test="accountAge != null and accountAge!=''">
+                    and da.account_age = #{accountAge}
+                </if>
+                <if test="collectStatus != null and collectStatus!=''">
+                    and da.collect_status = #{collectStatus}
+                </if>
+                <if test="color != null and color!=''">
+                    and da.color = #{color}
+                </if>
+                <if test="area != null and area!=''">
+                    and da.area = #{area}
+                </if>
+                <if test="province != null and province.name !=null and province.name !=''">
+                    and da.province = #{province.name}
+                </if>
+                <if test="city != null and city.name !=null and city.name !=''">
+                    and da.city = #{city.name}
+                </if>
+                <if test="county != null and county.name !=null and county.name !=''">
+                    and da.county = #{county.name}
+                </if>
+                <if test="caseType != null and caseType!=''">
+                    and da.case_type = #{caseType}
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
+                    and da.odv is not null
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
+                    and (da.odv is  null or da.odv='')
+                </if>
+
+                <if test="collectArea != null and collectArea!=''">
+                    and da.collect_area = #{collectArea}
+                </if>
+                <if test="repayDateStart != null and repayDateStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
+                </if>
+                <if test="repayDateEnd != null and repayDateEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
+                </if>
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and da.case_date>=  #{caseDateStart}  ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
+                </if>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
+                </if>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')<=  #{expectEndTime}   ]]>
+                </if>
+                <if test="realReturnStartTime != null and realReturnStartTime!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd')>=  #{realReturnStartTime}   ]]>
+                </if>
+                <if test="realReturnEndTime != null and realReturnEndTime!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd')<=  #{realReturnEndTime}   ]]>
+                </if>
+                <if test="collectStartDate != null and collectStartDate!=''">
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>= #{collectStartDate}  ]]>
+                </if>
+                <if test="collectEndDate != null and collectEndDate!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>=  #{collectEndDate}   ]]>
+                </if>
+                <if test="collectAreas != null and collectAreas.length > 0 ">
+                    and da.collect_area in
+                    <foreach item="item" index="index" collection="collectAreas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="caseTypes != null and caseTypes.length > 0 ">
+                    and da.case_type in
+                    <foreach item="item" index="index" collection="caseTypes" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="depts != null and depts.length > 0 ">
+                    and da.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reportStatuss != null and reportStatuss.length > 0 ">
+                    and da.report_status in
+                    <foreach item="item" index="index" collection="reportStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reduceStatuss != null and reduceStatuss.length > 0 ">
+                    and da.reduce_status in
+                    <foreach item="item" index="index" collection="reduceStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="statuss != null and statuss.length > 0 ">
+                    and da.status in
+                    <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="accountAges != null and accountAges.length > 0 ">
+                    and da.account_age in
+                    <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="colors != null and colors.length > 0 ">
+                    and da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="areas != null and areas.length > 0 ">
+                    and da.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <update id="cleanTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set collect_times = 0
+        where id in
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                '${item}'
+            </foreach>
+
+    </update>
+
+    <update id="cleanCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set collect_result = ''
+        where id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            '${item}'
+        </foreach>
+
+    </update>
 
     <select id="autoQuery1" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select  da.id,da.odv,da.seq_no as seqNo,da.money,da.distribute_history as distributeHistory
@@ -4592,6 +4855,236 @@
             </trim>
         </where>
         order by ${orderBy} ${sort}
+        )
+    </select>
+
+
+    <select id="totalSendBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select   <include refid="colSql"/>
+        from data_case da where da.delete_flag=0 and  da.ident_no in (
+        select t.ident_no
+        from data_case t LEFT JOIN data_collection dc on t.id = dc.case_id
+        <where>
+            1 = 1
+            <trim suffixOverrides=",">
+                <if test="idFlag != null and idFlag!=''">
+                    and t.id in
+                    <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="cardNoFlag != null and cardNoFlag!=''">
+                    and t.card_no in
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="seqNoFlag != null and seqNoFlag!=''">
+                    and t.seq_no in
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="identNoFlag != null and identNoFlag!=''">
+                    and t.ident_no in
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="nameFlag != null and identNoFlag!=''">
+                    and t.name in
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="accountFlag != null and accountFlag!=''">
+                    and t.account in
+                    <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="archiveNoFlag != null and archiveNoFlag!=''">
+                    and t.archive_no in
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="clientFlag != null and clientFlag!=''">
+                    and t.client in
+                    <foreach item="item" index="index" collection="client" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="batchNoFlag != null and batchNoFlag!=''">
+                    and t.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="odvFlag != null and odvFlag!=''">
+                    and t.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="dept != null and dept!=''">
+                    and t.dept = #{dept}
+                </if>
+
+                <if test="accountAge != null and accountAge!=''">
+                    and t.account_age = #{accountAge}
+                </if>
+                <if test="collectArea != null and collectArea!=''">
+                    and t.collect_area = #{collectArea}
+                </if>
+                <if test="overDays != null and overDays!=''">
+                    and t.over_days = #{overDays}
+                </if>
+                <if test="area != null and area!=''">
+                    and t.area = #{area}
+                </if>
+                <if test="province != null and province.name !=null and province.name !=''">
+                    and t.province = #{province.name}
+                </if>
+                <if test="city != null and city.name !=null and city.name !=''">
+                    and t.city = #{city.name}
+                </if>
+                <if test="county != null and county.name !=null and county.name !=''">
+                    and t.county = #{county.name}
+                </if>
+                <if test="license != null and license!=''">
+                    and t.license = #{license}
+                </if>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
+                </if>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectEndTime}   ]]>
+                </if>
+
+                <if test="collectHand != null and collectHand!=''">
+                    and t.collect_hand = #{collectHand}
+                </if>
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and t.distribute_status = #{distributeStatus}
+                </if>
+                <if test="vin != null and vin!=''">
+                    and t.vin = #{vin}
+                </if>
+                <if test="status != null and status!=''">
+                    and t.status = #{status}
+                </if>
+                <if test="bank != null and bank!=''">
+                    and t.bank = #{bank}
+                </if>
+                <if test="collectStartDate != null and collectStartDate!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')>=  #{collectStartDate}   ]]>
+                </if>
+                <if test="collectEndDate != null and collectEndDate!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')>=  #{collectEndDate}   ]]>
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    and dc.collectInfo = #{collectInfo}
+                </if>
+                <if test="collectStatus != null and collectStatus!=''">
+                    and dc.collect_status = #{collectStatus}
+                </if>
+                <if test="caseType != null and caseType!=''">
+                    and t.case_type = #{caseType}
+                </if>
+                <if test="color != null and color!=''">
+                    and t.color = #{color}
+                </if>
+
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and t.case_date>=  #{caseDateStart}   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and t.case_date<=  #{caseDateEnd}   ]]>
+                </if>
+                <if test="repayDateStart != null and repayDateStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
+                </if>
+                <if test="repayDateEnd != null and repayDateEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
+                </if>
+                <if test="moneyStart != null and moneyStart!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.money, 'yyyy-MM-dd')>=  #{moneyStart}   ]]>
+                </if>
+                <if test="moneyEnd != null and moneyEnd!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.money, 'yyyy-MM-dd')<=  #{moneyEnd}   ]]>
+                </if>
+
+                <if test="realReturnStartTime != null and realReturnStartTime!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.real_return_time, 'yyyy-MM-dd')>= #{realReturnStartTime}  ]]>
+                </if>
+                <if test="realReturnEndTime != null and realReturnEndTime!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.real_return_time, 'yyyy-MM-dd')<=  #{realReturnEndTime}   ]]>
+                </if>
+                <if test="collectAreas != null and collectAreas.length > 0 ">
+                    and da.collect_area in
+                    <foreach item="item" index="index" collection="collectAreas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="caseTypes != null and caseTypes.length > 0 ">
+                    and da.case_type in
+                    <foreach item="item" index="index" collection="caseTypes" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="depts != null and depts.length > 0 ">
+                    and da.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reportStatuss != null and reportStatuss.length > 0 ">
+                    and da.report_status in
+                    <foreach item="item" index="index" collection="reportStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="reduceStatuss != null and reduceStatuss.length > 0 ">
+                    and da.reduce_status in
+                    <foreach item="item" index="index" collection="reduceStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="statuss != null and statuss.length > 0 ">
+                    and da.status in
+                    <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="accountAges != null and accountAges.length > 0 ">
+                    and da.account_age in
+                    <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="colors != null and colors.length > 0 ">
+                    and da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
+                <if test="areas != null and areas.length > 0 ">
+                    and da.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </trim>
+        </where>
         )
     </select>
 

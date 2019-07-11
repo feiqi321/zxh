@@ -53,7 +53,9 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         Long timestamp = Long.parseLong(bean.getNotify().getAnswerTime()==null?"0":(bean.getNotify().getAnswerTime().equals("")?"0":bean.getNotify().getAnswerTime()));
         bean.setCollectTime(new Date(timestamp));
         dataCollectionTelMapper.saveTel(bean);
-        dataCollectionTelMapper.updateCollect(bean);
+        if(StringUtils.notEmpty(bean.getUserData())) {
+            dataCollectionTelMapper.updateCollect(bean);
+        }
     }
 
     @Override

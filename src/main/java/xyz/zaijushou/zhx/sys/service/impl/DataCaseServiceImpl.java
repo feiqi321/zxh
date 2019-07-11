@@ -566,6 +566,15 @@ public class DataCaseServiceImpl implements DataCaseService {
             newStatuss[dataCaseEntity.getStatuss().length+2]="3";
             dataCaseEntity.setStatuss(newStatuss);
         }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("1") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+2];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="0";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         logger.info("开始查询");
         if (dataCaseEntity.isBatchBonds()){
@@ -815,9 +824,28 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setIdentNos(identNos);
             }
         }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("0") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+3];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="1";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            newStatuss[dataCaseEntity.getStatuss().length+2]="3";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("1") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+2];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="0";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
-            list = dataCaseMapper.totalBatchBoundsCaseList(dataCaseEntity);
+            list = dataCaseMapper.totalSendBatchBoundsCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 if (temp.getCollectStatus()==0){
@@ -844,7 +872,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i,temp);
             }
         }else {
-            list = dataCaseMapper.totalCaseList(dataCaseEntity);
+            list = dataCaseMapper.totalSendCaseList(dataCaseEntity);
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
                 if (temp.getCollectStatus()==0){
@@ -1156,6 +1184,25 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setIdentNos(identNos);
             }
         }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("0") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+3];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="1";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            newStatuss[dataCaseEntity.getStatuss().length+2]="3";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("1") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+2];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="0";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
         Integer[] sendTypes = dataCaseEntity.getSendType();
         String sendModule = null;
         for (int i=0;i<sendTypes.length;i++){
@@ -1186,8 +1233,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<String> odvList = new ArrayList<String>(strList);//转换为ArrayLsit
         String[] odvPercents = dataCaseEntity.getOdvPercent();
         Boolean percentFlag = false;
-        for (int i=0;i<dataCaseEntity.getSendOdvs().length;i++){
-            if (dataCaseEntity.getSendOdvs()[i]!=null && !dataCaseEntity.getSendOdvs()[i].trim().equals("")  && !dataCaseEntity.getSendOdvs()[i].trim().equals("0")){
+        for (int i=0;i<odvPercents.length;i++){
+            if (odvPercents[i]!=null && !odvPercents[i].trim().equals("")  && !odvPercents[i].trim().equals("0")){
                 percentFlag = true;
                 break;
             }
@@ -1195,7 +1242,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (percentFlag) {
             for (int i = 0; i < odvList.size(); i++) {
                 String odvPercent = odvPercents[i];
-                if (odvPercent == null || odvPercents.equals("") || odvPercents.equals("0")) {
+                if (odvPercent == null || odvPercent.equals("") || odvPercent.equals("0")) {
                     odvList.remove(i);
                 } else {
                     percentMap.put(odvList.get(i),odvPercents[i]);
@@ -1223,12 +1270,16 @@ public class DataCaseServiceImpl implements DataCaseService {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ thisOdv, SysUserEntity.class);
             ShowSendCase showCase = new ShowSendCase();
             showCase.setOdv(user==null?"":user.getUserName());
-            showCase.setPercent(dataCaseEntity.getOdvPercent()[i]);
+            showCase.setPercent(StringUtils.isEmpty(dataCaseEntity.getOdvPercent()[i])?"":dataCaseEntity.getOdvPercent()[i]+"%");
             List<DataCaseEntity> odvCaseList = map.get(thisOdv);
-            showCase.setCaseNum(odvCaseList.size()+"");
+            showCase.setCaseNum(odvCaseList==null?"0":odvCaseList.size()+"");
             BigDecimal caseAmt = new BigDecimal(0);
-            for (int m=0;m<odvCaseList.size();m++){
-                caseAmt = caseAmt.add(odvCaseList.get(m).getMoney());
+            if (odvCaseList==null){
+                caseAmt = caseAmt.add(new BigDecimal(0));
+            }else {
+                for (int m = 0; m < odvCaseList.size(); m++) {
+                    caseAmt = caseAmt.add(odvCaseList.get(m).getMoney());
+                }
             }
             showCase.setCaseAmt("￥"+FmtMicrometer.fmtMicrometer(caseAmt.stripTrailingZeros().toPlainString()));
             odvShowList.add(showCase);
@@ -1340,6 +1391,25 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setIdentNos(identNos);
             }
         }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("0") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+3];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="1";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            newStatuss[dataCaseEntity.getStatuss().length+2]="3";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("1") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+2];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="0";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
         Integer[] sendTypes = dataCaseEntity.getSendType();
         String sendModule = null;
         for (int i=0;i<sendTypes.length;i++){
@@ -1401,6 +1471,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }
 
+
+
         Map<String, List<DataCaseEntity>> map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
         for(Map.Entry<String, List<DataCaseEntity>> entry : map.entrySet()){
             List<DataCaseEntity> odvCaseList = entry.getValue();
@@ -1426,12 +1498,37 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
 
         }
+        String[] ids = new String[list.size()];
+        for (int i=0;i<list.size();i++){
+            ids[i] = list.get(i).getId()+"";
+        }
+        dataCaseEntity.setIds(ids);
+        if (dataCaseEntity.getCleanTimes()!=null && dataCaseEntity.getCleanTimes()==1){
+            dataCaseMapper.cleanTimes(dataCaseEntity);
+        }
+        if (dataCaseEntity.getCleanCollect()!=null && dataCaseEntity.getCleanCollect()==1){
+            dataCaseMapper.cleanCollect(dataCaseEntity);
+        }
 
     }
 
     public Map<String, List<DataCaseEntity>> authSend(List<DataCaseEntity> list,String[] odvs,Map percentMap,Integer sendType,Integer authType){
         Map map = new HashMap();
+        List<DataCaseEntity> firstList = new ArrayList<DataCaseEntity>();
+        for (int i=0;i<odvs.length;i++){
+            DataCaseEntity firstCase = new DataCaseEntity();
+            firstCase.setOdv(odvs[i]);
+            firstCase.setMoney(new BigDecimal(0));
+            firstCase.setPercent(percentMap.get(odvs[i])==null?"1":percentMap.get(odvs[i]).toString());
+            firstList.add(firstCase);
+        }
 
+        Collections.sort(firstList);
+        for (int j = 0; j < firstList.size(); j++) {
+            odvs[j] = firstList.get(j).getOdv();
+        }
+
+        //先按照分配比例把催收员按照比例从大到小配列一次
         if (authType==1){
             for (int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
@@ -1443,6 +1540,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                         String tempOdv = odvs[num];
                         odvs[num] = odvs[0];
                         odvs[0] = tempOdv;
+                    }else{
+                        String tempOdv = odvs[num];
+                        odvs[num] = odvs[num+1];
+                        odvs[num+1] = tempOdv;
                     }
                     if(map.get(odvs[num])==null){
                         tempList = new ArrayList<DataCaseEntity>();
@@ -1469,7 +1570,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             for (int i=0;i<list.size();i++) {
                 DataCaseEntity temp = list.get(i);
                 orderList.clear();
-                int num = i%odvs.length;
+                //int num = i%odvs.length;
+                int num =1;
                 List<DataCaseEntity> tempList = null;
 
                 if (sendType==3 && odvs[num]!=null && odvs[num].equals(temp.getOdv())){
@@ -1477,6 +1579,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                         String tempOdv = odvs[num];
                         odvs[num] = odvs[0];
                         odvs[0] = tempOdv;
+                    }else{
+                        String tempOdv = odvs[num];
+                        odvs[num] = odvs[num+1];
+                        odvs[num+1] = tempOdv;
                     }
                     temp.setAccount(temp.getOdv());
                     temp.setOdv(odvs[num]);
@@ -1497,12 +1603,38 @@ public class DataCaseServiceImpl implements DataCaseService {
                     orderCase.setMoney(totalTemp);
                     orderCase.setPercent(percentMap.get(odvs[num])==null?"1":percentMap.get(odvs[num]).toString());
                     orderList.add(orderCase);
-                    if (num == odvs.length-1) {
-                        Collections.reverse(orderList);
+                    for (int m=0;m<odvs.length;m++){
+                        boolean juage = true;
+                        for (int j = 0; j < orderList.size(); j++) {
+                           if (odvs[m].equals(orderList.get(j).getOdv())){
+                               juage =  false;
+                               break;
+                           }
+                        }
+                        if (juage){
+                            DataCaseEntity orderCase2 = new DataCaseEntity();
+                            orderCase2.setOdv(odvs[m]);
+                            List<DataCaseEntity> compareList  = null;
+                            if(map.get(odvs[m])==null){
+                                compareList = new ArrayList<DataCaseEntity>();
+                            }else {
+                                compareList = (List<DataCaseEntity>)map.get(odvs[m]);
+                            }
+                            BigDecimal compareAmt = new BigDecimal(0);
+                            for (int n=0;n<compareList.size();n++){
+                                compareAmt = compareAmt.add(compareList.get(n).getMoney());
+                            }
+                            orderCase2.setMoney(compareAmt);
+                            orderCase2.setPercent(percentMap.get(odvs[m])==null?"1":percentMap.get(odvs[m]).toString());
+                            orderList.add(orderCase2);
+                        }
+                    }
+                    //if (num == odvs.length-1) {
+                        Collections.sort(orderList);
                         for (int j = 0; j < orderList.size(); j++) {
                             odvs[j] = orderList.get(j).getOdv();
                         }
-                    }
+                    //}
                 }else {
                     temp.setAccount(temp.getOdv());
                     temp.setOdv(odvs[num]);
@@ -1522,12 +1654,38 @@ public class DataCaseServiceImpl implements DataCaseService {
                     orderCase.setMoney(totalTemp);
                     orderCase.setPercent(percentMap.get(odvs[num])==null?"1":percentMap.get(odvs[num]).toString());
                     orderList.add(orderCase);
-                    if (num == odvs.length-1) {
-                        Collections.reverse(orderList);
+                    for (int m=0;m<odvs.length;m++){
+                        boolean juage = true;
+                        for (int j = 0; j < orderList.size(); j++) {
+                            if (odvs[m].equals(orderList.get(j).getOdv())){
+                                juage =  false;
+                                break;
+                            }
+                        }
+                        if (juage){
+                            DataCaseEntity orderCase2 = new DataCaseEntity();
+                            orderCase2.setOdv(odvs[m]);
+                            List<DataCaseEntity> compareList  = null;
+                            if(map.get(odvs[m])==null){
+                                compareList = new ArrayList<DataCaseEntity>();
+                            }else {
+                                compareList = (List<DataCaseEntity>)map.get(odvs[m]);
+                            }
+                            BigDecimal compareAmt = new BigDecimal(0);
+                            for (int n=0;n<compareList.size();n++){
+                                compareAmt = compareAmt.add(compareList.get(n).getMoney());
+                            }
+                            orderCase2.setMoney(compareAmt);
+                            orderCase2.setPercent(percentMap.get(odvs[m])==null?"1":percentMap.get(odvs[m]).toString());
+                            orderList.add(orderCase2);
+                        }
+                    }
+                    //if (num == odvs.length-1) {
+                        Collections.sort(orderList);
                         for (int j=0;j<orderList.size();j++){
                             odvs[j] = orderList.get(j).getOdv();
                         }
-                    }
+                    //}
                 }
 
 
@@ -1871,7 +2029,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
             logger.info("处理批次完毕");
         }catch (Exception e){
-            logger.info(e.getStackTrace().toString());
+            logger.info(e.getCause().getMessage());
             e.printStackTrace();
             throw new CustomerException(500,"后台异常，请检查数据后后再试");
         }
@@ -2137,6 +2295,25 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setIdentNoFlag("1");
                 dataCaseEntity.setIdentNos(identNos);
             }
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("0") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+3];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="1";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            newStatuss[dataCaseEntity.getStatuss().length+2]="3";
+            dataCaseEntity.setStatuss(newStatuss);
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("1") ) {
+            String[] newStatuss = new String[dataCaseEntity.getStatuss().length+2];
+            for (int i=0;i<dataCaseEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCaseEntity.getStatuss()[i];
+            }
+            newStatuss[dataCaseEntity.getStatuss().length]="0";
+            newStatuss[dataCaseEntity.getStatuss().length+1]="2";
+            dataCaseEntity.setStatuss(newStatuss);
         }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
@@ -2965,6 +3142,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseMapper.updateBySeqNo(entity);
             }
         }catch (Exception e){
+            logger.info(e.getCause().getMessage());
             e.printStackTrace();
             throw new CustomerException(500,"后台异常，请检查数据后后再试");
         }

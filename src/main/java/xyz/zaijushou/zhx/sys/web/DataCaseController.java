@@ -206,8 +206,7 @@ public class DataCaseController {
             return webResponse;
         }
 
-        dataCaseService.autoSendByPropertyResult(bean);
-        return WebResponse.success();
+        return dataCaseService.autoSendByPropertyResult(bean);
     }
 
     @ApiOperation(value = "自动分配", notes = "自动分配")
