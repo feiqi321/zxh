@@ -66,6 +66,14 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
             chain.doFilter(request, response);
             return;
         }
+        /*if (request.getRequestURL().indexOf("/reduce/zip/download")>=0){
+            chain.doFilter(request, response);
+            //return;
+        }*/
+       /* if (request.getRequestURL().indexOf("/reduce/sigle/download")>=0){
+            chain.doFilter(request, response);
+            return;
+        }*/
         try {
             UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
             SecurityContextHolder.getContext().setAuthentication(authentication);

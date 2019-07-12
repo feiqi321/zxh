@@ -78,12 +78,14 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/repayRecord/pageDataExport",
             "/repayRecord/selectDataExport",
             "/bankReconciliation/queryDataExport",
+            "/reduce/zip/download",
             "/bankReconciliation/pageDataExport",
             "/bankReconciliation/selectDataExport",
             "/user/select/exportList",
             "/fileManage/downloadUser",
             "/letter/totalInfoExport",
             "/letter/pageInfoExport",
+            "/reduce/sigle/download",
             "/dataCase/detail",
             "/dataCase/selectOpExport"
     };

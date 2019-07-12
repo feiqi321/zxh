@@ -13,6 +13,7 @@ import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 import xyz.zaijushou.zhx.sys.entity.Letter;
 import xyz.zaijushou.zhx.sys.entity.ReduceFileList;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
+import xyz.zaijushou.zhx.sys.service.ReduceService;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -21,8 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -45,8 +46,8 @@ public class FileManageController {
     private String userFile;
     @Autowired
     private FileManageService fileManageService;
-    @Resource
-    private ReduceMapper reduceMapper;
+    @Autowired
+    private ReduceService reduceService;
     @ApiOperation(value = "下载压缩包", notes = "下载压缩包")
     @PostMapping("/fileManage/download")
     public Object download(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -191,7 +192,56 @@ public class FileManageController {
     @ApiOperation(value = "下载减免附件", notes = "下载减免附件")
     @PostMapping("/reduce/download")
     public Object reduceDownload(HttpServletRequest request, HttpServletResponse response, @RequestBody DataCollectionEntity bean) throws Exception {
-        Map<String, byte[]> files = new HashMap<String, byte[]>();
+
+        try {
+            int[] ids = bean.getIds();
+            List fileNameList = new ArrayList();
+            List filesList = new ArrayList();
+            for(int i=0;i<ids.length;i++){
+                ReduceFileList reduceFileList = new ReduceFileList();
+                reduceFileList.setReduceId(ids[i]);
+                List<ReduceFileList> fileList =  reduceService.listFile(reduceFileList);
+                for (int j=0;j<fileList.size();j++){
+                    ReduceFileList temp = fileList.get(j);
+                    fileNameList.add(temp.getFileName());
+                    filesList.add(detailFile+temp.getFileId());
+                }
+            }
+            String[] fileNames = new String[fileNameList.size()];
+            String[] files = new String[filesList.size()];
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            String downloadFilename = sdf.format(new Date())+".zip";//文件的名称
+            downloadFilename = URLEncoder.encode(downloadFilename, "UTF-8");//转换中文否则可能会产生乱码
+            response.setContentType("application/octet-stream");// 指明response的返回对象是文件流
+            response.setHeader("Content-Disposition", "attachment;filename=" + downloadFilename);// 设置在下载框默认显示的文件名
+            ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
+            fileNameList.toArray(fileNames);
+            filesList.toArray(files);
+
+            for (int i=0;i<files.length;i++) {
+
+                zos.putNextEntry(new ZipEntry(fileNames[i]));
+                FileInputStream fis = new FileInputStream(new File(files[i]));
+                byte[] buffer = new byte[1024];
+                int r = 0;
+                while ((r = fis.read(buffer)) != -1) {
+                    zos.write(buffer, 0, r);
+                }
+                fis.close();
+            }
+            zos.flush();
+            zos.close();
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+
+        /*Map<String, byte[]> files = new HashMap<String, byte[]>();
         if (StringUtils.isEmpty(bean.getIds())){
             return WebResponse.error("500","文件名称为空");
         }
@@ -223,7 +273,7 @@ public class FileManageController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return null;*/
     }
 
     @ApiOperation(value = "下载单个减免附件", notes = "下载单个减免附件")
@@ -251,6 +301,41 @@ public class FileManageController {
                     }
                 }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    @ApiOperation(value = "打包下载", notes = "打包下载")
+    @PostMapping("/reduce/zip/download")
+    public Object downloadZip(HttpServletRequest request, HttpServletResponse response){
+
+        try {
+            String downloadFilename = "中文.zip";//文件的名称
+            downloadFilename = URLEncoder.encode(downloadFilename, "UTF-8");//转换中文否则可能会产生乱码
+            response.setContentType("application/octet-stream");// 指明response的返回对象是文件流
+            response.setHeader("Content-Disposition", "attachment;filename=" + downloadFilename);// 设置在下载框默认显示的文件名
+            ZipOutputStream zos = new ZipOutputStream(response.getOutputStream());
+            String[] fileNames = new String[]{"1.xml","1.editorconfig"};
+            String[] files = new String[]{"D:/detailFile/1.xml","D:/detailFile/1eded35815e5428d9d9a9c06f798ed78.editorconfig"};
+            for (int i=0;i<files.length;i++) {
+
+                zos.putNextEntry(new ZipEntry(fileNames[i]));
+                FileInputStream fis = new FileInputStream(new File(files[i]));
+                //InputStream fis = url.openConnection().getInputStream();
+                byte[] buffer = new byte[1024];
+                int r = 0;
+                while ((r = fis.read(buffer)) != -1) {
+                    zos.write(buffer, 0, r);
+                }
+                fis.close();
+            }
+            zos.flush();
+            zos.close();
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;
