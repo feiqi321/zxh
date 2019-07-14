@@ -2938,12 +2938,6 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
 
     @Override
     public int compareTo(DataCaseEntity dataCaseEntity) {           //重写Comparable接口的compareTo方法，
-        BigDecimal thisMoney = this.getMoney().divide(new BigDecimal(this.getPercent()==null?"1":this.getPercent()),BigDecimal.ROUND_HALF_UP);
-        BigDecimal dataMoney = dataCaseEntity.getMoney().divide(new BigDecimal(dataCaseEntity.getPercent()==null?"1":dataCaseEntity.getPercent()),BigDecimal.ROUND_HALF_UP);
-        if (this.getMoney()!=null && dataCaseEntity.getMoney()!=null && this.getMoney().compareTo(new BigDecimal(0))==0 && dataCaseEntity.getMoney().compareTo(new BigDecimal(0))==0){
-            return this.getPercent().compareTo(dataCaseEntity.getPercent());
-        }else {
-            return thisMoney.compareTo(dataMoney);  // 根据年龄升序排列，降序修改相减顺序即可
-        }
+        return dataCaseEntity.money.compareTo(this.money);
     }
 }
