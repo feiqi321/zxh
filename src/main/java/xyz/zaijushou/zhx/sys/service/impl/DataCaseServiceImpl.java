@@ -1239,6 +1239,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 break;
             }
         }
+        double totalPercent = 0;
         if (percentFlag) {
             for (int i = 0; i < odvList.size(); i++) {
                 String odvPercent = odvPercents[i];
@@ -1246,6 +1247,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     odvList.remove(i);
                 } else {
                     percentMap.put(odvList.get(i),odvPercents[i]);
+                    totalPercent = totalPercent + Double.parseDouble(odvPercents[i]);
                 }
             }
             sendOdvs = new String[odvList.size()];
@@ -1254,6 +1256,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             sendOdvs = dataCaseEntity.getSendOdvs();
             for (int i=0;i<sendOdvs.length;i++){
                 percentMap.put(sendOdvs[i],1);
+                totalPercent = totalPercent+1;
             }
         }
 
@@ -1263,8 +1266,16 @@ public class DataCaseServiceImpl implements DataCaseService {
                 sendType = 3;
             }
         }
+
         List<ShowSendCase> odvShowList = new ArrayList<ShowSendCase>();
-        Map<String, List<DataCaseEntity>> map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
+        Map<String, List<DataCaseEntity>> map = new HashMap<>();
+        if (dataCaseEntity.getMathType()==1 ||dataCaseEntity.getMathType()==3){
+            SendCaseModule sendCaseModule= new SendCaseModule();
+            map = sendCaseModule.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType(),totalPercent);
+        }else{
+            map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
+        }
+
         for (int i=0;i<dataCaseEntity.getSendOdvs().length;i++){
             String thisOdv = dataCaseEntity.getSendOdvs()[i];
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ thisOdv, SysUserEntity.class);
@@ -1411,6 +1422,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setStatuss(newStatuss);
         }
         Integer[] sendTypes = dataCaseEntity.getSendType();
+        double totalPercent = 0;
         String sendModule = null;
         for (int i=0;i<sendTypes.length;i++){
             if (sendTypes[i]!=1){
@@ -1453,6 +1465,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     odvList.remove(i);
                 } else {
                     percentMap.put(odvList.get(i),odvPercents[i]);
+                    totalPercent = totalPercent + Double.parseDouble(odvPercents[i]);
                 }
             }
             sendOdvs = new String[odvList.size()];
@@ -1461,6 +1474,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             sendOdvs = dataCaseEntity.getSendOdvs();
             for (int i=0;i<sendOdvs.length;i++){
                 percentMap.put(sendOdvs[i],1);
+                totalPercent = totalPercent+1;
             }
         }
 
@@ -1471,9 +1485,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }
 
-
-
-        Map<String, List<DataCaseEntity>> map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
+        Map<String, List<DataCaseEntity>> map = new HashMap<>();
+        if (dataCaseEntity.getMathType()==1 ||dataCaseEntity.getMathType()==3){
+            SendCaseModule sendCaseModule= new SendCaseModule();
+            map = sendCaseModule.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType(),totalPercent);
+        }else{
+            map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
+        }
         for(Map.Entry<String, List<DataCaseEntity>> entry : map.entrySet()){
             List<DataCaseEntity> odvCaseList = entry.getValue();
             for(int i=0;i<odvCaseList.size();i++){

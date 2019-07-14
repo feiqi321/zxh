@@ -389,6 +389,30 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private Integer cleanTimes;
     private String[] odvPercent;
     private String percent;
+    private int splitCount;
+    private List<DataCaseEntity> dataList = new ArrayList<DataCaseEntity>();
+
+    public List<DataCaseEntity> getDataList() {
+        return dataList;
+    }
+
+    public void addCaseHead(DataCaseEntity dataCaseEntity){
+        this.splitCount = this.splitCount + 1;
+        this.money = this.money.add(dataCaseEntity.getMoney());
+        dataList.add(dataCaseEntity);
+    }
+
+    public void setDataList(List<DataCaseEntity> dataList) {
+        this.dataList = dataList;
+    }
+
+    public int getSplitCount() {
+        return splitCount;
+    }
+
+    public void setSplitCount(int splitCount) {
+        this.splitCount = splitCount;
+    }
 
     public String getPercent() {
         return percent;
