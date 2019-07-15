@@ -88,7 +88,7 @@ public class SendCaseModule {
         }
 
         if (authType==1){
-            users = this.updateAutoCaseSplit1(list,users,sendType);
+            users = this.updateAutoCaseSplit1(list,users,sendType,totalPercent);
         }else if (authType==2){
             users = this.updateAutoCaseSplit2(list,users,sendType,totalPercent);
         }
@@ -99,14 +99,14 @@ public class SendCaseModule {
         return map;
     }
     //按照數量分配
-    public List<DataCaseEntity> updateAutoCaseSplit1(List<DataCaseEntity> cases,List<DataCaseEntity> users,Integer sendType) {
+    public List<DataCaseEntity> updateAutoCaseSplit1(List<DataCaseEntity> cases,List<DataCaseEntity> users,Integer sendType,double totalPercent) {
 
         Integer casecount=cases.size();//案件个数
         Integer leftCount = cases.size();
 
             for (int i=0;i<users.size();i++){
                 DataCaseEntity userCase  = users.get(i);
-                double userCaseCount=casecount*Double.parseDouble(userCase.getPercent())/casecount;
+                double userCaseCount=casecount*Double.parseDouble(userCase.getPercent())/totalPercent;
                 Integer count = 0;
                 if (i==(users.size()-1)){
                     count = leftCount;
@@ -122,6 +122,8 @@ public class SendCaseModule {
                         DataCaseEntity addcase = cases.get(num);//取第一个案件
                         if (sendType==3){
                             if (!userCase.getOdv().equals(addcase.getOdv())){
+                                addcase.setAccount(addcase.getOdv());
+                                addcase.setOdv(userCase.getOdv());
                                 userCase.addCaseHead(addcase);//中
                                 log.debug("分配案件金额"+addcase.getMoney());
                                 cases.remove(num);//清除分过的元素
@@ -131,11 +133,15 @@ public class SendCaseModule {
                                 if (i==0 && i==(users.size()-1)){
 
                                 }else if(i==0){
+                                    addcase.setAccount(addcase.getOdv());
+                                    addcase.setOdv(users.get(i+1).getOdv());
                                     users.get(i+1).addCaseHead(addcase);//中
                                     log.debug("分配案件金额"+addcase.getMoney());
                                     cases.remove(num);//清除分过的元素
                                     break;
                                 }else{
+                                    addcase.setAccount(addcase.getOdv());
+                                    addcase.setOdv(users.get(i-1).getOdv());
                                     users.get(i-1).addCaseHead(addcase);//中
                                     log.debug("分配案件金额"+addcase.getMoney());
                                     cases.remove(num);//清除分过的元素
@@ -158,7 +164,7 @@ public class SendCaseModule {
             }
         while(true){
             if (cases.size()>0){
-                this.ontinue1(cases,users,sendType);
+                this.ontinue1(cases,users,sendType,totalPercent);
             }else{
                 break;
             }
@@ -167,7 +173,7 @@ public class SendCaseModule {
         return users;
     }
     //数量分配第一轮没有分配的重新分配一轮
-    public List<DataCaseEntity> ontinue1(List<DataCaseEntity> cases,List<DataCaseEntity> users,Integer sendType){
+    public List<DataCaseEntity> ontinue1(List<DataCaseEntity> cases,List<DataCaseEntity> users,Integer sendType,double totalPercent){
         Integer casecount=cases.size();//案件个数
         Integer leftCount = cases.size();
         while (true){
@@ -176,12 +182,12 @@ public class SendCaseModule {
             }
             for (int i=0;i<users.size();i++){
                 DataCaseEntity userCase  = users.get(i);
-                double userCaseCount=casecount*Double.parseDouble(userCase.getPercent())/casecount;
+                double userCaseCount=leftCount*Double.parseDouble(userCase.getPercent())/totalPercent;
                 Integer count = 0;
                 if (i==(users.size()-1)){
                     count = leftCount;
                 }else{
-                    count=(int)Math.floor(userCaseCount);
+                    count=(int)Math.floor(userCaseCount)==0?1:(int)Math.floor(userCaseCount);
                     leftCount = leftCount - count;
                 }
 
@@ -192,6 +198,8 @@ public class SendCaseModule {
                         DataCaseEntity addcase = cases.get(num);//取第一个案件
                         if (sendType==3){
                             if (!userCase.getOdv().equals(addcase.getOdv())){
+                                addcase.setAccount(addcase.getOdv());
+                                addcase.setOdv(userCase.getOdv());
                                 userCase.addCaseHead(addcase);//中
                                 log.debug("分配案件金额"+addcase.getMoney());
                                 cases.remove(num);//清除分过的元素
@@ -201,11 +209,15 @@ public class SendCaseModule {
                                 if (i==0 && i==(users.size()-1)){
 
                                 }else if(i==0){
+                                    addcase.setAccount(addcase.getOdv());
+                                    addcase.setOdv(users.get(i+1).getOdv());
                                     users.get(i+1).addCaseHead(addcase);//中
                                     log.debug("分配案件金额"+addcase.getMoney());
                                     cases.remove(num);//清除分过的元素
                                     break;
                                 }else{
+                                    addcase.setAccount(addcase.getOdv());
+                                    addcase.setOdv(users.get(i-1).getOdv());
                                     users.get(i-1).addCaseHead(addcase);//中
                                     log.debug("分配案件金额"+addcase.getMoney());
                                     cases.remove(num);//清除分过的元素
@@ -302,6 +314,8 @@ public class SendCaseModule {
                 DataCaseEntity addcase = cases.get(num);//取第一个案件
                 if (sendType==3){
                     if (!userCase.getOdv().equals(addcase.getOdv())){
+                        addcase.setAccount(addcase.getOdv());
+                        addcase.setOdv(userCase.getOdv());
                         userCase.addCaseHead(addcase);//中
                         log.debug("分配案件金额"+addcase.getMoney());
                         cases.remove(num);//清除分过的元素
@@ -312,6 +326,8 @@ public class SendCaseModule {
                         break;
                     }
                 }else{
+                    addcase.setAccount(addcase.getOdv());
+                    addcase.setOdv(userCase.getOdv());
                     userCase.addCaseHead(addcase);//中
                     log.debug("分配案件金额"+addcase.getMoney());
                     cases.remove(num);//清除分过的元素
@@ -335,6 +351,8 @@ public class SendCaseModule {
                 DataCaseEntity addcase = cases.get(num);//取第一个案件
                 if (sendType==3){
                     if (!userCase.getOdv().equals(addcase.getOdv())){
+                        addcase.setAccount(addcase.getOdv());
+                        addcase.setOdv(userCase.getOdv());
                         userCase.addCaseHead(addcase);//中
                         log.debug("分配案件金额"+addcase.getMoney());
                         cases.remove(num);//清除分过的元素
@@ -345,6 +363,8 @@ public class SendCaseModule {
                         break;
                     }
                 }else{
+                    addcase.setAccount(addcase.getOdv());
+                    addcase.setOdv(userCase.getOdv());
                     userCase.addCaseHead(addcase);//中
                     log.debug("分配案件金额"+addcase.getMoney());
                     cases.remove(num);//清除分过的元素
@@ -369,6 +389,8 @@ public class SendCaseModule {
 
                 if (sendType==3) {
                     if (!userCase.getOdv().equals(addcase.getOdv())) {
+                        addcase.setAccount(addcase.getOdv());
+                        addcase.setOdv(userCase.getOdv());
                         userCase.addCaseHead(addcase);//中
                         log.debug("分配案件金额" + addcase.getMoney());
                         cases.remove(num);//清除分过的元素
@@ -379,6 +401,8 @@ public class SendCaseModule {
                         break;
                     }
                 }else{
+                    addcase.setAccount(addcase.getOdv());
+                    addcase.setOdv(userCase.getOdv());
                     userCase.addCaseHead(addcase);//中
                     log.debug("分配案件金额" + addcase.getMoney());
                     cases.remove(num);//清除分过的元素

@@ -1282,11 +1282,16 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         List<ShowSendCase> odvShowList = new ArrayList<ShowSendCase>();
         Map<String, List<DataCaseEntity>> map = new HashMap<>();
+        List<DataCaseEntity> useList = new ArrayList<DataCaseEntity>();
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            useList.add(temp);
+        }
         if (dataCaseEntity.getMathType()==1 ||dataCaseEntity.getMathType()==2){
             SendCaseModule sendCaseModule= new SendCaseModule();
-            map = sendCaseModule.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType(),totalPercent);
+            map = sendCaseModule.authSend(useList,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType(),totalPercent);
         }else{
-            map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
+            map = this.authSend(useList,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
         }
 
         for (int i=0;i<dataCaseEntity.getSendOdvs().length;i++){
@@ -1294,6 +1299,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ thisOdv, SysUserEntity.class);
             ShowSendCase showCase = new ShowSendCase();
             showCase.setOdv(user==null?"":user.getUserName());
+
             showCase.setPercent(StringUtils.isEmpty(dataCaseEntity.getOdvPercent()[i])?"":dataCaseEntity.getOdvPercent()[i]+"%");
             List<DataCaseEntity> odvCaseList = map.get(thisOdv);
             showCase.setCaseNum(odvCaseList==null?"0":odvCaseList.size()+"");
@@ -1477,8 +1483,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         List<String> odvList = new ArrayList<String>(strList);//转换为ArrayLsit
         String[] odvPercents = dataCaseEntity.getOdvPercent();
         Boolean percentFlag = false;
-        for (int i=0;i<dataCaseEntity.getSendOdvs().length;i++){
-            if (dataCaseEntity.getSendOdvs()[i]!=null && !dataCaseEntity.getSendOdvs()[i].trim().equals("")  && !dataCaseEntity.getSendOdvs()[i].trim().equals("0")){
+        for (int i=0;i<odvPercents.length;i++){
+            if (odvPercents[i]!=null && !odvPercents[i].trim().equals("")  && !odvPercents[i].trim().equals("0")){
                 percentFlag = true;
                 break;
             }
@@ -1486,7 +1492,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (percentFlag) {
             for (int i = 0; i < odvList.size(); i++) {
                 String odvPercent = odvPercents[i];
-                if (odvPercent == null || odvPercents.equals("") || odvPercents.equals("0")) {
+                if (odvPercent == null || odvPercent.equals("") || odvPercent.equals("0")) {
                     odvList.remove(i);
                 } else {
                     percentMap.put(odvList.get(i),odvPercents[i]);
@@ -1511,18 +1517,23 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
         Map<String, List<DataCaseEntity>> map = new HashMap<>();
+        List<DataCaseEntity> useList = new ArrayList<DataCaseEntity>();
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity temp = list.get(i);
+            useList.add(temp);
+        }
         if (dataCaseEntity.getMathType()==1 ||dataCaseEntity.getMathType()==2){
             SendCaseModule sendCaseModule= new SendCaseModule();
-            map = sendCaseModule.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType(),totalPercent);
+            map = sendCaseModule.authSend(useList,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType(),totalPercent);
         }else{
-            map = this.authSend(list,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
+            map = this.authSend(useList,sendOdvs,percentMap,sendType,dataCaseEntity.getMathType());
         }
         for(Map.Entry<String, List<DataCaseEntity>> entry : map.entrySet()){
             List<DataCaseEntity> odvCaseList = entry.getValue();
             for(int i=0;i<odvCaseList.size();i++){
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odvCaseList.get(i).getOdv(), SysUserEntity.class);
-                odvCaseList.get(i).setDept(user.getDepartment());
-                odvCaseList.get(i).setDistributeHistory(list.get(i).getSeqNo()+"案件分配给"+user.getUserName());
+                odvCaseList.get(i).setDept(user==null?"":user.getDepartment());
+                odvCaseList.get(i).setDistributeHistory(list.get(i).getSeqNo()+"案件分配给"+(user==null?"":user.getUserName()));
                 dataCaseMapper.sendOdv(odvCaseList.get(i));
                 SysOperationLogEntity operationLog = new SysOperationLogEntity();
                 operationLog.setUrl("/send");
@@ -1555,9 +1566,11 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     }
 
-    public Map<String, List<DataCaseEntity>> authSend(List<DataCaseEntity> list,String[] odvs,Map percentMap,Integer sendType,Integer authType){
-        Map map = new HashMap();
+    public Map<String, List<DataCaseEntity>> authSend(List<DataCaseEntity> caseList,String[] odvs,Map percentMap,Integer sendType,Integer authType){
+
+        Map<String, List<DataCaseEntity>> map = new HashMap();
         List<DataCaseEntity> firstList = new ArrayList<DataCaseEntity>();
+
         for (int i=0;i<odvs.length;i++){
             DataCaseEntity firstCase = new DataCaseEntity();
             firstCase.setOdv(odvs[i]);
@@ -1570,135 +1583,151 @@ public class DataCaseServiceImpl implements DataCaseService {
         for (int j = 0; j < firstList.size(); j++) {
             odvs[j] = firstList.get(j).getOdv();
         }
-
-        //先按照分配比例把催收员按照比例从大到小配列一次
+        int totalCount = 0;
+        while(true) {
+            totalCount = totalCount+1;
+            List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
+            if (caseList.size()==0){
+                break;
+            }
+            for (int i=0;i<caseList.size();i++){
+                DataCaseEntity temp = caseList.get(i);
+                list.add(temp);
+            }
+            //先按照分配比例把催收员按照比例从大到小配列一次
             Collections.sort(list);
             List<DataCaseEntity> orderList = new ArrayList<DataCaseEntity>();
-            for (int i=0;i<list.size();i++) {
+            for (int i = 0; i < list.size(); i++) {
                 DataCaseEntity temp = list.get(i);
                 orderList.clear();
                 //int num = i%odvs.length;
-                int num =0;
+                int num = 0;
                 List<DataCaseEntity> tempList = null;
-                if(map.get(odvs[num])==null){
+                if (map.get(odvs[num]) == null) {
                     tempList = new ArrayList<DataCaseEntity>();
-                }else {
-                    tempList = (List<DataCaseEntity>)map.get(odvs[num]);
+                } else {
+                    tempList = (List<DataCaseEntity>) map.get(odvs[num]);
                 }
 
-                if (sendType==3 && odvs[num]!=null && odvs[num].equals(temp.getOdv())){
+                if (sendType == 3 && odvs[num] != null && odvs[num].equals(temp.getOdv())) {
 
                     //判断当前的案件的催收员跟当前的催收员是不是同一个，同一个则需要拿下一个案件
                     int compareNum = 1;
-                    while(true){
-                        if (i+compareNum>=list.size()){
+                    while (true) {
+                        if (i + compareNum >= list.size()) {
                             break;
                         }
-                        if(i<list.size()){
-                            if (!temp.getOdv().equals(odvs[num])){
+                        if (i < list.size()) {
+                            if (!temp.getOdv().equals(odvs[num])) {
                                 temp.setAccount(temp.getOdv());
                                 temp.setOdv(odvs[num]);
                                 tempList.add(temp);
+                                caseList.remove(temp);
                                 map.put(odvs[num], tempList);
                                 break;
-                            }else{
-                                DataCaseEntity caseTemp = list.get(i+compareNum);
-                                list.set(i+compareNum,temp);
+                            } else {
+                                DataCaseEntity caseTemp = list.get(i + compareNum);
+                                list.set(i + compareNum, temp);
                                 temp = caseTemp;
-                                compareNum = compareNum+1;
+                                compareNum = compareNum + 1;
                             }
-                        }else{
+                        } else {
                             break;
                         }
                     }
 
                     BigDecimal totalTemp = new BigDecimal(0);
-                    for (int m=0;m<tempList.size();m++){
+                    for (int m = 0; m < tempList.size(); m++) {
                         totalTemp = totalTemp.add(tempList.get(m).getMoney());
                     }
                     DataCaseEntity orderCase = new DataCaseEntity();
                     orderCase.setOdv(odvs[num]);
                     orderCase.setMoney(totalTemp);
-                    orderCase.setPercent(percentMap.get(odvs[num])==null?"1":percentMap.get(odvs[num]).toString());
+                    orderCase.setPercent(percentMap.get(odvs[num]) == null ? "1" : percentMap.get(odvs[num]).toString());
                     orderList.add(orderCase);
                     //将催收员中的案件组装进入list，准备进行排序
-                    for (int m=0;m<odvs.length;m++){
+                    for (int m = 0; m < odvs.length; m++) {
                         boolean juage = true;
                         for (int j = 0; j < orderList.size(); j++) {
-                           if (odvs[m].equals(orderList.get(j).getOdv())){
-                               juage =  false;
-                               break;
-                           }
+                            if (odvs[m].equals(orderList.get(j).getOdv())) {
+                                juage = false;
+                                break;
+                            }
                         }
-                        if (juage){
+                        if (juage) {
                             DataCaseEntity orderCase2 = new DataCaseEntity();
                             orderCase2.setOdv(odvs[m]);
-                            List<DataCaseEntity> compareList  = null;
-                            if(map.get(odvs[m])==null){
+                            List<DataCaseEntity> compareList = null;
+                            if (map.get(odvs[m]) == null) {
                                 compareList = new ArrayList<DataCaseEntity>();
-                            }else {
-                                compareList = (List<DataCaseEntity>)map.get(odvs[m]);
+                            } else {
+                                compareList = (List<DataCaseEntity>) map.get(odvs[m]);
                             }
                             BigDecimal compareAmt = new BigDecimal(0);
-                            for (int n=0;n<compareList.size();n++){
+                            for (int n = 0; n < compareList.size(); n++) {
                                 compareAmt = compareAmt.add(compareList.get(n).getMoney());
                             }
                             orderCase2.setMoney(compareAmt);
-                            orderCase2.setPercent(percentMap.get(odvs[m])==null?"1":percentMap.get(odvs[m]).toString());
+                            orderCase2.setPercent(percentMap.get(odvs[m]) == null ? "1" : percentMap.get(odvs[m]).toString());
+                            orderList.add(orderCase2);
+                        }
+                    }
+                    if (totalCount>=2 ){
+                        orderList.remove(orderCase);
+                        odvs = new String[orderList.size()];
+                    }
+                    SendCaseModule.publicSortUserMoney(orderList);
+                    for (int j = 0; j < orderList.size(); j++) {
+                        odvs[j] = orderList.get(j).getOdv();
+                    }
+                } else {
+                    temp.setAccount(temp.getOdv());
+                    temp.setOdv(odvs[num]);
+                    if (map.get(odvs[num]) == null) {
+                        tempList = new ArrayList<DataCaseEntity>();
+                    } else {
+                        tempList = (List<DataCaseEntity>) map.get(odvs[num]);
+                    }
+                    tempList.add(temp);
+                    caseList.remove(temp);
+                    map.put(odvs[num], tempList);
+                    BigDecimal totalTemp = new BigDecimal(0);
+                    for (int m = 0; m < tempList.size(); m++) {
+                        totalTemp = totalTemp.add(tempList.get(m).getMoney());
+                    }
+                    DataCaseEntity orderCase = new DataCaseEntity();
+                    orderCase.setOdv(odvs[num]);
+                    orderCase.setMoney(totalTemp);
+                    orderCase.setPercent(percentMap.get(odvs[num]) == null ? "1" : percentMap.get(odvs[num]).toString());
+                    orderList.add(orderCase);
+                    for (int m = 0; m < odvs.length; m++) {
+                        boolean juage = true;
+                        for (int j = 0; j < orderList.size(); j++) {
+                            if (odvs[m].equals(orderList.get(j).getOdv())) {
+                                juage = false;
+                                break;
+                            }
+                        }
+                        if (juage) {
+                            DataCaseEntity orderCase2 = new DataCaseEntity();
+                            orderCase2.setOdv(odvs[m]);
+                            List<DataCaseEntity> compareList = null;
+                            if (map.get(odvs[m]) == null) {
+                                compareList = new ArrayList<DataCaseEntity>();
+                            } else {
+                                compareList = (List<DataCaseEntity>) map.get(odvs[m]);
+                            }
+                            BigDecimal compareAmt = new BigDecimal(0);
+                            for (int n = 0; n < compareList.size(); n++) {
+                                compareAmt = compareAmt.add(compareList.get(n).getMoney());
+                            }
+                            orderCase2.setMoney(compareAmt);
+                            orderCase2.setPercent(percentMap.get(odvs[m]) == null ? "1" : percentMap.get(odvs[m]).toString());
                             orderList.add(orderCase2);
                         }
                     }
                     SendCaseModule.publicSortUserMoney(orderList);
                     for (int j = 0; j < orderList.size(); j++) {
-                         odvs[j] = orderList.get(j).getOdv();
-                    }
-                }else {
-                    temp.setAccount(temp.getOdv());
-                    temp.setOdv(odvs[num]);
-                    if(map.get(odvs[num])==null){
-                        tempList = new ArrayList<DataCaseEntity>();
-                    }else {
-                        tempList = (List<DataCaseEntity>)map.get(odvs[num]);
-                    }
-                    tempList.add(temp);
-                    map.put(odvs[num], tempList);
-                    BigDecimal totalTemp = new BigDecimal(0);
-                    for (int m=0;m<tempList.size();m++){
-                        totalTemp = totalTemp.add(tempList.get(m).getMoney());
-                    }
-                    DataCaseEntity orderCase = new DataCaseEntity();
-                    orderCase.setOdv(odvs[num]);
-                    orderCase.setMoney(totalTemp);
-                    orderCase.setPercent(percentMap.get(odvs[num])==null?"1":percentMap.get(odvs[num]).toString());
-                    orderList.add(orderCase);
-                    for (int m=0;m<odvs.length;m++){
-                        boolean juage = true;
-                        for (int j = 0; j < orderList.size(); j++) {
-                            if (odvs[m].equals(orderList.get(j).getOdv())){
-                                juage =  false;
-                                break;
-                            }
-                        }
-                        if (juage){
-                            DataCaseEntity orderCase2 = new DataCaseEntity();
-                            orderCase2.setOdv(odvs[m]);
-                            List<DataCaseEntity> compareList  = null;
-                            if(map.get(odvs[m])==null){
-                                compareList = new ArrayList<DataCaseEntity>();
-                            }else {
-                                compareList = (List<DataCaseEntity>)map.get(odvs[m]);
-                            }
-                            BigDecimal compareAmt = new BigDecimal(0);
-                            for (int n=0;n<compareList.size();n++){
-                                compareAmt = compareAmt.add(compareList.get(n).getMoney());
-                            }
-                            orderCase2.setMoney(compareAmt);
-                            orderCase2.setPercent(percentMap.get(odvs[m])==null?"1":percentMap.get(odvs[m]).toString());
-                            orderList.add(orderCase2);
-                        }
-                    }
-                    SendCaseModule.publicSortUserMoney(orderList);
-                    for (int j=0;j<orderList.size();j++){
                         odvs[j] = orderList.get(j).getOdv();
                     }
 
@@ -1706,7 +1735,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
 
             }
-
+        }
 
         return map;
     }
