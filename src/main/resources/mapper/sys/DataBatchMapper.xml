@@ -262,10 +262,10 @@
     </select>
 
     <select id="listClients" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select    client
+        select    batch_no as batchNo
         from data_batch
-        where batch_no in
-        <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+        where client in
+        <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
             #{item}
         </foreach>
     </select>

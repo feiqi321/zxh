@@ -180,25 +180,19 @@ public class DataBatchServiceImpl implements DataBatchService {
         String temp = "";
         for (int i=0;i<list.size();i++){
             DataBatchEntity dataBatchEntity = list.get(i);
-            if (StringUtils.isNotEmpty(dataBatchEntity.getClient())){
-                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+dataBatchEntity.getClient(),SysDictionaryEntity.class);
-                if(sysDictionaryEntity==null){
-
-                }else{
-                    temp = temp+","+dataBatchEntity.getClient();
-                }
-
+            if (StringUtils.isNotEmpty(dataBatchEntity.getBatchNo())){
+                temp = temp+","+dataBatchEntity.getBatchNo();
             }
 
         }
 
-        Integer[] clients = null;
+        String[] clients = null;
         if(!temp.equals("")){
             temp = temp.substring(1);
             String[] batchStr = temp.split(",");
-            clients = new Integer[batchStr.length];
+            clients = new String[batchStr.length];
             for (int i=0;i<batchStr.length;i++){
-                clients[i] = Integer.parseInt(batchStr[i]);
+                clients[i] = batchStr[i];
             }
         }
 

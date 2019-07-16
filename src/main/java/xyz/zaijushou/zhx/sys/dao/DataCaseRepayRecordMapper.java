@@ -31,5 +31,7 @@ public interface DataCaseRepayRecordMapper {
 
     List<DataCaseRepayRecordEntity> listBySeqNo(DataCaseRepayRecordEntity record);
 
+    List<DataCaseRepayRecordEntity> listByCaseId(DataCaseRepayRecordEntity record);
+
     DataCaseRepayRecordEntity findById(DataCaseRepayRecordEntity entity);
 }

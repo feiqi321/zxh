@@ -103,7 +103,7 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
             collection.setOdv("");
         }else {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ collection.getOdv(), SysUserEntity.class);
-            collection.setOdv(user == null ? "" : user.getUserName());
+            collection.setOdv(user == null ? "" : user.getUserName()+"("+user.getDeptName()+")");
         }
 
         collection.setBankAmtMsg(collection.getBankAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(collection.getBankAmt().stripTrailingZeros()+""));

@@ -10,6 +10,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCaseBankReconciliationMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseRemarkMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCaseBankReconciliationService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
@@ -36,7 +37,7 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
     @Resource
     private DataCaseMapper dataCaseMapper;
     @Resource
-    private DataCaseRemarkMapper dataCaseRemarkMapper;
+    private DataCaseRepayRecordMapper dateCaseRepayRecord;
 
     @Override
     public PageInfo<DataCaseBankReconciliationEntity> pageDataList(DataCaseBankReconciliationEntity entity) {
@@ -56,10 +57,10 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 temp.setRepayType("对公还款");
             }
 
-            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney()+""));
-            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney()+""));
-            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
-            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt()+""));
+            temp.getDataCase().setMoneyMsg(temp.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getMoney()+""));
+            temp.getDataCase().setRepayMoneyMsg(temp.getDataCase().getRepayMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getRepayMoney()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
+            temp.getDataCase().setEnRepayAmtMsg(temp.getDataCase().getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getEnRepayAmt()+""));
             pageData.set(i,temp);
         }
         return PageInfo.of(pageData);
@@ -83,10 +84,10 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 temp.setRepayType("对公还款");
             }
 
-            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney().stripTrailingZeros()+""));
-            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney().stripTrailingZeros()+""));
-            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney().stripTrailingZeros()+""));
-            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt().stripTrailingZeros()+""));
+            temp.getDataCase().setMoneyMsg(entity.getDataCase().getMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getMoney().stripTrailingZeros()+""));
+            temp.getDataCase().setRepayMoneyMsg(entity.getDataCase().getRepayMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getRepayMoney().stripTrailingZeros()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney().stripTrailingZeros()+""));
+            temp.getDataCase().setEnRepayAmtMsg(entity.getDataCase().getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(entity.getDataCase().getEnRepayAmt().stripTrailingZeros()+""));
             pageData.set(i,temp);
         }
         return PageInfo.of(pageData);
@@ -200,6 +201,11 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
 
         for (DataCaseBankReconciliationEntity entity : list) {
 
+            if (entity != null && entity.getSubmitUser() != null && entity.getSubmitUser().getId()!=null){
+                SysNewUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getSubmitUser().getId(), SysNewUserEntity.class);
+                entity.setSubmitUser(userTemp);
+            }
+
             if (entity != null && entity.getRepayType() != null){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType(),SysDictionaryEntity.class);
                 entity.setRepayType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
@@ -231,15 +237,32 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
 
     public List<DataCaseBankReconciliationEntity> listByCaseId(DataCaseBankReconciliationEntity bean){
         List<DataCaseBankReconciliationEntity> list = dataCaseBankReconciliationMapper.listByCaseId(bean);
+        DataCaseRepayRecordEntity record = new DataCaseRepayRecordEntity();
+        record.setDataCase(bean.getDataCase());
+        List<DataCaseRepayRecordEntity> repayList = dateCaseRepayRecord.listByCaseId(record);
         for (int i=0;i<list.size();i++){
             DataCaseBankReconciliationEntity temp = list.get(i);
-            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥0"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney().stripTrailingZeros()+""));
+            temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney().stripTrailingZeros()+""));
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRepayType(),SysDictionaryEntity.class);
-            temp.setRepayType(sysDictionaryEntity.getName());
+            temp.setRepayTypeMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
-            temp.setRemark(sysDictionaryEntity2.getName());
+            temp.setRemark(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
             temp.setConfirmMoneyMsg("￥0");
             list.set(i,temp);
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i=0;i<repayList.size();i++){
+            DataCaseRepayRecordEntity temp = repayList.get(i);
+            DataCaseBankReconciliationEntity temp1 = new DataCaseBankReconciliationEntity();
+            temp1.setConfirmMoneyMsg(temp.getRepayMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayMoney().stripTrailingZeros()+""));
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRepayType(),SysDictionaryEntity.class);
+            temp1.setRepayTypeMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
+            temp1.setRemark(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
+            temp1.setRepayUser(temp.getRepayUser());
+            temp1.setRepayDate(temp.getRepayDate()==null?"":sdf.format(temp.getRepayDate()));
+            temp1.setConfirmDate(temp.getConfirmTime()==null?"":sdf.format(temp.getConfirmTime()));
+            list.add(temp1);
         }
 
         return list;

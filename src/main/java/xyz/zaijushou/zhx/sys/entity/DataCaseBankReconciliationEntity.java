@@ -26,6 +26,8 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
 
     private String repayType;   //还款方式
 
+    private String repayTypeMsg;
+
     private String repayDate;
 
     private String confirmMoneyMsg;
@@ -52,6 +54,15 @@ public class DataCaseBankReconciliationEntity extends CommonEntity {
     private Map exportConf;
 
     private List exportKeyList;
+
+
+    public String getRepayTypeMsg() {
+        return repayTypeMsg;
+    }
+
+    public void setRepayTypeMsg(String repayTypeMsg) {
+        this.repayTypeMsg = repayTypeMsg;
+    }
 
     public Map getExportConf() {
         return exportConf;

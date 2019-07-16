@@ -53,7 +53,7 @@ public class CaseCallable implements Callable<List<DataCaseEntity>> {
             temp.setOdv("");
         }else {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user == null ? "" : user.getUserName());
+            temp.setOdv(user == null ? "" : user.getUserName()+"("+user.getDeptName()+")");
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getColor())){
             temp.setColor("BLACK");

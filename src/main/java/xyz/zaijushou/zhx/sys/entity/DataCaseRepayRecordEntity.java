@@ -22,6 +22,8 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
     @JSONField(format="yyyy-MM-dd")
     private Date repayDate; //还款日期
 
+    private String repayTypeMsg;
+
     private BigDecimal repayMoney;  //还款金额
 
     private String repayMoneyMsg;
@@ -59,6 +61,24 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
     private Map exportConf;
 
     private List exportKeyList;
+
+    private String confirmMoneyMsg;
+
+    public String getConfirmMoneyMsg() {
+        return confirmMoneyMsg;
+    }
+
+    public void setConfirmMoneyMsg(String confirmMoneyMsg) {
+        this.confirmMoneyMsg = confirmMoneyMsg;
+    }
+
+    public String getRepayTypeMsg() {
+        return repayTypeMsg;
+    }
+
+    public void setRepayTypeMsg(String repayTypeMsg) {
+        this.repayTypeMsg = repayTypeMsg;
+    }
 
     public Map getExportConf() {
         return exportConf;

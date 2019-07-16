@@ -68,10 +68,20 @@ public class SysUserEntity extends CommonEntity {
 
     private String department;
 
+    private String deptName;
+
     /**
      * 0-锁定，1-解锁
      */
     private int enable;
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
 
     public boolean isBusiData() {
         return busiData;

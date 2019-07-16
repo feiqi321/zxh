@@ -160,10 +160,13 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and b.data_case in
+            (
+            select data_case from data_case_repay_record where  collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
+            )
         </if>
 
         <if test="dataCase != null and dataCase.statuss != null
@@ -331,10 +334,13 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and b.data_case in
+            (
+            select data_case from data_case_repay_record where  collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
+            )
         </if>
 
         <if test="dataCase != null and dataCase.statuss != null
@@ -500,10 +506,13 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and b.data_case in
+            (
+            select data_case from data_case_repay_record where  collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
+            )
         </if>
 
         <if test="dataCase != null and dataCase.statuss != null
@@ -673,10 +682,13 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and b.data_case in
+            (
+            select data_case from data_case_repay_record where  collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
+            )
         </if>
 
         <if test="dataCase != null and dataCase.statuss != null

@@ -575,6 +575,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             newStatuss[dataCaseEntity.getStatuss().length+1]="2";
             dataCaseEntity.setStatuss(newStatuss);
         }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("5")) {
+            dataCaseEntity.setStatuss(null);
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         logger.info("开始查询");
         if (dataCaseEntity.isBatchBonds()){
@@ -842,6 +845,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             newStatuss[dataCaseEntity.getStatuss().length]="0";
             newStatuss[dataCaseEntity.getStatuss().length+1]="2";
             dataCaseEntity.setStatuss(newStatuss);
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("5")) {
+            dataCaseEntity.setStatuss(null);
         }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
@@ -1216,6 +1222,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             newStatuss[dataCaseEntity.getStatuss().length+1]="2";
             dataCaseEntity.setStatuss(newStatuss);
         }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("5")) {
+            dataCaseEntity.setStatuss(null);
+        }
         Integer[] sendTypes = dataCaseEntity.getSendType();
         String sendModule = null;
         for (int i=0;i<sendTypes.length;i++){
@@ -1451,6 +1460,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             newStatuss[dataCaseEntity.getStatuss().length]="0";
             newStatuss[dataCaseEntity.getStatuss().length+1]="2";
             dataCaseEntity.setStatuss(newStatuss);
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("5")) {
+            dataCaseEntity.setStatuss(null);
         }
         Integer[] sendTypes = dataCaseEntity.getSendType();
         double totalPercent = 0;
@@ -1897,7 +1909,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user==null?"":user.getUserName());
+            temp.setOdv(user==null?"":user.getUserName()+"("+user.getDeptName()+")");
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
@@ -2359,6 +2371,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             newStatuss[dataCaseEntity.getStatuss().length]="0";
             newStatuss[dataCaseEntity.getStatuss().length+1]="2";
             dataCaseEntity.setStatuss(newStatuss);
+        }
+        if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("5")) {
+            dataCaseEntity.setStatuss(null);
         }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){

@@ -175,7 +175,7 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and r.collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -347,7 +347,7 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and r.collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -512,7 +512,7 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and r.collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -681,7 +681,7 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and r.collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -853,7 +853,7 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and r.collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -1024,7 +1024,7 @@
 
         <if test="dataCase != null and dataCase.collectionUser != null and dataCase.collectionUser.ids != null
                 and dataCase.collectionUser.ids.length > 0">
-            and c.collection_user in
+            and r.collect_user in
             <foreach item="item" index="index" collection="dataCase.collectionUser.ids" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -1115,6 +1115,7 @@
         data_case,
         collect_user,
         confirm_user,
+        confirm_time,
         repay_date,
         repay_money,
         repay_user,
@@ -1133,6 +1134,7 @@
             #{item.dataCase.id},
             #{item.collectUser.id},
             #{item.confirmUser.id},
+            GETDATE(),
             #{item.repayDate},
             #{item.repayMoney},
              #{item.repayUser},
@@ -1158,6 +1160,14 @@
          and record_status = 0
          and delete_flag = 0
      </select>
+
+    <select id="listByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+        select
+        id as id,repay_money as repayMoney,repay_user as repayUser,repay_type as [repayType.id],repay_date as repayDate,confirm_time as confirmTime,confirm_user as  [confirmUser.id],remark
+        from data_case_repay_record
+        where data_case = #{dataCase.id}
+        and delete_flag = 0
+    </select>
 
      <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
          select

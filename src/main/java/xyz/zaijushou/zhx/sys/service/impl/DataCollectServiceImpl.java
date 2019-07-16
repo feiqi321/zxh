@@ -92,7 +92,7 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setTelType(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user==null?"":user.getUserName());
+            temp.setOdv(user==null?"":user.getUserName()+"("+user.getDeptName()+")");
 
             temp.setRepayAmtMsg(temp.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
             temp.setReduceAmtMsg(temp.getReduceAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getReduceAmt()+""));

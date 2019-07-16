@@ -215,7 +215,19 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public List<SysUserEntity> listAllUsers(SysUserEntity userEntity) {
-        return sysUserMapper.listAllUsers(userEntity);
+        List<SysUserEntity> list =  sysUserMapper.listAllUsers(userEntity);
+        List<SysOrganizationEntity> orgList = sysOrganizationMapper.listAllOrganizations(new SysOrganizationEntity());
+        Map orgMap = new HashMap();
+        for (int i=0;i<orgList.size();i++){
+            SysOrganizationEntity org = orgList.get(i);
+            orgMap.put(org.getId()+"",org.getOrgName());
+;        }
+        for (int i=0;i<list.size();i++){
+            SysUserEntity sysUserEntity = list.get(i);
+            sysUserEntity.setDeptName(orgMap.get(sysUserEntity.getDepartment())==null?"":orgMap.get(sysUserEntity.getDepartment()).toString());
+            list.set(i,sysUserEntity);
+        }
+        return list;
     }
 
     @Override

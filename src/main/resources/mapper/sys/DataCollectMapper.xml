@@ -649,12 +649,7 @@
                 <if test="odv != null and odv!=''">
                     AND t.odv = #{odv}
                 </if>
-                <if test="odvs != null and odvs.length > 0">
-                    and t.odv in
-                    <foreach collection="odvs" item="item" open="(" close=")" separator=",">
-                        #{item}
-                    </foreach>
-                </if>
+
                 <if test="clientFlag != null and clientFlag!=''">
                     and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
