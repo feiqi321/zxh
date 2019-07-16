@@ -177,7 +177,7 @@ public class DataBatchServiceImpl implements DataBatchService {
     public WebResponse listClients(DataBatchEntity bean){
         List<DataBatchEntity> list = dataBatchMapper.listClients(bean);
 
-        String temp = "";
+        /*String temp = "";
         for (int i=0;i<list.size();i++){
             DataBatchEntity dataBatchEntity = list.get(i);
             if (StringUtils.isNotEmpty(dataBatchEntity.getBatchNo())){
@@ -194,9 +194,9 @@ public class DataBatchServiceImpl implements DataBatchService {
             for (int i=0;i<batchStr.length;i++){
                 clients[i] = batchStr[i];
             }
-        }
+        }*/
 
-        return WebResponse.success(clients);
+        return WebResponse.success(list);
     }
 
     public WebResponse pageDataBatchExport(DataBatchEntity bean){
