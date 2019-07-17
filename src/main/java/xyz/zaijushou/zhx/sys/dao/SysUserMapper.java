@@ -119,6 +119,7 @@ public interface SysUserMapper {
 
     List<SysNewUserEntity> listUserByDept(SysNewUserEntity userEntity);
 
+    List<SysNewUserEntity> userDataListByDept(SysNewUserEntity userEntity);
 
     SysNewUserEntity findDepartment(Integer id);
 }

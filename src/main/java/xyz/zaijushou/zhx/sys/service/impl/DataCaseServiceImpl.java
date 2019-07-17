@@ -2579,7 +2579,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         dataCaseDetail.setOdvId(dataCaseDetail.getOdv());
         SysUserEntity odvuser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ dataCaseDetail.getOdv(), SysUserEntity.class);
-        dataCaseDetail.setOdv(odvuser==null?"":odvuser.getUserName());
+        dataCaseDetail.setOdv(odvuser==null?"":odvuser.getUserName()+"("+odvuser.getDeptName()+")");
 
 
         SysDictionaryEntity clientDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getClient(), SysDictionaryEntity.class);

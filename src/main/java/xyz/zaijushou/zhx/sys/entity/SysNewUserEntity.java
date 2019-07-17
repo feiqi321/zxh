@@ -38,6 +38,8 @@ public class SysNewUserEntity extends CommonEntity {
      */
     private String department;
 
+    private String[] departmens;
+
     private String role;
 
     private String[] roles;
@@ -104,6 +106,14 @@ public class SysNewUserEntity extends CommonEntity {
     private Set<String> namesSet;
 
     private Set<String> departIdsSet;
+
+    public String[] getDepartmens() {
+        return departmens;
+    }
+
+    public void setDepartmens(String[] departmens) {
+        this.departmens = departmens;
+    }
 
     public String[] getRoles() {
         return roles;

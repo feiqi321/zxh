@@ -469,8 +469,21 @@ public class SysUserServiceImpl implements SysUserService {
             }
             userEntity.setIds(ids);
         }
-
+        List<SysOrganizationEntity> resultList = new ArrayList<SysOrganizationEntity>();
+        SysOrganizationEntity org = new SysOrganizationEntity();
+        if (StringUtils.notEmpty(userEntity.getDepartment())) {
+            org.setId(Integer.parseInt(userEntity.getDepartment()));
+            this.curcleSubUserTree(resultList, org);
+            List<String> orgList = new ArrayList();
+            orgList.add(userEntity.getDepartment());
+            for (int i = 0; i < resultList.size(); i++) {
+                orgList.add(resultList.get(i).getId() + "");
+            }
+            String[] departmens = orgList.toArray(new String[orgList.size()]);
+            userEntity.setDepartmens(departmens);
+        }
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
+
 
         for (int i=0;i<list.size();i++){
             SysNewUserEntity sysNewUserEntity = list.get(i);
@@ -776,6 +789,19 @@ public class SysUserServiceImpl implements SysUserService {
             return true;
         }else{
             return false;
+        }
+    }
+
+
+    public void curcleSubUserTree(List<SysOrganizationEntity> resultList,SysOrganizationEntity org){
+
+        List<SysOrganizationEntity> orgList = sysOrganizationMapper.listAllOrganizationsByParentId(org);
+        resultList.addAll(orgList);
+
+        for (int i=0;i<orgList.size();i++){
+            SysOrganizationEntity organizationEntity = orgList.get(i);
+            this.curcleSubUserTree(resultList,organizationEntity);
+
         }
     }
 

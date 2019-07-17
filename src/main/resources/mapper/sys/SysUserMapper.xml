@@ -375,8 +375,14 @@
         <if test="loginName != null and loginName!=''">
             AND  login_name like dbo.CONCAT('%',#{loginName},'%')
         </if>
-        <if test="department != null and department!=''" >
+        <!--<if test="department != null and department!=''" >
             AND  department = #{department}
+        </if>-->
+        <if test="departmens != null and departmens.length > 0 ">
+            and department in
+            <foreach item="item" index="index" collection="departmens" open="(" separator="," close=")">
+                #{item}
+            </foreach>
         </if>
         ) temp_row
         where rownumber>((${pageNum}-1)*${pageSize})
@@ -699,6 +705,26 @@
 
     <select id="findDepartment" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         select department from sys_user where id=#{id}
+    </select>
+
+    <!--查询数据集合-->
+    <select id="userDataListByDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
+        select
+        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_fail_times as loginFailTimes,
+        su.status,su.enable,su.username as userName,so.org_name department,su.login_name as loginName,
+        su.create_time as createTime,su.create_user as 'createUser.id',
+        su.update_user as 'updateUser.id',su.update_time as updateTime,
+        su.delete_flag as deleteFlag,
+        sr.role_name as role,
+        su.leave_time as leaveTime,
+        su.join_time as joinTime,
+        su.department as departId,
+        sr.id as roleId,
+        su.enable,su.actual_time as actualTime,
+        su.position
+        from
+         sys_user su WHERE su.delete_flag = 0
+        and su.department = #{department}
     </select>
 
 </mapper>
