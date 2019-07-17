@@ -53,7 +53,7 @@ public interface SysUserService {
      * @param userEntity
      * @return
      */
-    PageInfo<SysNewUserEntity> userDataList(SysNewUserEntity userEntity);
+    PageInfo<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity);
 
     UserTree userTree();
 

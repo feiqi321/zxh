@@ -134,7 +134,7 @@ public class SysUserController {
     @PostMapping("/select/list")
     public Object getDataList(@RequestBody SysNewUserEntity userEntity) {
 
-        PageInfo<SysNewUserEntity> userEntityList = sysUserService.userDataList(userEntity);
+        PageInfo<SysNewUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
 
         return WebResponse.success(userEntityList);
     }

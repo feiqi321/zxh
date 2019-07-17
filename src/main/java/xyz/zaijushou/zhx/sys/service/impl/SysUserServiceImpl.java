@@ -442,7 +442,7 @@ public class SysUserServiceImpl implements SysUserService {
      * @return
      */
     @Override
-    public PageInfo<SysNewUserEntity> userDataList(SysNewUserEntity userEntity){
+    public PageInfo<SysNewUserEntity> pageDataList(SysNewUserEntity userEntity){
         if (userEntity.getPageSize() == null){
             userEntity.setPageSize(10);
         }
@@ -496,12 +496,12 @@ public class SysUserServiceImpl implements SysUserService {
                 sysNewUserEntity.setColor("BLACK");
             }
         }
-        int count = sysUserMapper.countUserData(userEntity);
+        //int count = sysUserMapper.countUserData(userEntity);
         if(CollectionUtils.isEmpty(list)) {
             return new PageInfo<>();
         }
         PageInfo<SysNewUserEntity> userInfo = PageInfo.of(list);
-        userInfo.setTotal(count);
+        //userInfo.setTotal(count);
         return userInfo;
     }
 
