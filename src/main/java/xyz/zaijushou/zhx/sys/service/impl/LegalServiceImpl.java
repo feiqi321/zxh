@@ -104,11 +104,54 @@ public class LegalServiceImpl implements LegalService {
                 legalEntity.setOwnerName("");
             }
             legalEntity.setCostMsg(legalEntity.getCost()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(legalEntity.getCost()+""));
+
+            //替换legalEntityd对象中NULL字符串或者null
+            this.null2Str(legalEntity);
+
             dataCaseEntities.set(i,legalEntity);
         }
 
         webResponse.setData(PageInfo.of(dataCaseEntities));
         return webResponse;
+    }
+
+    private void null2Str(LegalEntity legalEntity) {
+
+        legalEntity.setCstName("NULL".equals(legalEntity.getCstName()) || "null".equals(legalEntity.getCstName()) ? "" : legalEntity.getCstName());
+        legalEntity.setLegalStatusMsg("NULL".equals(legalEntity.getLegalStatusMsg()) || "null".equals(legalEntity.getLegalStatusMsg()) ? "" : legalEntity.getLegalStatusMsg());
+        legalEntity.setIdentNo("NULL".equals(legalEntity.getIdentNo()) || "null".equals(legalEntity.getIdentNo()) ? "" : legalEntity.getIdentNo());
+        legalEntity.setProgress("NULL".equals(legalEntity.getProgress()) || "null".equals(legalEntity.getProgress()) ? "" : legalEntity.getProgress());
+        legalEntity.setProgressMsg("NULL".equals(legalEntity.getProgressMsg()) || "null".equals(legalEntity.getProgressMsg()) ? "" : legalEntity.getProgressMsg());
+        legalEntity.setLegalTypeMsg("NULL".equals(legalEntity.getLegalTypeMsg()) || "null".equals(legalEntity.getLegalTypeMsg()) ? "" : legalEntity.getLegalTypeMsg());
+        legalEntity.setTital("NULL".equals(legalEntity.getTital()) || "null".equals(legalEntity.getTital()) ? "" : legalEntity.getTital());
+        legalEntity.setClientele("NULL".equals(legalEntity.getClientele()) || "null".equals(legalEntity.getClientele()) ? "" : legalEntity.getClientele());
+        legalEntity.setAccused("NULL".equals(legalEntity.getAccused()) || "null".equals(legalEntity.getAccused()) ? "" : legalEntity.getAccused());
+        legalEntity.setOwner("NULL".equals(legalEntity.getOwner()) || "null".equals(legalEntity.getOwner()) ? "" : legalEntity.getOwner());
+        legalEntity.setOwnerName("NULL".equals(legalEntity.getOwnerName()) || "null".equals(legalEntity.getOwnerName()) ? "" : legalEntity.getOwnerName());
+        legalEntity.setAgent("NULL".equals(legalEntity.getAgent()) || "null".equals(legalEntity.getAgent()) ? "" : legalEntity.getAgent());
+        legalEntity.setAgentTel("NULL".equals(legalEntity.getAgentTel()) || "null".equals(legalEntity.getAgentTel()) ? "" : legalEntity.getAgentTel());
+        legalEntity.setFilingDate("NULL".equals(legalEntity.getFilingDate()) || "null".equals(legalEntity.getFilingDate()) ? "" : legalEntity.getFilingDate());
+        legalEntity.setLegalDate("NULL".equals(legalEntity.getLegalDate()) || "null".equals(legalEntity.getLegalDate()) ? "" : legalEntity.getLegalDate());
+        legalEntity.setCostMsg("NULL".equals(legalEntity.getCostMsg()) || "null".equals(legalEntity.getCostMsg()) ? "" : legalEntity.getCostMsg());
+        legalEntity.setJudgeTel("NULL".equals(legalEntity.getJudgeTel()) || "null".equals(legalEntity.getJudgeTel()) ? "" : legalEntity.getJudgeTel());
+        legalEntity.setJudge("NULL".equals(legalEntity.getJudge()) || "null".equals(legalEntity.getJudge()) ? "" : legalEntity.getJudge());
+        legalEntity.setCourt("NULL".equals(legalEntity.getCourt()) || "null".equals(legalEntity.getCourt()) ? "" : legalEntity.getCourt());
+        legalEntity.setCostDate("NULL".equals(legalEntity.getCostDate()) || "null".equals(legalEntity.getCostDate()) ? "" : legalEntity.getCostDate());
+        legalEntity.setPreservationDate("NULL".equals(legalEntity.getPreservationDate()) || "null".equals(legalEntity.getPreservationDate()) ? "" : legalEntity.getPreservationDate());
+        legalEntity.setPreservationList("NULL".equals(legalEntity.getPreservationList()) || "null".equals(legalEntity.getPreservationList()) ? "" : legalEntity.getPreservationList());
+        legalEntity.setExeEndDate("NULL".equals(legalEntity.getExeEndDate()) || "null".equals(legalEntity.getExeEndDate()) ? "" : legalEntity.getExeEndDate());
+        legalEntity.setExeDate("NULL".equals(legalEntity.getExeDate()) || "null".equals(legalEntity.getExeDate()) ? "" : legalEntity.getExeDate());
+        legalEntity.setLegalNo("NULL".equals(legalEntity.getLegalNo()) || "null".equals(legalEntity.getLegalNo()) ? "" : legalEntity.getLegalNo());
+        legalEntity.setExeNo("NULL".equals(legalEntity.getExeNo()) || "null".equals(legalEntity.getExeNo()) ? "" : legalEntity.getExeNo());
+        legalEntity.setFirstDate("NULL".equals(legalEntity.getFirstDate()) || "null".equals(legalEntity.getFirstDate()) ? "" : legalEntity.getFirstDate());
+        legalEntity.setJudgeDate("NULL".equals(legalEntity.getJudgeDate()) || "null".equals(legalEntity.getJudgeDate()) ? "" : legalEntity.getJudgeDate());
+        legalEntity.setArriveInfo("NULL".equals(legalEntity.getArriveInfo()) || "null".equals(legalEntity.getArriveInfo()) ? "" : legalEntity.getArriveInfo());
+        legalEntity.setJudgment("NULL".equals(legalEntity.getJudgment()) || "null".equals(legalEntity.getJudgment()) ? "" : legalEntity.getJudgment());
+        legalEntity.setRemark("NULL".equals(legalEntity.getRemark()) || "null".equals(legalEntity.getRemark()) ? "" : legalEntity.getRemark());
+        legalEntity.setChecker("NULL".equals(legalEntity.getChecker()) || "null".equals(legalEntity.getChecker()) ? "" : legalEntity.getChecker());
+        legalEntity.setCheckDate("NULL".equals(legalEntity.getCheckDate()) || "null".equals(legalEntity.getCheckDate()) ? "" : legalEntity.getCheckDate());
+        legalEntity.setOrderBy("NULL".equals(legalEntity.getOrderBy()) || "null".equals(legalEntity.getOrderBy()) ? "" : legalEntity.getOrderBy());
+        legalEntity.setSort("NULL".equals(legalEntity.getSort()) || "null".equals(legalEntity.getSort()) ? "" : legalEntity.getSort());
     }
 
     public WebResponse listLegal(LegalEntity bean){
