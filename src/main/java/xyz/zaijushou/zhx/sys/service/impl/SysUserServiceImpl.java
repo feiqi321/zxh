@@ -495,6 +495,35 @@ public class SysUserServiceImpl implements SysUserService {
         //userInfo.setTotal(count);
         return userInfo;
     }
+
+    public SysNewUserEntity findAllDepts(SysNewUserEntity userEntity){
+        List<SysOrganizationEntity> resultList = new ArrayList<SysOrganizationEntity>();
+        List<String> depts = new ArrayList();
+        depts.add(userEntity.getDepartment());
+        resultList = sysOrganizationMapper.listAll();
+        boolean outFlag = false;
+        while(true){
+            if (outFlag){
+                break;
+            }
+            int length1=depts.size();
+            for (int i=0;i<resultList.size();i++){
+                SysOrganizationEntity tempDepts = resultList.get(i);
+                if (depts.contains(tempDepts.getParent().getId()+"") && !depts.contains(tempDepts.getId()+"")){
+                    depts.add(tempDepts.getId()+"");
+                }
+            }
+            int length2=depts.size();
+            if(length1==length2){
+                outFlag = true;
+            }
+        }
+        String[] departmens = depts.toArray(new String[depts.size()]);
+        userEntity.setDepartmens(departmens);
+        return userEntity;
+    }
+
+
     public SysNewUserEntity getDepats(SysNewUserEntity userEntity){
         List<SysOrganizationEntity> resultList = new ArrayList<SysOrganizationEntity>();
         SysOrganizationEntity org = new SysOrganizationEntity();

@@ -8,9 +8,7 @@ import org.apache.coyote.Response;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.formula.functions.Rows;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +38,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -74,6 +75,7 @@ public class DataCaseController {
     @Autowired
     private DataLogService dataLogService;
 
+    private static FormulaEvaluator evaluator;
     @Resource
     private ExcelUtils excelUtils;
 
@@ -633,9 +635,10 @@ public class DataCaseController {
         String modelType = "";
         for (int i=0;i<cols;i++){
             Cell cell = row.getCell(i);
-            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("配偶姓名")){
+            String cellValue = this.cellValue(cell);
+            if (cell!=null && cellValue!=null && cellValue.equals("配偶姓名")){
                 modelType = "chedai";
-            }else if(cell!=null && cell.getStringCellValue()!=null){
+            }else if(cell!=null && cellValue!=null){
                 modelType = "biaozhun";
             }
         }
@@ -686,9 +689,10 @@ public class DataCaseController {
         String modelType = "";
         for (int i=0;i<cols;i++){
             Cell cell = row.getCell(i);
-            if (cell!=null && cell.getStringCellValue()!=null && cell.getStringCellValue().equals("配偶姓名")){
+            String cellValue = this.cellValue(cell);
+            if (cell!=null && cellValue!=null && cellValue.equals("配偶姓名")){
                 modelType = "chedai";
-            }else if(cell!=null && cell.getStringCellValue()!=null){
+            }else if(cell!=null && cellValue!=null){
                 modelType = "biaozhun";
             }
         }
@@ -728,6 +732,33 @@ public class DataCaseController {
         webResponse.setCode("100");
         webResponse.setMsg(sucessStr.toString());
         return WebResponse.success();
+    }
+
+    private static String cellValue(Cell cell) throws ParseException {
+        if(cell == null) {
+            return null;
+        }
+        CellType cellType;
+        if(CellType.FORMULA == cell.getCellType()) {
+            cellType = evaluator.evaluate(cell).getCellType();
+        } else {
+            cellType = cell.getCellType();
+        }
+
+        String result;
+
+        switch (cellType) {
+            case STRING:
+                result = cell.getStringCellValue();
+                break;
+            case NUMERIC:
+                result = cell.getNumericCellValue()+"";
+                break;
+            default:
+                result = null;
+        }
+        logger.info("result:{}", result);
+        return result;
     }
 
     @ApiOperation(value = "数据模块-案件管理查询导出", notes = "数据模块-案件管理查询导出")

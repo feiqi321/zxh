@@ -438,7 +438,7 @@
         <if test="departmens != null and departmens.length > 0 ">
             and su.department in
             <foreach item="item" index="index" collection="departmens" open="(" separator="," close=")">
-                #{item}
+                '${item}'
             </foreach>
         </if>
         ORDER BY ${orderBy} ${sort}

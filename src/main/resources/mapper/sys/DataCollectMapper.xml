@@ -401,7 +401,7 @@
                 <if test="area != null and area!=''">
                     AND t.collect_area = #{area}
                 </if>
-                <if test="odvFlag != null and odvFlag!=''">
+                <if test="odvFlag != null and odvFlag!='' and odvs!=null">
                     and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         #{item}
@@ -410,13 +410,13 @@
                 <if test="measure != null and measure!=''">
                     AND c.measure =#{measure}
                 </if>
-                <if test="clientFlag != null and clientFlag!=''">
+                <if test="clientFlag != null and clientFlag!='' and clients!=null">
                     and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
-                <if test="batchFlag != null and batchFlag!=''">
+                <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
                     and t.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
@@ -634,7 +634,7 @@
                 <if test="dept != null and dept!=''">
                     AND  t.dept = #{dept}
                 </if>
-                <if test="deptFlag != null and deptFlag!=''">
+                <if test="deptFlag != null and deptFlag!='' and depts!=null">
                     and t.dept in
                     <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
                         #{item}
@@ -650,13 +650,13 @@
                     AND t.odv = #{odv}
                 </if>
 
-                <if test="clientFlag != null and clientFlag!=''">
+                <if test="clientFlag != null and clientFlag!='' and clients!=null">
                     and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
-                <if test="batchFlag != null and batchFlag!=''">
+                <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
                     and t.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
@@ -1039,13 +1039,13 @@
                 <if test="collectMeasure != null and collectMeasure!=''">
                     AND measure =#{collectMeasure}
                 </if>
-                <if test="clientFlag != null and clientFlag!=''">
+                <if test="clientFlag != null and clientFlag!='' and clients!=null">
                     and client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
                     </foreach>
                 </if>
-                <if test="batchFlag != null and batchFlag!=''">
+                <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
                     and batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
@@ -1199,7 +1199,7 @@
                 <if test="area != null and area!=''">
                     AND t.collect_area = #{area}
                 </if>
-                <if test="odvFlag != null and odvFlag!=''">
+                <if test="odvFlag != null and odvFlag!='' and odvs!=null">
                     and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         #{item}
@@ -1220,7 +1220,7 @@
                 <if test="result != null and result!=''">
                     AND c.result =#{result}
                 </if>
-                <if test="batchFlag != null and batchFlag!=''">
+                <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
                     and t.batch_no in
                     <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                         #{item}
@@ -1374,7 +1374,7 @@
                 <if test="area != null and area!=''">
                     AND t.collect_area  = #{area}
                 </if>
-                <if test="odvFlag != null and odvFlag!=''">
+                <if test="odvFlag != null and odvFlag!='' and odvs!=null">
                     and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         #{item}
@@ -1383,7 +1383,7 @@
                 <if test="measure != null and measure!=''">
                     AND c.measure = #{measure}
                 </if>
-                <if test="clientFlag != null and clientFlag!=''">
+                <if test="clientFlag != null and clientFlag!='' and clients!=null">
                     and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                         #{item}
@@ -1552,7 +1552,7 @@
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
-        <if test="clientFlag != null and clientFlag!=''">
+        <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
@@ -1591,13 +1591,13 @@
         from
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.delete_flag = 0
-        <if test="clientFlag != null and clientFlag!=''">
+        <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="batchFlag != null and batchFlag!=''">
+        <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
             and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
@@ -1620,13 +1620,13 @@
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
         and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
-        <if test="clientFlag != null and clientFlag!=''">
+        <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="batchFlag != null and batchFlag!=''">
+        <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
             and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
@@ -1642,7 +1642,7 @@
         <if test="odv != null and odv!=''">
             AND  c.odv = #{odv}
         </if>
-        <if test="odvFlag != null and odvFlag!=''">
+        <if test="odvFlag != null and odvFlag!='' and odvs!=null">
             and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
@@ -1660,13 +1660,13 @@
         from
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
         where  dc.delete_flag = 0
-        <if test="clientFlag != null and clientFlag!=''">
+        <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="batchFlag != null and batchFlag!=''">
+        <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
             and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
@@ -1682,7 +1682,7 @@
         <if test="odv != null and odv!=''">
             AND  c.odv = #{odv}
         </if>
-        <if test="odvFlag != null and odvFlag!=''">
+        <if test="odvFlag != null and odvFlag!='' and odvs!=null">
             and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
@@ -1715,19 +1715,19 @@
             AND  (c.odv = #{odv} or r.collect_user = #{odv})
         </if>
 
-        <if test="odvFlag != null and odvFlag!=''">
+        <if test="odvFlag != null and odvFlag!='' and odvs!=null">
             and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="clientFlag != null and clientFlag!=''">
+        <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="batchFlag != null and batchFlag!=''">
+        <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
             and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}
@@ -1788,19 +1788,19 @@
         <if test="odv != null and odv!=''">
             AND  c.odv = #{odv}
         </if>
-        <if test="odvFlag != null and odvFlag!=''">
+        <if test="odvFlag != null and odvFlag!='' and odvs!=null">
             and c.odv in
             <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="clientFlag != null and clientFlag!=''">
+        <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
-        <if test="batchFlag != null and batchFlag!=''">
+        <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
             and c.batch_no in
             <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
                 #{item}

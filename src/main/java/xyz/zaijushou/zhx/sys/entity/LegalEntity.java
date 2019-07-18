@@ -12,6 +12,8 @@ public class LegalEntity extends CommonEntity {
     private String cstName;
     //案件状态
     private Integer legalStatus;
+
+    private Integer legalStatuss[];
     //案件状态说明
     private String legalStatusMsg;
     //证件号码
@@ -88,6 +90,14 @@ public class LegalEntity extends CommonEntity {
     private String orderBy;
 
     private String sort;
+
+    public Integer[] getLegalStatuss() {
+        return legalStatuss;
+    }
+
+    public void setLegalStatuss(Integer[] legalStatuss) {
+        this.legalStatuss = legalStatuss;
+    }
 
     public String getOrderBy() {
         return orderBy;

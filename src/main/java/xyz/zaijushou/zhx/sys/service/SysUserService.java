@@ -68,6 +68,8 @@ public interface SysUserService {
 
     SysNewUserEntity getDepats(SysNewUserEntity userEntity);
 
+    SysNewUserEntity findAllDepts(SysNewUserEntity userEntity);
+
 
     List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity);
 

@@ -136,11 +136,17 @@ public class SysUserController {
     @PostMapping("/select/list")
     public Object getDataList(@RequestBody SysNewUserEntity userEntity) {
         logger.info("开始查询");
-        userEntity = sysUserService.getDepats(userEntity);
-        logger.info("机构查询完毕");
+        if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(userEntity.getDepartment())) {
+            userEntity = sysUserService.findAllDepts(userEntity);
+            logger.info("机构查询完毕");
+        }else{
+            userEntity.setDepartmens(null);
+        }
+
         PageInfo<SysNewUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
         logger.info("结束查询");
         return WebResponse.success(userEntityList);
+
     }
 
     @ApiOperation(value = "查询部门用户数据树", notes = "查询部门用户数据树")

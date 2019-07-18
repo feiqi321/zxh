@@ -15,6 +15,8 @@ public interface SysOrganizationMapper {
 
     void saveOrg(SysOrganizationEntity organizationEntity);
 
+    List<SysOrganizationEntity> listAll();
+
     void updateOrg(SysOrganizationEntity organizationEntity);
 
     void deleteOrg(SysOrganizationEntity organizationEntity);

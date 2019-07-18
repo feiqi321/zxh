@@ -61,6 +61,13 @@
       <if test="legalStatus != null  and legalStatus!=''" >
         and  legal_status = #{legalStatus,jdbcType=INTEGER}
       </if>
+      <if test="legalStatuss != null and legalStatuss.length > 0 ">
+        and legal_status in
+        <foreach item="item" index="index" collection="legalStatuss" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+      </if>
+
       <if test="legalNo != null  and legalNo!=''" >
         and legal_no = #{legalNo,jdbcType=VARCHAR}
       </if>
