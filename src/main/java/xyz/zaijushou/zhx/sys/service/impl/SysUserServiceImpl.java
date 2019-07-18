@@ -3,6 +3,8 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
@@ -19,6 +21,7 @@ import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
+import xyz.zaijushou.zhx.sys.web.SysUserController;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.PinyinTool;
 import xyz.zaijushou.zhx.utils.StringUtils;
@@ -29,7 +32,7 @@ import java.util.*;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
-
+    private static Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
     @Resource
     private SysUserMapper sysUserMapper;
 
@@ -469,21 +472,9 @@ public class SysUserServiceImpl implements SysUserService {
             }
             userEntity.setIds(ids);
         }
-        List<SysOrganizationEntity> resultList = new ArrayList<SysOrganizationEntity>();
-        SysOrganizationEntity org = new SysOrganizationEntity();
-        if (StringUtils.notEmpty(userEntity.getDepartment())) {
-            org.setId(Integer.parseInt(userEntity.getDepartment()));
-            this.curcleSubUserTree(resultList, org);
-            List<String> orgList = new ArrayList();
-            orgList.add(userEntity.getDepartment());
-            for (int i = 0; i < resultList.size(); i++) {
-                orgList.add(resultList.get(i).getId() + "");
-            }
-            String[] departmens = orgList.toArray(new String[orgList.size()]);
-            userEntity.setDepartmens(departmens);
-        }
+        logger.info("开始执行sql");
         List<SysNewUserEntity> list = sysUserMapper.userDataList(userEntity);
-
+        logger.info("结束执行sql");
 
         for (int i=0;i<list.size();i++){
             SysNewUserEntity sysNewUserEntity = list.get(i);
@@ -504,7 +495,22 @@ public class SysUserServiceImpl implements SysUserService {
         //userInfo.setTotal(count);
         return userInfo;
     }
-
+    public SysNewUserEntity getDepats(SysNewUserEntity userEntity){
+        List<SysOrganizationEntity> resultList = new ArrayList<SysOrganizationEntity>();
+        SysOrganizationEntity org = new SysOrganizationEntity();
+        if (StringUtils.notEmpty(userEntity.getDepartment())) {
+            org.setId(Integer.parseInt(userEntity.getDepartment()));
+            this.curcleSubUserTree(resultList, org);
+            List<String> orgList = new ArrayList();
+            orgList.add(userEntity.getDepartment());
+            for (int i = 0; i < resultList.size(); i++) {
+                orgList.add(resultList.get(i).getId() + "");
+            }
+            String[] departmens = orgList.toArray(new String[orgList.size()]);
+            userEntity.setDepartmens(departmens);
+        }
+        return userEntity;
+    }
     /**
      * 查询用户信息
      * @param userEntity

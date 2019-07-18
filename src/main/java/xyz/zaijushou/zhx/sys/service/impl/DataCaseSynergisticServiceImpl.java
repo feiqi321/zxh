@@ -116,7 +116,7 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
 
             }else {
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + entity.getApplyUser().getId(), SysUserEntity.class);
-                user.setUserName(user.getUserName()+"("+user.getDeptName()+")");
+                user.setUserName(user==null?"":(user.getUserName()+"("+user.getDeptName()+")"));
                 entity.setApplyUser(user);
             }
             if (entity.getSynergisticUser()==null){

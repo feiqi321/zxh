@@ -66,6 +66,8 @@ public interface SysUserService {
      */
     SysNewUserEntity getDataById(SysNewUserEntity userEntity);
 
+    SysNewUserEntity getDepats(SysNewUserEntity userEntity);
+
 
     List<SysNewUserEntity> getDataByRoleName(SysNewUserEntity userEntity);
 

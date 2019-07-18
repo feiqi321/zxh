@@ -10,6 +10,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.parameters.P;
@@ -40,7 +42,7 @@ import java.util.*;
 @RestController
 @RequestMapping(value = "/user")
 public class SysUserController {
-
+    private static Logger logger = LoggerFactory.getLogger(SysUserController.class);
     @Resource
     private SysUserService sysUserService;
     @Resource
@@ -133,9 +135,11 @@ public class SysUserController {
     @ApiOperation(value = "查询用户数据列表", notes = "查询用户数据列表")
     @PostMapping("/select/list")
     public Object getDataList(@RequestBody SysNewUserEntity userEntity) {
-
+        logger.info("开始查询");
+        userEntity = sysUserService.getDepats(userEntity);
+        logger.info("机构查询完毕");
         PageInfo<SysNewUserEntity> userEntityList = sysUserService.pageDataList(userEntity);
-
+        logger.info("结束查询");
         return WebResponse.success(userEntityList);
     }
 

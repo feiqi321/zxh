@@ -24,7 +24,11 @@ public class SysOperationLogServiceImpl implements SysOperationLogService {
         if (StringUtils.isEmpty(operationLog.getUrl())){
             operationLog.setUrl("/import");
         }
-        operationLogMapper.insertRequest(operationLog);
+        try {
+            operationLogMapper.insertRequest(operationLog);
+        }catch(Exception e){
+
+        }
     }
 
     @Override
