@@ -22,7 +22,7 @@ public class FmtMicrometer {
             } else if (text.length() - text.indexOf(".") - 1 == 1) {
                 df = new DecimalFormat("###,##0.0");
             } else {
-                df = new DecimalFormat("###,##0.00");
+                df = new DecimalFormat("###,##0");
             }
         } else {
             df = new DecimalFormat("###,##0");
@@ -35,9 +35,4 @@ public class FmtMicrometer {
         }
         return df.format(number);
     }
-
-    public static void main(String args[]){
-        System.out.println(FmtMicrometer.fmtMicrometer("1000.24"));
-    }
-
 }

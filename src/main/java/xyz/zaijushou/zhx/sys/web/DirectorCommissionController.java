@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 public class DirectorCommissionController {
 
     @Resource
-    DirectorCommissionService directorCommissionService;
+    private DirectorCommissionService directorCommissionService;
 
     @PostMapping("/query")
     public Object findDirectorCommission() {
