@@ -28,7 +28,7 @@
     </insert>
 
     <update id="updateCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity" >
-        update data_collection set collect_time =#{collectTime},is_enable=#{isEnable}
+        update data_collection set is_enable=#{isEnable}
         where seq = #{userData}
     </update>
 

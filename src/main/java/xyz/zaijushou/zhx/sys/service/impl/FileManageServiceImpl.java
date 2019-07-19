@@ -284,16 +284,19 @@ public class FileManageServiceImpl implements FileManageService {
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCollectionEntity> saveList = new ArrayList<DataCollectionEntity>();
         List<DataOpLog> logList = new ArrayList<DataOpLog>();
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
         for (int i=0;i<list.size();i++){
             DataCollectionEntity dataCollectionEntity = list.get(i);
-
+            if (StringUtils.isEmpty(dataCollectionEntity.getContractDate())){
+                dataCollectionEntity.setContractDate(sdf2.format(new Date()));
+            }
             if (StringUtils.isEmpty(dataCollectionEntity.getSeqno())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getCardNo()+"@"+dataCollectionEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
 
                     dataCollectionEntity.setCaseId(temp.getId()+"");
-                    temp.setCollectDate(dataCollectionEntity.getCollectTime());
+                    temp.setCollectDate(dataCollectionEntity.getContractDate());
                     /* dataCollectionEntity.setName(temp.getName());
                     dataCollectionEntity.setExpectTime(temp.getExpectTime());
                     dataCollectionEntity.setCollectTime(temp.getCollectDate());
@@ -331,7 +334,7 @@ public class FileManageServiceImpl implements FileManageService {
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
                 if (temp!=null){
                     dataCollectionEntity.setCaseId(temp.getId()+"");
-                    temp.setCollectDate(dataCollectionEntity.getCollectTime());
+                    temp.setCollectDate(dataCollectionEntity.getContractDate());
                     /* dataCollectionEntity.setName(temp.getName());
                    dataCollectionEntity.setExpectTime(temp.getExpectTime());
                     dataCollectionEntity.setCollectTime(temp.getCollectDate());

@@ -68,6 +68,7 @@
             <if test="userLoginName != null">user_login_name = #{userLoginName},</if>
             <if test="requestBody != null">request_body = #{requestBody},</if>
             <if test="responseBody != null">response_body = #{responseBody},</if>
+            update_time = GETDATE(),
         </trim>
         where
             id = #{id}

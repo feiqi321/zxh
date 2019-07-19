@@ -109,7 +109,7 @@
             <if test="targetName != null">#{targetName},</if>
             <if test="relation != null">#{relation},</if>
             <if test="collectInfo != null">#{collectInfo},</if>
-            <if test="collectTime != null">#{collectTime},</if>
+            <if test="collectTime != null">GETDATE(),</if>
             <if test="mobile != null">#{mobile},</if>
             <if test="telType != null">#{telType},</if>
             <if test="area != null">#{area},</if>
@@ -391,6 +391,7 @@
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t RIGHT  JOIN data_collection  c on c.case_id = t.id
         <where>
+            t.delete_flag=0 and c.delete_flag=0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  t.dept =#{dept}
@@ -1960,6 +1961,7 @@
             <if test="mobile != null">mobile,</if>
             <if test="telType != null">tel_type,</if>
             <if test="measure != null">measure,</if>
+            collect_time,
             delete_flag,
             create_time,
         </trim>
@@ -1972,6 +1974,7 @@
             <if test="mobile != null">#{mobile},</if>
             <if test="telType != null">#{telType},</if>
             <if test="measure != null">#{measure},</if>
+            GETDATE(),
             0,
             GETDATE(),
         </trim>

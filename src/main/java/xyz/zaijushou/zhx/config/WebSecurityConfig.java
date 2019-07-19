@@ -47,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/configuration/security",
             "/swagger-ui.html",
             "/csrf",
+            "/user/select/list",
             "/fileManage/download",
             "/statistics/collection/dataCollection/save",
             "/fileManage/downloadArchive",
