@@ -112,7 +112,10 @@ public class SysRoleController {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员 催收员 项目经理 总监 角色不得删除");
         }
         sysRoleService.deleteRole(roleEntity);
-        sysRoleService.refreshRoleRedis();
+
+        //删除redis中角色信息
+        stringRedisTemplate.delete(RedisKeyPrefix.ROLE_INFO + roleEntity.getId());
+//        sysRoleService.refreshRoleRedis();
         return WebResponse.success();
     }
 
