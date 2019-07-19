@@ -93,7 +93,8 @@ public class ReduceController {
             DataCollectionEntity temp = bean.get(i);
             DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqno(),DataCaseEntity.class);
             if (dataCaseEntity!=null){
-
+                temp.setCaseId(dataCaseEntity.getId()+"");
+                bean.set(i,temp);
             }else{
                return WebResponse.error("500","个案序列号:"+temp.getSeqno()+"不存在");
             }

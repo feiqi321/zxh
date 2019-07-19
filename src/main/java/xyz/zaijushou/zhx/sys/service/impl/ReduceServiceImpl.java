@@ -239,6 +239,7 @@ public class ReduceServiceImpl implements ReduceService {
     @Override
     public void saveReduceInfo(List<DataCollectionEntity> list){
        for (DataCollectionEntity bean: list){
+           bean.setApplyStatus("2");
            reduceMapper.saveReduceApply(bean);
        }
     }

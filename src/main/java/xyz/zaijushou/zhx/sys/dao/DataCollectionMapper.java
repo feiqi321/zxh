@@ -24,6 +24,8 @@ public interface DataCollectionMapper {
 
     public int detailDel(DataCollectionEntity bean);
 
+    public int detailByCaseId(DataCollectionEntity bean);
+
     public void updateCollection(DataCollectionEntity bean);
 
     public void deleteById(Integer id);

@@ -27,7 +27,7 @@
             <if test="targetName != null">target_name,</if>
             <if test="relation != null">relation,</if>
             <if test="collectInfo != null">collect_info,</if>
-            <if test="collectTime != null">collect_time,</if>
+            collect_time,
             <if test="mobile != null">mobile,</if>
             <if test="telType != null">tel_type,</if>
             <if test="area != null">area,</if>
@@ -109,7 +109,7 @@
             <if test="targetName != null">#{targetName},</if>
             <if test="relation != null">#{relation},</if>
             <if test="collectInfo != null">#{collectInfo},</if>
-            <if test="collectTime != null">GETDATE(),</if>
+            GETDATE(),
             <if test="mobile != null">#{mobile},</if>
             <if test="telType != null">#{telType},</if>
             <if test="area != null">#{area},</if>
@@ -391,7 +391,6 @@
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t RIGHT  JOIN data_collection  c on c.case_id = t.id
         <where>
-            t.delete_flag=0 and c.delete_flag=0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  t.dept =#{dept}
@@ -1986,7 +1985,11 @@
     </update>
 
     <delete id="detailDel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
-        update data_collection  set  delete_flag = 1 where id=#{id}
+        delete from  data_collection   where id=#{id}
+    </delete>
+
+    <delete id="detailByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
+        delete from  data_collection   where case_id=#{caseId}
     </delete>
 
     <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >

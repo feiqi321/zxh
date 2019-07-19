@@ -5126,7 +5126,7 @@
         from data_case da
         where da.delete_flag = 0
         <if test="seqNo != null and seqNo != ''">
-            and da.seq_no = #{seqNo}
+            and da.seq_no like dbo.CONCAT('%',#{seqNo},'%')
         </if>
     </select>
 

@@ -57,6 +57,8 @@ public interface SysUserService {
 
     UserTree userTree();
 
+    UserTree userDeptTree();
+
     UserTree userTreeByRoleId(SysNewUserEntity userEntity);
 
     /**

@@ -24,6 +24,7 @@ import xyz.zaijushou.zhx.sys.service.SysUserService;
 import xyz.zaijushou.zhx.sys.web.SysUserController;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.PinyinTool;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
@@ -767,6 +768,25 @@ public class SysUserServiceImpl implements SysUserService {
         return userTree;
     }
 
+    public UserTree userDeptTree(){
+        UserTree userTree = new UserTree();
+        SysUserEntity root = getUserInfo();
+        SysOrganizationEntity sysOrganizationEntity = new SysOrganizationEntity();
+        sysOrganizationEntity.setId(root.getDepartment()==null?0:Integer.parseInt(root.getDepartment()));
+
+            userTree.setId(sysOrganizationEntity.getId());
+            userTree.setName(root.getDeptName());
+            userTree.setType("dept");
+
+            SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
+            sysNewUserEntity.setDepartment(root.getId() + "");
+
+            this.curcleUserTree(userTree, sysOrganizationEntity, sysNewUserEntity);
+
+
+        return userTree;
+    }
+
     public UserTree userTreeByRoleId(SysNewUserEntity userEntity){
         UserTree userTree = new UserTree();
         SysOrganizationEntity sysOrganizationEntity = new SysOrganizationEntity();
@@ -827,6 +847,12 @@ public class SysUserServiceImpl implements SysUserService {
         }
     }
 
+
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return userTemp;
+    }
 
     public void curcleSubUserTree(List<SysOrganizationEntity> resultList,SysOrganizationEntity org){
 

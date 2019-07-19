@@ -173,6 +173,11 @@ public class DataCaseServiceImpl implements DataCaseService {
             DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
             dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
             dataCaseTelMapper.deleteTel(dataCaseTelEntity);
+
+            DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+            dataCollectionEntity.setCaseId(dataCaseEntity.getId()+"");
+            dataCollectionMapper.detailByCaseId(dataCollectionEntity);
+
             stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getSeqNo());
             stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getCardNo() + "@" + dataCaseEntity.getCaseDate());
         }
