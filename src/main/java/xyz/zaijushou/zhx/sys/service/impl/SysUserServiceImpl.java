@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -369,18 +370,26 @@ public class SysUserServiceImpl implements SysUserService {
         SysUserRoleEntity roleEntity = new SysUserRoleEntity();
         roleEntity.setUserId(userEntity.getId());
         sysToUserRoleMapper.deleteUserRole(roleEntity);
+
         if (StringUtils.notEmpty(userEntity.getRoleList())) {
             for (SysRoleEntity role : userEntity.getRoleList()){
                 roleEntity.setRoleId(role.getId());
                 sysToUserRoleMapper.saveUserRole(roleEntity);
             }
+
+            //获取当前用户更新后的角色信息
+            SysUserEntity sysUserEntity =   new SysUserEntity();
+            sysUserEntity.setId(userEntity.getId());
+            List roles = sysRoleMapper.listRoleByUserId(sysUserEntity);
+            //更新redis角色信息
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_ROLE + userEntity.getId(), roles == null ? new JSONArray().toJSONString() : JSONArray.toJSONString(roles));
         }
         //存入redis
         SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());
         if (StringUtils.notEmpty(newBean)){
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
         }
-        sysRoleService.refreshRoleRedis();
+
         return  webResponse.success();
     }
 
