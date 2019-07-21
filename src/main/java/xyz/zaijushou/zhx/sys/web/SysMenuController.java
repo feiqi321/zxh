@@ -17,6 +17,7 @@ import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
 import xyz.zaijushou.zhx.sys.service.SysMenuService;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -105,14 +106,17 @@ public class SysMenuController {
         Set<String> menuRedisKeys = roleAttrKeys(roles, RedisKeyPrefix.ROLE_MENU);
         if(menuRedisKeys.size() > 0) {
             List<String> menusString = stringRedisTemplate.opsForValue().multiGet(menuRedisKeys);
-            if(CollectionUtils.isEmpty(menusString)) {
+            if(CollectionUtils.isEmpty(menusString) || StringUtils.isEmpty(menusString.get(0))) {
                 return menuMap;
             }
             for(String menusStr : menusString) {
                 SysMenuEntity[] menus = JSONArray.parseObject(menusStr, SysMenuEntity[].class);
-                for(SysMenuEntity menu : menus) {
-                    menuMap.put(menu.getId(), menu);
+                if (menus!=null){
+                    for(SysMenuEntity menu : menus) {
+                        menuMap.put(menu.getId(), menu);
+                    }
                 }
+
             }
         }
         return menuMap;

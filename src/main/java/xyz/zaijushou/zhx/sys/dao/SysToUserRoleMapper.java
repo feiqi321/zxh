@@ -12,5 +12,7 @@ public interface SysToUserRoleMapper {
 
     void deleteUserRole(SysUserRoleEntity role);
 
+    void deleteUserRoleByRole(SysUserRoleEntity role);
+
     List<SysUserRoleEntity> listUserRoles(SysUserRoleEntity role);
 }

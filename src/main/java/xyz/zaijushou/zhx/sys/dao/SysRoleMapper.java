@@ -10,7 +10,11 @@ public interface SysRoleMapper {
 
     List<SysRoleEntity> listAllRoles(SysRoleEntity sysRoleEntity);
 
+
+    List<SysRoleEntity> listAllRolesByRoleId(SysRoleEntity sysRoleEntity);
+
     List<SysToRoleMenu> listAllRoleMenus(SysToRoleMenu sysToRoleMenu);
+
 
     List<SysToRoleButton> listAllRoleButtons(SysToRoleButton sysToRoleButton);
 

@@ -4,6 +4,8 @@ package xyz.zaijushou.zhx.sys.web;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
@@ -14,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
-import xyz.zaijushou.zhx.sys.entity.SysButtonEntity;
-import xyz.zaijushou.zhx.sys.entity.SysMenuEntity;
-import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
+import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
+import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
+import xyz.zaijushou.zhx.sys.service.impl.SysRoleServiceImpl;
 import xyz.zaijushou.zhx.utils.CollectionsUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
@@ -29,12 +33,18 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequestMapping("/role")
 public class SysRoleController {
-
+    private static Logger logger = LoggerFactory.getLogger(SysRoleServiceImpl.class);
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Resource
     private SysRoleService sysRoleService;
+
+    @Resource
+    private SysToUserRoleMapper sysToUserRoleMapper;
+
+    @Resource
+    private SysRoleMapper sysRoleMapper;
 
     /**
      * 权限列表，管理员返回所有权限，非管理员返回所拥有的权限
@@ -111,20 +121,38 @@ public class SysRoleController {
         if("系统管理员 催收员 项目经理 项目总监".contains(queryRole.getRoleName())) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员 催收员 项目经理 总监 角色不得删除");
         }
+
+        SysUserRoleEntity sysUserRoleEntity = new SysUserRoleEntity();
+        sysUserRoleEntity.setRoleId(roleEntity.getId());
+        List<SysUserRoleEntity> sysUserRoleEntityList = sysToUserRoleMapper.listUserRoles(sysUserRoleEntity);
+
+            for (int i = 0; i < sysUserRoleEntityList.size(); i++) {
+                SysUserRoleEntity temp = sysUserRoleEntityList.get(i);
+                SysUserEntity sysUserEntity = new SysUserEntity();
+                sysUserEntity.setId(temp.getUserId());
+                List roles = sysRoleMapper.listRoleByUserId(sysUserEntity);
+                //更新redis角色信息
+                stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_ROLE + sysUserEntity.getId(), roles == null ? new JSONArray().toJSONString() : JSONArray.toJSONString(roles));
+            }
+
         sysRoleService.deleteRole(roleEntity);
 
         //删除redis中角色信息
         stringRedisTemplate.delete(RedisKeyPrefix.ROLE_INFO + roleEntity.getId());
+        stringRedisTemplate.delete(RedisKeyPrefix.ROLE_BUTTON + roleEntity.getId());
+        stringRedisTemplate.delete(RedisKeyPrefix.ROLE_MENU + roleEntity.getId());
+
 //        sysRoleService.refreshRoleRedis();
         return WebResponse.success();
     }
 
     @PostMapping("/auth")
     public WebResponse auth(@RequestBody SysRoleEntity roleEntity) {
+        logger.info("开始进入权限管理");
         if (roleEntity == null || roleEntity.getId() == null || roleEntity.getMenus() == null) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "角色id未传或角色权限为空");
         }
-        if(roleEntity.getId() == 1) {
+        if(roleEntity.getId() == 14) {
             return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "系统管理员角色权限不得修改");
         }
         JSONObject redisJson = JwtTokenUtil.tokenData();
@@ -219,8 +247,8 @@ public class SysRoleController {
             sysRoleService.saveRoleButtons(roleEntity);
         }
 
-        sysRoleService.refreshRoleRedis();
-
+        sysRoleService.refreshCuurentRoleRedis(roleEntity.getId());
+        logger.info("结束权限管理");
         return WebResponse.success();
     }
 

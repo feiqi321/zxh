@@ -408,7 +408,7 @@
         su.position
         from sys_user su
         LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
-        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        LEFT JOIN (select * from sys_role where delete_flag=0) sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
         WHERE  su.delete_flag = 0
         <if test="status != null ">
@@ -480,10 +480,10 @@
         sr.id as roleId,
         su.position
         from sys_user su
-        LEFT JOIN sys_user_role sur on su.id = sur.user_id
-        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        LEFT JOIN (select * from sys_user_role where delete_flag =0) sur on su.id = sur.user_id
+        LEFT JOIN (select * from sys_role  where delete_flag =0) sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
-        where su.delete_flag = 0 and sur.delete_flag = 0 and  su.id = #{id,jdbcType=INTEGER}
+        where su.delete_flag = 0 and  su.id = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="getDataByRoleName" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
@@ -711,10 +711,9 @@
             AND  username like dbo.CONCAT('%',#{userName},'%')
         </if>
         )su
-        LEFT JOIN sys_user_role sur on su.id = sur.user_id
-        LEFT JOIN sys_role sr on sur.role_id = sr.id
+        LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
+        LEFT JOIN (select * from sys_role where delete_flag = 0) sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
-        where sur.delete_flag = 0
     </select>
 
     <select id="countLockedUser" resultType="java.lang.Integer">

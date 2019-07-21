@@ -9,11 +9,19 @@ import java.util.List;
 public interface SysRoleService {
     List<SysRoleEntity> listAllRoles(SysRoleEntity sysRoleEntity);
 
+    List<SysRoleEntity> listAllRolesByRoleId(SysRoleEntity sysRoleEntity);
+
     List<SysToRoleMenu> listAllRoleMenus(SysToRoleMenu sysToRoleMenu);
+
+    List<SysToRoleMenu> listAllRoleMenusByRoleId(SysToRoleMenu sysToRoleMenu);
 
     List<SysToRoleButton> listAllRoleButtons(SysToRoleButton sysToRoleButton);
 
+    List<SysToRoleButton> listAllRoleButtonsByRoleId(SysToRoleButton sysToRoleButton);
+
     void updateRole(SysRoleEntity roleEntity);
+
+    void refreshCuurentRoleRedis(Integer roleId);
 
     void saveRole(SysRoleEntity roleEntity);
 

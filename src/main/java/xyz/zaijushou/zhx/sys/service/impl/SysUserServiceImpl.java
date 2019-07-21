@@ -338,6 +338,13 @@ public class SysUserServiceImpl implements SysUserService {
                 roleEntity.setRoleId(role.getId());
                 sysToUserRoleMapper.saveUserRole(roleEntity);
             }
+
+            //获取当前用户更新后的角色信息
+            SysUserEntity sysUserEntity =   new SysUserEntity();
+            sysUserEntity.setId(userEntity.getId());
+            List roles = sysRoleMapper.listRoleByUserId(sysUserEntity);
+            //更新redis角色信息
+            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_ROLE + userEntity.getId(), roles == null ? new JSONArray().toJSONString() : JSONArray.toJSONString(roles));
         }
         //存入redis
         SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());

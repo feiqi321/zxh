@@ -365,7 +365,6 @@
         id,dept,create_time as createTime
         from data_collection
         <where>
-            delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  dept =#{dept}
@@ -626,7 +625,6 @@
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t
         <where>
-            t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="distributeStatus != null and distributeStatus!=''">
                     and t.distribute_status= #{distributeStatus}
@@ -991,7 +989,7 @@
     <select id="listDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t1.id,t2.name,case_id as caseId,t2.seq_no as seqno,t2.color,t1.bail_date as bailDate,t2.expect_time as expectTime,t2.area,
         t2.dept,t2.odv,t1.measure,t1.collect_time as collectDate,t1.target_name as targetName,t1.relation,t1.tel_type as telType,
-        t1.mobile,t1.result,t1.method,t1.repay_time as repayTime,t1.create_time as createTime,
+        t1.mobile,t1.result,t1.method,t1.repay_time as repayTime,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:mm') as createTime,
         t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.collect_status collectStatus,t1.reduce_status as reduceStatus,
         t2.account_age as accountAge,t2.case_date as caseDateD,t2.card_no as cardNo,t2.ident_no as identNo,
         t2.money,t2.balance,t2.bank_amt as bankAmt,t1.collect_info as collectInfo,t2.over_days as overDays,
@@ -1022,7 +1020,6 @@
         count(id) as sum
         from data_collection
         <where>
-            delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  dept =#{dept}
@@ -1191,7 +1188,6 @@
         </foreach >
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
-            c.delete_flag = 0 and t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  c.dept =#{dept}
@@ -1366,7 +1362,6 @@
         </foreach >
         from data_collection c LEFT  JOIN data_case t on c.case_id = t.id
         <where>
-            c.delete_flag = 0 and t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="dept != null and dept!=''">
                     AND  t.dept = #{dept}
@@ -1590,7 +1585,7 @@
         count(DISTINCT(c.collect_status)) as sum
         from
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
-        where dc.delete_flag = 0
+        where
         <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -1659,7 +1654,7 @@
         count(DISTINCT(c.batch_no)) as sum
         from
         data_collection dc LEFT JOIN data_case c on dc.case_id = c.id
-        where  dc.delete_flag = 0
+        where
         <if test="clientFlag != null and clientFlag!='' and clients!=null">
             and c.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
