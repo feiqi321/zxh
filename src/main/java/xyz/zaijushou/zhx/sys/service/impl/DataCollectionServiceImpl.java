@@ -364,11 +364,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.isEmpty(listInfo)){
             return new ArrayList<>();
         }
+
+
         DataCollectionEntity bean = new DataCollectionEntity();
         if (listInfo.size()>0 && StringUtils.notEmpty(listInfo.get(0).getBatchNo())) {
-            bean.setBatchNo(listInfo.get(0).getBatchNo());
-            bean.setIdentNo(listInfo.get(0).getIdentNo());
-            List<DataCollectionEntity> list = collectionMapper.listDataCollect(bean);
+            caseInfo.setBatchNo(listInfo.get(0).getBatchNo());
+            caseInfo.setIdentNo(listInfo.get(0).getIdentNo());
+            List<DataCaseEntity> samelistInfo = caseMapper.listSameAllCaseInfo(caseInfo);
+            int[] ids = new int[samelistInfo.size()];
+            for (int i=0;i<samelistInfo.size();i++){
+                ids[i] = samelistInfo.get(i).getId();
+            }
+            bean.setIds(ids);
+            List<DataCollectionEntity> list = collectionMapper.listDataCollectByIds(bean);
             if (StringUtils.isEmpty(list)) {
                 return new ArrayList<>();
             } else {

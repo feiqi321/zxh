@@ -278,6 +278,14 @@ public class DataCollectController {
         return webResponse;
     }
 
+    @ApiOperation(value = "案件详情催记", notes = "案件详情催记")
+    @PostMapping("/dataCollect/detailCollect2")
+    public Object detailCollect2(@RequestBody DataCollectionEntity bean) {
+
+        WebResponse webResponse = dataCollectService.detailCollect2(bean);
+        return webResponse;
+    }
+
     @ApiOperation(value = "案件详情电话本案催记", notes = "案件详情电话本案催记")
     @PostMapping("/dataCollect/tel/detailTelCurentCollect")
     public Object detailTelCurentCollect(@RequestBody DataCollectionEntity bean) {

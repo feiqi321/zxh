@@ -1608,6 +1608,10 @@
         </if>
     </select>
 
+    <select id="listSameAllCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select  id from data_case where batch_no = #{batchNo} and ident_no = #{identNo}
+    </select>
+
     <select id="listInitAllCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select  da.id,da.card_no as cardNo,da.odv,
         da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,

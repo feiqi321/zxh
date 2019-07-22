@@ -54,6 +54,8 @@ public interface DataCollectionMapper {
 
     public List<DataCollectionEntity> listDataCollect(DataCollectionEntity bean);
 
+    public List<DataCollectionEntity> listDataCollectByIds(DataCollectionEntity bean);
+
     public void updateDataCollect(DataCollectionEntity bean);
 
     public List<DataCollectExportEntity> pageDataCollectExport(DataCollectionEntity bean);
@@ -90,6 +92,8 @@ public interface DataCollectionMapper {
     public List<DataCollectionEntity> selectAllByCaseId(DataCollectionEntity dataCollectionEntity);
 
     public List<DataCollectionEntity> detailCollect1(DataCollectionEntity bean);
+
+    public List<DataCollectionEntity> detailCollect5(DataCollectionEntity bean);
 
     public List<DataCollectionEntity> detailCollect2(DataCollectionEntity bean);
 

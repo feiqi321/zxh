@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(value = IllegalArgumentException.class)
 	public WebResponse errorHandlerIll(HttpServletRequest request, IllegalArgumentException exception) {
 		WebResponse result = WebResponse.buildResponse();
-		logger.info(exception.getCause()==null?exception.getMessage():exception.getCause().getMessage());
+		logger.error(exception.getCause()==null?exception.getMessage():exception.getCause().getMessage());
 		result.setCode("500");
 		result.setMsg(exception.getMessage());
 		exception.printStackTrace();
@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
 	public WebResponse errorHandlerOverJson(HttpServletRequest request, CustomerException exception) {
 		WebResponse result = WebResponse.buildResponse();
 		logger.info(exception.getCause()==null?exception.getMsg():exception.getCause().getMessage());
+		logger.error(exception.getCause()==null?exception.getMsg():exception.getCause().getMessage());
 		result.setCode("500");
 		result.setMsg(exception.getMsg());
 		exception.printStackTrace();
@@ -40,6 +41,7 @@ public class GlobalExceptionHandler {
 	public WebResponse handleException(Exception exception) {
 		WebResponse result = WebResponse.buildResponse();
 		logger.info(exception.getCause()==null?exception.getMessage():exception.getCause().getMessage());
+		logger.error(exception.getCause()==null?exception.getMessage():exception.getCause().getMessage());
 		exception.printStackTrace();
 		result.setCode("500");
 		result.setMsg("后台异常，请稍后再试");

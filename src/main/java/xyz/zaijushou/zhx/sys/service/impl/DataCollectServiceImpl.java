@@ -323,6 +323,52 @@ public class DataCollectServiceImpl implements DataCollectService {
         return webResponse;
     }
 
+    public WebResponse detailCollect2(DataCollectionEntity bean){
+        WebResponse webResponse = WebResponse.buildResponse();
+        List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
+        list = dataCollectionMapper.detailCollect5(bean);
+        for (int i=0;i<list.size();i++){
+            DataCollectionEntity temp = list.get(i);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setOdv(user==null?"":user.getUserName());
+
+            if (temp.getCreateUser()==null){
+                SysUserEntity createUser = new SysUserEntity();
+                temp.setCreateUser(createUser);
+            }else {
+                SysUserEntity createUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + temp.getCreateUser().getId(), SysUserEntity.class);
+                temp.setCreateUser(createUser);
+            }
+
+            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
+            temp.setTelType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+
+            SysDictionaryEntity relationEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRelation(),SysDictionaryEntity.class);
+            temp.setRelation(relationEntity==null?temp.getRelation():relationEntity.getName());
+
+            SysDictionaryEntity collectStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
+            temp.setCollectStatusMsg(collectStatusEntity==null?"":collectStatusEntity.getName());
+
+            SysDictionaryEntity reduceStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
+            temp.setReduceStatusMsg(reduceStatusEntity==null?"":reduceStatusEntity.getName());
+
+            SysDictionaryEntity methodEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMethod(),SysDictionaryEntity.class);
+            temp.setMethodMsg(methodEntity==null?"":methodEntity.getName());
+
+            SysDictionaryEntity telTypeEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
+            temp.setTelType(telTypeEntity==null?"":telTypeEntity.getName());
+
+            SysDictionaryEntity resultEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getResult(),SysDictionaryEntity.class);
+            temp.setResult(resultEntity==null?temp.getResult():resultEntity.getName());
+
+            temp.setRepayAmtMsg(temp.getRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayAmt().stripTrailingZeros()+""));
+            temp.setReduceAmtMsg(temp.getReduceAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(temp.getReduceAmt().stripTrailingZeros()+""));
+
+            list.set(i,temp);
+        }
+        webResponse.setData(list);
+        return webResponse;
+    }
 
     public WebResponse detailCollect(DataCollectionEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();

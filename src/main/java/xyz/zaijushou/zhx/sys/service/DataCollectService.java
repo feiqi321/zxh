@@ -30,6 +30,8 @@ public interface DataCollectService {
 
     public WebResponse detailCollect(DataCollectionEntity bean);
 
+    public WebResponse detailCollect2(DataCollectionEntity bean);
+
     public WebResponse detailTelCurentCollect(DataCollectionEntity bean);
 
 }
