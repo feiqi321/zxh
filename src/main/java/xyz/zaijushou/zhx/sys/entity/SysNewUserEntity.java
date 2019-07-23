@@ -107,6 +107,16 @@ public class SysNewUserEntity extends CommonEntity {
 
     private Set<String> departIdsSet;
 
+    private String deptName;
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
     public String[] getDepartmens() {
         return departmens;
     }

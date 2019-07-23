@@ -51,6 +51,32 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
         dictList = CollectionsUtils.listToTree(dictList);
         return dictList;
     }
+
+    @Override
+    public List<SysOrganizationEntity> listChildOrganization2(SysOrganizationEntity organizationEntity) {
+        List<SysOrganizationEntity> dictList = new ArrayList<SysOrganizationEntity>();
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        if (StringUtils.isEmpty(user)){
+            return dictList;
+        }
+        //获取用于所在部门
+        organizationEntity.setId(Integer.valueOf(user.getDepartment()));
+
+        List<SysOrganizationEntity> list = sysOrganizationMapper.listAllOrganizations(organizationEntity);
+        if (StringUtils.isEmpty(list)){
+            return dictList;
+        }
+        //递归查询列表
+        for (SysOrganizationEntity dictionaryEntity : list){
+            if (StringUtils.notEmpty(organizationEntity.getTypeFlag()) && organizationEntity.getTypeFlag() == 1){
+                dictList.add(dictionaryEntity);
+            }
+            getChildDataInfo(dictionaryEntity,dictList);
+        }
+
+        return dictList;
+    }
     //查询用户
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");

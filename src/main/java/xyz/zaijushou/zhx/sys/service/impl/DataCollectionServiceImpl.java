@@ -224,39 +224,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
 
-        //获取当前用户名
-        SysUserEntity user = getUserInfo();
-        if (StringUtils.isEmpty(user)){
-            return webResponse;
-        }
-        //查询个人  and 查询部门
-        if (user.getId()==1){
 
-        }else {
-            if (dataCollectionEntity.getsType() == 0) {
-                dataCollectionEntity.setOdv(user.getId() + "");
-            } else if (dataCollectionEntity.getsType() == 1 && StringUtils.isEmpty(dataCollectionEntity.getDept())) {
-                List<String> deptList = new ArrayList<String>();
-                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
-
-                //查询标识
-                organizationEntity.setTypeFlag(1);
-                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization(organizationEntity);
-                for (SysOrganizationEntity orgEntity : orgList) {
-                    deptList.add(orgEntity.getId()+"");
-                }
-                dataCollectionEntity.setDeptFlag(1);
-                SysNewUserEntity queryUser = new SysNewUserEntity();
-                queryUser.setDepartIdsSet(new HashSet(deptList));
-                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
-                String[] odvs = new String[odvList.size()];
-                for (int i=0;i<odvList.size();i++){
-                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
-                    odvs[i] = sysNewUserEntity.getId()+"";
-                }
-                dataCollectionEntity.setOdvs(odvs);
-            }
-        }
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");
         }else {
@@ -301,10 +269,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if(StringUtils.isEmpty(list)) {
             collectionReturn.setCountCase(countCase);
             collectionReturn.setCountCasePay(countCasePay);
-            collectionReturn.setSumBank(sumRepay.stripTrailingZeros());
+            /*collectionReturn.setSumBank(sumRepay.stripTrailingZeros());
             collectionReturn.setSumMoney(sumMoney.stripTrailingZeros());
             collectionReturn.setSumRepay(sumBank.stripTrailingZeros());
-            collectionReturn.setSumPayMoney(sumPayMoney.stripTrailingZeros());
+            collectionReturn.setSumPayMoney(sumPayMoney.stripTrailingZeros());*/
+
+            collectionReturn.setSumBankMsg(sumBank==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumBank.stripTrailingZeros()+""));
+            collectionReturn.setSumMoneyMsg(sumMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumMoney.stripTrailingZeros()+""));
+            collectionReturn.setSumRepayMsg(sumRepay==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumRepay.stripTrailingZeros()+""));
+            collectionReturn.setSumPayMoneyMsg(sumPayMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumPayMoney.stripTrailingZeros()+""));
             webResponse.setData(collectionReturn);
             return  webResponse;
         }

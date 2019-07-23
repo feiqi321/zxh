@@ -393,6 +393,7 @@ public class SysUserServiceImpl implements SysUserService {
         }
         //存入redis
         SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());
+        newBean.setDepartment(newBean.getDepartId());
         if (StringUtils.notEmpty(newBean)){
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
         }

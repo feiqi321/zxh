@@ -1015,7 +1015,7 @@
         from data_collection t1
         <where>
             <if test="ids != null and ids.length >0">
-                where t1.case_id in
+                 t1.case_id in
                 <foreach collection="ids" item="item" separator ="," open="(" close=")">
                     #{item}
                 </foreach>
@@ -1922,7 +1922,7 @@
         select t1.id,t1.measure,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:mm') as collectTime,t1.target_name as targetName,t1.relation,t1.mobile,t1.collection_type as collectionType,t1.tel_type as telType,t1.collect_info as collectInfo,
         t1.result,t1.method,t1.repay_time as repayTime,t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.reduce_status as reduceStatus,t2.odv,t1.collect_status as collectStatus,t1.create_user as [createUser.id]
         from data_collection t1 LEFT JOIN data_case t2 on t1.case_id = t2.id
-        where t1.case_id = #{caseId} and t2.delete_flag=0 and t1.repay_amt is not null
+        where t1.case_id = #{caseId} and t2.delete_flag=0 and t1.repay_amt is not null  and t1.repay_amt!=0
     </select>
 
     <select id="detailCollect2" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">

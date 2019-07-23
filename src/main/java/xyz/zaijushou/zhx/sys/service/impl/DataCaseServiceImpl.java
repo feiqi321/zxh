@@ -1984,6 +1984,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
                 entity.setMoney(entity.getMoney()==null?new BigDecimal(0):entity.getMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setBalance(entity.getBalance()==null?new BigDecimal(0):entity.getBalance().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                entity.setResidualPrinciple(entity.getResidualPrinciple()==null?new BigDecimal(0):entity.getResidualPrinciple().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setRate(entity.getRate()==null?new BigDecimal(0):entity.getRate().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 try{
                     BigDecimal bMval = new BigDecimal(entity.getMVal()==null?"0":entity.getMVal());
@@ -3189,6 +3190,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
                 caseEntity.setMoney(caseEntity.getMoney()==null?null:caseEntity.getMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 caseEntity.setBalance(caseEntity.getBalance()==null?null:caseEntity.getBalance().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+                caseEntity.setResidualPrinciple(caseEntity.getResidualPrinciple()==null?new BigDecimal(0):caseEntity.getResidualPrinciple().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 caseEntity.setRate(caseEntity.getRate()==null?null:caseEntity.getRate().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 try{
                     BigDecimal bMval = new BigDecimal(caseEntity.getMVal()==null?"0":caseEntity.getMVal());

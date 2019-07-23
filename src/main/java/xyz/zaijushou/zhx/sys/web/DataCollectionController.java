@@ -8,13 +8,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
-import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
-import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
-import xyz.zaijushou.zhx.sys.entity.OdvPercentage;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
+import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -26,6 +31,10 @@ public class DataCollectionController {
 
     @Autowired
     private DataCollectionService dataCollectionService;
+    @Autowired
+    private SysOrganizationService sysOrganizationService;
+    @Resource
+    private SysUserMapper sysUserMapper;//用户业务控制层
 
     @ApiOperation(value = "新增催收", notes = "新增催收")
     @PostMapping("/dataCollection/save")
@@ -88,10 +97,48 @@ public class DataCollectionController {
         return WebResponse.success(list);
 
     }
-
+    private SysUserEntity getUserInfo (){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
+        return user;
+    }
     @ApiOperation(value = "催收管理-我的案件分頁查询", notes = "催收管理-我的案件分頁查询")
     @PostMapping("/dataCollection/pageMyCase")
     public Object pageMyCase(@RequestBody DataCollectionEntity bean) throws Exception{
+
+        //获取当前用户名
+        SysUserEntity user = getUserInfo();
+        if (StringUtils.isEmpty(user)){
+            return WebResponse.success();
+        }
+        //查询个人  and 查询部门
+        if (user.getId()==1){
+
+        }else {
+            if (bean.getsType() == 0) {
+                bean.setOdv(user.getId() + "");
+            } else if (bean.getsType() == 1 && StringUtils.isEmpty(bean.getDept())) {
+                List<String> deptList = new ArrayList<String>();
+                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+
+                //查询标识
+                organizationEntity.setTypeFlag(1);
+                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
+                for (SysOrganizationEntity orgEntity : orgList) {
+                    deptList.add(orgEntity.getId()+"");
+                }
+                bean.setDeptFlag(1);
+                SysNewUserEntity queryUser = new SysNewUserEntity();
+                queryUser.setDepartIdsSet(new HashSet(deptList));
+                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+                String[] odvs = new String[odvList.size()];
+                for (int i=0;i<odvList.size();i++){
+                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                    odvs[i] = sysNewUserEntity.getId()+"";
+                }
+                bean.setOdvs(odvs);
+            }
+        }
 
         WebResponse webResponse = dataCollectionService.pageMyCase(bean);
 

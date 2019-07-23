@@ -120,6 +120,7 @@
         <result column="leaveTime" property="leaveTime" jdbcType="TIMESTAMP"/>
         <result column="joinTime" property="joinTime" jdbcType="TIMESTAMP"/>
         <result column="actualTime" property="actualTime" jdbcType="TIMESTAMP"/>
+        <result column="deptName" property="deptName" jdbcType="VARCHAR"/>
         <collection property="roleList" column="role_id" ofType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
             <result column="roleId" property="id"  jdbcType="INTEGER"/>
             <result column="role" property="roleName"  jdbcType="VARCHAR"/>
@@ -469,7 +470,7 @@
     <select id="getDataById" resultMap="UserResultMap">
            select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
-        su.status,su.enable,su.username as userName,so.org_name department,su.login_name as loginName,
+        su.status,su.enable,su.username as userName,so.org_name as department,so.org_name as deptName,su.login_name as loginName,
         su.create_time as createTime,su.create_user as [createUser.id],
         su.update_user as [updateUser.id],su.update_time as updateTime,
         su.delete_flag as deleteFlag,

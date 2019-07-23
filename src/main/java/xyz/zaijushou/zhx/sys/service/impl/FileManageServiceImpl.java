@@ -142,7 +142,7 @@ public class FileManageServiceImpl implements FileManageService {
         for (int i=0;i<list.size();i++){
             Letter temp = list.get(i);
             DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
-            if (temp!=null){
+            if (dataCaseEntity!=null){
                 temp.setCaseId(dataCaseEntity.getId());
             }else{
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写卡号和委案日期，请填写后上传，并检查excel的个案序列号是否均填写了");
