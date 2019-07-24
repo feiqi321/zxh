@@ -126,40 +126,42 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setId(user.getId());
             if (tempRole!=null && tempRole.getDataAuth()!=null && tempRole.getDataAuth()!=1){
                 List<SysNewUserEntity> list = sysUserMapper.listParent(userEntity);
-                while(list.size()>0){
+//                while(list.size()>0){
                     for (int m=0;m<list.size();m++){
                         SysNewUserEntity sysNewUserEntityTemp = list.get(m);
-                        int count = sysRoleMapper.countDataAuthRole(sysNewUserEntityTemp);
+                        int count = sysRoleMapper.countDataAuth(sysNewUserEntityTemp);
                         if (count>0){
                             resultUser.setSameBatch(true);
                             list = new ArrayList();
                             break;
-                        }else{
-                            this.foreachData(resultUser,sysNewUserEntityTemp);
                         }
+//                        else{
+//                            this.foreachData(resultUser,sysNewUserEntityTemp);
+//                        }
                     }
 
-                }
+//                }
             }else if (tempRole!=null && tempRole.getDataAuth()!=null && tempRole.getDataAuth()==1){
                 resultUser.setSameBatch(true);
             }
 
             if (tempRole!=null && tempRole.getBusiAuth()!=null && tempRole.getBusiAuth()!=1){
                 List<SysNewUserEntity> list = sysUserMapper.listParent(userEntity);
-                while(list.size()>0){
+//                while(list.size()>0){
                     for (int m=0;m<list.size();m++){
                         SysNewUserEntity sysNewUserEntityTemp = list.get(m);
-                        int count = sysRoleMapper.countBusiAuthRole(sysNewUserEntityTemp);
+                        int count = sysRoleMapper.countBusiAuth(sysNewUserEntityTemp);
                         if (count>0){
                             resultUser.setBusiData(true);
                             list = new ArrayList();
                             break;
-                        }else{
-                            this.foreachBusi(resultUser,sysNewUserEntityTemp);
                         }
+//                        else{
+//                            this.foreachBusi(resultUser,sysNewUserEntityTemp);
+//                        }
                     }
 
-                }
+//                }
             }else if (tempRole!=null && tempRole.getBusiAuth()!=null && tempRole.getBusiAuth()==1){
                 resultUser.setBusiData(true);
             }

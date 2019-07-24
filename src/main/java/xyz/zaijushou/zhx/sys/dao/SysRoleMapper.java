@@ -44,7 +44,11 @@ public interface SysRoleMapper {
 
     int countDataAuthRole(SysNewUserEntity userEntity);
 
+    int countDataAuth(SysNewUserEntity userEntity);
+
     int countBusiAuthRole(SysNewUserEntity userEntity);
+
+    int countBusiAuth(SysNewUserEntity userEntity);
 
     List<SysRoleEntity> listRoleByUserId(SysUserEntity userEntity);
 }
