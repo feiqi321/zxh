@@ -177,4 +177,7 @@ public interface DataCaseMapper {
     List<DataCaseEntity> selectTsCase1(DataCaseEntity bean);
 
     List<DataCaseEntity> selectTsCase2(DataCaseEntity bean);
+
+    void updateCollectDate(DataCaseEntity dataCaseEntity);
+
 }
