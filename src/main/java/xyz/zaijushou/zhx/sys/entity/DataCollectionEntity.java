@@ -326,6 +326,16 @@ public class DataCollectionEntity extends CommonEntity {
 
     private Integer isEnable;
 
+    private Double overdueDays; //逾期天数
+
+    public Double getOverdueDays() {
+        return overdueDays;
+    }
+
+    public void setOverdueDays(Double overdueDays) {
+        this.overdueDays = overdueDays;
+    }
+
     public Integer getIsEnable() {
         return isEnable;
     }

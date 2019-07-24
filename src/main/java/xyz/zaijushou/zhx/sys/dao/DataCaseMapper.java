@@ -22,6 +22,8 @@ public interface DataCaseMapper {
 
     void updateCaseByBatch(DataCaseEntity bean);
 
+    void updateBatch(DataCaseEntity bean);
+
     public int saveBatchCase(@Param("list") List<DataCaseEntity> list);
 
     public void updateCase(DataCaseEntity bean);

@@ -702,7 +702,12 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void sendOdv(DataCaseEntity bean){
         DataCaseEntity temp = dataCaseMapper.findById(bean);
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ bean.getOdv(), SysUserEntity.class);
-        bean.setDistributeHistory(",分配给"+user.getUserName());
+        if(StringUtils.isEmpty(temp.getDistributeHistory())){
+            bean.setDistributeHistory("分配给"+user.getUserName());
+        }else{
+            bean.setDistributeHistory(",分配给"+user.getUserName());
+        }
+
         bean.setDept(user==null?"":user.getDepartment());
         dataCaseMapper.sendOdv(bean);
         DataOpLog log = new DataOpLog();
@@ -1771,6 +1776,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             color = "BLACK";
         }else{
             color = ColorEnum.getEnumByKey(bean.getColor()).getValue();
+            bean.setColor(color);
+            dataCaseMapper.addColor(bean);
+
             DataOpLog log = new DataOpLog();
             log.setType("评语");
             log.setContext(bean.getComment()+"["+color+"]");
@@ -2474,6 +2482,13 @@ public class DataCaseServiceImpl implements DataCaseService {
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
                 temp.setOdv(user == null ? "" : user.getUserName());
             }
+            if (temp!=null && temp.getColor().equals("RED")){
+                temp.setColor("红色");
+            }else if (temp!=null && temp.getColor().equals("BLUE")){
+                temp.setColor("蓝色");
+            }else{
+                temp.setColor("正常");
+            }
             list.set(i,temp);
         }
 
@@ -2517,6 +2532,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setCollectionType(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
             if (StringUtils.notEmpty(temp.getDistributeHistory())){
                 temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
+            }
+            if (temp!=null && temp.getColor().equals("RED")){
+                temp.setColor("红色");
+            }else if (temp!=null && temp.getColor().equals("BLUE")){
+                temp.setColor("蓝色");
+            }else{
+                temp.setColor("正常");
             }
             list.set(i,temp);
         }
@@ -2606,6 +2628,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseDetail.setEnRepayAmtMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getEnRepayAmt().stripTrailingZeros().toPlainString()));
         }
+        dataCaseDetail.setBalance(dataCaseDetail.getMoney().subtract(dataCaseDetail.getEnRepayAmt()));
         if (dataCaseDetail.getBalance()==null || dataCaseDetail.getBalance().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setBalanceMsg("￥0");
         }else{

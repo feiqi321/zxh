@@ -264,10 +264,13 @@
     <select id="listClients" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
         select    batch_no as batchNo
         from data_batch
-        where client in
-        <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
-            #{item}
-        </foreach>
+        where  delete_flag = 0
+        <if test="clients != null and clients.length > 0 ">
+            and client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
 

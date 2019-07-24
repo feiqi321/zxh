@@ -517,22 +517,22 @@
                 </if>
 
                 <if test="bailStartDate != null and bailStartDate!=''">
-                    <![CDATA[   and c.bail_date >=  #{bailStartDate}   ]]>
+                    <![CDATA[   and c.bail_date >= CONVERT(datetime, #{bailStartDate}, 20)    ]]>
                 </if>
                 <if test="bailEndDate != null and bailEndDate!=''" >
-                    <![CDATA[   and c.bail_date <=  #{bailEndDate}   ]]>
+                    <![CDATA[   and c.bail_date <=  CONVERT(datetime, #{bailEndDate}, 20) ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
+                    <![CDATA[   and t.expect_time>=  #{expectTimeStart}   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
+                    <![CDATA[   and t.expect_time<=  #{expectTimeEnd}   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
-                    <![CDATA[   and c.collect_time>=  #{collectStartTime}   ]]>
+                    <![CDATA[   and c.collect_time>= CONVERT(datetime, #{collectStartTime}, 20)  ]]>
                 </if>
                 <if test="collectEndTime != null and collectEndTime!=''" >
-                    <![CDATA[   and c.collect_time<=  #{collectEndTime}   ]]>
+                    <![CDATA[   and c.collect_time<=  CONVERT(datetime, #{collectEndTime}, 20) ]]>
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
@@ -621,7 +621,7 @@
         t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
-        t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,t.principle,
+        t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,t.principle,t.overdue_days as overdueDays,
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
         from data_case t
         <where>

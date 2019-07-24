@@ -117,9 +117,14 @@ public class DataCollectionController {
         }else {
             if (bean.getsType() == 0) {
                 bean.setOdv(user.getId() + "");
-            } else if (bean.getsType() == 1 && StringUtils.isEmpty(bean.getDept())) {
+            } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
                 List<String> deptList = new ArrayList<String>();
                 SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+                if (StringUtils.isEmpty(bean.getDept())){
+
+                }else{
+                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
+                }
 
                 //查询标识
                 organizationEntity.setTypeFlag(1);
@@ -136,10 +141,11 @@ public class DataCollectionController {
                     SysNewUserEntity sysNewUserEntity = odvList.get(i);
                     odvs[i] = sysNewUserEntity.getId()+"";
                 }
+
                 bean.setOdvs(odvs);
             }
         }
-
+        bean.setDept(null);
         WebResponse webResponse = dataCollectionService.pageMyCase(bean);
 
         return webResponse;

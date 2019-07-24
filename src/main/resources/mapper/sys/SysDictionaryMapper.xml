@@ -100,7 +100,7 @@
         <if test="parent != null and parent.id != null">
             AND  dictionary_id = #{parent.id,jdbcType=INTEGER}
         </if>
-        order by id desc
+        order by number desc
     </select>
 
     <!--查询数据集合-->
@@ -148,6 +148,7 @@
         <if test="currentName != null and currentName!=''">
             AND name like dbo.CONCAT('%',#{currentName},'%')
         </if>
+        order by number desc
     </select>
 
     <!--根据名称获取数据组-->

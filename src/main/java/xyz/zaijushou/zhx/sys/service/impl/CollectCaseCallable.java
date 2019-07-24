@@ -69,7 +69,7 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
     public List<DataCollectionEntity> call() throws Exception{
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            if (StringUtils.notEmpty(collection.getCollectTime())){
+            /*if (StringUtils.notEmpty(collection.getCollectTime())){
                 collection.setLastPhoneTime(collection==null?"":sdf.format(collection.getCollectDate()));
                 collection.setLeaveDays(differentDays(format.parse(collection.getCollectTime()),new Date())+"");
             }else{
@@ -79,7 +79,7 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
                 }else{
                     collection.setLeaveDays("0");
                 }
-            }
+            }*/
 
         /*collection.setCollectTime(collection==null?"":sdf.format(collection.getCollectDate()));
         collection.setLastPhoneTime(collection==null?"":sdf.format(collection.getCollectDate()));*/
@@ -96,8 +96,14 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
         SysDictionaryEntity collectInfoType =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getCollectInfo(),SysDictionaryEntity.class);
         collection.setCollectInfo(collectInfoType==null?"":collectInfoType.getName());
 
-        SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+collection.getCollectStatus(),SysDictionaryEntity.class);
-        collection.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+        if (collection.getCollectDate()==null){
+            collection.setCollectStatusMsg("新案");
+            collection.setLeaveDays("0");
+        }else {
+            SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + collection.getCollectStatus(), SysDictionaryEntity.class);
+            collection.setCollectStatusMsg(sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName());
+            collection.setLeaveDays(differentDays(format.parse(collection.getCollectTime()),new Date())+"");
+        }
 
         if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getOdv())){
             collection.setOdv("");

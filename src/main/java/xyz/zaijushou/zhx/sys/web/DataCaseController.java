@@ -24,6 +24,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.*;
 import xyz.zaijushou.zhx.sys.service.impl.CaseExportCallable;
@@ -78,6 +79,10 @@ public class DataCaseController {
     private static FormulaEvaluator evaluator;
     @Resource
     private ExcelUtils excelUtils;
+    @Autowired
+    private SysOrganizationService sysOrganizationService;
+    @Resource
+    private SysUserMapper sysUserMapper;//用户业务控制层
 
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
@@ -124,6 +129,33 @@ public class DataCaseController {
         WebResponse webResponse = WebResponse.buildResponse();
         try {
             logger.info("进入执行");
+           /* List<String> deptList = new ArrayList<String>();
+            SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+            if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDept())){
+
+            }else{
+                organizationEntity.setId(Integer.parseInt(bean.getDept()));
+            }
+
+            //查询标识
+            organizationEntity.setTypeFlag(1);
+            List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
+            for (SysOrganizationEntity orgEntity : orgList) {
+                deptList.add(orgEntity.getId()+"");
+            }
+
+            SysNewUserEntity queryUser = new SysNewUserEntity();
+            queryUser.setDepartIdsSet(new HashSet(deptList));
+            List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+            String[] odvs = new String[odvList.size()];
+            for (int i=0;i<odvList.size();i++){
+                SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                odvs[i] = sysNewUserEntity.getId()+"";
+            }
+
+            bean.setOdvs(odvs);*/
+
+
             webResponse = dataCaseService.pageCaseListOnly(bean);
             logger.info("跳出执行");
         }catch (Exception e){

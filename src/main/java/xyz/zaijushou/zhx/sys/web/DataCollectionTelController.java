@@ -46,7 +46,7 @@ public class DataCollectionTelController {
     @ApiOperation(value = "新增电催回调", notes = "新增催收")
     @PostMapping("/dataCollection/save")
     public Object save(@RequestBody DataCollectionTelEntity bean) {
-        //logger.info("电催回调:"+JSONObject.toJSON(bean).toString());
+        logger.info("电催回调:"+JSONObject.toJSON(bean).toString());
         dataCollectionTelService.save(bean);
 
         return WebResponse.success();

@@ -56,12 +56,14 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
     public List<SysOrganizationEntity> listChildOrganization2(SysOrganizationEntity organizationEntity) {
         List<SysOrganizationEntity> dictList = new ArrayList<SysOrganizationEntity>();
         //获取当前用户名
-        SysUserEntity user = getUserInfo();
-        if (StringUtils.isEmpty(user)){
-            return dictList;
+        if (organizationEntity.getId()==null || organizationEntity.getId()==0) {
+            SysUserEntity user = getUserInfo();
+            if (StringUtils.isEmpty(user)) {
+                return dictList;
+            }
+            //获取用于所在部门
+            organizationEntity.setId(Integer.valueOf(user.getDepartment()));
         }
-        //获取用于所在部门
-        organizationEntity.setId(Integer.valueOf(user.getDepartment()));
 
         List<SysOrganizationEntity> list = sysOrganizationMapper.listAllOrganizations(organizationEntity);
         if (StringUtils.isEmpty(list)){

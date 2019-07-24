@@ -560,6 +560,7 @@ public class ExcelCaseConstant {
         COL1700(1700, "自定义信息", "selfInfo", String.class),
         COL1710(1710, "最新催记", "newCase", String.class),
         COL1720(1720, "公司佣金比率", "commissionRate", String.class),
+        COL1721(1721, "标色", "color", String.class),
         ;
 
 
@@ -784,6 +785,7 @@ public class ExcelCaseConstant {
         COL1700("selfInfo", "自定义信息", "da.remark as selfInfo", String.class),
         COL1710("newCase", "最新催记", "da.new_case as newCase", String.class),
         COL1720("commissionRate", "公司佣金比率", "da.commission_rate as commissionRate", String.class),
+        COL1721("color", "标色", "da.color as color", String.class),
         ;
 
 

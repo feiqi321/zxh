@@ -53,6 +53,14 @@ public class CaseExportCallable implements Callable<List<DataCaseEntity>> {
             temp.setStatusMsg("退档");
         }
 
+        if (temp!=null && temp.getColor().equals("RED")){
+            temp.setColor("红色");
+        }else if (temp!=null && temp.getColor().equals("BLUE")){
+            temp.setColor("蓝色");
+        }else{
+            temp.setColor("正常");
+        }
+
         SysDictionaryEntity clientDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
         temp.setClient(clientDic==null?"":clientDic.getName());
         SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);

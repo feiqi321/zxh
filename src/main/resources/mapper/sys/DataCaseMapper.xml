@@ -668,11 +668,11 @@
     <select id="pageCaseMangeList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,da.color,
-         da.collect_status as collectStatus , da.collect_date as collectDate,  da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,da.collect_hand as collectHand,
+         da.collect_status as collectStatus , da.collect_date as collectDate,da.collect_date as collectTime,  da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,da.collect_hand as collectHand,
          da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,dbo.fnFormatDate(da.distribute_time,'yyyy-MM-dd') as distributeTime,
          da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
          da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,collect_result as collectInfo, da.odv as [collectionUser.id],
-        da.collect_times as collectTimes,da.leave_Days as leaveDays,da.principle,da.latest_overdue_money as latestOverdueMoney,da.overdue_date as overdueDate
+        da.collect_times as collectTimes,da.leave_Days as leaveDays,da.principle,da.latest_overdue_money as latestOverdueMoney,da.overdue_date as overdueDate,da.overdue_days as overdueDays
         from data_case da
         <where>
             da.delete_flag=0
@@ -906,7 +906,7 @@
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,collect_hand as collectHand,
         real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,dbo.fnFormatDate(distribute_time,'yyyy-MM-dd  HH:mm') as distributeTime,
         money as money,balance as balance,overdue_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,collect_result as collectInfo,
-        bank_amt as bankAmt,en_repay_amt as enRepayAmt,comment,pro_repay_amt as proRepayAmt,collect_times as collectTimes,leave_Days as leaveDays,principle,latest_overdue_money as latestOverdueMoney,overdue_date as overdueDate
+        bank_amt as bankAmt,en_repay_amt as enRepayAmt,comment,pro_repay_amt as proRepayAmt,collect_times as collectTimes,leave_Days as leaveDays,principle,latest_overdue_money as latestOverdueMoney,overdue_date as overdueDate,overdue_days as overdueDays
          from data_case where ident_no in (
         select   da.ident_no
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
@@ -3436,7 +3436,7 @@
         </foreach >
         from data_case da LEFT JOIN data_collection dc on da.id = dc.case_id
         where   da.batch_no = #{batchNo} and da.delete_flag=0
-        order by ${orderBy} ${sort}
+        order by da.id desc
     </select>
 
     <select id="listSend" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -5124,6 +5124,12 @@
 
     </update>
 
+    <update id="updateBatch" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" >
+
+        update data_case set batch_no = #{batchNo} where batch_no = #{oldBatchNo}
+
+    </update>
+
     <select id="pageSeqNos" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         <include refid="colSql"/>
@@ -5147,7 +5153,7 @@
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
           SELECT id,batch_no as batchNo,money,odv,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,business_type as businessType,card_no as cardNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,name,
-          dbo.fnFormatDate(settle_date, 'yyyy-MM-dd') as settleDate,settle_flag as settleFlag,en_repay_amt as enRepayAmt
+          dbo.fnFormatDate(settle_date, 'yyyy-MM-dd') as settleDate,settle_flag as settleFlag,en_repay_amt as enRepayAmt,distribute_history as distributeHistory
           from data_case where id = #{id}
     </select>
 

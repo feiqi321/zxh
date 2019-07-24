@@ -8,6 +8,8 @@ import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -28,11 +30,17 @@ public class CaseCallable implements Callable<List<DataCaseEntity>> {
 
     public List<DataCaseEntity> call() throws Exception{
 
-        if (temp.getCollectStatus()==0){
-            temp.setCollectStatusMsg("");
-        }else{
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
-            temp.setCollectStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+        if (temp.getCollectDate()==null){
+            temp.setCollectStatusMsg("新案");
+            temp.setLeaveDays(0);
+        }else {
+            if (temp.getCollectStatus() == 0) {
+                temp.setCollectStatusMsg("");
+            } else {
+                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getCollectStatus(), SysDictionaryEntity.class);
+                temp.setCollectStatusMsg(sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName());
+            }
+            temp.setLeaveDays(differentDays(temp.getCollectTime()));
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
             temp.setCollectArea("");
@@ -74,8 +82,51 @@ public class CaseCallable implements Callable<List<DataCaseEntity>> {
         temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros()+""));
         temp.setPrinciple(temp.getPrinciple()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getPrinciple()));
         temp.setLatestOverdueMoney(temp.getLatestCollectMomorize()==null?"￥0": "￥"+FmtMicrometer.fmtMicrometer(temp.getLatestCollectMomorize()));
+
+
         list.set(index,temp);
         return list;
+    }
+
+
+    public static int differentDays(Date date1)
+    {
+
+        if (date1 == null){
+            return 0;
+        }
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(new Date());
+        int day1= cal1.get(Calendar.DAY_OF_YEAR);
+        int day2 = cal2.get(Calendar.DAY_OF_YEAR);
+
+        int year1 = cal1.get(Calendar.YEAR);
+        int year2 = cal2.get(Calendar.YEAR);
+        if(year1 != year2)   //同一年
+        {
+            int timeDistance = 0 ;
+            for(int i = year1 ; i < year2 ; i ++)
+            {
+                if(i%4==0 && i%100!=0 || i%400==0)    //闰年
+                {
+                    timeDistance += 366;
+                }
+                else    //不是闰年
+                {
+                    timeDistance += 365;
+                }
+            }
+
+            return timeDistance + (day2-day1) ;
+        }
+        else    //不同年
+        {
+         /*   System.out.println("判断day2 - day1 : " + (day2-day1));*/
+            return day2-day1;
+        }
     }
 
 }

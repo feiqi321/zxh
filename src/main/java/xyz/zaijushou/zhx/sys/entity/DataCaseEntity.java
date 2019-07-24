@@ -14,6 +14,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String[] ids;
     private Integer maxId;
     private String batchNo; //批次编号 查询条件  列表
+    private String oldBatchNo; //批次编号 查询条件  列表
     private String batchNoFlag;
     private String[] batchNos;
     private String client;//委托方 查询条件
@@ -71,6 +72,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String bank; //开户行 查询条件
     //最后一次跟进时间(催收时间) 查询条件
     private String collectDate;
+    private Date collectTime;
     private String collectStartDate;
     private String collectEndDate;
     private Integer overDays;//逾期天数 查询条件
@@ -394,6 +396,14 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
 
     public List<DataCaseEntity> getDataList() {
         return dataList;
+    }
+
+    public String getOldBatchNo() {
+        return oldBatchNo;
+    }
+
+    public void setOldBatchNo(String oldBatchNo) {
+        this.oldBatchNo = oldBatchNo;
     }
 
     public void addCaseHead(DataCaseEntity dataCaseEntity){
@@ -1874,6 +1884,13 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
         this.expectTime = expectTime;
     }
 
+    public Date getCollectTime() {
+        return collectTime;
+    }
+
+    public void setCollectTime(Date collectTime) {
+        this.collectTime = collectTime;
+    }
 
     public String getRealRepayDateStart() {
         return realRepayDateStart;

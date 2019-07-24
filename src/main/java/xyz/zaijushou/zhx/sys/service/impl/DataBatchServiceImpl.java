@@ -46,7 +46,13 @@ public class DataBatchServiceImpl implements DataBatchService {
     }
 
     public void update(DataBatchEntity bean){
+        DataBatchEntity tempBatch = new DataBatchEntity();
+        tempBatch = dataBatchMapper.selectBatchById(bean.getId());
         dataBatchMapper.updateBatch(bean);
+        DataCaseEntity datCase = new DataCaseEntity();
+        datCase.setBatchNo(bean.getBatchNo());
+        datCase.setOldBatchNo(tempBatch.getBatchNo());
+        dataCaseMapper.updateBatch(datCase);
     }
 
     public void returnCase(DataBatchEntity bean){

@@ -684,11 +684,15 @@ public class SysUserServiceImpl implements SysUserService {
                 tempUser.setUserName(userInfo.getUserName());
                 List<SysUserEntity> userList = sysUserMapper.listUsersByName(tempUser);
                 if (userList.size()>0){
-                    sysUserMapper.saveNewUser(userInfo);
+                    this.saveUserBatch(userInfo);
                 }else{
                     sysUserMapper.updateDeptByName(userInfo);
+                    SysNewUserEntity newBean = sysUserMapper.getDataById(userInfo.getId());
+                    if (StringUtils.notEmpty(newBean)){
+                        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userInfo.getId(), JSONObject.toJSONString(newBean));
+                    }
                 }
-                this.saveUserBatch(userInfo);
+
             }
         }catch (Exception e){
             e.printStackTrace();
