@@ -5268,7 +5268,7 @@
 
     <update id="updateDataCaseByCollectAdd" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set new_case=#{newCase},collect_status=#{collectStatus},summary=#{summary},
-        collect_times=collect_times+1,pro_repay_amt = #{proRepayAmt},pro_repay_date = #{proRepayDate}
+        collect_times=collect_times+1,collect_date=GETDATE(),pro_repay_amt = #{proRepayAmt},pro_repay_date = #{proRepayDate}
          where id=#{id}
     </update>
 
@@ -5361,4 +5361,10 @@
         where t.business_type  in ('上汽短期','安吉蓝海') and r.data_case is not null
         group by t.business_type,t.money
     </select>
+
+    <update id="updateCollectDate" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case
+        set collect_date = #{collectDate}
+        where id = #{id}
+    </update>
 </mapper>

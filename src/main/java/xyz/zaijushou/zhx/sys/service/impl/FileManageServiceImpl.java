@@ -18,6 +18,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -387,6 +388,9 @@ public class FileManageServiceImpl implements FileManageService {
             dataLogService.saveBatchDataLog(logList);
         }
 
+        //更新催收时间
+        this.updateCollectDate(saveList);
+
 
         webResponse.setMsg("导入成功");
         webResponse.setCode("100");
@@ -394,6 +398,17 @@ public class FileManageServiceImpl implements FileManageService {
 
     }
 
+    private void updateCollectDate(List<DataCollectionEntity> list){
+        for (DataCollectionEntity dataCollectionEntity: list) {
+            if (StringUtils.isNotBlank(dataCollectionEntity.getContractDate())){
+                DataCaseEntity dataCaseEntity = new DataCaseEntity();
+                dataCaseEntity.setId( Integer.parseInt(dataCollectionEntity.getCaseId()) );
+                dataCaseEntity.setCollectDate(dataCollectionEntity.getContractDate());
+                dateCaseMapper.updateCollectDate(dataCaseEntity);
+            }
+
+        }
+    }
 
 
     public  void docFile() throws Exception {
