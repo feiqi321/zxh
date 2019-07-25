@@ -112,7 +112,12 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
                 dictList.add(dictionaryEntity);
                 getChildDataInfo(dictionaryEntity.getId(),dictList);
             }
-            dictList = CollectionsUtils.listToTree(dictList);
+            if (dictionary !=null && dictionary.getType() !=null && dictionary.getType()==1){
+
+            }else{
+                dictList = CollectionsUtils.listToTree(dictList);
+            }
+
             //将枚举数据存入缓存中
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.SYS_DIC + dictionary.getParent().getId(), JSONArray.toJSONString(dictList));
             return dictList;

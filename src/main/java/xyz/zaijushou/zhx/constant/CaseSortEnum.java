@@ -33,6 +33,7 @@ public enum CaseSortEnum {
     COLUMN26("principle","da.principle"),
     COLUMN27("latestOverdueMoney","da.latest_overdue_money"),
     COLUMN28("overdueDate","da.overdue_date"),
+    COLUMN29("overdueDays","da.overdue_days"),
     ;
     //防止字段值被修改，增加的字段也统一final表示常量
     private final String key;

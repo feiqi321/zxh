@@ -230,10 +230,10 @@ public class ExcelCaseUtils {
                 Row row = sheet.createRow(i);
                 XSSFCellStyle style = workbook.createCellStyle();
                 DataCaseEntity dataCaseEntity = (DataCaseEntity)entity;
-                if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("RED")){
+                if (dataCaseEntity.getColor()!=null && (dataCaseEntity.getColor().equals("RED") || dataCaseEntity.getColor().equals("红色"))){
                     XSSFColor color = new XSSFColor(new java.awt.Color(255, 0, 0));
                     style.setFillForegroundColor(color);
-                }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("BLUE")){
+                }else if (dataCaseEntity.getColor()!=null && (dataCaseEntity.getColor().equals("BLUE") || dataCaseEntity.getColor().equals("蓝色"))){
                     XSSFColor color = new XSSFColor(new java.awt.Color(0, 0, 255));
                     style.setFillForegroundColor(color);
                 }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("ORANGE")){

@@ -381,13 +381,13 @@
 
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select c.id,c.case_id as caseId,c.bail_date as bailDate,c.relation,c.tel_type as telType,c.target_name as targetName,c.leave_days as leaveDays,
-        c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure,dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd HH:mm') as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
+        c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure,dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmt,t.expect_time as expectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
         c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
         t.seq_no as seqNo,t.color,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
-        dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
+        dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:ii') as caseAllotTime,t.status as caseStatus
         from data_case t RIGHT  JOIN data_collection  c on c.case_id = t.id
         <where>
             <trim suffixOverrides=",">
@@ -622,7 +622,7 @@
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,t.principle,t.overdue_days as overdueDays,
-        dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:mm') as caseAllotTime,t.status as caseStatus
+        dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:ii') as caseAllotTime,t.status as caseStatus
         from data_case t
         <where>
             <trim suffixOverrides=",">
@@ -662,7 +662,7 @@
                 </if>
 
                 <if test="caseStatus != null and caseStatus!=''">
-                    AND t.case_status = #{caseStatus}
+                    AND t.status = #{caseStatus}
                 </if>
 
                 <if test="cardNo != null and cardNo!=''">
@@ -694,7 +694,7 @@
                 </if>
 
                 <if test="statuss != null and statuss.length > 0">
-                    and t.case_status in
+                    and t.status in
                     <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
                         #{item}
                     </foreach>
@@ -1905,56 +1905,56 @@
     </update>
 
     <select id="selectAllByCaseId" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,measure,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:mm') as collectTime,target_name as targetName,relation,tel_phone as telPhone,collection_type as collectionType,
+        select id,measure,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:ii') as collectTime,target_name as targetName,relation,tel_phone as telPhone,collection_type as collectionType,
         result,target_name as targetName,method,repay_time as repayTime,repay_amt as repayAmt,reduce_amt as reduceAmt,reduce_status as reduceStatus,odv,collect_status as collectStatus,
         batch_no as batchNo,ident_no as identNo
         from data_collection where case_id = #{caseId}
     </select>
 
     <select id="detailCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select t1.id,t1.measure,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:mm') as collectTime,t1.target_name as targetName,t1.relation,t1.mobile,t1.collection_type as collectionType,t1.tel_type as telType,t1.collect_info as collectInfo,
+        select t1.id,t1.measure,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,t1.target_name as targetName,t1.relation,t1.mobile,t1.collection_type as collectionType,t1.tel_type as telType,t1.collect_info as collectInfo,
         t1.result,t1.method,t1.repay_time as repayTime,t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.reduce_status as reduceStatus,t2.odv,t1.collect_status as collectStatus,t1.create_user as [createUser.id]
         from data_collection t1 LEFT JOIN data_case t2 on t1.case_id = t2.id
          where t1.case_id = #{caseId} and t2.delete_flag=0
     </select>
 
     <select id="detailCollect5" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select t1.id,t1.measure,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:mm') as collectTime,t1.target_name as targetName,t1.relation,t1.mobile,t1.collection_type as collectionType,t1.tel_type as telType,t1.collect_info as collectInfo,
+        select t1.id,t1.measure,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,t1.target_name as targetName,t1.relation,t1.mobile,t1.collection_type as collectionType,t1.tel_type as telType,t1.collect_info as collectInfo,
         t1.result,t1.method,t1.repay_time as repayTime,t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.reduce_status as reduceStatus,t2.odv,t1.collect_status as collectStatus,t1.create_user as [createUser.id]
         from data_collection t1 LEFT JOIN data_case t2 on t1.case_id = t2.id
         where t1.case_id = #{caseId} and t2.delete_flag=0 and t1.repay_amt is not null  and t1.repay_amt!=0
     </select>
 
     <select id="detailCollect2" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-         select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:mm') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
+         select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
         d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,t.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.batch_no = #{batchNo} and t.ident_no = #{identNo} and t.delete_flag=0
     </select>
 
     <select id="detailCollect3" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-         select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:mm') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
+         select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
         d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,t.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.ident_no = #{identNo} and t.delete_flag=0
     </select>
 
     <select id="detailCollect4" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-         select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:mm') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
+         select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
         d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,t.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.card_no = #{cardNo} and t.ident_no = #{identNo} and t.delete_flag=0
     </select>
 
     <select id="detailTelCurentCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:mm') as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
+        select id,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:ii') as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
         repay_time as repayTime,repay_amt as repayAmt,odv
         from data_collection
          where case_id=#{caseId} and mobile = #{mobile}
     </select>
 
     <select id="detailTelCurentCollect2" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:mm') as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
+        select id,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:ii') as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
         repay_time as repayTime,repay_amt as repayAmt,odv
         from data_collection
         where mobile = #{mobile}
@@ -2012,7 +2012,7 @@
     </select>
 
     <select id="findMaxByCaseId" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,next_foll_date as nextFollDate,dbo.fnFormatDate(max(collect_time), 'yyyy-MM-dd HH:mm') as collectTime,case_id as caseId
+        select id,next_foll_date as nextFollDate,dbo.fnFormatDate(max(collect_time), 'yyyy-MM-dd HH:ii') as collectTime,case_id as caseId
         from data_collection where
         case_id in
         <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">

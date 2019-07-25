@@ -129,32 +129,42 @@ public class DataCaseController {
         WebResponse webResponse = WebResponse.buildResponse();
         try {
             logger.info("进入执行");
-           /* List<String> deptList = new ArrayList<String>();
+            List<String> deptList = new ArrayList<String>();
             SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
-            if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDept())){
+            if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDepts()) || bean.getDepts().length==0){
 
             }else{
-                organizationEntity.setId(Integer.parseInt(bean.getDept()));
+                for (int i=0;i<bean.getDepts().length;i++){
+                    deptList.add(bean.getDepts()[i]);
+                }
+
+                SysNewUserEntity queryUser = new SysNewUserEntity();
+                queryUser.setDepartIdsSet(new HashSet(deptList));
+                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+                String[] odvs = new String[odvList.size()];
+                for (int i=0;i<odvList.size();i++){
+                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                    odvs[i] = sysNewUserEntity.getId()+"";
+                }
+                List odvTempList = new ArrayList();
+                if(bean.getOdvs()==null || bean.getOdvs().length==0){
+                    bean.setOdvs(odvs);
+                }else if (odvs!=null && odvs.length>0){
+                    for(int i=0;i<odvs.length;i++){
+                        for (int j=0;j<bean.getOdvs().length;j++){
+                            if(odvs[i].equals(bean.getOdvs()[j])){
+                                odvTempList.add(odvs[i]);
+                            }
+                        }
+                    }
+                    String[] temps = new String[odvTempList.size()];
+                    odvTempList.toArray(temps);
+                    bean.setOdvs(temps);
+                }
+
             }
 
-            //查询标识
-            organizationEntity.setTypeFlag(1);
-            List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-            for (SysOrganizationEntity orgEntity : orgList) {
-                deptList.add(orgEntity.getId()+"");
-            }
-
-            SysNewUserEntity queryUser = new SysNewUserEntity();
-            queryUser.setDepartIdsSet(new HashSet(deptList));
-            List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
-            String[] odvs = new String[odvList.size()];
-            for (int i=0;i<odvList.size();i++){
-                SysNewUserEntity sysNewUserEntity = odvList.get(i);
-                odvs[i] = sysNewUserEntity.getId()+"";
-            }
-
-            bean.setOdvs(odvs);*/
-
+            bean.setDepts(null);
 
             webResponse = dataCaseService.pageCaseListOnly(bean);
             logger.info("跳出执行");
@@ -208,6 +218,42 @@ public class DataCaseController {
     @ApiOperation(value = "按照查询分配业务员", notes = "按照查询分配业务员")
     @PostMapping("/dataCase/sendOdvByProperty")
     public Object sendOdvByProperty(@RequestBody DataCaseEntity bean) {
+        List<String> deptList = new ArrayList<String>();
+        SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+        if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDepts()) || bean.getDepts().length==0){
+
+        }else{
+            for (int i=0;i<bean.getDepts().length;i++){
+                deptList.add(bean.getDepts()[i]);
+            }
+
+            SysNewUserEntity queryUser = new SysNewUserEntity();
+            queryUser.setDepartIdsSet(new HashSet(deptList));
+            List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+            String[] odvs = new String[odvList.size()];
+            for (int i=0;i<odvList.size();i++){
+                SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                odvs[i] = sysNewUserEntity.getId()+"";
+            }
+            List odvTempList = new ArrayList();
+            if(bean.getOdvs()==null || bean.getOdvs().length==0){
+                bean.setOdvs(odvs);
+            }else if (odvs!=null && odvs.length>0){
+                for(int i=0;i<odvs.length;i++){
+                    for (int j=0;j<bean.getOdvs().length;j++){
+                        if(odvs[i].equals(bean.getOdvs()[j])){
+                            odvTempList.add(odvs[i]);
+                        }
+                    }
+                }
+                String[] temps = new String[odvTempList.size()];
+                odvTempList.toArray(temps);
+                bean.setOdvs(temps);
+            }
+
+        }
+
+        bean.setDepts(null);
         dataCaseService.sendOdvByProperty(bean);
         return WebResponse.success();
 
@@ -216,6 +262,42 @@ public class DataCaseController {
     @ApiOperation(value = "自动分配查询", notes = "自动分配查询")
     @PostMapping("/dataCase/querySendByProperty")
     public Object querySendByProperty(@RequestBody DataCaseEntity bean) {
+        List<String> deptList = new ArrayList<String>();
+        SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+        if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDepts()) || bean.getDepts().length==0){
+
+        }else{
+            for (int i=0;i<bean.getDepts().length;i++){
+                deptList.add(bean.getDepts()[i]);
+            }
+
+            SysNewUserEntity queryUser = new SysNewUserEntity();
+            queryUser.setDepartIdsSet(new HashSet(deptList));
+            List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+            String[] odvs = new String[odvList.size()];
+            for (int i=0;i<odvList.size();i++){
+                SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                odvs[i] = sysNewUserEntity.getId()+"";
+            }
+            List odvTempList = new ArrayList();
+            if(bean.getOdvs()==null || bean.getOdvs().length==0){
+                bean.setOdvs(odvs);
+            }else if (odvs!=null && odvs.length>0){
+                for(int i=0;i<odvs.length;i++){
+                    for (int j=0;j<bean.getOdvs().length;j++){
+                        if(odvs[i].equals(bean.getOdvs()[j])){
+                            odvTempList.add(odvs[i]);
+                        }
+                    }
+                }
+                String[] temps = new String[odvTempList.size()];
+                odvTempList.toArray(temps);
+                bean.setOdvs(temps);
+            }
+
+        }
+
+        bean.setDepts(null);
         WebResponse  webResponse= dataCaseService.querySendByProperty(bean);
         return webResponse;
     }
@@ -239,7 +321,42 @@ public class DataCaseController {
             webResponse.setMsg("催收员不能为空");
             return webResponse;
         }
+        List<String> deptList = new ArrayList<String>();
+        SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+        if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDepts()) || bean.getDepts().length==0){
 
+        }else{
+            for (int i=0;i<bean.getDepts().length;i++){
+                deptList.add(bean.getDepts()[i]);
+            }
+
+            SysNewUserEntity queryUser = new SysNewUserEntity();
+            queryUser.setDepartIdsSet(new HashSet(deptList));
+            List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+            String[] odvs = new String[odvList.size()];
+            for (int i=0;i<odvList.size();i++){
+                SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                odvs[i] = sysNewUserEntity.getId()+"";
+            }
+            List odvTempList = new ArrayList();
+            if(bean.getOdvs()==null || bean.getOdvs().length==0){
+                bean.setOdvs(odvs);
+            }else if (odvs!=null && odvs.length>0){
+                for(int i=0;i<odvs.length;i++){
+                    for (int j=0;j<bean.getOdvs().length;j++){
+                        if(odvs[i].equals(bean.getOdvs()[j])){
+                            odvTempList.add(odvs[i]);
+                        }
+                    }
+                }
+                String[] temps = new String[odvTempList.size()];
+                odvTempList.toArray(temps);
+                bean.setOdvs(temps);
+            }
+
+        }
+
+        bean.setDepts(null);
         return dataCaseService.autoSendByPropertyResult(bean);
     }
 
@@ -914,6 +1031,41 @@ public class DataCaseController {
 
         bean.setExportKeyList(exportKeyList);
         logger.info("导出查询开始");
+        List<String> deptList = new ArrayList<String>();
+        if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDepts()) || bean.getDepts().length==0){
+
+        }else{
+            for (int i=0;i<bean.getDepts().length;i++){
+                deptList.add(bean.getDepts()[i]);
+            }
+
+            SysNewUserEntity queryUser = new SysNewUserEntity();
+            queryUser.setDepartIdsSet(new HashSet(deptList));
+            List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+            String[] odvs = new String[odvList.size()];
+            for (int i=0;i<odvList.size();i++){
+                SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                odvs[i] = sysNewUserEntity.getId()+"";
+            }
+            List odvTempList = new ArrayList();
+            if(bean.getOdvs()==null || bean.getOdvs().length==0){
+                bean.setOdvs(odvs);
+            }else if (odvs!=null && odvs.length>0){
+                for(int i=0;i<odvs.length;i++){
+                    for (int j=0;j<bean.getOdvs().length;j++){
+                        if(odvs[i].equals(bean.getOdvs()[j])){
+                            odvTempList.add(odvs[i]);
+                        }
+                    }
+                }
+                String[] temps = new String[odvTempList.size()];
+                odvTempList.toArray(temps);
+                bean.setOdvs(temps);
+            }
+
+        }
+
+        bean.setDepts(null);
         List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
         logger.info("导出查询结束");
         String fileName = "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());

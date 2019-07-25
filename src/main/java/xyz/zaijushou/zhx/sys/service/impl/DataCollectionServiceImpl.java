@@ -228,7 +228,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");
         }else {
-            dataCollectionEntity.setOrderBy(MyCollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy()).getValue());
+            if (MyCollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy())==null){
+                dataCollectionEntity.setOrderBy("id");
+            }else{
+                dataCollectionEntity.setOrderBy(MyCollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy()).getValue());
+            }
+
         }
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort("desc");
@@ -422,19 +427,19 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 dTime.setTime(beanInfo.getDateSearchStart());
 
                 for (CollectionStatistic collection : sumList){
-                    if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                    if(collection.getCollectTime()!=null && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
                             && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime() <= dateEnd.getTime()){
                         countSum++;
                     }
                 }
                 for (CollectionStatistic collection : conList){
-                    if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                    if(collection.getCollectTime()!=null && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
                             && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
                         countCon++;
                     }
                 }
                 for (CollectionStatistic collection : caseList){
-                    if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
+                    if(collection.getCollectTime()!=null && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
                             && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
                         countCase++;
                     }

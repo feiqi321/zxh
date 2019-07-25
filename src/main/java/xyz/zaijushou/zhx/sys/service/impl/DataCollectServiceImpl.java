@@ -96,8 +96,12 @@ public class DataCollectServiceImpl implements DataCollectService {
         logger.info("组装结果："+list.size());
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
-            temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            try {
+                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getReduceStatus(), SysDictionaryEntity.class);
+                temp.setReduceStatusMsg(sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName());
+            }catch(Exception e){
+                temp.setReduceStatusMsg("");
+            }
 
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
@@ -424,8 +428,12 @@ public class DataCollectServiceImpl implements DataCollectService {
             SysDictionaryEntity collectStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
             temp.setCollectStatusMsg(collectStatusEntity==null?"":collectStatusEntity.getName());
 
-            SysDictionaryEntity reduceStatusEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
-            temp.setReduceStatusMsg(reduceStatusEntity==null?"":reduceStatusEntity.getName());
+            try {
+                SysDictionaryEntity reduceStatusEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getReduceStatus(), SysDictionaryEntity.class);
+                temp.setReduceStatusMsg(reduceStatusEntity == null ? "" : reduceStatusEntity.getName());
+            }catch (Exception e){
+                temp.setReduceStatusMsg("");
+            }
 
             SysDictionaryEntity methodEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getMethod(),SysDictionaryEntity.class);
             temp.setMethodMsg(methodEntity==null?"":methodEntity.getName());

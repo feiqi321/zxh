@@ -275,9 +275,7 @@
     <update id="updateUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user
         <set>
-            <if test="mobile != null and mobile !=''">
                 mobile = #{mobile},
-            </if>
 
             <if test="userName != null and userName != ''">
                 username = #{userName},
@@ -287,33 +285,21 @@
                 login_name = #{loginName},
             </if>
 
-            <if test="number != null and number != ''">
                 number = #{number},
-            </if>
 
             <if test="department != null and userName != ''">
                 department = #{departId},
             </if>
 
-            <if test="sex != null and sex != ''">
                 sex = #{sex},
-            </if>
 
-            <if test="officePhone != null and officePhone != ''">
                 office_phone = #{officePhone},
-            </if>
 
-            <if test="joinTime != null">
                 join_time = #{joinTime,jdbcType=TIMESTAMP},
-            </if>
 
-            <if test="leaveTime != null">
                 leave_time = #{leaveTime,jdbcType=TIMESTAMP},
-            </if>
 
-            <if test="position != null and position != ''">
                 position = #{position},
-            </if>
 
             <if test="status != null and status != ''">
                 status = #{status},
@@ -323,9 +309,7 @@
                 enable = #{enable},
             </if>
 
-            <if test="actualTime != null ">
                 actual_time = #{actualTime},
-            </if>
 
         </set>
         where id = #{id,jdbcType=INTEGER}

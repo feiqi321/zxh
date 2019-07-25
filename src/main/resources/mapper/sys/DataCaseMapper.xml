@@ -46,9 +46,9 @@
         da.remark as selfInfo,
         da.birthday as birthday,
         da.age as age,
-        da.province as 'province.name',
-        da.city as 'city.name',
-        da.county as 'county.name',
+        da.province as [province.name],
+        da.city as [city.name],
+        da.county as [county.name],
         da.expect_retire_case_date as expectRetireCaseDate,
         da.goods as goods,
         da.commercial_tenant as commercialTenant,
@@ -128,7 +128,7 @@
         da.account_age as accountAge ,
         da.seq_no as seqNo,
         da.real_repay_date as realRepayDate ,
-        dbo.fnFormatDate(da.distribute_time, 'yyyy-MM-dd HH:mm') as distributeTime,
+        dbo.fnFormatDate(da.distribute_time, 'yyyy-MM-dd HH:ii') as distributeTime,
         da.balance as balance,
         da.pro_repay_date as proPepayDate,
         da.distribute_history as distributeHistory,
@@ -327,7 +327,7 @@
         da.account_age as accountAge ,
         da.seq_no as seqNo,
         da.real_repay_date as realRepayDate ,
-        dbo.fnFormatDate(da.distribute_time, 'yyyy-MM-dd HH:mm') as distributeTime,
+        dbo.fnFormatDate(da.distribute_time, 'yyyy-MM-dd HH:ii') as distributeTime,
         da.balance as balance,
         da.pro_repay_date as proPepayDate,
         da.distribute_history as distributeHistory,
@@ -762,9 +762,7 @@
                 <if test="collectInfo != null and collectInfo!=''">
                     and da.summary = #{collectInfo}
                 </if>
-                <if test="dept != null and dept!=''">
-                    and da.dept = #{dept}
-                </if>
+
                 <if test="reduceStatus != null and reduceStatus!=''">
                     and da.reduce_status = #{reduceStatus}
                 </if>
@@ -904,7 +902,7 @@
     <select id="pageBatchBoundsCaseList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select id, batch_no as batchNo,client,collect_area as collectArea,dept,odv,status,area,expect_time as expectTime,color,new_case as newCase, odv as [collectionUser.id],
         collect_status as collectStatus , collect_date as collectDate, account_age as accountAge ,seq_no as seqNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,collect_hand as collectHand,
-        real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,dbo.fnFormatDate(distribute_time,'yyyy-MM-dd  HH:mm') as distributeTime,
+        real_repay_date as realRepayDate ,name as name ,card_no as cardNo,ident_no as identNo,dbo.fnFormatDate(distribute_time,'yyyy-MM-dd  HH:ii') as distributeTime,
         money as money,balance as balance,overdue_days as overDays,pro_repay_date as proPepayDate,distribute_history as distributeHistory,collect_result as collectInfo,
         bank_amt as bankAmt,en_repay_amt as enRepayAmt,comment,pro_repay_amt as proRepayAmt,collect_times as collectTimes,leave_Days as leaveDays,principle,latest_overdue_money as latestOverdueMoney,overdue_date as overdueDate,overdue_days as overdueDays
          from data_case where ident_no in (
@@ -1005,9 +1003,7 @@
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collect_info = #{collectInfo}
                 </if>
-                <if test="dept != null and dept!=''">
-                    and da.dept = #{dept}
-                </if>
+
                 <if test="reduceStatus != null and reduceStatus!=''">
                     and da.reduce_status = #{reduceStatus}
                 </if>
@@ -1422,7 +1418,7 @@
     <!--催收模块-主管协催-列表查询-->
     <select id="pageSynergyInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
-         id, synergy_context as synergyContext,seq_no as seqNo,odv,dbo.fnFormatDate(synergy_date,'yyyy-MM-dd HH:mm:ss') as synergyDate
+         id, synergy_context as synergyContext,seq_no as seqNo,odv,dbo.fnFormatDate(synergy_date,'yyyy-MM-dd HH:ii:ss') as synergyDate
         from data_case
         <where>
             synergy = #{synergy}
@@ -1481,7 +1477,7 @@
 
     <select id="pageCaseTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
-        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd HH:mm') as caseDate,t.collect_status as collectStatus,dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd HH:mm') as collectDate,
+        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd HH:ii') as caseDate,t.collect_status as collectStatus,dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd HH:mm') as collectDate,
         t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv,t.comment
         from data_case t    LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>

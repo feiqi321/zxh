@@ -138,6 +138,9 @@ public class DataCaseDetail {
     private SysDictionaryEntity province;   //省份
     private SysDictionaryEntity city;   //城市
     private SysDictionaryEntity county; //区县
+    private String provinceName;
+    private String cityName;
+    private String countyName;
     private Date expectRetireCaseDate;  //预计退案日期
     private String goods;   //商品
     private String commercialTenant;    //商户
@@ -2305,5 +2308,29 @@ public class DataCaseDetail {
 
     public void setMoneyMsg(String moneyMsg) {
         this.moneyMsg = moneyMsg;
+    }
+
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public String getCountyName() {
+        return countyName;
+    }
+
+    public void setCountyName(String countyName) {
+        this.countyName = countyName;
     }
 }

@@ -683,7 +683,7 @@ public class SysUserServiceImpl implements SysUserService {
                 SysUserEntity tempUser = new SysUserEntity();
                 tempUser.setUserName(userInfo.getUserName());
                 List<SysUserEntity> userList = sysUserMapper.listUsersByName(tempUser);
-                if (userList.size()>0){
+                if (userList.size()==0){
                     this.saveUserBatch(userInfo);
                 }else{
                     sysUserMapper.updateDeptByName(userInfo);

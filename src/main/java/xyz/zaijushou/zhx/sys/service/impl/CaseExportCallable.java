@@ -41,21 +41,21 @@ public class CaseExportCallable implements Callable<List<DataCaseEntity>> {
             temp.setOdv(user == null ? "" : user.getUserName());
         }
 
-        if (temp!=null && temp.getStatus()==0){
+        if (temp!=null && temp.getStatus()!=null &&  temp.getStatus()==0){
             temp.setStatusMsg("未退案");
-        }else if (temp!=null && temp.getStatus()==1){
+        }else if (temp!=null && temp.getStatus()!=null &&   temp.getStatus()==1){
             temp.setStatusMsg("正常");
-        }else if (temp!=null && temp.getStatus()==2){
+        }else if (temp!=null && temp.getStatus()!=null &&   temp.getStatus()==2){
             temp.setStatusMsg("暂停");
-        }else if (temp!=null && temp.getStatus()==3){
+        }else if (temp!=null && temp.getStatus()!=null &&   temp.getStatus()==3){
             temp.setStatusMsg("关挡");
-        }else if (temp!=null && temp.getStatus()==4){
+        }else if (temp!=null && temp.getStatus()!=null &&   temp.getStatus()==4){
             temp.setStatusMsg("退档");
         }
 
-        if (temp!=null && temp.getColor().equals("RED")){
+        if (temp!=null && temp.getColor()!=null &&  temp.getColor().equals("RED")){
             temp.setColor("红色");
-        }else if (temp!=null && temp.getColor().equals("BLUE")){
+        }else if (temp!=null &&  temp.getColor()!=null &&  temp.getColor().equals("BLUE")){
             temp.setColor("蓝色");
         }else{
             temp.setColor("正常");

@@ -728,7 +728,11 @@ public class DataCaseServiceImpl implements DataCaseService {
             operationLog.setRequestBody(getUserInfo().getUserName()+"把"+temp.getSeqNo()+"案件分配给"+user.getUserName());
         }else{
             SysUserEntity tempUser = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            operationLog.setRequestBody(getUserInfo().getUserName()+"把"+temp.getSeqNo()+"案件（从"+tempUser.getUserName()+"）分配给"+user.getUserName());
+            if (tempUser==null){
+                operationLog.setRequestBody(getUserInfo().getUserName()+"把"+temp.getSeqNo()+"案件分配给"+user.getUserName());
+            }else {
+                operationLog.setRequestBody(getUserInfo().getUserName() + "把" + temp.getSeqNo() + "案件（从" + tempUser.getUserName() + "）分配给" + user.getUserName());
+            }
         }
 
         sysOperationLogMapper.insertRequest(operationLog);
@@ -922,27 +926,31 @@ public class DataCaseServiceImpl implements DataCaseService {
             ids[i] =bean.getId()+"";
 
         }
-        DataCaseEntity caseTemp = new DataCaseEntity();
-        BeanUtils.copyProperties(dataCaseEntity,caseTemp);
-        dataCaseEntity.setDistributeHistory(",分配给"+user.getUserName());
-        dataCaseEntity.setIds(ids);
-        dataCaseEntity.setDept(user==null?"":user.getDepartment());
-        dataCaseMapper.sendOdvByProperty(dataCaseEntity);
+        if(ids==null ||ids.length==0){
 
-        SysOperationLogEntity operationLog = new SysOperationLogEntity();
-        operationLog.setUrl("/send");
-        operationLog.setUserIp("127.0.0.1");
-        operationLog.setUserId(getUserInfo().getId());
-        String seqNos = "";
+        }else {
+            DataCaseEntity caseTemp = new DataCaseEntity();
+            BeanUtils.copyProperties(dataCaseEntity, caseTemp);
+            dataCaseEntity.setDistributeHistory(",分配给" + user.getUserName());
+            dataCaseEntity.setIds(ids);
+            dataCaseEntity.setDept(user == null ? "" : user.getDepartment());
+            dataCaseMapper.sendOdvByProperty(dataCaseEntity);
 
-        List<DataCaseEntity> tempList = dataCaseMapper.listSend(caseTemp);
-        for (int i=0;i<tempList.size();i++){
-            seqNos = seqNos+","+tempList.get(i).getSeqNo();
+            SysOperationLogEntity operationLog = new SysOperationLogEntity();
+            operationLog.setUrl("/send");
+            operationLog.setUserIp("127.0.0.1");
+            operationLog.setUserId(getUserInfo().getId());
+            String seqNos = "";
+
+            List<DataCaseEntity> tempList = dataCaseMapper.listSend(caseTemp);
+            for (int i = 0; i < tempList.size(); i++) {
+                seqNos = seqNos + "," + tempList.get(i).getSeqNo();
+            }
+
+            operationLog.setRequestBody(getUserInfo().getUserName() + "把" + (seqNos == null ? "" : seqNos.substring(1)) + "案件分配给" + user.getUserName());
+
+            sysOperationLogMapper.insertRequest(operationLog);
         }
-
-        operationLog.setRequestBody(getUserInfo().getUserName()+"把"+(seqNos==null?"":seqNos.substring(1))+"案件分配给"+user.getUserName());
-
-        sysOperationLogMapper.insertRequest(operationLog);
 
     }
 
@@ -2482,9 +2490,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
                 temp.setOdv(user == null ? "" : user.getUserName());
             }
-            if (temp!=null && temp.getColor().equals("RED")){
+            if (temp!=null &&  temp.getColor()!=null &&   temp.getColor().equals("RED")){
                 temp.setColor("红色");
-            }else if (temp!=null && temp.getColor().equals("BLUE")){
+            }else if (temp!=null &&  temp.getColor()!=null &&   temp.getColor().equals("BLUE")){
                 temp.setColor("蓝色");
             }else{
                 temp.setColor("正常");
@@ -2533,9 +2541,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             if (StringUtils.notEmpty(temp.getDistributeHistory())){
                 temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
             }
-            if (temp!=null && temp.getColor().equals("RED")){
+            if (temp!=null && temp.getColor()!=null && temp.getColor().equals("RED")){
                 temp.setColor("红色");
-            }else if (temp!=null && temp.getColor().equals("BLUE")){
+            }else if (temp!=null && temp.getColor()!=null && temp.getColor().equals("BLUE")){
                 temp.setColor("蓝色");
             }else{
                 temp.setColor("正常");
@@ -2566,6 +2574,15 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("查询详情开始");
         dataCaseMapper.watchDetail(bean);
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        if (dataCaseDetail.getProvince()!=null){
+            dataCaseDetail.setProvinceName(dataCaseDetail.getProvince().getName());
+        }
+        if (dataCaseDetail.getCity()!=null){
+            dataCaseDetail.setCityName(dataCaseDetail.getCity().getName());
+        }
+        if (dataCaseDetail.getCounty()!=null){
+            dataCaseDetail.setCountyName(dataCaseDetail.getCounty().getName());
+        }
         TelIpManage telIpManage = telIpManageMapper.findOne();
         dataCaseDetail.setTelIpManage(telIpManage);
         logger.info("查询详情结束");
@@ -2611,24 +2628,38 @@ public class DataCaseServiceImpl implements DataCaseService {
         dataCaseDetail.setOdv(odvuser==null?"":odvuser.getUserName()+"("+odvuser.getDeptName()+")");
 
 
-        SysDictionaryEntity clientDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getClient(), SysDictionaryEntity.class);
-        dataCaseDetail.setClient(clientDic==null?"":clientDic.getName());
+        try {
+            SysDictionaryEntity clientDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + dataCaseDetail.getClient(), SysDictionaryEntity.class);
+            dataCaseDetail.setClient(clientDic == null ? "" : clientDic.getName());
+        }catch (Exception e){
+            dataCaseDetail.setClient("");
+        }
 
-        SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectStatus(), SysDictionaryEntity.class);
-        dataCaseDetail.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
-
-        SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getAccountAge(), SysDictionaryEntity.class);
-        dataCaseDetail.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
-
-        SysDictionaryEntity collectAreaDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectArea(), SysDictionaryEntity.class);
-        dataCaseDetail.setCollectArea(collectAreaDic==null?"":collectAreaDic.getName());
+        try {
+            SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + dataCaseDetail.getCollectStatus(), SysDictionaryEntity.class);
+            dataCaseDetail.setCollectStatusMsg(collectDic == null ? "" : collectDic.getName());
+        }catch(Exception e){
+            dataCaseDetail.setCollectStatusMsg("");
+        }
+        try {
+            SysDictionaryEntity accountAgeDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + dataCaseDetail.getAccountAge(), SysDictionaryEntity.class);
+            dataCaseDetail.setAccountAge(accountAgeDic == null ? "" : accountAgeDic.getName());
+        }catch(Exception e){
+            dataCaseDetail.setAccountAge("");
+        }
+        try {
+            SysDictionaryEntity collectAreaDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ dataCaseDetail.getCollectArea(), SysDictionaryEntity.class);
+            dataCaseDetail.setCollectArea(collectAreaDic==null?"":collectAreaDic.getName());
+        }catch(Exception e){
+            dataCaseDetail.setCollectArea("");
+        }
 
         if (dataCaseDetail.getEnRepayAmt()==null || dataCaseDetail.getEnRepayAmt().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setEnRepayAmtMsg("0");
         }else{
             dataCaseDetail.setEnRepayAmtMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getEnRepayAmt().stripTrailingZeros().toPlainString()));
         }
-        dataCaseDetail.setBalance(dataCaseDetail.getMoney().subtract(dataCaseDetail.getEnRepayAmt()));
+        dataCaseDetail.setBalance(dataCaseDetail.getMoney()==null?new BigDecimal(0):dataCaseDetail.getMoney().subtract(dataCaseDetail.getEnRepayAmt()==null?new BigDecimal(0):dataCaseDetail.getEnRepayAmt()));
         if (dataCaseDetail.getBalance()==null || dataCaseDetail.getBalance().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setBalanceMsg("￥0");
         }else{
@@ -2645,7 +2676,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setInterestDate("");
         }
 
-        SysDictionaryEntity province = dataCaseDetail.getProvince();
+       /* SysDictionaryEntity province = dataCaseDetail.getProvince();
         if (province==null){
             province = new SysDictionaryEntity();
             province.setName("");
@@ -2691,7 +2722,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }else {
                 dataCaseDetail.setCounty(county);
             }
-        }
+        }*/
         logger.info("设置数据字典结束");
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
