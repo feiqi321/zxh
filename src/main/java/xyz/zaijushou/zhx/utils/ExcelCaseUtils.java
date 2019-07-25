@@ -259,7 +259,18 @@ public class ExcelCaseUtils {
                     if  (dataCaseEntity.getColor()==null || dataCaseEntity.getColor().equals("") || dataCaseEntity.getColor().equals("BLACK")){
 
                     }else {
-                        cell.setCellStyle(style);
+                        //案件管理颜色判断
+                        if (dataCaseEntity.getColor().contains("no-")) {
+                            if (k == excelEnumMap.size()-1){
+                                String color = dataCaseEntity.getColor().replace("no-", "");
+                                dataCaseEntity.setColor(color);
+                            }
+
+                        }else {
+                            cell.setCellStyle(style);
+                        }
+
+
                     }
                     String attr = excelEnum.getAttr();
                     Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);

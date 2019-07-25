@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.sys.web;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.coyote.Response;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -1074,6 +1075,12 @@ public class DataCaseController {
         operationLog.setRequestBody(fileName);
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
+
+        //催收员部门替换为中文
+        this.dept2CN(list,colMap);
+        //去掉导出excel底色
+        this.noBGC(list);
+
         ExcelCaseUtils.exportExcel(list,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
@@ -1081,6 +1088,32 @@ public class DataCaseController {
         );
         return null;
     }
+
+    private void dept2CN (List<DataCaseEntity> list,Map colMap){
+        //判断是否有导出“催收员部门”列
+        if (!"催收员部门".equals(colMap.get("催收员部门"))){
+            return;
+        }
+
+        List<SysOrganizationEntity> deptList = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());
+        Map<String,String> map = new HashMap();
+        for (SysOrganizationEntity obj : deptList) {
+            map.put( String.valueOf(obj.getId()) ,obj.getOrgName());
+        }
+
+        for (DataCaseEntity obj : list) {
+            obj.setDept(map.get(obj.getDept()));
+        }
+
+    }
+
+    private void noBGC (List<DataCaseEntity> list){
+        for (DataCaseEntity obj : list) {
+            obj.setColor("no-"+obj.getColor());
+        }
+    }
+
+
 
     @ApiOperation(value = "查询导出所选", notes = "查询导出所选")
     @PostMapping("/dataCase/selectDataCaseExport")

@@ -22,6 +22,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -124,6 +125,26 @@ public class DataBatchServiceImpl implements DataBatchService {
         }else{
             bean.setBatchStatusFlag(null);
         }
+
+        //0 未导入 1未退案 2 已退案  4正常--包含未导入和未退案的
+        //批次状态替换，正常（4）时，BatchStatuss替换为未导入（0）和未退案（1）
+        if (bean.getBatchStatuss()!=null){
+            String[] status =  bean.getBatchStatuss();
+            String[] statusNormal = {"0","1"};
+            //目标数组
+            String[] status3 = new String[status.length+statusNormal.length];
+
+            List<String> list = Arrays.asList(bean.getBatchStatuss());
+            boolean flag = list.contains("4");
+            if (flag) {
+
+                System.arraycopy(status, 0, status3, 0, status.length);
+                System.arraycopy(statusNormal, 0, status3, status.length, statusNormal.length);
+                bean.setBatchStatuss(status3);
+            }
+        }
+
+
 
         List<DataBatchEntity> dataCaseEntities = dataBatchMapper.pageDataBatch(bean);
         for (int i=0;i<dataCaseEntities.size();i++){
