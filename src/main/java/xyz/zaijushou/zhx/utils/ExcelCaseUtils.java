@@ -256,7 +256,7 @@ public class ExcelCaseUtils {
                     if(excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
                         continue;
                     }
-                    if  (dataCaseEntity.getColor()==null || dataCaseEntity.getColor().equals("") || dataCaseEntity.getColor().equals("BLACK") || dataCaseEntity.getColor().equals("正常")){
+                    /*if  (dataCaseEntity.getColor()==null || dataCaseEntity.getColor().equals("") || dataCaseEntity.getColor().equals("BLACK") || dataCaseEntity.getColor().equals("正常")){
 
                     }else {
                         //案件管理颜色判断
@@ -271,7 +271,7 @@ public class ExcelCaseUtils {
                         }
 
 
-                    }
+                    }*/
                     String attr = excelEnum.getAttr();
                     Matcher matcher = Pattern.compile("\\[\\d\\]\\.").matcher(attr);
                     if (matcher.find()) {

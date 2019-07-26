@@ -12,7 +12,7 @@ public class ExcelCaseConstant {
 
     public enum StandardCase implements ExcelEnum {
         COL10(10, "个案序列号", "seqNo", String.class),
-        COL20(20, "委案日期", "caseDate", String.class),
+        COL20(20, "委案日期", "caseDateD", Date.class),
         COL30(30, "委案金额", "money", BigDecimal.class),
         COL40(40, "委案期限", "caseDeadline", String.class),
         COL50(50, "催收手别", "collectHand", String.class),
@@ -51,7 +51,7 @@ public class ExcelCaseConstant {
         COL380(380, "省份", "province.name", SysDictionaryEntity.class, String.class),
         COL390(390, "城市", "city.name", SysDictionaryEntity.class, String.class),
         COL400(400, "区县", "county.name", SysDictionaryEntity.class, String.class),
-        COL410(410, "预计退案日", "expectTime", String.class),
+        COL410(410, "预计退案日", "expectTimeD", Date.class),
         COL420(420, "备注1", "remark1", String.class),
         COL430(430, "备注2", "remark2", String.class),
         COL440(440, "备注3", "remark3", String.class),
@@ -210,7 +210,7 @@ public class ExcelCaseConstant {
 
     public enum CardLoanCase implements ExcelEnum {
         COL10(10, "个案序列号", "seqNo", String.class),
-        COL20(20, "委案日期", "caseDate", String.class),
+        COL20(20, "委案日期", "caseDateD", Date.class),
         COL30(30, "委案期限", "caseDeadline", String.class),
         COL40(40, "姓名", "name", String.class),
         COL50(50, "合同编号", "contractNo", String.class),

@@ -558,10 +558,13 @@
                     and da.case_type = #{caseType}
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
-                    and da.odv is not null
+                    and da.odv is not null and da.distribute_status=1
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
                     and (da.odv is  null or da.odv='')
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='3'.toString()">
+                    and da.odv is not null
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">
@@ -791,12 +794,14 @@
                     and da.case_type = #{caseType}
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
-                    and da.odv is not null
+                    and da.odv is not null and da.distribute_status=1
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
                     and (da.odv is  null or da.odv='')
                 </if>
-
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='3'.toString()">
+                    and da.odv is not null
+                </if>
                 <if test="collectArea != null and collectArea!=''">
                     and da.collect_area = #{collectArea}
                 </if>
@@ -929,12 +934,7 @@
                         '${item}'
                     </foreach>
                 </if>
-                <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
-                    and da.odv is not null
-                </if>
-                <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
-                    and (da.odv is  null or da.odv='')
-                </if>
+
                 <if test="identNoFlag != null and identNoFlag!=''">
                     and da.ident_no in
                     <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
@@ -1130,11 +1130,14 @@
                     </foreach>
                 </if>
 
-                <if test="distributeStatuss != null and distributeStatuss.length > 0 ">
-                    and t.distribute_status in
-                    <foreach item="item" index="index" collection="distributeStatuss" open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
+                    and da.odv is not null and da.distribute_status=1
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
+                    and (da.odv is  null or da.odv='')
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='3'.toString()">
+                    and da.odv is not null
                 </if>
             </trim>
         </where>
@@ -1641,7 +1644,7 @@
                 real_return_time = #{realReturnTime},
             </if>
             <if test="caseDate != null and caseDate != ''">
-                case_date = #{caseDate},
+                case_date = #{caseDateD},
             </if>
             <if test="money != null and money != ''">
                 money = #{money},
@@ -2845,7 +2848,7 @@
         values
         (
         #{seqNo},
-        #{caseDate},
+        #{caseDateD},
         #{money},
         #{dept},
         #{client},
@@ -3566,10 +3569,13 @@
                     and da.case_type = #{caseType}
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
-                    and da.odv is not null
+                    and da.odv is not null and da.distribute_status=1
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
                     and (da.odv is  null or da.odv='')
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='3'.toString()">
+                    and da.odv is not null
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">
@@ -3802,10 +3808,13 @@
                     and da.case_type = #{caseType}
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
-                    and da.odv is not null
+                    and da.odv is not null and da.distribute_status=1
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
                     and (da.odv is  null or da.odv='')
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='3'.toString()">
+                    and da.odv is not null
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">
@@ -4036,10 +4045,13 @@
                     and da.case_type = #{caseType}
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
-                    and da.odv is not null
+                    and da.odv is not null and da.distribute_status=1
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
                     and (da.odv is  null or da.odv='')
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='3'.toString()">
+                    and da.odv is not null
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">
@@ -4522,10 +4534,13 @@
                     and da.case_type = #{caseType}
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='1'.toString()">
-                    and da.odv is not null
+                    and da.odv is not null and da.distribute_status=1
                 </if>
                 <if test="distributeStatusFlag != null and distributeStatusFlag=='2'.toString()">
                     and (da.odv is  null or da.odv='')
+                </if>
+                <if test="distributeStatusFlag != null and distributeStatusFlag=='3'.toString()">
+                    and da.odv is not null
                 </if>
 
                 <if test="collectArea != null and collectArea!=''">
@@ -5270,7 +5285,11 @@
     </update>
 
     <update id="updateDataCaseByCollectAdd" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set new_case=#{newCase},collect_status=#{collectStatus},summary=#{summary},
+        update data_case set new_case=#{newCase},
+        <if test="collectStatus != null and collectStatus != 0">
+        collect_status=#{collectStatus},
+        </if>
+        summary=#{summary},
         collect_times=collect_times+1,collect_date=GETDATE(),pro_repay_amt = #{proRepayAmt},pro_repay_date = #{proRepayDate}
          where id=#{id}
     </update>

@@ -38,6 +38,7 @@ public class CaseExportCallable implements Callable<List<DataCaseEntity>> {
             temp.setOdv("");
         }else {
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+            temp.setDept(user==null?"":user.getDeptName());
             temp.setOdv(user == null ? "" : user.getUserName());
         }
 
@@ -65,14 +66,15 @@ public class CaseExportCallable implements Callable<List<DataCaseEntity>> {
         temp.setClient(clientDic==null?"":clientDic.getName());
         SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
         temp.setSummary(summaryDic==null?"":summaryDic.getName());
-        SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-        temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+       /* SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+        temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());*/
         SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
         temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
         if (StringUtils.notEmpty(temp.getDistributeHistory())){
             temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
         }
-        list.set(index,temp);
+
+
         return list;
     }
 

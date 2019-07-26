@@ -557,6 +557,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setDistributeStatusFlag("1");
         }else if(dataCaseEntity.getDistributeStatus()==2){
             dataCaseEntity.setDistributeStatusFlag("2");
+        }else if(dataCaseEntity.getDistributeStatus()==3){
+            dataCaseEntity.setDistributeStatusFlag("3");
         }else{
             dataCaseEntity.setDistributeStatusFlag(null);
         }
@@ -1982,6 +1984,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             final DataBatchEntity dataBatchEntity = new DataBatchEntity();
             dataBatchEntity.setBatchNo(batchNo);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
             dataBatchEntity.setUploadTime(sdf.format(new Date()));
             dataBatchEntity.setTotalAmt(BigDecimal.ZERO);
             dataBatchEntity.setUserCount(dataCaseEntities.size());
@@ -1998,11 +2001,12 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getAccountAge(),SysDictionaryEntity.class);
                     entity.setAccountAge(sysDictionaryEntity.getId()+"");
                 }
-                if (org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getCollectionType())){
+              /*  if (org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getCollectionType())){
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getCollectionType(),SysDictionaryEntity.class);
                     entity.setCollectionType(sysDictionaryEntity.getId()+"");
-                }
+                }*/
 
+                entity.setExpectTime(sdf2.format(entity.getExpectTimeD()));
                 entity.setMoney(entity.getMoney()==null?new BigDecimal(0):entity.getMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setBalance(entity.getBalance()==null?new BigDecimal(0):entity.getBalance().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setResidualPrinciple(entity.getResidualPrinciple()==null?new BigDecimal(0):entity.getResidualPrinciple().setScale(2, BigDecimal.ROUND_HALF_DOWN));
@@ -2114,7 +2118,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
             logger.info("处理批次完毕");
         }catch (Exception e){
-            logger.info(e.getCause().getMessage());
+           // logger.info(e.getCause().getMessage());
             e.printStackTrace();
             throw new CustomerException(500,"后台异常，请检查数据后后再试");
         }
@@ -2482,8 +2486,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setClient(clientDic==null?"":clientDic.getName());
             SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
             temp.setSummary(summaryDic==null?"":summaryDic.getName());
-            SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-            temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+            /*SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+            temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());*/
             SysDictionaryEntity accountAgeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
             temp.setAccountAge(accountAgeDic==null?"":accountAgeDic.getName());
             if (StringUtils.notEmpty(temp.getDistributeHistory())){
@@ -2493,6 +2497,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 temp.setOdv("");
             }else {
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+                temp.setDept(user==null?"":user.getDeptName());
                 temp.setOdv(user == null ? "" : user.getUserName());
             }
             if (temp!=null &&  temp.getColor()!=null &&   temp.getColor().equals("RED")){
@@ -2502,6 +2507,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }else{
                 temp.setColor("正常");
             }
+
             list.set(i,temp);
         }
 
@@ -2535,14 +2541,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                 temp.setOdv("");
             }else {
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+                temp.setDept(user==null?"":user.getDeptName());
                 temp.setOdv(user == null ? "" : user.getUserName());
             }
             SysDictionaryEntity sysDictionaryEntity3 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getClient(),SysDictionaryEntity.class);
             temp.setClient(sysDictionaryEntity3==null?"":sysDictionaryEntity3.getName());
             SysDictionaryEntity sysDictionaryEntity4 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getAccountAge(),SysDictionaryEntity.class);
             temp.setAccountAge(sysDictionaryEntity4==null?"":sysDictionaryEntity4.getName());
-            SysDictionaryEntity sysDictionaryEntity5 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-            temp.setCollectionType(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());
+          /*  SysDictionaryEntity sysDictionaryEntity5 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+            temp.setCollectionType(sysDictionaryEntity5==null?"":sysDictionaryEntity5.getName());*/
             if (StringUtils.notEmpty(temp.getDistributeHistory())){
                 temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
             }
@@ -2553,6 +2560,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }else{
                 temp.setColor("正常");
             }
+
             list.set(i,temp);
         }
 
@@ -3204,7 +3212,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         if(CollectionUtils.isEmpty(caseEntityList)){
             return ;
         }
-
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
             caseEntityList.forEach(caseEntity -> {
                 if (caseEntity.getCollectionArea() != null && caseEntity.getCollectionArea().getId() != null) {
                     SysDictionaryEntity collectAreaEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH + caseEntity.getCollectionArea().getId(), SysDictionaryEntity.class);
@@ -3238,15 +3246,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                         caseEntity.setAccountAge(sysDictionaryEntity.getId() + "");
                     }
                 }
-                //语音 手机号 视频 留言
-                if (org.apache.commons.lang3.StringUtils.isNotEmpty(caseEntity.getCollectionType())) {
-                    SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + caseEntity.getCollectionType(), SysDictionaryEntity.class);
-                    if (sysDictionaryEntity == null) {
-                        throw new IllegalArgumentException("姓名" + caseEntity.getName() + "的数据行催收分类值" + caseEntity.getCollectionType() + "不在枚举配置中，并检查excel的催收分类是否均填写正确");
-                    } else {
-                        caseEntity.setCollectionType(sysDictionaryEntity.getId() + "");
-                    }
-                }
+
 
                 //用户检测
                 if (caseEntity.getCollectionUser() != null && caseEntity.getCollectionUser().getId() != null) {
@@ -3263,6 +3263,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }catch (Exception e){
                     throw new IllegalArgumentException("个案序列号"+caseEntity.getSeqNo()+"的Mval格式不对，请修改后重新上传");
                 }
+
+                caseEntity.setExpectTime(sdf2.format(caseEntity.getExpectTimeD()));
                 caseEntity.setEnRepayAmt(caseEntity.getEnRepayAmt()==null?null:caseEntity.getEnRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 caseEntity.setBankAmt(caseEntity.getBankAmt()==null?null:caseEntity.getBankAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 caseEntity.setProRepayAmt(caseEntity.getProRepayAmt()==null?null:caseEntity.getProRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));

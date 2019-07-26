@@ -1087,7 +1087,7 @@ public class DataCaseController {
         sysOperationLogService.insertRequest(operationLog);
 
         //催收员部门替换为中文
-        this.dept2CN(list,colMap);
+        //this.dept2CN(list,colMap);
         //去掉导出excel底色
         this.noBGC(list);
 

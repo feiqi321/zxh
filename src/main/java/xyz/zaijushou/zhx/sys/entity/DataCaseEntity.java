@@ -28,6 +28,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String balanceMsg;
     //委案日期 查询条件   列表
     private String caseDate;
+    private Date caseDateD;
     private String caseDateStart;
     private String caseDateEnd;
     private String collectArea;//催收区域  查询条件  列表
@@ -53,6 +54,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String distributeStatusFlag;
     private String license; //牌照号  查询条件
     private String  expectTime;// 预计退案日期 查询条件   列表
+    private Date  expectTimeD;// 预计退案日期 查询条件   列表
     private String expectStartTime;
     private String expectEndTime;
     private String collectHand;//催收手别（0-90天） 查询条件
@@ -792,6 +794,14 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
 
     public void setOverdueDefaultInterest(String overdueDefaultInterest) {
         this.overdueDefaultInterest = overdueDefaultInterest;
+    }
+
+    public Date getCaseDateD() {
+        return caseDateD;
+    }
+
+    public void setCaseDateD(Date caseDateD) {
+        this.caseDateD = caseDateD;
     }
 
     public String getPenalty() {
@@ -1686,6 +1696,14 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
 
     public String getSort() {
         return sort;
+    }
+
+    public Date getExpectTimeD() {
+        return expectTimeD;
+    }
+
+    public void setExpectTimeD(Date expectTimeD) {
+        this.expectTimeD = expectTimeD;
     }
 
     public void setSort(String sort) {

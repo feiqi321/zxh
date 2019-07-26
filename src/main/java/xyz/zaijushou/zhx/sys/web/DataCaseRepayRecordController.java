@@ -250,24 +250,14 @@ public class DataCaseRepayRecordController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
 
-        Map<String, Integer> countMap = new HashMap<>();
         Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataEntities.size(); i ++) {
             if(dataEntities.get(i).getDataCase() == null || StringUtils.isEmpty(dataEntities.get(i).getDataCase().getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
             seqNoSet.add(dataEntities.get(i).getDataCase().getSeqNo());
-            countMap.put(dataEntities.get(i).getDataCase().getSeqNo(), countMap.get(dataEntities.get(i).getDataCase().getSeqNo()) == null ? 1 : countMap.get(dataEntities.get(i).getDataCase().getSeqNo()) + 1);
         }
-        StringBuilder builder = new StringBuilder();
-        for(Map.Entry<String, Integer> entry : countMap.entrySet()) {
-            if(entry.getValue() > 1) {
-                builder.append(entry.getKey()).append(" ");
-            }
-        }
-        if(StringUtils.isNotEmpty(builder.toString())) {
-            return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "存在重复的个案序列号：" + builder.toString());
-        }
+
         DataCaseEntity queryEntity = new DataCaseEntity();
         queryEntity.setSeqNoSet(seqNoSet);
         List<DataCaseEntity> existCaseList = dataCaseService.listBySeqNoSet(queryEntity);

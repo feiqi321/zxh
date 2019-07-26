@@ -70,8 +70,8 @@ public class CaseCallable implements Callable<List<DataCaseEntity>> {
         temp.setClient(clientDic==null?"":clientDic.getName());
         SysDictionaryEntity summaryDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getSummary(),SysDictionaryEntity.class);
         temp.setSummary(summaryDic==null?"":summaryDic.getName());
-        SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-        temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());
+       /* SysDictionaryEntity collectionTypeDic =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
+        temp.setCollectionType(collectionTypeDic==null?"":collectionTypeDic.getName());*/
         if (StringUtils.notEmpty(temp.getDistributeHistory())){
             temp.setDistributeHistory(temp.getDistributeHistory().substring(1));
         }

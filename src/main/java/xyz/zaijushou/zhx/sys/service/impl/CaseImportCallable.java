@@ -66,15 +66,7 @@ public class CaseImportCallable implements Callable<List<WebResponse>> {
                 temp.setAccountAge(sysDictionaryEntity.getId()+"");
             }
         }
-        logger.info("校验"+index+"getCollectionUser");
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getCollectionType())){
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectionType(),SysDictionaryEntity.class);
-            if (sysDictionaryEntity==null){
-                list.add(WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (index + 2) + "行催收分类值"+temp.getCollectionType()+"不在枚举配置中，并检查excel的催收分类是否均填写正确"));;
-            }else{
-                temp.setCollectionType(sysDictionaryEntity.getId()+"");
-            }
-        }
+
         logger.info("校验"+index+"行逾期账龄值");
         if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getSeqNo())){
             DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqNo(),DataCaseEntity.class);
