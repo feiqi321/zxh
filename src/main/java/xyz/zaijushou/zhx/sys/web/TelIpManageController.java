@@ -64,7 +64,24 @@ public class TelIpManageController {
 
 
     }
+    @ApiOperation(value = "批量呼出", notes = "批量呼出")
+    @PostMapping("/sendBatch")
+    public Object sendBatch(@RequestBody TelIpManage telIpManage) {
 
+        String url = "http://"+telIpManage.getAddress()+"/openapi/V2.0.6/CallMultiNumbers";
+        logger.info("发送消息给呼叫中心："+url);
+        logger.info("发送内容:"+telIpManage.getContext());
+        String result = restTemplateUtil.doPostTestTwo(url,telIpManage.getContext());
+        logger.info("呼叫中心返回消息："+result);
+        if (StringUtils.notEmpty(result) && result.indexOf("Successfully")>0){
+            return WebResponse.success();
+        }else{
+            return WebResponse.error("500","拨号失败");
+        }
+
+
+
+    }
 
 
 }

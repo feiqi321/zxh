@@ -285,7 +285,9 @@
                 login_name = #{loginName},
             </if>
 
+            <if test="number != null and number != ''">
                 number = #{number},
+            </if>
 
             <if test="department != null and userName != ''">
                 department = #{departId},
@@ -295,9 +297,13 @@
 
                 office_phone = #{officePhone},
 
+            <if test="joinTime != null">
                 join_time = #{joinTime,jdbcType=TIMESTAMP},
+            </if>
 
+            <if test="leaveTime != null">
                 leave_time = #{leaveTime,jdbcType=TIMESTAMP},
+            </if>
 
                 position = #{position},
 
@@ -308,9 +314,9 @@
             <if test="enable != null ">
                 enable = #{enable},
             </if>
-
+            <if test="actualTime != null and actualTime != ''">
                 actual_time = #{actualTime},
-
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>

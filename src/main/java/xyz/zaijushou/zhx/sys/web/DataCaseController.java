@@ -207,11 +207,21 @@ public class DataCaseController {
     @ApiOperation(value = "分配业务员", notes = "分配业务员")
     @PostMapping("/dataCase/sendOdv")
     public Object sendOdv(@RequestBody List<DataCaseEntity> list) {
-        for (int i=0;i<list.size();i++){
-            DataCaseEntity dataCaseEntity = list.get(i);
-            dataCaseService.sendOdv(dataCaseEntity);
+        if (list==null ||list.size()==0){
+            return WebResponse.error("500","请选择案件");
         }
 
+        String[] ids = new String[list.size()];
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            ids[i] = dataCaseEntity.getId()+"";
+
+        }
+        DataCaseEntity temp = new DataCaseEntity();
+        temp.setId(list.get(0).getId());
+        temp.setOdv(list.get(0).getOdv());
+        temp.setIds(ids);
+        dataCaseService.sendOdv(temp);
         return WebResponse.success();
 
     }

@@ -745,7 +745,7 @@
                 <if test="odvs != null and odvs.length > 0 ">
                     and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
-                        #{item}
+                        ${item}
                     </foreach>
                 </if>
 
@@ -776,22 +776,22 @@
                 </if>
 
                 <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')>=  #{caseAllotTimeStart}  ]]>
+                    <![CDATA[   and t.distribute_time>= convert(datetime,#{caseAllotTimeStart}, 20)  ]]>
                 </if>
                 <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd')<= #{caseAllotTimeEnd}  ]]>
+                    <![CDATA[   and t.distribute_time<= convert(datetime,#{caseAllotTimeEnd}, 20) ]]>
                 </if>
                 <if test="lastFollDateStart != null and lastFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')>=  #{lastFollDateStart}   ]]>
+                    <![CDATA[   and t.collect_date >=  convert(datetime,#{lastFollDateStart}, 20)  ]]>
                 </if>
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd')<=  #{lastFollDateEnd}  ]]>
+                    <![CDATA[   and t.collect_date <= convert(datetime,#{lastFollDateEnd}, 20)  ]]>
                 </if>
                 <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>=  #{expectTimeStart}   ]]>
+                    <![CDATA[   and t.expect_time >=  #{expectTimeStart}   ]]>
                 </if>
                 <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
+                    <![CDATA[   and t.expect_time <=  #{expectTimeEnd}   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
                     <![CDATA[   and t.case_date>=  #{caseDateStart}   ]]>
@@ -800,16 +800,16 @@
                     <![CDATA[   and t.case_date<=  #{caseDateEnd}   ]]>
                 </if>
                 <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')>=  #{repayTimeStart}   ]]>
+                    <![CDATA[   and t.repay_date>=  #{repayTimeStart}   ]]>
                 </if>
                 <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.repay_date, 'yyyy-MM-dd')<=  #{repayTimeEnd}   ]]>
+                    <![CDATA[   and t.repay_date<=  #{repayTimeEnd}   ]]>
                 </if>
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')>=  #{nextFollDateStart}   ]]>
+                    <![CDATA[   and t.next_foll_date>=  #{nextFollDateStart}   ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.next_foll_date, 'yyyy-MM-dd')<=  #{nextFollDateEnd}  ]]>
+                    <![CDATA[   and t.next_foll_date<=  #{nextFollDateEnd}  ]]>
                 </if>
                 <if test="moneyEnd != null and moneyEnd!=''">
                     <![CDATA[   and t.money>=  #{moneyEnd}  ]]>

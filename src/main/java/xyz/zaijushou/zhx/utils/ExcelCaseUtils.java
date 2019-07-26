@@ -256,7 +256,7 @@ public class ExcelCaseUtils {
                     if(excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
                         continue;
                     }
-                    if  (dataCaseEntity.getColor()==null || dataCaseEntity.getColor().equals("") || dataCaseEntity.getColor().equals("BLACK")){
+                    if  (dataCaseEntity.getColor()==null || dataCaseEntity.getColor().equals("") || dataCaseEntity.getColor().equals("BLACK") || dataCaseEntity.getColor().equals("正常")){
 
                     }else {
                         //案件管理颜色判断

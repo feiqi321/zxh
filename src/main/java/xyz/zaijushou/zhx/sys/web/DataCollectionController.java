@@ -115,7 +115,9 @@ public class DataCollectionController {
         if (user.getId()==1){
             if (bean.getsType() == 0) {
 
-            } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
+            } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0) && StringUtils.isEmpty(bean.getDept())){
+
+            }else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
                 List<String> deptList = new ArrayList<String>();
                 SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
                 if (StringUtils.isEmpty(bean.getDept())){

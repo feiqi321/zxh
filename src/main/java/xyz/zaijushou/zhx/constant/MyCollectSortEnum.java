@@ -36,7 +36,7 @@ public enum MyCollectSortEnum {
     COLUMN37("caseAllotTime","t.distribute_time"),
     COLUMN38("odv","t.odv"),
     COLUMN40("principle","t.principle"),
-    COLUMN41("overdueDays","t.overdue_days"),
+    COLUMN41("overdueDays","t.collect_date"),
     COLUMN39("distributeStatusMsg","t.distribute_status");
 
     //防止字段值被修改，增加的字段也统一final表示常量

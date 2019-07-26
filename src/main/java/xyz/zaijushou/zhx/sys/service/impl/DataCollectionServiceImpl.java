@@ -107,7 +107,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         DataOpLog log = new DataOpLog();
         log.setType("电话催收");
-        log.setContext("联系人："+beanInfo.getTargetName()+"，电话号码："+beanInfo.getMobile()+"[手机]，通话内容："+(beanInfo.getCollectInfo()==null?"":beanInfo.getCollectInfo())+"，催收状态： "+(sysDictionaryEntity==null?"":sysDictionaryEntity.getName()));
+        log.setContext("联系人："+(beanInfo.getTargetName()==null?"未知":beanInfo.getTargetName())+"，电话号码："+(beanInfo.getMobile()==null?"未知":beanInfo.getMobile())+"[手机]，通话内容："+(beanInfo.getCollectInfo()==null?"":beanInfo.getCollectInfo())+"，催收状态： "+(sysDictionaryEntity==null?"":sysDictionaryEntity.getName()));
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
 
@@ -221,6 +221,28 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             newStatuss[dataCollectionEntity.getStatuss().length+2]="3";
             dataCollectionEntity.setStatuss(newStatuss);
         }
+        if (dataCollectionEntity.getStatuss()!=null && Arrays.asList(dataCollectionEntity.getStatuss()).contains("0") ) {
+            String[] newStatuss = new String[dataCollectionEntity.getStatuss().length+3];
+            for (int i=0;i<dataCollectionEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCollectionEntity.getStatuss()[i];
+            }
+            newStatuss[dataCollectionEntity.getStatuss().length]="1";
+            newStatuss[dataCollectionEntity.getStatuss().length+1]="2";
+            newStatuss[dataCollectionEntity.getStatuss().length+2]="3";
+            dataCollectionEntity.setStatuss(newStatuss);
+        }
+        if (dataCollectionEntity.getStatuss()!=null && Arrays.asList(dataCollectionEntity.getStatuss()).contains("1") ) {
+            String[] newStatuss = new String[dataCollectionEntity.getStatuss().length+2];
+            for (int i=0;i<dataCollectionEntity.getStatuss().length;i++){
+                newStatuss[i] = dataCollectionEntity.getStatuss()[i];
+            }
+            newStatuss[dataCollectionEntity.getStatuss().length]="0";
+            newStatuss[dataCollectionEntity.getStatuss().length+1]="2";
+            dataCollectionEntity.setStatuss(newStatuss);
+        }
+        if (dataCollectionEntity.getStatuss()!=null && Arrays.asList(dataCollectionEntity.getStatuss()).contains("5")) {
+            dataCollectionEntity.setStatuss(null);
+        }
         WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
 
@@ -237,6 +259,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort("desc");
+        }else if (dataCollectionEntity.getOrderBy().equals("overdueDays")){
+            if (dataCollectionEntity.getSort().equals("desc")){
+                dataCollectionEntity.setSort("asc");
+            }else{
+                dataCollectionEntity.setSort("desc");
+            }
         }
         logger.info("********************开始查询案件");
         PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());

@@ -1318,7 +1318,10 @@
     </update>
     <update id="sendOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set odv = #{odv},dept=#{dept},distribute_history=distribute_history+#{distributeHistory},distribute_time=GETDATE(),distribute_status=1
-        where id = #{id}
+        where id in
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            ${item}
+        </foreach>
     </update>
 
     <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

@@ -703,13 +703,17 @@ public class DataCaseServiceImpl implements DataCaseService {
         DataCaseEntity temp = dataCaseMapper.findById(bean);
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ bean.getOdv(), SysUserEntity.class);
         if(StringUtils.isEmpty(temp.getDistributeHistory())){
-            bean.setDistributeHistory("分配给"+user.getUserName());
+            bean.setDistributeHistory("案件分配给"+user.getUserName());
         }else{
-            bean.setDistributeHistory(",分配给"+user.getUserName());
+            bean.setDistributeHistory(",案件分配给"+user.getUserName());
         }
 
         bean.setDept(user==null?"":user.getDepartment());
         dataCaseMapper.sendOdv(bean);
+        this.sendOdvElse(bean,temp,user);
+    }
+    @Async
+    public void sendOdvElse(DataCaseEntity bean,DataCaseEntity temp,SysUserEntity user ){
         DataOpLog log = new DataOpLog();
         log.setType("案件管理");
         log.setContext(bean.getDistributeHistory());
@@ -737,6 +741,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         sysOperationLogMapper.insertRequest(operationLog);
     }
+
     @Override
     public void sendOdvByProperty(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
@@ -2676,53 +2681,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setInterestDate("");
         }
 
-       /* SysDictionaryEntity province = dataCaseDetail.getProvince();
-        if (province==null){
-            province = new SysDictionaryEntity();
-            province.setName("");
-            dataCaseDetail.setProvince(province);
-        }else{
-            province = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ province.getId(), SysDictionaryEntity.class);
-            if (province==null){
-                province = new SysDictionaryEntity();
-                province.setName("");
-                dataCaseDetail.setProvince(province);
-            }else {
-                dataCaseDetail.setProvince(province);
-            }
-        }
 
-        SysDictionaryEntity city = dataCaseDetail.getCity();
-        if (city==null){
-            city = new SysDictionaryEntity();
-            city.setName("");
-            dataCaseDetail.setCity(city);
-        }else{
-            city = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + city.getId(), SysDictionaryEntity.class);
-            if (city==null){
-                city = new SysDictionaryEntity();
-                city.setName("");
-                dataCaseDetail.setCity(city);
-            }else {
-                dataCaseDetail.setCity(city);
-            }
-        }
-
-        SysDictionaryEntity county = dataCaseDetail.getCounty();
-        if (county==null){
-            county = new SysDictionaryEntity();
-            county.setName("");
-            dataCaseDetail.setCounty(county);
-        }else{
-            county = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ county.getId(), SysDictionaryEntity.class);
-            if (county==null){
-                county = new SysDictionaryEntity();
-                county.setName("");
-                dataCaseDetail.setCounty(county);
-            }else {
-                dataCaseDetail.setCounty(county);
-            }
-        }*/
         logger.info("设置数据字典结束");
         //电话
         DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
@@ -2742,6 +2701,35 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
             dataCaseTelEntityList.set(i,temp);
         }
+        List<DataCaseTelEntity> dataCaseTelEntityList2 =  new ArrayList<DataCaseTelEntity>();
+        if (StringUtils.notEmpty(dataCaseDetail.getTel())){
+            DataCaseTelEntity temp1 = new DataCaseTelEntity();
+            temp1.setTel(dataCaseDetail.getTel());
+            temp1.setRelation("本人");
+            temp1.setTelStatusMsg("未知");
+            temp1.setName(dataCaseDetail.getName());
+            temp1.setRemark("手机");
+            dataCaseTelEntityList2.add(temp1);
+        }
+        if (StringUtils.notEmpty(dataCaseDetail.getHomeTelNumber())){
+            DataCaseTelEntity temp2 = new DataCaseTelEntity();
+            temp2.setTel(dataCaseDetail.getHomeTelNumber());
+            temp2.setRelation("本人");
+            temp2.setName(dataCaseDetail.getName());
+            temp2.setTelStatusMsg("未知");
+            temp2.setRemark("家庭号码");
+            dataCaseTelEntityList2.add(temp2);
+        }
+        if (StringUtils.notEmpty(dataCaseDetail.getUnitTelNumber())){
+            DataCaseTelEntity temp3 = new DataCaseTelEntity();
+            temp3.setTel(dataCaseDetail.getUnitTelNumber());
+            temp3.setRelation("本人");
+            temp3.setName(dataCaseDetail.getName());
+            temp3.setTelStatusMsg("未知");
+            temp3.setRemark("单位号码");
+            dataCaseTelEntityList2.add(temp3);
+        }
+        dataCaseTelEntityList2.addAll(dataCaseTelEntityList);
         logger.info("设置电话类型结束");
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
         dataCaseCommentEntity.setCaseId(bean.getId());
@@ -2767,16 +2755,10 @@ public class DataCaseServiceImpl implements DataCaseService {
             cal.add(Calendar.DAY_OF_MONTH,caseTimeAreaEntity.getTimeArea()==null?0:caseTimeAreaEntity.getTimeArea());
             caseTemp.setReturnTime(cal.getTime());
         }
-       /* if (caseTemp.getSeeFlag()!=null && caseTemp.getSeeFlag().equals("1") && curentuser.getDepartment()!=null && curentuser.getDepartment().equals("业务部")){
-            dataCaseDetail.setSameBatchCaseList(new ArrayList<DataCaseEntity>());
-        }else{
-            List<DataCaseEntity> sameBatchCaseList = dataCaseMapper.findSameBatchCase(caseTemp);
-            dataCaseDetail.setSameBatchCaseList(sameBatchCaseList);
-        }*/
 
 
         dataCaseDetail.setDataCaseCommentEntityList(commentList);
-        dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList);
+        dataCaseDetail.setDataCaseTelEntityList(dataCaseTelEntityList2);
         DataCaseEntity dataCaseEntity = new DataCaseEntity();
         dataCaseEntity.setId(bean.getId());
         List<DataCaseEntity> caseList = new ArrayList<DataCaseEntity>();
@@ -2803,6 +2785,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     public List<DataCaseTelEntity> findTelListByCaseId(DataCaseEntity bean){
         DataCaseTelEntity telEntity = new DataCaseTelEntity();
         telEntity.setCaseId(bean.getId());
+        DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
         List<DataCaseTelEntity> telEntityList = dataCaseTelMapper.findAll(telEntity);
         SysDictionaryEntity dictionary = new SysDictionaryEntity();
         dictionary.setName("电话类型");
@@ -2817,7 +2800,36 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?temp.getType():map.get(Integer.parseInt(temp.getType())).toString()));
             telEntityList.set(i,temp);
         }
-        return telEntityList;
+        List<DataCaseTelEntity> dataCaseTelEntityList2 =  new ArrayList<DataCaseTelEntity>();
+        if (StringUtils.notEmpty(dataCaseDetail.getTel())){
+            DataCaseTelEntity temp1 = new DataCaseTelEntity();
+            temp1.setTel(dataCaseDetail.getTel());
+            temp1.setRelation("本人");
+            temp1.setTelStatusMsg("未知");
+            temp1.setName(dataCaseDetail.getName());
+            temp1.setRemark("手机");
+            dataCaseTelEntityList2.add(temp1);
+        }
+        if (StringUtils.notEmpty(dataCaseDetail.getHomeTelNumber())){
+            DataCaseTelEntity temp2 = new DataCaseTelEntity();
+            temp2.setTel(dataCaseDetail.getHomeTelNumber());
+            temp2.setRelation("本人");
+            temp2.setTelStatusMsg("未知");
+            temp2.setName(dataCaseDetail.getName());
+            temp2.setRemark("家庭号码");
+            dataCaseTelEntityList2.add(temp2);
+        }
+        if (StringUtils.notEmpty(dataCaseDetail.getUnitTelNumber())){
+            DataCaseTelEntity temp3 = new DataCaseTelEntity();
+            temp3.setTel(dataCaseDetail.getUnitTelNumber());
+            temp3.setRelation("本人");
+            temp3.setTelStatusMsg("未知");
+            temp3.setName(dataCaseDetail.getName());
+            temp3.setRemark("单位号码");
+            dataCaseTelEntityList2.add(temp3);
+        }
+        dataCaseTelEntityList2.addAll(telEntityList);
+        return dataCaseTelEntityList2;
     }
     //有效 无效 未知
     public void updateRemark(DataCaseEntity bean){
