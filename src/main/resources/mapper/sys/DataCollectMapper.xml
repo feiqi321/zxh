@@ -615,7 +615,10 @@
         </foreach >
     </insert>
     <select id="pageMyCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,t.leave_Days as leaveDays,t.distribute_status  as distributeStatus,
+        select t.id,t.id as caseId,t.collect_times as collectTimes,t.name as targetName,
+        datediff( DAY,  t.collect_date,GETDATE() ) AS leaveDays ,
+<!--         t.leave_Days as leaveDays-->
+        t.distribute_status  as distributeStatus,
         t.tel,t.remark as result,t.repay_date as repayTime,t.summary as collectInfo,t.collect_date as collectDate,
         t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd') as distributeTime,
         t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,

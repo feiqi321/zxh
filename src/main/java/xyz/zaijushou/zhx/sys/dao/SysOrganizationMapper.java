@@ -30,4 +30,6 @@ public interface SysOrganizationMapper {
     List<SysNewUserEntity> findById(String department);
 
     List<SysNewUserDataForm> findSysNewUserInformationById(String department);
+
+    List<SysNewUserEntity> findUserByOrgId(int orgId);
 }
