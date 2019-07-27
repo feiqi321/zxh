@@ -102,6 +102,15 @@
         order by sort
     </select>
 
+    <select id="listChildOrganizationBy" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        select
+        <include refid="colSql"/>
+        from sys_organization
+        where delete_flag = '0'
+        <if test="orgName != null and orgName != ''">and org_name = #{orgName}</if>
+        order by sort
+    </select>
+
     <select id="listAllOrganizationsByParentId" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         select
         <include refid="colSql"/>

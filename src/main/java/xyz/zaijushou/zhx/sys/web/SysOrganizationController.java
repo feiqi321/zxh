@@ -56,6 +56,12 @@ public class SysOrganizationController {
         return WebResponse.success(list);
     }
 
+    @PostMapping("/listChildOrganizationBy")
+    public Object listChildOrganizationBy(@RequestBody SysOrganizationEntity organization) {
+        List<SysOrganizationEntity> list = sysOrganizationService.listChildOrganizationBy(organization);
+        return WebResponse.success(list);
+    }
+
     @PostMapping("/save")
     public Object save(@RequestBody SysOrganizationEntity[] organizations) {
         List<SysOrganizationEntity> list = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());

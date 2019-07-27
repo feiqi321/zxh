@@ -9,6 +9,8 @@ public interface SysOrganizationService {
 
     List<SysOrganizationEntity> listChildOrganization(SysOrganizationEntity organizationEntity);
 
+    List<SysOrganizationEntity> listChildOrganizationBy(SysOrganizationEntity organizationEntity);
+
     List<SysOrganizationEntity> listChildOrganization2(SysOrganizationEntity organizationEntity);
 
     void saveOrg(SysOrganizationEntity organizationEntity);

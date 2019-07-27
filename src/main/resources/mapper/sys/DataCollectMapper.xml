@@ -1947,17 +1947,17 @@
     </select>
 
     <select id="detailTelCurentCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:ii') as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
-        repay_time as repayTime,repay_amt as repayAmt,odv
-        from data_collection
-         where case_id=#{caseId} and mobile = #{mobile}
+        select c.id,dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,c.target_name as targetName,c.mobile,c.collect_info as collectInfo,c.result,
+        c.repay_time as repayTime,c.repay_amt as repayAmt,t.odv
+        from data_collection c left join data_case t  on c.case_id = t.id
+         where t.id=#{caseId} and c.mobile = #{mobile}
     </select>
 
     <select id="detailTelCurentCollect2" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select id,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:ii') as collectTime,target_name as targetName,mobile,collect_info as collectInfo,result,
-        repay_time as repayTime,repay_amt as repayAmt,odv
-        from data_collection
-        where mobile = #{mobile}
+        select c.id,dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,c.target_name as targetName,c.mobile,c.collect_info as collectInfo,c.result,
+        c.repay_time as repayTime,c.repay_amt as repayAmt,t.odv
+        from data_collection c left join data_case t  on c.case_id = t.id
+        where c.mobile = #{mobile}
     </select>
 
 

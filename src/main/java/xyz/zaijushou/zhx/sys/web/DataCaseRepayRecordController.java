@@ -313,13 +313,13 @@ public class DataCaseRepayRecordController {
                 SysDictionaryEntity sysDictionaryEntity = new SysDictionaryEntity();
                 entity.setRepayType(sysDictionaryEntity);
             }
-            if (StringUtils.isNotEmpty(entity.getRemark())){
+           /* if (StringUtils.isNotEmpty(entity.getRemark())){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRemark(),SysDictionaryEntity.class);
                 if(sysDictionaryEntity==null){
                     return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "还款备注:" + entity.getRemark() + "不在枚举中，请确认后重新上传");
                 }
                 entity.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getId()+"");
-            }
+            }*/
 
             entity.setConfirmUser(confirmUser);
             entity.setCreateUser(user);

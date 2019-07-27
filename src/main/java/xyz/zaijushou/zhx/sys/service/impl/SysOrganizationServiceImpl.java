@@ -53,6 +53,32 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
     }
 
     @Override
+    public List<SysOrganizationEntity> listChildOrganizationBy(SysOrganizationEntity organizationEntity) {
+        List<SysOrganizationEntity> dictList = new ArrayList<SysOrganizationEntity>();
+
+        List<SysOrganizationEntity> list = new ArrayList<>();
+        if (StringUtils.isEmpty(organizationEntity.getOrgName())){
+            organizationEntity.setId(1);
+
+            list = sysOrganizationMapper.listAllOrganizations(organizationEntity);
+        }else {
+            list = sysOrganizationMapper.listChildOrganizationBy(organizationEntity);
+        }
+        if (StringUtils.isEmpty(list)){
+            return dictList;
+        }
+        //递归查询列表
+        for (SysOrganizationEntity dictionaryEntity : list){
+            if (StringUtils.notEmpty(organizationEntity.getTypeFlag()) && organizationEntity.getTypeFlag() == 1){
+                dictList.add(dictionaryEntity);
+            }
+            getChildDataInfo(dictionaryEntity,dictList);
+        }
+        dictList = CollectionsUtils.listToTree(dictList);
+        return dictList;
+    }
+
+    @Override
     public List<SysOrganizationEntity> listChildOrganization2(SysOrganizationEntity organizationEntity) {
         List<SysOrganizationEntity> dictList = new ArrayList<SysOrganizationEntity>();
         //获取当前用户名

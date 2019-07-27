@@ -152,8 +152,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if (temp.getRemark()==null){
                 temp.setRemark("");
             }else{
-                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
-                temp.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+//                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
+//                temp.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
             if (temp.getCollectUser()==null){
                 SysNewUserEntity bean =  new SysNewUserEntity();
@@ -330,6 +330,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 if (entity != null && entity.getCollectUser()!= null && entity.getCollectUser().getId() != null ) {
                     entity.setCollectUser(userMap.get(entity.getCollectUser().getId()));
                 }
+                if (entity.getCollectUser()!=null){
+                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getCollectUser().getId(), SysUserEntity.class);
+                    entity.getCollectUser().setDeptName(user.getDeptName());
+                }
                 if (entity != null && entity.getConfirmUser()!= null && entity.getConfirmUser().getId() != null ) {
                     entity.setConfirmUser(userMap.get(entity.getConfirmUser().getId()));
                 }
@@ -345,10 +349,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType().getId(),SysDictionaryEntity.class);
                 entity.setRepayType(sysDictionaryEntity);
             }
-            if (StringUtils.isNotEmpty(entity.getRemark())){
+            /*if (StringUtils.isNotEmpty(entity.getRemark())){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRemark(),SysDictionaryEntity.class);
                 entity.setRemark(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-            }
+            }*/
             if(entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getClient())) {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getClient(),SysDictionaryEntity.class);
                 entity.getDataCase().setClient(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());

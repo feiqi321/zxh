@@ -11,6 +11,8 @@ import java.util.List;
 public interface SysOrganizationMapper {
     List<SysOrganizationEntity> listAllOrganizations(SysOrganizationEntity organizationEntity);
 
+    List<SysOrganizationEntity> listChildOrganizationBy(SysOrganizationEntity organizationEntity);
+
     List<SysOrganizationEntity> listAllOrganizationsByParentId(SysOrganizationEntity organizationEntity);
 
     void saveOrg(SysOrganizationEntity organizationEntity);

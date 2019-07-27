@@ -175,6 +175,7 @@ public class DataCaseDetail {
     private String overdueDate;   //逾期日
     private String overduePeriods;  //逾期期数
     private Double overdueDays; //逾期天数
+    private Double overdueNewDays; //逾期天数
     private Integer overdueTimes;   //曾逾期次数
     private String entrustPeriods;  //委案期数
     private String repayDeadline; //还款期限
@@ -1753,6 +1754,13 @@ public class DataCaseDetail {
         this.lastRepayDate = lastRepayDate;
     }
 
+    public Double getOverdueNewDays() {
+        return overdueNewDays;
+    }
+
+    public void setOverdueNewDays(Double overdueNewDays) {
+        this.overdueNewDays = overdueNewDays;
+    }
 
     public String getBillDate() {
         return billDate;

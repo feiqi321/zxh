@@ -466,6 +466,8 @@ public class DataCollectServiceImpl implements DataCollectService {
             temp.setOdv(user==null?"":user.getUserName());
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
             temp.setTelType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            SysDictionaryEntity resultDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
+            temp.setResult(resultDictionaryEntity==null?"":resultDictionaryEntity.getName());
             list.set(i,temp);
         }
         webResponse.setCode("100");

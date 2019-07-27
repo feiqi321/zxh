@@ -91,7 +91,7 @@ public class ExcelRepayRecordConstant {
         COL140(140, "CP日期", ""),
         COL150(150, "案件催收员", "dataCase.collectionUser.userName", DataCaseEntity.class, SysNewUserEntity.class, String.class),
         COL160(160, "回收催收员", "collectUser.userName", SysNewUserEntity.class, String.class),
-        COL170(170, "回收部门", ""),
+        COL170(170, "回收部门", "collectUser.deptName", SysNewUserEntity.class, String.class),
         COL180(180, "提交人", ""),
         COL190(190, "提交时间", ""),
         COL200(200, "还款金额", "dataCase.enRepayAmt", DataCaseEntity.class, BigDecimal.class),
