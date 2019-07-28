@@ -388,6 +388,232 @@ public class ExcelCaseConstant {
         }
     }
 
+    public enum StandardCardLoanCase implements ExcelEnum {
+
+        COL10(10,"M值系数","mVal",String.class),
+        COL20(20,"QQ","qq",String.class),
+        COL30(30,"案人部门","caseUserDepart",String.class),
+        COL40(40,"案人职位","caseUserPosition",String.class),
+        COL50(50,"保证金","bail",String.class),
+        COL60(60,"备注1","remark1",String.class),
+        COL70(70,"备注2","remark2",String.class),
+        COL80(80,"备注3","remark3",String.class),
+        COL90(90,"备注4","remark4",String.class),
+        COL100(100,"备注5","remark5",String.class),
+        COL110(110,"备注6","remark6",String.class),
+        COL120(120,"本金","principle",String.class),
+        COL130(130,"本人手机","tel",String.class),
+        COL140(140,"币种","currencyType",String.class),
+        COL150(150,"曾逾期次数","overdueTimes",Integer.class),
+        COL160(160,"超限费","overrunFee",String.class),
+        COL170(170,"城市","city.name",SysDictionaryEntity.class,String.class),
+        COL180(180,"催收分类","collectionType",String.class),
+        COL190(190,"催收区域ID","collectionArea.id",SysDictionaryEntity.class,Integer.class),
+        COL200(200,"催收手别","collectHand",String.class),
+        COL210(210,"催收小结","collectInfo",String.class),
+        COL220(220,"催收员ID","collectionUser.id",SysNewUserEntity.class,Integer.class),
+        COL230(230,"贷款截止日","loanDeadline",String.class),
+        COL240(240,"贷款利率","loanRate",String.class),
+        COL250(250,"贷款日期","loanDate",String.class),
+        COL260(260,"担保人单位","contactUnit2",String.class),
+        COL270(270,"担保人单位电话","contactUnitTel2",String.class),
+        COL280(280,"担保人地址","contactAddress2",String.class),
+        COL290(290,"担保人关系","contactRelation2",String.class),
+        COL300(300,"担保人家庭电话","contactHomeTel2",String.class),
+        COL310(310,"担保人手机","contactMobile2",String.class),
+        COL320(320,"担保人姓名","contactName2",String.class),
+        COL330(330,"担保人证件号","contactIdentNo2",String.class),
+        COL340(340,"单位地址","unitAddress",String.class),
+        COL350(350,"单位号码","unitTelNumber",String.class),
+        COL360(360,"单位名称","unitName",String.class),
+        COL370(370,"单位邮编","unitZipCode",String.class),
+        COL380(380,"档案号","archiveNo",String.class),
+        COL390(390,"电邮","email",String.class),
+        COL400(400,"对账单地址","statementAddress",String.class),
+        COL410(410,"对账单邮编","statementZipCode",String.class),
+        COL420(420,"发动机号","engineNo",String.class),
+        COL430(430,"副卡卡人","deputyCardUserName",String.class),
+        COL440(440,"港币","hkd",String.class),
+        COL450(450,"个案序列号","seqNo",String.class),
+        COL460(460,"公司佣金比率","commissionRate",String.class),
+        COL470(470,"公司佣金金额","commissionMoney",BigDecimal.class),
+        COL480(480,"固定额度","fixedQuota",String.class),
+        COL490(490,"还款期限","repayDeadline",String.class),
+        COL500(500,"还款日","repayDate",String.class),
+        COL510(510,"合同编号","contractNo",String.class),
+        COL520(520,"户籍地邮编","censusRegisterZipCode",String.class),
+        COL530(530,"户籍地址","censusRegisterAddress",String.class),
+        COL540(540,"家庭地址","homeAddress",String.class),
+        COL550(550,"家庭号码","homeTelNumber",String.class),
+        COL560(560,"家庭邮编","homeZipCode",String.class),
+        COL570(570,"经销商","dealer",String.class),
+        COL580(580,"卡号","cardNo",String.class),
+        COL590(590,"卡类","cardType",String.class),
+        COL600(600,"开户行","bank",String.class),
+        COL610(610,"开卡日","activeCardDate",String.class),
+        COL620(620,"联系人1单位","contactUnit1",String.class),
+        COL630(630,"联系人1单位电话","contactUnitTel1",String.class),
+        COL640(640,"联系人1地址","contactAddress1",String.class),
+        COL650(650,"联系人1关系","contactRelation1",String.class),
+        COL660(660,"联系人1家庭电话","contactHomeTel1",String.class),
+        COL670(670,"联系人1手机","contactMobile1",String.class),
+        COL680(680,"联系人1姓名","contactName1",String.class),
+        COL690(690,"联系人1证件号","contactIdentNo1",String.class),
+        COL700(700,"联系人2单位","contactUnit2",String.class),
+        COL710(710,"联系人2单位电话","contactUnitTel2",String.class),
+        COL720(720,"联系人2地址","contactAddress2",String.class),
+        COL730(730,"联系人2关系","contactRelation2",String.class),
+        COL740(740,"联系人2家庭电话","contactHomeTel2",String.class),
+        COL750(750,"联系人2手机","contactMobile2",String.class),
+        COL760(760,"联系人2姓名","contactName2",String.class),
+        COL770(770,"联系人2证件号","contactIdentNo2",String.class),
+        COL780(780,"联系人3单位","contactUnit3",String.class),
+        COL790(790,"联系人3单位电话","contactUnitTel3",String.class),
+        COL800(800,"联系人3地址","contactAddress3",String.class),
+        COL810(810,"联系人3关系","contactRelation3",String.class),
+        COL820(820,"联系人3家庭电话","contactHomeTel3",String.class),
+        COL830(830,"联系人3手机","contactMobile3",String.class),
+        COL840(840,"联系人3姓名","contactName3",String.class),
+        COL850(850,"联系人3证件号","contactIdentNo3",String.class),
+        COL860(860,"联系人4单位","contactUnit4",String.class),
+        COL870(870,"联系人4单位电话","contactUnitTel4",String.class),
+        COL880(880,"联系人4地址","contactAddress4",String.class),
+        COL890(890,"联系人4关系","contactRelation4",String.class),
+        COL900(900,"联系人4家庭电话","contactHomeTel4",String.class),
+        COL910(910,"联系人4手机","contactMobile4",String.class),
+        COL920(920,"联系人4姓名","contactName4",String.class),
+        COL930(930,"联系人4证件号","contactIdentNo4",String.class),
+        COL940(940,"联系人5单位","contactUnit5",String.class),
+        COL950(950,"联系人5单位电话","contactUnitTel5",String.class),
+        COL960(960,"联系人5地址","contactAddress5",String.class),
+        COL970(970,"联系人5关系","contactRelation5",String.class),
+        COL980(980,"联系人5家庭电话","contactHomeTel5",String.class),
+        COL990(990,"联系人5手机","contactMobile5",String.class),
+        COL1000(1000,"联系人5姓名","contactName5",String.class),
+        COL1010(1010,"联系人5证件号","contactIdentNo5",String.class),
+        COL1020(1020,"联系人6单位","contactUnit6",String.class),
+        COL1030(1030,"联系人6单位电话","contactUnitTel6",String.class),
+        COL1040(1040,"联系人6地址","contactAddress6",String.class),
+        COL1050(1050,"联系人6关系","contactRelation6",String.class),
+        COL1060(1060,"联系人6家庭电话","contactHomeTel6",String.class),
+        COL1070(1070,"联系人6手机","contactMobile6",String.class),
+        COL1080(1080,"联系人6姓名","contactName6",String.class),
+        COL1090(1090,"联系人6证件号","contactIdentNo6",String.class),
+        COL1100(1100,"每月还款","monthlyRepayments",String.class),
+        COL1110(1110,"年龄","age",String.class),
+        COL1120(1120,"牌照号","license",String.class),
+        COL1130(1130,"配偶单位","contactUnit1",String.class),
+        COL1140(1140,"配偶单位电话","contactUnitTel1",String.class),
+        COL1150(1150,"配偶地址","contactAddress1",String.class),
+        COL1160(1160,"配偶家庭电话","contactHomeTel1",String.class),
+        COL1170(1170,"配偶手机","contactMobile1",String.class),
+        COL1180(1180,"配偶姓名","contactName1",String.class),
+        COL1190(1190,"配偶证件号","contactIdentNo1",String.class),
+        COL1200(1200,"品牌","brand",String.class),
+        COL1210(1210,"区县","county.name",SysDictionaryEntity.class,String.class),
+        COL1220(1220,"人民币","rmb",String.class),
+        COL1230(1230,"商户","commercialTenant",String.class),
+        COL1240(1240,"商品","goods",String.class),
+        COL1250(1250,"社保电脑号","socialSecurityComputerNo",String.class),
+        COL1260(1260,"社保卡号","socialSecurityCardNo",String.class),
+        COL1270(1270,"申请单号","applyOrderNo",String.class),
+        COL1280(1280,"申请日期","applyDate",Date.class),
+        COL1290(1290,"生日","birthday",String.class),
+        COL1300(1300,"省份","province.name",SysDictionaryEntity.class,String.class),
+        COL1310(1310,"剩余本金","residualPrinciple",BigDecimal.class),
+        COL1320(1320,"是否主副卡","mainDeputyCard",String.class),
+        COL1330(1330,"停卡日","stopCardDate",String.class),
+        COL1340(1340,"拖欠级别","defaultLevel",String.class),
+        COL1350(1350,"外币","foreignCurrency",String.class),
+        COL1360(1360,"违约金","penalty",String.class),
+        COL1370(1370,"委案金额","money",BigDecimal.class),
+        COL1380(1380,"委案期数","entrustPeriods",String.class),
+        COL1390(1390,"委案期限","caseDeadline",String.class),
+        COL1400(1400,"委案日期","caseDateD",Date.class),
+        COL1410(1410,"未出账金额","outstandingAmount",BigDecimal.class),
+        COL1420(1420,"信贷分类","loanType",String.class),
+        COL1430(1430,"信用额度","creditLine",String.class),
+        COL1440(1440,"性别","gender",String.class),
+        COL1450(1450,"姓名","name",String.class),
+        COL1460(1460,"业务类型","businessType",String.class),
+        COL1470(1470,"已还期数","repaidPeriods",String.class),
+        COL1480(1480,"银行","bank",String.class),
+        COL1490(1490,"邮箱","email",String.class),
+        COL1500(1500,"逾期本金","overduePrinciple",String.class),
+        COL1510(1510,"逾期罚息","overdueDefaultInterest",String.class),
+        COL1520(1520,"逾期管理费","overdueManagementCost",String.class),
+        COL1530(1530,"逾期金额","overdueMoney",String.class),
+        COL1540(1540,"逾期利息","overdueInterest",String.class),
+        COL1550(1550,"逾期期数","overduePeriods",String.class),
+        COL1560(1560,"逾期日","overdueDate",String.class),
+        COL1570(1570,"逾期天数","overdueDays",Double.class),
+        COL1580(1580,"逾期账龄","accountAge",String.class),
+        COL1590(1590,"预计退案日","expectTimeD",Date.class),
+        COL1600(1600,"原催收记录","lastCollectionRecord",String.class),
+        COL1610(1610,"账单日","billDate",String.class),
+        COL1620(1620,"账单周期","billCycle",String.class),
+        COL1630(1630,"账号","account",String.class),
+        COL1640(1640,"账户名称","accountName",String.class),
+        COL1650(1650,"证件号","identNo",String.class),
+        COL1660(1660,"证件类型","identType",String.class),
+        COL1670(1670,"滞纳金","lateFee",String.class),
+        COL1680(1680,"最低还款额","minimumPayment",String.class),
+        COL1690(1690,"最后还款金额","lastRepayMoney",BigDecimal.class),
+        COL1700(1700,"最后还款日","lastRepayDate",Date.class),
+        COL1710(1710,"最后提现日","lastWithdrawDate",String.class),
+        COL1720(1720,"最后消费日","lastConsumeDate",String.class),
+
+
+        ;
+
+        private Integer sort;
+
+        private String col;
+
+        private String attr;
+
+        private Class[] attrClazz;
+
+        StandardCardLoanCase(Integer sort, String col, String attr, Class... attrClazz) {
+            this.sort = sort;
+            this.col = col;
+            this.attr = attr;
+            this.attrClazz = attrClazz;
+        }
+
+        public Integer getSort() {
+            return sort;
+        }
+
+        public void setSort(Integer sort) {
+            this.sort = sort;
+        }
+
+        public String getCol() {
+            return col;
+        }
+
+        public void setCol(String col) {
+            this.col = col;
+        }
+
+        public String getAttr() {
+            return attr;
+        }
+
+        public void setAttr(String attr) {
+            this.attr = attr;
+        }
+
+        public Class[] getAttrClazz() {
+            return attrClazz;
+        }
+
+        public void setAttrClazz(Class... attrClazz) {
+            this.attrClazz = attrClazz;
+        }
+    }
+
     public enum CaseExportCase implements ExcelEnum {
         COL10(10, "ID", "id", Integer.class),
         COL20(20, "个案序列号", "seqNo", String.class),
