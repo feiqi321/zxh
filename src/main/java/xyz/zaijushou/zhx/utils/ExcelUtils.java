@@ -318,8 +318,8 @@ public class ExcelUtils {
         switch (cellType) {
             case STRING:
                 result = cell.getStringCellValue();
-                if (result == null) {
-
+                if (result == null||StringUtils.isBlank((String)result)) {
+                    result =null;
                 } else if (clazz.equals(BigDecimal.class)) {
                     result = new BigDecimal((String) result);
                 } else if (clazz.equals(Integer.class) || clazz.equals(int.class)) {

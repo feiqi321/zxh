@@ -2934,7 +2934,12 @@
         #{loanDeadline},
         #{overdueDate},
         #{overduePeriods},
-        #{overdueDays},
+        <if test="overdueDays != null and overdueDays != ''">
+            #{overdueDays},
+        </if>
+        <if test="overdueDays == null or overdueDays == ''">
+            0,
+        </if>
         #{overdueTimes},
         #{entrustPeriods},
         #{repayDeadline},

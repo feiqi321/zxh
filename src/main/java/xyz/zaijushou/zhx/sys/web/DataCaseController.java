@@ -842,31 +842,32 @@ public class DataCaseController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
-        InputStream inputStream = file.getInputStream();
-        Workbook workbook = null;
-        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
-            workbook = new XSSFWorkbook(inputStream);
-        } else {
-            workbook = new HSSFWorkbook(inputStream);
-        }
-        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
-        Row row = workbook.getSheetAt(0).getRow(0);
-        String modelType = "";
-        for (int i=0;i<cols;i++){
-            Cell cell = row.getCell(i);
-            String cellValue = this.cellValue(cell);
-            if (cell!=null && cellValue!=null && cellValue.equals("配偶姓名")){
-                modelType = "chedai";
-            }else if(cell!=null && cellValue!=null){
-                modelType = "biaozhun";
-            }
-        }
+//        InputStream inputStream = file.getInputStream();
+//        Workbook workbook = null;
+//        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+//            workbook = new XSSFWorkbook(inputStream);
+//        } else {
+//            workbook = new HSSFWorkbook(inputStream);
+//        }
+//        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+//        Row row = workbook.getSheetAt(0).getRow(0);
+//        String modelType = "";
+//        for (int i=0;i<cols;i++){
+//            Cell cell = row.getCell(i);
+//            String cellValue = this.cellValue(cell);
+//            if (cell!=null && cellValue!=null && cellValue.equals("配偶姓名")){
+//                modelType = "chedai";
+//            }else if(cell!=null && cellValue!=null){
+//                modelType = "biaozhun";
+//            }
+//        }
         List<DataCaseEntity> dataCaseEntities;
-        if(modelType.equals("biaozhun")) {
-            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
-        } else {
-            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
-        }
+//        if(modelType.equals("biaozhun")) {
+//            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class);
+//        } else {
+//            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
+//        }
+        dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCardLoanCase.values(), DataCaseEntity.class);
         if(dataCaseEntities.size() == 0) {
             return WebResponse.success("添加0条数据");
         }
