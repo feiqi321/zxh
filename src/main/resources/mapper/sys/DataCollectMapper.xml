@@ -628,6 +628,7 @@
         dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:ii') as caseAllotTime,t.status as caseStatus
         from data_case t
         <where>
+            t.delete_flag = 0
             <trim suffixOverrides=",">
                 <if test="distributeStatus != null and distributeStatus!=''">
                     and t.distribute_status= #{distributeStatus}

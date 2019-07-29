@@ -32,11 +32,11 @@ public enum MyCollectSortEnum {
     COLUMN33("repayAmtMsg","t.pro_repay_amt"),
     COLUMN34("bankAmtMsg","t.bank_amt"),
     COLUMN35("lastPhoneTime","t.collect_date"),
-    COLUMN36("leaveDays","t.leave_Days"),
+    COLUMN36("leaveDays","t.collect_date"),
     COLUMN37("caseAllotTime","t.distribute_time"),
     COLUMN38("odv","t.odv"),
     COLUMN40("principle","t.principle"),
-    COLUMN41("overdueDays","t.collect_date"),
+    COLUMN41("overdueDays","t.overdue_days"),
     COLUMN39("distributeStatusMsg","t.distribute_status");
 
     //防止字段值被修改，增加的字段也统一final表示常量

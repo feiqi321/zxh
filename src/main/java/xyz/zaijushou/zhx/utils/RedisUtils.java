@@ -77,6 +77,9 @@ public class RedisUtils {
                 DataCaseEntity dataCaseEntity = (DataCaseEntity) object;
                 //logger.info(redisKeyPrefix + dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate());
                 //logger.info(JSONObject.toJSONString(object));
+                if(dataCaseEntity.getSeqNo()!=null && (dataCaseEntity.getSeqNo().equals("平安CP-20190301-25067") || dataCaseEntity.getSeqNo().equals("平安CP-20190301-13329"))){
+                    logger.info(redisKeyPrefix + dataCaseEntity.getSeqNo());
+                }
                 stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataCaseEntity.getSeqNo(), JSONObject.toJSONString(object));
                 stringRedisTemplate.opsForValue().set(redisKeyPrefix + dataCaseEntity.getCardNo() + "@" + dataCaseEntity.getCaseDate(), JSONObject.toJSONString(object));
             }

@@ -2005,8 +2005,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getCollectionType(),SysDictionaryEntity.class);
                     entity.setCollectionType(sysDictionaryEntity.getId()+"");
                 }*/
-
-                entity.setExpectTime(sdf2.format(entity.getExpectTimeD()));
+                if (entity.getExpectTimeD()!=null) {
+                    entity.setExpectTime(sdf2.format(entity.getExpectTimeD()));
+                }
                 entity.setMoney(entity.getMoney()==null?new BigDecimal(0):entity.getMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setBalance(entity.getBalance()==null?new BigDecimal(0):entity.getBalance().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setResidualPrinciple(entity.getResidualPrinciple()==null?new BigDecimal(0):entity.getResidualPrinciple().setScale(2, BigDecimal.ROUND_HALF_DOWN));
@@ -2022,6 +2023,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 entity.setLastRepayMoney(entity.getLastRepayMoney()==null?new BigDecimal(0):entity.getLastRepayMoney().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setOutstandingAmount(entity.getOutstandingAmount()==null?new BigDecimal(0):entity.getOutstandingAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setOverDays(entity.getOverDays()==null?0:entity.getOverDays());
+                entity.setOverdueDays(entity.getOverdueDays()==null?0:entity.getOverdueDays());
                 dataCaseMapper.saveCase(entity);
 
                 BigDecimal tmp = dataBatchEntity.getTotalAmt()==null?new BigDecimal(0):dataBatchEntity.getTotalAmt();
@@ -2626,7 +2628,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
 
         logger.info("设置数据字典开始");
-        if (dataCaseDetail.getOdv()!=null && dataCaseDetail.getOdv().equals("1")){
+        if (curentuser.getId().equals(1)){
             dataCaseDetail.setCurrentuser(true);
         }else {
             if (org.apache.commons.lang3.StringUtils.isNotEmpty(dataCaseDetail.getOdv()) && (!(curentuser.getId() + "").equals(dataCaseDetail.getOdv()))) {

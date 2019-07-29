@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,12 +9,14 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.DataCollectService;
 import xyz.zaijushou.zhx.sys.service.FileManageService;
@@ -24,6 +27,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -45,7 +49,10 @@ public class DataCollectController {
     private FileManageService fileManageService;
     @Autowired
     private SysDictionaryService dictionaryService;
-
+    @Resource
+    private DataCaseMapper dataCaseMapper;
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private SysOperationLogService sysOperationLogService;
 
@@ -237,14 +244,21 @@ public class DataCollectController {
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getCardNo()+"@"+temp.getCaseDate(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
                 }else{
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期不存在，请确认后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
                 }
             }else{
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+temp.getSeqno(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
 
                 }else{
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                    DataCaseEntity caseEntityTemp = new DataCaseEntity();
+                    caseEntityTemp.setSeqNo(temp.getSeqno());
+                    List<DataCaseEntity> caseEntityTempList = dataCaseMapper.findBySeqNo(caseEntityTemp);
+                    if (caseEntityTempList.size()>0){
+                        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getSeqNo(), JSONObject.toJSONString(caseEntityTempList.get(0)));
+                    }else{
+                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期不存在，请确认后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                    }
                 }
             }
             if (org.apache.commons.lang3.StringUtils.isNotEmpty(temp.getResultId())) {

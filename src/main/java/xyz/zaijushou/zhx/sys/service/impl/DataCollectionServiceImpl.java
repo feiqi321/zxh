@@ -259,7 +259,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort("desc");
-        }else if (dataCollectionEntity.getOrderBy().equals("overdueDays")){
+        }else if (dataCollectionEntity.getOrderBy().equals("leaveDays")){
             if (dataCollectionEntity.getSort().equals("desc")){
                 dataCollectionEntity.setSort("asc");
             }else{
@@ -269,9 +269,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         logger.info("********************开始查询案件");
         PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
         //排序关键字替换
-        if("t.leave_Days".equals(dataCollectionEntity.getOrderBy())){
+     /*   if("t.leave_Days".equals(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("leaveDays");
-        }
+        }*/
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
         logger.info("********************查询案件结束");
         /*int[] caseIdArray = new int[list.size()];

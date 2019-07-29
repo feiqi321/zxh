@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -580,15 +581,24 @@ public class DataCaseController {
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getCardNo()+"@"+dataCaseTelEntity.getCaseDate(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
                     dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
-                }else{
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                }else {
+                        return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+
                 }
             }else{
                 DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseTelEntity.getSeqNo(),DataCaseEntity.class);
                 if (dataCaseEntity!=null){
                     dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
                 }else{
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                    DataCaseEntity caseEntityTemp = new DataCaseEntity();
+                    caseEntityTemp.setSeqNo(dataCaseTelEntity.getSeqNo());
+                    List<DataCaseEntity> caseEntityTempList = dataCaseMapper.findBySeqNo(caseEntityTemp);
+                    if (caseEntityTempList.size() > 0) {
+                        dataCaseTelEntity.setCaseId(caseEntityTempList.get(0).getId());
+                        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getSeqNo(), JSONObject.toJSONString(caseEntityTempList.get(0)));
+                    } else {
+                        return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                    }
                 }
             }
             if (dicMap.get(caseList.get(i).getType())==null){
