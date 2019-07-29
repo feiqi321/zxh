@@ -793,39 +793,44 @@ public class DataCaseController {
         sysOperationLogService.insertRequest(operationLog);
         logger.info(fileName);
 
-        InputStream inputStream = file.getInputStream();
-        Workbook workbook = null;
-        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
-            workbook = new XSSFWorkbook(inputStream);
-        } else {
-            workbook = new HSSFWorkbook(inputStream);
-        }
-        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
-        Row row = workbook.getSheetAt(0).getRow(0);
-        String modelType = "";
-        for (int i=0;i<cols;i++){
-            Cell cell = row.getCell(i);
-            String cellValue = this.cellValue(cell);
-            if (cell!=null && cellValue!=null && cellValue.equals("配偶姓名")){
-                modelType = "chedai";
-            }else if(cell!=null && cellValue!=null){
-                modelType = "biaozhun";
-            }
-        }
+//        InputStream inputStream = file.getInputStream();
+//        Workbook workbook = null;
+//        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+//            workbook = new XSSFWorkbook(inputStream);
+//        } else {
+//            workbook = new HSSFWorkbook(inputStream);
+//        }
+//        int cols = workbook.getSheetAt(0).getRow(0).getPhysicalNumberOfCells();
+//        Row row = workbook.getSheetAt(0).getRow(0);
+//        String modelType = "";
+//        for (int i=0;i<cols;i++){
+//            Cell cell = row.getCell(i);
+//            String cellValue = this.cellValue(cell);
+//            if (cell!=null && cellValue!=null && cellValue.equals("配偶姓名")){
+//                modelType = "chedai";
+//            }else if(cell!=null && cellValue!=null){
+//                modelType = "biaozhun";
+//            }
+//        }
 
 
-            if(modelType.equals("biaozhun")) {
-                WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class,(caseEntityList)->{
-                    dataCaseService.doDataCase(caseEntityList);
-                    return null;},100);
-                return response;
-            } else {
-                WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class,(caseEntityList)->{
-                    dataCaseService.doDataCase(caseEntityList);
-                    return null;},100);
-                return response;
-            }
+//            if(modelType.equals("biaozhun")) {
+//                WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.StandardCase.values(), DataCaseEntity.class,(caseEntityList)->{
+//                    dataCaseService.doDataCase(caseEntityList);
+//                    return null;},100);
+//                return response;
+//            } else {
+//                WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class,(caseEntityList)->{
+//                    dataCaseService.doDataCase(caseEntityList);
+//                    return null;},100);
+//                return response;
+//            }
 
+
+        WebResponse response = excelUtils.importExcel(file, ExcelCaseConstant.StandardCardLoanCase.values(), DataCaseEntity.class,(caseEntityList)->{
+            dataCaseService.doDataCase(caseEntityList);
+            return null;},100);
+        return response;
 
 
     }
