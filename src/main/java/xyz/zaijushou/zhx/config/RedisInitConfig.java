@@ -64,6 +64,7 @@ public class RedisInitConfig implements ApplicationRunner {
         initAuthorityInfo(allAuthority);
         initRoleInfo();
         initDic(allDic);
+/*
 
         List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
         initBatch(allBatch);
@@ -72,11 +73,10 @@ public class RedisInitConfig implements ApplicationRunner {
             DataCaseEntity.setId(i*50000);
             DataCaseEntity.setMaxId((i+1)*50000);
             List<DataCaseEntity> allCase = dataCaseMapper.listInitAllCaseInfo(DataCaseEntity);
-            if (allCase.size()==0){
-                break;
-            }
+
             initCase(allCase);
         }
+*/
 
 
     }
