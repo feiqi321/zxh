@@ -867,7 +867,15 @@ public class DataCaseController {
 //        } else {
 //            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.CardLoanCase.values(), DataCaseEntity.class);
 //        }
-        dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCardLoanCase.values(), DataCaseEntity.class);
+        try{
+            dataCaseEntities = ExcelUtils.importExcel(file, ExcelCaseConstant.StandardCardLoanCase.values(), DataCaseEntity.class);
+
+        } catch (IOException e){
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), e.getMessage());
+        }
+
+
+
         if(dataCaseEntities.size() == 0) {
             return WebResponse.success("添加0条数据");
         }
