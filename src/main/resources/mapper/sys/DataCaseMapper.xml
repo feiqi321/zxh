@@ -1013,8 +1013,11 @@
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
                 </if>
-                <if test="collectStatus != null and collectStatus!=''">
-                    and da.collect_status = #{collectStatus}
+                <if test="collectStatuss != null and collectStatuss.length > 0 ">
+                    and da.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="color != null and color!=''">
                     and da.color = #{color}
@@ -2846,7 +2849,8 @@
         delete_flag,
         status,
         create_time,
-        real_return_time
+        real_return_time,
+        collect_status
         )
         values
         (
@@ -3040,7 +3044,8 @@
         0,
         1,
         GETDATE(),
-        #{realReturnTime}
+        #{realReturnTime},
+        832
         )
     </insert>
 

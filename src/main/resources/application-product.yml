@@ -5,6 +5,19 @@ spring:
     url: jdbc:sqlserver://192.168.25.205:1433;databasename=zhx
     username: sa
     password: frsoft@2019
+    initialSize: 10
+    minIdle: 5
+    maxActive: 100
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
     druid:
       filters: stat,wall
   redis:
@@ -43,4 +56,4 @@ rar_path: d:/module/众汇信催收系统导入模板.rar
 archive_path: d:/module/案人数据导入模板.xls
 case_path: d:/module/案件导入模板.rar
 detailFile_path: d:/detailFile/
-userFile_path: d:/module/在职员工导入模板.xlsx
+userFile_path: d:/module/在职员工导入模板.rar
