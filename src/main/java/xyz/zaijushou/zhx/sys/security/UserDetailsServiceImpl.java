@@ -25,6 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException("账号 " + loginName + " 不存在");
         }
+        if(user.getEnable() !=1){
+            throw new UsernameNotFoundException("账号 " + loginName + " 被锁定");
+        }
         return new User(user.getLoginName(), user.getPassword(), new ArrayList<>());
     }
 }

@@ -133,7 +133,7 @@
         <include refid="colSqlPasswordInfo"/>
         from sys_user
         where delete_flag = '0'
-        and enable = '1'
+<!--         and enable = '1' -->
         and login_name = #{loginName}
     </select>
 
