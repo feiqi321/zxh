@@ -14,7 +14,7 @@
         <file>/app/zhx/logs/zhx.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>/app/zhx/logs/zhx.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>90</maxHistory>
+            <maxHistory>20</maxHistory>
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} %-4L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}</pattern>
@@ -28,7 +28,7 @@
         <File>/app/zhx/logs/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>/app/zhx/logs/error.%d{yyyy-MM-dd}.log</fileNamePattern>
-            <maxHistory>90</maxHistory>
+            <maxHistory>20</maxHistory>
         </rollingPolicy>
         <encoder>
             <Pattern>${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} %-4L : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}</Pattern>

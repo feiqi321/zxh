@@ -772,7 +772,7 @@
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
                 </if>
-                <if test="collectStatuss != null and collectStatuss!=''">
+                <if test="collectStatuss != null and collectStatuss.length > 0 ">
                     and da.collect_status in
                     <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
                         #{item}

@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.constant.ExcelRepayRecordConstant;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
@@ -239,13 +240,36 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         return combineInfo(dataCaseRepayRecordMapper.listRepayRecordExport(repayRecordEntity));
     }
 
+    @Transactional
     @Override
     public void addList(List<DataCaseRepayRecordEntity> dataEntities) {
         if(CollectionUtils.isEmpty(dataEntities)) {
             return;
         }
-        dataCaseRepayRecordMapper.addList(dataEntities);
+        for (int i=0;i<dataEntities.size();i++){
+            DataCaseRepayRecordEntity temp = dataEntities.get(i);
+            dataCaseRepayRecordMapper.save(temp);
+        }
 
+        this.saveElse(dataEntities);
+        //dataCaseRepayRecordMapper.addList(dataEntities);
+
+     /*   for (int i=0;i<dataEntities.size();i++){
+            DataCaseRepayRecordEntity entity = dataEntities.get(i);
+            updateDataCaseBalance(entity);
+            DataOpLog log = new DataOpLog();
+            log.setType("案件管理");
+            log.setContext("已还款："+(entity.getRepayMoney()==null?"0":entity.getRepayMoney())+"，还款日期："+(entity.getRepayUser()==null?"":entity.getRepayUser())+"，备注： "+(entity.getRemark()==null?"":entity.getRemark()));
+            log.setOper(getUserInfo().getId());
+            log.setOperName(getUserInfo().getUserName());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            log.setOpTime(sdf.format(new Date()));
+            log.setCaseId(entity.getDataCase().getId()+"");
+            dataLogService.saveDataLog(log);
+        }*/
+    }
+    @Async
+    public void saveElse(List<DataCaseRepayRecordEntity> dataEntities){
         for (int i=0;i<dataEntities.size();i++){
             DataCaseRepayRecordEntity entity = dataEntities.get(i);
             updateDataCaseBalance(entity);
@@ -288,17 +312,17 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
         }
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
-        if (record.getCollectUser().getId()!=null) {
+        if (record.getCollectUser()!=null && record.getCollectUser().getId()!=null) {
             this.royalti(dataCaseEntity.getId(), record.getCollectUser().getId());
-        }else if(record.getCollectUser().getId()==null && StringUtils.isNotEmpty(dataCaseEntity.getOdv())){
+        }else if(record.getCollectUser()!=null && record.getCollectUser().getId()==null && StringUtils.isNotEmpty(dataCaseEntity.getOdv())){
             this.royalti(dataCaseEntity.getId(), Integer.parseInt(dataCaseEntity.getOdv()));
         }
     }
 
     @Async
     public void royalti(Integer id,Integer userId){
-        dataCollectionService.calRoyalti(id,userId);
-        dataCollectionService.calRoyaltiManage(id,userId);
+      /*  dataCollectionService.calRoyalti(id,userId);
+        dataCollectionService.calRoyaltiManage(id,userId);*/
     }
 
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {

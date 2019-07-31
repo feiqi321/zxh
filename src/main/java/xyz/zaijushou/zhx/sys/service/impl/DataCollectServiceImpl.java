@@ -120,9 +120,9 @@ public class DataCollectServiceImpl implements DataCollectService {
 
             temp.setRepayAmtMsg(temp.getRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getRepayAmt()+""));
             temp.setReduceAmtMsg(temp.getReduceAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getReduceAmt()+""));
-            resultList.add(temp);
+            list.set(i,temp);
         }
-        webResponse.setData(PageInfo.of(resultList));
+        webResponse.setData(PageInfo.of(list));
         logger.info("结束查询："+list.size());
         return webResponse;
     }

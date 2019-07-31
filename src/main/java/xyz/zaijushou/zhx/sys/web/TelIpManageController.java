@@ -71,7 +71,8 @@ public class TelIpManageController {
         logger.info("发送内容:"+telIpManage.getContext());
         String result = restTemplateUtil.doPostTestTwo(url,telIpManage.getContext());
         logger.info("呼叫中心返回消息："+result);
-        if (StringUtils.notEmpty(result) && (result.indexOf("Successfully")>0 || result.indexOf("成功")>0)){
+        String ss = "\"error\":0";
+        if (StringUtils.notEmpty(result) && (result.indexOf("Successfully")>0 || result.indexOf(ss)>0)){
             return WebResponse.success();
         }else{
             return WebResponse.error("500","拨号失败");

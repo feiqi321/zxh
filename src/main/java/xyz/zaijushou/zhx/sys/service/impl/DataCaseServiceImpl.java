@@ -1847,10 +1847,10 @@ public class DataCaseServiceImpl implements DataCaseService {
     @Override
     public void addCollectStatus(DataCaseEntity bean){
         dataCaseMapper.addCollectStatus(bean);
-        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+      /*  DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
         dataCollectionEntity.setCaseId(bean.getId()+"");
         dataCollectionEntity.setCollectStatus(bean.getCollectStatus());
-        dataCollectionMapper.addCollectStatus(dataCollectionEntity);
+        dataCollectionMapper.addCollectStatus(dataCollectionEntity);*/
     }
     @Override
     public void addCollectArea(DataCaseEntity bean){
@@ -3211,6 +3211,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
 
+    @Transactional
     public void doDataCase(List<DataCaseEntity> caseEntityList) {
         if(CollectionUtils.isEmpty(caseEntityList)){
             return ;
@@ -3266,8 +3267,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                 }catch (Exception e){
                     throw new IllegalArgumentException("个案序列号"+caseEntity.getSeqNo()+"的Mval格式不对，请修改后重新上传");
                 }
-
-                caseEntity.setExpectTime(sdf2.format(caseEntity.getExpectTimeD()));
+                if(caseEntity!=null && caseEntity.getExpectTimeD()!=null) {
+                    caseEntity.setExpectTime(sdf2.format(caseEntity.getExpectTimeD()));
+                }
                 caseEntity.setEnRepayAmt(caseEntity.getEnRepayAmt()==null?null:caseEntity.getEnRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 caseEntity.setBankAmt(caseEntity.getBankAmt()==null?null:caseEntity.getBankAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 caseEntity.setProRepayAmt(caseEntity.getProRepayAmt()==null?null:caseEntity.getProRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));

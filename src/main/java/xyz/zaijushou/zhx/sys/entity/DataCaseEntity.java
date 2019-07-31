@@ -202,7 +202,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String fixedQuota;  //固定额度
     private String defaultLevel;    //拖欠级别
     private BigDecimal lastRepayMoney;  //最后还款金额
-    private Date lastRepayDate; //最后还款日
+    private String lastRepayDate; //最后还款日
     private String lastConsumeDate;   //最后消费日
     private String lastWithdrawDate;  //最后提现日
     private String stopCardDate;  //停卡日
@@ -2705,11 +2705,11 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
         this.lastRepayMoney = lastRepayMoney;
     }
 
-    public Date getLastRepayDate() {
+    public String getLastRepayDate() {
         return lastRepayDate;
     }
 
-    public void setLastRepayDate(Date lastRepayDate) {
+    public void setLastRepayDate(String lastRepayDate) {
         this.lastRepayDate = lastRepayDate;
     }
 

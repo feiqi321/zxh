@@ -37,6 +37,8 @@ public interface SysUserMapper {
 
     void updateDept(SysNewUserEntity userEntity);
 
+    void updateOfficePhone(SysNewUserEntity userEntity);
+
     void updateDeptByName(SysNewUserEntity userEntity);
 
     void batchDelete(SysNewUserEntity userEntity);
@@ -90,13 +92,15 @@ public interface SysUserMapper {
 
     SysNewUserEntity selectPasswordInfoById(SysNewUserEntity user);
 
+    List<SysNewUserEntity> selectPasswordInfoByOffice(SysNewUserEntity user);
+
     void updateLoginFailTimes(SysUserEntity user);
 
     void updateLoginFailInfo(SysUserEntity user);
 
     void updateLoginFailLockInfo(SysUserEntity user);
 
-    int countByLoginName(SysUserEntity user);
+    List<SysUserEntity> countByLoginName(SysUserEntity user);
 
     int countUserNameAndNumber(SysNewUserEntity user);
 

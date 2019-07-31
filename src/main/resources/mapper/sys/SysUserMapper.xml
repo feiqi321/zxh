@@ -31,6 +31,7 @@
         email as email,
         last_login_fail_time as lastLoginFailTime,
         login_fail_times as loginFailTimes,
+         office_phone as officePhone,
         remark as remark,
         enable,
         create_user as [createUser.id],
@@ -143,6 +144,14 @@
         from sys_user
         where delete_flag = '0'
         and id = #{id}
+    </select>
+
+    <select id="selectPasswordInfoByOffice" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        select
+        <include refid="colSqlPasswordInfo"/>
+        from sys_user
+        where delete_flag = '0'
+        and office_phone = #{officePhone}
     </select>
     
     <select id="findUserInfoWithoutPasswordByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
@@ -325,65 +334,6 @@
 
     <!--查询数据集合-->
     <select id="userDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
-        <!--select
-        su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_fail_times as loginFailTimes,
-        su.status,su.enable,su.username as userName,so.org_name department,su.login_name as loginName,
-        su.create_time as createTime,su.create_user as 'createUser.id',
-        su.update_user as 'updateUser.id',su.update_time as updateTime,
-        su.delete_flag as deleteFlag,
-        sr.role_name as role,
-        su.leave_time as leaveTime,
-        su.join_time as joinTime,
-        su.department as departId,
-        sr.id as roleId,
-        su.enable,su.actual_time as actualTime,
-        su.position
-        from
-        (
-        select top ${pageSize} *  from (
-        SELECT  row_number() over(ORDER BY id desc) as rownumber,* FROM sys_user WHERE delete_flag = 0
-        <if test="status != null ">
-            AND  status = #{status,jdbcType=INTEGER}
-        </if>
-        <if test="ids != null  and ids.length > 0">
-            and id in
-            <foreach collection="ids" open="(" close=")" separator="," item="item">
-                #{item}
-            </foreach>
-        </if>
-        <if test="accountStatus != null and accountStatus==2">
-            AND  (enable = 0 or <![CDATA[ login_fail_times >= 3 ]]>)
-        </if>
-        <if test="accountStatus != null and accountStatus==1">
-            AND  enable=1 and  <![CDATA[ login_fail_times < 3 ]]>
-        </if>
-        <if test="number != null and number!=''">
-            AND  number like dbo.CONCAT('%',#{number},'%')
-        </if>
-        <if test="userName != null and userName!=''">
-            AND  username like dbo.CONCAT('%',#{userName},'%')
-        </if>
-        <if test="loginName != null and loginName!=''">
-            AND  login_name like dbo.CONCAT('%',#{loginName},'%')
-        </if>
-        &lt;!&ndash;<if test="department != null and department!=''" >
-            AND  department = #{department}
-        </if>&ndash;&gt;
-        <if test="departmens != null and departmens.length > 0 ">
-            and department in
-            <foreach item="item" index="index" collection="departmens" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        ) temp_row
-        where rownumber>((${pageNum}-1)*${pageSize})
-        )su
-        LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
-        LEFT JOIN sys_role sr on sur.role_id = sr.id
-        LEFT JOIN sys_organization so on su.department = so.id
-        ORDER BY ${orderBy} ${sort}-->
-
-
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_fail_times as loginFailTimes,
         su.status,su.enable,su.username as userName,so.org_name department,su.login_name as loginName,
@@ -422,6 +372,9 @@
         </if>
         <if test="userName != null and userName!=''">
             AND  su.username like dbo.CONCAT('%',#{userName},'%')
+        </if>
+        <if test="officePhone != null and officePhone!=''">
+            AND  su.office_phone like dbo.CONCAT('%',#{officePhone},'%')
         </if>
         <if test="loginName != null and loginName!=''">
             AND  su.login_name like dbo.CONCAT('%',#{loginName},'%')
@@ -575,6 +528,12 @@
         where username = #{userName}
     </update>
 
+    <!--修改坐席号-->
+    <update id="updateOfficePhone" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        update sys_user set office_phone = #{officePhone}
+        where id = #{id}
+    </update>
+
     <delete id="batchDelete" parameterType="java.lang.Integer">
         delete from sys_user  where id in
         <foreach collection="ids" open="(" close=")" separator="," item="item">
@@ -629,8 +588,8 @@
         where id = #{id}
     </update>
     
-    <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="java.lang.Integer">
-          select count(id) from sys_user where login_name LIKE dbo.CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
+    <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+          select <include refid="colSqlPasswordInfo"/> from sys_user where login_name LIKE dbo.CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
     </select>
 
     <select id="listByNameSet" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
@@ -749,18 +708,16 @@
     </select>
 
     <!--查询数据集合-->
-    <select id="userDataListByDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
+    <select id="userDataListByDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,su.login_fail_times as loginFailTimes,
-        su.status,su.enable,su.username as userName,so.org_name department,su.login_name as loginName,
+        su.status,su.enable,su.username as userName,su.login_name as loginName,
         su.create_time as createTime,su.create_user as 'createUser.id',
         su.update_user as 'updateUser.id',su.update_time as updateTime,
         su.delete_flag as deleteFlag,
-        sr.role_name as role,
         su.leave_time as leaveTime,
         su.join_time as joinTime,
         su.department as departId,
-        sr.id as roleId,
         su.enable,su.actual_time as actualTime,
         su.position
         from

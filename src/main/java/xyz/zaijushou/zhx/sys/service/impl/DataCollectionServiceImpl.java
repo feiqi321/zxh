@@ -996,7 +996,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             return ;
         }
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(userId);
-        Date actualTime = sysNewUserEntity.getActualTime();//转正时间
+        Date actualTime = sysNewUserEntity==null?null:sysNewUserEntity.getActualTime();//转正时间
 
         Calendar timeStart = Calendar.getInstance();
         Calendar timeEnd = Calendar.getInstance();
@@ -1043,7 +1043,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         managePercentage.setLineDate(sdf.format(new Date()));
         SysNewUserEntity sysNewUserEntity = sysUserMapper.getDataById(userId);
-        Date actualTime = sysNewUserEntity.getActualTime();//转正时间
+        Date actualTime = sysNewUserEntity==null?null: sysNewUserEntity.getActualTime();//转正时间
 
         CollectionStatistic beanInfoData = new CollectionStatistic();
         Calendar timeStart = Calendar.getInstance();

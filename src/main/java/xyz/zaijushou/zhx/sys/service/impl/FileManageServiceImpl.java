@@ -6,6 +6,7 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
@@ -75,7 +76,7 @@ public class FileManageServiceImpl implements FileManageService {
         return webResponse;
     }
 
-
+    @Transactional
     public WebResponse batchCaseAddress(List<DataCaseAddressEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
 
@@ -111,7 +112,7 @@ public class FileManageServiceImpl implements FileManageService {
         webResponse.setCode("100");
         return webResponse;
     }
-
+    @Transactional
     public WebResponse batchCaseInterest(List<DataCaseInterestEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -157,7 +158,7 @@ public class FileManageServiceImpl implements FileManageService {
         webResponse.setCode("100");
         return webResponse;
     }
-
+    @Transactional
     public WebResponse batchLetter(List<Letter> list){
         WebResponse webResponse = WebResponse.buildResponse();
 
@@ -176,7 +177,7 @@ public class FileManageServiceImpl implements FileManageService {
         webResponse.setCode("100");
         return webResponse;
     }
-
+    @Transactional
     public WebResponse batchCaseComment(List<DataCaseEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
 
@@ -256,6 +257,7 @@ public class FileManageServiceImpl implements FileManageService {
         SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
         return userTemp;
     }
+    @Transactional
     public WebResponse batchArchive(List<DataArchiveEntity> list){
 
         WebResponse webResponse = WebResponse.buildResponse();
@@ -312,10 +314,12 @@ public class FileManageServiceImpl implements FileManageService {
         return webResponse;
     }
 
+    @Transactional
     public WebResponse batchCollect(List<DataCollectionEntity> list){
 
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCollectionEntity> saveList = new ArrayList<DataCollectionEntity>();
+        List<DataCollectionEntity> caseList = new ArrayList<DataCollectionEntity>();
         List<DataOpLog> logList = new ArrayList<DataOpLog>();
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -375,7 +379,8 @@ public class FileManageServiceImpl implements FileManageService {
                 }
             }
             saveList.add(dataCollectionEntity);
-            if (i>0 && i%1000==0){
+            if (i>0 && i%20==0){
+                caseList.addAll(saveList);
                 dataCollectionMapper.saveBatchCollection(saveList);
                 dataLogService.saveBatchDataLog(logList);
                 saveList.clear();
@@ -386,13 +391,14 @@ public class FileManageServiceImpl implements FileManageService {
         }
         if (saveList.size()>0) {
             dataCollectionMapper.saveBatchCollection(saveList);
+            caseList.addAll(saveList);
         }
         if (logList.size()>0) {
             dataLogService.saveBatchDataLog(logList);
         }
 
         //更新催收时间
-        this.updateCollectDate(saveList);
+        this.updateCollectDate(caseList);
 
 
         webResponse.setMsg("导入成功");
@@ -400,7 +406,7 @@ public class FileManageServiceImpl implements FileManageService {
         return webResponse;
 
     }
-
+    @Transactional
     private void updateCollectDate(List<DataCollectionEntity> list){
         for (DataCollectionEntity dataCollectionEntity: list) {
             if (StringUtils.isNotBlank(dataCollectionEntity.getContractDate())){

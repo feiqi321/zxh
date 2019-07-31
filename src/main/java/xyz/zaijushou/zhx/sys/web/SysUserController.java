@@ -92,6 +92,12 @@ public class SysUserController {
         return webResponse;
     }
 
+    @ApiOperation(value = "修改坐席号", notes = "修改坐席号")
+    @PostMapping("/updateOfficePhone")
+    public Object updateOfficePhone(@RequestBody SysNewUserEntity userEntity) {
+        return sysUserService.updateOfficePhone(userEntity);
+    }
+
     @ApiOperation(value = "修改用户部门", notes = "修改用户信息")
     @PostMapping("/updateDept")
     public Object updateDept(@RequestBody SysNewUserEntity userEntity) {
@@ -232,6 +238,12 @@ public class SysUserController {
     public Object setUserPassword(@RequestBody SysNewUserEntity user) {
         sysUserService.setUserPassword(user);
         return WebResponse.success();
+    }
+
+    @ApiOperation(value = "查询本人的坐席号", notes = "查询本人的坐席号")
+    @PostMapping("/selectMine")
+    public Object selectMine(@RequestBody SysNewUserEntity user) {
+        return sysUserService.selectMine();
     }
 
     @ApiOperation(value = "管理员重置用户密码", notes = "管理员重置用户密码")

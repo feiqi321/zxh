@@ -32,6 +32,14 @@ public interface SysUserService {
     WebResponse updateUser(SysNewUserEntity userEntity);
 
     /**
+     * 修改用户
+     * @param userEntity
+     */
+    WebResponse updateOfficePhone(SysNewUserEntity userEntity);
+
+
+    public WebResponse selectMine();
+    /**
      * 修改用户部门
      * @param userEntity
      */

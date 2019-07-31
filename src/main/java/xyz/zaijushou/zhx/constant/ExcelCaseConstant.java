@@ -684,7 +684,7 @@ public class ExcelCaseConstant {
         COL680(680, "催收分类", "collectionType", String.class),
         COL690(690, "逾期利息", "overdueInterest", String.class),
         COL700(700, "滞纳金", "lateFee", String.class),
-        COL710(710, "最后还款日", "lastRepayDate", Date.class),
+        COL710(710, "最后还款日", "lastRepayDate", String.class),
         COL720(720, "最后消费日", "lastConsumeDate", String.class),
         COL730(730, "最后提现日", "lastWithdrawDate", String.class),
         COL740(740, "停卡日", "stopCardDate", String.class),

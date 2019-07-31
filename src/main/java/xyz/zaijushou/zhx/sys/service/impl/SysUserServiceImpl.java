@@ -31,6 +31,8 @@ import xyz.zaijushou.zhx.utils.StringUtils;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -300,6 +302,10 @@ public class SysUserServiceImpl implements SysUserService {
         if(StringUtils.isEmpty(userEntity.getLoginName())){
             return webResponse.error("500","用户账号为空");
         }
+        List<SysNewUserEntity> temp = sysUserMapper.selectPasswordInfoByOffice(userEntity);
+        if (temp.size()>0){
+            return WebResponse.error("500","坐席号重复");
+        }
         SysNewUserEntity bean = new SysNewUserEntity();
         bean.setUserName(userEntity.getUserName());
         //判断用户username是否重复
@@ -368,6 +374,11 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setEnable(0);
         }
 
+        List<SysNewUserEntity> temp = sysUserMapper.selectPasswordInfoByOffice(userEntity);
+        if (temp.size()>0){
+            return WebResponse.error("500","坐席号重复");
+        }
+
         SysNewUserEntity bean = new SysNewUserEntity();
         bean.setId(userEntity.getId());
         bean.setUserName(userEntity.getUserName());
@@ -407,6 +418,20 @@ public class SysUserServiceImpl implements SysUserService {
     public void updateDept(SysNewUserEntity userEntity){
 
         sysUserMapper.updateDept(userEntity);
+    }
+
+    @Override
+    public WebResponse updateOfficePhone(SysNewUserEntity userEntity){
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        userEntity.setId(userId);
+        List<SysNewUserEntity> temp = sysUserMapper.selectPasswordInfoByOffice(userEntity);
+        if (temp.size()>0){
+            return WebResponse.error("500","坐席号重复");
+        }else{
+            sysUserMapper.updateOfficePhone(userEntity);
+            return WebResponse.success();
+        }
+
     }
     @Override
     public void batchDelete(SysNewUserEntity userEntity){
@@ -621,6 +646,12 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserMapper.passwordReset(user);
     }
 
+    public WebResponse selectMine() {
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysNewUserEntity user = new SysNewUserEntity();
+        user.setId(userId);
+        return WebResponse.success(sysUserMapper.selectPasswordInfoById(user));
+    }
 
     private SysNewUserEntity selectPasswordInfoById(SysNewUserEntity user) {
         return sysUserMapper.selectPasswordInfoById(user);
@@ -639,15 +670,29 @@ public class SysUserServiceImpl implements SysUserService {
 
     public SysUserEntity getLoginName(SysUserEntity user) throws Exception{
         PinyinTool tool = new PinyinTool();
+        int count = 1;
         user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE));
-        int count = sysUserMapper.countByLoginName(user);
-        if (count ==0){
+        List<SysUserEntity> list = sysUserMapper.countByLoginName(user);
+        Pattern pat = Pattern.compile(user.getUserName()+"(\\d*)");
+        boolean baseUser = false;
+        for (int i=0;i<list.size();i++){
+            SysUserEntity sysUserEntity = list.get(i);
+            Matcher mat = pat.matcher(sysUserEntity.getUserName());
+            if(mat.matches()) {
+                count = count+1;
+            }
+            if(user.getUserName().equals(sysUserEntity.getUserName())){
+                baseUser = true;
+            }
+        }
+
+        if (count ==0 || !baseUser){
             user.setLoginNameCount(1);
             return user;
         }else{
-            user.setLoginNameCount(count+1);
-            user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count+1));
-            user.setUserName(user.getUserName()+(count+1));
+            user.setLoginNameCount(count);
+            user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count));
+            user.setUserName(user.getUserName()+(count));
             return user;
         }
     }
@@ -802,7 +847,22 @@ public class SysUserServiceImpl implements SysUserService {
             userTree.setType("dept");
 
             SysNewUserEntity sysNewUserEntity = new SysNewUserEntity();
-            sysNewUserEntity.setDepartment(root.getId() + "");
+            sysNewUserEntity.setDepartment(sysOrganizationEntity.getId() + "");
+            List<UserTree> childList = new ArrayList<UserTree>();
+            List<SysNewUserEntity> userLeafList = sysUserMapper.userDataListByDept(sysNewUserEntity);
+            if (userLeafList.size()>0){
+                for (int i=0;i<userLeafList.size();i++){
+                    SysNewUserEntity temp = userLeafList.get(i);
+                    UserTree tempTree = new UserTree();
+                    tempTree.setId(temp.getId());
+                    tempTree.setName(temp.getUserName());
+                    tempTree.setType("user");
+                    childList.add(tempTree);
+                }
+            }
+            if (childList.size()>0) {
+                userTree.setChildren(childList);
+            }
 
             this.curcleUserTree(userTree, sysOrganizationEntity, sysNewUserEntity);
 
@@ -889,5 +949,15 @@ public class SysUserServiceImpl implements SysUserService {
         }
     }
 
+
+    public static  void main(String args[]){
+        String testTxt = "张三";
+        Pattern pat = Pattern.compile("张三(\\d*)");
+
+        Matcher mat = pat.matcher(testTxt);
+        if(mat.matches()) {
+            System.out.println(mat.group(1));
+        }
+    }
 
 }

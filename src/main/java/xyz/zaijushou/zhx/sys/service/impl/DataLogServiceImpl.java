@@ -49,7 +49,11 @@ public class DataLogServiceImpl implements DataLogService {
     }
 
     public void saveBatchDataLog(List<DataOpLog> list){
-        dataOpLogMapper.saveBatchDataLog(list);
+        for (int i=0;i<list.size();i++){
+            DataOpLog temp = list.get(i);
+            dataOpLogMapper.saveDataLog(temp);
+        }
+        //dataOpLogMapper.saveBatchDataLog(list);
     }
 
 

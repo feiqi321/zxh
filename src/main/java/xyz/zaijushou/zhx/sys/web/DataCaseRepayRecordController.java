@@ -258,23 +258,24 @@ public class DataCaseRepayRecordController {
             seqNoSet.add(dataEntities.get(i).getDataCase().getSeqNo());
         }
 
-        DataCaseEntity queryEntity = new DataCaseEntity();
+        /*DataCaseEntity queryEntity = new DataCaseEntity();
         queryEntity.setSeqNoSet(seqNoSet);
         List<DataCaseEntity> existCaseList = dataCaseService.listBySeqNoSet(queryEntity);
         Map<String, DataCaseEntity> existCaseMap = new HashMap<>();
         for(DataCaseEntity entity : existCaseList) {
             existCaseMap.put(entity.getSeqNo(), entity);
-        }
+        }*/
         SysUserEntity user = new SysUserEntity();
         user.setId(userId);
         SysNewUserEntity confirmUser = new SysNewUserEntity();
         confirmUser.setId(userId);
 
         for (DataCaseRepayRecordEntity entity : dataEntities) {
-            if (!existCaseMap.containsKey(entity.getDataCase().getSeqNo())) {
+            DataCaseEntity dataCaseEntity = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+entity.getDataCase().getSeqNo(),DataCaseEntity.class);
+            if (dataCaseEntity ==null) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "个案序列号:" + entity.getDataCase().getSeqNo() + "不存在，请确认后重新上传");
             }
-            entity.setDataCase(existCaseMap.get(entity.getDataCase().getSeqNo()));
+            entity.setDataCase(dataCaseEntity);
             if(entity.getCollectUser() == null || entity.getCollectUser().getId() == null) {
 
                 if(StringUtils.isNotEmpty(entity.getDataCase().getOdv())){
