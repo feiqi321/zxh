@@ -80,6 +80,8 @@ public class ExcelUtils {
             colMap.put(i, excelEnumMap.get(cellValue.toString().trim()));
         }
         for (int i = 1; i <= sheet.getPhysicalNumberOfRows()-1; i++) {
+            //列，在此处定义是为了准确提示
+            int k =0;
             try {
                 Row row = sheet.getRow(i);
                 T entity = entityClazz.getConstructor().newInstance();
@@ -91,7 +93,7 @@ public class ExcelUtils {
                     entity = null;
                     continue;
                 }
-                for (int k = 0; k < header.getLastCellNum(); k++) {
+                for (k = 0; k < header.getLastCellNum(); k++) {
                     Cell cell = row.getCell(k);
                     /*if (k==92){
                         System.out.println(111);
@@ -154,7 +156,9 @@ public class ExcelUtils {
                 throw new IOException("excel解析错误", e);
             } catch (ParseException e) {
                 logger.error("excel日期解析错误：{}", e);
-                throw new IOException("excel日期解析错误", e);
+                //+1是为了补充标题所占的一行
+                int j = i+1;
+                throw new IOException("第"+j+"行"+k+"列日期解析错误", e);
             } catch (Exception e) {
                 logger.error("excel解析错误：{}", e);
                 throw new IOException("excel解析错误", e);
