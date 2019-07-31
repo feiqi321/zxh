@@ -156,7 +156,9 @@ public class ExcelUtils {
                 throw new IOException("excel解析错误", e);
             } catch (ParseException e) {
                 logger.error("excel日期解析错误：{}", e);
-                throw new IOException("第"+i+"行"+k+"列日期解析错误", e);
+                //+1是为了补充标题所占的一行
+                int j = i+1;
+                throw new IOException("第"+j+"行"+k+"列日期解析错误", e);
             } catch (Exception e) {
                 logger.error("excel解析错误：{}", e);
                 throw new IOException("excel解析错误", e);
