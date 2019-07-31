@@ -123,7 +123,7 @@ public class ExcelUtils {
                         }
                         Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
 
-                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1]));
+                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
                     } else {
                         matcher = Pattern.compile("\\.").matcher(attr);
                         if (matcher.find()) {
@@ -140,10 +140,10 @@ public class ExcelUtils {
                             }
                             object = firstAttrGetMethod.invoke(entity);
                             Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
-                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1]));
+                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
                         } else {
                             Method method = entity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), excelEnum.getAttrClazz()[0]);
-                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0]));
+                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0],excelEnum.getCol()));
                         }
                     }
 
@@ -243,7 +243,7 @@ public class ExcelUtils {
                         }
                         Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
 
-                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1]));
+                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
                     } else {
                         matcher = Pattern.compile("\\.").matcher(attr);
                         if (matcher.find()) {
@@ -260,10 +260,10 @@ public class ExcelUtils {
                             }
                             object = firstAttrGetMethod.invoke(entity);
                             Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
-                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1]));
+                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
                         } else {
                             Method method = entity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), excelEnum.getAttrClazz()[0]);
-                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0]));
+                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0],excelEnum.getCol()));
                         }
                     }
 
@@ -306,7 +306,7 @@ public class ExcelUtils {
         return response;
     }
 
-    private static Object cellValue(Cell cell, Class clazz) throws ParseException {
+    private static Object cellValue(Cell cell, Class clazz,String col) throws ParseException {
         if(cell == null) {
             return null;
         }
@@ -345,7 +345,18 @@ public class ExcelUtils {
                     Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
                     result = date;
                 } else if(clazz.equals(String.class)) {
-                    result = "" + df.format(cell.getNumericCellValue());
+
+                    if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && col.equals("最后还款日")){
+                        try {
+                            double value = cell.getNumericCellValue();
+                            Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+                            result = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                        }catch (Exception e){
+                            result = "" + df.format(cell.getNumericCellValue());
+                        }
+                    }else{
+                        result = "" + df.format(cell.getNumericCellValue());
+                    }
                 } else {
                     if (clazz.equals(BigDecimal.class)) {
                         result = new BigDecimal(cell.getNumericCellValue());

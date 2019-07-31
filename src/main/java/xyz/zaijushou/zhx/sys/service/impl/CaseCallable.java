@@ -30,18 +30,15 @@ public class CaseCallable implements Callable<List<DataCaseEntity>> {
 
     public List<DataCaseEntity> call() throws Exception{
 
-        if (temp.getCollectDate()==null  && temp.getCollectStatus()==0){
-            temp.setCollectStatusMsg("新案");
+        if (temp.getCollectDate()==null){
             temp.setLeaveDays(0);
         }else {
-            if (temp.getCollectStatus() == 0) {
-                temp.setCollectStatusMsg("新案");
-            } else {
-                SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getCollectStatus(), SysDictionaryEntity.class);
-                temp.setCollectStatusMsg(sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName());
-            }
             temp.setLeaveDays(differentDays(temp.getCollectTime()));
         }
+
+        SysDictionaryEntity collectStatusEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + temp.getCollectStatus(), SysDictionaryEntity.class);
+        temp.setCollectStatusMsg(collectStatusEntity == null ? "" : collectStatusEntity.getName());
+
         if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getCollectArea())){
             temp.setCollectArea("");
         }else{
