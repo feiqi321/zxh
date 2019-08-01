@@ -217,6 +217,8 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String overdueDate;   //逾期日
     private String overduePeriods;  //逾期期数
     private Double overdueDays; //逾期天数
+    private BigDecimal overdueDaysEnd; //逾期天数上限
+    private BigDecimal overdueDaysStart; //逾期天数下限
     private Integer overdueTimes;   //曾逾期次数
     private String entrustPeriods;  //委案期数
     private String repayDeadline; //还款期限
@@ -352,6 +354,186 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String contactUnitTel6;
     private String contactMobile6;
     private String contactUnit6;
+
+    private String contactName7;
+    private String contactIdentNo7;
+    private String contactIdentType7;
+    private String contactRelation7;
+    private String contactHomeTel7;
+    private String contactUnitTel7;
+    private String contactMobile7;
+    private String contactUnit7;
+    private String contactAddress7;
+
+    private String contactName8;
+    private String contactIdentNo8;
+    private String contactIdentType8;
+    private String contactRelation8;
+    private String contactHomeTel8;
+    private String contactUnitTel8;
+    private String contactMobile8;
+    private String contactUnit8;
+    private String contactAddress8;
+
+    public BigDecimal getOverdueDaysEnd() {
+        return overdueDaysEnd;
+    }
+
+    public void setOverdueDaysEnd(BigDecimal overdueDaysEnd) {
+        this.overdueDaysEnd = overdueDaysEnd;
+    }
+
+    public BigDecimal getOverdueDaysStart() {
+        return overdueDaysStart;
+    }
+
+    public void setOverdueDaysStart(BigDecimal overdueDaysStart) {
+        this.overdueDaysStart = overdueDaysStart;
+    }
+
+    public String getContactName7() {
+        return contactName7;
+    }
+
+    public void setContactName7(String contactName7) {
+        this.contactName7 = contactName7;
+    }
+
+    public String getContactIdentNo7() {
+        return contactIdentNo7;
+    }
+
+    public void setContactIdentNo7(String contactIdentNo7) {
+        this.contactIdentNo7 = contactIdentNo7;
+    }
+
+    public String getContactIdentType7() {
+        return contactIdentType7;
+    }
+
+    public void setContactIdentType7(String contactIdentType7) {
+        this.contactIdentType7 = contactIdentType7;
+    }
+
+    public String getContactRelation7() {
+        return contactRelation7;
+    }
+
+    public void setContactRelation7(String contactRelation7) {
+        this.contactRelation7 = contactRelation7;
+    }
+
+    public String getContactHomeTel7() {
+        return contactHomeTel7;
+    }
+
+    public void setContactHomeTel7(String contactHomeTel7) {
+        this.contactHomeTel7 = contactHomeTel7;
+    }
+
+    public String getContactUnitTel7() {
+        return contactUnitTel7;
+    }
+
+    public void setContactUnitTel7(String contactUnitTel7) {
+        this.contactUnitTel7 = contactUnitTel7;
+    }
+
+    public String getContactMobile7() {
+        return contactMobile7;
+    }
+
+    public void setContactMobile7(String contactMobile7) {
+        this.contactMobile7 = contactMobile7;
+    }
+
+    public String getContactUnit7() {
+        return contactUnit7;
+    }
+
+    public void setContactUnit7(String contactUnit7) {
+        this.contactUnit7 = contactUnit7;
+    }
+
+    public String getContactAddress7() {
+        return contactAddress7;
+    }
+
+    public void setContactAddress7(String contactAddress7) {
+        this.contactAddress7 = contactAddress7;
+    }
+
+    public String getContactName8() {
+        return contactName8;
+    }
+
+    public void setContactName8(String contactName8) {
+        this.contactName8 = contactName8;
+    }
+
+    public String getContactIdentNo8() {
+        return contactIdentNo8;
+    }
+
+    public void setContactIdentNo8(String contactIdentNo8) {
+        this.contactIdentNo8 = contactIdentNo8;
+    }
+
+    public String getContactIdentType8() {
+        return contactIdentType8;
+    }
+
+    public void setContactIdentType8(String contactIdentType8) {
+        this.contactIdentType8 = contactIdentType8;
+    }
+
+    public String getContactRelation8() {
+        return contactRelation8;
+    }
+
+    public void setContactRelation8(String contactRelation8) {
+        this.contactRelation8 = contactRelation8;
+    }
+
+    public String getContactHomeTel8() {
+        return contactHomeTel8;
+    }
+
+    public void setContactHomeTel8(String contactHomeTel8) {
+        this.contactHomeTel8 = contactHomeTel8;
+    }
+
+    public String getContactUnitTel8() {
+        return contactUnitTel8;
+    }
+
+    public void setContactUnitTel8(String contactUnitTel8) {
+        this.contactUnitTel8 = contactUnitTel8;
+    }
+
+    public String getContactMobile8() {
+        return contactMobile8;
+    }
+
+    public void setContactMobile8(String contactMobile8) {
+        this.contactMobile8 = contactMobile8;
+    }
+
+    public String getContactUnit8() {
+        return contactUnit8;
+    }
+
+    public void setContactUnit8(String contactUnit8) {
+        this.contactUnit8 = contactUnit8;
+    }
+
+    public String getContactAddress8() {
+        return contactAddress8;
+    }
+
+    public void setContactAddress8(String contactAddress8) {
+        this.contactAddress8 = contactAddress8;
+    }
 
     public List<String> getUserName() {
         return userName;

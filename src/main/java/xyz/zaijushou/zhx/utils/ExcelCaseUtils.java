@@ -228,9 +228,9 @@ public class ExcelCaseUtils {
             try {
                 T entity = data.get(i - 1);
                 Row row = sheet.createRow(i);
-                XSSFCellStyle style = workbook.createCellStyle();
-                DataCaseEntity dataCaseEntity = (DataCaseEntity)entity;
-                if (dataCaseEntity.getColor()!=null && (dataCaseEntity.getColor().equals("RED") || dataCaseEntity.getColor().equals("红色"))){
+                //XSSFCellStyle style = workbook.createCellStyle();
+                //DataCaseEntity dataCaseEntity = (DataCaseEntity)entity;
+                /*if (dataCaseEntity.getColor()!=null && (dataCaseEntity.getColor().equals("RED") || dataCaseEntity.getColor().equals("红色"))){
                     XSSFColor color = new XSSFColor(new java.awt.Color(255, 0, 0));
                     style.setFillForegroundColor(color);
                 }else if (dataCaseEntity.getColor()!=null && (dataCaseEntity.getColor().equals("BLUE") || dataCaseEntity.getColor().equals("蓝色"))){
@@ -247,7 +247,7 @@ public class ExcelCaseUtils {
                     style.setFillForegroundColor(color);
                 }
 
-                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                style.setFillPattern(FillPatternType.SOLID_FOREGROUND);*/
 
                 for (int k = 0; k < excelEnumMap.size(); k++) {
                     Cell cell = row.createCell(k);

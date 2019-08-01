@@ -46,7 +46,7 @@ public class RedisInitConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
-        List<SysUserEntity> allUser = sysUserService.listAllUsers(new SysUserEntity());
+       /* List<SysUserEntity> allUser = sysUserService.listAllUsers(new SysUserEntity());
 
         List<SysMenuEntity> allMenu = sysMenuService.listAllMenus(new SysMenuEntity());
 
@@ -63,7 +63,7 @@ public class RedisInitConfig implements ApplicationRunner {
         initButtonInfo(allButton);
         initAuthorityInfo(allAuthority);
         initRoleInfo();
-        initDic(allDic);
+        initDic(allDic);*/
 /*
 
         List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());

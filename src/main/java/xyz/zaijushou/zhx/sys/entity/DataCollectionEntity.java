@@ -127,6 +127,8 @@ public class DataCollectionEntity extends CommonEntity {
     private String accountAge;//逾期账龄
 
     private int overDays;//逾期天数
+    private Double overdueDaysEnd; //逾期天数上限
+    private Double overdueDaysStart; //逾期天数下限
     private String newCase;//是否新配分
 
     private String collectionType ; //催收类别
@@ -327,6 +329,22 @@ public class DataCollectionEntity extends CommonEntity {
     private Integer isEnable;
 
     private Double overdueDays; //逾期天数
+
+    public Double getOverdueDaysEnd() {
+        return overdueDaysEnd;
+    }
+
+    public void setOverdueDaysEnd(Double overdueDaysEnd) {
+        this.overdueDaysEnd = overdueDaysEnd;
+    }
+
+    public Double getOverdueDaysStart() {
+        return overdueDaysStart;
+    }
+
+    public void setOverdueDaysStart(Double overdueDaysStart) {
+        this.overdueDaysStart = overdueDaysStart;
+    }
 
     public Double getOverdueDays() {
         return overdueDays;

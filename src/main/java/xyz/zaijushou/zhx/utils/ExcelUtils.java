@@ -347,6 +347,20 @@ public class ExcelUtils {
                 } else if(clazz.equals(String.class)) {
 
                     if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && col.equals("最后还款日")){
+
+                        /*short format = cell.getCellStyle().getDataFormat();
+                        SimpleDateFormat sdf = null;
+                        if(format == 14 || format == 31 || format == 57 || format == 58){
+                            //日期
+                            sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        }else if (format == 20 || format == 32) {
+                            //时间
+                            sdf = new SimpleDateFormat("HH:mm");
+                        }
+                        double value = cell.getNumericCellValue();
+                        Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+                        result = sdf.format(date);*/
+
                         try {
                             double value = cell.getNumericCellValue();
                             Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);

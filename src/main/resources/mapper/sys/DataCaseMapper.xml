@@ -759,9 +759,15 @@
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
-                <if test="overDays != null and overDays!=''">
-                    and da.overdue_days = #{overDays}
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and da.overdue_days>=  #{overdueDaysStart}  ]]>
                 </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and da.overdue_days <=  #{overdueDaysEnd}   ]]>
+                </if>
+                <!--<if test="overDays != null and overDays!=''">
+                    and da.overdue_days = #{overDays}
+                </if>-->
                 <if test="collectInfo != null and collectInfo!=''">
                     and da.summary = #{collectInfo}
                 </if>
@@ -1000,8 +1006,11 @@
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
-                <if test="overDays != null and overDays!=''">
-                    and da.overdue_days = #{overDays}
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and da.overdue_days>=  #{overdueDaysStart}  ]]>
+                </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and da.overdue_days <=  #{overdueDaysEnd}   ]]>
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collect_info = #{collectInfo}
@@ -2127,6 +2136,63 @@
             <if test="contactAddress6 != null and contactAddress6 != ''">
                 contactAddress6 = #{contactAddress6},
             </if>
+
+            <if test="contactName7 != null and contactName7 != ''">
+                contactName7 = #{contactName7},
+            </if>
+            <if test="contactIdentNo7 != null and contactIdentNo7 != ''">
+                contactIdentNo7 = #{contactIdentNo7},
+            </if>
+            <if test="contactIdentType7 != null and contactIdentType7 != ''">
+                contactIdentType7 = #{contactIdentType7},
+            </if>
+            <if test="contactRelation7 != null and contactRelation7 != ''">
+                contactRelation7 = #{contactRelation7},
+            </if>
+            <if test="contactHomeTel7 != null and contactHomeTel7 != ''">
+                contactHomeTel7 = #{contactHomeTel7},
+            </if>
+            <if test="contactUnitTel7 != null and contactUnitTel7 != ''">
+                contactUnitTel7 = #{contactUnitTel7},
+            </if>
+            <if test="contactMobile7 != null and contactMobile7 != ''">
+                contactMobile7 = #{contactMobile7},
+            </if>
+            <if test="contactUnit7 != null and contactUnit7 != ''">
+                contactUnit7 = #{contactUnit7},
+            </if>
+            <if test="contactAddress7 != null and contactAddress7 != ''">
+                contactAddress7 = #{contactAddress7},
+            </if>
+
+            <if test="contactName8 != null and contactName8 != ''">
+                contactName8 = #{contactName8},
+            </if>
+            <if test="contactIdentNo8 != null and contactIdentNo8 != ''">
+                contactIdentNo8 = #{contactIdentNo8},
+            </if>
+            <if test="contactIdentType8 != null and contactIdentType8 != ''">
+                contactIdentType8 = #{contactIdentType8},
+            </if>
+            <if test="contactRelation8 != null and contactRelation8 != ''">
+                contactRelation8 = #{contactRelation8},
+            </if>
+            <if test="contactHomeTel8 != null and contactHomeTel8 != ''">
+                contactHomeTel8 = #{contactHomeTel8},
+            </if>
+            <if test="contactUnitTel8 != null and contactUnitTel8 != ''">
+                contactUnitTel8 = #{contactUnitTel8},
+            </if>
+            <if test="contactMobile8 != null and contactMobile8 != ''">
+                contactMobile8 = #{contactMobile8},
+            </if>
+            <if test="contactUnit8 != null and contactUnit8 != ''">
+                contactUnit8 = #{contactUnit8},
+            </if>
+            <if test="contactAddress8 != null and contactAddress8 != ''">
+                contactAddress8 = #{contactAddress8},
+            </if>
+
             <if test="remark1 != null and remark1 != ''">
                 remark1 = #{remark1},
             </if>
@@ -2846,6 +2912,24 @@
         contactMobile6,
         contactUnit6,
         contactAddress6,
+        contactName7,
+        contactIdentNo7,
+        contactIdentType7,
+        contactRelation7,
+        contactHomeTel7,
+        contactUnitTel7,
+        contactMobile7,
+        contactUnit7,
+        contactAddress7,
+        contactName8,
+        contactIdentNo8,
+        contactIdentType8,
+        contactRelation8,
+        contactHomeTel8,
+        contactUnitTel8,
+        contactMobile8,
+        contactUnit8,
+        contactAddress8,
         delete_flag,
         status,
         create_time,
@@ -3041,6 +3125,24 @@
         #{contactMobile6},
         #{contactUnit6},
         #{contactAddress6},
+        #{contactName7},
+        #{contactIdentNo7},
+        #{contactIdentType7},
+        #{contactRelation7},
+        #{contactHomeTel7},
+        #{contactUnitTel7},
+        #{contactMobile7},
+        #{contactUnit7},
+        #{contactAddress7},
+        #{contactName8},
+        #{contactIdentNo8},
+        #{contactIdentType8},
+        #{contactRelation8},
+        #{contactHomeTel8},
+        #{contactUnitTel8},
+        #{contactMobile8},
+        #{contactUnit8},
+        #{contactAddress8},
         0,
         1,
         GETDATE(),

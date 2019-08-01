@@ -686,6 +686,13 @@
                     AND t.name = #{name}
                 </if>
 
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and t.overdue_days>=  #{overdueDaysStart}  ]]>
+                </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and t.overdue_days <=  #{overdueDaysEnd}   ]]>
+                </if>
+
                 <if test="accountAge != null and accountAge!=''">
                     and t.account_age = #{accountAge}
                 </if>

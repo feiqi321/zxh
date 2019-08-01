@@ -1186,7 +1186,7 @@ public class DataCaseController {
         operationLog.setRequestBody(fileName);
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
-        ExcelCaseUtils.exportExcel(resultList,
+        ExcelUtils.exportExcel(resultList,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response
