@@ -63,6 +63,10 @@
         </trim>
 
     </insert>
+    <insert id="addDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        insert into sys_organization (org_name,parent_id,sort,create_time,update_time,delete_flag)
+        values (#{orgName},#{pid},#{sort}, GETDATE(),GETDATE(),0)
+    </insert>
 
     <update id="updateOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         update sys_organization
@@ -81,6 +85,9 @@
         </trim>
         where id = #{id}
     </update>
+    <update id="deleteSelectDepartment">
+        update sys_organization set delete_flag=1 where id = #{id}
+    </update>
 
     <select id="selectMaxSort" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         select max(sort) as sort from sys_organization
@@ -92,8 +99,18 @@
         where id = #{id}
           and delete_flag = '0'
     </update>
+    <update id="moveUpDown">
+        update sys_organization set sort=#{sort1} where id=#{id}
+    </update>
+    <update id="moveUpDown1">
+        update sys_organization set sort=#{sort} where id=#{id1}
+    </update>
+    <update id="updateDepartment">
+        update sys_organization set org_name=#{orgName} where id=#{id}
+    </update>
 
-    <select id="listAllOrganizations" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+    <select id="listAllOrganizations" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity"
+            resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         select
         <include refid="colSql"/>
         from sys_organization
@@ -102,7 +119,8 @@
         order by sort
     </select>
 
-    <select id="listChildOrganizationBy" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+    <select id="listChildOrganizationBy" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity"
+            resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         select
         <include refid="colSql"/>
         from sys_organization
@@ -111,7 +129,8 @@
         order by sort
     </select>
 
-    <select id="listAllOrganizationsByParentId" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+    <select id="listAllOrganizationsByParentId" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity"
+            resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         select
         <include refid="colSql"/>
         from sys_organization
@@ -157,13 +176,24 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
     <select id="findSysNewUserInformationById" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserDataForm">
          with tem_table(id,parent_id,org_name,curlevel) as
 			(select   id, parent_id, org_name, 1 as level
-			 from dbo.sys_organization where parent_id = 1 union all
+			 from dbo.sys_organization where parent_id = #{department} union all
 			 select   a.id,  a.parent_id,  a.org_name, b.curlevel+1 from
 			 dbo.sys_organization a inner join tem_table b on (a.parent_id = b.id))
          select t.id,t.username,t.actualTime,o.repay_amt,o.percentage from (
          select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1) t
          left join (select odv, sum(o.repay_amt) as repay_amt, sum(o.percentage) as percentage
          from odv_percentage o group by odv) o on t.id=o.odv
+    </select>
+    <select id="findStaffNumberById" resultType="java.lang.Integer">
+        with tem_table(id,parent_id,org_name,curlevel) as
+			(select   id, parent_id, org_name, 1 as level
+			 from dbo.sys_organization where parent_id = #{department} union all
+			 select   a.id,  a.parent_id,  a.org_name, b.curlevel+1 from
+			 dbo.sys_organization a inner join tem_table b on (a.parent_id = b.id))
+         select count(1) as staffNumber  from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1 and sys_user.delete_flag=0
+    </select>
+    <select id="findStaffNumberById2" resultType="java.lang.Integer">
+        select count(1) from sys_user where department=#{department}
     </select>
 
     <resultMap id="UserResultMap" type="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
@@ -187,8 +217,8 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
         <result column="actualTime" property="actualTime" jdbcType="TIMESTAMP"/>
         <result column="deptName" property="deptName" jdbcType="VARCHAR"/>
         <collection property="roleList" column="role_id" ofType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
-            <result column="roleId" property="id"  jdbcType="INTEGER"/>
-            <result column="role" property="roleName"  jdbcType="VARCHAR"/>
+            <result column="roleId" property="id" jdbcType="INTEGER"/>
+            <result column="role" property="roleName" jdbcType="VARCHAR"/>
         </collection>
     </resultMap>
 
@@ -211,5 +241,8 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
         LEFT JOIN sys_organization so on su.department = so.id
         where su.delete_flag = 0 and  su.department = #{orgId,jdbcType=INTEGER}
     </select>
-
+    <select id="findTableData" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+          select <include refid="colSql"/>
+           from sys_organization s where s.parent_id=#{id} and s.delete_flag=0 order by sort
+    </select>
 </mapper>

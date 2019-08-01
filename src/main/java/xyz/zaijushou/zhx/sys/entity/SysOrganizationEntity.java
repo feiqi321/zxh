@@ -49,6 +49,16 @@ public class SysOrganizationEntity extends TreeEntity<SysOrganizationEntity> {
      */
     private int typeFlag ;
 
+    public int getPid() {
+        return pid;
+    }
+
+    public void setPid(int pid) {
+        this.pid = pid;
+    }
+
+    private int pid;
+
     public int getTypeFlag() {
         return typeFlag;
     }

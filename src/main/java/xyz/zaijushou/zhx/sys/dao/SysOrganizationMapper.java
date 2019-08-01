@@ -31,5 +31,22 @@ public interface SysOrganizationMapper {
 
     List<SysNewUserDataForm> findSysNewUserInformationById(String department);
 
-    List<SysNewUserEntity> findUserByOrgId(int orgId);
+    Integer findStaffNumberById(String department);
+
+    Integer findStaffNumberById2(String department);
+
+    void moveUpDown(Integer id, String sort1);
+
+    void moveUpDown1(Integer id1,String sort);
+
+    List<SysNewUserEntity> findUserByOrgId(Integer id);
+
+    void updateDepartment(SysOrganizationEntity organizations);
+
+    void deleteSelectDepartment(SysOrganizationEntity organizations);
+
+    List<SysOrganizationEntity> findTableData(Integer id);
+
+    void addDept(SysOrganizationEntity organizations);
+
 }
