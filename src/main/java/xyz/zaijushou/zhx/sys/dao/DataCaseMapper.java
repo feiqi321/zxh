@@ -180,4 +180,6 @@ public interface DataCaseMapper {
 
     void updateCollectDate(DataCaseEntity dataCaseEntity);
 
+    List<DataCaseEntity> findSettleFlagBySeqNo(DataCaseEntity bean);
+
 }

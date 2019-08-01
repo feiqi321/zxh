@@ -298,19 +298,33 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         List<DataCaseRepayRecordEntity> records = dataCaseRepayRecordMapper.listBySeqNo(record);
         BigDecimal repayMoney = new BigDecimal(0);
         Integer lastId = 0;
-        DataCaseRepayRecordEntity lastRecord = null;
+//        DataCaseRepayRecordEntity lastRecord = null;
         for(DataCaseRepayRecordEntity recordEntity : records) {
             repayMoney = repayMoney.add(recordEntity.getRepayMoney()==null?new BigDecimal(0):recordEntity.getRepayMoney());
             if(recordEntity.getId() > lastId) {
                 lastId = recordEntity.getId();
-                lastRecord = recordEntity;
+//                lastRecord = recordEntity;
             }
         }
         DataCaseEntity dataCaseEntity = record.getDataCase();
         dataCaseEntity.setEnRepayAmt(repayMoney);
-        if(lastId != 0) {
-            dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
+        //此处结清状态为导入时的状态
+        dataCaseEntity.setSettleFlag(record.getSettleFlag());
+//        if(lastId != 0) {
+//            dataCaseEntity.setSettleFlag(lastRecord.getSettleFlag());
+//        }
+        //获取dataCasede的seqNO
+        String seqNo = record.getDataCase().getSeqNo();
+        //根据seqNo 获取dataCase
+        List<DataCaseEntity> dataCaseEntityList =dataCaseMapper.findSettleFlagBySeqNo(new DataCaseEntity(){{setSeqNo(seqNo);}});
+        //判读结清状态
+        if (dataCaseEntityList.size()>0){
+            if("已结清".equals(dataCaseEntityList.get(0).getSettleFlag())){
+            //本来是结清状态就不需要更新了
+            dataCaseEntity.setSettleFlag(null);
+            }
         }
+
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
         if (record.getCollectUser()!=null && record.getCollectUser().getId()!=null) {
             this.royalti(dataCaseEntity.getId(), record.getCollectUser().getId());
