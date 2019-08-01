@@ -5504,4 +5504,9 @@
         set collect_date = #{collectDate}
         where id = #{id}
     </update>
+
+    <select id="findSettleFlagBySeqNo" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select  seq_no as seqNo,settle_flag as settleFlag
+        from   data_case  where seq_no = #{seqNo} and delete_flag=0
+    </select>
 </mapper>

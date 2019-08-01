@@ -362,9 +362,28 @@ public class ExcelUtils {
                         result = sdf.format(date);*/
 
                         try {
+                            //获取单元格的时间格式
+                            String cellStyle = cell.getCellStyle().getDataFormatString();
+                            String dfStr = "";
+                            //根据单元格时间格式不同，设置不同的时间格式
+                            if("m/d;@".equals(cellStyle)){
+                                dfStr = "MM/dd";
+                            }else if ("yyyy\\-mm\\-dd;@".equals(cellStyle)){
+                                dfStr = "yyyy-MM-dd";
+                            }else if("yyyy/m/d;@".equals(dfStr)){
+                                dfStr = "yyyy/MM/dd";
+                            }
+
                             double value = cell.getNumericCellValue();
-                            Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
-                            result = new SimpleDateFormat("yyyy-MM-dd").format(date);
+                            //如果没有取到对应的时间格式，就结果就取当前值
+                            if (dfStr==""){
+                                result = "" + df.format(cell.getNumericCellValue());
+                            }else {
+                                Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+                                result = new SimpleDateFormat(dfStr).format(date);
+                            }
+
+
                         }catch (Exception e){
                             result = "" + df.format(cell.getNumericCellValue());
                         }
