@@ -294,6 +294,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         return returnEntity;
     }
 
+
     public void updateDataCaseBalance(DataCaseRepayRecordEntity record) {
         List<DataCaseRepayRecordEntity> records = dataCaseRepayRecordMapper.listBySeqNo(record);
         BigDecimal repayMoney = new BigDecimal(0);
@@ -307,7 +308,12 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             }
         }
         DataCaseEntity dataCaseEntity = record.getDataCase();
+        dataCaseEntity.setId(record.getDataCase().getId());
+        //还款金额
         dataCaseEntity.setEnRepayAmt(repayMoney);
+        //还款时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dataCaseEntity.setRepayDate(sdf.format(record.getRepayDate()));
         //此处结清状态为导入时的状态
         dataCaseEntity.setSettleFlag(record.getSettleFlag());
 //        if(lastId != 0) {
