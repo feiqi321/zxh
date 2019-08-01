@@ -20,4 +20,16 @@ public interface SysOrganizationService {
     void deleteOrg(SysOrganizationEntity organizationEntity);
 
     SysOrganizationEntity findByName(String name);
+
+    Object findStaffNumber();
+
+    void moveUpDown(Integer id, String sort,Integer id1,String sort1);
+
+    void updateDepartment(SysOrganizationEntity organizations);
+
+    Object deleteSelectDepartment(SysOrganizationEntity organizations);
+
+    List<SysOrganizationEntity> findTableData(Integer id);
+
+    void addDept(SysOrganizationEntity organizations);
 }

@@ -1,18 +1,11 @@
 package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelDepartmentConstant;
-import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.DepartmentEntity;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
@@ -24,7 +17,6 @@ import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 @RestController
@@ -43,6 +35,7 @@ public class SysOrganizationController {
         list = CollectionsUtils.listToTree(list);
         return WebResponse.success(list);
     }
+
 
     @PostMapping("/listOrganization")
     public Object listOrganization(@RequestBody SysOrganizationEntity organization) {
@@ -63,56 +56,31 @@ public class SysOrganizationController {
     }
 
     @PostMapping("/save")
-    public Object save(@RequestBody SysOrganizationEntity[] organizations) {
-        List<SysOrganizationEntity> list = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());
-        Map<Integer, SysOrganizationEntity> originalOrgs = CollectionsUtils.listToMap(list);
-        List<Integer> originalOrgIds = new ArrayList<>(originalOrgs.keySet());
-        List<SysOrganizationEntity> orgList = new ArrayList<>(Arrays.asList(organizations));
-        CollectionsUtils.treeResetSort(orgList, 0);
-        List<SysOrganizationEntity> changeOrgList = CollectionsUtils.treeToList(orgList);
-        for(SysOrganizationEntity org : changeOrgList) {
-            if(originalOrgIds.contains(org.getId())){
-                originalOrgs.remove(org.getId());
-            }
-        }
-        List<SysOrganizationEntity> deletes = new ArrayList<>(originalOrgs.values());
-        if(!CollectionUtils.isEmpty(deletes)) {
-            Set<String> deparIdsSet = new HashSet<>();
-            for(SysOrganizationEntity org : deletes) {
-                deparIdsSet.add("" + org.getId());
-            }
-            SysNewUserEntity queryUser = new SysNewUserEntity();
-            queryUser.setDepartIdsSet(deparIdsSet);
-            List<SysNewUserEntity> userList = sysUserService.listByDepartIdsSet(queryUser);
-            if(!CollectionUtils.isEmpty(userList)) {
-                return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "待删除的部门尚有员工，不得删除");
-            }
-        }
-        for(SysOrganizationEntity org : deletes) {
-            sysOrganizationService.deleteOrg(org);
-        }
-        for(SysOrganizationEntity org : organizations) {
-            modify(org);
-        }
-
-        list = CollectionsUtils.listToTree(sysOrganizationService.listAllOrganizations(new SysOrganizationEntity()));
-        return WebResponse.success(list);
+    public Object save(@RequestBody SysOrganizationEntity organizations) {
+        sysOrganizationService.updateDepartment(organizations);
+        return WebResponse.success();
     }
 
+    @PostMapping("/delete")
+    public Object delete(@RequestBody SysOrganizationEntity organizations) {
+        return sysOrganizationService.deleteSelectDepartment(organizations);
+    }
+
+
     private void modify(SysOrganizationEntity org) {
-        if(org.getId() == null || org.getId() < 0) {
+        if (org.getId() == null || org.getId() < 0) {
             sysOrganizationService.saveOrg(org);
         } else {
-            if (org.getId() < 0){
+            if (org.getId() < 0) {
                 sysOrganizationService.saveOrg(org);
-            }else {
+            } else {
                 sysOrganizationService.updateOrg(org);
             }
         }
-        if(CollectionUtils.isEmpty(org.getChildren())) {
+        if (CollectionUtils.isEmpty(org.getChildren())) {
             return;
         }
-        for(SysOrganizationEntity child : org.getChildren()) {
+        for (SysOrganizationEntity child : org.getChildren()) {
             child.setParent(org);
             modify(child);
         }
@@ -121,26 +89,27 @@ public class SysOrganizationController {
     @ApiOperation(value = "导入部门", notes = "导入部门")
     @PostMapping("/import")
     public Object departmentImport(MultipartFile file) throws IOException {
-        List<DepartmentEntity> deptList = ExcelUserUtils.importExcel(file, ExcelDepartmentConstant.Department.values(), DepartmentEntity.class);;
+        List<DepartmentEntity> deptList = ExcelUserUtils.importExcel(file, ExcelDepartmentConstant.Department.values(), DepartmentEntity.class);
+        ;
 
-        if(deptList.size() == 0) {
+        if (deptList.size() == 0) {
             return WebResponse.success("更新0条数据");
         }
-        for (DepartmentEntity bean : deptList){
+        for (DepartmentEntity bean : deptList) {
             SysOrganizationEntity orgEntityOne = sysOrganizationService.findByName(bean.getUpDept());
-            if (StringUtils.isEmpty(orgEntityOne)){//为空查询上级部门
+            if (StringUtils.isEmpty(orgEntityOne)) {//为空查询上级部门
                 orgEntityOne.setOrgName(bean.getUpDept());
                 sysOrganizationService.saveOrg(orgEntityOne);
             }
             SysOrganizationEntity orgEntityTwo = sysOrganizationService.findByName(bean.getDownDept());
             orgEntityTwo.setParent(orgEntityOne);
             orgEntityTwo.setOrgName(bean.getDownDept());
-            if (StringUtils.isEmpty(orgEntityTwo.getId())){//为空查询上级部门
+            if (StringUtils.isEmpty(orgEntityTwo.getId())) {//为空查询上级部门
                 sysOrganizationService.saveOrg(orgEntityTwo);
-            }else{
+            } else {
                 sysOrganizationService.updateOrg(orgEntityTwo);
             }
-            if ("员工".equals(bean.getFlag()) && StringUtils.notEmpty(bean.getUserName())){
+            if ("员工".equals(bean.getFlag()) && StringUtils.notEmpty(bean.getUserName())) {
                 SysNewUserEntity userBean = new SysNewUserEntity();
                 userBean.setUserName(bean.getUserName());
                 sysUserService.saveUser(userBean);
@@ -148,6 +117,32 @@ public class SysOrganizationController {
         }
         WebResponse webResponse = WebResponse.buildResponse();
         webResponse.setCode("100");
+        return WebResponse.success();
+    }
+
+    @PostMapping("/queryStaff")
+    public Object findStaffNumber() {
+        return sysOrganizationService.findStaffNumber();
+    }
+
+
+    @PostMapping("/moveUpDown")
+    public Object moveUpDown(@RequestParam("id") Integer id, @RequestParam("sort") String sort,
+                             @RequestParam("id1") Integer id1, @RequestParam("sort1") String sort1) {
+        sysOrganizationService.moveUpDown(id, sort, id1, sort1);
+        return WebResponse.success();
+    }
+
+    @PostMapping("/findTableData")
+    public Object findTableData(@RequestParam("id") Integer id) {
+        List<SysOrganizationEntity> list = sysOrganizationService.findTableData(id);
+        return WebResponse.success(list);
+    }
+
+    @PostMapping("/addDept")
+    public Object addDept(@RequestBody SysOrganizationEntity organizations) {
+        System.out.println(organizations);
+        sysOrganizationService.addDept(organizations);
         return WebResponse.success();
     }
 }
