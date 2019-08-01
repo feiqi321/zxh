@@ -2965,6 +2965,9 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     public List<DataCaseEntity> sameBatchCaseList(DataCaseEntity bean){
         DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
+        if (caseTemp==null){
+            return new ArrayList<DataCaseEntity>();
+        }
         SysUserEntity curentuser = getUserInfo();
         if (curentuser!=null){
             SysNewUserEntity temp = sysUserMapper.getDataById(curentuser.getId());
@@ -3130,6 +3133,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     public List<DataCaseCommentEntity> listComment(DataCaseEntity dataCaseEntity){
+        if (dataCaseEntity==null){
+            return new ArrayList<DataCaseCommentEntity>();
+        }
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
         dataCaseCommentEntity.setCaseId(dataCaseEntity.getId());
         List<DataCaseCommentEntity> list = dataCaseCommentMapper.findAll(dataCaseCommentEntity);

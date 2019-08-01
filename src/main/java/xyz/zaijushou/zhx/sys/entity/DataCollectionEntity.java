@@ -18,8 +18,12 @@ public class DataCollectionEntity extends CommonEntity {
     private String caseId;
 
     private String name;
+
+    private String[] names;
     //个案序列号
     private String seqno;
+
+    private String[] seqnos;
     //标色状态
     private String color;
     //委案日期
@@ -122,7 +126,11 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String identNo;
 
+    private String[] identNos;
+
     private String cardNo;
+
+    private String[] cardNos;
 
     private String accountAge;//逾期账龄
 
@@ -200,12 +208,15 @@ public class DataCollectionEntity extends CommonEntity {
 
     private String archiveNo;//档案号
 
+    private String[] archiveNos;
+
     private String payName;//还款人
     private String payMethod; // 还款方式
     private String confimName;//确认人
     private String confimTime;//确认时间
 
     private String account;//账号
+    private String[] accounts;
     private String contractDate;//联系时间
     private String resultId;//催收结果id
 
@@ -329,6 +340,54 @@ public class DataCollectionEntity extends CommonEntity {
     private Integer isEnable;
 
     private Double overdueDays; //逾期天数
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public void setNames(String[] names) {
+        this.names = names;
+    }
+
+    public String[] getSeqnos() {
+        return seqnos;
+    }
+
+    public void setSeqnos(String[] seqnos) {
+        this.seqnos = seqnos;
+    }
+
+    public String[] getIdentNos() {
+        return identNos;
+    }
+
+    public void setIdentNos(String[] identNos) {
+        this.identNos = identNos;
+    }
+
+    public String[] getCardNos() {
+        return cardNos;
+    }
+
+    public void setCardNos(String[] cardNos) {
+        this.cardNos = cardNos;
+    }
+
+    public String[] getArchiveNos() {
+        return archiveNos;
+    }
+
+    public void setArchiveNos(String[] archiveNos) {
+        this.archiveNos = archiveNos;
+    }
+
+    public String[] getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(String[] accounts) {
+        this.accounts = accounts;
+    }
 
     public Double getOverdueDaysEnd() {
         return overdueDaysEnd;

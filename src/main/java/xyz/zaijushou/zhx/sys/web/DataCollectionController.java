@@ -256,6 +256,21 @@ public class DataCollectionController {
             }
         }
         bean.setDept(null);
+        if (StringUtils.notEmpty(bean.getName())){
+            bean.setNames(bean.getName().split(","));
+        }
+        if (StringUtils.notEmpty(bean.getIdentNo())){
+            bean.setIdentNos(bean.getIdentNo().split(","));
+        }
+        if (StringUtils.notEmpty(bean.getArchiveNo())){
+            bean.setArchiveNos(bean.getArchiveNo().split(","));
+        }
+        if (StringUtils.notEmpty(bean.getCardNo())){
+            bean.setCardNos(bean.getCardNo().split(","));
+        }
+        if (StringUtils.notEmpty(bean.getSeqno())){
+            bean.setSeqnos(bean.getSeqno().split(","));
+        }
         WebResponse webResponse = dataCollectionService.pageMyCase(bean);
 
         return webResponse;

@@ -348,7 +348,7 @@ public class ExcelUtils {
 
                     if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && col.equals("最后还款日")){
 
-                        /*short format = cell.getCellStyle().getDataFormat();
+                       /* short format = cell.getCellStyle().getDataFormat(); //28 dd  176mm/dd
                         SimpleDateFormat sdf = null;
                         if(format == 14 || format == 31 || format == 57 || format == 58){
                             //日期

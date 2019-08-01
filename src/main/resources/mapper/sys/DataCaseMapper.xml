@@ -671,8 +671,8 @@
     <select id="pageCaseMangeList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         da.id, da.batch_no as batchNo,da.client,da.collect_area as collectArea,da.dept,da.odv,da.status,da.area,da.expect_time as expectTime,da.color,
-         da.collect_status as collectStatus , da.collect_date as collectDate,da.collect_date as collectTime,  da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,da.collect_hand as collectHand,
-         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo,dbo.fnFormatDate(da.distribute_time,'yyyy-MM-dd') as distributeTime,
+         da.collect_status as collectStatus , da.collect_date as collectDate,da.collect_date as collectTime,  da.account_age as accountAge ,da.seq_no as seqNo,CONVERT(varchar(100), da.case_date, 23) as caseDate,da.collect_hand as collectHand,
+         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardNo,da.ident_no as identNo, CONVERT(varchar(100), da.distribute_time, 23) as distributeTime,
          da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,da.distribute_history as distributeHistory,
          da.bank_amt as bankAmt,da.en_repay_amt as enRepayAmt,da.pro_repay_amt as proRepayAmt,da.comment,collect_result as collectInfo, da.odv as [collectionUser.id],
         da.collect_times as collectTimes,da.leave_Days as leaveDays,da.principle,da.latest_overdue_money as latestOverdueMoney,da.overdue_date as overdueDate,da.overdue_days as overdueDays
@@ -1498,7 +1498,8 @@
 
     <select id="pageCaseTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
-        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd HH:ii') as caseDate,t.collect_status as collectStatus,dbo.fnFormatDate(t.collect_date, 'yyyy-MM-dd HH:mm') as collectDate,
+        t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.collect_status as collectStatus,
+        CONVERT(varchar(100), t.collect_date, 23) as collectDate,
         t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv,t.comment
         from data_case t    LEFT  JOIN data_case_address d on t.id = d.case_id
         <where>
@@ -1534,22 +1535,22 @@
                     </foreach>
                 </if>
                 <if test="name != null and name!='' and queryMethod=='2'.toString()">
-                    AND t.name like dbo.CONCAT('%',#{name},'%')
+                    AND t.name like  '%'+#{name}+'%'
                 </if>
                 <if test="cardNo != null and cardNo!='' and queryMethod=='2'.toString()">
-                    AND t.card_no  like dbo.CONCAT('%',#{cardNo},'%')
+                    AND t.card_no  like  '%'+#{cardNo}+'%'
                 </if>
                 <if test="unitName != null and unitName!='' and queryMethod=='2'.toString()">
-                    AND t.unit_name  like dbo.CONCAT('%',#{unitName},'%')
+                    AND t.unit_name  like '%'+#{unitName}+'%'
                 </if>
                 <if test="identNo != null and identNo!='' and queryMethod=='2'.toString()">
-                    AND t.ident_no like dbo.CONCAT('%',#{identNo},'%')
+                    AND t.ident_no like '%'+#{identNo}+'%'
                 </if>
                 <if test="address != null and address!='' and queryMethod=='2'.toString()">
-                    AND d.address like dbo.CONCAT('%',#{address},'%')
+                    AND d.address like '%'+#{address}+'%'
                 </if>
                 <if test="tel != null and tel!='' and queryMethod=='2'.toString()">
-                    AND t.tel like dbo.CONCAT('%',#{tel},'%')
+                    AND t.tel like '%'+#{tel}+'%'
                 </if>
             </trim>
         </where>
@@ -3880,8 +3881,11 @@
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
-                <if test="overDays != null and overDays!=''">
-                    and da.overdue_days = #{overDays}
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and da.overdue_days>=  #{overdueDaysStart}  ]]>
+                </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and da.overdue_days <=  #{overdueDaysEnd}   ]]>
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and da.summary = #{collectInfo}
@@ -3901,8 +3905,11 @@
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
                 </if>
-                <if test="collectStatus != null and collectStatus!=''">
-                    and da.collect_status = #{collectStatus}
+                <if test="collectStatuss != null and collectStatuss.length > 0 ">
+                    and da.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="color != null and color!=''">
                     and da.color = #{color}
@@ -4117,8 +4124,11 @@
                 <if test="moneyEnd != null and moneyEnd!=''" >
                     <![CDATA[   and da.money <=  #{moneyEnd}   ]]>
                 </if>
-                <if test="overDays != null and overDays!=''">
-                    and da.overdue_days = #{overDays}
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and da.overdue_days>=  #{overdueDaysStart}  ]]>
+                </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and da.overdue_days <=  #{overdueDaysEnd}   ]]>
                 </if>
                 <if test="collectInfo != null and collectInfo!=''">
                     and da.summary = #{collectInfo}
@@ -4138,8 +4148,11 @@
                 <if test="accountAge != null and accountAge!=''">
                     and da.account_age = #{accountAge}
                 </if>
-                <if test="collectStatus != null and collectStatus!=''">
-                    and da.collect_status = #{collectStatus}
+                <if test="collectStatuss != null and collectStatuss.length > 0 ">
+                    and da.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="color != null and color!=''">
                     and da.color = #{color}
@@ -4839,8 +4852,11 @@
                 <if test="collectArea != null and collectArea!=''">
                     and t.collect_area = #{collectArea}
                 </if>
-                <if test="overDays != null and overDays!=''">
-                    and t.over_days = #{overDays}
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and da.overdue_days>=  #{overdueDaysStart}  ]]>
+                </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and da.overdue_days <=  #{overdueDaysEnd}   ]]>
                 </if>
                 <if test="area != null and area!=''">
                     and t.area = #{area}
@@ -4888,8 +4904,11 @@
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
                 </if>
-                <if test="collectStatus != null and collectStatus!=''">
-                    and dc.collect_status = #{collectStatus}
+                <if test="collectStatuss != null and collectStatuss.length > 0 ">
+                    and da.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="caseType != null and caseType!=''">
                     and t.case_type = #{caseType}
@@ -5070,8 +5089,11 @@
                 <if test="collectArea != null and collectArea!=''">
                     and t.collect_area = #{collectArea}
                 </if>
-                <if test="overDays != null and overDays!=''">
-                    and t.over_days = #{overDays}
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and da.overdue_days>=  #{overdueDaysStart}  ]]>
+                </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and da.overdue_days <=  #{overdueDaysEnd}   ]]>
                 </if>
                 <if test="area != null and area!=''">
                     and t.area = #{area}
@@ -5119,8 +5141,11 @@
                 <if test="collectInfo != null and collectInfo!=''">
                     and dc.collectInfo = #{collectInfo}
                 </if>
-                <if test="collectStatus != null and collectStatus!=''">
-                    and dc.collect_status = #{collectStatus}
+                <if test="collectStatuss != null and collectStatuss.length > 0 ">
+                    and da.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="caseType != null and caseType!=''">
                     and t.case_type = #{caseType}

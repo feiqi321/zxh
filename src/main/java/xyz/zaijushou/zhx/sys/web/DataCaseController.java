@@ -1115,7 +1115,7 @@ public class DataCaseController {
         //去掉导出excel底色
         this.noBGC(list);
 
-        ExcelCaseUtils.exportExcel(list,
+        ExcelUtils.exportExcel(list,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
                 fileName + ".xlsx",
                 response

@@ -97,14 +97,12 @@ public class CollectCaseCallable implements Callable<List<DataCollectionEntity>>
         collection.setCollectInfo(collectInfoType==null?"":collectInfoType.getName());
 
         if (collection.getCollectDate()==null){
-            collection.setCollectStatusMsg("新案");
             collection.setLeaveDays("0");
         }else {
-            SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + collection.getCollectStatus(), SysDictionaryEntity.class);
-            collection.setCollectStatusMsg(sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName());
             collection.setLeaveDays(differentDays(collection.getCollectDate(),new Date())+"");
         }
-
+        SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + collection.getCollectStatus(), SysDictionaryEntity.class);
+        collection.setCollectStatusMsg(sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName());
         if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getOdv())){
             collection.setOdv("");
         }else {
