@@ -5463,6 +5463,9 @@
             <if test="settleFlag != null and settleFlag != '已结清'">
                 settle_flag = #{settleFlag},
             </if>
+            <if test="repayDate != null and repayDate != ''">
+                repay_date = #{repayDate},
+            </if>
             balance = money - #{enRepayAmt},settle_date=GETDATE()
         where id = #{id}
     </update>
