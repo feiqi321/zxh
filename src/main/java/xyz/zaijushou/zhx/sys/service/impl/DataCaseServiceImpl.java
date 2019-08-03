@@ -1903,6 +1903,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     //部门案件 --- 来电查询
     public WebResponse pageCaseTel(DataCaseEntity dataCaseEntity){
+        logger.info("进入来电查询");
         WebResponse webResponse = WebResponse.buildResponse();
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
@@ -1916,23 +1917,10 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
         dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        logger.info("来电查询开始执行sql");
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
-        /*int[] caseIdArray = new int[list.size()];
-        for (int i=0;i<list.size();i++){
-            caseIdArray[i] = list.get(i).getId();
-        }
-        Map collectMap = new HashMap();
-        if (caseIdArray.length>0){
-            DataCollectionEntity dataCollectionEntity1 = new DataCollectionEntity();
-            dataCollectionEntity1.setIds(caseIdArray);
-            dataCollectionMapper.saveBatchCollect(dataCollectionEntity1);
-            List<DataCollectionEntity> collectList = dataCollectionMapper.showCollectTime();
-            dataCollectionMapper.deletBatchCollect(dataCollectionEntity1);
-            for (int i=0;i<collectList.size();i++){
-                DataCollectionEntity tempCollect = collectList.get(i);
-                collectMap.put(tempCollect.getCaseId(),tempCollect);
-            }
-        }*/
+        logger.info("来电查询执行完毕sql");
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
@@ -1949,6 +1937,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp.setEnRepayAmtMsg(temp.getEnRepayAmt()==null?"": "￥"+FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt()+""));
             list.set(i,temp);
         }
+        logger.info("来电查询组装完毕数据");
         webResponse.setData(PageInfo.of(list));
 
         return webResponse;
@@ -2031,6 +2020,39 @@ public class DataCaseServiceImpl implements DataCaseService {
                 stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
                 stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getCardNo()+"@"+entity.getCaseDate(), JSONObject.toJSONString(entity));
 
+                if (StringUtils.notEmpty(entity.getTel())){
+                    DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
+                    dataCaseTelEntity1.setCaseId(entity.getId());
+                    dataCaseTelEntity1.setName(entity.getName());
+                    dataCaseTelEntity1.setIdentNo(entity.getIdentNo());
+                    dataCaseTelEntity1.setRelation("本人");
+                    dataCaseTelEntity1.setTel(entity.getTel());
+                    dataCaseTelEntity1.setTelStatusMsg("未知");
+                    dataCaseTelEntity1.setRemark("手机");
+                    telEntityList.add(dataCaseTelEntity1);
+                }
+                if (StringUtils.notEmpty(entity.getHomeTelNumber())){
+                    DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
+                    dataCaseTelEntity1.setCaseId(entity.getId());
+                    dataCaseTelEntity1.setName(entity.getName());
+                    dataCaseTelEntity1.setIdentNo(entity.getIdentNo());
+                    dataCaseTelEntity1.setRelation("本人");
+                    dataCaseTelEntity1.setTel(entity.getTel());
+                    dataCaseTelEntity1.setTelStatusMsg("未知");
+                    dataCaseTelEntity1.setRemark("家庭号码");
+                    telEntityList.add(dataCaseTelEntity1);
+                }
+                if (StringUtils.notEmpty(entity.getUnitTelNumber())){
+                    DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
+                    dataCaseTelEntity1.setCaseId(entity.getId());
+                    dataCaseTelEntity1.setName(entity.getName());
+                    dataCaseTelEntity1.setIdentNo(entity.getIdentNo());
+                    dataCaseTelEntity1.setRelation("本人");
+                    dataCaseTelEntity1.setTel(entity.getUnitTelNumber());
+                    dataCaseTelEntity1.setTelStatusMsg("未知");
+                    dataCaseTelEntity1.setRemark("单位号码");
+                    telEntityList.add(dataCaseTelEntity1);
+                }
 
                 if (StringUtils.notEmpty(entity.getContactName1()) || StringUtils.notEmpty(entity.getContactMobile1())) {
                     DataCaseTelEntity dataCaseTelEntity1 = new DataCaseTelEntity();
@@ -2409,9 +2431,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("5")) {
             dataCaseEntity.setStatuss(null);
         }
+        logger.info("全量导出开始查询");
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.totalBatchBoundsCaseList(dataCaseEntity);
+            logger.info("全量导出结束查询");
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
 
@@ -2432,6 +2456,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
         }else {
             list = dataCaseMapper.totalCaseList(dataCaseEntity);
+            logger.info("全量导出结束查询");
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
 
@@ -2452,6 +2477,7 @@ public class DataCaseServiceImpl implements DataCaseService {
 
 
         }
+
         return combineData(list);
     }
 
@@ -2709,11 +2735,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         for (int i=0;i<dataCaseTelEntityList.size();i++){
             DataCaseTelEntity temp = dataCaseTelEntityList.get(i);
-            temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
+            temp.setTypeMsg(StringUtils.isEmpty(temp.getType())?"":(map.get(Integer.parseInt(temp.getType()))==null?"":map.get(Integer.parseInt(temp.getType())).toString()));
             dataCaseTelEntityList.set(i,temp);
         }
         List<DataCaseTelEntity> dataCaseTelEntityList2 =  new ArrayList<DataCaseTelEntity>();
-        if (StringUtils.notEmpty(dataCaseDetail.getTel())){
+       /* if (StringUtils.notEmpty(dataCaseDetail.getTel())){
             DataCaseTelEntity temp1 = new DataCaseTelEntity();
             temp1.setTel(dataCaseDetail.getTel());
             temp1.setRelation("本人");
@@ -2739,7 +2765,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp3.setTelStatusMsg("未知");
             temp3.setRemark("单位号码");
             dataCaseTelEntityList2.add(temp3);
-        }
+        }*/
         dataCaseTelEntityList2.addAll(dataCaseTelEntityList);
         logger.info("设置电话类型结束");
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
@@ -2808,11 +2834,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         for (int i=0;i<telEntityList.size();i++){
             DataCaseTelEntity temp = telEntityList.get(i);
-            temp.setTypeMsg(temp.getType()==null?"":(map.get(Integer.parseInt(temp.getType()))==null?temp.getType():map.get(Integer.parseInt(temp.getType())).toString()));
+            temp.setTypeMsg(StringUtils.isEmpty(temp.getType())?"":(map.get(Integer.parseInt(temp.getType()))==null?temp.getType():map.get(Integer.parseInt(temp.getType())).toString()));
             telEntityList.set(i,temp);
         }
         List<DataCaseTelEntity> dataCaseTelEntityList2 =  new ArrayList<DataCaseTelEntity>();
-        if (StringUtils.notEmpty(dataCaseDetail.getTel())){
+        /*if (StringUtils.notEmpty(dataCaseDetail.getTel())){
             DataCaseTelEntity temp1 = new DataCaseTelEntity();
             temp1.setTel(dataCaseDetail.getTel());
             temp1.setRelation("本人");
@@ -2838,7 +2864,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             temp3.setName(dataCaseDetail.getName());
             temp3.setRemark("单位号码");
             dataCaseTelEntityList2.add(temp3);
-        }
+        }*/
         dataCaseTelEntityList2.addAll(telEntityList);
         return dataCaseTelEntityList2;
     }

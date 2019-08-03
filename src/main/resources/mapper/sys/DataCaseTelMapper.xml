@@ -95,7 +95,7 @@
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
         select id,tel,case_id as caseId,seq_no as seqNo,archive_no as archiveNo, card_no as cardNo,ident_no as identNo,case_date as caseDate,
         name,tel_type as type,relation,remark,status as telStatusMsg
-        from data_case_tel where case_id = #{caseId}
+        from data_case_tel where case_id = #{caseId} order by id asc
     </select>
 
     <update id="updateCaseTelStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" >

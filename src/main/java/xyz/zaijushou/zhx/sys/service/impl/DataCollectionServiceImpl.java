@@ -83,6 +83,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             beanInfo.setIsEnable(0);
         }
+        beanInfo.setOdv(sysUserEntity.getId()+"");
         dataCollectionMapper.saveCollection(beanInfo);
 
         if (StringUtils.notEmpty(beanInfo.getsType())){
@@ -268,32 +269,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         logger.info("********************开始查询案件");
         PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
-        //排序关键字替换
-     /*   if("t.leave_Days".equals(dataCollectionEntity.getOrderBy())){
-            dataCollectionEntity.setOrderBy("leaveDays");
-        }*/
+
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
         logger.info("********************查询案件结束");
-        /*int[] caseIdArray = new int[list.size()];
-        for (int i=0;i<list.size();i++){
-            caseIdArray[i] = list.get(i).getId();
-        }
-        Map collectMap = new HashMap();
-        if (caseIdArray.length>0){
-            DataCollectionEntity dataCollectionEntity1 = new DataCollectionEntity();
-            dataCollectionEntity1.setIds(caseIdArray);
-            logger.info("********************开始查询催收时间");
-            //dataCollectionMapper.deleteTemp();
-            //dataCollectionMapper.createTemp();
-            dataCollectionMapper.saveBatchCollect(dataCollectionEntity1);
-            List<DataCollectionEntity> collectList = dataCollectionMapper.showCollectTime();
-            dataCollectionMapper.deletBatchCollect(dataCollectionEntity1);
-            for (int i=0;i<collectList.size();i++){
-                DataCollectionEntity tempCollect = collectList.get(i);
-                collectMap.put(tempCollect.getCaseId(),tempCollect);
-            }
-            logger.info("********************处理完毕催收时间");
-        }*/
 
 
         int countCase = 0;//列表案量
@@ -393,8 +371,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 for (int i=0;i<list.size();i++){
                     DataCollectionEntity temp = list.get(i);
+                    if (temp==null){
+                        continue;
+                    }
                     temp.setCollectTime(temp.getCollectDate()==null?"":sdf.format(temp.getCollectDate()));
                     temp.setCaseDate(temp.getCaseDateD()==null?"":sdf.format(temp.getCaseDateD()));
+                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+                    temp.setOdv(user==null?"":user.getUserName());
                     list.set(i,temp);
                 }
                 return list;

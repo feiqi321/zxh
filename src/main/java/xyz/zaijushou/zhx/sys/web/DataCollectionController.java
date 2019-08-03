@@ -118,7 +118,6 @@ public class DataCollectionController {
             } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0) && StringUtils.isEmpty(bean.getDept())){
 
             }else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
-                List<String> deptList = new ArrayList<String>();
                 SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
                 if (StringUtils.isEmpty(bean.getDept())){
 
@@ -129,22 +128,16 @@ public class DataCollectionController {
                 //查询标识
                 organizationEntity.setTypeFlag(1);
                 List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-                for (SysOrganizationEntity orgEntity : orgList) {
-                    deptList.add(orgEntity.getId()+"");
-                }
-                bean.setDeptFlag(1);
-                SysNewUserEntity queryUser = new SysNewUserEntity();
-                queryUser.setDepartIdsSet(new HashSet(deptList));
-                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
-                String[] odvs = new String[odvList.size()];
-                for (int i=0;i<odvList.size();i++){
-                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
-                    odvs[i] = sysNewUserEntity.getId()+"";
+                Integer[] deptList = new Integer[orgList.size()];
+                for (int i=0;i<orgList.size();i++){
+                    SysOrganizationEntity orgEntity = orgList.get(i);
+                    deptList[i] = orgEntity.getId();
                 }
 
-                bean.setOdvs(odvs);
+                bean.setDeptFlag(1);
+                bean.setDepts(deptList);
+
             }else if (bean.getsType() == 1){
-                List<String> deptList = new ArrayList<String>();
                 SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
                 if (StringUtils.isEmpty(bean.getDept())){
 
@@ -155,40 +148,20 @@ public class DataCollectionController {
                 //查询标识
                 organizationEntity.setTypeFlag(1);
                 List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-                for (SysOrganizationEntity orgEntity : orgList) {
-                    deptList.add(orgEntity.getId()+"");
-                }
-                bean.setDeptFlag(1);
-                SysNewUserEntity queryUser = new SysNewUserEntity();
-                queryUser.setDepartIdsSet(new HashSet(deptList));
-                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
-                String[] odvs = new String[odvList.size()];
-                for (int i=0;i<odvList.size();i++){
-                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
-                    odvs[i] = sysNewUserEntity.getId()+"";
+                Integer[] deptList = new Integer[orgList.size()];
+                for (int i=0;i<orgList.size();i++){
+                    SysOrganizationEntity orgEntity = orgList.get(i);
+                    deptList[i] = orgEntity.getId();
                 }
 
-                List odvTempList = new ArrayList();
-                if(bean.getOdvs()==null || bean.getOdvs().length==0){
-                    bean.setOdvs(odvs);
-                }else if (odvs!=null && odvs.length>0){
-                    for(int i=0;i<odvs.length;i++){
-                        for (int j=0;j<bean.getOdvs().length;j++){
-                            if(odvs[i].equals(bean.getOdvs()[j])){
-                                odvTempList.add(odvs[i]);
-                            }
-                        }
-                    }
-                    String[] temps = new String[odvTempList.size()];
-                    odvTempList.toArray(temps);
-                    bean.setOdvs(temps);
-                }
+                bean.setDeptFlag(1);
+                bean.setDepts(deptList);
+
             }
         }else {
             if (bean.getsType() == 0) {
                 bean.setOdv(user.getId() + "");
             } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
-                List<String> deptList = new ArrayList<String>();
                 SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
                 if (StringUtils.isEmpty(bean.getDept())){
 
@@ -199,22 +172,16 @@ public class DataCollectionController {
                 //查询标识
                 organizationEntity.setTypeFlag(1);
                 List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-                for (SysOrganizationEntity orgEntity : orgList) {
-                    deptList.add(orgEntity.getId()+"");
-                }
-                bean.setDeptFlag(1);
-                SysNewUserEntity queryUser = new SysNewUserEntity();
-                queryUser.setDepartIdsSet(new HashSet(deptList));
-                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
-                String[] odvs = new String[odvList.size()];
-                for (int i=0;i<odvList.size();i++){
-                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
-                    odvs[i] = sysNewUserEntity.getId()+"";
+
+                Integer[] deptList = new Integer[orgList.size()];
+                for (int i=0;i<orgList.size();i++){
+                    SysOrganizationEntity orgEntity = orgList.get(i);
+                    deptList[i] = orgEntity.getId();
                 }
 
-                bean.setOdvs(odvs);
+                bean.setDeptFlag(1);
+                bean.setDepts(deptList);
             }else if (bean.getsType() == 1){
-                List<String> deptList = new ArrayList<String>();
                 SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
                 if (StringUtils.isEmpty(bean.getDept())){
 
@@ -225,34 +192,15 @@ public class DataCollectionController {
                 //查询标识
                 organizationEntity.setTypeFlag(1);
                 List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-                for (SysOrganizationEntity orgEntity : orgList) {
-                    deptList.add(orgEntity.getId()+"");
-                }
-                bean.setDeptFlag(1);
-                SysNewUserEntity queryUser = new SysNewUserEntity();
-                queryUser.setDepartIdsSet(new HashSet(deptList));
-                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
-                String[] odvs = new String[odvList.size()];
-                for (int i=0;i<odvList.size();i++){
-                    SysNewUserEntity sysNewUserEntity = odvList.get(i);
-                    odvs[i] = sysNewUserEntity.getId()+"";
+                Integer[] deptList = new Integer[orgList.size()];
+                for (int i=0;i<orgList.size();i++){
+                    SysOrganizationEntity orgEntity = orgList.get(i);
+                    deptList[i] = orgEntity.getId();
                 }
 
-                List odvTempList = new ArrayList();
-                if(bean.getOdvs()==null || bean.getOdvs().length==0){
-                    bean.setOdvs(odvs);
-                }else if (odvs!=null && odvs.length>0){
-                    for(int i=0;i<odvs.length;i++){
-                        for (int j=0;j<bean.getOdvs().length;j++){
-                            if(odvs[i].equals(bean.getOdvs()[j])){
-                                odvTempList.add(odvs[i]);
-                            }
-                        }
-                    }
-                    String[] temps = new String[odvTempList.size()];
-                    odvTempList.toArray(temps);
-                    bean.setOdvs(temps);
-                }
+                bean.setDeptFlag(1);
+                bean.setDepts(deptList);
+
             }
         }
         bean.setDept(null);

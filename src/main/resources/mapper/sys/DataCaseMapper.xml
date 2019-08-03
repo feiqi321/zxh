@@ -1501,7 +1501,7 @@
         t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.collect_status as collectStatus,
         CONVERT(varchar(100), t.collect_date, 23) as collectDate,
         t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv,t.comment
-        from data_case t    LEFT  JOIN data_case_address d on t.id = d.case_id
+        from data_case t    LEFT  JOIN data_case_tel d on t.id = d.case_id
         <where>
             <trim suffixOverrides=",">
                 <if test="clientFlag != null and clientFlag!='' and queryMethod=='1'.toString()" >
@@ -1523,10 +1523,10 @@
                     and t.ident_no = #{identNo}
                 </if>
                 <if test="address != null and address!='' and queryMethod=='1'.toString()">
-                    and d.address = #{address}
+                    and t.home_address = #{address}
                 </if>
                 <if test="tel != null and tel!='' and queryMethod=='1'.toString()">
-                    and t.tel = #{tel}
+                    and d.tel = #{tel}
                 </if>
                 <if test="clientFlag != null and clientFlag!='' and queryMethod=='2'.toString()" >
                     and t.client in
@@ -1535,22 +1535,22 @@
                     </foreach>
                 </if>
                 <if test="name != null and name!='' and queryMethod=='2'.toString()">
-                    AND t.name like  '%'+#{name}+'%'
+                    AND t.name like  '%${name}%'
                 </if>
                 <if test="cardNo != null and cardNo!='' and queryMethod=='2'.toString()">
-                    AND t.card_no  like  '%'+#{cardNo}+'%'
+                    AND t.card_no  like  '%${cardNo}%'
                 </if>
                 <if test="unitName != null and unitName!='' and queryMethod=='2'.toString()">
-                    AND t.unit_name  like '%'+#{unitName}+'%'
+                    AND t.unit_name  like '%${unitName}%'
                 </if>
                 <if test="identNo != null and identNo!='' and queryMethod=='2'.toString()">
-                    AND t.ident_no like '%'+#{identNo}+'%'
+                    AND t.ident_no like '%${identNo}%'
                 </if>
                 <if test="address != null and address!='' and queryMethod=='2'.toString()">
-                    AND d.address like '%'+#{address}+'%'
+                    AND t.home_address like '%${address}%'
                 </if>
                 <if test="tel != null and tel!='' and queryMethod=='2'.toString()">
-                    AND t.tel like '%'+#{tel}+'%'
+                    AND d.tel like '%${tel}%'
                 </if>
             </trim>
         </where>

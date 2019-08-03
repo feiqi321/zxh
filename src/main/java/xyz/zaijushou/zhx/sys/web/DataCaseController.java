@@ -1040,7 +1040,7 @@ public class DataCaseController {
     @PostMapping("/dataCase/totalDataBatchExport")
     public Object totalDataBatchExport(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
         List exportKeyList = new ArrayList();
-
+        logger.info("进入全量导出");
         Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
         Map colMap = new HashMap();
         while (iter.hasNext()) {
@@ -1102,7 +1102,7 @@ public class DataCaseController {
 
         bean.setDepts(null);
         List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
-        logger.info("导出查询结束");
+        logger.info("导出查询数据组装完毕");
         String fileName = "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
@@ -1120,6 +1120,7 @@ public class DataCaseController {
                 fileName + ".xlsx",
                 response
         );
+        logger.info("导出查询全部完毕");
         return null;
     }
 

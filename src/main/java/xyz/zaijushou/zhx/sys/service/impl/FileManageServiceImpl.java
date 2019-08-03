@@ -325,6 +325,8 @@ public class FileManageServiceImpl implements FileManageService {
 
         for (int i=0;i<list.size();i++){
             DataCollectionEntity dataCollectionEntity = list.get(i);
+            SysUserEntity sysUserEntity = getUserInfo();
+            dataCollectionEntity.setOdv(sysUserEntity.getId()+"");
             if (StringUtils.isEmpty(dataCollectionEntity.getContractDate())){
                 dataCollectionEntity.setContractDate(sdf2.format(new Date()));
             }
