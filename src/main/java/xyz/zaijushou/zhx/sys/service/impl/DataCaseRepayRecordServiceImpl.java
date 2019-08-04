@@ -334,6 +334,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
         if (record.getCollectUser()!=null && record.getCollectUser().getId()!=null) {
             this.royalti(dataCaseEntity.getId(), record.getCollectUser().getId());
+        }else if (record.getCollectUser()==null &&  StringUtils.isNotEmpty(dataCaseEntity.getOdv())){
+            this.royalti(dataCaseEntity.getId(), Integer.parseInt(dataCaseEntity.getOdv()));
         }else if(record.getCollectUser()!=null && record.getCollectUser().getId()==null && StringUtils.isNotEmpty(dataCaseEntity.getOdv())){
             this.royalti(dataCaseEntity.getId(), Integer.parseInt(dataCaseEntity.getOdv()));
         }
@@ -341,8 +343,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
 
     @Async
     public void royalti(Integer id,Integer userId){
-      /*  dataCollectionService.calRoyalti(id,userId);
-        dataCollectionService.calRoyaltiManage(id,userId);*/
+        dataCollectionService.calRoyalti(id,userId);
+        dataCollectionService.calRoyaltiManage(id,userId);
     }
 
     private List<DataCaseRepayRecordEntity> combineInfo(List<DataCaseRepayRecordEntity> list) {
