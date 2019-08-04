@@ -81,6 +81,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private SysOperationLogMapper sysOperationLogMapper;
     @Resource
     private CaseTimeAreaMapper caseTimeAreaMapper;
+    @Resource
+    private CopyAuthMapper copyAuthMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -2615,6 +2617,17 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("查询详情开始");
         dataCaseMapper.watchDetail(bean);
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        List<CopyAuth> list = copyAuthMapper.list();
+        if (list==null || list.size()==0){
+            dataCaseDetail.setCopyAuth(true);
+        }else{
+            CopyAuth copyAuth = list.get(0);
+            if (copyAuth.getStatus()==1){
+                dataCaseDetail.setCopyAuth(true);
+            }else{
+                dataCaseDetail.setCopyAuth(false);
+            }
+        }
         if (dataCaseDetail.getProvince()!=null){
             dataCaseDetail.setProvinceName(dataCaseDetail.getProvince().getName());
         }

@@ -1357,8 +1357,11 @@
         where id = #{id}
     </update>
 
-
     <select id="lastCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select  t.id,t.name,t.seq_no as seqNo  from data_case t where id =#{id}
+    </select>
+
+    <!--<select id="lastCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         with temp ( [id], [parent_id])
         as
         (
@@ -1374,7 +1377,7 @@
         select top 1  t.id,t.name,t.seq_no as seqNo  from data_case t
        <![CDATA[     where id > #{id} ]]>  and ( odv IN (SELECT  DISTINCT b.id FROM temp a LEFT JOIN sys_user b ON b.department = a.id WHERE b.id IS NOT NULL) OR odv = #{odv})
          order by id asc
-    </select>
+    </select>-->
     <select id="nextCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         with temp ( [id], [parent_id])
         as

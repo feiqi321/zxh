@@ -426,9 +426,7 @@ public class ExcelUtils {
             try {
                 T entity = data.get(i - 1);
                 Row row = sheet.createRow(i);
-                /*XSSFCellStyle style = workbook.createCellStyle();
-                style.setFillForegroundColor(HSSFColor.HSSFColorPredefined.BLUE.getIndex());
-                row.setRowStyle(style);*/
+
                 for (int k = 0; k < excelEnumMap.size(); k++) {
                     logger.debug(k + "");
                     Cell cell = row.createCell(k);

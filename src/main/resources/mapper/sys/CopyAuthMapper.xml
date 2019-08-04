@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.CopyAuthMapper" >
+
+  <select id="list" resultType="xyz.zaijushou.zhx.sys.entity.CopyAuth"  >
+    select id,status  from copy_auth
+  </select>
+
+
+
+  <update id="update" parameterType="xyz.zaijushou.zhx.sys.entity.CopyAuth" >
+    update copy_auth set status = #{status}
+  </update>
+
+</mapper>
