@@ -307,7 +307,7 @@ public class SysUserServiceImpl implements SysUserService {
             return WebResponse.error("500","坐席号重复");
         }
         SysNewUserEntity bean = new SysNewUserEntity();
-        bean.setUserName(userEntity.getUserName());
+        bean.setLoginName(userEntity.getLoginName());
         //判断用户username是否重复
         int countUserName = sysUserMapper.countUserNameAndNumber(bean);
         if(countUserName > 0){
@@ -671,17 +671,26 @@ public class SysUserServiceImpl implements SysUserService {
     public SysUserEntity getLoginName(SysUserEntity user) throws Exception{
         PinyinTool tool = new PinyinTool();
         int count = 1;
+        int nameCount = 1;
         user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE));
         List<SysUserEntity> list = sysUserMapper.countByLoginName(user);
-        Pattern pat = Pattern.compile(user.getUserName()+"(\\d*)");
+        Pattern pat = Pattern.compile(user.getLoginName()+"(\\d*)");
+        Pattern patName = Pattern.compile(user.getUserName()+"(\\d*)");
         boolean baseUser = false;
         for (int i=0;i<list.size();i++){
             SysUserEntity sysUserEntity = list.get(i);
-            Matcher mat = pat.matcher(sysUserEntity.getUserName());
+            Matcher mat = pat.matcher(sysUserEntity.getLoginName());
+            Matcher matName = patName.matcher(sysUserEntity.getUserName());
             if(mat.matches()) {
                 count = count+1;
             }
+            if(matName.matches()) {
+                nameCount = nameCount+1;
+            }
             if(user.getUserName().equals(sysUserEntity.getUserName())){
+                baseUser = true;
+            }
+            if(user.getLoginName().equals(sysUserEntity.getLoginName())){
                 baseUser = true;
             }
         }
@@ -692,7 +701,9 @@ public class SysUserServiceImpl implements SysUserService {
         }else{
             user.setLoginNameCount(count);
             user.setLoginName( tool.toPinYin(user.getUserName(),"", PinyinTool.Type.LOWERCASE)+(count));
-            user.setUserName(user.getUserName()+(count));
+            if (nameCount>1) {
+                user.setUserName(user.getUserName() + (nameCount));
+            }
             return user;
         }
     }

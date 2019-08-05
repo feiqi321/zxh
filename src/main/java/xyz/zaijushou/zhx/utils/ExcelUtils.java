@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
+import xyz.zaijushou.zhx.common.exception.CustomerException;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelEnum;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
@@ -124,7 +125,7 @@ public class ExcelUtils {
                         }
                         Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
 
-                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
+                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1],i,excelEnum.getCol()));
                     } else {
                         matcher = Pattern.compile("\\.").matcher(attr);
                         if (matcher.find()) {
@@ -141,10 +142,10 @@ public class ExcelUtils {
                             }
                             object = firstAttrGetMethod.invoke(entity);
                             Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
-                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
+                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1],i,excelEnum.getCol()));
                         } else {
                             Method method = entity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), excelEnum.getAttrClazz()[0]);
-                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0],excelEnum.getCol()));
+                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0],i,excelEnum.getCol()));
                         }
                     }
 
@@ -152,7 +153,10 @@ public class ExcelUtils {
                 if (entity!=null) {
                     resultList.add(entity);
                 }
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
+            } catch (CustomerException al){
+                logger.error("检测数据有误：{}", al.getMessage());
+                throw new CustomerException(500,al.getMsg());
+            }catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
                 logger.error("excel解析错误：{}", e);
                 throw new IOException("excel解析错误", e);
             } catch (ParseException e) {
@@ -244,7 +248,7 @@ public class ExcelUtils {
                         }
                         Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
 
-                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
+                        secondAttrSetMethod.invoke(subList.get(index), cellValue(cell, excelEnum.getAttrClazz()[1],i,excelEnum.getCol()));
                     } else {
                         matcher = Pattern.compile("\\.").matcher(attr);
                         if (matcher.find()) {
@@ -261,10 +265,10 @@ public class ExcelUtils {
                             }
                             object = firstAttrGetMethod.invoke(entity);
                             Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("set" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1), excelEnum.getAttrClazz()[1]);
-                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1],excelEnum.getCol()));
+                            secondAttrSetMethod.invoke(object, cellValue(cell, excelEnum.getAttrClazz()[1],i,excelEnum.getCol()));
                         } else {
                             Method method = entity.getClass().getMethod("set" + attr.substring(0, 1).toUpperCase() + attr.substring(1), excelEnum.getAttrClazz()[0]);
-                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0],excelEnum.getCol()));
+                            method.invoke(entity, cellValue(cell, excelEnum.getAttrClazz()[0],i,excelEnum.getCol()));
                         }
                     }
 
@@ -282,7 +286,11 @@ public class ExcelUtils {
                     //清空集合
                     resultList.clear();
                 }
-            }catch (IllegalArgumentException al){
+            }catch (CustomerException al){
+                logger.error("检测数据有误：{}", al.getMessage());
+                throw new CustomerException(500,al.getMessage());
+            }
+            catch (IllegalArgumentException al){
                 logger.error("检测数据有误：{}", al.getMessage());
                 throw new IllegalArgumentException(al.getMessage());
             }
@@ -307,13 +315,17 @@ public class ExcelUtils {
         return response;
     }
 
-    private static Object cellValue(Cell cell, Class clazz,String col) throws ParseException {
+    private static Object cellValue(Cell cell, Class clazz,int row,String col) throws CustomerException,ParseException {
         if(cell == null) {
             return null;
         }
         CellType cellType;
         if(CellType.FORMULA == cell.getCellType()) {
-            cellType = evaluator.evaluate(cell).getCellType();
+            try {
+                cellType = evaluator.evaluate(cell).getCellType();
+            }catch (Exception e){
+                throw new  CustomerException(500,"第"+row+"行数据:"+col+"格式有误，请检查后再导入!");
+            }
         } else {
             cellType = cell.getCellType();
         }

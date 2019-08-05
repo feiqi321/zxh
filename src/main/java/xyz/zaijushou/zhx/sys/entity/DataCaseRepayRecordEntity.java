@@ -34,7 +34,7 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     private SysNewUserEntity confirmUser;   //确认人
 
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date confirmTime;   //确认时间
 
     private String recordStatus;    //还款记录状态

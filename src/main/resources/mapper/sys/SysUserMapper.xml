@@ -622,6 +622,9 @@
         <if test="userName != null and userName != ''">
             and username = #{userName}
         </if>
+        <if test="loginName != null and loginName != ''">
+            and login_name = #{loginName}
+        </if>
         <if test="number != null and number != ''">
             and number = #{number}
         </if>
