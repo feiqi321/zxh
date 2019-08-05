@@ -1798,6 +1798,15 @@ public class DataCaseServiceImpl implements DataCaseService {
 
             DataOpLog log = new DataOpLog();
             log.setType("评语");
+            if(StringUtils.isEmpty(color)){
+                color = "正常";
+            }else if ("RED".equals(color)){
+                color = "红色";
+            }else if ("BLUE".equals(color)){
+                color = "蓝色";
+            }else if ("black".equals(color)){
+                color = "正常";
+            }
             log.setContext(bean.getComment()+"["+color+"]");
             log.setOper(getUserInfo().getId());
             log.setOperName(getUserInfo().getUserName());
@@ -2887,7 +2896,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         DataCaseEntity temp = dataCaseMapper.findById(bean);
         DataOpLog log = new DataOpLog();
         log.setType("案件管理");
-        log.setContext("将自定义信息[ "+temp.getRemark()+" ]修改为[ "+bean+" ] ");
+        if(StringUtils.notEmpty(temp.getRemark()) || "null".equals(temp.getRemark())) {
+            log.setContext("将自定义信息[ " + temp.getRemark() + " ]修改为[ " + bean.getRemark() + " ] ");
+        }else{
+            log.setContext("将自定义信息修改为[ " + bean.getRemark() + " ] ");
+        }
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");

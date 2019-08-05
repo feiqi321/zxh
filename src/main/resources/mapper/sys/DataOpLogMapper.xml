@@ -19,6 +19,7 @@
     <if test="type != null and type!=''">
       AND  type = #{type}
     </if>
+    order by op_time desc
   </select>
 
   <select id="listAddressDataOpLog" resultType="xyz.zaijushou.zhx.sys.entity.DataOpLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
