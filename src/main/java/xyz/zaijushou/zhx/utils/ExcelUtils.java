@@ -364,6 +364,8 @@ public class ExcelUtils {
                         try {
                             //获取单元格的时间格式
                             String cellStyle = cell.getCellStyle().getDataFormatString();
+                            short cellStyle2 = cell.getCellStyle().getDataFormat();
+
                             String dfStr = "";
                             //根据单元格时间格式不同，设置不同的时间格式
                             if("m/d;@".equals(cellStyle)){
@@ -371,7 +373,11 @@ public class ExcelUtils {
                             }else if ("yyyy\\-mm\\-dd;@".equals(cellStyle)){
                                 dfStr = "yyyy-MM-dd";
                             }else if("yyyy/m/d;@".equals(dfStr)){
-                                dfStr = "yyyy/MM/dd";
+                                dfStr = "yyyy-MM-dd";
+                            }else if ("m/d/yy".equals(cellStyle)){
+                                dfStr = "yyyy-MM-dd";
+                            }else if (cellStyle2==58){
+                                dfStr = "yyyy-MM-dd";
                             }
 
                             double value = cell.getNumericCellValue();
