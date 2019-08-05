@@ -108,7 +108,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         DataOpLog log = new DataOpLog();
         log.setType("电话催收");
-        log.setContext("联系人："+(beanInfo.getTargetName()==null?"未知":beanInfo.getTargetName())+"，电话号码："+(beanInfo.getMobile()==null?"未知":beanInfo.getMobile())+"[手机]，通话内容："+(beanInfo.getCollectInfo()==null?"":beanInfo.getCollectInfo())+"，催收状态： "+(sysDictionaryEntity==null?"":sysDictionaryEntity.getName()));
+        if (sysDictionaryEntity==null || StringUtils.isEmpty(sysDictionaryEntity.getName())){
+            log.setContext("联系人："+(beanInfo.getTargetName()==null?"未知":beanInfo.getTargetName())+"，电话号码："+(beanInfo.getMobile()==null?"未知":beanInfo.getMobile())+"[手机]，通话内容："+(beanInfo.getCollectInfo()==null?"":beanInfo.getCollectInfo()));
+        }else {
+            log.setContext("联系人：" + (beanInfo.getTargetName() == null ? "未知" : beanInfo.getTargetName()) + "，电话号码：" + (beanInfo.getMobile() == null ? "未知" : beanInfo.getMobile()) + "[手机]，通话内容：" + (beanInfo.getCollectInfo() == null ? "" : beanInfo.getCollectInfo()) + "，催收状态： " + (sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName()));
+        }
         log.setOper(getUserInfo().getId());
         log.setOperName(getUserInfo().getUserName());
 
