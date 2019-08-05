@@ -3,6 +3,7 @@ package xyz.zaijushou.zhx.utils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
@@ -347,24 +348,11 @@ public class ExcelUtils {
                 } else if(clazz.equals(String.class)) {
 
                     if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && col.equals("最后还款日")){
-
-                       /* short format = cell.getCellStyle().getDataFormat(); //28 dd  176mm/dd
-                        SimpleDateFormat sdf = null;
-                        if(format == 14 || format == 31 || format == 57 || format == 58){
-                            //日期
-                            sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        }else if (format == 20 || format == 32) {
-                            //时间
-                            sdf = new SimpleDateFormat("HH:mm");
-                        }
-                        double value = cell.getNumericCellValue();
-                        Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
-                        result = sdf.format(date);*/
-
                         try {
                             //获取单元格的时间格式
                             String cellStyle = cell.getCellStyle().getDataFormatString();
                             short cellStyle2 = cell.getCellStyle().getDataFormat();
+
 
                             String dfStr = "";
                             //根据单元格时间格式不同，设置不同的时间格式
@@ -373,9 +361,9 @@ public class ExcelUtils {
                             }else if ("yyyy\\-mm\\-dd;@".equals(cellStyle)){
                                 dfStr = "yyyy-MM-dd";
                             }else if("yyyy/m/d;@".equals(dfStr)){
-                                dfStr = "yyyy-MM-dd";
+                                dfStr = "yyyy/MM/dd";
                             }else if ("m/d/yy".equals(cellStyle)){
-                                dfStr = "yyyy-MM-dd";
+                                dfStr = "yyyy/MM/dd";
                             }else if (cellStyle2==58){
                                 dfStr = "yyyy-MM-dd";
                             }
@@ -383,7 +371,8 @@ public class ExcelUtils {
                             double value = cell.getNumericCellValue();
                             //如果没有取到对应的时间格式，就结果就取当前值
                             if (dfStr==""){
-                                result = "" + df.format(cell.getNumericCellValue());
+                                cell.setCellType(CellType.STRING);
+                                result = cell.getStringCellValue();
                             }else {
                                 Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
                                 result = new SimpleDateFormat(dfStr).format(date);
