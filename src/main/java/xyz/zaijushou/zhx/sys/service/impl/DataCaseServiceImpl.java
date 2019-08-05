@@ -2842,9 +2842,11 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     public List<DataCaseTelEntity> findTelListByCaseId(DataCaseEntity bean){
+        if(bean==null){
+            return new ArrayList<DataCaseTelEntity>();
+        }
         DataCaseTelEntity telEntity = new DataCaseTelEntity();
         telEntity.setCaseId(bean.getId());
-        DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
         List<DataCaseTelEntity> telEntityList = dataCaseTelMapper.findAll(telEntity);
         SysDictionaryEntity dictionary = new SysDictionaryEntity();
         dictionary.setName("电话类型");
@@ -2852,43 +2854,20 @@ public class DataCaseServiceImpl implements DataCaseService {
         Map map = new HashMap();
         for (int i=0;i<dictList.size();i++){
             SysDictionaryEntity temp = dictList.get(i);
-            map.put(temp.getId(),temp.getName());
+            if(temp!=null) {
+                map.put(temp.getId(), temp.getName());
+            }
+        }
+        if(telEntityList==null){
+            return new ArrayList<DataCaseTelEntity>();
         }
         for (int i=0;i<telEntityList.size();i++){
             DataCaseTelEntity temp = telEntityList.get(i);
-            temp.setTypeMsg(StringUtils.isEmpty(temp.getType())?"":(map.get(Integer.parseInt(temp.getType()))==null?temp.getType():map.get(Integer.parseInt(temp.getType())).toString()));
+            temp.setTypeMsg(StringUtils.isEmpty(temp.getType())?"":(StringUtils.isEmpty(map.get(Integer.parseInt(temp.getType())))?temp.getType():map.get(Integer.parseInt(temp.getType())).toString()));
             telEntityList.set(i,temp);
         }
-        List<DataCaseTelEntity> dataCaseTelEntityList2 =  new ArrayList<DataCaseTelEntity>();
-        /*if (StringUtils.notEmpty(dataCaseDetail.getTel())){
-            DataCaseTelEntity temp1 = new DataCaseTelEntity();
-            temp1.setTel(dataCaseDetail.getTel());
-            temp1.setRelation("本人");
-            temp1.setTelStatusMsg("未知");
-            temp1.setName(dataCaseDetail.getName());
-            temp1.setRemark("手机");
-            dataCaseTelEntityList2.add(temp1);
-        }
-        if (StringUtils.notEmpty(dataCaseDetail.getHomeTelNumber())){
-            DataCaseTelEntity temp2 = new DataCaseTelEntity();
-            temp2.setTel(dataCaseDetail.getHomeTelNumber());
-            temp2.setRelation("本人");
-            temp2.setTelStatusMsg("未知");
-            temp2.setName(dataCaseDetail.getName());
-            temp2.setRemark("家庭号码");
-            dataCaseTelEntityList2.add(temp2);
-        }
-        if (StringUtils.notEmpty(dataCaseDetail.getUnitTelNumber())){
-            DataCaseTelEntity temp3 = new DataCaseTelEntity();
-            temp3.setTel(dataCaseDetail.getUnitTelNumber());
-            temp3.setRelation("本人");
-            temp3.setTelStatusMsg("未知");
-            temp3.setName(dataCaseDetail.getName());
-            temp3.setRemark("单位号码");
-            dataCaseTelEntityList2.add(temp3);
-        }*/
-        dataCaseTelEntityList2.addAll(telEntityList);
-        return dataCaseTelEntityList2;
+
+        return telEntityList;
     }
     //有效 无效 未知
     public void updateRemark(DataCaseEntity bean){
