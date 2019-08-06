@@ -32,4 +32,6 @@ public interface SysOrganizationService {
     List<SysOrganizationEntity> findTableData(Integer id);
 
     void addDept(SysOrganizationEntity organizations);
+
+    void moveToTargetDepartment(Integer id, String pid);
 }

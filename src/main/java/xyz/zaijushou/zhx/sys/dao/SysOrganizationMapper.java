@@ -49,4 +49,5 @@ public interface SysOrganizationMapper {
 
     void addDept(SysOrganizationEntity organizations);
 
+    void moveToTargetDepartment(Integer id, String pid);
 }

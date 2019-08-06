@@ -145,4 +145,10 @@ public class SysOrganizationController {
         sysOrganizationService.addDept(organizations);
         return WebResponse.success();
     }
+
+    @PostMapping("/moveToTargetDepartment")
+    public Object moveToTargetDepartment(@RequestParam("id") Integer id, @RequestParam("pid") String pid) {
+        sysOrganizationService.moveToTargetDepartment(id, pid);
+        return WebResponse.success();
+    }
 }

@@ -108,6 +108,9 @@
     <update id="updateDepartment">
         update sys_organization set org_name=#{orgName} where id=#{id}
     </update>
+    <update id="moveToTargetDepartment">
+        update sys_organization set parent_id=#{pid} where id=#{id}
+    </update>
 
     <select id="listAllOrganizations" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity"
             resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">

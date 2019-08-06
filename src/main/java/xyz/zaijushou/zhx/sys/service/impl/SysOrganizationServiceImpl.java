@@ -233,6 +233,11 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
         sysOrganizationMapper.addDept(organizations);
     }
 
+    @Override
+    public void moveToTargetDepartment(Integer id, String pid) {
+        sysOrganizationMapper.moveToTargetDepartment(id,pid);
+    }
+
     /**
      * 递归删除
      */
