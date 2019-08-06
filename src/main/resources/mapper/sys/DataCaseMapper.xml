@@ -1710,6 +1710,18 @@
             <if test="collectionUser != null and collectionUser.id != null">
                 odv = #{collectionUser.id},
             </if>
+            <if test="dept != null and dept !=''">
+                dept = #{dept},
+            </if>
+            <if test="distributeHistory != null and distributeHistory !=''">
+                distribute_history = distribute_history+#{distributeHistory},
+            </if>
+            <if test="distributeStatus != null">
+                distribute_status = #{distributeStatus},
+            </if>
+            <if test="distributeDate != null">
+                distribute_time = #{distributeDate},
+            </if>
             <if test="collectionArea != null and collectionArea.id != null">
                 collection_area = #{collectionArea.id},
             </if>

@@ -3276,21 +3276,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                     caseEntity.setCollectArea(collectAreaEntity == null ? "" : caseEntity.getCollectionArea().getId() + "");
                 }
                 if (caseEntity.getCollectionUser() != null && caseEntity.getCollectionUser().getId() != null) {
-                    /*SysNewUserEntity userEntity = new SysNewUserEntity();
-                    userEntity.setRole("催收员");
-                    List<SysNewUserEntity> userInfoEntity = sysUserService.getDataByRoleNameForList(userEntity);
-                    Map collectUserMap = new HashMap();
-                    for (int m = 0; m < userInfoEntity.size(); m++) {
-                        SysNewUserEntity sysNewUserEntity = userInfoEntity.get(m);
-                        collectUserMap.put(sysNewUserEntity.getId(), sysNewUserEntity);
-                    }
-                    if (collectUserMap.get(caseEntity.getCollectionUser().getId()) == null) {*/
+
                     SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ caseEntity.getCollectionUser().getId(), SysUserEntity.class);
                     if (user==null) {
                         throw new IllegalArgumentException("催收员ID" + caseEntity.getCollectionUser().getId() + "不正确，请核实后再上传");
                     }
-                   // }
-
+                    caseEntity.setDept(user.getDepartment());
+                    caseEntity.setDistributeHistory(",案件分配给"+user.getUserName());
+                    caseEntity.setDistributeStatus(1);
+                    caseEntity.setDistributeDate(new Date());
                 }
                 if (org.apache.commons.lang3.StringUtils.isEmpty(caseEntity.getSeqNo()) && (org.apache.commons.lang3.StringUtils.isEmpty(caseEntity.getCardNo()) && org.apache.commons.lang3.StringUtils.isEmpty(caseEntity.getCaseDate()))) {
                     throw new IllegalArgumentException("姓名" + caseEntity.getName() + "的数据未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
