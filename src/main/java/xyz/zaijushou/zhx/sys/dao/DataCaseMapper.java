@@ -80,6 +80,8 @@ public interface DataCaseMapper {
 
     public void sendOdv(DataCaseEntity bean);
 
+    public void sendSingleOdv(DataCaseEntity bean);
+
     public void cleanTimes(DataCaseEntity bean);
 
     public void cleanCollect(DataCaseEntity bean);

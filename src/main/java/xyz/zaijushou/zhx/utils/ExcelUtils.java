@@ -163,7 +163,7 @@ public class ExcelUtils {
                 logger.error("excel日期解析错误：{}", e);
                 //+1是为了补充标题所占的一行
                 int j = i+1;
-                throw new IOException("第"+j+"行"+k+"列日期解析错误", e);
+                throw new IOException("第"+j+"行"+(k+1)+"列日期解析错误", e);
             } catch (Exception e) {
                 logger.error("excel解析错误：{}", e);
                 throw new IOException("excel解析错误", e);
@@ -344,19 +344,63 @@ public class ExcelUtils {
                 } else if (clazz.equals(Double.class) || clazz.equals(double.class)) {
                     result = Double.parseDouble((String) result);
                 } else if (clazz.equals(Date.class)) {
-                    if(((String) result).indexOf("-")>0) {
+                    try {
+                        if (Pattern.matches("([12]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01]))", (String) result)) {
+                            result = new SimpleDateFormat("yyyyMMdd").parse((String) result);
+                        } else if (Pattern.matches("([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))", (String) result)) {
+                            result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                        } else if (Pattern.matches("([12]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01]))", (String) result)) {
+                            result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                        } else {
+                            try {
+                                result = HSSFDateUtil.getJavaDate(Double.parseDouble((String) result));
+                            } catch (Exception e) {
+                                result = null;
+                            }
+                        }
+                    }catch(Exception e){
+                        throw new  CustomerException(500,"第"+row+"行数据:"+col+"时间格式有误，请检查后再导入!");
+                    }
+                    if (result==null){
+                        throw new  CustomerException(500,"第"+row+"行数据:"+col+"时间格式有误，请检查后再导入!");
+                    }
+
+                   /* if(((String) result).indexOf("-")>0) {
                         result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
                     }else{
                         result = new SimpleDateFormat("yyyy/MM/dd").parse((String) result);
-                    }
+                    }*/
                 }
                 break;
             case NUMERIC:
                 DecimalFormat df = new DecimalFormat("0");
                 if (clazz.equals(Date.class)) {
-                    double value = cell.getNumericCellValue();
+                    /*double value = cell.getNumericCellValue();
                     Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
-                    result = date;
+                    result = date;*/
+                    try {
+                        cell.setCellType(CellType.STRING);
+                        result = cell.getStringCellValue();
+                        if (Pattern.matches("([12]\\d{3}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01]))", (String) result)) {
+                            result = new SimpleDateFormat("yyyyMMdd").parse((String) result);
+                        } else if (Pattern.matches("([12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))", (String) result)) {
+                            result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                        } else if (Pattern.matches("([12]\\d{3}/(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01]))", (String) result)) {
+                            result = new SimpleDateFormat("yyyy-MM-dd").parse((String) result);
+                        } else {
+                            try {
+                                result = HSSFDateUtil.getJavaDate(Double.parseDouble((String) result));
+                            } catch (Exception e) {
+                                result = null;
+                            }
+                        }
+                    }catch(Exception e){
+                        throw new  CustomerException(500,"第"+row+"行数据:"+col+"时间格式有误，请检查后再导入!");
+                    }
+
+                    if (result==null){
+                        throw new  CustomerException(500,"第"+row+"行数据:"+col+"时间格式有误，请检查后再导入!");
+                    }
                 } else if(clazz.equals(String.class)) {
 
                     if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && col.equals("最后还款日")){

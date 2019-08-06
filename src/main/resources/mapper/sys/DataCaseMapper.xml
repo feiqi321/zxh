@@ -1342,6 +1342,11 @@
         </foreach>
     </update>
 
+    <update id="sendSingleOdv" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case set odv = #{odv},dept=#{dept},distribute_history=distribute_history+#{distributeHistory},distribute_time=GETDATE(),distribute_status=1
+        where id = #{id}
+    </update>
+
     <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case set status = #{status},return_time=#{returnTime}
         where id = #{id}
@@ -2856,6 +2861,7 @@
         distribute_history,
         collect_times,
         distribute_status,
+        distribute_time,
         remark1,
         remark2,
         remark3,
@@ -3066,9 +3072,10 @@
         #{vin},
         #{engineNo},
         #{batchNo},
-        '',
+        #{distributeHistory},
         0,
         1,
+        #{distributeDate},
         #{remark1},
         #{remark2},
         #{remark3},

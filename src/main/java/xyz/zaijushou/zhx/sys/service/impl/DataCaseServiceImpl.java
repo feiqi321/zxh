@@ -955,8 +955,12 @@ public class DataCaseServiceImpl implements DataCaseService {
             for (int i = 0; i < tempList.size(); i++) {
                 seqNos = seqNos + "," + tempList.get(i).getSeqNo();
             }
+            if(StringUtils.notEmpty(seqNos)){
+                operationLog.setRequestBody(getUserInfo().getUserName() + "把" + (seqNos == null ? "" : seqNos.substring(1)) + "案件分配给" + user.getUserName());
+            }else{
+                operationLog.setRequestBody(getUserInfo().getUserName() + "把案件分配给" + user.getUserName());
+            }
 
-            operationLog.setRequestBody(getUserInfo().getUserName() + "把" + (seqNos == null ? "" : seqNos.substring(1)) + "案件分配给" + user.getUserName());
 
             sysOperationLogMapper.insertRequest(operationLog);
         }
@@ -1573,7 +1577,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odvCaseList.get(i).getOdv(), SysUserEntity.class);
                 odvCaseList.get(i).setDept(user==null?"":user.getDepartment());
                 odvCaseList.get(i).setDistributeHistory(list.get(i).getSeqNo()+"案件分配给"+(user==null?"":user.getUserName()));
-                dataCaseMapper.sendOdv(odvCaseList.get(i));
+                dataCaseMapper.sendSingleOdv(odvCaseList.get(i));
                 SysOperationLogEntity operationLog = new SysOperationLogEntity();
                 operationLog.setUrl("/send");
                 operationLog.setUserIp("127.0.0.1");
@@ -2005,6 +2009,13 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getCollectionType(),SysDictionaryEntity.class);
                     entity.setCollectionType(sysDictionaryEntity.getId()+"");
                 }*/
+                if(entity.getCollectionUser()!=null && entity.getCollectionUser().getId()!=null){
+                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getCollectionUser().getId(), SysUserEntity.class);
+                    entity.setDept(user.getDepartment());
+                    entity.setDistributeHistory("案件分配给"+user.getUserName());
+                    entity.setDistributeStatus(1);
+                    entity.setDistributeDate(new Date());
+                }
                 if (entity.getExpectTimeD()!=null) {
                     entity.setExpectTime(sdf2.format(entity.getExpectTimeD()));
                 }
@@ -2626,6 +2637,11 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("查询详情开始");
         dataCaseMapper.watchDetail(bean);
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        if (StringUtils.notEmpty(dataCaseDetail.getDistributeHistory())){
+            if (",".equals(dataCaseDetail.getDistributeHistory().substring(0,1))){
+                dataCaseDetail.setDistributeHistory(dataCaseDetail.getDistributeHistory().substring(1));
+            }
+        }
         List<CopyAuth> list = copyAuthMapper.list();
         if (list==null || list.size()==0){
             dataCaseDetail.setCopyAuth(true);
