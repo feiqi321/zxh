@@ -2637,7 +2637,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("查询详情开始");
         dataCaseMapper.watchDetail(bean);
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
-        if (StringUtils.notEmpty(dataCaseDetail.getDistributeHistory())){
+        if (dataCaseDetail!=null && StringUtils.notEmpty(dataCaseDetail.getDistributeHistory())){
             if (",".equals(dataCaseDetail.getDistributeHistory().substring(0,1))){
                 dataCaseDetail.setDistributeHistory(dataCaseDetail.getDistributeHistory().substring(1));
             }

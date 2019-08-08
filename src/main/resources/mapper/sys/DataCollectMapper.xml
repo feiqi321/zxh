@@ -814,30 +814,32 @@
                 <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
                     <![CDATA[   and t.collect_date <= convert(datetime,#{lastFollDateEnd}, 20)  ]]>
                 </if>
-                <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and t.expect_time >=  #{expectTimeStart}   ]]>
-                </if>
-                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and t.expect_time <=  #{expectTimeEnd}   ]]>
-                </if>
-                <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and t.case_date>=  #{caseDateStart}   ]]>
-                </if>
-                <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and t.case_date<=  #{caseDateEnd}   ]]>
-                </if>
-                <if test="repayTimeStart != null and repayTimeStart!=''">
-                    <![CDATA[   and t.repay_date>=  #{repayTimeStart}   ]]>
-                </if>
-                <if test="repayTimeEnd != null and repayTimeEnd!=''" >
-                    <![CDATA[   and t.repay_date<=  #{repayTimeEnd}   ]]>
-                </if>
                 <if test="nextFollDateStart != null and nextFollDateStart!=''">
-                    <![CDATA[   and t.next_foll_date>=  #{nextFollDateStart}   ]]>
+                    <![CDATA[   and convert(datetime,t.next_foll_date, 20)   >=  convert(datetime,#{nextFollDateStart}, 20)   ]]>
                 </if>
                 <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
-                    <![CDATA[   and t.next_foll_date<=  #{nextFollDateEnd}  ]]>
+                    <![CDATA[   and convert(datetime,t.next_foll_date, 20)  <=   convert(datetime,#{nextFollDateEnd}, 20)   ]]>
                 </if>
+                <if test="expectTimeStart != null and expectTimeStart!=''">
+                    <![CDATA[   and convert(datetime,t.expect_time, 20) >=  convert(datetime,#{expectTimeStart}, 20)    ]]>
+                </if>
+                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
+                    <![CDATA[   and convert(datetime,t.expect_time, 20)<= convert(datetime,#{expectTimeEnd}, 20)   ]]>
+                </if>
+
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and t.case_date>= convert(datetime,#{caseDateStart}, 20)   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and t.case_date<=  convert(datetime,#{caseDateEnd}, 20)  ]]>
+                </if>
+                <if test="repayTimeStart != null and repayTimeStart!=''">
+                    <![CDATA[   and convert(datetime,t.repay_date, 20)>=  convert(datetime,#{repayTimeStart}, 20)  ]]>
+                </if>
+                <if test="repayTimeEnd != null and repayTimeEnd!=''" >
+                    <![CDATA[   and convert(datetime,t.repay_date, 20)<=  convert(datetime,#{repayTimeEnd}, 20)   ]]>
+                </if>
+
                 <if test="moneyEnd != null and moneyEnd!=''">
                     <![CDATA[   and t.money>=  #{moneyEnd}  ]]>
                 </if>

@@ -272,7 +272,44 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
         }
         logger.info("********************开始查询案件");
-        PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
+        //PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
+        if (StringUtils.notEmpty(dataCollectionEntity.getLastFollDateStart())){
+            dataCollectionEntity.setLastFollDateStart(dataCollectionEntity.getLastFollDateStart() +"  00:00:01");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getLastFollDateEnd())){
+            dataCollectionEntity.setLastFollDateEnd(dataCollectionEntity.getLastFollDateEnd() +"  23:59:59");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getCaseAllotTimeStart())){
+            dataCollectionEntity.setCaseAllotTimeStart(dataCollectionEntity.getCaseAllotTimeStart() +"  00:00:01");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getCaseAllotTimeEnd())){
+            dataCollectionEntity.setCaseAllotTimeEnd(dataCollectionEntity.getCaseAllotTimeEnd() +"  23:59:59");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getNextFollDateStart())){
+            dataCollectionEntity.setNextFollDateStart(dataCollectionEntity.getNextFollDateStart() +"  00:00:01");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getNextFollDateEnd())){
+            dataCollectionEntity.setNextFollDateEnd(dataCollectionEntity.getNextFollDateEnd() +"  23:59:59");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getExpectTimeStart())){
+            dataCollectionEntity.setExpectTimeStart(dataCollectionEntity.getExpectTimeStart() +"  00:00:01");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getExpectTimeEnd())){
+            dataCollectionEntity.setExpectTimeEnd(dataCollectionEntity.getExpectTimeEnd() +"  23:59:59");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getRepayTimeStart())){
+            dataCollectionEntity.setRepayTime(dataCollectionEntity.getRepayTimeStart() +"  00:00:01");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getRepayTimeEnd())){
+            dataCollectionEntity.setRepayTime(dataCollectionEntity.getRepayTimeEnd() +"  23:59:59");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getCaseDateStart())){
+            dataCollectionEntity.setCaseDateStart(dataCollectionEntity.getCaseDateStart() +"  00:00:01");
+        }
+        if (StringUtils.notEmpty(dataCollectionEntity.getCaseDateEnd())){
+            dataCollectionEntity.setCaseDateEnd(dataCollectionEntity.getCaseDateEnd() +"  23:59:59");
+        }
+
 
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
         logger.info("********************查询案件结束");
