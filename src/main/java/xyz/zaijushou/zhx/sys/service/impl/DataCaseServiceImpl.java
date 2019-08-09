@@ -2027,6 +2027,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     BigDecimal bMval = new BigDecimal(entity.getMVal()==null?"0":entity.getMVal());
                 }catch (Exception e){
                 }
+                entity.setCaseDate(entity.getCaseDateD()==null?"":sdf2.format(entity.getCaseDateD()));
                 entity.setEnRepayAmt(entity.getEnRepayAmt()==null?new BigDecimal(0):entity.getEnRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setBankAmt(entity.getBankAmt()==null?new BigDecimal(0):entity.getBankAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
                 entity.setProRepayAmt(entity.getProRepayAmt()==null?new BigDecimal(0):entity.getProRepayAmt().setScale(2, BigDecimal.ROUND_HALF_DOWN));
@@ -2647,7 +2648,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseDetail.setCopyAuth(true);
         }else{
             CopyAuth copyAuth = list.get(0);
-            if (copyAuth.getStatus()==1){
+            if (copyAuth!=null && copyAuth.getStatus()!=null && copyAuth.getStatus()==1){
                 dataCaseDetail.setCopyAuth(true);
             }else{
                 dataCaseDetail.setCopyAuth(false);

@@ -796,7 +796,7 @@
                     and t.repay_status = #{repayStatus}
                 </if>
                 <if test="remark != null and remark!=''">
-                    and t.remark = #{remark}
+                    and t.remark like '%${remark}%'
                 </if>
                 <if test="telPhone != null and telPhone!=''">
                     AND t.tel = #{telPhone}

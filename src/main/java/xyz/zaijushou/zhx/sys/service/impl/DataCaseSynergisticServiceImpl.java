@@ -134,12 +134,12 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
                 entity.setSynergisticUser(sysNewUserEntity);
             }
 
-            if (StringUtils.isEmpty(entity.getApplyContent())){
+           /* if (StringUtils.isEmpty(entity.getApplyContent())){
 
             }else{
                 SysDictionaryEntity contextEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
                 entity.setApplyContent(contextEntity==null?"":contextEntity.getName());
-            }
+            }*/
 
             if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
                 entity.setStatusMsg("待审核");
@@ -249,12 +249,12 @@ public class DataCaseSynergisticServiceImpl implements DataCaseSynergisticServic
                 entity.setSynergisticUser(sysNewUserEntity);
             }
 
-            if (StringUtils.isEmpty(entity.getApplyContent())){
+            /*if (StringUtils.isEmpty(entity.getApplyContent())){
 
             }else{
                 SysDictionaryEntity contextEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getApplyContent(),SysDictionaryEntity.class);
                 entity.setApplyContent(contextEntity==null?"":contextEntity.getName());
-            }
+            }*/
 
             if ("0".equals(entity.getApplyStatus()) && "0".equals(entity.getFinishStatus())){
                 entity.setStatusMsg("待审核");
