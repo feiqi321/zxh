@@ -171,8 +171,10 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             queryEntity.setCpMoney(new BigDecimal(0));
         }
         DataCaseEntity dataCaseEntity = queryEntity.getDataCase();
-        dataCaseEntity.setBankAmt(queryEntity.getCpMoney());
-        dataCaseMapper.updateCpMoney(dataCaseEntity);
+        if (dataCaseEntity!=null) {
+            dataCaseEntity.setBankAmt(queryEntity.getCpMoney());
+            dataCaseMapper.updateCpMoney(dataCaseEntity);
+        }
 
     }
 

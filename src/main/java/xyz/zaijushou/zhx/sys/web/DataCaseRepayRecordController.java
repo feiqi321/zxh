@@ -250,12 +250,12 @@ public class DataCaseRepayRecordController {
         operationLog.setUserId(userId);
         sysOperationLogService.insertRequest(operationLog);
 
-        Set<String> seqNoSet = new HashSet<>();
+      //  Set<String> seqNoSet = new HashSet<>();
         for(int i = 0; i < dataEntities.size(); i ++) {
             if(dataEntities.get(i).getDataCase() == null || StringUtils.isEmpty(dataEntities.get(i).getDataCase().getSeqNo())) {
                 return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号，请填写后上传，并检查excel的个案序列号是否均填写了");
             }
-            seqNoSet.add(dataEntities.get(i).getDataCase().getSeqNo());
+          //  seqNoSet.add(dataEntities.get(i).getDataCase().getSeqNo());
         }
 
         /*DataCaseEntity queryEntity = new DataCaseEntity();

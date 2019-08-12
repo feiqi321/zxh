@@ -473,8 +473,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 String[] idsTemp = new String[ids.length];
                 for (int i=0;i<ids.length;i++){
                     try{
-                        idsTemp[i] = Integer.parseInt(ids[i])+"";
                         dataCaseEntity.setIdFlag("1");
+                        idsTemp[i] = Integer.parseInt(ids[i])+"";
                     }catch (Exception e){
                         idsTemp[i] = "0";
                     }

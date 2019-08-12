@@ -178,7 +178,53 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         for(Integer id : entity.getIds()) {
             entity.setId(id);
             entity = dataCaseRepayRecordMapper.findById(entity);
-            updateDataCaseBalance(entity);
+            updateDataCaseBalanceCancel(entity);
+        }
+
+    }
+
+    public void updateDataCaseBalanceCancel(DataCaseRepayRecordEntity record) {
+        List<DataCaseRepayRecordEntity> records = dataCaseRepayRecordMapper.listBySeqNo(record);
+        BigDecimal repayMoney = new BigDecimal(0);
+        Integer lastId = 0;
+
+        for(DataCaseRepayRecordEntity recordEntity : records) {
+            repayMoney = repayMoney.add(recordEntity.getRepayMoney()==null?new BigDecimal(0):recordEntity.getRepayMoney());
+            if(recordEntity.getId() > lastId) {
+                lastId = recordEntity.getId();
+
+            }
+        }
+        DataCaseRepayRecordEntity lastRecord = new DataCaseRepayRecordEntity();
+        lastRecord.setId(lastId);
+        lastRecord = dataCaseRepayRecordMapper.findById(lastRecord);
+        DataCaseEntity dataCaseEntity = record.getDataCase();
+        dataCaseEntity.setId(record.getDataCase().getId());
+        //还款金额
+        dataCaseEntity.setEnRepayAmt(repayMoney);
+        //还款时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        dataCaseEntity.setRepayDate(lastRecord==null?"":(lastRecord.getRepayDate()==null?"":sdf.format(lastRecord.getRepayDate())));
+        //此处结清状态为导入时的状态
+        dataCaseEntity.setSettleFlag(lastRecord==null?"":lastRecord.getSettleFlag());
+
+        //根据seqNo 获取dataCase
+        DataCaseEntity dataCaseEntity1 =dataCaseMapper.findById(new DataCaseEntity(){{setId(record.getDataCase().getId());}});
+        if (dataCaseEntity1 != null) {
+            //判读结清状态
+            if(dataCaseEntity1!=null && "已结清".equals(dataCaseEntity1.getSettleFlag())){
+                //本来是结清状态就不需要更新了
+                dataCaseEntity.setSettleFlag(null);
+            }
+
+            dataCaseMapper.updateRepayMoney(dataCaseEntity);
+            if (record !=null && record.getCollectUser()!=null && record.getCollectUser().getId()!=null) {
+                this.royalti(dataCaseEntity.getId(), record.getCollectUser().getId());
+            }else if ((record==null || record.getCollectUser()==null) &&  StringUtils.isNotEmpty(dataCaseEntity1.getOdv())){
+                this.royalti(dataCaseEntity.getId(), Integer.parseInt(dataCaseEntity1.getOdv()));
+            }else if(record!=null && record.getCollectUser()!=null && record.getCollectUser().getId()==null && StringUtils.isNotEmpty(dataCaseEntity1.getOdv())){
+                this.royalti(dataCaseEntity.getId(), Integer.parseInt(dataCaseEntity1.getOdv()));
+            }
         }
 
     }
@@ -240,7 +286,6 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         return combineInfo(dataCaseRepayRecordMapper.listRepayRecordExport(repayRecordEntity));
     }
 
-    @Transactional
     @Override
     public void addList(List<DataCaseRepayRecordEntity> dataEntities) {
         if(CollectionUtils.isEmpty(dataEntities)) {
@@ -313,7 +358,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         dataCaseEntity.setEnRepayAmt(repayMoney);
         //还款时间
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        dataCaseEntity.setRepayDate(sdf.format(record.getRepayDate()));
+        dataCaseEntity.setRepayDate(record.getRepayDate()==null?"":sdf.format(record.getRepayDate()));
         //此处结清状态为导入时的状态
         dataCaseEntity.setSettleFlag(record.getSettleFlag());
 //        if(lastId != 0) {
@@ -332,6 +377,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         }
 
         dataCaseMapper.updateRepayMoney(dataCaseEntity);
+        dataCaseEntity =dataCaseMapper.findById(new DataCaseEntity(){{setId(record.getDataCase().getId());}});
         if (record.getCollectUser()!=null && record.getCollectUser().getId()!=null) {
             this.royalti(dataCaseEntity.getId(), record.getCollectUser().getId());
         }else if (record.getCollectUser()==null &&  StringUtils.isNotEmpty(dataCaseEntity.getOdv())){

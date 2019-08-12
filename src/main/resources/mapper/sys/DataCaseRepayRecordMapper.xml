@@ -1173,7 +1173,7 @@
 
      <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
          select
-             id as id,
+             id as id, collect_user as [collectUser.id],
              data_case as [dataCase.id]
          from data_case_repay_record
          where id = #{id}
