@@ -19,15 +19,28 @@ public class SysOperationLogServiceImpl implements SysOperationLogService {
     @Resource
     private SysOperationLogMapper operationLogMapper;
 
+
     @Override
     public void insertRequest(SysOperationLogEntity operationLog) {
         if (StringUtils.isEmpty(operationLog.getUrl())){
             operationLog.setUrl("/import");
         }
         try {
-            //if (!operationLog.getUrl().equals("/user/select/list")) {
+            if (StringUtils.notEmpty(operationLog.getUrl()) && operationLog.getUrl().indexOf("page")>0){
+
+            }else if (StringUtils.notEmpty(operationLog.getUrl()) && operationLog.getUrl().indexOf("user")>0){
+
+            }else if (StringUtils.notEmpty(operationLog.getUrl()) && operationLog.getUrl().indexOf("organization")>0){
+
+            }else if (StringUtils.notEmpty(operationLog.getUrl()) && (operationLog.getUrl().indexOf("role")>0 || operationLog.getUrl().indexOf("idno")>0 ||  operationLog.getUrl().indexOf("load")>0)){
+
+            }else if (StringUtils.notEmpty(operationLog.getUrl()) && (operationLog.getUrl().indexOf("query")>0 || operationLog.getUrl().indexOf("Select")>0 || operationLog.getUrl().indexOf("List")>0 || operationLog.getUrl().indexOf("list")>0 || operationLog.getUrl().indexOf("select")>0 || operationLog.getUrl().indexOf("lastCase")>0 || operationLog.getUrl().indexOf("nextCase")>0 || operationLog.getUrl().indexOf("updateRemak")>0 ||  operationLog.getUrl().indexOf("send")>0 ||  operationLog.getUrl().indexOf("Send")>0)){
+
+            }else if (StringUtils.notEmpty(operationLog.getUrl()) && (operationLog.getUrl().indexOf("statistics")>0 || operationLog.getUrl().indexOf("Detail")>0 || operationLog.getUrl().indexOf("detail")>0 || operationLog.getUrl().indexOf("export")>0 || operationLog.getUrl().indexOf("Export")>0)){
+
+            }else {
                 operationLogMapper.insertRequest(operationLog);
-            //}
+            }
         }catch(Exception e){
 
         }
@@ -35,7 +48,11 @@ public class SysOperationLogServiceImpl implements SysOperationLogService {
 
     @Override
     public void updateResponse(SysOperationLogEntity operationLog) {
-        operationLogMapper.updateResponse(operationLog);
+        if (StringUtils.isEmpty(operationLog.getUrl())){
+
+        }else {
+            operationLogMapper.updateResponse(operationLog);
+        }
     }
 
     @Override

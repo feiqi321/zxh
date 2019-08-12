@@ -14,7 +14,7 @@
         <file>/app/zhx/logs/zhx.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/app/zhx/logs/zhx.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxHistory>90</maxHistory>
+            <maxHistory>20</maxHistory>
             <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
@@ -29,7 +29,7 @@
         <File>/app/zhx/logs/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/app/zhx/logs/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
-            <maxHistory>90</maxHistory>
+            <maxHistory>20</maxHistory>
             <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>

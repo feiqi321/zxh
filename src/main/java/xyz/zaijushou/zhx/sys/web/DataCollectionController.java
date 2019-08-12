@@ -138,7 +138,7 @@ public class DataCollectionController {
                 bean.setDepts(deptList);
 
             }else if (bean.getsType() == 1){
-                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+               /* SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
                 if (StringUtils.isEmpty(bean.getDept())){
 
                 }else{
@@ -155,7 +155,7 @@ public class DataCollectionController {
                 }
 
                 bean.setDeptFlag(1);
-                bean.setDepts(deptList);
+                bean.setDepts(deptList);*/
 
             }
         }else {

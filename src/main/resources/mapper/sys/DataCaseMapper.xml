@@ -5312,7 +5312,7 @@
         from data_case da
         where da.delete_flag = 0
         <if test="seqNo != null and seqNo != ''">
-            and da.seq_no like dbo.CONCAT('%',#{seqNo},'%')
+            and da.seq_no like '%${seqNo}%'
         </if>
     </select>
 
@@ -5559,4 +5559,10 @@
         select  seq_no as seqNo,settle_flag as settleFlag
         from   data_case  where seq_no = #{seqNo} and delete_flag=0
     </select>
+
+    <update id="updateDept" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        update data_case
+        set dept = #{dept}
+        where odv = #{odv}
+    </update>
 </mapper>

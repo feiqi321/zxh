@@ -3107,7 +3107,9 @@ public class DataCaseServiceImpl implements DataCaseService {
 
     @Override
     public PageInfo<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity) {
+        logger.info("开始查询还款模糊查询");
         List<DataCaseEntity> list = dataCaseMapper.pageSeqNos(dataCaseEntity);
+        logger.info("结束查询还款模糊查询");
         return PageInfo.of(list);
     }
 

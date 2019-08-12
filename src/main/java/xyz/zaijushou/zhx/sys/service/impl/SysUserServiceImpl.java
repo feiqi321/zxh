@@ -379,6 +379,8 @@ public class SysUserServiceImpl implements SysUserService {
             return WebResponse.error("500","坐席号重复");
         }
 
+        SysNewUserEntity oldBean = sysUserMapper.getDataById(userEntity.getId());
+
         SysNewUserEntity bean = new SysNewUserEntity();
         bean.setId(userEntity.getId());
         bean.setUserName(userEntity.getUserName());
@@ -409,6 +411,13 @@ public class SysUserServiceImpl implements SysUserService {
         newBean.setDepartment(newBean.getDepartId());
         if (StringUtils.notEmpty(newBean)){
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
+        }
+
+        if (StringUtils.notEmpty(oldBean.getDepartId()) && !(oldBean.getDepartId().equals(newBean.getDepartment()))){
+            DataCaseEntity dataCaseEntity = new DataCaseEntity();
+            dataCaseEntity.setOdv(newBean.getId()+"");
+            dataCaseEntity.setDept(newBean.getDepartment());
+            dataCaseMapper.updateDept(dataCaseEntity);
         }
 
         return  webResponse.success();

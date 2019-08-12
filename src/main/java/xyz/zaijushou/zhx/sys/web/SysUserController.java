@@ -63,6 +63,9 @@ public class SysUserController {
     public Object userInfo(HttpServletRequest request) {
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = new SysUserEntity();
+        if (userId==null){
+            return WebResponse.success(user);
+        }
         user.setId(userId);
         user = sysUserService.findUserInfoWithoutPasswordById(user);
         return WebResponse.success(user);

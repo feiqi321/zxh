@@ -184,4 +184,6 @@ public interface DataCaseMapper {
 
     List<DataCaseEntity> findSettleFlagBySeqNo(DataCaseEntity bean);
 
+    void updateDept(DataCaseEntity dataCaseEntity);
+
 }
