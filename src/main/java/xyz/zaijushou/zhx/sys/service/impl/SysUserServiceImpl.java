@@ -310,12 +310,12 @@ public class SysUserServiceImpl implements SysUserService {
         bean.setLoginName(userEntity.getLoginName());
         //判断用户username是否重复
         int countUserName = sysUserMapper.countUserNameAndNumber(bean);
-        if(countUserName > 0){
+        if(countUserName > 0&&bean.getStatus()!=0){
             return webResponse.error("500","新增的用户名重复");
         }else {
             bean.setNumber(userEntity.getNumber());
             int countNumber = sysUserMapper.countUserNameAndNumber(bean);
-            if (countNumber > 0){
+            if (countNumber > 0&&bean.getStatus()!=0){
                 return webResponse.error("500","新增的用户编号重复");
             }
         }
@@ -507,7 +507,7 @@ public class SysUserServiceImpl implements SysUserService {
             userEntity.setPageNum(1);
         }
         if(StringUtils.isEmpty(userEntity.getOrderBy())){
-            userEntity.setOrderBy("username");
+            userEntity.setOrderBy("leaveTime");
         }else {
             userEntity.setOrderBy(UserSortEnum.getEnumByKey(userEntity.getOrderBy()).getValue());
         }

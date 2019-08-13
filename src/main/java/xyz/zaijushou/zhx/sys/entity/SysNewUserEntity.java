@@ -63,9 +63,9 @@ public class SysNewUserEntity extends CommonEntity {
     @JSONField(format="yyyy-MM-dd")
     private Date actualTime;
     /**
-     * 离职日期
+     * 离职时间
      */
-    @JSONField(format="yyyy-MM-dd")
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date leaveTime;
 
     private String loginName;
