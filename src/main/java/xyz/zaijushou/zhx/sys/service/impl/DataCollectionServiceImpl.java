@@ -59,6 +59,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private OdvMapper odvMapper;
     @Resource
     private ManageMapper manageMapper;
+    @Resource
+    private DataCaseRepayRecordMapper dataCaseRepayRecordMapper;
+
 
 
     @Override
@@ -1045,11 +1048,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (actualTime==null || actualTime.compareTo(timeStart.getTime())<0 || actualTime.compareTo(timeEnd.getTime())>0) {
             //阶梯累加
             bean.setRepayDateEnd(last);
-            royaltyTypeOdv(bean,1);
+            royaltyTypeOdv(bean,1,userId);
         }else if (actualTime.compareTo(timeStart.getTime())>=0 || actualTime.compareTo(ca25.getTime())<0){
-            royaltyTypeOdv(bean,2);
+            royaltyTypeOdv(bean,2,userId);
         }else if (actualTime.compareTo(ca25.getTime())>=0){
-            royaltyTypeOdv(bean,3);
+            royaltyTypeOdv(bean,3,userId);
         }
 
     }
@@ -1128,7 +1131,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
      * @param type
      * @return
      */
-    private void royaltyTypeOdv(DataCaseEntity tempCase,int type){
+    private void royaltyTypeOdv(DataCaseEntity tempCase,int type,int userId){
 
         //判空处理
         if(org.apache.commons.lang3.StringUtils.isBlank(tempCase.getBusinessType())){
@@ -1166,8 +1169,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             DataCaseEntity dataCaseEntity = caseMapper.findThisMonthById(tempCase);
             tempCase.setEnRepayAmt(dataCaseEntity.getEnRepayAmt());
             odvPercentage.setRepayAmt(tempCase.getEnRepayAmt());
-            //设置已还金额
-            tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
+            //设置已还金额,从还款记录中取值
+            Map<String,Integer> dbMap = new HashMap<>();
+            dbMap.put("collectUser",userId);
+            dbMap.put("dataCase",dataCaseEntity.getId());
+            BigDecimal repayAmt = dataCaseRepayRecordMapper.getRepayByCollectUser(dbMap);
+            tempCase.setEnRepayAmt(repayAmt ==null?new BigDecimal(0):repayAmt);
+//            tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
             resultBean = this.calPaidMoney(tempCase.getEnRepayAmt(),percent);
 
         }

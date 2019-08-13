@@ -1189,4 +1189,18 @@
         and t1.collect_user = #{odv}
         and t1.repay_date  &gt;= #{starttime} and t1.repay_date &lt; = #{endtime}
     </select>
+
+    <select id="getRepayByCollectUser" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+        select
+        ISNULL(sum(r.repay_money), 0) as repayMoney
+        from data_case_repay_record r
+        left join data_case c on r.data_case = c.id
+        where r.delete_flag = 0
+        <if test="collectUser != null and collectUser != '' ">
+            and r.collect_user = #{collectUser}
+        </if>
+        <if test="dataCase != null and collectUser != '' ">
+            and r.data_case = #{dataCase}
+        </if>
+    </select>
  </mapper>

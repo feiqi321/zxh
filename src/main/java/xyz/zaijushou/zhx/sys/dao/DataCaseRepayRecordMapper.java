@@ -5,7 +5,9 @@ import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
 import xyz.zaijushou.zhx.sys.entity.OdvPercentage;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DataCaseRepayRecordMapper {
@@ -34,4 +36,6 @@ public interface DataCaseRepayRecordMapper {
     List<DataCaseRepayRecordEntity> listByCaseId(DataCaseRepayRecordEntity record);
 
     DataCaseRepayRecordEntity findById(DataCaseRepayRecordEntity entity);
+
+    BigDecimal getRepayByCollectUser(Map<String,Integer> dbMap);
 }
