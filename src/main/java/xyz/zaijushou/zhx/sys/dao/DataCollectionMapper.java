@@ -52,7 +52,6 @@ public interface DataCollectionMapper {
 
     public int countMyNewCollect(DataCollectionEntity bean);
 
-    public List<DataCollectionEntity> listDataCollect(DataCollectionEntity bean);
 
     public List<DataCollectionEntity> listDataCollectByIds(DataCollectionEntity bean);
 

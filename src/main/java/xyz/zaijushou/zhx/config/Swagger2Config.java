@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@EnableSwagger2
+//@EnableSwagger2
 public class Swagger2Config {
 
     @Bean

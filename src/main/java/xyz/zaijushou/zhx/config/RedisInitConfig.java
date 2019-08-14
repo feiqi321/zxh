@@ -78,8 +78,8 @@ public class RedisInitConfig implements ApplicationRunner {
 
             initCase(allCase);
         }
-
 */
+
 
 
 

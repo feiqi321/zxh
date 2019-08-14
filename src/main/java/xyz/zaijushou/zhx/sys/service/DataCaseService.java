@@ -108,7 +108,7 @@ public interface DataCaseService {
 
     public void delCaseAddress(DataCaseAddressEntity bean);
 
-    PageInfo<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity);
+    PageInfo<DataCaseEntity> listSeqNos(DataCaseEntity dataCaseEntity);
 
     public List<DataCaseCommentEntity> listComment(DataCaseEntity dataCaseEntity);
 

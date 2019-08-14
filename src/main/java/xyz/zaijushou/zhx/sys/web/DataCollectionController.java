@@ -287,7 +287,7 @@ public class DataCollectionController {
 
     @ApiOperation(value = "催收管理-催收员提成", notes = "催收管理-催收员提成")
     @PostMapping("/dataCollection/showOdv")
-    public Object showOdv(OdvPercentage bean) {
+    public Object showOdv(@RequestBody OdvPercentage bean) {
         WebResponse webResponse = dataCollectionService.showOdv(bean);
         return webResponse;
     }

@@ -2638,6 +2638,9 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("查询详情开始");
         dataCaseMapper.watchDetail(bean);
         DataCaseDetail dataCaseDetail = dataCaseMapper.detail(bean);
+        if (dataCaseDetail==null){
+            return new DataCaseDetail();
+        }
         if (dataCaseDetail!=null && StringUtils.notEmpty(dataCaseDetail.getDistributeHistory())){
             if (",".equals(dataCaseDetail.getDistributeHistory().substring(0,1))){
                 dataCaseDetail.setDistributeHistory(dataCaseDetail.getDistributeHistory().substring(1));
@@ -3106,7 +3109,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     @Override
-    public PageInfo<DataCaseEntity> pageSeqNos(DataCaseEntity dataCaseEntity) {
+    public PageInfo<DataCaseEntity> listSeqNos(DataCaseEntity dataCaseEntity) {
         logger.info("开始查询还款模糊查询");
         List<DataCaseEntity> list = dataCaseMapper.pageSeqNos(dataCaseEntity);
         logger.info("结束查询还款模糊查询");

@@ -190,7 +190,7 @@ public class ReduceController {
         return WebResponse.success(list);
     }
 
-    @ApiOperation(value = "保存附件信息", notes = "保存附件信息")
+    //保存附件信息
     @PostMapping("/reduce/save/import")
     public Object reduceImport(MultipartFile file, DataCollectionEntity bean ) throws IOException {
         String fileName = file.getOriginalFilename();
