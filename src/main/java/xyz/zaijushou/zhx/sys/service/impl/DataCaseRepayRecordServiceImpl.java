@@ -173,21 +173,24 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
 
     @Override
     public void revoke(DataCaseRepayRecordEntity entity) {
+        Integer cancelFlag = entity.getCancelFlag();
         entity.setRecordStatus("1");
         dataCaseRepayRecordMapper.updateRecordStatus(entity);
         for(Integer id : entity.getIds()) {
             entity.setId(id);
             entity = dataCaseRepayRecordMapper.findById(entity);
+            entity.setCancelFlag(cancelFlag);
             updateDataCaseBalanceCancel(entity);
             DataOpLog log = new DataOpLog();
             log.setType("登帐");
-            //log.setContext("撤销还款恢复案件结清状态");
             log.setContext("[撤销还款]还款金额:"+entity.getRepayMoney());
             log.setOper(getUserInfo().getId());
             log.setOperName(getUserInfo().getUserName());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             log.setOpTime(sdf.format(new Date()));
             log.setCaseId(entity.getDataCase().getId()+"");
+            dataLogService.saveDataLog(log);
+            log.setContext("撤销还款恢复案件结清状态");
             dataLogService.saveDataLog(log);
         }
 
@@ -222,7 +225,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         DataCaseEntity dataCaseEntity1 =dataCaseMapper.findById(new DataCaseEntity(){{setId(record.getDataCase().getId());}});
         if (dataCaseEntity1 != null) {
             //判读结清状态
-            if(dataCaseEntity1!=null && "已结清".equals(dataCaseEntity1.getSettleFlag())){
+            if (record.getCancelFlag()!=null && record.getCancelFlag()==1){
+                dataCaseEntity.setSettleFlag("未结清");
+                dataCaseEntity.setStatus(1);
+            }else if(dataCaseEntity1!=null && "已结清".equals(dataCaseEntity1.getSettleFlag())){
                 //本来是结清状态就不需要更新了
                 dataCaseEntity.setSettleFlag(null);
             }

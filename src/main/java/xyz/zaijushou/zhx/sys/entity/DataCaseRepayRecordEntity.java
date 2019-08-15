@@ -64,6 +64,16 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     private String confirmMoneyMsg;
 
+    private Integer cancelFlag;
+
+    public Integer getCancelFlag() {
+        return cancelFlag;
+    }
+
+    public void setCancelFlag(Integer cancelFlag) {
+        this.cancelFlag = cancelFlag;
+    }
+
     public String getConfirmMoneyMsg() {
         return confirmMoneyMsg;
     }

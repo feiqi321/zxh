@@ -2370,6 +2370,7 @@
             <if test="remark6 != null and remark6 != ''">
                 remark6 = #{remark6},
             </if>
+            update_time = GETDATE()
         </trim>
     </set>
     where seq_no = #{seqNo}
@@ -5621,7 +5622,7 @@
                 settle_flag = #{settleFlag},status = 3,
             </if>
             <if test="settleFlag != null and settleFlag != '已结清'">
-                settle_flag = #{settleFlag},
+                settle_flag = #{settleFlag},status = #{status},
             </if>
             <if test="repayDate != null and repayDate != ''">
                 repay_date = #{repayDate},

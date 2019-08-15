@@ -874,8 +874,8 @@
     </select>
 
     <update id="updateDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        update data_collection set collect_status = #{collectStatus}
-        where batch_no = #{batchNo} and ident_no = #{identNo}
+        update data_collection set collect_status = ${collectStatus}
+        where batch_no = '${batchNo}' and ident_no = '${identNo}'
     </update>
 
     <select id="countDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
