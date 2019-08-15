@@ -168,14 +168,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     }
 
-    @Override
-    public void updateCollection(DataCollectionEntity dataCollectionEntity){
-        dataCollectionMapper.updateCollection(dataCollectionEntity);
-    }
-    @Override
-    public void delete(DataCollectionEntity dataCollectionEntity){
 
-    }
     @Override
     public List<DataCollectionEntity> pageDataCollectionList(DataCollectionEntity dataCollectionEntity){
         List<DataCollectionEntity> list =  dataCollectionMapper.pageDataCollection(dataCollectionEntity);

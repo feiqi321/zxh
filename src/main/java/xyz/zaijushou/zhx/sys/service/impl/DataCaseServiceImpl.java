@@ -1852,10 +1852,10 @@ public class DataCaseServiceImpl implements DataCaseService {
         bean.setColor(color);
         dataCaseMapper.addColor(bean);
 
-        DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
+        /*DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
         dataCollectionEntity.setColor(color);
         dataCollectionEntity.setCaseId(bean.getId()+"");
-        dataCollectionMapper.addColor(dataCollectionEntity);
+        dataCollectionMapper.addColor(dataCollectionEntity);*/
 
     }
     @Override

@@ -84,9 +84,9 @@ public interface DataCollectionMapper {
 
     public CollectionStatistic statisticsCollectionPayM(CollectionStatistic bean);
 
-    public void addColor(DataCollectionEntity dataCollectionEntity);
+   // public void addColor(DataCollectionEntity dataCollectionEntity);
 
-    public void addCollectStatus(DataCollectionEntity dataCollectionEntity);
+   // public void addCollectStatus(DataCollectionEntity dataCollectionEntity);
 
     public List<DataCollectionEntity> selectAllByCaseId(DataCollectionEntity dataCollectionEntity);
 

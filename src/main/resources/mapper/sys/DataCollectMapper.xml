@@ -1744,15 +1744,15 @@
         </if>
     </select>
 
-    <update id="addColor" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+    <!--<update id="addColor" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         update data_collection set color = #{color}
         where case_id = #{caseId}
-    </update>
+    </update>-->
 
-    <update id="addCollectStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+   <!-- <update id="addCollectStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         update data_collection set collect_status = #{collectStatus}
         where case_id = #{caseId}
-    </update>
+    </update>-->
 
     <select id="selectAllByCaseId" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select id,measure,dbo.fnFormatDate(collect_time, 'yyyy-MM-dd HH:ii') as collectTime,target_name as targetName,relation,tel_phone as telPhone,collection_type as collectionType,

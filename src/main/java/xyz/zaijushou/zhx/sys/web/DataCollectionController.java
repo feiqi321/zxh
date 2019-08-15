@@ -76,18 +76,6 @@ public class DataCollectionController {
 
     }
 
-    @ApiOperation(value = "刪除催收", notes = "刪除催收")
-    @PostMapping("/dataCollection/delete")
-    public Object delete(@RequestBody  List<DataCollectionEntity> list) {
-        for(int i=0;i<list.size();i++){
-            DataCollectionEntity bean = list.get(i);
-            dataCollectionService.delete(bean);
-        }
-
-
-        return WebResponse.success();
-
-    }
 
     @ApiOperation(value = "分頁查询", notes = "分頁查询")
     @PostMapping("/dataCollection/pageDataCollection")
