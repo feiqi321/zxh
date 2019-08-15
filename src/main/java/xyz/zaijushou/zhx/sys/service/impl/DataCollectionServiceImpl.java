@@ -1166,15 +1166,16 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         //阶段
         if (part1.indexOf(client.trim())>=0 && isCalculate){
-            DataCaseEntity dataCaseEntity = caseMapper.findThisMonthById(tempCase);
-            tempCase.setEnRepayAmt(dataCaseEntity.getEnRepayAmt());
-            odvPercentage.setRepayAmt(tempCase.getEnRepayAmt());
+           // DataCaseEntity dataCaseEntity = caseMapper.findThisMonthById(tempCase);
+           // tempCase.setEnRepayAmt(dataCaseEntity.getEnRepayAmt());
+
             //设置已还金额,从还款记录中取值
             Map<String,Integer> dbMap = new HashMap<>();
             dbMap.put("collectUser",userId);
-            dbMap.put("dataCase",dataCaseEntity.getId());
+            dbMap.put("dataCase",tempCase.getId());
             BigDecimal repayAmt = dataCaseRepayRecordMapper.getRepayByCollectUser(dbMap);
             tempCase.setEnRepayAmt(repayAmt ==null?new BigDecimal(0):repayAmt);
+            odvPercentage.setRepayAmt(tempCase.getEnRepayAmt());
 //            tempCase.setEnRepayAmt(tempCase.getEnRepayAmt()==null?new BigDecimal(0):tempCase.getEnRepayAmt());
             resultBean = this.calPaidMoney(tempCase.getEnRepayAmt(),percent);
 

@@ -1486,7 +1486,7 @@
     </update>
 
     <update id="updateStatus" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set status = #{status},return_time=#{returnTime}
+        update data_case set status = #{status},return_time=#{returnTime},real_return_time = #{realReturnTime}
         where id = #{id}
     </update>
 

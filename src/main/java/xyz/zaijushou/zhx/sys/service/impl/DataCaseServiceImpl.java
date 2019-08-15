@@ -698,7 +698,10 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void updateStatus(DataCaseEntity bean){
         if (bean.getStatus()!=null && bean.getStatus().equals(4)){
             bean.setReturnTime(new Date());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            bean.setRealReturnTime(sdf.format(new Date()));
         }
+
         dataCaseMapper.updateStatus(bean);
     }
 

@@ -34,8 +34,6 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     private static Logger logger = LoggerFactory.getLogger(DataCaseRepayRecordServiceImpl.class);
     @Resource
     private DataCaseRepayRecordMapper dataCaseRepayRecordMapper;
-    @Autowired
-    private DataLogService dataLogService;
     @Resource
     private SysUserService sysUserService;//用户业务控制层
     @Resource
@@ -44,6 +42,8 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     private DataCaseRemarkMapper dataCaseRemarkMapper;
     @Resource
     private DataCollectionService dataCollectionService;
+    @Autowired
+    private DataLogService dataLogService;
 
 
     @Override
@@ -179,6 +179,16 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             entity.setId(id);
             entity = dataCaseRepayRecordMapper.findById(entity);
             updateDataCaseBalanceCancel(entity);
+            DataOpLog log = new DataOpLog();
+            log.setType("登帐");
+            //log.setContext("撤销还款恢复案件结清状态");
+            log.setContext("[撤销还款]还款金额:"+entity.getRepayMoney());
+            log.setOper(getUserInfo().getId());
+            log.setOperName(getUserInfo().getUserName());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            log.setOpTime(sdf.format(new Date()));
+            log.setCaseId(entity.getDataCase().getId()+"");
+            dataLogService.saveDataLog(log);
         }
 
     }

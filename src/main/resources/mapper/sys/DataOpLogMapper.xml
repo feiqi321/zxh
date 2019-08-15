@@ -16,8 +16,11 @@
     id,type,context,op_time as opTime,oper,case_id as caseId
     from data_op_log
     where case_id = #{caseId} and  <![CDATA[ type <> '地址管理' ]]>
-    <if test="type != null and type!=''">
+    <if test="type != null and type!='' and type!='待银行查账管理'">
       AND  type = #{type}
+    </if>
+    <if test="type != null and type!='' and type=='待银行查账管理'">
+      AND  (type ='待银行查账' or type='登帐' or type = '待银行查账管理')
     </if>
     order by op_time desc
   </select>
