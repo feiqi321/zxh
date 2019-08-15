@@ -39,16 +39,6 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
             SysUserEntity user = new SysUserEntity();
             user.setLoginName(name);
             user = sysUserMapper.findPasswordInfoByLoginName(user);
-            if(user.getLoginFailTimes() >= 3 && new Date().getTime() - user.getLastLoginFailTime().getTime()  < 30 * 60 * 1000) {
-                //账号锁定
-                if (user.getEnable() == 1){
-                    SysNewUserEntity newUser = new  SysNewUserEntity();
-                    newUser.setId(user.getId());
-                    newUser.setEnable(0);
-                    sysUserMapper.updateUser(newUser);
-                }
-                throw new LockedException("此账号已锁定，请联系管理员解锁！");
-            }
             if (delegatingPasswordEncoder.matches(password, userDetails.getPassword())) {
                 if(user.getLoginFailTimes() > 0) {
                     user.setLoginFailTimes(0);
@@ -61,13 +51,6 @@ public class DbAuthenticationProvider implements AuthenticationProvider {
                 // 生成令牌 这里令牌里面存入了:name,password,authorities, 当然你也可以放其他内容
                 return new UsernamePasswordAuthenticationToken(name, password, authorities);
             } else {
-                user.setLoginFailTimes(user.getLoginFailTimes() + 1);
-                user.setLastLoginFailTime(new Date());
-                if (user.getLoginFailTimes()>=3){
-                    sysUserMapper.updateLoginFailLockInfo(user);
-                }else {
-                    sysUserMapper.updateLoginFailInfo(user);
-                }
                 throw new BadCredentialsException("密码错误");
             }
         } else {
