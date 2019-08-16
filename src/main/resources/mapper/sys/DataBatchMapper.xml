@@ -258,11 +258,11 @@
                 </if>
             </trim>
         </where>
-        order by id desc
+        order by create_time desc
     </select>
 
     <select id="listClients" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select    batch_no as batchNo
+        select   top 200  batch_no as batchNo
         from data_batch
         where  delete_flag = 0
         <if test="clients != null and clients.length > 0 ">
@@ -271,6 +271,7 @@
                 #{item}
             </foreach>
         </if>
+        order by create_time desc
     </select>
 
 

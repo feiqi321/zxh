@@ -231,6 +231,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             }else if(dataCaseEntity1!=null && "已结清".equals(dataCaseEntity1.getSettleFlag())){
                 //本来是结清状态就不需要更新了
                 dataCaseEntity.setSettleFlag(null);
+            }else{
+                dataCaseEntity.setSettleFlag("未结清");
+                dataCaseEntity.setStatus(1);
             }
 
             dataCaseMapper.updateRepayMoney(dataCaseEntity);
@@ -389,6 +392,9 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             if("已结清".equals(dataCaseEntityList.get(0).getSettleFlag())){
             //本来是结清状态就不需要更新了
             dataCaseEntity.setSettleFlag(null);
+            }else{
+                dataCaseEntity.setSettleFlag("未结清");
+                dataCaseEntity.setStatus(dataCaseEntityList.get(0).getStatus());
             }
         }
 
