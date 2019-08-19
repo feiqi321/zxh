@@ -186,4 +186,5 @@ public interface DataCaseMapper {
 
     void updateDept(DataCaseEntity dataCaseEntity);
 
+    DataCaseEntity querySum(DataCaseEntity dataCaseEntity);
 }

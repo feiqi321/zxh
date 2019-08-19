@@ -1919,4 +1919,238 @@
         AND line_date = dbo.fnFormatDate(GETDATE() , 'yyyy-MM')
         AND odv = #{odv}
     </select>
+    <select id="querySum1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
+        select sum(t.money) as sumMoney,count(c2.en_repay_amt) as countCasePay,
+                sum(c2.en_repay_amt)as sumPayMoney, sum(c3.bank_amt) as bankAmt,
+                sum(c4.pro_repay_amt)as repayAmt
+        from data_case t
+        left join data_case c2 on t.id=c2.id
+        left join data_case c3 on t.id=c3.id
+        left join data_case c4 on t.id=c4.id
+        <where>
+            t.delete_flag = 0
+            <trim suffixOverrides=",">
+                <if test="distributeStatus != null and distributeStatus!=''">
+                    and t.distribute_status= #{distributeStatus}
+                </if>
+
+                <if test="deptFlag != null and deptFlag!='' and depts!=null">
+                    and t.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="collectionType != null and collectionType!=''">
+                    AND t.collection_type = #{collectionType}
+                </if>
+                <if test="area != null and area!=''">
+                    AND t.collect_area = #{area}
+                </if>
+                <if test="odv != null and odv!=''">
+                    AND t.odv = #{odv}
+                </if>
+
+                <if test="clientFlag != null and clientFlag!='' and clients!=null">
+                    and t.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="batchFlag != null and batchFlag!='' and batchNos!=null">
+                    and t.batch_no in
+                    <foreach item="item" index="index" collection="batchNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="caseStatus != null and caseStatus!=''">
+                    AND t.status = #{caseStatus}
+                </if>
+
+                <if test="cardNos != null and cardNos.length > 0">
+                    and t.card_no in
+                    <foreach item="item" index="index" collection="cardNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="collectInfo != null and collectInfo!=''">
+                    AND t.summary = #{collectInfo}
+                </if>
+                <if test="color != null and color!=''">
+                    AND t.color = #{color}
+                </if>
+
+                <if test="seqnos != null and seqnos.length > 0">
+                    and t.seq_no in
+                    <foreach item="item" index="index" collection="seqnos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="names != null and names.length > 0">
+                    and t.name in
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="overdueDaysStart != null and overdueDaysStart!=''">
+                    <![CDATA[   and t.overdue_days>=  ${overdueDaysStart}  ]]>
+                </if>
+                <if test="overdueDaysEnd != null and overdueDaysEnd!=''" >
+                    <![CDATA[   and t.overdue_days <=  ${overdueDaysEnd}   ]]>
+                </if>
+
+                <if test="accountAge != null and accountAge!=''">
+                    and t.account_age = '${accountAge}'
+                </if>
+
+                <if test="accountAges != null and accountAges.length > 0">
+                    and t.account_age in
+                    <foreach item="item" index="index" collection="accountAges" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="statuss != null and statuss.length > 0">
+                    and t.status in
+                    <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="collectStatuss != null and collectStatuss.length > 0  ">
+                    and t.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </if>
+
+                <if test="caseTypes != null and caseTypes.length > 0  ">
+                    and t.case_type in
+                    <foreach item="item" index="index" collection="caseTypes" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="reliefStatuss != null and reliefStatuss.length > 0  ">
+                    and t.reduce_status in
+                    <foreach item="item" index="index" collection="reliefStatuss" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </if>
+
+                <if test="reportStatus != null and reportStatus.length > 0  ">
+                    and t.report_status in
+                    <foreach item="item" index="index" collection="reportStatus" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </if>
+
+                <if test="colors != null and colors.length > 0 ">
+                    and t.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="areas != null and areas.length > 0 ">
+                    and t.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="odvs != null and odvs.length > 0 ">
+                    and t.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="identNos != null and identNos.length > 0">
+                    and t.ident_no in
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="collectStatus != null and collectStatus!=''">
+                    and t.collect_status = #{collectStatus}
+                </if>
+
+                <if test="caseType != null and caseType!=''">
+                    and t.case_type = #{caseType}
+                </if>
+
+                <if test="archiveNos != null and archiveNos.length > 0">
+                    and t.archive_no in
+                    <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="repayStatus != null and repayStatus!=''">
+                    and t.repay_status = #{repayStatus}
+                </if>
+                <if test="remark != null and remark!=''">
+                    and t.remark like '%${remark}%'
+                </if>
+                <if test="telPhone != null and telPhone!=''">
+                    AND t.tel = #{telPhone}
+                </if>
+
+                <if test="caseAllotTimeStart != null and caseAllotTimeStart!=''">
+                    <![CDATA[   and t.distribute_time>= convert(datetime,'${caseAllotTimeStart}', 20)  ]]>
+                </if>
+                <if test="caseAllotTimeEnd != null and caseAllotTimeEnd!=''" >
+                    <![CDATA[   and t.distribute_time<= convert(datetime,'${caseAllotTimeEnd}', 20) ]]>
+                </if>
+                <if test="lastFollDateStart != null and lastFollDateStart!=''">
+                    <![CDATA[   and t.collect_date >=  convert(datetime,'${lastFollDateStart}', 20)  ]]>
+                </if>
+                <if test="lastFollDateEnd != null and lastFollDateEnd!=''" >
+                    <![CDATA[   and t.collect_date <= convert(datetime,'${lastFollDateEnd}', 20)  ]]>
+                </if>
+                <if test="nextFollDateStart != null and nextFollDateStart!=''">
+                    <![CDATA[   and convert(datetime,t.next_foll_date, 20)   >=  convert(datetime,'${nextFollDateStart}', 20)   ]]>
+                </if>
+                <if test="nextFollDateEnd != null and nextFollDateEnd!=''" >
+                    <![CDATA[   and convert(datetime,t.next_foll_date, 20)  <=   convert(datetime,'${nextFollDateEnd}', 20)   ]]>
+                </if>
+                <if test="expectTimeStart != null and expectTimeStart!=''">
+                    <![CDATA[   and convert(datetime,t.expect_time, 20) >=  convert(datetime,'${expectTimeStart}', 20)    ]]>
+                </if>
+                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
+                    <![CDATA[   and convert(datetime,t.expect_time, 20)<= convert(datetime,'${expectTimeEnd}', 20)   ]]>
+                </if>
+
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and t.case_date>= convert(datetime,'${caseDateStart}', 20)   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and t.case_date<=  convert(datetime,'${caseDateEnd}', 20)  ]]>
+                </if>
+                <if test="repayTimeStart != null and repayTimeStart!=''">
+                    <![CDATA[   and convert(datetime,t.repay_date, 20)>=  convert(datetime,'${repayTimeStart}', 20)  ]]>
+                </if>
+                <if test="repayTimeEnd != null and repayTimeEnd!=''" >
+                    <![CDATA[   and convert(datetime,t.repay_date, 20)<=  convert(datetime,'${repayTimeEnd}', 20)   ]]>
+                </if>
+
+                <if test="moneyEnd != null and moneyEnd!=''">
+                    <![CDATA[   and t.money>=  #{moneyEnd}  ]]>
+                </if>
+                <if test="moneyStart != null and moneyStart!=''" >
+                    <![CDATA[   and t.money<=  #{moneyStart}   ]]>
+                </if>
+                <if test="countFollowEnd != null and countFollowEnd!=''">
+                    <![CDATA[   and t.collect_times>=  ${countFollowEnd}  ]]>
+                </if>
+                <if test="countFollowStart != null and countFollowStart!=''" >
+                    <![CDATA[   and t.collect_times<=  ${countFollowStart}   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
 </mapper>

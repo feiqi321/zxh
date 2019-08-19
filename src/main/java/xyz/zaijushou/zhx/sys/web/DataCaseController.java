@@ -167,7 +167,6 @@ public class DataCaseController {
             }
 
             bean.setDepts(null);
-
             webResponse = dataCaseService.pageCaseListOnly(bean);
             logger.info("跳出执行");
         }catch (Exception e){
