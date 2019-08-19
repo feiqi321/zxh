@@ -217,6 +217,9 @@
         <if test="orderBy != null and orderBy != '' and sort != null and sort != ''">
             order by ${orderBy} ${sort}
         </if>
+        <if test="orderBy1 != null and orderBy1 != '' and sort1!= null and sort1 != ''">
+            , ${orderBy1} ${sort1}
+        </if>
 
     </select>
 

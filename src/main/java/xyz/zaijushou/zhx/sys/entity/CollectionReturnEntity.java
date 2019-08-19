@@ -22,8 +22,45 @@ public class CollectionReturnEntity extends CommonEntity {
     private String sumRepayMsg;//列表CP值
     private String sumBankMsg;//列表PTP值
     private String sumMoneyMsg;//列表金额
+    private BigDecimal bankAmt;
+    private String bankAmtMsg;//待銀行对账金额
+    private BigDecimal repayAmt;
+    private String repayAmtMsg;//承诺还款金额
     private int pages; //总页数
     private int total;//总数量
+
+
+    public BigDecimal getRepayAmt() {
+        return repayAmt;
+    }
+
+    public void setRepayAmt(BigDecimal repayAmt) {
+        this.repayAmt = repayAmt;
+    }
+
+    public BigDecimal getBankAmt() {
+        return bankAmt;
+    }
+
+    public void setBankAmt(BigDecimal bankAmt) {
+        this.bankAmt = bankAmt;
+    }
+
+    public String getBankAmtMsg() {
+        return bankAmtMsg;
+    }
+
+    public void setBankAmtMsg(String bankAmtMsg) {
+        this.bankAmtMsg = bankAmtMsg;
+    }
+
+    public String getRepayAmtMsg() {
+        return repayAmtMsg;
+    }
+
+    public void setRepayAmtMsg(String repayAmtMsg) {
+        this.repayAmtMsg = repayAmtMsg;
+    }
 
     public String getSumPayMoneyMsg() {
         return sumPayMoneyMsg;

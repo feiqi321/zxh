@@ -341,6 +341,35 @@ public class DataCollectionEntity extends CommonEntity {
 
     private Double overdueDays; //逾期天数
 
+    private BigDecimal sumMoney;
+    private Integer countCasePay;
+    private BigDecimal sumPayMoney;
+
+
+    public BigDecimal getSumMoney() {
+        return sumMoney;
+    }
+
+    public void setSumMoney(BigDecimal sumMoney) {
+        this.sumMoney = sumMoney;
+    }
+
+    public Integer getCountCasePay() {
+        return countCasePay;
+    }
+
+    public void setCountCasePay(Integer countCasePay) {
+        this.countCasePay = countCasePay;
+    }
+
+    public BigDecimal getSumPayMoney() {
+        return sumPayMoney;
+    }
+
+    public void setSumPayMoney(BigDecimal sumPayMoney) {
+        this.sumPayMoney = sumPayMoney;
+    }
+
     public String[] getNames() {
         return names;
     }

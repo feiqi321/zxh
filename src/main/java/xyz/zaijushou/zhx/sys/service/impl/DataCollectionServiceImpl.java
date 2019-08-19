@@ -305,50 +305,37 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.notEmpty(dataCollectionEntity.getCaseDateEnd())){
             dataCollectionEntity.setCaseDateEnd(dataCollectionEntity.getCaseDateEnd() +"  23:59:59");
         }
-
-
         List<DataCollectionEntity> list =  dataCollectionMapper.pageMyCollect(dataCollectionEntity);
+
         logger.info("********************查询案件结束");
+
+        dataCollectionEntity.setPageNum(null);
+        dataCollectionEntity.setPageSize(null);
+        DataCollectionEntity dataCollectionEntity1= dataCollectionMapper.querySum1(dataCollectionEntity);
 
 
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0");//列表金额
         int countCasePay = 0;//列表还款案量
         BigDecimal sumPayMoney = new BigDecimal("0");//列表还款数额
-        BigDecimal sumRepay = new BigDecimal("0");//列表CP值
-        BigDecimal sumBank = new BigDecimal("0");//列表PTP值
+        BigDecimal  bankAmt= new BigDecimal("0");//列表待銀行对账金额
+        BigDecimal  repayAmt= new BigDecimal("0");//列表承诺还款金额
         List<String> caseIds = new ArrayList<String>();//案件ID数组
         if(StringUtils.isEmpty(list)) {
             collectionReturn.setCountCase(countCase);
             collectionReturn.setCountCasePay(countCasePay);
-            /*collectionReturn.setSumBank(sumRepay.stripTrailingZeros());
-            collectionReturn.setSumMoney(sumMoney.stripTrailingZeros());
-            collectionReturn.setSumRepay(sumBank.stripTrailingZeros());
-            collectionReturn.setSumPayMoney(sumPayMoney.stripTrailingZeros());*/
-
-            collectionReturn.setSumBankMsg(sumBank==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumBank.stripTrailingZeros()+""));
             collectionReturn.setSumMoneyMsg(sumMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumMoney.stripTrailingZeros()+""));
-            collectionReturn.setSumRepayMsg(sumRepay==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumRepay.stripTrailingZeros()+""));
             collectionReturn.setSumPayMoneyMsg(sumPayMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumPayMoney.stripTrailingZeros()+""));
+            collectionReturn.setBankAmtMsg(bankAmt==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(bankAmt.stripTrailingZeros()+""));
+            collectionReturn.setRepayAmtMsg(repayAmt==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(repayAmt.stripTrailingZeros()+""));
             webResponse.setData(collectionReturn);
             return  webResponse;
         }
         logger.info("********************开始处理结果集");
         for (int i=0;i<list.size();i++){
             DataCollectionEntity collection = list.get(i);
-
-            ++countCase;
-            sumMoney = sumMoney.add(collection.getMoney()==null?new BigDecimal("0"):collection.getMoney());
-            collection.setEnRepayAmt(collection.getEnRepayAmt()==null?new BigDecimal(0):collection.getEnRepayAmt());
-            if (collection.getEnRepayAmt()!=null && collection.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                ++countCasePay;
-                sumPayMoney = sumPayMoney.add(collection.getEnRepayAmt()==null?new BigDecimal("0"):collection.getEnRepayAmt());
-            }
-            sumRepay = sumRepay.add(collection.getRepayAmt()==null?new BigDecimal("0"):collection.getRepayAmt());
-            sumBank = sumBank.add(collection.getBankAmt()==null?new BigDecimal("0"):collection.getBankAmt());
             CollectCaseCallable collectCaseCallable = new CollectCaseCallable(list,collection,i);
             Future<List<DataCollectionEntity>> future = executor.submit(collectCaseCallable);
-
         }
         executor.shutdown();
         while(true){
@@ -359,19 +346,13 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         logger.info("********************处理完毕结果集");
         int count = new Long(PageInfo.of(list).getTotal()).intValue() ;
-
-
         collectionReturn.setList(list);
         collectionReturn.setCountCase(count);
-        collectionReturn.setCountCasePay(countCasePay);
-        //collectionReturn.setSumBank(sumBank);
-        collectionReturn.setSumBankMsg(sumBank==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumBank.stripTrailingZeros()+""));
-        //collectionReturn.setSumMoney(sumMoney);
-        collectionReturn.setSumMoneyMsg(sumMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumMoney.stripTrailingZeros()+""));
-        //collectionReturn.setSumRepay(sumRepay);
-        collectionReturn.setSumRepayMsg(sumRepay==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumRepay.stripTrailingZeros()+""));
-        //collectionReturn.setSumPayMoney(sumPayMoney);
-        collectionReturn.setSumPayMoneyMsg(sumPayMoney==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(sumPayMoney.stripTrailingZeros()+""));
+        collectionReturn.setCountCasePay(dataCollectionEntity1.getCountCasePay());
+        collectionReturn.setBankAmtMsg(dataCollectionEntity1.getBankAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(dataCollectionEntity1.getBankAmt().stripTrailingZeros()+""));
+        collectionReturn.setSumMoneyMsg(dataCollectionEntity1.getSumMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(dataCollectionEntity1.getSumMoney().stripTrailingZeros()+""));
+        collectionReturn.setRepayAmtMsg(dataCollectionEntity1.getRepayAmt()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(dataCollectionEntity1.getRepayAmt().stripTrailingZeros()+""));
+        collectionReturn.setSumPayMoneyMsg(dataCollectionEntity1.getSumPayMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(dataCollectionEntity1.getSumPayMoney().stripTrailingZeros()+""));
         webResponse.setData(collectionReturn);
         webResponse.setTotalNum(count);
         return webResponse;

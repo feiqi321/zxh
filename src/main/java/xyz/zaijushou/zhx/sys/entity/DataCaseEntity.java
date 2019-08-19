@@ -53,8 +53,8 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private int distributeStatus;//分配状态  查询条件
     private String distributeStatusFlag;
     private String license; //牌照号  查询条件
-    private String  expectTime;// 预计退案日期 查询条件   列表
-    private Date  expectTimeD;// 预计退案日期 查询条件   列表
+    private String expectTime;// 预计退案日期 查询条件   列表
+    private Date expectTimeD;// 预计退案日期 查询条件   列表
     private String expectStartTime;
     private String expectEndTime;
     private String collectHand;//催收手别（0-90天） 查询条件
@@ -100,6 +100,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String distributeHistory; // 分配历史  列表
     private String comment;//评语
 
+    private Integer repayNum;
     private BigDecimal enRepayAmt;//已还金额  列表
     private String enRepayAmtMsg;
     private BigDecimal bankAmt;//待銀行查账金额-CP 列表
@@ -163,7 +164,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String commissionMoneyMsg;
     private String homeTelNumber;   //家庭号码
     private String unitTelNumber;    //单位号码
-//    private String mobile;  //本人手机
+    //    private String mobile;  //本人手机
 //    private String companyName; //单位名称
     private String caseUserPosition;    //案人职位
     private String caseUserDepart;  //案人部门
@@ -189,7 +190,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String applyOrderNo;    //申请单号
     private String socialSecurityComputerNo;    //社保电脑号
     private String socialSecurityCardNo;    //社保卡号
-//    private String depositBank; //开户行
+    //    private String depositBank; //开户行
     private String accountNo;   //账号
     private String accountName; //账户名称
     private String cardType;    //卡类
@@ -374,6 +375,14 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String contactMobile8;
     private String contactUnit8;
     private String contactAddress8;
+
+    public Integer getRepayNum() {
+        return repayNum;
+    }
+
+    public void setRepayNum(Integer repayNum) {
+        this.repayNum = repayNum;
+    }
 
     public BigDecimal getOverdueDaysEnd() {
         return overdueDaysEnd;
@@ -590,7 +599,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
         this.oldBatchNo = oldBatchNo;
     }
 
-    public void addCaseHead(DataCaseEntity dataCaseEntity){
+    public void addCaseHead(DataCaseEntity dataCaseEntity) {
         this.splitCount = this.splitCount + 1;
         this.money = this.money.add(dataCaseEntity.getMoney());
         dataList.add(dataCaseEntity);
@@ -2870,7 +2879,6 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     }
 
 
-
     public String getDefaultLevel() {
         return defaultLevel;
     }
@@ -2945,7 +2953,6 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     }
 
 
-
     public String getLoanType() {
         return loanType;
     }
@@ -2961,10 +2968,6 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     public void setCollectionType(String collectionType) {
         this.collectionType = collectionType;
     }
-
-
-
-
 
 
     public String getCurrencyType() {

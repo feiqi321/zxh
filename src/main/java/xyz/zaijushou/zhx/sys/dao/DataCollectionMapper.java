@@ -113,4 +113,5 @@ public interface DataCollectionMapper {
 
     BigDecimal getCaseCommission1Repay(int odv);
 
+    DataCollectionEntity  querySum1(DataCollectionEntity dataCollectionEntity);
 }

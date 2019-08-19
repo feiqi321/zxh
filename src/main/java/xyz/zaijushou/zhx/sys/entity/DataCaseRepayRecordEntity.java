@@ -58,6 +58,10 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     private String sort;
 
+    private String orderBy1;
+
+    private String sort1;
+
     private Map exportConf;
 
     private List exportKeyList;
@@ -264,5 +268,21 @@ public class DataCaseRepayRecordEntity extends CommonEntity {
 
     public void setSort(String sort) {
         this.sort = sort;
+    }
+
+    public String getOrderBy1() {
+        return orderBy1;
+    }
+
+    public void setOrderBy1(String orderBy1) {
+        this.orderBy1 = orderBy1;
+    }
+
+    public String getSort1() {
+        return sort1;
+    }
+
+    public void setSort1(String sort1) {
+        this.sort1 = sort1;
     }
 }
