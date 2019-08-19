@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.utils;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -21,6 +22,10 @@ public class FmtMicrometer {
                 df = new DecimalFormat("###,##0.");
             } else if (text.length() - text.indexOf(".") - 1 == 1) {
                 df = new DecimalFormat("###,##0.0");
+            } else if (text.length() - text.indexOf(".") - 1 == 2) {
+                df = new DecimalFormat("###,##0.00");
+            } else if (text.length() - text.indexOf(".") - 1 > 2) {
+                df = new DecimalFormat("###,##0.00");
             } else {
                 df = new DecimalFormat("###,##0");
             }
@@ -34,5 +39,11 @@ public class FmtMicrometer {
             number = 0.0;
         }
         return df.format(number);
+    }
+
+    public static void main(String args[]){
+
+        System.out.println(FmtMicrometer.fmtMicrometer(new BigDecimal("10022.223").stripTrailingZeros()+""));
+
     }
 }
