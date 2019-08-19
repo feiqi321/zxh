@@ -5468,7 +5468,7 @@
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
           SELECT id,batch_no as batchNo,money,odv,ident_no as identNo,seq_no as seqNo,archive_no as archiveNo,business_type as businessType,card_no as cardNo,dbo.fnFormatDate(case_date, 'yyyy-MM-dd') as caseDate,name,
-          dbo.fnFormatDate(settle_date, 'yyyy-MM-dd') as settleDate,settle_flag as settleFlag,en_repay_amt as enRepayAmt,distribute_history as distributeHistory
+          dbo.fnFormatDate(settle_date, 'yyyy-MM-dd') as settleDate,settle_flag as settleFlag,en_repay_amt as enRepayAmt,distribute_history as distributeHistory,status
           from data_case where id = #{id}
     </select>
 

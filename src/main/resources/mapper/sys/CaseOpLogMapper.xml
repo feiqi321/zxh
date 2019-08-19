@@ -32,20 +32,20 @@
             SELECT @@IDENTITY AS 'Identity'
         </selectKey>
         insert into case_op_log
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="caseId != null">case_id,</if>
-            <if test="context != null">context,</if>
-            <if test="lastOdv != null">last_odv,</if>
-            <if test="creator != null">creator,</if>
-            create_time,
-        </trim>
+        (
+            case_id,
+            context,
+            last_odv,
+            creator,
+            create_time
+        )
         values
         <foreach collection ="list" item="reddemCode" index= "index" separator =",">
             (
-            <if test="caseId != null">#{caseId},</if>
-            <if test="context != null">#{context},</if>
-            <if test="lastOdv != null">#{lastOdv},</if>
-            <if test="creator != null">#{creator},</if>
+            #{reddemCode.caseId},
+            #{reddemCode.context},
+            #{reddemCode.lastOdv},
+            #{reddemCode.creator},
             GETDATE()
             )
         </foreach >
@@ -73,7 +73,7 @@
                     </foreach>
                 </if>
                 <if test="contractNo != null and contractNo != ''">
-                    and t2.contract_no = #{contractNo},
+                    and t2.contract_no = #{contractNo}
                 </if>
                 <if test="identNos != null and identNos.length > 0 ">
                     and t2.ident_no in
@@ -111,11 +111,11 @@
                         '${item}'
                     </foreach>
                 </if>
-                <if test="craeteTimeStart != null and craeteTimeStart!=''">
-                    <![CDATA[   and t1.create_time>=  convert(datetime,'${craeteTimeStart}', 20)  ]]>
+                <if test="createTimeStart != null and createTimeStart!=''">
+                    <![CDATA[   and t1.create_time>=  convert(datetime,'${createTimeStart}', 20)  ]]>
                 </if>
-                <if test="craeteTimeEnd != null and craeteTimeEnd!=''" >
-                    <![CDATA[   and t1.create_time<=  convert(datetime,'${craeteTimeEnd}', 20)   ]]>
+                <if test="createTimeEnd != null and createTimeEnd!=''" >
+                    <![CDATA[   and t1.create_time<=  convert(datetime,'${createTimeEnd}', 20)   ]]>
                 </if>
                 <if test="creators != null and creators.length > 0 ">
                     and t1.creator in
@@ -129,13 +129,14 @@
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
                     <![CDATA[   and t2.case_date<=  convert(datetime,'${caseDateEnd}', 20)  ]]>
                 </if>
-                <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and convert(datetime,t1.expect_time, 20) >=  convert(datetime,'${expectTimeStart}', 20)    ]]>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and convert(datetime,t2.expect_time, 20) >=  convert(datetime,'${expectStartTime}', 20)    ]]>
                 </if>
-                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and convert(datetime,t1.expect_time, 20)<= convert(datetime,'${expectTimeEnd}', 20)   ]]>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and convert(datetime,t2.expect_time, 20)<= convert(datetime,'${expectEndTime}', 20)   ]]>
                 </if>
             </trim>
         </where>
+        order by ${orderBy} ${sort}
     </select>
 </mapper>

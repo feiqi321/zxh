@@ -719,6 +719,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         caseOpLogMapper.addCaseOpLog(caseOpLog);
     }
 
+    @Transactional
     @Override
     public void sendOdv(DataCaseEntity bean){
         //DataCaseEntity temp = dataCaseMapper.findById(bean);
@@ -730,8 +731,8 @@ public class DataCaseServiceImpl implements DataCaseService {
         //}
 
         bean.setDept(user==null?"":user.getDepartment());
-        dataCaseMapper.sendOdv(bean);
         this.sendOdvElse(bean,user);
+        dataCaseMapper.sendOdv(bean);
     }
     @Async
     public void sendOdvElse(DataCaseEntity bean,SysUserEntity user ){
@@ -740,7 +741,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         for (int i=0;i<bean.getIds().length;i++){
             DataCaseEntity temp = new DataCaseEntity();
             temp.setId(Integer.parseInt(bean.getIds()[i]));
-            temp = dataCaseMapper.findById(new DataCaseEntity());
+            temp = dataCaseMapper.findById(temp);
 
             DataOpLog log = new DataOpLog();
             log.setType("案件管理");
@@ -804,6 +805,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         sysOperationLogMapper.insertRequest(operationLog);*/
     }
 
+    @Transactional
     @Override
     public void sendOdvByProperty(DataCaseEntity dataCaseEntity){
         WebResponse webResponse = WebResponse.buildResponse();
@@ -1001,7 +1003,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setDistributeHistory(",分配给" + user.getUserName());
             dataCaseEntity.setIds(ids);
             dataCaseEntity.setDept(user == null ? "" : user.getDepartment());
-            dataCaseMapper.sendOdvByProperty(dataCaseEntity);
 
             List<CaseOpLog> caseOpLogList = Lists.newArrayList();
             for (int i=0;i<ids.length;i++){
@@ -1032,6 +1033,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 caseOpLogMapper.addCaseOpLogList(caseOpLogList);
                 caseOpLogList.clear();
             }
+
+            dataCaseMapper.sendOdvByProperty(dataCaseEntity);
 
             /*SysOperationLogEntity operationLog = new SysOperationLogEntity();
             operationLog.setUrl("/send");
@@ -1446,6 +1449,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         return WebResponse.success(odvShowList);
     }
 
+    @Transactional
     @Override
     public void autoSendByProperty(DataCaseEntity dataCaseEntity){
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
@@ -1664,22 +1668,21 @@ public class DataCaseServiceImpl implements DataCaseService {
             for(int i=0;i<odvCaseList.size();i++){
                 SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odvCaseList.get(i).getOdv(), SysUserEntity.class);
                 odvCaseList.get(i).setDept(user==null?"":user.getDepartment());
-                odvCaseList.get(i).setDistributeHistory(list.get(i).getSeqNo()+"案件分配给"+(user==null?"":user.getUserName()));
-                dataCaseMapper.sendSingleOdv(odvCaseList.get(i));
-
-                List<CaseOpLog> caseOpLogList = Lists.newArrayList();
+                odvCaseList.get(i).setDistributeHistory("案件分配给"+(user==null?"":user.getUserName()));
 
                 //调案管理日志
                 CaseOpLog caseOpLog = new CaseOpLog();
                 caseOpLog.setCaseId(odvCaseList.get(i).getId());
                 caseOpLog.setCreator(getUserInfo().getId());
-                if (StringUtils.isEmpty(list.get(i).getAccount())){
+                if (StringUtils.isEmpty(odvCaseList.get(i).getAccount())){
                     caseOpLog.setContext("分案");
                 }else{
                     caseOpLog.setContext("调案");
-                    caseOpLog.setLastOdv(list.get(i).getAccount());
+                    caseOpLog.setLastOdv(odvCaseList.get(i).getAccount());
                 }
                 caseOpLogMapper.addCaseOpLog(caseOpLog);
+
+                dataCaseMapper.sendSingleOdv(odvCaseList.get(i));
                 /*SysOperationLogEntity operationLog = new SysOperationLogEntity();
                 operationLog.setUrl("/send");
                 operationLog.setUserIp("127.0.0.1");

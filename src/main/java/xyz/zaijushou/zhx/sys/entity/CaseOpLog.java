@@ -50,11 +50,48 @@ public class CaseOpLog extends CommonEntity {
     private Integer[] collectStatuss;
     private Integer[] depts;
     private String[] odvs;
-    private String craeteTimeStart;
-    private String craeteTimeEnd;
+    private String createTimeStart;
+    private String createTimeEnd;
     private Integer[] creators;
     private String caseDateStart;
     private String caseDateEnd;
+    private String expectStartTime;
+    private String expectEndTime;
+
+    private String sort;
+    private String orderBy;
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getExpectStartTime() {
+        return expectStartTime;
+    }
+
+    public void setExpectStartTime(String expectStartTime) {
+        this.expectStartTime = expectStartTime;
+    }
+
+    public String getExpectEndTime() {
+        return expectEndTime;
+    }
+
+    public void setExpectEndTime(String expectEndTime) {
+        this.expectEndTime = expectEndTime;
+    }
 
     public String getStatusMsg() {
         return statusMsg;
@@ -128,20 +165,20 @@ public class CaseOpLog extends CommonEntity {
         this.odvs = odvs;
     }
 
-    public String getCraeteTimeStart() {
-        return craeteTimeStart;
+    public String getCreateTimeStart() {
+        return createTimeStart;
     }
 
-    public void setCraeteTimeStart(String craeteTimeStart) {
-        this.craeteTimeStart = craeteTimeStart;
+    public void setCreateTimeStart(String createTimeStart) {
+        this.createTimeStart = createTimeStart;
     }
 
-    public String getCraeteTimeEnd() {
-        return craeteTimeEnd;
+    public String getCreateTimeEnd() {
+        return createTimeEnd;
     }
 
-    public void setCraeteTimeEnd(String craeteTimeEnd) {
-        this.craeteTimeEnd = craeteTimeEnd;
+    public void setCreateTimeEnd(String createTimeEnd) {
+        this.createTimeEnd = createTimeEnd;
     }
 
     public Integer[] getCreators() {

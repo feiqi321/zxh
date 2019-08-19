@@ -21,7 +21,7 @@ public class CaseOpLogController {
     private CaseOpLogService caseOpLogService;
 
     @ApiOperation(value = "查询记录", notes = "查询记录")
-    @PostMapping("/list")
+    @PostMapping("/caseOp/list")
     public Object list(@RequestBody CaseOpLog caseOpLog) {
         WebResponse webResponse = caseOpLogService.pageCaseOpLog(caseOpLog);
         return webResponse;
