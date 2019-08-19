@@ -520,6 +520,17 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setAccounts(accounts);
             }
         }
+        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getApplyOrderNo())){
+            dataCaseEntity.setApplyOrderNoFlag(null);
+        }else{
+            String[] applyOrderNos = dataCaseEntity.getApplyOrderNo().split(",");
+            if (applyOrderNos == null || applyOrderNos.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(applyOrderNos[0])){
+                dataCaseEntity.setApplyOrderNoFlag(null);
+            }else {
+                dataCaseEntity.setApplyOrderNoFlag("1");
+                dataCaseEntity.setApplyOrderNos(applyOrderNos);
+            }
+        }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getCardNo())){
             dataCaseEntity.setCardNoFlag(null);
         }else{
@@ -644,11 +655,27 @@ public class DataCaseServiceImpl implements DataCaseService {
         logger.info("完成属性的拼接");
         totalCaseNum = new Long(PageInfo.of(list).getTotal()).intValue();
         CaseResponse caseResponse = new CaseResponse();
+        // 列表案量
         caseResponse.setTotalCaseNum(totalCaseNum);
+        dataCaseEntity.setPageNum(null);
+        dataCaseEntity.setPageSize(null);
+        DataCaseEntity dataCaseEntity1 = dataCaseMapper.querySum(dataCaseEntity);
+        totalAmt = totalAmt.add(dataCaseEntity1.getMoney()==null?new BigDecimal(0):dataCaseEntity1.getMoney());
+        repayNum = dataCaseEntity1.getRepayNum();
+        if (dataCaseEntity1.getEnRepayAmt() != null && dataCaseEntity1.getEnRepayAmt().compareTo(new BigDecimal(0)) > 0) {
+            repayTotalAmt = repayTotalAmt.add(dataCaseEntity1.getEnRepayAmt());
+        }
+        totalCp = totalCp.add(dataCaseEntity1.getBankAmt() == null ? new BigDecimal(0) : dataCaseEntity1.getBankAmt());
+        totalPtp = totalPtp.add(dataCaseEntity1.getProRepayAmt() == null ? new BigDecimal(0) : dataCaseEntity1.getProRepayAmt());
+        // 列表金额
         caseResponse.setTotalAmt(totalAmt);
+        // 列表还款案量
         caseResponse.setRepayNum(repayNum);
+        // 列表还款金额
         caseResponse.setRepayTotalAmt(repayTotalAmt);
+        // 列表待银行查账金额
         caseResponse.setTotalCp(totalCp);
+        // 列表承诺还款金额
         caseResponse.setTotalPtp(totalPtp);
         caseResponse.setPageInfo(PageInfo.of(list));
         webResponse.setData(caseResponse);

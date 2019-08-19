@@ -188,6 +188,8 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String goods;   //商品
     private String commercialTenant;    //商户
     private String applyOrderNo;    //申请单号
+    private String applyOrderNoFlag;
+    private String []applyOrderNos;
     private String socialSecurityComputerNo;    //社保电脑号
     private String socialSecurityCardNo;    //社保卡号
     //    private String depositBank; //开户行
@@ -3154,6 +3156,22 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
 
     public void setMaxId(Integer maxId) {
         this.maxId = maxId;
+    }
+
+    public String[] getApplyOrderNos() {
+        return applyOrderNos;
+    }
+
+    public void setApplyOrderNos(String[] applyOrderNos) {
+        this.applyOrderNos = applyOrderNos;
+    }
+
+    public String getApplyOrderNoFlag() {
+        return applyOrderNoFlag;
+    }
+
+    public void setApplyOrderNoFlag(String applyOrderNoFlag) {
+        this.applyOrderNoFlag = applyOrderNoFlag;
     }
 
     @Override

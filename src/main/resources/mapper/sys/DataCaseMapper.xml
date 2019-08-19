@@ -854,6 +854,15 @@
                         '${item}'
                     </foreach>
                 </if>
+
+                <if test="applyOrderNoFlag != null and applyOrderNoFlag != ''">
+                    and da.apply_order_no in
+                    <foreach item="item" index="index" collection="applyOrderNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+
                 <if test="archiveNoFlag != null and archiveNoFlag!=''">
                     and da.archive_no in
                     <foreach item="item" index="index" collection="archiveNos" open="(" separator="," close=")">
@@ -1097,6 +1106,13 @@
                 <if test="accountFlag != null and accountFlag!=''">
                     and da.account in
                     <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+
+                <if test="applyOrderNoFlag != null and applyOrderNoFlag != ''">
+                    and da.apply_order_no in
+                    <foreach item="item" index="index" collection="applyOrderNos" open="(" separator="," close=")">
                         '${item}'
                     </foreach>
                 </if>
@@ -5742,6 +5758,12 @@
                 <if test="accountFlag != null and accountFlag!=''">
                     and da.account in
                     <foreach item="item" index="index" collection="accounts" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="applyOrderNoFlag != null and applyOrderNoFlag != ''">
+                    and da.apply_order_no in
+                    <foreach item="item" index="index" collection="applyOrderNos" open="(" separator="," close=")">
                         '${item}'
                     </foreach>
                 </if>
