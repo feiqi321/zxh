@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.CaseOpLogMapper">
+
+    <insert id="addCaseOpLog" parameterType="xyz.zaijushou.zhx.sys.entity.CaseOpLog">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT @@IDENTITY AS 'Identity'
+        </selectKey>
+        insert into case_op_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
+            <if test="context != null">context,</if>
+            <if test="lastOdv != null">last_odv,</if>
+            <if test="creator != null">creator,</if>
+            create_time,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">#{caseId},</if>
+            <if test="context != null">#{context},</if>
+            <if test="lastOdv != null">#{lastOdv},</if>
+            <if test="creator != null">#{creator},</if>
+            GETDATE()
+        </trim>
+
+    </insert>
+
+    <insert id="addCaseOpLogList" parameterType="xyz.zaijushou.zhx.sys.entity.CaseOpLog">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT @@IDENTITY AS 'Identity'
+        </selectKey>
+        insert into case_op_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="caseId != null">case_id,</if>
+            <if test="context != null">context,</if>
+            <if test="lastOdv != null">last_odv,</if>
+            <if test="creator != null">creator,</if>
+            create_time,
+        </trim>
+        values
+        <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+            (
+            <if test="caseId != null">#{caseId},</if>
+            <if test="context != null">#{context},</if>
+            <if test="lastOdv != null">#{lastOdv},</if>
+            <if test="creator != null">#{creator},</if>
+            GETDATE()
+            )
+        </foreach >
+    </insert>
+
+
+    <select id="pageCaseOpLog"  parameterType="xyz.zaijushou.zhx.sys.entity.CaseOpLog" resultType="xyz.zaijushou.zhx.sys.entity.CaseOpLog">
+        select
+        t1.context,t1.create_time as createTime,t1.last_odv as lastOdv,t1.creator,
+        t2.client,t2.seq_no as seqNo,t2.contract_no as contractNo,t2.name,t2.ident_no as identNo,t2.status,
+        t2.collect_status as collectStatus,t2.odv,t2.dept
+        from case_op_log t1 join data_case t2 on t1.case_id = t2.id
+        <where>
+            <trim suffixOverrides=",">
+                <if test="clients != null and clients.length > 0 ">
+                    and t2.client in
+                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="seqNos != null and seqNos.length > 0 ">
+                    and t2.seq_no in
+                    <foreach item="item" index="index" collection="seqNos" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="contractNo != null and contractNo != ''">
+                    and t2.contract_no = #{contractNo},
+                </if>
+                <if test="identNos != null and identNos.length > 0 ">
+                    and t2.ident_no in
+                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="names != null and names.length > 0 ">
+                    and t2.name in
+                    <foreach item="item" index="index" collection="names" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="statuss != null and statuss.length > 0 ">
+                    and t2.status in
+                    <foreach item="item" index="index" collection="statuss" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </if>
+                <if test="collectStatuss != null and collectStatuss.length > 0 ">
+                    and t2.collect_status in
+                    <foreach item="item" index="index" collection="collectStatuss" open="(" separator="," close=")">
+                        ${item}
+                    </foreach>
+                </if>
+                <if test="depts != null and depts.length > 0 ">
+                    and t2.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="odvs != null and odvs.length > 0 ">
+                    and t2.odv in
+                    <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="craeteTimeStart != null and craeteTimeStart!=''">
+                    <![CDATA[   and t1.create_time>=  convert(datetime,'${craeteTimeStart}', 20)  ]]>
+                </if>
+                <if test="craeteTimeEnd != null and craeteTimeEnd!=''" >
+                    <![CDATA[   and t1.create_time<=  convert(datetime,'${craeteTimeEnd}', 20)   ]]>
+                </if>
+                <if test="creators != null and creators.length > 0 ">
+                    and t1.creator in
+                    <foreach item="item" index="index" collection="creators" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                </if>
+                <if test="caseDateStart != null and caseDateStart!=''">
+                    <![CDATA[   and t2.case_date>= convert(datetime,'${caseDateStart}', 20)   ]]>
+                </if>
+                <if test="caseDateEnd != null and caseDateEnd!=''" >
+                    <![CDATA[   and t2.case_date<=  convert(datetime,'${caseDateEnd}', 20)  ]]>
+                </if>
+                <if test="expectTimeStart != null and expectTimeStart!=''">
+                    <![CDATA[   and convert(datetime,t1.expect_time, 20) >=  convert(datetime,'${expectTimeStart}', 20)    ]]>
+                </if>
+                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
+                    <![CDATA[   and convert(datetime,t1.expect_time, 20)<= convert(datetime,'${expectTimeEnd}', 20)   ]]>
+                </if>
+            </trim>
+        </where>
+    </select>
+</mapper>

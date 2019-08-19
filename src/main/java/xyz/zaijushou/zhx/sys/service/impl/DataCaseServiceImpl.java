@@ -44,6 +44,10 @@ import java.util.concurrent.TimeUnit;
 public class DataCaseServiceImpl implements DataCaseService {
     private static Logger logger = LoggerFactory.getLogger(DataCaseServiceImpl.class);
     @Resource
+    private CaseOpLogMapper caseOpLogMapper;
+    @Resource
+    private DataOpLogMapper dataOpLogMapper;
+    @Resource
     private TelIpManageMapper telIpManageMapper;
     @Resource
     private DataCaseMapper dataCaseMapper;
@@ -703,34 +707,86 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
 
         dataCaseMapper.updateStatus(bean);
+        bean = dataCaseMapper.findById(bean);
+        //调案管理日志
+        CaseOpLog caseOpLog = new CaseOpLog();
+        caseOpLog.setCaseId(bean.getId());
+        caseOpLog.setCreator(getUserInfo().getId());
+        if (bean.getStatus()!=null && bean.getStatus().equals(4)){
+            caseOpLog.setContext("退案");
+        }else if (bean.getStatus()!=null && bean.getStatus().equals(1)){
+            caseOpLog.setContext("恢复");
+        }
+        caseOpLogMapper.addCaseOpLog(caseOpLog);
     }
 
     @Override
     public void sendOdv(DataCaseEntity bean){
-        DataCaseEntity temp = dataCaseMapper.findById(bean);
+        //DataCaseEntity temp = dataCaseMapper.findById(bean);
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ bean.getOdv(), SysUserEntity.class);
-        if(StringUtils.isEmpty(temp.getDistributeHistory())){
+        /*if(StringUtils.isEmpty(temp.getDistributeHistory())){
             bean.setDistributeHistory("案件分配给"+user.getUserName());
-        }else{
+        }else{*/
             bean.setDistributeHistory(",案件分配给"+user.getUserName());
-        }
+        //}
 
         bean.setDept(user==null?"":user.getDepartment());
         dataCaseMapper.sendOdv(bean);
-        this.sendOdvElse(bean,temp,user);
+        this.sendOdvElse(bean,user);
     }
     @Async
-    public void sendOdvElse(DataCaseEntity bean,DataCaseEntity temp,SysUserEntity user ){
-        DataOpLog log = new DataOpLog();
-        log.setType("案件管理");
-        log.setContext(bean.getDistributeHistory());
-        log.setOper(getUserInfo().getId());
-        log.setOperName(getUserInfo().getUserName());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        log.setOpTime(sdf.format(new Date()));
-        log.setCaseId(bean.getId()+"");
-        dataLogService.saveDataLog(log);
-        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+    public void sendOdvElse(DataCaseEntity bean,SysUserEntity user ){
+        List<CaseOpLog> caseOpLogList = Lists.newArrayList();
+        List<DataOpLog> dataOpLogList = Lists.newArrayList();
+        for (int i=0;i<bean.getIds().length;i++){
+            DataCaseEntity temp = new DataCaseEntity();
+            temp.setId(Integer.parseInt(bean.getIds()[i]));
+            temp = dataCaseMapper.findById(new DataCaseEntity());
+
+            DataOpLog log = new DataOpLog();
+            log.setType("案件管理");
+            log.setContext("案件分配给"+user.getUserName());
+            log.setOper(getUserInfo().getId());
+            log.setOperName(getUserInfo().getUserName());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            log.setOpTime(sdf.format(new Date()));
+            log.setCaseId(bean.getIds()[i]);
+            dataOpLogList.add(log);
+            //dataLogService.saveDataLog(log);
+
+            //调案管理日志
+            CaseOpLog caseOpLog = new CaseOpLog();
+            caseOpLog.setCaseId(Integer.parseInt(bean.getIds()[i]));
+            caseOpLog.setCreator(getUserInfo().getId());
+            if (StringUtils.isEmpty(temp.getOdv())){
+                caseOpLog.setContext("分案");
+            }else{
+                caseOpLog.setContext("调案");
+                caseOpLog.setLastOdv(temp.getOdv());
+            }
+            caseOpLogList.add(caseOpLog);
+
+            if (dataOpLogList.size()>=100){
+                dataOpLogMapper.saveBatchDataLog(dataOpLogList);
+                dataOpLogList.clear();
+            }
+
+            if (caseOpLogList.size()>=100){
+                caseOpLogMapper.addCaseOpLogList(caseOpLogList);
+                caseOpLogList.clear();
+            }
+
+        }
+        if (dataOpLogList.size()>0){
+            dataOpLogMapper.saveBatchDataLog(dataOpLogList);
+            dataOpLogList.clear();
+        }
+        if (caseOpLogList.size()>0){
+            caseOpLogMapper.addCaseOpLogList(caseOpLogList);
+            caseOpLogList.clear();
+        }
+
+        /*SysOperationLogEntity operationLog = new SysOperationLogEntity();
         operationLog.setUrl("/send");
         operationLog.setUserIp("127.0.0.1");
         operationLog.setUserId(getUserInfo().getId());
@@ -746,7 +802,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }
 
-        sysOperationLogMapper.insertRequest(operationLog);
+        sysOperationLogMapper.insertRequest(operationLog);*/
     }
 
     @Override
@@ -948,7 +1004,37 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setDept(user == null ? "" : user.getDepartment());
             dataCaseMapper.sendOdvByProperty(dataCaseEntity);
 
-            SysOperationLogEntity operationLog = new SysOperationLogEntity();
+            List<CaseOpLog> caseOpLogList = Lists.newArrayList();
+            for (int i=0;i<ids.length;i++){
+                DataCaseEntity opCase = new DataCaseEntity();
+                opCase.setId(Integer.parseInt(ids[i]));
+                opCase = dataCaseMapper.findById(opCase);
+
+
+                //调案管理日志
+                CaseOpLog caseOpLog = new CaseOpLog();
+                caseOpLog.setCaseId(Integer.parseInt(ids[i]));
+                caseOpLog.setCreator(getUserInfo().getId());
+                if (StringUtils.isEmpty(opCase.getOdv())){
+                    caseOpLog.setContext("分案");
+                }else{
+                    caseOpLog.setContext("调案");
+                    caseOpLog.setLastOdv(opCase.getOdv());
+                }
+                caseOpLogList.add(caseOpLog);
+
+
+                if (caseOpLogList.size()>=100){
+                    caseOpLogMapper.addCaseOpLogList(caseOpLogList);
+                    caseOpLogList.clear();
+                }
+            }
+            if (caseOpLogList.size()> 0){
+                caseOpLogMapper.addCaseOpLogList(caseOpLogList);
+                caseOpLogList.clear();
+            }
+
+            /*SysOperationLogEntity operationLog = new SysOperationLogEntity();
             operationLog.setUrl("/send");
             operationLog.setUserIp("127.0.0.1");
             operationLog.setUserId(getUserInfo().getId());
@@ -965,7 +1051,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
 
 
-            sysOperationLogMapper.insertRequest(operationLog);
+            sysOperationLogMapper.insertRequest(operationLog);*/
         }
 
     }
@@ -1581,7 +1667,21 @@ public class DataCaseServiceImpl implements DataCaseService {
                 odvCaseList.get(i).setDept(user==null?"":user.getDepartment());
                 odvCaseList.get(i).setDistributeHistory(list.get(i).getSeqNo()+"案件分配给"+(user==null?"":user.getUserName()));
                 dataCaseMapper.sendSingleOdv(odvCaseList.get(i));
-                SysOperationLogEntity operationLog = new SysOperationLogEntity();
+
+                List<CaseOpLog> caseOpLogList = Lists.newArrayList();
+
+                //调案管理日志
+                CaseOpLog caseOpLog = new CaseOpLog();
+                caseOpLog.setCaseId(odvCaseList.get(i).getId());
+                caseOpLog.setCreator(getUserInfo().getId());
+                if (StringUtils.isEmpty(list.get(i).getAccount())){
+                    caseOpLog.setContext("分案");
+                }else{
+                    caseOpLog.setContext("调案");
+                    caseOpLog.setLastOdv(list.get(i).getAccount());
+                }
+                caseOpLogMapper.addCaseOpLog(caseOpLog);
+                /*SysOperationLogEntity operationLog = new SysOperationLogEntity();
                 operationLog.setUrl("/send");
                 operationLog.setUserIp("127.0.0.1");
                 operationLog.setUserId(getUserInfo().getId());
@@ -1594,7 +1694,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     operationLog.setRequestBody(getUserInfo().getUserName()+"把"+list.get(i).getSeqNo()+"案件（从"+tempUser.getUserName()+"）分配给"+user.getUserName());
                 }
 
-                sysOperationLogMapper.insertRequest(operationLog);
+                sysOperationLogMapper.insertRequest(operationLog);*/
             }
 
         }
@@ -1986,6 +2086,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     public void saveCaseList(List<DataCaseEntity> dataCaseEntities,String batchNo) {
         try {
             List<DataCaseTelEntity> telEntityList = Lists.newArrayList();
+            List<CaseOpLog> caseOpLogList = Lists.newArrayList();
 
             //修改批次信息
             final DataBatchEntity dataBatchEntity = new DataBatchEntity();
@@ -1997,6 +2098,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataBatchEntity.setUserCount(dataCaseEntities.size());
             ExecutorService executor = Executors.newFixedThreadPool(20);
             for (DataCaseEntity entity : dataCaseEntities) {
+                CaseOpLog caseOpLog = new CaseOpLog();
                 entity.setBatchNo(batchNo);
                 DataBatchEntity batchEntity =  RedisUtils.entityGet(RedisKeyPrefix.DATA_BATCH+dataBatchEntity.getBatchNo(),DataBatchEntity.class);
                 entity.setClient(batchEntity ==null ?"":batchEntity.getClient());
@@ -2008,16 +2110,18 @@ public class DataCaseServiceImpl implements DataCaseService {
                     SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getAccountAge(),SysDictionaryEntity.class);
                     entity.setAccountAge(sysDictionaryEntity.getId()+"");
                 }
-              /*  if (org.apache.commons.lang3.StringUtils.isNotEmpty(entity.getCollectionType())){
-                    SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getCollectionType(),SysDictionaryEntity.class);
-                    entity.setCollectionType(sysDictionaryEntity.getId()+"");
-                }*/
+
                 if(entity.getCollectionUser()!=null && entity.getCollectionUser().getId()!=null){
                     SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getCollectionUser().getId(), SysUserEntity.class);
                     entity.setDept(user.getDepartment());
                     entity.setDistributeHistory("案件分配给"+user.getUserName());
                     entity.setDistributeStatus(1);
                     entity.setDistributeDate(new Date());
+
+                    //案件调整对象
+                    caseOpLog.setContext("分案");
+                    caseOpLog.setCreator(entity.getCollectionUser().getId());
+
                 }
                 if (entity.getExpectTimeD()!=null) {
                     entity.setExpectTime(sdf2.format(entity.getExpectTimeD()));
@@ -2040,7 +2144,8 @@ public class DataCaseServiceImpl implements DataCaseService {
                 entity.setOverDays(entity.getOverDays()==null?0:entity.getOverDays());
                 entity.setOverdueDays(entity.getOverdueDays()==null?0:entity.getOverdueDays());
                 dataCaseMapper.saveCase(entity);
-
+                caseOpLog.setCaseId(entity.getId());
+                caseOpLogList.add(caseOpLog);
                 BigDecimal tmp = dataBatchEntity.getTotalAmt()==null?new BigDecimal(0):dataBatchEntity.getTotalAmt();
                 dataBatchEntity.setTotalAmt(tmp.add(entity.getMoney()));
                 stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
@@ -2146,6 +2251,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                     dataCaseTelMapper.insertBatchTel(telEntityList);
                     telEntityList.clear();
                 }
+                if (caseOpLogList.size()>=100){
+                    caseOpLogMapper.addCaseOpLogList(caseOpLogList);
+                    caseOpLogList.clear();
+                }
 
             }
             executor.shutdown();
@@ -2165,10 +2274,15 @@ public class DataCaseServiceImpl implements DataCaseService {
                 telEntityList.clear();
             }
 
+            if (caseOpLogList.size()>0){
+                caseOpLogMapper.addCaseOpLogList(caseOpLogList);
+                caseOpLogList.clear();
+            }
+
             dataBatchMapper.updateUploadTimeByBatchNo(dataBatchEntity);
             logger.info("处理批次完毕");
         }catch (Exception e){
-           // logger.info(e.getCause().getMessage());
+            logger.info(e.getCause().getMessage());
             e.printStackTrace();
             throw new CustomerException(500,"后台异常，请检查数据后后再试");
         }

@@ -12,9 +12,9 @@ public class CaseOpLog extends CommonEntity {
 
     private String context;
 
-    private String last_odv;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm" ,timezone="GMT+8")
-    private Date createTime;
+    private String lastOdv;
+
+    private Integer caseId;
 
     private Integer creator;
 
@@ -31,6 +31,7 @@ public class CaseOpLog extends CommonEntity {
     private String identNo;
 
     private Integer status; //案件状态
+    private String statusMsg;//案件状态中文说明
 
     private int collectStatus; //催收状态   列表
     private String collectStatusMsg;//催收状态中文说明
@@ -41,6 +42,140 @@ public class CaseOpLog extends CommonEntity {
 
     private String dept;
 
+    private String[] clients;
+    private String[] seqNos;
+    private String[] identNos;
+    private String[] names;
+    private Integer[] statuss;
+    private Integer[] collectStatuss;
+    private Integer[] depts;
+    private String[] odvs;
+    private String craeteTimeStart;
+    private String craeteTimeEnd;
+    private Integer[] creators;
+    private String caseDateStart;
+    private String caseDateEnd;
+
+    public String getStatusMsg() {
+        return statusMsg;
+    }
+
+    public void setStatusMsg(String statusMsg) {
+        this.statusMsg = statusMsg;
+    }
+
+    public String[] getClients() {
+        return clients;
+    }
+
+    public void setClients(String[] clients) {
+        this.clients = clients;
+    }
+
+    public String[] getSeqNos() {
+        return seqNos;
+    }
+
+    public void setSeqNos(String[] seqNos) {
+        this.seqNos = seqNos;
+    }
+
+    public String[] getIdentNos() {
+        return identNos;
+    }
+
+    public void setIdentNos(String[] identNos) {
+        this.identNos = identNos;
+    }
+
+    public String[] getNames() {
+        return names;
+    }
+
+    public void setNames(String[] names) {
+        this.names = names;
+    }
+
+    public Integer[] getStatuss() {
+        return statuss;
+    }
+
+    public void setStatuss(Integer[] statuss) {
+        this.statuss = statuss;
+    }
+
+    public Integer[] getCollectStatuss() {
+        return collectStatuss;
+    }
+
+    public void setCollectStatuss(Integer[] collectStatuss) {
+        this.collectStatuss = collectStatuss;
+    }
+
+    public Integer[] getDepts() {
+        return depts;
+    }
+
+    public void setDepts(Integer[] depts) {
+        this.depts = depts;
+    }
+
+    public String[] getOdvs() {
+        return odvs;
+    }
+
+    public void setOdvs(String[] odvs) {
+        this.odvs = odvs;
+    }
+
+    public String getCraeteTimeStart() {
+        return craeteTimeStart;
+    }
+
+    public void setCraeteTimeStart(String craeteTimeStart) {
+        this.craeteTimeStart = craeteTimeStart;
+    }
+
+    public String getCraeteTimeEnd() {
+        return craeteTimeEnd;
+    }
+
+    public void setCraeteTimeEnd(String craeteTimeEnd) {
+        this.craeteTimeEnd = craeteTimeEnd;
+    }
+
+    public Integer[] getCreators() {
+        return creators;
+    }
+
+    public void setCreators(Integer[] creators) {
+        this.creators = creators;
+    }
+
+    public String getCaseDateStart() {
+        return caseDateStart;
+    }
+
+    public void setCaseDateStart(String caseDateStart) {
+        this.caseDateStart = caseDateStart;
+    }
+
+    public String getCaseDateEnd() {
+        return caseDateEnd;
+    }
+
+    public void setCaseDateEnd(String caseDateEnd) {
+        this.caseDateEnd = caseDateEnd;
+    }
+
+    public Integer getCaseId() {
+        return caseId;
+    }
+
+    public void setCaseId(Integer caseId) {
+        this.caseId = caseId;
+    }
+
     public String getContext() {
         return context;
     }
@@ -49,22 +184,12 @@ public class CaseOpLog extends CommonEntity {
         this.context = context;
     }
 
-    public String getLast_odv() {
-        return last_odv;
+    public String getLastOdv() {
+        return lastOdv;
     }
 
-    public void setLast_odv(String last_odv) {
-        this.last_odv = last_odv;
-    }
-
-    @Override
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    @Override
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setLastOdv(String lastOdv) {
+        this.lastOdv = lastOdv;
     }
 
     public Integer getCreator() {
