@@ -483,7 +483,6 @@ public class DataCaseServiceImpl implements DataCaseService {
                         idsTemp[i] = "0";
                     }
                 }
-
                 dataCaseEntity.setIds(idsTemp);
             }
         }
