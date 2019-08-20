@@ -54,6 +54,7 @@
 
     <select id="pageCaseOpLog"  parameterType="xyz.zaijushou.zhx.sys.entity.CaseOpLog" resultType="xyz.zaijushou.zhx.sys.entity.CaseOpLog">
         select
+        t1.id,t1.case_id as caseId,
         t1.context,t1.create_time as createTime,t1.last_odv as lastOdv,t1.creator,
         t2.client,t2.seq_no as seqNo,t2.contract_no as contractNo,t2.name,t2.ident_no as identNo,t2.status,
         t2.collect_status as collectStatus,t2.odv,t2.dept

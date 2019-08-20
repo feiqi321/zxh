@@ -2173,8 +2173,10 @@ public class DataCaseServiceImpl implements DataCaseService {
                 entity.setOverDays(entity.getOverDays()==null?0:entity.getOverDays());
                 entity.setOverdueDays(entity.getOverdueDays()==null?0:entity.getOverdueDays());
                 dataCaseMapper.saveCase(entity);
-                caseOpLog.setCaseId(entity.getId());
-                caseOpLogList.add(caseOpLog);
+                if(entity.getCollectionUser()!=null && entity.getCollectionUser().getId()!=null) {
+                    caseOpLog.setCaseId(entity.getId());
+                    caseOpLogList.add(caseOpLog);
+                }
                 BigDecimal tmp = dataBatchEntity.getTotalAmt()==null?new BigDecimal(0):dataBatchEntity.getTotalAmt();
                 dataBatchEntity.setTotalAmt(tmp.add(entity.getMoney()));
                 stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + entity.getSeqNo(), JSONObject.toJSONString(entity));
@@ -3332,15 +3334,18 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
 
     public List<DataCaseCommentEntity> listComment(DataCaseEntity dataCaseEntity){
-        if (dataCaseEntity==null){
+        if (dataCaseEntity==null || dataCaseEntity.getId()==null){
             return new ArrayList<DataCaseCommentEntity>();
         }
         DataCaseCommentEntity dataCaseCommentEntity = new DataCaseCommentEntity();
         dataCaseCommentEntity.setCaseId(dataCaseEntity.getId());
         List<DataCaseCommentEntity> list = dataCaseCommentMapper.findAll(dataCaseCommentEntity);
+        if(list==null || list.size()==0 || list.get(0)==null){
+            return new ArrayList<DataCaseCommentEntity>();
+        }
         for (int i=0;i<list.size();i++){
             DataCaseCommentEntity temp = list.get(i);
-            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getCreatUser(), SysUserEntity.class);
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ (temp==null?"":temp.getCreatUser()), SysUserEntity.class);
             temp.setCreatUserName(user == null ? "" : user.getUserName());
             list.set(i,temp);
         }

@@ -86,7 +86,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             beanInfo.setIsEnable(0);
         }
-        beanInfo.setOdv(sysUserEntity.getId()+"");
+        beanInfo.setOdv(sysUserEntity==null?"":sysUserEntity.getId()+"");
         dataCollectionMapper.saveCollection(beanInfo);
 
         if (StringUtils.notEmpty(beanInfo.getsType())){
