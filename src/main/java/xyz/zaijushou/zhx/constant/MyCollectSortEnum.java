@@ -26,7 +26,7 @@ public enum MyCollectSortEnum {
     COLUMN27("identNo","t.ident_no"),
     COLUMN28("moneyMsg","t.money"),
     COLUMN29("balanceMsg","t.balance"),
-    COLUMN30("moneyStartMsg","new_money"),
+    COLUMN30("moneyStartMsg","t.latest_overdue_money"),
     COLUMN31("overDays","t.over_days"),
     COLUMN32("enRepayAmtMsg","t.en_repay_amt"),
     COLUMN33("repayAmtMsg","t.pro_repay_amt"),
