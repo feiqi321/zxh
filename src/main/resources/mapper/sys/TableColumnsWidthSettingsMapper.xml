@@ -3,15 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.TableColumnsWidthSettingsMapper">
-    <delete id="removeOldTableInformation" >
+    <delete id="removeOldTableInformation" parameterType="xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity">
         delete from sys_table_column where tableid=#{tableid} and userid=#{userid}
     </delete>
 
     <select id="findTableInformationByTableId" resultType="xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity">
-        select columnname,columnwidth from sys_table_column where tableid=#{tableid}
+        select columnname,columnwidth from sys_table_column where tableid=#{tableid} and userid=#{userid}
     </select>
 
-    <insert id="addTableInformation">
+    <insert id="addTableInformation" parameterType="xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity">
         insert into sys_table_column (tableid,columnname,columnwidth,userid)
         values (#{tableid},#{columnname},#{columnwidth},#{userid})
     </insert>

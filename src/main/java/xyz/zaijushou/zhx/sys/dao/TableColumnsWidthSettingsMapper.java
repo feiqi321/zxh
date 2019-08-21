@@ -12,7 +12,7 @@ public interface TableColumnsWidthSettingsMapper {
 
     void addTableInformation(SysTableColumnEntity sysTableColumnEntity);
 
-    List<SysTableColumnEntity> findTableInformationByTableId(String tableid);
+    List<SysTableColumnEntity> findTableInformationByTableId(String tableid,Integer userid);
 
     void removeOldTableInformation(String tableid, Integer userid);
 

@@ -1,7 +1,7 @@
 package xyz.zaijushou.zhx.sys.entity;
 
-
 import java.math.BigDecimal;
+
 
 /**
  * @author lsl
@@ -11,9 +11,7 @@ public class SysTableColumnEntity {
     private String tableid;
     private String columnname;
     private BigDecimal columnwidth;
-    private BigDecimal minwidth;
     private Integer userid;
-
 
     public SysTableColumnEntity() {
     }
@@ -23,14 +21,6 @@ public class SysTableColumnEntity {
         this.columnname = columnname;
         this.columnwidth = columnwidth;
         this.userid = userid;
-    }
-
-    public BigDecimal getMinwidth() {
-        return minwidth;
-    }
-
-    public void setMinwidth(BigDecimal minwidth) {
-        this.minwidth = minwidth;
     }
 
     public String getTableid() {

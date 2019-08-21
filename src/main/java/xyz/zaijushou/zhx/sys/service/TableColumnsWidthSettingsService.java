@@ -1,8 +1,7 @@
 package xyz.zaijushou.zhx.sys.service;
 
-import xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity;
+import xyz.zaijushou.zhx.sys.entity.SysTableColumnDTO;
 
-import java.util.List;
 
 /**
  * @author lsl
@@ -11,5 +10,5 @@ import java.util.List;
 public interface TableColumnsWidthSettingsService {
     Object findTableInformationByTableId(String tableid);
 
-    Object addTableInformation(List<SysTableColumnEntity> list);
+    Object addTableInformation(SysTableColumnDTO sysTableColumnDTO);
 }

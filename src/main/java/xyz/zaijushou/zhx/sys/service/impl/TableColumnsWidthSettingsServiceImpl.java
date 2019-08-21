@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.dao.TableColumnsWidthSettingsMapper;
+import xyz.zaijushou.zhx.sys.entity.SysTableColumnDTO;
 import xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity;
 import xyz.zaijushou.zhx.sys.service.TableColumnsWidthSettingsService;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,26 +18,26 @@ import java.util.List;
  * @version [1.0.0, 2019/8/20,13:34]
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class TableColumnsWidthSettingsServiceImpl implements TableColumnsWidthSettingsService {
     @Resource
     private TableColumnsWidthSettingsMapper tableColumnsWidthSettingsMapper;
 
     @Override
     public Object findTableInformationByTableId(String tableid) {
-        return tableColumnsWidthSettingsMapper.findTableInformationByTableId(tableid);
+        Integer userid = JwtTokenUtil.tokenData().getInteger("userId");
+        return tableColumnsWidthSettingsMapper.findTableInformationByTableId(tableid, userid);
     }
 
     @Override
-    public Object addTableInformation(List<SysTableColumnEntity> list) {
-        tableColumnsWidthSettingsMapper.removeOldTableInformation(list.get(0).getTableid(), list.get(0).getUserid());
+    public Object addTableInformation(SysTableColumnDTO sysTableColumnDTO) {
+        Integer userid = JwtTokenUtil.tokenData().getInteger("userId");
+        tableColumnsWidthSettingsMapper.removeOldTableInformation(sysTableColumnDTO.getTableid(), userid);
+        List<SysTableColumnEntity> list = sysTableColumnDTO.getColumns();
         for (SysTableColumnEntity sysTableColumnEntity : list) {
-            if (sysTableColumnEntity.getColumnwidth() == null) {
-                sysTableColumnEntity.setColumnwidth(sysTableColumnEntity.getMinwidth());
-                tableColumnsWidthSettingsMapper.addTableInformation(sysTableColumnEntity);
-            } else {
-                tableColumnsWidthSettingsMapper.addTableInformation(sysTableColumnEntity);
-            }
+            sysTableColumnEntity.setTableid(sysTableColumnDTO.getTableid());
+            sysTableColumnEntity.setUserid(userid);
+            tableColumnsWidthSettingsMapper.addTableInformation(sysTableColumnEntity);
         }
         return WebResponse.success();
     }

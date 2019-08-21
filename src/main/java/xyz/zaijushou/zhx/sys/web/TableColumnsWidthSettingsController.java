@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity;
+import xyz.zaijushou.zhx.sys.entity.SysTableColumnDTO;
 import xyz.zaijushou.zhx.sys.service.TableColumnsWidthSettingsService;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author lsl
@@ -23,12 +22,12 @@ public class TableColumnsWidthSettingsController {
     private TableColumnsWidthSettingsService tableColumnsWidthSettingsService;
 
     @RequestMapping("/query")
-    public Object findTableInformationByTableId(@RequestParam("tableid")String tableid) {
-        return WebResponse.success(tableColumnsWidthSettingsService.findTableInformationByTableId(tableid)) ;
+    public Object findTableInformationByTableId(@RequestParam("tableid") String tableid) {
+        return WebResponse.success(tableColumnsWidthSettingsService.findTableInformationByTableId(tableid));
     }
 
     @RequestMapping("/save")
-    public Object addTableInformation(@RequestBody List<SysTableColumnEntity>list) {
-        return tableColumnsWidthSettingsService.addTableInformation(list);
+    public Object addTableInformation(@RequestBody SysTableColumnDTO sysTableColumnDTO) {
+        return tableColumnsWidthSettingsService.addTableInformation(sysTableColumnDTO);
     }
 }
