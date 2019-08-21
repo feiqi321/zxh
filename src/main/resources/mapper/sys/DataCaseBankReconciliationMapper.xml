@@ -452,31 +452,31 @@
     </if>
     <if test="dataCase != null and dataCase.names != null and dataCase.names.length > 0">
         and c.name in
-        <foreach collection="dataCase.names" open="(" close=")" separator=",">
+        <foreach item="item"  index="index"   collection="dataCase.names" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </if>
         <if test="dataCase != null and dataCase.cardNos != null and dataCase.cardNos.length > 0">
             and c.card_no in
-            <foreach collection="dataCase.cardNos" item="item2" open="(" close=")" separator=",">
+            <foreach index="index" collection="dataCase.cardNos" item="item2" open="(" close=")" separator=",">
                 '${item2}'
             </foreach>
         </if>
     <if test="dataCase != null and dataCase.seqNos != null and dataCase.seqNos.length > 0">
         and c.seq_no in
-        <foreach collection="dataCase.seqNos" open="(" close=")" separator=",">
+        <foreach item="item" index="index"  collection="dataCase.seqNos" open="(" close=")" separator=",">
             '${item}'
         </foreach>
     </if>
     <if test="dataCase != null and dataCase.identNos != null and dataCase.identNos.length > 0">
         and c.ident_no in
-        <foreach collection="dataCase.identNos" open="(" close=")" separator=",">
+        <foreach item="item" index="index"  collection="dataCase.identNos" open="(" close=")" separator=",">
             '${item}'
         </foreach>
     </if>
     <if test="dataCase != null and dataCase.accounts != null and dataCase.accounts.length > 0">
         and c.account in
-        <foreach collection="dataCase.accounts" open="(" close=")" separator=",">
+        <foreach item="item" index="index" collection="dataCase.accounts" open="(" close=")" separator=",">
             '${item}'
         </foreach>
     </if>
@@ -550,7 +550,7 @@
 
         <if test="ids != null and ids.length >0">
         and b.id in
-        <foreach collection="ids" item="item" open="(" close=")">
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
     </if>
