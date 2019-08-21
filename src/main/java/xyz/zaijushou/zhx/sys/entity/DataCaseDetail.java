@@ -241,6 +241,16 @@ public class DataCaseDetail {
 
     private Boolean copyAuth;
 
+    private Boolean deleteAuth;
+
+    public Boolean getDeleteAuth() {
+        return deleteAuth;
+    }
+
+    public void setDeleteAuth(Boolean deleteAuth) {
+        this.deleteAuth = deleteAuth;
+    }
+
     public Boolean getCopyAuth() {
         return copyAuth;
     }

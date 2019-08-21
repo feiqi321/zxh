@@ -2828,9 +2828,13 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
         int role = 0;
         logger.info("查询角色开始");
+        dataCaseDetail.setDeleteAuth(false);
         List<SysRoleEntity> roleList = sysRoleMapper.listRoleByUserId(curentuser);
         for (int i=0;i<roleList.size();i++){
             SysRoleEntity sysRoleEntity = roleList.get(i);
+            if (sysRoleEntity.getDeleteAuth()!=null && sysRoleEntity.getDeleteAuth()==1){
+                dataCaseDetail.setDeleteAuth(true);
+            }
             if (sysRoleEntity.getId()==4){
                 role = 4;
                 break;

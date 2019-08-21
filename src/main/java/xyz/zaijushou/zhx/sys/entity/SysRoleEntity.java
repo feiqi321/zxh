@@ -48,6 +48,16 @@ public class SysRoleEntity extends CommonEntity {
 
     private Integer busiAuth;
 
+    private Integer deleteAuth;
+
+    public Integer getDeleteAuth() {
+        return deleteAuth;
+    }
+
+    public void setDeleteAuth(Integer deleteAuth) {
+        this.deleteAuth = deleteAuth;
+    }
+
     public Integer getBusiAuth() {
         return busiAuth;
     }

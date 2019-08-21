@@ -3,9 +3,9 @@
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.DataOpLogMapper" >
 
   <select id="listDataOpLogByCaseId" resultType="xyz.zaijushou.zhx.sys.entity.DataOpLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
-    select t.seq_no as seqNo,t.name,t.odv,d.type,d.op_time as opTime,d.context,d.oper
+    select d.id,t.seq_no as seqNo,t.name,t.odv,d.type,d.op_time as opTime,d.context,d.oper
     from data_op_log d left JOIN data_case t on d.case_id = t.id
-    where case_id in
+    where d.delete_flag=0 and case_id in
     <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
       #{item}
     </foreach>
@@ -15,7 +15,7 @@
     select 
     id,type,context,op_time as opTime,oper,case_id as caseId
     from data_op_log
-    where case_id = #{caseId} and  <![CDATA[ type <> '地址管理' ]]>
+    where delete_flag=0 and  case_id = #{caseId} and  <![CDATA[ type <> '地址管理' ]]>
     <if test="type != null and type!='' and type!='待银行查账管理'">
       AND  type = #{type}
     </if>
@@ -29,7 +29,7 @@
     select
     id,type,context,op_time as opTime,oper,case_id as caseId
     from data_op_log
-    where case_id = #{caseId} and  type = '地址管理'
+    where delete_flag=0 and case_id = #{caseId} and  type = '地址管理'
   </select>
 
   <!--插入数据信息-->
@@ -44,6 +44,7 @@
       <if test="opTime != null">op_time,</if>
       <if test="oper != null">oper,</if>
       <if test="caseId != null">case_id,</if>
+      delete_flag,
     </trim>
     values
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -52,6 +53,7 @@
       <if test="opTime != null">#{opTime},</if>
       <if test="oper != null">#{oper},</if>
       <if test="caseId != null">#{caseId},</if>
+      0,
     </trim>
   </insert>
 
@@ -65,7 +67,8 @@
       context,
       op_time,
       oper,
-      case_id
+      case_id,
+      delete_flag
     )
     values
     <foreach collection ="list" item="reddemCode" index= "index" separator =",">
@@ -74,13 +77,14 @@
       #{reddemCode.context},
       #{reddemCode.opTime},
       #{reddemCode.oper},
-      #{reddemCode.caseId}
+      #{reddemCode.caseId},
+      0
     )
     </foreach >
   </insert>
 
   <delete id="delDataLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog">
-    delete from data_op_log where id  = #{id}
+    update data_op_log set delete_flag =1 where id  = #{id}
   </delete>
 
   <update id="updateDataLog" parameterType="xyz.zaijushou.zhx.sys.entity.DataOpLog" >
