@@ -60,6 +60,8 @@ public class DataCollectionEntity extends CommonEntity {
     private String odvFlag;
     //催收措施
     private String measure;
+    private String[] measures;
+
     //委托方
     private String client;
 
@@ -88,6 +90,8 @@ public class DataCollectionEntity extends CommonEntity {
     private String mobile;
     //催收结果
     private String result;
+
+    private String[] results;
     //催收记录
     private String collectInfo;
     //谈判方式
@@ -117,6 +121,8 @@ public class DataCollectionEntity extends CommonEntity {
    private String reduceStatusMsg;
     //案件状态
     private Integer caseStatus;
+
+    private Integer[] caseStatuss;
 
     private String batchNo;
 
@@ -345,6 +351,22 @@ public class DataCollectionEntity extends CommonEntity {
     private Integer countCasePay;
     private BigDecimal sumPayMoney;
 
+
+    public String[] getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(String[] measures) {
+        this.measures = measures;
+    }
+
+    public String[] getResults() {
+        return results;
+    }
+
+    public void setResults(String[] results) {
+        this.results = results;
+    }
 
     public BigDecimal getSumMoney() {
         return sumMoney;
@@ -1807,5 +1829,13 @@ public class DataCollectionEntity extends CommonEntity {
 
     public void setCollectDate(Date collectDate) {
         this.collectDate = collectDate;
+    }
+
+    public Integer[] getCaseStatuss() {
+        return caseStatuss;
+    }
+
+    public void setCaseStatuss(Integer[] caseStatuss) {
+        this.caseStatuss = caseStatuss;
     }
 }

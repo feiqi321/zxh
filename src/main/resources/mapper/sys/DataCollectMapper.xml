@@ -381,19 +381,47 @@
 
     <select id="pageDataCollect" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select c.id,c.case_id as caseId,c.bail_date as bailDate,c.relation,c.tel_type as telType,c.target_name as targetName,c.leave_days as leaveDays,
-        c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure,dbo.fnFormatDate(c.collect_time, 'yyyy-MM-dd HH:ii') as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
+        c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure, CONVERT(varchar(100), c.collect_time, 20) as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmt,t.expect_time as expectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
         c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
         t.seq_no as seqNo,t.color,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
-        t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,
+        t.account_age as accountAge,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
-        dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:ii') as caseAllotTime,t.status as caseStatus
+        CONVERT(varchar(100), t.distribute_time, 20) as caseAllotTime,t.status as caseStatus
         from data_case t RIGHT  JOIN data_collection  c on c.case_id = t.id
         <where>
             <trim suffixOverrides=",">
-                <if test="dept != null and dept!=''">
-                    AND  t.dept =#{dept}
+                <if test="depts != null and depts.length > 0 ">
+                    and t.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
+                <if test="measures != null and measures.length > 0 ">
+                    and c.measure in
+                    <foreach item="item" index="index" collection="measures" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="results != null and results.length > 0 ">
+                    and c.result in
+                    <foreach item="item" index="index" collection="results" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="caseStatuss != null and caseStatuss.length > 0 ">
+                    and t.status in
+                    <foreach item="item" index="index" collection="caseStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 ">
+                    and t.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+
                 <if test="collectionType != null and collectionType!=''">
                     AND c.collection_type = #{collectionType}
                 </if>
@@ -406,9 +434,7 @@
                         #{item}
                     </foreach>
                 </if>
-                <if test="measure != null and measure!=''">
-                    AND c.measure =#{measure}
-                </if>
+
                 <if test="clientFlag != null and clientFlag!='' and clients!=null">
                     and t.client in
                     <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
@@ -522,11 +548,11 @@
                 <if test="bailEndDate != null and bailEndDate!=''" >
                     <![CDATA[   and c.bail_date <=  CONVERT(datetime, #{bailEndDate}, 20) ]]>
                 </if>
-                <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and t.expect_time>=  #{expectTimeStart}   ]]>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and t.expect_time>=  #{expectStartTime}   ]]>
                 </if>
-                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and t.expect_time<=  #{expectTimeEnd}   ]]>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and t.expect_time<=  #{expectEndTime}   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
                     <![CDATA[   and c.collect_time>= CONVERT(datetime, #{collectStartTime}, 20)  ]]>
@@ -553,7 +579,7 @@
                 <![CDATA[   and t.money>=  #{moneyEnd}  ]]>
             </if>
                 <if test="moneyStart != null and moneyStart!=''" >
-                    <![CDATA[   and t.moneyStart<=  #{moneyStart}   ]]>
+                    <![CDATA[   and t.money<=  #{moneyStart}   ]]>
                 </if>
                 <if test="countFollowEnd != null and countFollowEnd!=''">
                     <![CDATA[   and c.count_follow>=  #{countFollowEnd}  ]]>
@@ -620,12 +646,12 @@
 <!--         t.leave_Days as leaveDays-->
         t.distribute_status  as distributeStatus,
         t.tel,t.remark as result,t.repay_date as repayTime,t.summary as collectInfo,t.collect_date as collectDate,
-        t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd') as distributeTime,
+        t.pro_repay_amt as repayAmt,t.collect_status as collectStatus,t.reduce_status as reduceStatus,CONVERT(varchar(100), t.distribute_time, 23)  as distributeTime,
         t.collect_times as countFollow,t.collection_type as collectionType,t.tel as telPhone,t.latest_overdue_money as moneyStart,
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
-        t.account_age as accountAge,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
+        t.account_age as accountAge,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,t.principle,t.overdue_days as overdueDays,
-        dbo.fnFormatDate(t.distribute_time, 'yyyy-MM-dd HH:ii') as caseAllotTime,t.status as caseStatus
+        CONVERT(varchar(100), t.distribute_time, 20)  as caseAllotTime,t.status as caseStatus
         from data_case t
         <where>
             t.delete_flag = 0
@@ -1055,8 +1081,41 @@
                 <if test="dept != null and dept!=''">
                     AND  c.dept =#{dept}
                 </if>
-                <if test="area != null and area!=''">
-                    AND t.collect_area = #{area}
+                <if test="areas != null and areas.length > 0 ">
+                    and t.area in
+                    <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="depts != null and depts.length > 0 ">
+                    and t.dept in
+                    <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="measures != null and measures.length > 0 ">
+                    and c.measure in
+                    <foreach item="item" index="index" collection="measures" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="results != null and results.length > 0 ">
+                    and c.result in
+                    <foreach item="item" index="index" collection="results" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="caseStatuss != null and caseStatuss.length > 0 ">
+                    and t.status in
+                    <foreach item="item" index="index" collection="caseStatuss" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 ">
+                    and t.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
                 </if>
                 <if test="odvFlag != null and odvFlag!='' and odvs!=null">
                     and t.odv in
@@ -1160,11 +1219,11 @@
                 <if test="bailEndDate != null and bailEndDate!=''" >
                     <![CDATA[   and c.bail_date <=  #{bailEndDate}   ]]>
                 </if>
-                <if test="expectTimeStart != null and expectTimeStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>= #{expectTimeStart}   ]]>
+                <if test="expectStartTime != null and expectStartTime!=''">
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')>= #{expectStartTime}   ]]>
                 </if>
-                <if test="expectTimeEnd != null and expectTimeEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectTimeEnd}   ]]>
+                <if test="expectEndTime != null and expectEndTime!=''" >
+                    <![CDATA[   and dbo.fnFormatDate(t.expect_time, 'yyyy-MM-dd')<=  #{expectEndTime}   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
                     <![CDATA[   and c.collect_time>=  #{collectStartTime}   ]]>
