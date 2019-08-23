@@ -38,4 +38,8 @@ public interface DataCaseRepayRecordMapper {
     DataCaseRepayRecordEntity findById(DataCaseRepayRecordEntity entity);
 
     BigDecimal getRepayByCollectUser(Map<String,Integer> dbMap);
+
+    DataCaseRepayRecordEntity queryOneRecord(Integer id);
+
+    void updateRecord(DataCaseRepayRecordEntity entity);
 }

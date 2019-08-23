@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordService {
     private static Logger logger = LoggerFactory.getLogger(DataCaseRepayRecordServiceImpl.class);
     @Resource
@@ -492,5 +493,15 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
         }
 
         return list;
+    }
+
+    @Override
+    public DataCaseRepayRecordEntity queryOneRecord(Integer id) {
+        return dataCaseRepayRecordMapper.queryOneRecord(id);
+    }
+
+    @Override
+    public void updateRecord(DataCaseRepayRecordEntity entity) {
+        dataCaseRepayRecordMapper.updateRecord(entity);
     }
 }

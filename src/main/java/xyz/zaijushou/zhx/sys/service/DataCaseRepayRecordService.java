@@ -24,4 +24,8 @@ public interface DataCaseRepayRecordService {
     void addList(List<DataCaseRepayRecordEntity> dataEntities);
 
     DataCaseRepayRecordEntity querySum(DataCaseRepayRecordEntity entity);
+
+    DataCaseRepayRecordEntity queryOneRecord(Integer id);
+
+    void updateRecord(DataCaseRepayRecordEntity entity);
 }

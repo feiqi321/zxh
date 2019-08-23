@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelReduceExportConstant;
@@ -330,4 +327,18 @@ public class DataCaseRepayRecordController {
         return WebResponse.success();
     }
 
+    @PostMapping("/queryOne")
+    public Object queryOneRecord(@RequestParam("id") Integer id) {
+        DataCaseRepayRecordEntity dataCaseRepayRecordEntity= dataCaseRepayRecordService.queryOneRecord(id);
+        return WebResponse.success(dataCaseRepayRecordEntity);
+    }
+
+    @PostMapping("/update")
+    public Object updateRecord(@RequestBody DataCaseRepayRecordEntity entity) {
+        if(entity.getRepayMoney()==null){
+            return WebResponse.error(WebResponseCode.COMMON_ERROR.getCode(), "请输入还款金额");
+        }
+        dataCaseRepayRecordService.updateRecord(entity);
+        return WebResponse.success();
+    }
 }

@@ -1206,4 +1206,21 @@
             and r.data_case = #{dataCase}
         </if>
     </select>
- </mapper>
+    <select id="queryOneRecord" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+      select id as id, repay_money as repayMoney,repay_date as repayDate,repay_user as repayUser,repay_type as [repayType.id], remark
+      from data_case_repay_record where id = #{id} and delete_flag = 0
+    </select>
+    <update id="updateRecord" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
+        update data_case_repay_record
+        set
+        <trim suffixOverrides=",">
+            <if test="repayMoney != null">repay_money =#{repayMoney},</if>
+            repay_date =#{repayDate,jdbcType=DATE},
+            repay_user =#{repayUser},
+            repay_type =#{repayType.id},
+            remark =#{remark}
+        </trim>
+        where delete_flag = 0
+        and id=#{id}
+    </update>
+</mapper>

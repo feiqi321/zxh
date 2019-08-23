@@ -8,7 +8,7 @@
     </delete>
 
     <select id="findTableInformationByTableId" resultType="xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity">
-        select columnname,columnwidth from sys_table_column where tableid=#{tableid} and userid=#{userid}
+        select columnname ,columnwidth  from sys_table_column where tableid=#{tableid} and userid=#{userid}
     </select>
 
     <insert id="addTableInformation" parameterType="xyz.zaijushou.zhx.sys.entity.SysTableColumnEntity">
