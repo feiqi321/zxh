@@ -442,7 +442,7 @@
         from
         sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
-        where su.delete_flag = 0
+        where su.delete_flag = 0 and su.status=1
         <if test="role != null and role!=''">
             AND  sr.role_name = #{role}
         </if>
@@ -457,7 +457,7 @@
         from
         sys_user su LEFT JOIN sys_user_role sur on su.id = sur.user_id
         LEFT JOIN sys_role sr on sur.role_id = sr.id
-        where su.delete_flag = 0
+        where su.delete_flag = 0 and su.status=1
         <if test="role != null and role!=''">
             AND  sr.role_name = #{role}
         </if>
@@ -693,7 +693,7 @@
 
     <select id="listUserByDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">
 
-        select <include refid="colSqlWithoutPassword"/> from sys_user where department = #{department} and delete_flag=0
+        select <include refid="colSqlWithoutPassword"/> from sys_user where department = #{department} and delete_flag=0 and status = 1
         AND  id in (select user_id from sys_user_role
         <where>
             <if test="roles != null and roles.length > 0">
@@ -724,7 +724,7 @@
         su.enable,su.actual_time as actualTime,
         su.position
         from
-         sys_user su WHERE su.delete_flag = 0
+         sys_user su WHERE su.delete_flag = 0 and su.status=1
         and su.department = #{department}
     </select>
 

@@ -155,6 +155,24 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else{
             bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         }
+        if (StringUtils.isNotEmpty(bean.getCollectStartTime())){
+            bean.setCollectStartTime(bean.getCollectStartTime()==null?"":bean.getCollectStartTime()+" 00:00:01");
+        }
+        if (StringUtils.isNotEmpty(bean.getCollectEndTime())){
+            bean.setCollectEndTime(bean.getCollectEndTime()==null?"":bean.getCollectEndTime()+" 23:59:59");
+        }
+        if (StringUtils.isNotEmpty(bean.getBailStartDate())){
+            bean.setBailStartDate(bean.getBailStartDate()==null?"":bean.getBailStartDate()+" 00:00:01");
+        }
+        if (StringUtils.isNotEmpty(bean.getBailEndDate())){
+            bean.setBailEndDate(bean.getBailEndDate()==null?"":bean.getBailEndDate()+" 23:59:59");
+        }
+        if (StringUtils.isNotEmpty(bean.getExpectStartTime())){
+            bean.setExpectStartTime(bean.getExpectStartTime()==null?"":bean.getExpectStartTime()+" 00:00:01");
+        }
+        if (StringUtils.isNotEmpty(bean.getExpectEndTime())){
+            bean.setExpectEndTime(bean.getExpectEndTime()==null?"":bean.getExpectEndTime()+" 23:59:59");
+        }
         List<DataCollectExportEntity> list = dataCollectionMapper.totalDataCollect(bean);
         for (int i=0;i<list.size();i++){
             DataCollectExportEntity temp = list.get(i);

@@ -18,6 +18,7 @@ public class DataCollectExportEntity {
     private String relation;
     private String collectPhoneAddr;
     private String contractType;
+    private String collectTime;
     private String result;
     private String odvName;
     private String method;
@@ -46,6 +47,14 @@ public class DataCollectExportEntity {
     private String minimumPayment;
     private String creditLine;
     private String module;
+
+    public String getCollectTime() {
+        return collectTime;
+    }
+
+    public void setCollectTime(String collectTime) {
+        this.collectTime = collectTime;
+    }
 
     public int getReduceStatus() {
         return reduceStatus;
