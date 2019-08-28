@@ -90,20 +90,15 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             total = bean.getOdvAttr().size();
             int start = (pageNo-1)*pageSize;
             int end = start + pageSize;
-            int k = 0;
-            List<String> temp = new ArrayList<>();
-            for (String odv: bean.getOdvAttr()){
-                if(start > k  ){
-                    continue;
-                }
-                if( k >= end){
-                    break;
-                }
-                temp.add(odv);
-                ++k;
+            List<String> odvAttr = bean.getOdvAttr();
+            if (odvAttr.size() / pageSize == (end - pageSize) / pageSize && odvAttr.size() % pageSize != 0) {
+                List<String> strings = odvAttr.subList(start, odvAttr.size());
+                bean.setOdvAttr(strings);
+            } else {
+                List<String> strings = odvAttr.subList(start, end);
+                bean.setOdvAttr(strings);
             }
-            bean.setOdvAttr(temp);
-            for (String odv: bean.getOdvAttr()) {
+            for (String odv : bean.getOdvAttr()) {
                 /*int sumConPhoneNum = 0;//接通电话数
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数

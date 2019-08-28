@@ -63,7 +63,6 @@ public class DataCollectionTelController {
         return WebResponse.success(list);
     }
 
-
     @ApiOperation(value = "电催员电催单日统计导出", notes = "电催员电催单日统计导出")
     @PostMapping("/day/export")
     public Object collectionDayExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {
