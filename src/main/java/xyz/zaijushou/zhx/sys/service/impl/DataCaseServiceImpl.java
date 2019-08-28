@@ -3108,6 +3108,9 @@ public class DataCaseServiceImpl implements DataCaseService {
     public WebResponse synchroSameTel(DataCaseEntity bean){
         WebResponse webResponse= WebResponse.buildResponse();
         List<DataCaseEntity> list = dataCaseMapper.findSameCase(bean);
+        if(list==null || list.size()==0){
+            return WebResponse.success();
+        }
         DataCaseTelEntity telEntity = new DataCaseTelEntity();
         telEntity.setCaseId(bean.getId());
         List<DataCaseTelEntity> mytelList = dataCaseTelMapper.findAll(telEntity);
