@@ -59,7 +59,7 @@ public class DataCollectionTelController {
         if(StringUtils.isEmpty(bean.getDateSearchStart()) || StringUtils.isEmpty(bean.getDateSearchEnd())){
             return WebResponse.error("500","请输入查询的时间段");
         }
-        PageInfo<StatisticReturn> list = dataCollectionTelService.pageCollectionDay(bean);
+        PageInfo<StatisticReturn2> list = dataCollectionTelService.pageCollectionDay(bean);
         return WebResponse.success(list);
     }
 
@@ -67,11 +67,10 @@ public class DataCollectionTelController {
     @PostMapping("/day/export")
     public Object collectionDayExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {
         if(StringUtils.notEmpty(bean.getDateSearchStart()) && StringUtils.notEmpty(bean.getDateSearchEnd())){
-            PageInfo<StatisticReturn> pageInfo = dataCollectionTelService.pageCollectionDay(bean);
-            List<StatisticReturn>  list = pageInfo.getList();
+            PageInfo<StatisticReturn2> pageInfo = dataCollectionTelService.pageCollectionDay(bean);
+            List<StatisticReturn2>  list = pageInfo.getList();
             //导出
-            String fileName = new String(("day-export").getBytes(), "ISO8859_1");
-            String realname = fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            String realname = "单日统计导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
             SysOperationLogEntity operationLog = new SysOperationLogEntity();
             operationLog.setRequestBody(realname);
@@ -81,7 +80,7 @@ public class DataCollectionTelController {
         }else{
             String fileName = new String(("单日统计查询导出").getBytes(), "ISO8859_1");
             String realname = fileName + "-"+ new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-            List<StatisticReturn>  list = new ArrayList<StatisticReturn>();
+            List<StatisticReturn2>  list = new ArrayList<>();
             ExcelUtils.exportTempleteDay(response,list,realname);
         }
 

@@ -22,6 +22,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelEnum;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn2;
 import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 
@@ -745,13 +746,20 @@ public class ExcelUtils {
         RegionUtil.setBorderTop(BorderStyle.THIN, cra, sheet); // 上边框
     }
 
-    public static void exportTempleteDay(HttpServletResponse response, List<StatisticReturn>  list,String realname)throws IOException{
+    public static void exportTempleteDay(HttpServletResponse response, List<StatisticReturn2>  list, String realname)throws IOException{
         OutputStream outputStream = response.getOutputStream();
 
 
-        response.setHeader(
-                "Content-disposition",
-                "attachment; filename=" + realname + ".xlsx");// 组装附件名称和格式
+//        response.setHeader(
+//                "Content-disposition",
+//                "attachment; filename=" + realname + ".xlsx");// 组装附件名称和格式
+
+
+        //下载的文件携带这个名称
+        response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(realname, "UTF-8")+".xlsx");
+        //文件下载类型--二进制文件
+        response.setContentType("application/octet-stream");
+
 
         // 创建一个workbook 对应一个excel应用文件
         try (XSSFWorkbook workBook = new XSSFWorkbook()){
@@ -788,7 +796,7 @@ public class ExcelUtils {
             }
             setMergeStyle(new CellRangeAddress( 0,1 , 0, 0),sheet);
 
-            String[] timeStr = {"8:00前","8:00-12:00","12:00-18:00","18:00以后","合计"};
+            String[] timeStr = {"8:00以前","8:00-12:00","12:00-18:00","18:00以后","合计"};
             String[] nameStr = {"有效通电","总通电量","个案量"};
             for(int i=0;i<5;i++){
                 titleRow = sheet.getRow(0);

@@ -46,7 +46,7 @@
     <!--统计拨打电话量，可能存在没有接通的-->
     <select id="statisticsCollectionSum" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
         select dc.collect_time as collectTime
-        from data_collection dc
+        from data_collection dc LEFT JOIN data_case da on dc.case_id=da.id
         <where>
             dc.result in (94,95)
         <if test="dateStart != null">
@@ -73,14 +73,14 @@
         </if>
 
             <if test="areas != null and areas.length > 0 ">
-                and dc.area in
+                and da.area in
                 <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
                     #{item}
                 </foreach>
             </if>
 
             <if test="clients != null and clients.length > 0 ">
-                and dc.client in
+                and da.client in
                 <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                     #{item}
                 </foreach>
@@ -90,8 +90,8 @@
 
     <!--统计接通电话量-->
     <select id="statisticsCollectionCon" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
-        select dc.collect_time as collectTimeDate,dc.odv as odv
-        from data_collection dc
+        select dc.collect_time as collectTime,dc.odv as odv
+        from data_collection dc LEFT JOIN data_case da on dc.case_id=da.id
         where dc.result=95
         <if test="dateStart != null">
             and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
@@ -116,14 +116,14 @@
             AND dc.odv = #{odv}
         </if>
         <if test="areas != null and areas.length > 0 ">
-            and dc.area in
+            and da.area in
             <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
                 #{item}
             </foreach>
         </if>
 
         <if test="clients != null and clients.length > 0 ">
-            and dc.client in
+            and da.client in
             <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -158,14 +158,14 @@
             AND dc.odv = #{odv}
         </if>
             <if test="areas != null and areas.length > 0 ">
-                and dc.area in
+                and da.area in
                 <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
                     #{item}
                 </foreach>
             </if>
 
             <if test="clients != null and clients.length > 0 ">
-                and dc.client in
+                and da.client in
                 <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                     #{item}
                 </foreach>
