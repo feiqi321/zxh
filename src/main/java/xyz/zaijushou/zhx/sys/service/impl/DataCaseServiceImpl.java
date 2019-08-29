@@ -2061,9 +2061,15 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
             dataCaseEntity.setOrderBy("id");
             dataCaseEntity.setSort("desc");
+        }else{
+            if (StringUtils.isEmpty(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()))){
+                dataCaseEntity.setOrderBy("id");
+                dataCaseEntity.setSort("desc");
+            }else{
+                dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+            }
         }
 
-        dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
         logger.info("来电查询开始执行sql");
         List<DataCaseEntity> list =  dataCaseMapper.pageCaseTel(dataCaseEntity);
         logger.info("来电查询执行完毕sql");
