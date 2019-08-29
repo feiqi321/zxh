@@ -192,6 +192,15 @@ public class CollectionStatistic extends CommonEntity {
         this.collectionDicResults = collectionDicResults;
     }
     private String collectTime;
+    private String collectTimeDate;
+
+    public String getCollectTimeDate() {
+        return collectTimeDate;
+    }
+
+    public void setCollectTimeDate(String collectTimeDate) {
+        this.collectTimeDate = collectTimeDate;
+    }
 
     List<DataCollectionEntity> list = new ArrayList<DataCollectionEntity>();
 

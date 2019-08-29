@@ -59,7 +59,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
     }
 
     @Override
-    public PageInfo<StatisticReturn> pageCollectionDay(CollectionStatistic bean){
+    public PageInfo<StatisticReturn2> pageCollectionDay(CollectionStatistic bean){
         ExecutorService executor = Executors.newFixedThreadPool(20);
         if (StringUtils.isEmpty(bean.getDateSearchStart())){
             bean.setDateSearchStart(new Date());
@@ -73,7 +73,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
         String[] timeAreaAttr = {"00:00-8:00","08:00-12:00","12:00-18:00","18:00-24:00"};
-        List<StatisticReturn> list = Lists.newArrayList();
+        List<StatisticReturn2> list = Lists.newArrayList();
 
         int pageNo = bean.getPageNum();
         int pageSize = bean.getPageSize();
@@ -90,20 +90,15 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             total = bean.getOdvAttr().size();
             int start = (pageNo-1)*pageSize;
             int end = start + pageSize;
-            int k = 0;
-            List<String> temp = new ArrayList<>();
-            for (String odv: bean.getOdvAttr()){
-                if(start > k  ){
-                    continue;
-                }
-                if( k >= end){
-                    break;
-                }
-                temp.add(odv);
-                ++k;
+            List<String> odvAttr = bean.getOdvAttr();
+            if (odvAttr.size() / pageSize == (end - pageSize) / pageSize && odvAttr.size() % pageSize != 0) {
+                List<String> strings = odvAttr.subList(start, odvAttr.size());
+                bean.setOdvAttr(strings);
+            } else {
+                List<String> strings = odvAttr.subList(start, end);
+                bean.setOdvAttr(strings);
             }
-            bean.setOdvAttr(temp);
-            for (String odv: bean.getOdvAttr()) {
+            for (String odv : bean.getOdvAttr()) {
                 /*int sumConPhoneNum = 0;//接通电话数
                 int sumPhoneNum = 0;//总通话数
                 int sumCasePhoneNum = 0;//通话涉及到的案件数
@@ -158,7 +153,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 conInfo.setSumPhoneNum(sumPhoneNum);
                 list.add(conInfo);*/
                 DayCallable dayCallable = new DayCallable(list,odv,dataCollectionTelMapper,bean);
-                Future<List<StatisticReturn>> future = executor.submit(dayCallable);
+                Future<List<StatisticReturn2>> future = executor.submit(dayCallable);
             }
             executor.shutdown();
             while(true){

@@ -3,54 +3,52 @@ package xyz.zaijushou.zhx.sys.service.impl;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
-import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.RedisUtils;
-import xyz.zaijushou.zhx.utils.StringUtils;
-
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 /**
  * Created by looyer on 2019/4/15.
  */
-public class DayCallable implements Callable<List<StatisticReturn>> {
+public class DayCallable implements Callable<List<StatisticReturn2>> {
 
     DataCollectionTelMapper dataCollectionTelMapper;
-    List<StatisticReturn> list;
+    List<StatisticReturn2> list;
     String odv;
-    CollectionStatistic bean ;
+    CollectionStatistic bean;
 
-    DayCallable(List<StatisticReturn> list,String odv,DataCollectionTelMapper dataCollectionTelMapper,CollectionStatistic bean){
+    DayCallable(List<StatisticReturn2> list, String odv, DataCollectionTelMapper dataCollectionTelMapper, CollectionStatistic bean) {
         this.list = list;
         this.odv = odv;
         this.bean = bean;
         this.dataCollectionTelMapper = dataCollectionTelMapper;
     }
 
-    public List<StatisticReturn> call() throws Exception{
-
-        int sumConPhoneNum = 0;//接通电话数
-        int sumPhoneNum = 0;//总通话数
-        int sumCasePhoneNum = 0;//通话涉及到的案件数
-        String[] timeAreaAttr = {"00:00-8:00","08:00-12:00","12:00-18:00","18:00-24:00"};
-        SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ odv, SysUserEntity.class);
-        StatisticReturn conInfo = new StatisticReturn();
+    @Override
+    public List<StatisticReturn2> call() throws Exception {
+        String[] timeAreaAttr = {"00:00-8:00", "08:00-12:00", "12:00-18:00", "18:00-24:00"};
+        SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + odv, SysUserEntity.class);
+        StatisticReturn2 conInfo = new StatisticReturn2();
         conInfo.setOdv(user.getUserName());
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
-        bean.setOdv(odv);
-        List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(bean);
-        List<CollectionStatistic> conList = dataCollectionTelMapper.statisticsCollectionCon(bean);
-        List<CollectionStatistic> caseList = dataCollectionTelMapper.statisticsCollectionCase(bean);
-        for (String str : timeAreaAttr){
-            CollectionStatistic col = new CollectionStatistic();
-            col.setArea(str);//时间区域
-            col.setOdv(odv);
+        List<CollectionStatisticDTO> colList = new ArrayList<>();
+        CollectionStatistic collectionStatistic = new CollectionStatistic();
+        collectionStatistic.setOdv(odv);
+        collectionStatistic.setClients(bean.getClients());
+        collectionStatistic.setAreas(bean.getAreas());
+        collectionStatistic.setDateSearchStart(bean.getDateSearchStart());
+        collectionStatistic.setDateSearchEnd(bean.getDateSearchEnd());
+        List<CollectionStatistic> conList = dataCollectionTelMapper.statisticsCollectionCon(collectionStatistic);
+        List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(collectionStatistic);
+        List<CollectionStatistic> caseList = dataCollectionTelMapper.statisticsCollectionCase(collectionStatistic);
+        HashSet<Integer> sets = new HashSet<>();
+        for (String str : timeAreaAttr) {
+            CollectionStatisticDTO col = new CollectionStatisticDTO();
+            // 时间区域
+
             Date dateStart = sdf2.parse(str.split("-")[0]);
             Date dateEnd = sdf2.parse(str.split("-")[1]);
             Calendar dTime = Calendar.getInstance();
@@ -58,39 +56,41 @@ public class DayCallable implements Callable<List<StatisticReturn>> {
             int telNum = 0;
             int conNum = 0;
             int caseNum = 0;
-            for (CollectionStatistic collection : sumList){
-                /*if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
-                        && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
-                    telNum++;*/
-                    sumPhoneNum++;
-               // }
-            }
-            for (CollectionStatistic collection : conList){
-                /*if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
-                        && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
-                    conNum++;*/
-                    sumConPhoneNum++;
-                //}
-            }
-            for (CollectionStatistic collection : caseList){
-               /* if(sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()>= dateStart.getTime()
-                        && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime()<= dateEnd.getTime()){
-                    caseNum++;*/
-                    sumCasePhoneNum++;
-                //}
-            }
+            telNum = getNum(sdf2, sdf, sumList, dateStart, dateEnd, telNum);
+            conNum = getNum(sdf2, sdf, conList, dateStart, dateEnd, conNum);
+            HashSet<Integer> setId = getIntegers(sdf2, sdf, caseList, sets, dateStart, dateEnd);
             col.setCountPhoneNum(telNum);
             col.setCountConPhoneNum(conNum);
-            col.setCountCasePhoneNum(caseNum);
+            col.setCountCasePhoneNum(setId.size());
             colList.add(col);
         }
         conInfo.setList(colList);
-        conInfo.setSumCasePhoneNum(sumCasePhoneNum);
-        conInfo.setSumConPhoneNum(sumConPhoneNum);
-        conInfo.setSumPhoneNum(sumPhoneNum);
+        conInfo.setSumCasePhoneNum(sets.size());
+        conInfo.setSumConPhoneNum(conList.size());
+        conInfo.setSumPhoneNum(sumList.size());
         list.add(conInfo);
-
         return list;
     }
 
+    private HashSet<Integer> getIntegers(SimpleDateFormat sdf2, SimpleDateFormat sdf, List<CollectionStatistic> caseList, HashSet<Integer> sets, Date dateStart, Date dateEnd) throws ParseException, ParseException {
+        HashSet<Integer> setId = new HashSet<>();
+        for (CollectionStatistic collection : caseList) {
+            if (sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime() >= dateStart.getTime()
+                    && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime() <= dateEnd.getTime()) {
+                setId.add(collection.getId());
+            }
+            sets.add(collection.getId());
+        }
+        return setId;
+    }
+
+    private int getNum(SimpleDateFormat sdf2, SimpleDateFormat sdf, List<CollectionStatistic> listInfo, Date dateStart, Date dateEnd, int num) throws ParseException {
+        for (CollectionStatistic collection : listInfo) {
+            if (sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime() >= dateStart.getTime()
+                    && sdf2.parse(sdf2.format(sdf.parse(collection.getCollectTime()))).getTime() <= dateEnd.getTime()) {
+                num++;
+            }
+        }
+        return num;
+    }
 }

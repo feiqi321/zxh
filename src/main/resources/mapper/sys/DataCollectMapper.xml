@@ -384,7 +384,7 @@
         c.mobile,c.result,c.method,c.repay_time as repayTime,c.measure, CONVERT(varchar(100), c.collect_time, 20) as collectTime,c.collect_info as collectInfo,c.next_foll_date as nextFollDate,
         c.repay_amt as repayAmt,c.reduce_amt as reduceAmt,t.expect_time as expectTime,c.collect_status as collectStatus,c.reduce_status as reduceStatus,
         c.remind,count_follow as countFollow,c.collection_type as collectionType,c.new_money as moneyStart,c.tel_phone as telPhone,
-        t.seq_no as seqNo,t.color,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
+        t.seq_no as seqNo,t.color,t.area,t.dept,c.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.card_no as cardNo,t.ident_no as identNo,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,
         CONVERT(varchar(100), t.distribute_time, 20) as caseAllotTime,t.status as caseStatus
