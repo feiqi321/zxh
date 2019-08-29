@@ -404,7 +404,7 @@ public class ExcelUtils {
                     }
                 } else if(clazz.equals(String.class)) {
 
-                    if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && col.equals("最后还款日")){
+                    if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && (col.equals("最后还款日"))){
                         try {
                             //获取单元格的时间格式
                             String cellStyle = cell.getCellStyle().getDataFormatString();
@@ -439,7 +439,42 @@ public class ExcelUtils {
                         }catch (Exception e){
                             result = "" + df.format(cell.getNumericCellValue());
                         }
-                    }else{
+                    }else if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && (col.equals("*委案日期")  || col.equals("委案日期"))){
+                        try {
+                            //获取单元格的时间格式
+                            String cellStyle = cell.getCellStyle().getDataFormatString();
+                            short cellStyle2 = cell.getCellStyle().getDataFormat();
+
+
+                            String dfStr = "";
+                            //根据单元格时间格式不同，设置不同的时间格式
+                            if("m/d;@".equals(cellStyle)){
+                                dfStr = "MM/dd";
+                            }else if ("yyyy\\-mm\\-dd;@".equals(cellStyle)){
+                                dfStr = "yyyy-MM-dd";
+                            }else if("yyyy/m/d;@".equals(dfStr)){
+                                dfStr = "yyyy-MM-dd";
+                            }else if ("m/d/yy".equals(cellStyle)){
+                                dfStr = "yyyy-MM-dd";
+                            }else if (cellStyle2==58){
+                                dfStr = "yyyy-MM-dd";
+                            }
+
+                            double value = cell.getNumericCellValue();
+                            //如果没有取到对应的时间格式，就结果就取当前值
+                            if (dfStr==""){
+                                cell.setCellType(CellType.STRING);
+                                result = cell.getStringCellValue();
+                            }else {
+                                Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+                                result = new SimpleDateFormat(dfStr).format(date);
+                            }
+
+
+                        }catch (Exception e){
+                            result = "" + df.format(cell.getNumericCellValue());
+                        }
+                    } else{
                         result = "" + df.format(cell.getNumericCellValue());
                     }
                 } else {
