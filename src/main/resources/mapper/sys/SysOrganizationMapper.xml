@@ -248,4 +248,8 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
           select <include refid="colSql"/>
            from sys_organization s where s.parent_id=#{id} and s.delete_flag=0 order by sort
     </select>
+
+    <select id="queryDept" resultType="xyz.zaijushou.zhx.sys.entity.QueryEntity">
+        select id,org_name as value from sys_organization where delete_flag = 0 and parent_id != 0 and org_name like dbo.concat('%',#{deptName},'%')
+    </select>
 </mapper>

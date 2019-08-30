@@ -9,6 +9,7 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.WebResponseCode;
 import xyz.zaijushou.zhx.sys.dao.SysOrganizationMapper;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.entity.QueryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
@@ -272,4 +273,9 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
         }
 
     }
+
+    @Override
+    public List<QueryEntity> queryDept(String deptName) {
+        return sysOrganizationMapper.queryDept(deptName);
+	}
 }

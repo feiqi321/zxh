@@ -153,7 +153,7 @@
         where delete_flag = '0'
         and office_phone = #{officePhone}
     </select>
-    
+
     <select id="findUserInfoWithoutPasswordByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
         select
         <include refid="colSqlWithoutPassword"/>
@@ -588,7 +588,7 @@
         enable = 0
         where id = #{id}
     </update>
-    
+
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
           select <include refid="colSqlPasswordInfo"/> from sys_user where login_name LIKE dbo.CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
     </select>
@@ -729,4 +729,19 @@
         and su.department = #{department}
     </select>
 
+    <select id="queryOdvs" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        with x as (
+            select id,parent_id from sys_organization where id in
+            <foreach item="detpid" index="index" collection="array" open="(" separator="," close=")">
+                #{detpid}
+            </foreach>
+            union all
+            select o.id,o.parent_id from x inner join sys_organization o on o.parent_id=x.id and o.delete_flag=0
+        )
+        select <include refid="colSqlWithoutPassword"/> from sys_user u where exists (select 1 from x where u.department=x.id)
+    </select>
+
+    <select id="queryOdv" resultType="xyz.zaijushou.zhx.sys.entity.QueryEntity">
+        select id,username as value from sys_user where delete_flag = 0 and status = 1 and username like dbo.concat('%',#{odvName},'%')
+    </select>
 </mapper>

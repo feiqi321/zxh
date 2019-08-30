@@ -950,7 +950,6 @@ public class SysUserServiceImpl implements SysUserService {
         }
     }
 
-
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
@@ -958,26 +957,17 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     public void curcleSubUserTree(List<SysOrganizationEntity> resultList,SysOrganizationEntity org){
-
         List<SysOrganizationEntity> orgList = sysOrganizationMapper.listAllOrganizationsByParentId(org);
         resultList.addAll(orgList);
-
         for (int i=0;i<orgList.size();i++){
             SysOrganizationEntity organizationEntity = orgList.get(i);
             this.curcleSubUserTree(resultList,organizationEntity);
-
         }
     }
 
-
-    public static  void main(String args[]){
-        String testTxt = "张三";
-        Pattern pat = Pattern.compile("张三(\\d*)");
-
-        Matcher mat = pat.matcher(testTxt);
-        if(mat.matches()) {
-            System.out.println(mat.group(1));
-        }
+    @Override
+    public List<QueryEntity> queryOdv(String odvName) {
+        return sysUserMapper.queryOdv(odvName);
     }
 
 }

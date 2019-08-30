@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.service;
 
+import xyz.zaijushou.zhx.sys.entity.QueryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
 
 import java.util.List;
@@ -34,4 +35,6 @@ public interface SysOrganizationService {
     void addDept(SysOrganizationEntity organizations);
 
     void moveToTargetDepartment(Integer id, String pid);
+
+	List<QueryEntity> queryDept(String deptName);
 }

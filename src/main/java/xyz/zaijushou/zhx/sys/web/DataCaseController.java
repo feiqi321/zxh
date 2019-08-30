@@ -131,18 +131,10 @@ public class DataCaseController {
         WebResponse webResponse = WebResponse.buildResponse();
         try {
             logger.info("进入执行");
-            List<String> deptList = new ArrayList<String>();
-            SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
             if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDepts()) || bean.getDepts().length==0){
 
             }else{
-                for (int i=0;i<bean.getDepts().length;i++){
-                    deptList.add(bean.getDepts()[i]);
-                }
-
-                SysNewUserEntity queryUser = new SysNewUserEntity();
-                queryUser.setDepartIdsSet(new HashSet(deptList));
-                List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+                List<SysNewUserEntity> odvList = sysUserMapper.queryOdvs(bean.getDepts());
                 String[] odvs = new String[odvList.size()];
                 for (int i=0;i<odvList.size();i++){
                     SysNewUserEntity sysNewUserEntity = odvList.get(i);
@@ -163,7 +155,6 @@ public class DataCaseController {
                     odvTempList.toArray(temps);
                     bean.setOdvs(temps);
                 }
-
             }
 
             bean.setDepts(null);
@@ -1501,6 +1492,15 @@ public class DataCaseController {
         return WebResponse.success();
     }
 
+    @ApiOperation(value = "案件管理-输入部门查询", notes = "案件管理-输入部门查询")
+    @PostMapping("/dataCase/queryDept")
+    public Object queryDept(@RequestBody Map<String,String> map) {
+        return WebResponse.success(sysOrganizationService.queryDept(map.get("deptName")));
+    }
 
-
+    @ApiOperation(value = "案件管理-输入催收员查询", notes = "案件管理-输入催收员查询")
+    @PostMapping("/dataCase/queryOdv")
+    public Object queryOdv(@RequestBody Map<String,String> map) {
+        return WebResponse.success(sysUserService.queryOdv(map.get("odvName")));
+    }
 }

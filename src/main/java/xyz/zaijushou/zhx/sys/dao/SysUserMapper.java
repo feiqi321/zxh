@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import xyz.zaijushou.zhx.sys.entity.QueryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
@@ -126,4 +128,8 @@ public interface SysUserMapper {
     List<SysNewUserEntity> userDataListByDept(SysNewUserEntity userEntity);
 
     SysNewUserEntity findDepartment(Integer id);
+
+	List<SysNewUserEntity> queryOdvs(String[] depts);
+
+	List<QueryEntity> queryOdv(String odvName);
 }

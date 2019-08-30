@@ -1,6 +1,8 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import xyz.zaijushou.zhx.sys.entity.QueryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserDataForm;
 import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
 import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
@@ -50,4 +52,6 @@ public interface SysOrganizationMapper {
     void addDept(SysOrganizationEntity organizations);
 
     void moveToTargetDepartment(Integer id, String pid);
+
+	List<QueryEntity> queryDept(String deptName);
 }

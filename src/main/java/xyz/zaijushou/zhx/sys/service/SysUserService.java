@@ -135,4 +135,6 @@ public interface SysUserService {
      * @return
      */
     int countLockedUser();
+
+	List<QueryEntity> queryOdv(String odvName);
 }
