@@ -119,6 +119,16 @@ public class FileManageServiceImpl implements FileManageService {
 
         for (int i=0;i<list.size();i++){
             DataCaseInterestEntity dataCaseInterestEntity = list.get(i);
+            dataCaseInterestEntity.setLastestDebt(dataCaseInterestEntity.getLastestDebt()==null?new BigDecimal(0):dataCaseInterestEntity.getLastestDebt().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setPrincipal(dataCaseInterestEntity.getPrincipal()==null?new BigDecimal(0):dataCaseInterestEntity.getPrincipal().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setInterest(dataCaseInterestEntity.getInterest()==null?new BigDecimal(0):dataCaseInterestEntity.getInterest().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setPenalty(dataCaseInterestEntity.getPenalty()==null?new BigDecimal(0):dataCaseInterestEntity.getPenalty().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setLateFee(dataCaseInterestEntity.getLateFee()==null?new BigDecimal(0):dataCaseInterestEntity.getLateFee().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setOverrunFee(dataCaseInterestEntity.getOverrunFee()==null?new BigDecimal(0):dataCaseInterestEntity.getOverrunFee().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setSerivceFee(dataCaseInterestEntity.getSerivceFee()==null?new BigDecimal(0):dataCaseInterestEntity.getSerivceFee().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setYearFee(dataCaseInterestEntity.getYearFee()==null?new BigDecimal(0):dataCaseInterestEntity.getYearFee().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setElseFee(dataCaseInterestEntity.getElseFee()==null?new BigDecimal(0):dataCaseInterestEntity.getElseFee().setScale(6,BigDecimal.ROUND_HALF_EVEN));
+            dataCaseInterestEntity.setSheetFee(dataCaseInterestEntity.getSheetFee()==null?new BigDecimal(0):dataCaseInterestEntity.getSheetFee().setScale(6,BigDecimal.ROUND_HALF_EVEN));
             if (StringUtils.isEmpty(dataCaseInterestEntity.getSeqNo())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getCardNo()+"@"+dataCaseInterestEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){

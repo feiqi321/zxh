@@ -1,5 +1,6 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
 
 import java.math.BigDecimal;
@@ -14,16 +15,26 @@ public class DataCaseInterestEntity extends CommonEntity {
     private String caseDate;
     private String name;
     private String currency;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal lastestDebt;
     private String endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal principal;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal interest;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal penalty;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal lateFee;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal overrunFee;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal serivceFee;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal yearFee;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal elseFee;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private BigDecimal sheetFee;
 
     public String getSeqNo() {
