@@ -32,6 +32,7 @@ public class DayCallable implements Callable<List<StatisticReturn2>> {
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO + odv, SysUserEntity.class);
         StatisticReturn2 conInfo = new StatisticReturn2();
         conInfo.setOdv(user.getUserName());
+        conInfo.setId(user.getId());
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         List<CollectionStatisticDTO> colList = new ArrayList<>();
@@ -69,6 +70,12 @@ public class DayCallable implements Callable<List<StatisticReturn2>> {
         conInfo.setSumConPhoneNum(conList.size());
         conInfo.setSumPhoneNum(sumList.size());
         list.add(conInfo);
+        Collections.sort(list, new Comparator<StatisticReturn2>() {
+            @Override
+            public int compare(StatisticReturn2 o1, StatisticReturn2 o2) {
+                return o1.getId() - o2.getId();
+            }
+        });
         return list;
     }
 
