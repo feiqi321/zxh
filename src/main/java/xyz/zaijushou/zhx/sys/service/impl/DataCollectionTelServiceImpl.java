@@ -83,8 +83,17 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             if(CollectionUtils.isEmpty(bean.getOdvAttr())){
 
                 Set<String >  redisUserIds = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.USER_INFO);
+                ArrayList<Integer> listSort = new ArrayList<>();
+                for (String redisUserId : redisUserIds) {
+                    listSort.add(Integer.parseInt(redisUserId.substring(10)));
+                }
+                Collections.sort(listSort);
+                ArrayList<String> list1 = new ArrayList<>();
+                for (Integer integer : listSort) {
+                    list1.add(RedisKeyPrefix.USER_INFO+integer);
+                }
                 List<String>  allUserList  =  CollectionUtils.isEmpty(redisUserIds) ? Collections.EMPTY_LIST
-                        : redisUserIds.stream().map(i->i.replaceFirst(RedisKeyPrefix.USER_INFO,"")).collect(Collectors.toList());
+                        :list1.stream().map(i->i.replaceFirst(RedisKeyPrefix.USER_INFO,"")).collect(Collectors.toList());
                 bean.setOdvAttr(allUserList);
             }
             total = bean.getOdvAttr().size();
