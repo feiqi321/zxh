@@ -19,10 +19,6 @@ public class CollectionStatisticDTO {
      * 通话涉及到的案件数
      */
     private Integer countCasePhoneNum;
-    /**
-     * 催收区域
-     */
-    private String area;
 
     public CollectionStatisticDTO() {
     }
@@ -31,14 +27,6 @@ public class CollectionStatisticDTO {
         this.countConPhoneNum = countConPhoneNum;
         this.countPhoneNum = countPhoneNum;
         this.countCasePhoneNum = countCasePhoneNum;
-    }
-
-    public String getArea() {
-        return area;
-    }
-
-    public void setArea(String area) {
-        this.area = area;
     }
 
     public Integer getCountConPhoneNum() {
