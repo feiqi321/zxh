@@ -268,7 +268,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }
         }
         logger.info("********************开始查询案件");
-        //PageHelper.startPage(dataCollectionEntity.getPageNum(), dataCollectionEntity.getPageSize());
         if (StringUtils.notEmpty(dataCollectionEntity.getLastFollDateStart())){
             dataCollectionEntity.setLastFollDateStart(dataCollectionEntity.getLastFollDateStart() +"  00:00:00");
         }

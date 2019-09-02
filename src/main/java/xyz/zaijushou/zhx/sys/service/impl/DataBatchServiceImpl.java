@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.BatchSortEnum;
 import xyz.zaijushou.zhx.constant.CaseSortEnum;
@@ -45,7 +46,7 @@ public class DataBatchServiceImpl implements DataBatchService {
         dataBatchMapper.saveBatch(bean);
         stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_BATCH + bean.getBatchNo(), JSONObject.toJSONString(bean));
     }
-
+    @Transactional
     public void update(DataBatchEntity bean){
         DataBatchEntity tempBatch = new DataBatchEntity();
         tempBatch = dataBatchMapper.selectBatchById(bean.getId());
@@ -56,6 +57,7 @@ public class DataBatchServiceImpl implements DataBatchService {
         dataCaseMapper.updateBatch(datCase);
     }
 
+    @Transactional
     public void returnCase(DataBatchEntity bean){
         dataBatchMapper.returnCase(bean);
         DataCaseEntity datCase = new DataCaseEntity();
@@ -63,7 +65,7 @@ public class DataBatchServiceImpl implements DataBatchService {
         datCase.setStatus(4);
         dataCaseMapper.updateCaseByBatch(datCase);
     }
-
+    @Transactional
     public void recoverCase(DataBatchEntity bean){
         dataBatchMapper.recoverCase(bean);
         DataCaseEntity datCase = new DataCaseEntity();
@@ -71,7 +73,7 @@ public class DataBatchServiceImpl implements DataBatchService {
         datCase.setStatus(1);
         dataCaseMapper.updateCaseByBatch(datCase);
     }
-
+    @Transactional
     public void deleteById(DataBatchEntity bean){
         dataBatchMapper.deleteById(bean.getId());
         DataCaseEntity caseBean = new DataCaseEntity();

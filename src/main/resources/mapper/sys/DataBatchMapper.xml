@@ -248,17 +248,19 @@
 
 
     <select id="selectBatchNo" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select   top 200 id, batch_no as batchNo
-        from data_batch
-        <where>
-            delete_flag = 0
-            <trim suffixOverrides=",">
-                <if test="batchNo != null and batchNo!=''">
-                    AND batch_no like dbo.CONCAT('%',#{batchNo},'%')
-                </if>
-            </trim>
-        </where>
-        order by create_time desc
+        select * from (
+            select   top 200 id, batch_no as batchNo
+            from data_batch
+            <where>
+                delete_flag = 0
+                <trim suffixOverrides=",">
+                    <if test="batchNo != null and batchNo!=''">
+                        AND batch_no like dbo.CONCAT('%',#{batchNo},'%')
+                    </if>
+                </trim>
+            </where>
+            order by create_time desc
+        ) t
     </select>
 
     <select id="listClients" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
