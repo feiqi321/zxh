@@ -38,7 +38,8 @@
         update_user as [updateUser.id],
         create_time as createTime,
         update_time as updateTime,
-        delete_flag as deleteFlag
+        delete_flag as deleteFlag,
+        callcenterid
     </sql>
 
     <sql id="userInfo">
@@ -122,6 +123,7 @@
         <result column="joinTime" property="joinTime" jdbcType="TIMESTAMP"/>
         <result column="actualTime" property="actualTime" jdbcType="TIMESTAMP"/>
         <result column="deptName" property="deptName" jdbcType="VARCHAR"/>
+        <result column="callcenterid" property="callcenterid" jdbcType="INTEGER"/>
         <collection property="roleList" column="role_id" ofType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
             <result column="roleId" property="id"  jdbcType="INTEGER"/>
             <result column="role" property="roleName"  jdbcType="VARCHAR"/>
@@ -152,6 +154,7 @@
         from sys_user
         where delete_flag = '0'
         and office_phone = #{officePhone}
+        and id != #{id}
     </select>
 
     <select id="findUserInfoWithoutPasswordByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
@@ -423,7 +426,8 @@
         su.join_time as joinTime,
         su.department as departId,
         sr.id as roleId,
-        su.position
+        su.position,
+        su.callcenterid
         from sys_user su
         LEFT JOIN (select * from sys_user_role where delete_flag =0) sur on su.id = sur.user_id
         LEFT JOIN (select * from sys_role  where delete_flag =0) sr on sur.role_id = sr.id
@@ -531,7 +535,7 @@
 
     <!--修改坐席号-->
     <update id="updateOfficePhone" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
-        update sys_user set office_phone = #{officePhone}
+        update sys_user set office_phone = #{officePhone},callcenterid = #{callcenterid}
         where id = #{id}
     </update>
 

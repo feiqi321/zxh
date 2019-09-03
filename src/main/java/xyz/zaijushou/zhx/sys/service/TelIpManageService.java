@@ -1,15 +1,21 @@
 package xyz.zaijushou.zhx.sys.service;
 
-import xyz.zaijushou.zhx.sys.entity.TelIpManage;
+import java.util.List;
+
+import xyz.zaijushou.zhx.sys.entity.CallCenter;
 
 /**
  * Created by looyer on 2019/4/19.
  */
 public interface TelIpManageService {
 
-    public TelIpManage findOne();
+    public List<CallCenter> queryCallCenters();
 
+    public void updateCallCenter(CallCenter callCenter);
 
-    public void update(TelIpManage telIpManage);
+	public void deleteCallCenters(List<Integer> callCenterIDs);
 
+	public void addCallCenter(CallCenter callCenter);
+
+	public CallCenter queryCallCenter(Integer callCenterID);
 }
