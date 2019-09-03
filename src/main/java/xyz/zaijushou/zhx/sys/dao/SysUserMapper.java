@@ -2,10 +2,7 @@ package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import xyz.zaijushou.zhx.sys.entity.QueryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
-import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
-import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.util.List;
 
@@ -132,4 +129,10 @@ public interface SysUserMapper {
 	List<SysNewUserEntity> queryOdvs(String[] depts);
 
 	List<QueryEntity> queryOdv(String odvName);
+
+    List<QueryEntity> findUserByDept(String department,String odvName);
+
+    String queryDepartment(Integer id);
+
+    List<SysNewUserEntity> queryOdvs1(Integer[] depts);
 }
