@@ -220,6 +220,15 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getAccountAge(),SysDictionaryEntity.class);
                 entity.getDataCase().setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
+
+            try{
+                if (entity.getDataCase()!=null && entity.getDataCase().getMMoney()!=null){
+                    entity.getDataCase().setMMoney(entity.getDataCase().getMMoney().multiply(new BigDecimal(entity.getDataCase().getmVal()==null?"0":entity.getDataCase().getmVal())));
+                }
+
+            }catch(Exception e){
+                entity.getDataCase().setMMoney(new BigDecimal(0));
+            }
            /* if(entity != null && entity.getDataCase() != null && entity.getDataCase().getProvince()!=null && entity.getDataCase().getProvince().getId()!=null) {
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getProvince().getId(),SysDictionaryEntity.class);
                 entity.getDataCase().setProvince(sysDictionaryEntity);

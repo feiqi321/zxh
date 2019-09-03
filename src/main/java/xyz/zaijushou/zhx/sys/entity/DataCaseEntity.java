@@ -95,6 +95,7 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String distributeTime;//分配時間   列表
 
     private String mVal; //M值系数
+    private BigDecimal mMoney;
     private String important;
     private String summary;//案件小結 列表
     private String distributeHistory; // 分配历史  列表
@@ -3177,5 +3178,13 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     @Override
     public int compareTo(DataCaseEntity dataCaseEntity) {           //重写Comparable接口的compareTo方法，
         return dataCaseEntity.money.compareTo(this.money);
+    }
+
+    public BigDecimal getMMoney() {
+        return mMoney;
+    }
+
+    public void setMMoney(BigDecimal mMoney) {
+        this.mMoney = mMoney;
     }
 }
