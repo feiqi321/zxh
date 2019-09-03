@@ -660,7 +660,7 @@
                     and t.distribute_status= #{distributeStatus}
                 </if>
 
-                <if test="deptFlag != null and deptFlag!='' and depts!=null">
+                <if test="depts!=null">
                     and t.dept in
                     <foreach item="item" index="index" collection="depts" open="(" separator="," close=")">
                         '${item}'
@@ -787,7 +787,7 @@
                     </foreach>
                 </if>
 
-                <if test="odvs != null and odvs.length > 0 ">
+                <if test="odvFlag != null and odvFlag!=''">
                     and t.odv in
                     <foreach item="item" index="index" collection="odvs" open="(" separator="," close=")">
                         '${item}'

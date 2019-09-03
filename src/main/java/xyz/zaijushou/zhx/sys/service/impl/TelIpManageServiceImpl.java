@@ -2,8 +2,10 @@ package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
 import xyz.zaijushou.zhx.sys.dao.TelIpManageMapper;
-import xyz.zaijushou.zhx.sys.entity.TelIpManage;
+import xyz.zaijushou.zhx.sys.entity.CallCenter;
 import xyz.zaijushou.zhx.sys.service.TelIpManageService;
+
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -17,13 +19,28 @@ public class TelIpManageServiceImpl implements TelIpManageService {
     private TelIpManageMapper telIpManageMapper;
 
     @Override
-    public TelIpManage findOne(){
-        return telIpManageMapper.findOne();
+    public List<CallCenter> queryCallCenters(){
+        return telIpManageMapper.queryCallCenters();
     }
 
     @Override
-    public void update(TelIpManage telIpManage){
-        telIpManageMapper.update(telIpManage);
+    public void updateCallCenter(CallCenter callCenter){
+        telIpManageMapper.updateCallCenter(callCenter);
+    }
+
+    @Override
+    public void deleteCallCenters(List<Integer> callCenterIDs) {
+        telIpManageMapper.deleteCallCenters(callCenterIDs);
+    }
+
+    @Override
+    public void addCallCenter(CallCenter callCenter) {
+        telIpManageMapper.addCallCenter(callCenter);
+    }
+
+    @Override
+    public CallCenter queryCallCenter(Integer callCenterID) {
+        return telIpManageMapper.queryCallCenter(callCenterID);
     }
 
 }

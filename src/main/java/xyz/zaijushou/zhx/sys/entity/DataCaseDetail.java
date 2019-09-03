@@ -360,10 +360,18 @@ public class DataCaseDetail {
     private String contactIdentType6;
     private String contactRelation6;
     private String settleFlag;
-
-    private TelIpManage telIpManage;
+    // 呼叫中心
+    private CallCenter callCenter;
     //坐席号
     private String officePhone;
+
+    public CallCenter getCallCenter() {
+        return this.callCenter;
+    }
+
+    public void setCallCenter(CallCenter callCenter) {
+        this.callCenter = callCenter;
+    }
 
     public String getEnRepayAmtMsg() {
         return enRepayAmtMsg;
@@ -475,14 +483,6 @@ public class DataCaseDetail {
 
     public void setOfficePhone(String officePhone) {
         this.officePhone = officePhone;
-    }
-
-    public TelIpManage getTelIpManage() {
-        return telIpManage;
-    }
-
-    public void setTelIpManage(TelIpManage telIpManage) {
-        this.telIpManage = telIpManage;
     }
 
     public String getSettleFlag() {

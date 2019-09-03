@@ -54,4 +54,8 @@ public interface SysOrganizationMapper {
     void moveToTargetDepartment(Integer id, String pid);
 
 	List<QueryEntity> queryDept(String deptName);
+
+    List<QueryEntity> findOrganizationsByParentId(String department,String odvName);
+
+    List<QueryEntity> queryDeptCase(String department,String deptName);
 }

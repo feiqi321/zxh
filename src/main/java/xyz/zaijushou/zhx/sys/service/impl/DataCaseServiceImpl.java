@@ -2820,8 +2820,6 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (dataCaseDetail.getCounty()!=null){
             dataCaseDetail.setCountyName(dataCaseDetail.getCounty().getName());
         }
-        TelIpManage telIpManage = telIpManageMapper.findOne();
-        dataCaseDetail.setTelIpManage(telIpManage);
         logger.info("查询详情结束");
         dataCaseDetail.setCurrentuser(false);
         dataCaseDetail.setOverdueNewDays((dataCaseDetail.getOverdueDays()==null?0:dataCaseDetail.getOverdueDays())+this.differentDays(dataCaseDetail.getCaseDate()));
@@ -2831,6 +2829,8 @@ public class DataCaseServiceImpl implements DataCaseService {
             SysNewUserEntity temp = sysUserMapper.getDataById(curentuser.getId());
             dataCaseDetail.setOfficePhone(temp.getOfficePhone());
             curentuser.setDepartment(temp.getDepartment());
+            CallCenter callCenter = telIpManageMapper.queryCallCenter(temp.getCallcenterid());
+            dataCaseDetail.setCallCenter(callCenter);
         }
         int role = 0;
         logger.info("查询角色开始");

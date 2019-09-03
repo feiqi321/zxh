@@ -3,14 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.TelIpManageMapper">
-    <update id="update" parameterType="xyz.zaijushou.zhx.sys.entity.TelIpManage">
-        update tel_ip_manage set address=#{address},customer=#{customer},psw=#{psw}
-        where id = 1
+    <insert id="addCallCenter" parameterType="xyz.zaijushou.zhx.sys.entity.CallCenter">
+        insert into tel_ip_manage(name,address,customer,psw) values (#{name},#{address},#{customer},#{psw})
+    </insert>
+
+    <update id="updateCallCenter" parameterType="xyz.zaijushou.zhx.sys.entity.CallCenter">
+        update tel_ip_manage set name=#{name},address=#{address},customer=#{customer},psw=#{psw}
+        where id = #{id}
     </update>
 
-    <select id="findOne"  resultType="xyz.zaijushou.zhx.sys.entity.TelIpManage">
-        select address,customer,psw
-        from tel_ip_manage where id=1
+    <select id="queryCallCenters" resultType="xyz.zaijushou.zhx.sys.entity.CallCenter">
+        select id,name,address,customer,psw from tel_ip_manage
     </select>
 
+    <delete id="deleteCallCenters" parameterType="java.lang.Integer">
+        delete from tel_ip_manage where id in
+        <foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="queryCallCenter" resultType="xyz.zaijushou.zhx.sys.entity.CallCenter">
+        select id,name,address,customer,psw from tel_ip_manage where id = #{callCenterID}
+    </select>
 </mapper>

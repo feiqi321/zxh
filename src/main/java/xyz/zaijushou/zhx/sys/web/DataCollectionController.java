@@ -99,99 +99,114 @@ public class DataCollectionController {
         if (StringUtils.isEmpty(user)){
             return WebResponse.success();
         }
-        //查询个人  and 查询部门
-        if (user.getId()==1){
-            if (bean.getsType() == 0) {
+        if (bean.getDepts()==null || bean.getDepts().length==0){
 
-            } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0) && StringUtils.isEmpty(bean.getDept())){
-
-            }else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
-                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
-                if (StringUtils.isEmpty(bean.getDept())){
-
-                }else{
-                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
-                }
-
-                //查询标识
-                organizationEntity.setTypeFlag(1);
-                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-                Integer[] deptList = new Integer[orgList.size()];
-                for (int i=0;i<orgList.size();i++){
-                    SysOrganizationEntity orgEntity = orgList.get(i);
-                    deptList[i] = orgEntity.getId();
-                }
-
-                bean.setDeptFlag(1);
-                bean.setDepts(deptList);
-
-            }else if (bean.getsType() == 1){
-               /* SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
-                if (StringUtils.isEmpty(bean.getDept())){
-
-                }else{
-                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
-                }
-
-                //查询标识
-                organizationEntity.setTypeFlag(1);
-                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-                Integer[] deptList = new Integer[orgList.size()];
-                for (int i=0;i<orgList.size();i++){
-                    SysOrganizationEntity orgEntity = orgList.get(i);
-                    deptList[i] = orgEntity.getId();
-                }
-
-                bean.setDeptFlag(1);
-                bean.setDepts(deptList);*/
-
+        }else{
+            List<SysNewUserEntity> odvList = sysUserMapper.queryOdvs1(bean.getDepts());
+            String[] odvs = new String[odvList.size()];
+            for (int i=0;i<odvList.size();i++){
+                SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                odvs[i] = sysNewUserEntity.getId()+"";
             }
-        }else {
-            if (bean.getsType() == 0) {
-                bean.setOdv(user.getId() + "");
-            } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
-                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
-                if (StringUtils.isEmpty(bean.getDept())){
-
-                }else{
-                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
+            List odvTempList = new ArrayList();
+            if(bean.getOdvs()==null || bean.getOdvs().length==0){
+                bean.setOdvs(odvs);
+            }else if (odvs!=null && odvs.length>0){
+                for(int i=0;i<odvs.length;i++){
+                    for (int j=0;j<bean.getOdvs().length;j++){
+                        if(odvs[i].equals(bean.getOdvs()[j])){
+                            odvTempList.add(odvs[i]);
+                        }
+                    }
                 }
-
-                //查询标识
-                organizationEntity.setTypeFlag(1);
-                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-
-                Integer[] deptList = new Integer[orgList.size()];
-                for (int i=0;i<orgList.size();i++){
-                    SysOrganizationEntity orgEntity = orgList.get(i);
-                    deptList[i] = orgEntity.getId();
-                }
-
-                bean.setDeptFlag(1);
-                bean.setDepts(deptList);
-            }else if (bean.getsType() == 1){
-                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
-                if (StringUtils.isEmpty(bean.getDept())){
-
-                }else{
-                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
-                }
-
-                //查询标识
-                organizationEntity.setTypeFlag(1);
-                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
-                Integer[] deptList = new Integer[orgList.size()];
-                for (int i=0;i<orgList.size();i++){
-                    SysOrganizationEntity orgEntity = orgList.get(i);
-                    deptList[i] = orgEntity.getId();
-                }
-
-                bean.setDeptFlag(1);
-                bean.setDepts(deptList);
-
+                String[] temps = new String[odvTempList.size()];
+                odvTempList.toArray(temps);
+                bean.setOdvs(temps);
             }
         }
-        bean.setDept(null);
+//        //查询个人  and 查询部门
+//        if (user.getId()==1){
+//            //查询类型：1-部门，0-个人
+//            if (bean.getsType() == 0) {
+//
+//            } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0) && StringUtils.isEmpty(bean.getDept())){
+//
+//            }else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
+//                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+//                if (StringUtils.isEmpty(bean.getDept())){
+//
+//                }else{
+//                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
+//                }
+//
+//
+//            }else if (bean.getsType() == 1){
+//               /* SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+//                if (StringUtils.isEmpty(bean.getDept())){
+//
+//                }else{
+//                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
+//                }
+//
+//                //查询标识
+//                organizationEntity.setTypeFlag(1);
+//                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
+//                Integer[] deptList = new Integer[orgList.size()];
+//                for (int i=0;i<orgList.size();i++){
+//                    SysOrganizationEntity orgEntity = orgList.get(i);
+//                    deptList[i] = orgEntity.getId();
+//                }
+//
+//                bean.setDeptFlag(1);
+//                bean.setDepts(deptList);*/
+//
+//            }
+//        }else {
+//            if (bean.getsType() == 0) {
+//                bean.setOdv(user.getId() + "");
+//            } else if (bean.getsType() == 1  && (bean.getOdvs()==null ||  bean.getOdvs().length==0)) {
+//                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+//                if (StringUtils.isEmpty(bean.getDept())){
+//
+//                }else{
+//                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
+//                }
+//
+//                //查询标识
+//                organizationEntity.setTypeFlag(1);
+//                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
+//
+//                Integer[] deptList = new Integer[orgList.size()];
+//                for (int i=0;i<orgList.size();i++){
+//                    SysOrganizationEntity orgEntity = orgList.get(i);
+//                    deptList[i] = orgEntity.getId();
+//                }
+//
+//                bean.setDeptFlag(1);
+//                bean.setDepts(deptList);
+//            }else if (bean.getsType() == 1){
+//                SysOrganizationEntity organizationEntity = new SysOrganizationEntity();
+//                if (StringUtils.isEmpty(bean.getDept())){
+//
+//                }else{
+//                    organizationEntity.setId(Integer.parseInt(bean.getDept()));
+//                }
+//
+//                //查询标识
+//                organizationEntity.setTypeFlag(1);
+//                List<SysOrganizationEntity> orgList = sysOrganizationService.listChildOrganization2(organizationEntity);
+//                Integer[] deptList = new Integer[orgList.size()];
+//                for (int i=0;i<orgList.size();i++){
+//                    SysOrganizationEntity orgEntity = orgList.get(i);
+//                    deptList[i] = orgEntity.getId();
+//                }
+//
+//                bean.setDeptFlag(1);
+//                bean.setDepts(deptList);
+//
+//            }
+//        }
+        bean.setDepts(null);
         if (StringUtils.notEmpty(bean.getName())){
             bean.setNames(bean.getName().split(","));
         }

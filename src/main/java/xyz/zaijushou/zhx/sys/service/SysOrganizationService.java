@@ -37,4 +37,6 @@ public interface SysOrganizationService {
     void moveToTargetDepartment(Integer id, String pid);
 
 	List<QueryEntity> queryDept(String deptName);
+
+    List<QueryEntity> queryDeptCase(String deptName);
 }
