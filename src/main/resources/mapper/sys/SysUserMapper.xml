@@ -744,4 +744,21 @@
     <select id="queryOdv" resultType="xyz.zaijushou.zhx.sys.entity.QueryEntity">
         select id,username as value from sys_user where delete_flag = 0 and status = 1 and username like dbo.concat('%',#{odvName},'%')
     </select>
+    <select id="findUserByDept" resultType="xyz.zaijushou.zhx.sys.entity.QueryEntity">
+        select id,username as value from sys_user where department = #{department} and delete_flag=0 and status = 1 and username like dbo.concat('%',#{odvName},'%')
+    </select>
+    <select id="queryDepartment" resultType="java.lang.String">
+        select department from sys_user where id=#{id}
+    </select>
+    <select id="queryOdvs1" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        with x as (
+        select id,parent_id from sys_organization where id in
+        <foreach item="detpid" index="index" collection="array" open="(" separator="," close=")">
+            #{detpid}
+        </foreach>
+        union all
+        select o.id,o.parent_id from x inner join sys_organization o on o.parent_id=x.id and o.delete_flag=0
+        )
+        select <include refid="colSqlWithoutPassword"/> from sys_user u where exists (select 1 from x where u.department=x.id)
+    </select>
 </mapper>

@@ -202,6 +202,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             dataCollectionEntity.setBatchFlag("1");
         }
+        String[] odvs = dataCollectionEntity.getOdvs();
+        if (odvs == null || odvs.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(odvs[0])){
+            dataCollectionEntity.setOdvFlag(null);
+        }else{
+            dataCollectionEntity.setOdvFlag("1");
+        }
         if (StringUtils.isEmpty(dataCollectionEntity.getColor())) {
 
         }else{

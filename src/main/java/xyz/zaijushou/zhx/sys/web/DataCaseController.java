@@ -1503,4 +1503,16 @@ public class DataCaseController {
     public Object queryOdv(@RequestBody Map<String,String> map) {
         return WebResponse.success(sysUserService.queryOdv(map.get("odvName")));
     }
+
+    @ApiOperation(value = "部门案件--输入部门查询", notes = "部门案件--输入部门查询")
+    @PostMapping("/select/queryDeptCase")
+    public Object queryDeptCase(@RequestBody Map<String,String> map) {
+        return WebResponse.success(sysOrganizationService.queryDeptCase(map.get("deptName")));
+    }
+
+    @ApiOperation(value = "部门案件--输入催收员查询", notes = "部门案件--输入催收员查询")
+    @PostMapping("/select/queryUser")
+    public Object queryUser(@RequestBody Map<String,String> map) {
+        return WebResponse.success(sysUserService.queryUser(map.get("odvName")));
+    }
 }

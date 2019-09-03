@@ -970,4 +970,17 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserMapper.queryOdv(odvName);
     }
 
+    @Override
+    public List<QueryEntity> queryUser(String odvName) {
+        // userid
+        Integer id = JwtTokenUtil.tokenData().getInteger("userId");
+        // 100
+        String department= sysUserMapper.queryDepartment(id);
+        // 部门下所有催收员id和姓名
+        List<QueryEntity> list =  sysOrganizationMapper.findOrganizationsByParentId(department,odvName);
+        // 自己带团队同时也是催收员
+        List<QueryEntity> rootUser = sysUserMapper.findUserByDept(department,odvName);
+        list.addAll(rootUser);
+        return list;
+    }
 }

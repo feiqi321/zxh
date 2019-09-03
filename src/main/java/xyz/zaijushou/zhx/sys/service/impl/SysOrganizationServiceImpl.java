@@ -278,4 +278,12 @@ public class SysOrganizationServiceImpl implements SysOrganizationService {
     public List<QueryEntity> queryDept(String deptName) {
         return sysOrganizationMapper.queryDept(deptName);
 	}
+
+    @Override
+    public List<QueryEntity> queryDeptCase(String deptName) {
+        Integer id = JwtTokenUtil.tokenData().getInteger("userId");
+        // 100
+        String department= sysUserMapper.queryDepartment(id);
+        return sysOrganizationMapper.queryDeptCase(department,deptName);
+    }
 }
