@@ -396,8 +396,12 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
             //本来是结清状态就不需要更新了
             dataCaseEntity.setSettleFlag(null);
             }else{
-                dataCaseEntity.setSettleFlag("未结清");
-                dataCaseEntity.setStatus(dataCaseEntityList.get(0).getStatus());
+                if (dataCaseEntity.getSettleFlag()!=null && dataCaseEntity.getSettleFlag().equals("已结清")){
+
+                }else {
+                    dataCaseEntity.setSettleFlag("未结清");
+                    dataCaseEntity.setStatus(dataCaseEntityList.get(0).getStatus());
+                }
             }
         }
 
