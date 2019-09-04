@@ -111,6 +111,16 @@ public class SysNewUserEntity extends CommonEntity {
 
     private int callcenterid;
 
+    private String callCenter;
+
+    public String getCallCenter() {
+        return callCenter;
+    }
+
+    public void setCallCenter(String callCenter) {
+        this.callCenter = callCenter;
+    }
+
     public int getCallcenterid() {
         return this.callcenterid;
     }

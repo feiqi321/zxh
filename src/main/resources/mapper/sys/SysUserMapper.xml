@@ -124,6 +124,7 @@
         <result column="actualTime" property="actualTime" jdbcType="TIMESTAMP"/>
         <result column="deptName" property="deptName" jdbcType="VARCHAR"/>
         <result column="callcenterid" property="callcenterid" jdbcType="INTEGER"/>
+        <result column="callCenter" property="callCenter" jdbcType="VARCHAR"/>
         <collection property="roleList" column="role_id" ofType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
             <result column="roleId" property="id"  jdbcType="INTEGER"/>
             <result column="role" property="roleName"  jdbcType="VARCHAR"/>
@@ -155,7 +156,10 @@
         where delete_flag = '0'
         and office_phone = #{officePhone}
         and callcenterid = #{callcenterid}
-        and id != #{id}
+        <if test="id != null and id != ''">
+            and id != #{id}
+        </if>
+
     </select>
 
     <select id="findUserInfoWithoutPasswordByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
@@ -257,6 +261,7 @@
             <if test="status != null">status,</if>
             <if test="position != null">position,</if>
             <if test="loginNameCount != null">login_name_count,</if>
+            <if test="callcenterid != null">callcenterid,</if>
             login_fail_times,
             delete_flag,
             create_time,
@@ -279,6 +284,7 @@
             1,
             <if test="position != null">#{position},</if>
             <if test="loginNameCount != null">#{loginNameCount},</if>
+            <if test="callcenterid != null">#{callcenterid},</if>
             0,
             0,
             GETDATE(),
@@ -328,7 +334,7 @@
             <if test="enable != null ">
                 enable = #{enable},
             </if>
-            <if test="actualTime != null and actualTime != ''">
+            <if test="actualTime != null">
                 actual_time = #{actualTime},
             </if>
         </set>
@@ -351,11 +357,13 @@
         su.department as departId,
         sr.id as roleId,
         su.actual_time as actualTime,
-        su.position
+        su.position,
+        tel.name as callCenter
         from sys_user su
         LEFT JOIN (select * from sys_user_role where delete_flag = 0) sur on su.id = sur.user_id
         LEFT JOIN (select * from sys_role where delete_flag=0) sr on sur.role_id = sr.id
         LEFT JOIN sys_organization so on su.department = so.id
+        left join tel_ip_manage tel on su.callcenterid=tel.id
         WHERE  su.delete_flag = 0
         <if test="status != null ">
             AND  su.status = #{status,jdbcType=INTEGER}
