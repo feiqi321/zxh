@@ -4,6 +4,8 @@ import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.utils.RedisUtils;
+import xyz.zaijushou.zhx.utils.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -41,7 +43,12 @@ public class DayCallable implements Callable<List<StatisticReturn2>> {
         collectionStatistic.setClients(bean.getClients());
         collectionStatistic.setAreas(bean.getAreas());
         collectionStatistic.setDateSearchStart(bean.getDateSearchStart());
-        collectionStatistic.setDateSearchEnd(bean.getDateSearchEnd());
+        SimpleDateFormat sdfDate1 = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdfDate2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String format = sdfDate1.format(bean.getDateSearchEnd());
+        if (StringUtils.notEmpty(bean.getDateSearchEnd())){
+            collectionStatistic.setDateSearchEnd(sdfDate2.parse(format +"  23:59:59"));
+        }
         List<CollectionStatistic> conList = dataCollectionTelMapper.statisticsCollectionCon(collectionStatistic);
         List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(collectionStatistic);
         List<CollectionStatistic> caseList = dataCollectionTelMapper.statisticsCollectionCase(collectionStatistic);
