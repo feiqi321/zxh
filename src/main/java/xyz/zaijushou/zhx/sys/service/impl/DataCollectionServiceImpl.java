@@ -382,10 +382,14 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             caseInfo.setBatchNo(listInfo.get(0).getBatchNo());
             caseInfo.setIdentNo(listInfo.get(0).getIdentNo());
             List<DataCaseEntity> samelistInfo = caseMapper.listSameAllCaseInfo(caseInfo);
+            if (samelistInfo==null || samelistInfo.size()==0){
+                return new ArrayList<>();
+            }
             int[] ids = new int[samelistInfo.size()];
             for (int i=0;i<samelistInfo.size();i++){
                 ids[i] = samelistInfo.get(i).getId();
             }
+
             bean.setIds(ids);
             List<DataCollectionEntity> list = collectionMapper.listDataCollectByIds(bean);
             if (StringUtils.isEmpty(list)) {

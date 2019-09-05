@@ -5582,7 +5582,7 @@
     </select>
 
     <update id="addCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-        update data_case set collect_times = collect_times+1,collect_date = convert(datetime,#{collectDate}, 20) where id =#{id}
+        update data_case set collect_times = collect_times+1  where id =#{id}
     </update>
 
     <update id="addBatchCollectTimes" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -5707,7 +5707,7 @@
     <update id="updateCollectDate" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case
         set collect_date = #{collectDate}
-        where id = #{id}
+        where id = #{id}  <![CDATA[   and (collect_date< convert(datetime,#{collectDate}, 20) or collect_date is null) ]]>
     </update>
 
     <select id="findSettleFlagBySeqNo" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

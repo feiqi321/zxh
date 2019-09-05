@@ -29,7 +29,7 @@ public enum CaseSortEnum {
     COLUMN22("summary","da.summary"),
     COLUMN23("area","da.area"),
     COLUMN24("collectInfo","da.collect_result"),
-    COLUMN25("leaveDays","da.leave_Days"),
+    COLUMN25("leaveDays","da.collect_date"),
     COLUMN26("principle","da.principle"),
     COLUMN27("latestOverdueMoney","da.latest_overdue_money"),
     COLUMN28("overdueDate","da.overdue_date"),

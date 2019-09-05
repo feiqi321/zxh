@@ -356,7 +356,6 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setCaseId(temp.getId()+"");
                     temp.setCollectDate(dataCollectionEntity.getContractDate());
 
-
                     dateCaseMapper.addCollectTimes(temp);
                     DataOpLog log = new DataOpLog();
                     log.setType("电话催收");

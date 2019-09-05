@@ -277,7 +277,9 @@ public class DataCollectController {
                     dataCollectionEntities.get(i).setTelType(telTypeDic.getId() + "");
                 }
             }
-
+            if (org.apache.commons.lang3.StringUtils.isEmpty(temp.getContractDate())) {
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行联络时间不能为空");
+            }
         }
 
         WebResponse webResponse =fileManageService.batchCollect(dataCollectionEntities);

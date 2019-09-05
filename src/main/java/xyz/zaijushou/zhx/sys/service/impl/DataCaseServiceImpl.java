@@ -1925,6 +1925,7 @@ public class DataCaseServiceImpl implements DataCaseService {
         SysUserEntity user = this.getUserInfo();
         dataCaseCommentEntity.setCreatUser(user.getId());
         String color = "";
+        String colorName = "";
         if(org.apache.commons.lang3.StringUtils.isEmpty(bean.getColor())){
             color = "BLACK";
         }else{
@@ -1935,15 +1936,15 @@ public class DataCaseServiceImpl implements DataCaseService {
             DataOpLog log = new DataOpLog();
             log.setType("评语");
             if(StringUtils.isEmpty(color)){
-                color = "正常";
+                colorName = "正常";
             }else if ("RED".equals(color)){
-                color = "红色";
+                colorName = "红色";
             }else if ("BLUE".equals(color)){
-                color = "蓝色";
+                colorName = "蓝色";
             }else if ("black".equals(color)){
-                color = "正常";
+                colorName = "正常";
             }
-            log.setContext(bean.getComment()+"["+color+"]");
+            log.setContext(bean.getComment()+"["+colorName+"]");
             log.setOper(getUserInfo().getId());
             log.setOperName(getUserInfo().getUserName());
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
