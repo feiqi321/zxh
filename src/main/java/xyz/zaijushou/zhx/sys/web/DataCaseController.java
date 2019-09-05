@@ -1081,7 +1081,7 @@ public class DataCaseController {
         //催收员部门替换为中文
         //this.dept2CN(list,colMap);
         //去掉导出excel底色
-        this.noBGC(list);
+        //this.noBGC(list);
 
         ExcelUtils.exportExcel(list,
                 caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
