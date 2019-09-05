@@ -892,7 +892,7 @@
             <if test="ids != null and ids.length >0">
                  t1.case_id in
                 <foreach collection="ids" item="item" separator ="," open="(" close=")">
-                    #{item}
+                    ${item}
                 </foreach>
             </if>
         </where>

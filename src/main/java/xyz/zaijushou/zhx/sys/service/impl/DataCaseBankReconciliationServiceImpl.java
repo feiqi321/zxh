@@ -61,6 +61,8 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
             temp.getDataCase().setRepayMoneyMsg(temp.getDataCase().getRepayMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getRepayMoney()+""));
             temp.setCpMoneyMsg(temp.getCpMoney()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getCpMoney()+""));
             temp.getDataCase().setEnRepayAmtMsg(temp.getDataCase().getEnRepayAmt()==null?"": "￥"+ FmtMicrometer.fmtMicrometer(temp.getDataCase().getEnRepayAmt()+""));
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getRemark(),SysDictionaryEntity.class);
+            temp.setRemark(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
             pageData.set(i,temp);
         }
         return PageInfo.of(pageData);
@@ -208,6 +210,11 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 entity.setSubmitUser(userTemp);
             }
 
+            if (entity != null && entity.getDataCase() != null && StringUtils.isNotEmpty(entity.getDataCase().getOdv())){
+                SysNewUserEntity odvTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getDataCase().getOdv(), SysNewUserEntity.class);
+                entity.getDataCase().setOdv(odvTemp==null?"":odvTemp.getUserName());
+            }
+
             if (entity != null && entity.getRepayType() != null){
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType(),SysDictionaryEntity.class);
                 entity.setRepayType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
@@ -220,6 +227,8 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
                 SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getDataCase().getAccountAge(),SysDictionaryEntity.class);
                 entity.getDataCase().setAccountAge(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
             }
+            SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRemark(),SysDictionaryEntity.class);
+            entity.setRemark(sysDictionaryEntity2==null?"":sysDictionaryEntity2.getName());
 
             try{
                 if (entity.getDataCase()!=null && entity.getDataCase().getMMoney()!=null){
