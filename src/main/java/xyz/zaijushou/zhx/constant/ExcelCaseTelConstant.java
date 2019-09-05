@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.constant;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class ExcelCaseTelConstant {
 
@@ -12,7 +13,7 @@ public class ExcelCaseTelConstant {
         COL50(50, "档案号", "archiveNo", String.class),
         COL60(60, "账号", "account", String.class),
         COL70(70, "逾期账龄", "accountAge", String.class),
-        COL80(80, "委案日期", "caseDate", String.class),
+        COL80(80, "委案日期", "caseDate", Date.class),
         COL90(90, "电话姓名", "telName", String.class),
         COL100(100, "电话状态", "telStatusMsg", String.class),
         COL110(120, "电话号码", "tel", String.class),

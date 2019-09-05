@@ -630,6 +630,7 @@ public class ExcelUtils {
     }
 
     private static void setCellValue(Object value, Cell cell, Class clazz) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         if (value == null) {
             return;
         }
@@ -638,8 +639,12 @@ public class ExcelUtils {
             cell.setCellValue(stringValue);
         } else if (Date.class == clazz) {
             try {
-                Date dateValue = (Date) value;
-                cell.setCellValue(dateValue == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(dateValue));
+                if(value!=null&&value instanceof String){
+                    cell.setCellValue(sdf.format(sdf.parse(value.toString())));
+                }else {
+                    Date dateValue = (Date) value;
+                    cell.setCellValue(dateValue == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(dateValue));
+                }
             }catch(Exception e){
                 if (value==null){
                     cell.setCellValue("");
@@ -658,7 +663,7 @@ public class ExcelUtils {
             BigDecimal decimalValue = new BigDecimal(value==null?"0":(value.equals("null")?"0":value.toString()));
             //String formatValue = decimalValue == null ? "￥0.00" : "￥"+ FmtMicrometer.fmtMicrometer(decimalValue + "");
             String formatValue = decimalValue == null ? "0.00" :decimalValue + "";
-            cell.setCellValue(formatValue);
+            cell.setCellValue(Double.parseDouble(formatValue));
         } else {
             String toStringValue = value.toString();
             cell.setCellValue(toStringValue);

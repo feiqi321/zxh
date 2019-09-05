@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.constant;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class ExcelCollectExportConstant {
 
@@ -12,8 +13,8 @@ public class ExcelCollectExportConstant {
         COL50(50, "档案号", "archiveNo", String.class),
         COL60(60, "个案序列号", "seqno", String.class),
         COL70(70, "逾期账龄", "accountAge", String.class),
-        COL80(80, "委案金额", "money", String.class),
-        COL90(90, "欠款余额", "residualPrinciple", String.class),
+        COL80(80, "委案金额", "money", BigDecimal.class),
+        COL90(90, "欠款余额", "residualPrinciple", BigDecimal.class),
         COL100(100, "对象姓名", "targetName", String.class),
         COL110(110, "关系", "relation", String.class),
         COL120(120, "电话/地址", "collectPhoneAddr", String.class),
@@ -24,27 +25,27 @@ public class ExcelCollectExportConstant {
         COL160(160, "谈判方式", "method", String.class),
         COL170(170, "催收状态", "collectStatusMsg", String.class),
         COL180(180, "承诺日期", "proRepayDate", String.class),
-        COL190(190, "承诺金额", "proRepayAmt", String.class),
-        COL200(200, "减免金额", "reduceAmt", String.class),
+        COL190(190, "承诺金额", "proRepayAmt", BigDecimal.class),
+        COL200(200, "减免金额", "reduceAmt", BigDecimal.class),
         COL210(210, "减免状态", "reduceStatusMsg", String.class),
         COL220(220, "催收小结", "collectInfo", String.class),
         COL230(230, "逾期天数", "overDays", String.class),
         COL240(240, "批次号", "batchNo", String.class),
-        COL250(250, "委案日期", "caseDate", String.class),
+        COL250(250, "委案日期", "caseDate", Date.class),
         COL260(260, "预计退案日期", "expectTime", String.class),
-        COL270(270, "最新欠款", "newMoney", String.class),
+        COL270(270, "最新欠款", "newMoney", BigDecimal.class),
         COL280(280, "省份", "province", String.class),
         COL290(290, "城市", "city", String.class),
         COL300(300, "区县", "county", String.class),
         COL310(310, "币种", "currencyType", String.class),
         COL320(320, "申请单号", "applyOrderNo", String.class),
-        COL330(330, "逾期金额", "overdueMoney", String.class),
+        COL330(330, "逾期金额", "overdueMoney", BigDecimal.class),
         COL340(340, "自定义信息", "remark", String.class),
         COL350(350, "催收员", "odv", String.class),
         COL360(360, "催收状态", "collectStatusMsg", String.class),
         COL370(370, "下次跟进日期", "nextFollDate", String.class),
-        COL380(380, "最低还款额", "minimumPayment", String.class),
-        COL390(390, "信用额度", "creditLine", String.class),
+        COL380(380, "最低还款额", "minimumPayment", BigDecimal.class),
+        COL390(390, "信用额度", "creditLine", BigDecimal.class),
         COL400(400, "催收模板", "module", String.class),
         ;
 
