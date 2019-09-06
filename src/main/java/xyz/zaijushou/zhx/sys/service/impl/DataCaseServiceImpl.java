@@ -2060,11 +2060,11 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setClientFlag("1");
         }
         if (StringUtils.isEmpty(dataCaseEntity.getOrderBy())){
-            dataCaseEntity.setOrderBy("id");
+            dataCaseEntity.setOrderBy("t.id");
             dataCaseEntity.setSort("desc");
         }else{
             if (StringUtils.isEmpty(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()))){
-                dataCaseEntity.setOrderBy("id");
+                dataCaseEntity.setOrderBy("t.id");
                 dataCaseEntity.setSort("desc");
             }else{
                 dataCaseEntity.setOrderBy(SynergySortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
