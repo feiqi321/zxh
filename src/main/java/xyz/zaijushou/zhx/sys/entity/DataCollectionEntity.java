@@ -350,7 +350,15 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal sumMoney;
     private Integer countCasePay;
     private BigDecimal sumPayMoney;
+    private String lastFollowTime;
 
+    public String getLastFollowTime() {
+        return lastFollowTime;
+    }
+
+    public void setLastFollowTime(String lastFollowTime) {
+        this.lastFollowTime = lastFollowTime;
+    }
 
     public String[] getMeasures() {
         return measures;
