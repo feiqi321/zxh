@@ -480,12 +480,18 @@ public class DataCollectServiceImpl implements DataCollectService {
         }
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
-            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
-            temp.setOdv(user==null?"":user.getUserName());
-            SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
-            temp.setTelType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
-            SysDictionaryEntity resultDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
-            temp.setResult(resultDictionaryEntity==null?"":resultDictionaryEntity.getName());
+            if(temp.getOdv() != null && !temp.getOdv().equals("")){
+                SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
+                temp.setOdv(user==null?"":user.getUserName());
+            }
+            if(temp.getTelType() != null && !temp.getTelType().equals("")){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getTelType(),SysDictionaryEntity.class);
+                temp.setTelType(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());
+            }
+            if(temp.getResult() != null && !temp.getResult().equals("")){
+                SysDictionaryEntity resultDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getResult(),SysDictionaryEntity.class);
+                temp.setResult(resultDictionaryEntity==null?"":resultDictionaryEntity.getName());
+            }
             list.set(i,temp);
         }
         webResponse.setCode("100");
