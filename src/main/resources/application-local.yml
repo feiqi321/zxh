@@ -6,19 +6,6 @@ spring:
     url: jdbc:sqlserver://116.62.124.251:1433;databasename=zhx
     username: sa
     password: Qf@1985qweasdzxc
-    initialSize: 10
-    minIdle: 5
-    maxActive: 100
-    maxWait: 60000
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxPoolPreparedStatementPerConnectionSize: 20
-    useGlobalDataSourceStat: true
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
     druid:
       filters: stat,wall
   redis:
@@ -26,11 +13,12 @@ spring:
     port: 7777
     password: redis
     timeout: 50000
-    maxTotal: 100
-    maxIdle: 20
-    maxWaitMillis: 10000
-    testOnBorrow : true
-    testOnReturn: true
+    jedis:
+      pool:
+        max-idle: 30
+        min-idle: 10
+        max-active: 500
+        max-wait: 30000
 
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml

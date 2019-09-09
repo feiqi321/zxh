@@ -57,7 +57,7 @@ public class DataCaseRepayRecordController {
 
     @PostMapping("/querySum")
     public Object querySum(@RequestBody DataCaseRepayRecordEntity entity) {
-        entity = dataCaseRepayRecordService.querySum(entity);
+        entity = dataCaseRepayRecordService.culateSum(entity);
         return WebResponse.success(entity);
     }
 

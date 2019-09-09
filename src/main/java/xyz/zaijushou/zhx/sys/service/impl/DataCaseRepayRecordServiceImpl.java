@@ -353,7 +353,7 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
     }
 
     @Override
-    public DataCaseRepayRecordEntity querySum(DataCaseRepayRecordEntity entity) {
+    public DataCaseRepayRecordEntity culateSum(DataCaseRepayRecordEntity entity) {
         DataCaseRepayRecordEntity returnEntity = dataCaseRepayRecordMapper.queryCaseSum(entity);
         DataCaseRepayRecordEntity repaySumEntity = dataCaseRepayRecordMapper.queryRepaySum(entity);
         returnEntity.setRepayMoneyMsg(repaySumEntity==null?"":(repaySumEntity.getRepayMoney()==null?"￥0": "￥"+ FmtMicrometer.fmtMicrometer(repaySumEntity.getRepayMoney().stripTrailingZeros()+"")));

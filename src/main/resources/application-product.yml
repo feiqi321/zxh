@@ -7,7 +7,7 @@ spring:
     password: frsoft@2019
     initialSize: 10
     minIdle: 5
-    maxActive: 100
+    maxActive: 200
     maxWait: 60000
     timeBetweenEvictionRunsMillis: 60000
     minEvictableIdleTimeMillis: 300000
@@ -25,7 +25,7 @@ spring:
     port: 7777
     password: redis
     timeout: 50000
-    lettuce:
+    jedis:
       pool:
         max-idle: 30
         min-idle: 10
