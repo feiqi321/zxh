@@ -2789,6 +2789,27 @@ public class DataCaseServiceImpl implements DataCaseService {
         }
     }
 
+    public DataCaseDetail findById(DataCaseEntity bean){
+        return dataCaseMapper.detail(bean);
+    }
+
+    public void updateCase(DataCaseDetail bean){
+        DataCaseEntity dataCaseEntity = new DataCaseEntity();
+        dataCaseEntity.setId(bean.getId());
+        DataCaseDetail detail = dataCaseMapper.detail(dataCaseEntity);
+        if(bean.getSettleFlag()!=null && bean.getSettleFlag().equals("已结清")){
+            bean.setStatus(3);
+        }
+        dataCaseMapper.updateDetailCase(bean);
+        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + detail.getSeqNo());
+        stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + detail.getCardNo()+"@"+detail.getCaseDate());
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + bean.getSeqNo(), JSONObject.toJSONString(bean));
+        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.DATA_CASE + bean.getCardNo()+"@"+bean.getCaseDate(), JSONObject.toJSONString(bean));
+        DataBatchEntity dataBatchEntity = new DataBatchEntity();
+        dataBatchEntity.setBatchNo(bean.getBatchNo());
+        dataBatchMapper.updateBatchAmt(dataBatchEntity);
+
+    }
     public DataCaseDetail detail(DataCaseEntity bean){
         logger.info("查询详情开始");
         dataCaseMapper.watchDetail(bean);

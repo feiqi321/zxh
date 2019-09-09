@@ -36,6 +36,8 @@ public interface DataCaseMapper {
 
     public DataCaseDetail detail(DataCaseEntity bean);
 
+    public void updateDetailCase(DataCaseDetail bean);
+
     public void updateInterest(DataCaseEntity bean);
 
     public  DataCaseEntity findById(DataCaseEntity bean);

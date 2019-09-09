@@ -43,4 +43,6 @@ public interface DataBatchMapper {
 
     public void updateByBatchNo(DataBatchEntity bean);
 
+    public void updateBatchAmt(DataBatchEntity bean);
+
 }

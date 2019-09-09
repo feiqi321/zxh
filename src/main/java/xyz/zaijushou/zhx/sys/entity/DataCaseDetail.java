@@ -243,6 +243,16 @@ public class DataCaseDetail {
 
     private Boolean deleteAuth;
 
+    private String orderNo;//货款订单号
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
     public Boolean getDeleteAuth() {
         return deleteAuth;
     }

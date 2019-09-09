@@ -81,6 +81,10 @@ public interface DataCaseService {
 
     public DataCaseDetail detail(DataCaseEntity bean);
 
+    public void updateCase(DataCaseDetail bean);
+
+    public DataCaseDetail findById(DataCaseEntity bean);
+
     public void updateCaseTelStatus(DataCaseTelEntity bean);
 
     public void updateCaseAddressStatus(DataCaseAddressEntity bean);

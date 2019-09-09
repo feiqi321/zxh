@@ -1333,6 +1333,19 @@ public class DataCaseController {
 
     }
 
+    @ApiOperation(value = "查询案件信息", notes = "查询案件信息")
+    @PostMapping("/dataCase/findById")
+    public Object findById(@RequestBody DataCaseEntity bean) {
+        return WebResponse.success(dataCaseService.findById(bean));
+    }
+
+    @ApiOperation(value = "修改案件信息", notes = "修改案件信息")
+    @PostMapping("/dataCase/updateCase")
+    public Object updateCase(@RequestBody DataCaseDetail bean) {
+        dataCaseService.updateCase(bean);
+        return WebResponse.success();
+    }
+
     @ApiOperation(value = "修改案件电话状态", notes = "修改案件电话状态")
     @PostMapping("/tel/updateStatus")
     public Object updateTelStatus(@RequestBody List<DataCaseTelEntity> list) {

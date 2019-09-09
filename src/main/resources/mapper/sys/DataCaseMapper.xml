@@ -5968,4 +5968,26 @@
         set dept = #{dept}
         where odv = #{odv}
     </update>
+
+    <update id="updateDetailCase" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseDetail">
+        update data_case set
+        seq_no = #{seqNo},collect_hand=#{collectHand},name=#{name},collect_area=#{collectArea},gender=#{gender},client=#{client},
+        ident_no=#{identNo},ident_type=#{identType},card_no=#{cardNo},case_date=#{caseDate},money=#{money},m_val=#{mVal},expect_time=#{expectTime},
+        settle_flag=#{settleFlag},account_age=#{accountAge},overdue_days=#{overdueDays},province=#{province},city=#{city},county=#{county},
+        <if test="status != null">
+            status = #{status}
+        </if>
+        commission_rate=#{commissionRate},commission_money=#{commissionMoney},entrust_periods=#{entrustPeriods},currency_type=#{currencyType},
+        order_no=#{orderNo},goods=#{goods},rmb=#{rmb},hkd=#{hkd},foreign_currency=#{foreignCurrency},account_no=#{accountNo},account_name=#{accountName},
+        overdue_date=#{overdueDate},overdue_money=#{overdueMoney},overdue_principle=#{overduePrinciple},overdue_interest=#{overdueInterest},
+        overdue_default_interest=#{overdueDefaultInterest},overdue_management_cost=#{overdueManagementCost},penalty=#{penalty},repay_deadline=#{repayDeadline},
+        entrust_periods=#{entrustPeriods},overdue_times=#{overdueTimes},repaid_periods=#{repaidPeriods},case_deadline=#{caseDeadline},archive_no=#{archiveNo},
+        bank=#{bank},collection_type=#{collectionType},default_level=#{defaultLevel},card_type=#{cardType},credit_line=#{creditLine},fixe_quota=#{fixedQuota},
+        minimum_payment=#{minimumPayment},late_fee=#{lateFee},overrun_fee=#{overrunFee},bill_cycle=#{billCycle},outstanding_amount=#{outstandingAmount},
+        bill_date=#{billDate},active_card_date=#{activeCardDate},last_consume_date=#{lastConsumeDate},stop_card_date=#{stopCardDate},
+        main_deputy_card=#{mainDeputyCard},deputy_card_user_name=#{deputyCardUserName},apply_order_no=#{applyOrderNo},last_withdraw_date=#{lastWithdrawDate},
+        last_repay_money=#{lastRepayMoney},last_repay_date=#{lastRepayDate},bail=#{bail},principle=#{principle},loan_type=#{loanType},residual_principle=#{residualPrinciple},
+        loan_date=#{loanDate},loan_deadline=#{loanDeadline}
+        where id = #{id}
+    </update>
 </mapper>
