@@ -1,5 +1,7 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import xyz.zaijushou.zhx.common.entity.CommonEntity;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,8 +11,8 @@ import java.util.Set;
 /**
  * Created by looyer on 2019/2/24.
  */
-public class DataCaseDetail {
-    private  int id;
+public class DataCaseDetail extends CommonEntity {
+
     private boolean currentuser;
     private String batchNo; //批次编号 查询条件  列表
     private String client;//委托方 查询条件
@@ -909,14 +911,6 @@ public class DataCaseDetail {
 
     public void setSameBatchCaseList(List<DataCaseEntity> sameBatchCaseList) {
         this.sameBatchCaseList = sameBatchCaseList;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getBatchNo() {

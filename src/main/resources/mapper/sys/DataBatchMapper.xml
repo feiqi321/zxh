@@ -334,7 +334,7 @@
         update data_batch set total_amt = total_amt+#{totalAmt},user_count=user_count+#{userCount} where batch_no = #{batchNo}
     </update>
 
-    <update id="udpateBatchAmt" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-          update data_batch t set t.total_amt = (select sum(money) from data_case where batch_no = t.batchNo) where t.batch_no = #{batchNo}
+    <update id="updateBatchAmt" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
+          update data_batch set total_amt = (select sum(money) from data_case where batch_no = [data_batch].batch_no) where batch_no = #{batchNo}
     </update>
 </mapper>
