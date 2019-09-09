@@ -668,7 +668,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         List<SysUserEntity> userList = sysUserMapper.listAllUsers(new SysUserEntity());
         Map<Integer, SysUserEntity> userMap = new HashMap<>();
-        for(int i=0;i<colList.size();i++){
+        for(int i=0;i<userList.size();i++){
             SysUserEntity temp = userList.get(i);
             userMap.put(temp.getId(),temp);
         }
