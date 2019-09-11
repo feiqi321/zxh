@@ -21,7 +21,7 @@ spring:
     druid:
       filters: stat,wall
   redis:
-    host: 127.0.0.1
+    host: 192.168.25.205
     port: 7777
     password: redis
     timeout: 50000

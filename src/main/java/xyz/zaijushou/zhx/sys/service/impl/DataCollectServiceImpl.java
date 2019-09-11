@@ -70,6 +70,17 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else {
             bean.setOrderBy(CollectSortEnum.getEnumByKey(bean.getOrderBy()).getValue());
         }
+        if (StringUtils.isEmpty(bean.getSeqno())){
+            bean.setSeqNoFlag(null);
+        }else{
+            String[] seqNos = bean.getSeqno().split(",");
+            if (seqNos == null || seqNos.length==0 || StringUtils.isEmpty(seqNos[0])){
+                bean.setSeqNoFlag(null);
+            }else {
+                bean.setSeqNoFlag("1");
+                bean.setSeqnos(seqNos);
+            }
+        }
         logger.info("查询开始");
         if (StringUtils.isNotEmpty(bean.getCollectStartTime())){
             bean.setCollectStartTime(bean.getCollectStartTime()==null?"":bean.getCollectStartTime()+" 00:00:01");
