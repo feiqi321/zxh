@@ -976,7 +976,7 @@ public class ExcelCaseConstant {
         COL1350("applyOrderNo", "申请单号", "da.apply_order_no as applyOrderNo", String.class),
         COL1360("overdueDate", "逾期日期", "da.overdue_date as overdueDate", String.class),
         COL1370("collectHand", "催收手别", "da.collect_hand as collectHand", String.class),
-        COL1380("overDays", "逾期天数", "da.over_days as overDays", int.class),
+        COL1380("overDays", "逾期天数", "da.overdue_days as overDays", int.class),
         COL1390("caseDeadline", "委托期限", "da.case_deadline as caseDeadline", String.class),
         COL1400("entrustPeriods", "委案期数", "da.entrust_periods as entrustPeriods", String.class),
         COL1410("repaidPeriods", "已还期数", "da.repaid_periods as repaidPeriods", String.class),

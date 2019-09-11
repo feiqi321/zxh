@@ -356,7 +356,7 @@ public class FileManageServiceImpl implements FileManageService {
                     dataCollectionEntity.setCaseId(temp.getId()+"");
                     temp.setCollectDate(dataCollectionEntity.getContractDate());
 
-                    dateCaseMapper.addCollectTimes(temp);
+                    //dateCaseMapper.addCollectTimes(temp);
                     DataOpLog log = new DataOpLog();
                     log.setType("电话催收");
                     log.setContext("联系人："+dataCollectionEntity.getTargetName()+"，电话号码："+dataCollectionEntity.getMobile()+"[手机]，通话内容："+(dataCollectionEntity.getCollectInfo()==null?"":dataCollectionEntity.getCollectInfo())+"，催收状态： 可联本人");
@@ -375,7 +375,7 @@ public class FileManageServiceImpl implements FileManageService {
                     temp.setCollectDate(dataCollectionEntity.getContractDate());
 
 
-                    dateCaseMapper.addCollectTimes(temp);
+                   // dateCaseMapper.addCollectTimes(temp);
 
                     DataOpLog log = new DataOpLog();
                     log.setType("电话催收");
