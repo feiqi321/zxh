@@ -588,7 +588,17 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private String[] odvPercent;
     private String percent;
     private int splitCount;
-    private List<DataCaseEntity> dataList = new ArrayList<DataCaseEntity>();
+
+    private String colorFlag;
+   private List<DataCaseEntity> dataList = new ArrayList<DataCaseEntity>();
+
+    public String getColorFlag() {
+        return colorFlag;
+    }
+
+    public void setColorFlag(String colorFlag) {
+        this.colorFlag = colorFlag;
+    }
 
     public List<DataCaseEntity> getDataList() {
         return dataList;

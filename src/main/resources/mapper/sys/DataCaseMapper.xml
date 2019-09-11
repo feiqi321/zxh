@@ -791,11 +791,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -1045,11 +1052,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -1288,13 +1302,20 @@
                         #{item}
                     </foreach>
                 </if>
-
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
                 </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
+                </if>
+
 
                 <if test="areas != null and areas.length > 0 ">
                     and da.area in
@@ -1456,11 +1477,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -3957,11 +3985,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -4202,11 +4237,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -4445,11 +4487,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -4694,11 +4743,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -4934,11 +4990,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -5172,11 +5235,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -5409,11 +5479,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
@@ -5949,11 +6026,18 @@
                     </foreach>
                 </if>
 
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and da.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
-                        #{item}
+                        '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                    and (da.color is null or  da.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">

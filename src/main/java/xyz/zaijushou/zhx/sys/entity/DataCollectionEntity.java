@@ -26,6 +26,8 @@ public class DataCollectionEntity extends CommonEntity {
     private String[] seqnos;
     //标色状态
     private String color;
+
+    private String colorFlag;
     //委案日期
     private String bailDate;
     //委案日期 开始时间
@@ -1845,5 +1847,13 @@ public class DataCollectionEntity extends CommonEntity {
 
     public void setCaseStatuss(Integer[] caseStatuss) {
         this.caseStatuss = caseStatuss;
+    }
+
+    public String getColorFlag() {
+        return colorFlag;
+    }
+
+    public void setColorFlag(String colorFlag) {
+        this.colorFlag = colorFlag;
     }
 }

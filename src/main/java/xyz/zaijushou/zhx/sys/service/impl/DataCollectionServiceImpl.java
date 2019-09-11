@@ -208,10 +208,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }else{
             dataCollectionEntity.setOdvFlag("1");
         }
-        if (StringUtils.isEmpty(dataCollectionEntity.getColor())) {
+        if (dataCollectionEntity.getColors()==null || dataCollectionEntity.getColors().length==0){
 
         }else{
-            dataCollectionEntity.setColor(ColorEnum.getEnumByKey(dataCollectionEntity.getColor()).getValue());
+            if(Arrays.asList(dataCollectionEntity.getColors()).contains("BLACK")){
+                dataCollectionEntity.setColorFlag("1");
+            }
         }
         if (StringUtils.notEmpty(dataCollectionEntity.getNewCase()) && dataCollectionEntity.getNewCase().equals("1")){
             dataCollectionEntity.setDistributeStatus(1);

@@ -772,12 +772,18 @@
                         ${item}
                     </foreach>
                 </if>
-
-                <if test="colors != null and colors.length > 0 ">
+                <if test="colors != null and colors.length > 0 and (colorFlag==null or colorFlag=='')">
                     and t.color in
                     <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
                         '${item}'
                     </foreach>
+                </if>
+                <if test="colors != null and colors.length > 0 and colorFlag!=null and colorFlag!=''">
+                     and (t.color is null or  t.color in
+                    <foreach item="item" index="index" collection="colors" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
+                    )
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">

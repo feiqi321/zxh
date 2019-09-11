@@ -564,10 +564,13 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setIdentNos(identNos);
             }
         }
-        if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getColor())){
-            dataCaseEntity.setColor(null);
+
+        if (dataCaseEntity.getColors()==null || dataCaseEntity.getColors().length==0){
+
         }else{
-            dataCaseEntity.setColor(ColorEnum.getEnumByKey(dataCaseEntity.getColor()).toString());
+            if(Arrays.asList(dataCaseEntity.getColors()).contains("BLACK")){
+                dataCaseEntity.setColorFlag("1");
+            }
         }
         if (dataCaseEntity.getDistributeStatus()==1){
             dataCaseEntity.setDistributeStatusFlag("1");
@@ -952,6 +955,13 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (dataCaseEntity.getStatuss()!=null && Arrays.asList(dataCaseEntity.getStatuss()).contains("5")) {
             dataCaseEntity.setStatuss(null);
         }
+        if (dataCaseEntity.getColors()==null || dataCaseEntity.getColors().length==0){
+
+        }else{
+            if(Arrays.asList(dataCaseEntity.getColors()).contains("BLACK")){
+                dataCaseEntity.setColorFlag("1");
+            }
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.totalSendBatchBoundsCaseList(dataCaseEntity);
@@ -1187,6 +1197,13 @@ public class DataCaseServiceImpl implements DataCaseService {
                 dataCaseEntity.setIdentNos(identNos);
             }
         }
+        if (dataCaseEntity.getColors()==null || dataCaseEntity.getColors().length==0){
+
+        }else{
+            if(Arrays.asList(dataCaseEntity.getColors()).contains("BLACK")){
+                dataCaseEntity.setColorFlag("1");
+            }
+        }
         List<DataCaseEntity> list = new ArrayList<DataCaseEntity>();
         if (dataCaseEntity.isBatchBonds()){
             list = dataCaseMapper.autoQuery1(dataCaseEntity);
@@ -1264,6 +1281,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             }else {
                 dataCaseEntity.setIdFlag("1");
                 dataCaseEntity.setIds(ids);
+            }
+        }
+        if (dataCaseEntity.getColors()==null || dataCaseEntity.getColors().length==0){
+
+        }else{
+            if(Arrays.asList(dataCaseEntity.getColors()).contains("BLACK")){
+                dataCaseEntity.setColorFlag("1");
             }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getName())){
@@ -1495,6 +1519,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setBatchNoFlag(null);
         }else{
             dataCaseEntity.setBatchNoFlag("1");
+        }
+        if (dataCaseEntity.getColors()==null || dataCaseEntity.getColors().length==0){
+
+        }else{
+            if(Arrays.asList(dataCaseEntity.getColors()).contains("BLACK")){
+                dataCaseEntity.setColorFlag("1");
+            }
         }
         if (org.apache.commons.lang3.StringUtils.isEmpty(dataCaseEntity.getIdStr())){
             dataCaseEntity.setIdFlag(null);
@@ -2484,6 +2515,13 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseEntity.setSort("desc");
         }else {
             dataCaseEntity.setOrderBy(CaseSortEnum.getEnumByKey(dataCaseEntity.getOrderBy()).getValue());
+        }
+        if (dataCaseEntity.getColors()==null || dataCaseEntity.getColors().length==0){
+
+        }else{
+            if(Arrays.asList(dataCaseEntity.getColors()).contains("BLACK")){
+                dataCaseEntity.setColorFlag("1");
+            }
         }
         String[] clients = dataCaseEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
