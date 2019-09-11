@@ -651,7 +651,7 @@
         t.seq_no as seqNo,t.color,t.expect_time as expectTime,t.area,t.dept,t.odv,t.en_repay_amt as enRepayAmt,t.name,
         t.account_age as accountAge,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.card_no as cardNo,t.ident_no as identNo,t.next_foll_date as nextFollDate,
         t.money,t.balance,t.bank_amt as bankAmt,t.over_days as overDays, t.collect_date as lastPhoneTime,t.principle,t.overdue_days as overdueDays,
-        CONVERT(varchar(100), t.distribute_time, 20)  as caseAllotTime,t.status as caseStatus,CONVERT(varchar(100), t.collect_date, 23)  as lastFollowTime
+        CONVERT(varchar(100), t.distribute_time, 20)  as caseAllotTime,t.status as caseStatus,CONVERT(varchar(100), t.collect_date, 20)  as lastFollowTime
         from data_case t
         <where>
             t.delete_flag = 0

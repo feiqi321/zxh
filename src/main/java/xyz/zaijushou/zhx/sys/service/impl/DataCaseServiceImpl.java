@@ -632,13 +632,6 @@ public class DataCaseServiceImpl implements DataCaseService {
             logger.info("结束查询");
             for(int i=0;i<list.size();i++){
                 DataCaseEntity temp = list.get(i);
-                totalAmt = totalAmt.add(temp.getMoney()==null?new BigDecimal(0):temp.getMoney());
-                if (temp.getEnRepayAmt()!=null && temp.getEnRepayAmt().compareTo(new BigDecimal(0))>0){
-                    repayNum = repayNum+1;
-                    repayTotalAmt =repayTotalAmt.add(temp.getEnRepayAmt());
-                }
-                totalCp = totalCp.add(temp.getBankAmt()==null?new BigDecimal(0):temp.getBankAmt());
-                totalPtp = totalPtp.add(temp.getProRepayAmt()==null?new BigDecimal(0):temp.getProRepayAmt());
                 CaseCallable caseCallable = new CaseCallable(list,temp,i);
                 Future<List<DataCaseEntity>> future = executor.submit(caseCallable);
 
