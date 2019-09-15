@@ -23,6 +23,8 @@ public class DataCollectionEntity extends CommonEntity {
     //个案序列号
     private String seqno;
 
+    private String seqNoFlag;
+
     private String[] seqnos;
     //标色状态
     private String color;
@@ -1855,5 +1857,13 @@ public class DataCollectionEntity extends CommonEntity {
 
     public void setColorFlag(String colorFlag) {
         this.colorFlag = colorFlag;
+    }
+
+    public String getSeqNoFlag() {
+        return seqNoFlag;
+    }
+
+    public void setSeqNoFlag(String seqNoFlag) {
+        this.seqNoFlag = seqNoFlag;
     }
 }
