@@ -264,16 +264,18 @@
     </select>
 
     <select id="listClients" parameterType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataBatchEntity">
-        select   top 200  batch_no as batchNo
-        from data_batch
-        where  delete_flag = 0
-        <if test="clients != null and clients.length > 0 ">
-            and client in
-            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-        order by create_time desc
+        select * from (
+            select   top 200  batch_no as batchNo
+            from data_batch
+            where  delete_flag = 0
+            <if test="clients != null and clients.length > 0 ">
+                and client in
+                <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            order by create_time desc
+        ) t
     </select>
 
 
