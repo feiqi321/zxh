@@ -53,6 +53,12 @@ public class SqlAop {
         }
     }
 
+    @Before("execution(* xyz.zaijushou.zhx.sys.web.*.*(..))")
+    public void controller(JoinPoint point) {
+        PageHelper.clearPage();
+
+    }
+
 
     @Before("(" +
             "   (execution(* xyz.zaijushou.zhx..*Mapper.save*(..))) || " +
