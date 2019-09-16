@@ -58,6 +58,10 @@
             <if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>
         </trim>
     </insert>
+    <insert id="addArea" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+      insert into sys_data_dictionary (name,status,dictionary_id,sys_flag,create_time,update_time,delete_flag)
+       values (#{name},#{status},#{dictionaryId},0, GETDATE(),GETDATE(),0)
+    </insert>
 
     <!--更新数据信息-->
     <update id="updateDataDictionary" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
@@ -89,6 +93,9 @@
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateArea">
+        update sys_data_dictionary set name=#{name},status = #{status} where id=#{id}
     </update>
 
     <!--查询数据集合-->
@@ -137,6 +144,9 @@
         where id = #{id}
         and delete_flag = '0'
     </delete>
+    <delete id="deleteSelectArea">
+        update sys_data_dictionary set delete_flag=1 where id = #{id}
+    </delete>
 
     <!--根据名称获取数据组-->
     <select id="listDataByName" parameterType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
@@ -179,5 +189,25 @@
         from sys_data_dictionary
         where delete_flag = '0' and status = 1 and dictionary_id = #{id,jdbcType=INTEGER}
         order by id
+    </select>
+    <select id="findAreaTableData" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+        select
+        <include refid="dataDictionaryInfo"/>
+        from sys_data_dictionary
+        where delete_flag = '0' and dictionary_id = #{id,jdbcType=INTEGER}
+        order by id
+    </select>
+    <select id="listAllArea" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+        select
+        <include refid="dataDictionaryInfo"/>
+        from sys_data_dictionary
+        where delete_flag = '0'
+        <if test="id != null">and id = #{id}</if>
+    </select>
+    <select id="listAllAreaByParentId" resultType="xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity">
+        select
+        <include refid="dataDictionaryInfo"/>
+        from sys_data_dictionary
+        where delete_flag = '0' and dictionary_id = #{id}
     </select>
 </mapper>

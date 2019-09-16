@@ -27,6 +27,8 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
      */
     private Integer status;
 
+    private String statusMsg;
+
     /**
      * 0有效，1-无效
      */
@@ -38,6 +40,16 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
     private Integer type;
 
     private String[] ids;
+
+    private Integer dictionaryId;
+
+    public Integer getDictionaryId() {
+        return dictionaryId;
+    }
+
+    public void setDictionaryId(Integer dictionaryId) {
+        this.dictionaryId = dictionaryId;
+    }
 
     public String[] getNames() {
         return names;
@@ -103,4 +115,11 @@ public class SysDictionaryEntity extends TreeEntity<SysDictionaryEntity> {
         this.status = status;
     }
 
+    public String getStatusMsg() {
+        return statusMsg;
+    }
+
+    public void setStatusMsg(String statusMsg) {
+        this.statusMsg = statusMsg;
+    }
 }

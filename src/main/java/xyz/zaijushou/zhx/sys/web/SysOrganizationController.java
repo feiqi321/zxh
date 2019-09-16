@@ -141,7 +141,6 @@ public class SysOrganizationController {
 
     @PostMapping("/addDept")
     public Object addDept(@RequestBody SysOrganizationEntity organizations) {
-        System.out.println(organizations);
         sysOrganizationService.addDept(organizations);
         return WebResponse.success();
     }
