@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
@@ -278,5 +279,58 @@ public class SysDictionaryServiceImpl implements SysDictionaryService {
     @Override
     public  List<SysDictionaryEntity> listDataByDName(SysDictionaryEntity dictionary){
         return dictionaryMapper.listDataByDName(dictionary);
+    }
+
+    @Override
+    public List<SysDictionaryEntity> findAreaTableData(Integer id) {
+        List<SysDictionaryEntity> areaTableData = dictionaryMapper.findAreaTableData(id);
+        for (SysDictionaryEntity areaInfo : areaTableData) {
+           if(areaInfo.getStatus()==1) {
+               areaInfo.setStatusMsg("启用");
+           }else {
+               areaInfo.setStatusMsg("停用");
+           }
+        }
+        return areaTableData;
+    }
+
+    @Override
+    public void addArea(SysDictionaryEntity sysDictionaryEntity) {
+        dictionaryMapper.addArea(sysDictionaryEntity);
+    }
+
+    @Override
+    public void updateArea(SysDictionaryEntity sysDictionaryEntity) {
+        dictionaryMapper.updateArea(sysDictionaryEntity);
+    }
+
+    @Override
+    public Object deleteArea(SysDictionaryEntity sysDictionaryEntity) {
+        List<SysDictionaryEntity> dictList = new ArrayList<>();
+        List<SysDictionaryEntity> list = dictionaryMapper.listAllArea(sysDictionaryEntity);
+        if (StringUtils.isEmpty(list)) {
+            return dictList;
+        }
+        //递归查询列表
+        for (SysDictionaryEntity dictionaryEntity : list) {
+            dictList.add(dictionaryEntity);
+            dictionaryMapper.deleteSelectArea(dictionaryEntity);
+            getChildData(dictionaryEntity, dictList);
+        }
+        return WebResponse.success();
+    }
+    /**
+     * 递归删除
+     */
+    private void getChildData(SysDictionaryEntity entity, List<SysDictionaryEntity> dictList) {
+        List<SysDictionaryEntity> sysDictionary = dictionaryMapper.listAllAreaByParentId(entity);
+        if (StringUtils.isEmpty(sysDictionary)) {
+            return;
+        }
+        for (SysDictionaryEntity sysDictionaryEntity : sysDictionary) {
+            dictionaryMapper.deleteSelectArea(sysDictionaryEntity);
+            dictList.add(sysDictionaryEntity);
+            getChildData(sysDictionaryEntity, dictList);
+        }
     }
 }

@@ -2,10 +2,7 @@ package xyz.zaijushou.zhx.sys.web;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
@@ -82,5 +79,28 @@ public class SysDictionaryController {
     public Object deleteById(@RequestBody SysDictionaryEntity dictionary) {
         dictionaryService.deleteById(dictionary);
         return WebResponse.success(dictionary);
+    }
+
+    @PostMapping("/findAreaTableData")
+    public Object findTableData(@RequestParam("id") Integer id) {
+        List<SysDictionaryEntity> list = dictionaryService.findAreaTableData(id);
+        return WebResponse.success(list);
+    }
+
+    @PostMapping("/addArea")
+    public Object addArea(@RequestBody SysDictionaryEntity sysDictionaryEntity) {
+        dictionaryService.addArea(sysDictionaryEntity);
+        return WebResponse.success();
+    }
+
+    @PostMapping("/saveArea")
+    public Object save(@RequestBody SysDictionaryEntity sysDictionaryEntity) {
+        dictionaryService.updateArea(sysDictionaryEntity);
+        return WebResponse.success();
+    }
+
+    @PostMapping("/deleteArea")
+    public Object deleteArea(@RequestBody SysDictionaryEntity sysDictionaryEntity) {
+        return dictionaryService.deleteArea(sysDictionaryEntity);
     }
 }

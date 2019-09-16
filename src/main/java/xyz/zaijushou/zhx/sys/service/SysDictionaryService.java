@@ -56,5 +56,13 @@ public interface SysDictionaryService {
      * @param dictionary
      */
     void deleteById(SysDictionaryEntity dictionary);
+
+    List<SysDictionaryEntity> findAreaTableData(Integer id);
+
+    void addArea(SysDictionaryEntity sysDictionaryEntity);
+
+    void updateArea(SysDictionaryEntity sysDictionaryEntity);
+
+    Object deleteArea(SysDictionaryEntity sysDictionaryEntity);
 }
 

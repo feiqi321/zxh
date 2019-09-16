@@ -34,4 +34,16 @@ public interface SysDictionaryMapper {
     void deleteById(SysDictionaryEntity dictionary);
 
     List<SysDictionaryEntity> getCollectionDataByDicId(Integer id);
+
+    List<SysDictionaryEntity> findAreaTableData(Integer id);
+
+    void addArea(SysDictionaryEntity sysDictionaryEntity);
+
+    void updateArea(SysDictionaryEntity sysDictionaryEntity);
+
+    List<SysDictionaryEntity> listAllArea(SysDictionaryEntity sysDictionaryEntity);
+
+    void deleteSelectArea(SysDictionaryEntity dictionaryEntity);
+
+    List<SysDictionaryEntity> listAllAreaByParentId(SysDictionaryEntity entity);
 }
