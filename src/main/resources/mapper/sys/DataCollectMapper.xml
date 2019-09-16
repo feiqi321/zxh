@@ -789,7 +789,7 @@
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
-                    and t.area in
+                    and t.province in
                     <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
                         '${item}'
                     </foreach>
@@ -2122,7 +2122,7 @@
                 </if>
 
                 <if test="areas != null and areas.length > 0 ">
-                    and t.area in
+                    and t.province in
                     <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
                         '${item}'
                     </foreach>
