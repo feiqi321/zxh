@@ -2230,7 +2230,7 @@ public class DataCaseServiceImpl implements DataCaseService {
                     dataCaseTelEntity1.setName(entity.getName());
                     dataCaseTelEntity1.setIdentNo(entity.getIdentNo());
                     dataCaseTelEntity1.setRelation("本人");
-                    dataCaseTelEntity1.setTel(entity.getTel());
+                    dataCaseTelEntity1.setTel(entity.getHomeTelNumber());
                     dataCaseTelEntity1.setTelStatusMsg("未知");
                     dataCaseTelEntity1.setRemark("家庭号码");
                     telEntityList.add(dataCaseTelEntity1);
