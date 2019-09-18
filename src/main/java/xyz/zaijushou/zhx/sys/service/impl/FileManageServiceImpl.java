@@ -65,11 +65,14 @@ public class FileManageServiceImpl implements FileManageService {
     @Resource
     private DataArchiveRemarkMapper dataArchiveRemarkMapper;
 
-
+    @Transactional
     public WebResponse batchCaseTel(List<DataCaseTelEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
-
-        dataCaseTelMapper.insertBatchTel(list);
+        for (int i=0;i<list.size();i++){
+            DataCaseTelEntity dataCaseTelEntity = list.get(i);
+            dataCaseTelMapper.saveTel(dataCaseTelEntity);
+        }
+        //dataCaseTelMapper.insertBatchTel(list);
         webResponse.setMsg( "导入成功");
         webResponse.setCode("100");
 
@@ -105,9 +108,10 @@ public class FileManageServiceImpl implements FileManageService {
                     }
                 }
             }
-            list.set(i,dataCaseAddressEntity);
+            dataCaseAddressMapper.saveAddress(dataCaseAddressEntity);
+            //list.set(i,dataCaseAddressEntity);
         }
-        //dataCaseAddressMapper
+
         webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;
