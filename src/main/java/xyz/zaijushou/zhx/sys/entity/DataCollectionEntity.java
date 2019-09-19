@@ -355,6 +355,15 @@ public class DataCollectionEntity extends CommonEntity {
     private Integer countCasePay;
     private BigDecimal sumPayMoney;
     private String lastFollowTime;
+    private Integer collectTimeNum;
+
+    public Integer getCollectTimeNum() {
+        return collectTimeNum;
+    }
+
+    public void setCollectTimeNum(Integer collectTimeNum) {
+        this.collectTimeNum = collectTimeNum;
+    }
 
     public String getLastFollowTime() {
         return lastFollowTime;

@@ -28,6 +28,7 @@
             <if test="relation != null">relation,</if>
             <if test="collectInfo != null">collect_info,</if>
             collect_time,
+            collect_time_num,
             <if test="mobile != null">mobile,</if>
             <if test="telType != null">tel_type,</if>
             <if test="area != null">area,</if>
@@ -110,6 +111,7 @@
             <if test="relation != null">#{relation},</if>
             <if test="collectInfo != null">#{collectInfo},</if>
             GETDATE(),
+            DATEDIFF(DAY,'1900-1-1',CONVERT(datetime, getdate(), 20)),
             <if test="mobile != null">#{mobile},</if>
             <if test="telType != null">#{telType},</if>
             <if test="area != null">#{area},</if>
@@ -198,6 +200,7 @@
             relation,
             collect_info,
             collect_time,
+            collect_time_num,
             mobile,
             tel_type,
             area,
@@ -279,6 +282,7 @@
             #{reddemCode.relation},
             #{reddemCode.collectInfo},
             #{reddemCode.contractDate},
+            DATEDIFF(DAY,'1900-1-1',CONVERT(datetime, #{reddemCode.contractDate}, 20)),
             #{reddemCode.mobile},
             #{reddemCode.telType},
             #{reddemCode.area},
@@ -551,10 +555,10 @@
                     <![CDATA[   and t.expect_time<=  #{expectEndTime}   ]]>
                 </if>
                 <if test="collectStartTime != null and collectStartTime!=''">
-                    <![CDATA[   and c.collect_time>= CONVERT(datetime, #{collectStartTime}, 20)  ]]>
+                    <![CDATA[   and c.collect_time_num> DATEDIFF(DAY,'1900-1-1',CONVERT(datetime, #{collectStartTime}, 20))-1  ]]>
                 </if>
                 <if test="collectEndTime != null and collectEndTime!=''" >
-                    <![CDATA[   and c.collect_time<=  CONVERT(datetime, #{collectEndTime}, 20) ]]>
+                    <![CDATA[   and c.collect_time_num< DATEDIFF(DAY,'1900-1-1',CONVERT(datetime, #{collectEndTime}, 20))+1  ]]>
                 </if>
 
                 <if test="caseDateStart != null and caseDateStart!=''">
