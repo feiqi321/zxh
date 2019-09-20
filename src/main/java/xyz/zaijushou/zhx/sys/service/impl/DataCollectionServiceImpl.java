@@ -663,6 +663,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         //我的还款列表统计查询
         PageHelper.startPage(beanInfo.getPageNum(), beanInfo.getPageSize());
         List<DataCollectionEntity> colList = dataCollectionMapper.pageStatisticsCollectionPay(beanInfo);
+        for (DataCollectionEntity entity : colList) {
+            if (entity.getRepayType()!=null && entity.getRepayType().getId()!=null){
+                SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+entity.getRepayType().getId(),SysDictionaryEntity.class);
+                entity.setRepayType(sysDictionaryEntity);
+            }
+        }
         List<SysDictionaryEntity> dictionaryList = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
         Map<Integer, SysDictionaryEntity> dictMap = new HashMap<>();
         for(SysDictionaryEntity entity : dictionaryList) {

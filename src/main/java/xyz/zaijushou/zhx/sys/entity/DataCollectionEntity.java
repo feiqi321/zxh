@@ -356,6 +356,15 @@ public class DataCollectionEntity extends CommonEntity {
     private BigDecimal sumPayMoney;
     private String lastFollowTime;
     private Integer collectTimeNum;
+    private SysDictionaryEntity repayType;
+
+    public SysDictionaryEntity getRepayType() {
+        return repayType;
+    }
+
+    public void setRepayType(SysDictionaryEntity repayType) {
+        this.repayType = repayType;
+    }
 
     public Integer getCollectTimeNum() {
         return collectTimeNum;
