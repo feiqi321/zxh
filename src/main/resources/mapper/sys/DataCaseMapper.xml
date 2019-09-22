@@ -3143,7 +3143,8 @@
         status,
         create_time,
         real_return_time,
-        collect_status
+        collect_status,
+        collect_date
         )
         values
         (
@@ -3357,7 +3358,8 @@
         1,
         GETDATE(),
         #{realReturnTime},
-        832
+        832,
+        GETDATE()
         )
     </insert>
 
@@ -3549,12 +3551,11 @@
         contactAddress6,
         delete_flag,
         status,
-        real_return_time
+        real_return_time,
+        collect_date
         )
         values
-
         <foreach collection="list" item="record" separator=",">
-
 
         (
         #{record.seqNo},
@@ -3739,7 +3740,8 @@
         #{record.contactAddress6},
             0,
             1,
-            #{realReturnTime}
+            #{realReturnTime},
+            GETDATE()
         )
         </foreach>
     </insert>

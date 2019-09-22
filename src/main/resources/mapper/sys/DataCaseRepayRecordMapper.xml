@@ -17,6 +17,7 @@
         c.account as [dataCase.account],
         c.currency_type as [dataCase.currencyType],
         c.archive_no as [dataCase.archiveNo],
+        c.status as [dataCase.status],
         c.name as [dataCase.name],
         c.money as [dataCase.money],
         c.balance as [dataCase.balance],
