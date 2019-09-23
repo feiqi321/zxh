@@ -30,6 +30,7 @@ import xyz.zaijushou.zhx.utils.StringUtils;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -2102,6 +2103,13 @@ public class DataCaseServiceImpl implements DataCaseService {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (int i=0;i<list.size();i++){
             DataCaseEntity temp = list.get(i);
+            try {
+                if(temp.getCollectDate()!=null) {
+                    temp.setCollectDate(sdf.format(sdf.parse(temp.getCollectDate())));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user==null?"":user.getUserName()+"("+user.getDeptName()+")");
             SysDictionaryEntity sysDictionaryEntity2 =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getCollectStatus(),SysDictionaryEntity.class);
