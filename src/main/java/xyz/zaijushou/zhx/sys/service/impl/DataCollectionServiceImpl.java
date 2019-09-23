@@ -89,25 +89,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         beanInfo.setOdv(sysUserEntity==null?"":sysUserEntity.getId()+"");
         dataCollectionMapper.saveCollection(beanInfo);
 
-        if (StringUtils.notEmpty(beanInfo.getsType())){
-            if (beanInfo.getsType() == 1){
-                //状态同步到同批次下的同身份证号的所有催收信息的状态
-                DataCaseEntity caseInfo = new DataCaseEntity();
-                if (StringUtils.isEmpty(beanInfo.getCaseId())){
-                    return ;
-                }
-                caseInfo.setId(Integer.valueOf(beanInfo.getCaseId()));
-                List<DataCaseEntity> listInfo = caseMapper.listAllCaseInfo(caseInfo);
-                if (StringUtils.isEmpty(listInfo)){
-                    return ;
-                }
-                DataCollectionEntity bean = new DataCollectionEntity();
-                bean.setBatchNo(listInfo.get(0).getBatchNo());
-                bean.setIdentNo(listInfo.get(0).getIdentNo());
-                bean.setCollectStatus(beanInfo.getCollectStatus());
-                collectionMapper.updateDataCollect(bean);
-            }
-        }
+
 
         DataOpLog log = new DataOpLog();
         log.setType("电话催收");
@@ -131,6 +113,26 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         dataCaseEntity.setProRepayAmt(beanInfo.getRepayAmt());
         dataCaseEntity.setProRepayDate(beanInfo.getRepayTime());
         caseMapper.updateDataCaseByCollectAdd(dataCaseEntity);
+
+        if (StringUtils.notEmpty(beanInfo.getsType())){
+            if (beanInfo.getsType() == 1){
+                //状态同步到同批次下的同身份证号的所有催收信息的状态
+                DataCaseEntity caseInfo = new DataCaseEntity();
+                if (StringUtils.isEmpty(beanInfo.getCaseId())){
+                    return ;
+                }
+                caseInfo.setId(Integer.valueOf(beanInfo.getCaseId()));
+                List<DataCaseEntity> listInfo = caseMapper.listAllCaseInfo(caseInfo);
+                if (StringUtils.isEmpty(listInfo)){
+                    return ;
+                }
+                DataCollectionEntity bean = new DataCollectionEntity();
+                bean.setBatchNo(listInfo.get(0).getBatchNo());
+                bean.setIdentNo(listInfo.get(0).getIdentNo());
+                bean.setCollectStatus(beanInfo.getCollectStatus());
+                collectionMapper.updateDataCollect(bean);
+            }
+        }
     }
 
     public void detailSave(DataCollectionEntity beanInfo){
