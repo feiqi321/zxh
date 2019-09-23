@@ -1693,7 +1693,7 @@
     <select id="pageCaseTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select
         t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.collect_status as collectStatus,
-        CONVERT(varchar(100), t.collect_date, 23) as collectDate,
+        CONVERT(varchar(100), t.collect_date, 20) as collectDate,
         t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv,t.comment
         from data_case t    LEFT  JOIN data_case_tel d on t.id = d.case_id
         <where>
