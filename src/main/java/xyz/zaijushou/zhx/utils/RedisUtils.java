@@ -130,13 +130,13 @@ public class RedisUtils {
 
     public static <T> T entityGet(String key, Class<T> clazz) {
         String value = stringRedisTemplate.opsForValue().get(key);
-        if(value == null) {
+        if(value == null || value.equals("")) {
             return null;
         }
         try {
             return JSONObject.parseObject(value, clazz);
         } catch (Exception e) {
-            logger.error("redis转entity出错：{}", e);
+            logger.error("redis转entity出错：{},key:{},value:{}", e,key,value);
             return null;
         }
     }
