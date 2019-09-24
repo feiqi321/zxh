@@ -33,7 +33,7 @@
             <fileNamePattern>/app/zhx/logs/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxHistory>7</maxHistory>
             <maxFileSize>100MB</maxFileSize>
-            <totalSizeCap>2GB</totalSizeCap>
+            <totalSizeCap>50GB</totalSizeCap>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
         <encoder>

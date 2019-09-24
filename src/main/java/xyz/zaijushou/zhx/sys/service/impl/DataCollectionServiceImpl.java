@@ -87,6 +87,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             beanInfo.setIsEnable(0);
         }
         beanInfo.setOdv(sysUserEntity==null?"":sysUserEntity.getId()+"");
+        beanInfo.setCollectInfo(beanInfo.getCollectInfo().trim());
+        beanInfo.setResult(beanInfo.getResult().trim());
         dataCollectionMapper.saveCollection(beanInfo);
 
 
@@ -107,7 +109,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         DataCaseEntity dataCaseEntity = new DataCaseEntity();
         dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
-        dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
+        dataCaseEntity.setNewCase(beanInfo.getCollectInfo().trim());
         dataCaseEntity.setSummary(beanInfo.getResult());
         dataCaseEntity.setCollectStatus(beanInfo.getCollectStatus());
         dataCaseEntity.setProRepayAmt(beanInfo.getRepayAmt());
