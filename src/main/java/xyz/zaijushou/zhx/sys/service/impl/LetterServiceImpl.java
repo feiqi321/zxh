@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -113,8 +114,16 @@ public class LetterServiceImpl implements LetterService {
         }else {
             list = letterMapper.pageDataLetter(letter);
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (int i=0;i<list.size();i++){
             Letter temp = list.get(i);
+            if (temp.getSynergyDate()!=null) {
+                try {
+                    temp.setSynergyDate(sdf.format(sdf.parse(temp.getSynergyDate())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             temp.setRelationer(temp.getRelationer()==null?"":(temp.getRelationer().equals("NULL")?"":temp.getRelationer()));
             if (temp.getCollectStatus()==0){
                 temp.setCollectStatusMsg("");
