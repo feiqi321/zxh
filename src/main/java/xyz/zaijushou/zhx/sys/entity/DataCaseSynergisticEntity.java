@@ -19,12 +19,12 @@ public class DataCaseSynergisticEntity extends CommonEntity {
 
     private String applyContent;    //申请内容
 
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date applyTime; //申请时间
 
     private SysUserEntity applyUser; //申请人
 
-    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date synergisticTime;   //协催时间
 
     private SysNewUserEntity synergisticUser;   //协催人
