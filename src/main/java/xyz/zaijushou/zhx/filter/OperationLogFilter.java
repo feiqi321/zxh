@@ -175,7 +175,7 @@ public class OperationLogFilter extends OncePerRequestFilter {
         out.write(result);
         out.flush();
         out.close();
-        logger.info("返回结果:{}", result);
+       // logger.info("返回结果:{}", result);
         if(!arrayContainsContent(RESPONSE_EXCEPT_URL, operationLog.getUrl())) {
             operationLog.setResponseBody(result);
         }

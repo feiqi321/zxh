@@ -25,9 +25,9 @@ public class GlobalConfig {
         //核心线程数目
         executor.setCorePoolSize(32);
         //指定最大线程数
-        executor.setMaxPoolSize(1024);
+        executor.setMaxPoolSize(2048);
         //队列中最大的数目
-        executor.setQueueCapacity(128);
+        executor.setQueueCapacity(256);
         //线程名称前缀
         executor.setThreadNamePrefix("defaultThreadPool_");
         //rejection-policy：当pool已经达到max size的时候，如何处理新任务

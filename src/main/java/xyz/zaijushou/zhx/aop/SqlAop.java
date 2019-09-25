@@ -44,10 +44,7 @@ public class SqlAop {
             if (commonEntity.getPageSize() == null || commonEntity.getPageSize() <= 0) {
                 commonEntity.setPageSize(defaultPageSize);
             }
-            logger.error("开始执行aop方法修改参数。。。调用的方法是:"+joinPoint.getSignature().getName());
             PageHelper.startPage(commonEntity.getPageNum(), commonEntity.getPageSize());
-            Page page = PageHelper.getLocalPage();
-            logger.error("开始执行aop方法线程缓存是:"+ JSONObject.toJSONString(page));
         } catch (Exception e) {
             logger.error("pageHelper aop 异常：{}", e);
         }

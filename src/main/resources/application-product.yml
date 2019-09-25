@@ -2,8 +2,8 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://192.168.25.205:1433;databasename=zhx
-    #url: jdbc:sqlserver://172.16.0.25:1433;databasename=zhx
+    #url: jdbc:sqlserver://192.168.25.205:1433;databasename=zhx
+    url: jdbc:sqlserver://172.16.0.25:1433;databasename=zhx
     username: sa
     password: frsoft@2019
     initialSize: 10
