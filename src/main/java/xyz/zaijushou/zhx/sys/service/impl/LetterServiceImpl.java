@@ -59,9 +59,16 @@ public class LetterServiceImpl implements LetterService {
         List<Letter> list = new ArrayList<Letter>();
 
         list = letterMapper.pageDataLetterInfo(letter);
-
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (int i=0;i<list.size();i++){
             Letter temp = list.get(i);
+            if (temp.getSynergyDate()!=null) {
+                try {
+                    temp.setSynergyDate(sdf.format(sdf.parse(temp.getSynergyDate())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
             temp.setRelationer(temp.getRelationer()==null?"":(temp.getRelationer().equals("NULL")?"":temp.getRelationer()));
             if (temp.getCollectStatus()==0){
                 temp.setCollectStatusMsg("");

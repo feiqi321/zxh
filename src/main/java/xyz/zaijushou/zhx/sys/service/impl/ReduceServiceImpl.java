@@ -16,6 +16,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -44,8 +45,17 @@ public class ReduceServiceImpl implements ReduceService {
         }
 //        bean.setReduceFlag("1");//1为已删除
         List<DataCollectionEntity> list = reduceMapper.pageReduceApply(bean);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (int i=0;i<list.size();i++){
             DataCollectionEntity temp = list.get(i);
+            if (temp.getCompleteTime()!=null) {
+                try {
+                    temp.setCompleteTime(sdf.format(sdf.parse(temp.getCompleteTime())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
             SysDictionaryEntity collectDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getCollectStatus(), SysDictionaryEntity.class);
             temp.setCollectStatusMsg(collectDic==null?"":collectDic.getName());
             SysDictionaryEntity reduceDic = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+ temp.getReduceStatus(), SysDictionaryEntity.class);
