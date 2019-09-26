@@ -196,7 +196,7 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
          select count(1) as staffNumber  from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1 and sys_user.delete_flag=0
     </select>
     <select id="findStaffNumberById2" resultType="java.lang.Integer">
-        select count(1) from sys_user where department=#{department}
+        select count(1) from sys_user where department=#{department} and  status=1 and delete_flag=0
     </select>
 
     <resultMap id="UserResultMap" type="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
