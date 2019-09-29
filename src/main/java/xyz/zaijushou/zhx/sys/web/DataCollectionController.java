@@ -194,7 +194,11 @@ public class DataCollectionController {
             bean.setNames(bean.getName().split(","));
         }
         if (StringUtils.notEmpty(bean.getIdentNo())){
-            bean.setIdentNos(bean.getIdentNo().split(","));
+            String[] identNos = bean.getIdentNo().split(",");
+            bean.setIdentNos(identNos);
+            if(identNos.length == 1){
+                bean.setIdentNoQueryMode(0);
+            }
         }
         if (StringUtils.notEmpty(bean.getArchiveNo())){
             bean.setArchiveNos(bean.getArchiveNo().split(","));

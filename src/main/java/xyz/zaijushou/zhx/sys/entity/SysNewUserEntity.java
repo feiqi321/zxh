@@ -109,7 +109,7 @@ public class SysNewUserEntity extends CommonEntity {
 
     private String deptName;
 
-    private int callcenterid;
+    private Integer callcenterid;
 
     private String callCenter;
 
@@ -121,11 +121,11 @@ public class SysNewUserEntity extends CommonEntity {
         this.callCenter = callCenter;
     }
 
-    public int getCallcenterid() {
+    public Integer getCallcenterid() {
         return this.callcenterid;
     }
 
-    public void setCallcenterid(int callcenterid) {
+    public void setCallcenterid(Integer callcenterid) {
         this.callcenterid = callcenterid;
     }
 

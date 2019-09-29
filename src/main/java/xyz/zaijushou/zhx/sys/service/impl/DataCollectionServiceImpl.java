@@ -209,7 +209,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Transactional
     public WebResponse pageMyCase(DataCollectionEntity dataCollectionEntity) throws Exception{
         ExecutorService executor = Executors.newFixedThreadPool(20);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String[] clients = dataCollectionEntity.getClients();
         if (clients == null || clients.length==0 || org.apache.commons.lang3.StringUtils.isEmpty(clients[0])){
             dataCollectionEntity.setClientFlag(null);
@@ -274,8 +273,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
         WebResponse webResponse = WebResponse.buildResponse();
         CollectionReturnEntity collectionReturn = new CollectionReturnEntity();
-
-
         if(StringUtils.isEmpty(dataCollectionEntity.getOrderBy())){
             dataCollectionEntity.setOrderBy("id");
         }else {
@@ -284,7 +281,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             }else{
                 dataCollectionEntity.setOrderBy(MyCollectSortEnum.getEnumByKey(dataCollectionEntity.getOrderBy()).getValue());
             }
-
         }
         if (StringUtils.isEmpty(dataCollectionEntity.getSort())){
             dataCollectionEntity.setSort("desc");
@@ -340,14 +336,12 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         dataCollectionEntity.setPageSize(null);
         DataCollectionEntity dataCollectionEntity1= dataCollectionMapper.querySum1(dataCollectionEntity);
 
-
         int countCase = 0;//列表案量
         BigDecimal sumMoney = new BigDecimal("0");//列表金额
         int countCasePay = 0;//列表还款案量
         BigDecimal sumPayMoney = new BigDecimal("0");//列表还款数额
         BigDecimal  bankAmt= new BigDecimal("0");//列表待銀行对账金额
         BigDecimal  repayAmt= new BigDecimal("0");//列表承诺还款金额
-        List<String> caseIds = new ArrayList<String>();//案件ID数组
         if(StringUtils.isEmpty(list)) {
             collectionReturn.setCountCase(countCase);
             collectionReturn.setCountCasePay(countCasePay);
@@ -384,7 +378,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         webResponse.setTotalNum(count);
         return webResponse;
     }
-
 
     @Override
     public List<DataCollectionEntity> listCaseBatchIdNo(DataCollectionEntity beanInfo){

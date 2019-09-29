@@ -369,22 +369,18 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Override
     public WebResponse updateUser(SysNewUserEntity userEntity){
-        WebResponse webResponse = WebResponse.buildResponse();
         if (userEntity.getStatus() == 0){
             userEntity.setEnable(0);
         }
 
-        List<SysNewUserEntity> temp = sysUserMapper.selectPasswordInfoByOffice(userEntity);
-        if (temp.size()>0){
-            return WebResponse.error("500","坐席号重复");
+        if(StringUtils.notEmpty(userEntity.getOfficePhone()) && userEntity.getCallcenterid() != null){
+            List<SysNewUserEntity> temp = sysUserMapper.selectPasswordInfoByOffice(userEntity);
+            if (temp.size()>0){
+                return WebResponse.error("500","坐席号重复");
+            }
         }
 
         SysNewUserEntity oldBean = sysUserMapper.getDataById(userEntity.getId());
-
-        SysNewUserEntity bean = new SysNewUserEntity();
-        bean.setId(userEntity.getId());
-        bean.setUserName(userEntity.getUserName());
-
 
         sysUserMapper.updateUser(userEntity);
 
@@ -420,7 +416,7 @@ public class SysUserServiceImpl implements SysUserService {
             dataCaseMapper.updateDept(dataCaseEntity);
         }
 
-        return  webResponse.success();
+        return WebResponse.success();
     }
 
     @Override
