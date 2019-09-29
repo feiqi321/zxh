@@ -434,10 +434,10 @@ public class SysUserServiceImpl implements SysUserService {
         if (StringUtils.notEmpty(newBean)){
             stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
         }
-            DataCaseEntity dataCaseEntity = new DataCaseEntity();
-            dataCaseEntity.setOdv(newBean.getId()+"");
-            dataCaseEntity.setDept(newBean.getDepartment());
-            dataCaseMapper.updateDept(dataCaseEntity);
+        DataCaseEntity dataCaseEntity = new DataCaseEntity();
+        dataCaseEntity.setOdv(newBean.getId()+"");
+        dataCaseEntity.setDept(newBean.getDepartment());
+        dataCaseMapper.updateDept(dataCaseEntity);
 
     }
 
