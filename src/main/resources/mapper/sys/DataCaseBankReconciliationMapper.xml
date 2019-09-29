@@ -830,6 +830,7 @@
             update_user,
             delete_flag,
             status,
+            submit_time,
             create_time
         )
         values
@@ -845,6 +846,7 @@
             #{updateUser.id},
             0,
             0,
+            GETDATE(),
             GETDATE()
         )
     </insert>
