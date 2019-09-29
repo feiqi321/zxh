@@ -455,6 +455,10 @@ public class DataCaseRepayRecordServiceImpl implements DataCaseRepayRecordServic
                     SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getCollectUser().getId(), SysUserEntity.class);
                     entity.getCollectUser().setDeptName(user.getDeptName());
                 }
+                if (entity.getCreateUser()!=null && entity.getCreateUser().getId()!=null){
+                    SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ entity.getCreateUser().getId(), SysUserEntity.class);
+                    entity.getCreateUser().setUserName(user.getUserName());
+                }
                 if (entity != null && entity.getConfirmUser()!= null && entity.getConfirmUser().getId() != null ) {
                     entity.setConfirmUser(userMap.get(entity.getConfirmUser().getId()));
                 }

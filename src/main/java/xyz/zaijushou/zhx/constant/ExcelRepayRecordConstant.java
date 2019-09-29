@@ -1,9 +1,6 @@
 package xyz.zaijushou.zhx.constant;
 
-import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
-import xyz.zaijushou.zhx.sys.entity.DataCaseRemarkEntity;
-import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
-import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
+import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -92,8 +89,8 @@ public class ExcelRepayRecordConstant {
         COL150(150, "案件催收员", "dataCase.collectionUser.userName", DataCaseEntity.class, SysNewUserEntity.class, String.class),
         COL160(160, "回收催收员", "collectUser.userName", SysNewUserEntity.class, String.class),
         COL170(170, "回收部门", "collectUser.deptName", SysNewUserEntity.class, String.class),
-        COL180(180, "提交人", ""),
-        COL190(190, "提交时间", ""),
+        COL180(180, "提交人", "createUser.userName",SysNewUserEntity.class, String.class),
+        COL190(190, "提交时间", "createTime", Date.class),
         COL200(200, "还款金额", "dataCase.enRepayAmt", DataCaseEntity.class, BigDecimal.class),
         COL210(210, "还款日期", "repayDate", Date.class),
         COL220(220, "还款余额", "dataCase.balance", DataCaseEntity.class, BigDecimal.class),
@@ -196,8 +193,8 @@ public class ExcelRepayRecordConstant {
         COL150("caseOdv", "案件催收员", "c.odv as 'dataCase.collectionUser.id'", DataCaseEntity.class, SysNewUserEntity.class, String.class),
         COL160("backOdv", "回收催收员", " r.collect_user as 'collectUser.id'", SysNewUserEntity.class, String.class),
         COL170("backDept", "回收部门", ""),
-        COL180("submitUser", "提交人", "", SysNewUserEntity.class, String.class),
-        COL190("submitTime", "提交时间", "", Date.class),
+        COL180("submitUser", "提交人", "r.create_user as createUser.id", SysUserEntity.class, Integer.class),
+        COL190("submitTime", "提交时间", "r.create_time as createTime",Date.class),
 //        COL200("enRepayAmt", "还款金额", "c.en_repay_amt as 'dataCase.enRepayAmt'", DataCaseEntity.class, BigDecimal.class),
         COL200("enRepayAmt", "还款金额", "r.repay_money as 'dataCase.enRepayAmt'", DataCaseEntity.class,BigDecimal.class),
         COL210("repayDate", "还款日期", "r.repay_date as repayDate"),

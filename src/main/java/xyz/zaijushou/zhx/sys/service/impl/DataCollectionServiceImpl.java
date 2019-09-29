@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.common.web.WebResponse;
@@ -30,6 +31,8 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -61,7 +64,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private ManageMapper manageMapper;
     @Resource
     private DataCaseRepayRecordMapper dataCaseRepayRecordMapper;
-
+    private Lock lock = new ReentrantLock();    //注意这个地方
 
 
     @Override
@@ -119,22 +122,35 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if (StringUtils.notEmpty(beanInfo.getsType())){
             if (beanInfo.getsType() == 1){
                 //状态同步到同批次下的同身份证号的所有催收信息的状态
-                DataCaseEntity caseInfo = new DataCaseEntity();
-                if (StringUtils.isEmpty(beanInfo.getCaseId())){
-                    return ;
-                }
-                caseInfo.setId(Integer.valueOf(beanInfo.getCaseId()));
-                List<DataCaseEntity> listInfo = caseMapper.listAllCaseInfo(caseInfo);
-                if (StringUtils.isEmpty(listInfo)){
-                    return ;
-                }
-                DataCollectionEntity bean = new DataCollectionEntity();
-                bean.setBatchNo(listInfo.get(0).getBatchNo());
-                bean.setIdentNo(listInfo.get(0).getIdentNo());
-                bean.setCollectStatus(beanInfo.getCollectStatus());
-                collectionMapper.updateDataCollect(bean);
+                this.sycUpdateCollect(beanInfo);
             }
         }
+    }
+
+    @Async
+    public void sycUpdateCollect(DataCollectionEntity beanInfo){
+        lock.lock();
+        try {
+            DataCaseEntity caseInfo = new DataCaseEntity();
+            if (StringUtils.isEmpty(beanInfo.getCaseId())){
+                return ;
+            }
+            caseInfo.setId(Integer.valueOf(beanInfo.getCaseId()));
+            List<DataCaseEntity> listInfo = caseMapper.listAllCaseInfo(caseInfo);
+            if (StringUtils.isEmpty(listInfo)){
+                return ;
+            }
+            DataCollectionEntity bean = new DataCollectionEntity();
+            bean.setBatchNo(listInfo.get(0).getBatchNo());
+            bean.setIdentNo(listInfo.get(0).getIdentNo());
+            bean.setCollectStatus(beanInfo.getCollectStatus());
+            collectionMapper.updateDataCollect(bean);
+        } catch (Exception e) {
+            logger.error("出现异常:{}",e);
+        }finally {
+            lock.unlock();
+        }
+
     }
 
     public void detailSave(DataCollectionEntity beanInfo){
