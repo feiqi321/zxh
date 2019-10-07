@@ -37,8 +37,8 @@ public class ExcelUserUtils {
         List<T> resultList = new ArrayList<>();
         InputStream inputStream = file.getInputStream();
         String fileName = file.getOriginalFilename();
-        Workbook workbook;
-        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+        Workbook workbook = null;
+        if(StringUtils.isNotEmpty(fileName) && fileName.endsWith(".xlsx")) {
             workbook = new XSSFWorkbook(inputStream);
         } else {
             workbook = new HSSFWorkbook(inputStream);
@@ -142,6 +142,12 @@ public class ExcelUserUtils {
                 logger.error("excel解析错误：{}", e);
                 throw new IOException("excel解析错误", e);
             }
+        }
+        if(workbook != null){
+            workbook.close();
+        }
+        if(inputStream != null){
+            inputStream.close();
         }
         return resultList;
     }

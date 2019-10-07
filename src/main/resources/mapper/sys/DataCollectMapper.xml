@@ -807,10 +807,17 @@
                 </if>
 
                 <if test="identNos != null and identNos.length > 0">
-                    and t.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
-                        '${item}'
-                    </foreach>
+                    <choose>
+                        <when test="identNoQueryMode == 0">
+                            and t.ident_no like '%${identNos[0]}%'
+                        </when>
+                        <otherwise>
+                            and t.ident_no in
+                            <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                                '${item}'
+                            </foreach>
+                        </otherwise>
+                    </choose>
                 </if>
 
                 <if test="collectStatus != null and collectStatus!=''">
@@ -893,13 +900,9 @@
         order by ${orderBy} ${sort}
     </select>
 
-
-
-
-
     <select id="listDataCollectByIds" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select   t1.mobile,t1.collect_time as createTime,  t1.target_name as targetName, t1.relation,t1.collect_info as collectInfo,t1.odv
-        from data_collection t1
+        from data_collection t1 with(nolock)
         <where>
             <if test="ids != null and ids.length >0">
                  t1.case_id in
@@ -1919,8 +1922,9 @@
     </insert>
 
     <update id="detailUpdate" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
-          update data_collection  set target_name =#{targetName},relation = #{relation},collect_info=#{collectInfo},mobile=#{mobile},tel_type=#{telType},
-          measure = #{measure} where id=#{id}
+          update data_collection  set target_name =#{targetName},relation = #{relation},collect_info=#{collectInfo},
+          mobile=#{mobile},tel_type=#{telType},measure = #{measure},collect_time=#{collectTime}
+          where id=#{id}
     </update>
 
     <delete id="detailDel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" >
@@ -2143,10 +2147,17 @@
                 </if>
 
                 <if test="identNos != null and identNos.length > 0">
-                    and t.ident_no in
-                    <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
-                        '${item}'
-                    </foreach>
+                    <choose>
+                        <when test="identNoQueryMode == 0">
+                            and t.ident_no like '%${identNos[0]}%'
+                        </when>
+                        <otherwise>
+                            and t.ident_no in
+                            <foreach item="item" index="index" collection="identNos" open="(" separator="," close=")">
+                                '${item}'
+                            </foreach>
+                        </otherwise>
+                    </choose>
                 </if>
 
                 <if test="collectStatus != null and collectStatus!=''">

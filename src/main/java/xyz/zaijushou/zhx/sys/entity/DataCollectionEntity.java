@@ -358,6 +358,17 @@ public class DataCollectionEntity extends CommonEntity {
     private Integer collectTimeNum;
     private SysDictionaryEntity repayType;
 
+    // 证件号查询模式 0:单条模糊查询 1:数组精确匹配
+    private Integer identNoQueryMode;
+
+    public Integer getIdentNoQueryMode() {
+        return this.identNoQueryMode;
+    }
+
+    public void setIdentNoQueryMode(Integer identNoQueryMode) {
+        this.identNoQueryMode = identNoQueryMode;
+    }
+
     public SysDictionaryEntity getRepayType() {
         return repayType;
     }

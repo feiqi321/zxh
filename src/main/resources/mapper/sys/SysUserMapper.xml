@@ -295,42 +295,32 @@
     <update id="updateUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user
         <set>
-                mobile = #{mobile},
-
+            mobile = #{mobile},
+            sex = #{sex},
+            position = #{position},
+            office_phone = #{officePhone},
+            callcenterid = #{callcenterid},
             <if test="userName != null and userName != ''">
                 username = #{userName},
             </if>
-
             <if test="loginName != null and loginName != ''">
                 login_name = #{loginName},
             </if>
-
             <if test="number != null and number != ''">
                 number = #{number},
             </if>
-
             <if test="department != null and userName != ''">
                 department = #{departId},
             </if>
-
-                sex = #{sex},
-
-                office_phone = #{officePhone},
-
             <if test="joinTime != null">
                 join_time = #{joinTime,jdbcType=TIMESTAMP},
             </if>
-
             <if test="leaveTime != null">
                 leave_time = #{leaveTime,jdbcType=TIMESTAMP},
             </if>
-
-                position = #{position},
-
             <if test="status != null and status != ''">
                 status = #{status},
             </if>
-
             <if test="enable != null ">
                 enable = #{enable},
             </if>
@@ -340,8 +330,6 @@
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-
 
     <!--查询数据集合-->
     <select id="userDataList" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultMap="UserResultMap">

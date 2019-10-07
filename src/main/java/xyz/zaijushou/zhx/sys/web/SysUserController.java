@@ -288,14 +288,6 @@ public class SysUserController {
     @ApiOperation(value = "导入用户", notes = "导入用户")
     @PostMapping("/import")
     public Object userImport(MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-        InputStream inputStream = file.getInputStream();
-        Workbook workbook = null;
-        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
-            workbook = new XSSFWorkbook(inputStream);
-        } else {
-            workbook = new HSSFWorkbook(inputStream);
-        }
         List<SysNewUserEntity> userList = ExcelUserUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);
 
         if(userList.size() == 0) {
@@ -313,6 +305,15 @@ public class SysUserController {
         for (int j=0;j<roleList.size();j++){
             SysRoleEntity sysRole = roleList.get(j);
             roleMap.put(sysRole.getRoleName(),sysRole);
+        }
+        List<SysUserEntity> users = sysUserService.listAllUsers(new SysUserEntity());
+        List<String> usernames = new ArrayList<String>();
+        List<String> loginnames = new ArrayList<String>();
+        for (SysUserEntity user : users) {
+            usernames.add(user.getUserName());
+            if(StringUtils.isNotEmpty(user.getLoginName())){
+                loginnames.add(user.getLoginName());
+            }
         }
         for (SysNewUserEntity userInfo : userList){
             ++count;
@@ -340,15 +341,18 @@ public class SysUserController {
             if (StringUtils.isEmpty(userInfo.getUserName())){
                 return WebResponse.error("500","第"+count+"条记录没有填入姓名");
             }
-
+            if (usernames.contains(userInfo.getUserName())){
+                return WebResponse.error("500","第"+count+"条记录员工姓名["+userInfo.getUserName()+"]存在重复记录");
+            }
+            if (loginnames.contains(userInfo.getLoginName())){
+                return WebResponse.error("500","第"+count+"条记录账号["+userInfo.getLoginName()+"]存在重复记录");
+            }
         }
-
         sysUserService.insertUserList(userList);
         WebResponse webResponse = WebResponse.buildResponse();
         webResponse.setCode("100");
         return WebResponse.success();
     }
-
 
     @ApiOperation(value = "导出用户数据列表", notes = "导出用户数据列表")
     @PostMapping("/select/exportList")
