@@ -3145,9 +3145,9 @@ public class DataCaseServiceImpl implements DataCaseService {
             if (org.apache.commons.lang3.StringUtils.isNotEmpty(telInfos)){
                 DataCaseTelEntity temp = new DataCaseTelEntity();
                 String[] telInfo = telInfos.split("-");
-                String relation = telInfo[0];
-                String name = telInfo[1];
-                String tel = telInfo[2];
+                String relation = telInfo[0]==null?"":telInfo[0];
+                String name = telInfo[1]==null?"":telInfo[1];
+                String tel = telInfo[2]==null?"":telInfo[2];
                 DataCaseEntity request = new DataCaseEntity();
                 request.setId(bean.getCaseId());
                 DataCaseEntity dataCaseEntity = dataCaseMapper.findById(request);
