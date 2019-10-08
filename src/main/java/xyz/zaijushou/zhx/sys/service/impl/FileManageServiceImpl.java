@@ -201,11 +201,11 @@ public class FileManageServiceImpl implements FileManageService {
             if (StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
-                    if (dataCaseEntity.getColor().equals("0")){
+                    if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("0")){
                         dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
-                    }else if (dataCaseEntity.getColor().equals("1")){
+                    }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("1")){
                         dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
-                    }else if (dataCaseEntity.getColor().equals("2")){
+                    }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("2")){
                         dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
                     }
                     dateCaseMapper.updateComment(dataCaseEntity);
@@ -237,11 +237,11 @@ public class FileManageServiceImpl implements FileManageService {
                 }
 
                 if (temp!=null){
-                    if (dataCaseEntity.getColor().equals("0")){
+                    if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("0")){
                         dataCaseEntity.setColor(ColorEnum.getEnumByKey("黑").getValue());
-                    }else if (dataCaseEntity.getColor().equals("1")){
+                    }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("1")){
                         dataCaseEntity.setColor(ColorEnum.getEnumByKey("红").getValue());
-                    }else if (dataCaseEntity.getColor().equals("2")){
+                    }else if (dataCaseEntity.getColor()!=null && dataCaseEntity.getColor().equals("2")){
                         dataCaseEntity.setColor(ColorEnum.getEnumByKey("蓝").getValue());
                     }
                     dateCaseMapper.updateComment(dataCaseEntity);
