@@ -2973,6 +2973,9 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseDetail.setMoneyMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getMoney().stripTrailingZeros().toPlainString()));
         }
+
+        dataCaseDetail.setLateFee(new BigDecimal(dataCaseDetail.getLateFee()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        dataCaseDetail.setOverdueManagementCost(new BigDecimal(dataCaseDetail.getOverdueManagementCost()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
         if(StringUtils.notEmpty(dataCaseDetail.getLatestOverdueMoney())){
             dataCaseDetail.setInterestDate(dataCaseDetail.getLatestOverdueMoney()+"(于"+dataCaseDetail.getInterestDate()+"导入)");
         }else{
