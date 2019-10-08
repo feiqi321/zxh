@@ -18,6 +18,8 @@ import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -289,8 +291,16 @@ public class DataCollectServiceImpl implements DataCollectService {
     public WebResponse selectDataCollectExportByCase(DataCaseEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectExportByCase(bean);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         for (int i=0;i<resultList.size();i++){
             DataCollectExportEntity temp = resultList.get(i);
+            if (temp.getCollectTime()!=null) {
+                try {
+                    temp.setCollectTime(sdf.format(sdf.parse(temp.getCollectTime())));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
 
             SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+temp.getReduceStatus(),SysDictionaryEntity.class);
             temp.setReduceStatusMsg(sysDictionaryEntity==null?"":sysDictionaryEntity.getName());

@@ -1238,7 +1238,9 @@ public class DataCaseController {
                 if (caseCollectExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseCollectExportConf.getAttr())) {
                     exportKeyList.add(caseCollectExportConf.getAttr());
                 }
-                colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+                if (caseCollectExportConf!=null){
+                    colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+                }
             }
         }
 
