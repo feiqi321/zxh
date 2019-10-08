@@ -1868,6 +1868,9 @@
             <if test="collectHand != null and collectHand != ''">
                 collect_hand = #{collectHand},
             </if>
+            <if test="accountAge != null and accountAge != ''">
+                account_age = #{accountAge},
+            </if>
             <if test="rmb != null and rmb != ''">
                 rmb = #{rmb},
             </if>
