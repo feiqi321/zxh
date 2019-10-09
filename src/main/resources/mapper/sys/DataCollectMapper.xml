@@ -901,11 +901,11 @@
     </select>
 
     <select id="listDataCollectByIds" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
-        select   t1.mobile,t1.collect_time as createTime,  t1.target_name as targetName, t1.relation,t1.collect_info as collectInfo,t1.odv
-        from data_collection t1 with(nolock)
+        select   t1.mobile,t1.collect_time as createTime,  t1.target_name as targetName, t1.relation,t1.collect_info as collectInfo,t2.odv
+        from data_collection t1 with(nolock) LEFT JOIN  data_case t2 on t2.id = t1.case_id
         <where>
             <if test="ids != null and ids.length >0">
-                 t1.case_id in
+                 t2.id in
                 <foreach collection="ids" item="item" separator ="," open="(" close=")">
                     ${item}
                 </foreach>
