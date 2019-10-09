@@ -266,6 +266,9 @@ public class SysPercentServiceImpl implements SysPercentService {
     @Override
     public SysStandard listStandard() {
         SysStandard sysStandard = sysPercentMapper.listStandard();
+        if (sysStandard==null){
+            sysStandard = new SysStandard();
+        }
             sysStandard.setStandard1Msg(sysStandard.getStandard1() == null ? "0" : sysStandard.getStandard1().stripTrailingZeros().toPlainString());
             sysStandard.setStandard2Msg(sysStandard.getStandard2() == null ? "0" : sysStandard.getStandard2().stripTrailingZeros().toPlainString());
             sysStandard.setReward1Msg(sysStandard.getReward1() == null ? "0" : sysStandard.getReward1().stripTrailingZeros().toPlainString());

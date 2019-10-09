@@ -1170,10 +1170,12 @@
                 <if test="color != null and color!=''">
                     AND t.color =#{color}
                 </if>
-                <if test="seqno != null and seqno!=''">
-                    AND t.seq_no =#{seqno}
+                <if test="seqNoFlag != null and seqNoFlag!=''">
+                    and t.seq_no in
+                    <foreach item="item" index="index" collection="seqnos" open="(" separator="," close=")">
+                        '${item}'
+                    </foreach>
                 </if>
-
                 <if test="targetName != null and targetName!=''">
                     AND c.target_name =#{targetName}
                 </if>

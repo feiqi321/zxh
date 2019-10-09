@@ -162,6 +162,17 @@ public class DataCollectServiceImpl implements DataCollectService {
         }else{
             bean.setBatchFlag("1");
         }
+        if (StringUtils.isEmpty(bean.getSeqno())){
+            bean.setSeqNoFlag(null);
+        }else{
+            String[] seqNos = bean.getSeqno().split(",");
+            if (seqNos == null || seqNos.length==0 || StringUtils.isEmpty(seqNos[0])){
+                bean.setSeqNoFlag(null);
+            }else {
+                bean.setSeqNoFlag("1");
+                bean.setSeqnos(seqNos);
+            }
+        }
         if (StringUtils.isEmpty(bean.getOrderBy())) {
             bean.setOrderBy("id");
             bean.setSort("desc");
