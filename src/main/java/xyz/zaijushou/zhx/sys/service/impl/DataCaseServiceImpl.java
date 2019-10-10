@@ -2966,12 +2966,12 @@ public class DataCaseServiceImpl implements DataCaseService {
         if (dataCaseDetail.getBalance()==null || dataCaseDetail.getBalance().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setBalanceMsg("￥0");
         }else{
-            dataCaseDetail.setBalanceMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getBalance().stripTrailingZeros().toPlainString()));
+            dataCaseDetail.setBalanceMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getBalance().setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString()));
         }
         if (dataCaseDetail.getMoney()==null || dataCaseDetail.getMoney().compareTo(new BigDecimal(0))==0){
             dataCaseDetail.setMoneyMsg("￥0");
         }else{
-            dataCaseDetail.setMoneyMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getMoney().stripTrailingZeros().toPlainString()));
+            dataCaseDetail.setMoneyMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getMoney().setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString()));
         }
 
         dataCaseDetail.setLateFee(dataCaseDetail.getLateFee()==null?"0.00":new BigDecimal(dataCaseDetail.getLateFee()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
