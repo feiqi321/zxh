@@ -1839,7 +1839,6 @@
         batch_no as batchNo,ident_no as identNo
         from data_collection where case_id = #{caseId}
     </select>
-
     <select id="detailCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t1.id,t1.measure,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:ii:ss') as collectTime,t1.target_name as targetName,t1.relation,t1.mobile,t1.collection_type as collectionType,t1.tel_type as telType,t1.collect_info as collectInfo,
         t1.result,t1.method,t1.repay_time as repayTime,t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.reduce_status as reduceStatus,t2.odv,t1.collect_status as collectStatus,t1.create_user as [createUser.id]
