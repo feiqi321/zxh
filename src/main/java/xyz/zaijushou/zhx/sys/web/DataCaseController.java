@@ -1068,6 +1068,11 @@ public class DataCaseController {
 
         bean.setDepts(null);
         List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
+        for (DataCaseEntity dataCaseEntity : list) {
+            if (StringUtils.isEmpty(dataCaseEntity.getOdv())){
+                dataCaseEntity.setCollectDate(null);
+            }
+        }
         logger.info("导出查询数据组装完毕");
         String fileName = "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
@@ -1212,6 +1217,11 @@ public class DataCaseController {
 
 
         List<DataCaseEntity> resultList = dataCaseService.selectDataCaseExportByBatch(bean);
+        for (DataCaseEntity dataCaseEntity : resultList) {
+            if (StringUtils.isEmpty(dataCaseEntity.getOdv())){
+                dataCaseEntity.setCollectDate(null);
+            }
+        }
         String fileName = "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
