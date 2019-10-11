@@ -194,10 +194,15 @@ public class FileManageServiceImpl implements FileManageService {
     @Transactional
     public WebResponse batchCaseComment(List<DataCaseEntity> list){
         WebResponse webResponse = WebResponse.buildResponse();
+        for (int i=0;i<list.size();i++){
+            DataCaseEntity dataCaseEntity = list.get(i);
+            if (StringUtils.isEmpty(dataCaseEntity.getComment())){
+                return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写评论，请填写后上传，并检查excel的评论填写了");
+            }
+        }
 
         for (int i=0;i<list.size();i++){
             DataCaseEntity dataCaseEntity = list.get(i);
-
             if (StringUtils.isEmpty(dataCaseEntity.getSeqNo())){
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseEntity.getCardNo()+"@"+dataCaseEntity.getCaseDate(),DataCaseEntity.class);
                 if (temp!=null){
@@ -261,6 +266,7 @@ public class FileManageServiceImpl implements FileManageService {
                 }
             }
         }
+
 
         webResponse.setMsg("导入成功");
         webResponse.setCode("100");

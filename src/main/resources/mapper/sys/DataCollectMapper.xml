@@ -1637,7 +1637,7 @@
         r.repay_money as repayAmt, r.repay_date as repayTime,c.en_repay_amt as enRepayAmt,
         c.expect_time as expectTime,r.repay_user as payName,r.confirm_user as confimName,
         dbo.fnFormatDate(r.confirm_time, 'yyyy-MM-dd HH:mm')as confimTime,c.business_type as businessType,c.id as caseId,
-        r.repay_type as [repayType.id]
+        r.repay_type as [repayType.id],c.odv as odv
         from data_case c
         left join data_case_repay_record r on c.id = r.data_case
         left join data_case_bank_reconciliation b on c.id = b.data_case

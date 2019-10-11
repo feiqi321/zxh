@@ -52,6 +52,14 @@ public class StatisticsCallable implements Callable<List<DataCollectionEntity>> 
         }else{
             collection.setConfimName(userMap.get(Integer.parseInt(collection.getConfimName()))==null?"":userMap.get(Integer.parseInt(collection.getConfimName())).getUserName());
         }
+        SysDictionaryEntity sysDictionaryEntity = RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC + collection.getCollectStatus(), SysDictionaryEntity.class);
+        collection.setCollectStatusMsg(sysDictionaryEntity == null ? "" : sysDictionaryEntity.getName());
+        if (org.apache.commons.lang3.StringUtils.isEmpty(collection.getOdv())){
+            collection.setOdv("");
+        }else {
+            SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ collection.getOdv(), SysUserEntity.class);
+            collection.setOdv(user == null ? "" : user.getUserName()+"("+user.getDeptName()+")");
+        }
         collection.setRepaidAmtM(collection.getCpMoney().multiply(collection.getmVal()));
         collection.setRepaidBankAmtM(collection.getEnRepayAmt().multiply(collection.getmVal()));
         collection.setBankTime(collection.getBankTime()==null?"":(collection.getBankTime().equals("")?"":collection.getBankTime().substring(0,10)) );

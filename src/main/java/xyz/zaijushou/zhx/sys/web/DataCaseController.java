@@ -1147,6 +1147,11 @@ public class DataCaseController {
         bean.setExportKeyList(exportKeyList);
 
         List<DataCaseEntity> resultList = dataCaseService.selectCaseListExport(bean);
+        for (DataCaseEntity dataCaseEntity2 : resultList) {
+        if (StringUtils.isEmpty(dataCaseEntity2.getOdv())){
+            dataCaseEntity2.setCollectDate(null);
+            }
+        }
         String fileName = "案件管理选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
