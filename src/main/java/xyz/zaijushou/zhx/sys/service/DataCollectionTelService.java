@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.RequestBody;
 import xyz.zaijushou.zhx.sys.entity.*;
 
+import java.util.List;
+
 /**
  * Created by looyer on 2019/1/25.
  */
@@ -18,4 +20,6 @@ public interface DataCollectionTelService {
     public PageInfo<CollectionStatistic> pageCollectionDayAction(CollectionStatistic dataCollectionEntity);
 
     public PageInfo<CollectionStatistic> pageCollectionTelInfo(CollectionStatistic dataCollectionEntity);
+
+    List<CollectionDetailsDTO> pageDetails(CollectionStatistic bean);
 }

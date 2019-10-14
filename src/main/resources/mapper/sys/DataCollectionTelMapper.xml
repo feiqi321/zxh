@@ -365,4 +365,40 @@
             </foreach>
         </if>
     </select>
+    <select id="pageDetails" resultType="xyz.zaijushou.zhx.sys.entity.CollectionDetailsDTO">
+        SELECT dc.collect_time as collectTime ,dc.target_name as targetName,
+                dc.mobile as mobile,d2.name as telType,dc.collect_info as collectInfo
+               ,d.name as result,dc.repay_time as repayTime,dc.repay_amt as repayAmt,u.username as odv
+        from data_collection dc
+        left join sys_user u on dc.odv=u.id
+        left join sys_data_dictionary d on dc.result=d.id
+        left join sys_data_dictionary d2 on dc.tel_type=d2.id
+        LEFT JOIN data_case da on dc.case_id=da.id
+        <where>
+            <choose>
+                <when test="status %2==1">
+                    dc.result = 95
+                </when>
+                <otherwise>
+                    dc.result in (94,95)
+                </otherwise>
+            </choose>
+        <if test="dateSearchStart != null">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
+        </if>
+        <if test="dateSearchEnd != null">
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
+        </if>
+
+        <if test="odv != null and odv!=''">
+            AND dc.odv = #{odv}
+        </if>
+        <if test="dateStart!= null">
+            <![CDATA[  and  dbo.fnFormatDate(dc.collect_time, 'HH:ii:ss') >=dbo.fnFormatDate(#{dateStart}, 'HH:ii:ss') ]]>
+        </if>
+        <if test="dateEnd!= null">
+            <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'HH:ii:ss') <= dbo.fnFormatDate(#{dateEnd}, 'HH:ii:ss')  ]]>
+        </if>
+        </where>
+    </select>
 </mapper>

@@ -46,6 +46,9 @@ public class DataCaseBankReconciliationServiceImpl implements DataCaseBankReconc
         }
         if(!StringUtils.isEmpty(entity.getOrderBy())){
             entity.setOrderBy(ExcelBankReconciliationConstant.BankReconciliationSortEnum.getEnumByKey(entity.getOrderBy()).getValue());
+        }else{
+            entity.setOrderBy("b.submit_time");
+            entity.setSort("desc");
         }
         List<DataCaseBankReconciliationEntity> pageData = combineInfo(dataCaseBankReconciliationMapper.pageData(entity));
         for (int i=0;i<pageData.size();i++){

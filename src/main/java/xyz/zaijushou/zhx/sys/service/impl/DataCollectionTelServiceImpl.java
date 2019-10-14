@@ -568,4 +568,25 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
         return  PageInfo.of(list);
     }
+    @Override
+    public List<CollectionDetailsDTO> pageDetails(CollectionStatistic bean) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
+        String formatStart = sdf.format(bean.getDateSearchStart())+" "+bean.getTime().split("-")[0];
+        String formatEnd = sdf.format(bean.getDateSearchEnd())+" "+bean.getTime().split("-")[1];
+        Date dateStart;
+        Date dateEnd;
+        try {
+            bean.setDateSearchStart(sdf.parse(formatStart));
+            bean.setDateSearchEnd(sdf.parse(formatEnd));
+            dateStart = sdf2.parse(bean.getTime().split("-")[0]);
+            dateEnd = sdf2.parse(bean.getTime().split("-")[1]);
+            bean.setDateStart(dateStart);
+            bean.setDateEnd(dateEnd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        List<CollectionDetailsDTO> details = dataCollectionTelMapper.pageDetails(bean);
+        return details;
+    }
 }

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -63,6 +64,22 @@ public class DataCollectionTelController {
         return WebResponse.success(list);
     }
 
+    @ApiOperation(value = "电催员电催单日统计明细", notes = "电催员电催单日统计明细")
+    @PostMapping("/day/details")
+    public Object getCollectionDayDetails(@RequestBody CollectionStatistic bean) {
+        List<CollectionDetailsDTO>list=dataCollectionTelService.pageDetails(bean);
+        HashMap<String, Object> map = new HashMap<>(16);
+        if (bean.getTotalNum()==null){
+            bean.setPageNum(null);
+            bean.setPageSize(null);
+            List<CollectionDetailsDTO>list2=dataCollectionTelService.pageDetails(bean);
+            bean.setTotalNum(list2.size());
+            map.put("total",bean.getTotalNum());
+        }
+        map.put("list",list);
+        WebResponse res = WebResponse.success(map);
+        return res;
+    }
     @ApiOperation(value = "电催员电催单日统计导出", notes = "电催员电催单日统计导出")
     @PostMapping("/day/export")
     public Object collectionDayExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {

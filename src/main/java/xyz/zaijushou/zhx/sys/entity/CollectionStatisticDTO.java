@@ -1,5 +1,7 @@
 package xyz.zaijushou.zhx.sys.entity;
 
+import java.util.List;
+
 /**
  * @author lsl
  * @version [1.0.0, 2019/8/28,17:10]
@@ -19,6 +21,16 @@ public class CollectionStatisticDTO {
      * 通话涉及到的案件数
      */
     private Integer countCasePhoneNum;
+
+    private List<CollectionStatistic> conList;
+
+    public List<CollectionStatistic> getConList() {
+        return conList;
+    }
+
+    public void setConList(List<CollectionStatistic> conList) {
+        this.conList = conList;
+    }
 
     public CollectionStatisticDTO() {
     }

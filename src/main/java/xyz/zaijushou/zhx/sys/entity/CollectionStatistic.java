@@ -144,6 +144,26 @@ public class CollectionStatistic extends CommonEntity {
 
     private String[] collectStatuss;
 
+    private String time;
+
+    private Integer status;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public String getOdvName() {
         return odvName;
     }

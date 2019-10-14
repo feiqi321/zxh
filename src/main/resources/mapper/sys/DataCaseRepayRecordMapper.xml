@@ -1172,7 +1172,7 @@
         id as id,repay_money as repayMoney,repay_user as repayUser,repay_type as [repayType.id],repay_date as repayDate,confirm_time as confirmTime,confirm_user as  [confirmUser.id],remark
         from data_case_repay_record
         where data_case = #{dataCase.id}
-        and delete_flag = 0
+        and delete_flag = 0 and record_status = 0
     </select>
 
      <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">

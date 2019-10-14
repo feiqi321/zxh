@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import xyz.zaijushou.zhx.sys.entity.CollectionDetailsDTO;
 import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
 import xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity;
 import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
@@ -37,4 +38,6 @@ public interface DataCollectionTelMapper {
     public List<CollectionStatistic> countCollectionDayAction(CollectionStatistic entity);
 
     public List<CollectionStatistic> pageCollectionTelInfo(CollectionStatistic entity);
+
+    List<CollectionDetailsDTO> pageDetails(CollectionStatistic bean);
 }
