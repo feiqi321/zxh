@@ -302,7 +302,7 @@ public class DataCollectServiceImpl implements DataCollectService {
     public WebResponse selectDataCollectExportByCase(DataCaseEntity bean){
         WebResponse webResponse = WebResponse.buildResponse();
         List<DataCollectExportEntity> resultList = dataCollectionMapper.selectDataCollectExportByCase(bean);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (int i=0;i<resultList.size();i++){
             DataCollectExportEntity temp = resultList.get(i);
             if (temp.getCollectTime()!=null) {
