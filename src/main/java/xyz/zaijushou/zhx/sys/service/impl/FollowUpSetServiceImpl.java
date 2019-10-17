@@ -1,0 +1,39 @@
+package xyz.zaijushou.zhx.sys.service.impl;
+
+import org.springframework.stereotype.Service;
+import xyz.zaijushou.zhx.sys.dao.FollowUpSetMapper;
+import xyz.zaijushou.zhx.sys.entity.FollowUpData;
+import xyz.zaijushou.zhx.sys.service.FollowUpSetService;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * @author lsl
+ * @version [1.0.0, 2019/10/16,21:18]
+ */
+@Service
+public class FollowUpSetServiceImpl implements FollowUpSetService {
+    @Resource
+    private FollowUpSetMapper followUpSetMapper;
+
+    @Override
+    public List<FollowUpData> list(){
+        List<FollowUpData> list = followUpSetMapper.list();
+        for (int i=0;i<list.size();i++){
+            FollowUpData followUpData = list.get(i);
+            if (followUpData.getStatus()==1){
+                followUpData.setStatusMsg("显示");
+            }else if(followUpData.getStatus()==2){
+                followUpData.setStatusMsg("不显示");
+            }
+            list.set(i,followUpData);
+        }
+        return list;
+    }
+
+    @Override
+    public void update(FollowUpData followUpData){
+        followUpSetMapper.update(followUpData);
+    }
+}
