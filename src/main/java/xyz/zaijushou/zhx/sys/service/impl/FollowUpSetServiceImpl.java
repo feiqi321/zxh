@@ -6,7 +6,6 @@ import xyz.zaijushou.zhx.sys.entity.FollowUpData;
 import xyz.zaijushou.zhx.sys.service.FollowUpSetService;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author lsl
@@ -18,18 +17,14 @@ public class FollowUpSetServiceImpl implements FollowUpSetService {
     private FollowUpSetMapper followUpSetMapper;
 
     @Override
-    public List<FollowUpData> list(){
-        List<FollowUpData> list = followUpSetMapper.list();
-        for (int i=0;i<list.size();i++){
-            FollowUpData followUpData = list.get(i);
+    public FollowUpData find(){
+       FollowUpData followUpData = followUpSetMapper.find();
             if (followUpData.getStatus()==1){
                 followUpData.setStatusMsg("显示");
             }else if(followUpData.getStatus()==2){
                 followUpData.setStatusMsg("不显示");
             }
-            list.set(i,followUpData);
-        }
-        return list;
+        return followUpData;
     }
 
     @Override

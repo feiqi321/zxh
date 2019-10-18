@@ -9,7 +9,6 @@ import xyz.zaijushou.zhx.sys.entity.FollowUpData;
 import xyz.zaijushou.zhx.sys.service.FollowUpSetService;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author lsl
@@ -29,9 +28,9 @@ public class FollowUpSetController {
     }
 
     @ApiOperation(value = "列表查询", notes = "列表查询")
-    @PostMapping("/followUp/list")
-    public Object list() {
-        List<FollowUpData> list  = followUpSetService.list();
-        return WebResponse.success(list);
+    @PostMapping("/followUp/find")
+    public Object find() {
+        FollowUpData followUpData= followUpSetService.find();
+        return WebResponse.success(followUpData);
     }
 }
