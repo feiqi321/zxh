@@ -139,6 +139,7 @@
         where delete_flag = '0'
 <!--         and enable = '1' -->
         and login_name = #{loginName}
+        and status=1
     </select>
 
     <select id="selectPasswordInfoById" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
