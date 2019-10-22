@@ -3332,7 +3332,6 @@ public class DataCaseServiceImpl implements DataCaseService {
         map.put("list",list);
         return map;
     }
-
     public void saveCaseAddress(DataCaseAddressEntity bean){
         DataCaseEntity request = new DataCaseEntity();
         request.setId(bean.getCaseId());
