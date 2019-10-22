@@ -1,8 +1,20 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.annotation.Resource;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,27 +24,38 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import sun.security.provider.MD5;
+
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.constant.UserSortEnum;
-import xyz.zaijushou.zhx.sys.dao.*;
-import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
+import xyz.zaijushou.zhx.sys.dao.SysOrganizationMapper;
+import xyz.zaijushou.zhx.sys.dao.SysPasswordMapper;
+import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
+import xyz.zaijushou.zhx.sys.dao.SysToUserRoleMapper;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseSynergisticEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.DepartmentEntity;
+import xyz.zaijushou.zhx.sys.entity.QueryEntity;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
+import xyz.zaijushou.zhx.sys.entity.SysPasswordEntity;
+import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
+import xyz.zaijushou.zhx.sys.entity.SysToRoleMenu;
+import xyz.zaijushou.zhx.sys.entity.SysToUserRole;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserRoleEntity;
+import xyz.zaijushou.zhx.sys.entity.UserTree;
 import xyz.zaijushou.zhx.sys.service.DataCaseSynergisticService;
-import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
-import xyz.zaijushou.zhx.sys.web.SysUserController;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.PinyinTool;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
-
-import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -421,20 +444,23 @@ public class SysUserServiceImpl implements SysUserService {
 
     @Override
     public void updateDept(SysNewUserEntity userEntity){
-
         sysUserMapper.updateDept(userEntity);
-        stringRedisTemplate.delete(RedisKeyPrefix.USER_INFO + userEntity.getId());
-        //存入redis
-        SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());
-        newBean.setDepartment(newBean.getDepartId());
-        if (StringUtils.notEmpty(newBean)){
-            stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
-        }
-        DataCaseEntity dataCaseEntity = new DataCaseEntity();
-        dataCaseEntity.setOdv(newBean.getId()+"");
-        dataCaseEntity.setDept(newBean.getDepartment());
-        dataCaseMapper.updateDept(dataCaseEntity);
 
+        int[] ids = userEntity.getIds();
+        for (int id : ids) {
+            String idStr = id + "";
+            stringRedisTemplate.delete(RedisKeyPrefix.USER_INFO + idStr);
+            //存入redis
+            SysNewUserEntity newBean = sysUserMapper.getDataById(id);
+            newBean.setDepartment(newBean.getDepartId());
+            if (StringUtils.notEmpty(newBean)){
+                stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + idStr, JSONObject.toJSONString(newBean));
+            }
+            DataCaseEntity dataCaseEntity = new DataCaseEntity();
+            dataCaseEntity.setOdv(idStr);
+            dataCaseEntity.setDept(newBean.getDepartment());
+            dataCaseMapper.updateDept(dataCaseEntity);
+        }
     }
 
     @Override
