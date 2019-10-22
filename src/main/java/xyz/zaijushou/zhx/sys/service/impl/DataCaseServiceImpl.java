@@ -3320,15 +3320,15 @@ public class DataCaseServiceImpl implements DataCaseService {
             }
         }
         DataCaseEntity dataCaseEntity = dataCaseMapper.querySumSameBatch(caseTemp);
-        map.put("sameBatchCaseSum",dataCaseEntity.getSameBatchCaseSum());
-        map.put("moneyTotal",dataCaseEntity.getMoney());
-        map.put("cp",dataCaseEntity.getBankAmt());
-        map.put("enRepayAmt",dataCaseEntity.getEnRepayAmt());
+        map.put("sameBatchCaseSum",dataCaseEntity.getSameBatchCaseSum()!=null?dataCaseEntity.getSameBatchCaseSum():"0");
+        map.put("moneyTotal",dataCaseEntity.getMoney()!=null?dataCaseEntity.getMoney():"0.00");
+        map.put("cp",dataCaseEntity.getBankAmt()!=null?dataCaseEntity.getBankAmt():"0.00");
+        map.put("enRepayAmt",dataCaseEntity.getEnRepayAmt()!=null?dataCaseEntity.getEnRepayAmt():"0.00");
         DataCaseEntity dataCaseEntity2 = dataCaseMapper.querySumSameBatch2(caseTemp);
-        map.put("noReturnCaseTotal",dataCaseEntity2.getSameBatchCaseSum());
-        map.put("moneyTotal2",dataCaseEntity2.getMoney());
-        map.put("cp2",dataCaseEntity2.getBankAmt());
-        map.put("enRepayAmt2",dataCaseEntity2.getEnRepayAmt());
+        map.put("noReturnCaseTotal",dataCaseEntity2.getSameBatchCaseSum()!=null?dataCaseEntity.getSameBatchCaseSum():"0");
+        map.put("moneyTotal2",dataCaseEntity2.getMoney()!=null?dataCaseEntity2.getMoney():"0.00");
+        map.put("cp2",dataCaseEntity2.getBankAmt()!=null?dataCaseEntity2.getBankAmt():"0.00");
+        map.put("enRepayAmt2",dataCaseEntity2.getEnRepayAmt()!=null?dataCaseEntity2.getEnRepayAmt():"0.00");
         map.put("list",list);
         return map;
     }
