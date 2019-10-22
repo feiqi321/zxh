@@ -590,7 +590,18 @@ public class DataCaseEntity extends CommonEntity implements Comparable<DataCaseE
     private int splitCount;
 
     private String colorFlag;
-   private List<DataCaseEntity> dataList = new ArrayList<DataCaseEntity>();
+
+   private Integer sameBatchCaseSum;
+
+    public Integer getSameBatchCaseSum() {
+        return sameBatchCaseSum;
+    }
+
+    public void setSameBatchCaseSum(Integer sameBatchCaseSum) {
+        this.sameBatchCaseSum = sameBatchCaseSum;
+    }
+
+    private List<DataCaseEntity> dataList = new ArrayList<DataCaseEntity>();
 
     public String getColorFlag() {
         return colorFlag;

@@ -190,4 +190,7 @@ public interface DataCaseMapper {
 
     DataCaseEntity querySum(DataCaseEntity dataCaseEntity);
 
+    DataCaseEntity querySumSameBatch(DataCaseEntity caseTemp);
+
+    DataCaseEntity querySumSameBatch2(DataCaseEntity caseTemp);
 }

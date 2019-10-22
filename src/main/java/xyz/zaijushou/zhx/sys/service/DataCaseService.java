@@ -5,6 +5,7 @@ import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.sys.entity.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -106,7 +107,7 @@ public interface DataCaseService {
 
     public List<DataCaseEntity> sameCaseList(DataCaseEntity bean);
 
-    public List<DataCaseEntity> sameBatchCaseList(DataCaseEntity bean);
+    public Map sameBatchCaseList(DataCaseEntity bean);
 
     public void saveCaseAddress(DataCaseAddressEntity bean);
 

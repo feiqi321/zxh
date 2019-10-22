@@ -6055,6 +6055,19 @@
             </trim>
         </where>
     </select>
+    <select id="querySumSameBatch" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+             select sum(da.money) as money,
+                sum(da.en_repay_amt)as enRepayAmt, sum(da.bank_amt) as bankAmt,
+                count(1) as sameBatchCaseSum
+        from data_case da
+        where batch_no = #{batchNo} and ident_no = #{identNo}  and delete_flag=0
+    </select>
+    <select id="querySumSameBatch2" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
+        select sum(da.money) as money,sum(da.en_repay_amt)as enRepayAmt,
+                sum(da.bank_amt) as bankAmt, count(1) as sameBatchCaseSum
+        from data_case da
+        where batch_no = #{batchNo} and ident_no = #{identNo} and status!=4 and delete_flag=0
+    </select>
 
     <update id="updateDept" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         update data_case

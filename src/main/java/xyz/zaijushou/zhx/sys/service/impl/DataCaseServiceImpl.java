@@ -2973,6 +2973,28 @@ public class DataCaseServiceImpl implements DataCaseService {
         }else{
             dataCaseDetail.setMoneyMsg("￥"+FmtMicrometer.fmtMicrometer(dataCaseDetail.getMoney().setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString()));
         }
+        //每月还款
+        dataCaseDetail.setMonthlyRepayments(dataCaseDetail.getMonthlyRepayments()==null?"0.00":new BigDecimal(dataCaseDetail.getMonthlyRepayments()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //最低还款额
+        dataCaseDetail.setMinimumPayment(dataCaseDetail.getMinimumPayment()==null?"0.00":new BigDecimal(dataCaseDetail.getMinimumPayment()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //逾期金额
+        dataCaseDetail.setOverdueMoney(dataCaseDetail.getOverdueMoney()==null?"0.00":new BigDecimal(dataCaseDetail.getOverdueMoney()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //逾期本金
+        dataCaseDetail.setOverduePrinciple(dataCaseDetail.getOverduePrinciple()==null?"0.00":new BigDecimal(dataCaseDetail.getOverduePrinciple()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //逾期利息
+        dataCaseDetail.setOverdueInterest(dataCaseDetail.getOverdueInterest()==null?"0.00":new BigDecimal(dataCaseDetail.getOverdueInterest()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //逾期罚息
+        dataCaseDetail.setOverdueDefaultInterest(dataCaseDetail.getOverdueDefaultInterest()==null?"0.00":new BigDecimal(dataCaseDetail.getOverdueDefaultInterest()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //违约金
+        dataCaseDetail.setPenalty(dataCaseDetail.getPenalty()==null?"0.00":new BigDecimal(dataCaseDetail.getPenalty()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //固定额度
+        dataCaseDetail.setFixedQuota(dataCaseDetail.getFixedQuota()==null?"0.00":new BigDecimal(dataCaseDetail.getFixedQuota()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //保证金
+        dataCaseDetail.setBail(dataCaseDetail.getBail()==null?"0.00":new BigDecimal(dataCaseDetail.getBail()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //超限费
+        dataCaseDetail.setOverrunFee(dataCaseDetail.getOverrunFee()==null?"0.00":new BigDecimal(dataCaseDetail.getOverrunFee()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
+        //信用额度
+        dataCaseDetail.setCreditLine(dataCaseDetail.getCreditLine()==null?"0.00":new BigDecimal(dataCaseDetail.getCreditLine()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
 
         dataCaseDetail.setLateFee(dataCaseDetail.getLateFee()==null?"0.00":new BigDecimal(dataCaseDetail.getLateFee()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
         dataCaseDetail.setOverdueManagementCost(dataCaseDetail.getOverdueManagementCost()==null?"0.00":new BigDecimal(dataCaseDetail.getOverdueManagementCost()).setScale(2,BigDecimal.ROUND_HALF_UP).toPlainString());
@@ -3249,10 +3271,13 @@ public class DataCaseServiceImpl implements DataCaseService {
         return list;
     }
 
-    public List<DataCaseEntity> sameBatchCaseList(DataCaseEntity bean){
+    public Map sameBatchCaseList(DataCaseEntity bean){
+        HashMap<String, Object> map = new HashMap<>(16);
+
         DataCaseEntity caseTemp = dataCaseMapper.findById(bean);
         if (caseTemp==null){
-            return new ArrayList<DataCaseEntity>();
+            map.put("list",new ArrayList<DataCaseEntity>());
+            return map;
         }
         SysUserEntity curentuser = getUserInfo();
         if (curentuser!=null){
@@ -3294,8 +3319,18 @@ public class DataCaseServiceImpl implements DataCaseService {
                 list.set(i, temp);
             }
         }
-        return list;
-
+        DataCaseEntity dataCaseEntity = dataCaseMapper.querySumSameBatch(caseTemp);
+        map.put("sameBatchCaseSum",dataCaseEntity.getSameBatchCaseSum());
+        map.put("moneyTotal",dataCaseEntity.getMoney());
+        map.put("cp",dataCaseEntity.getBankAmt());
+        map.put("enRepayAmt",dataCaseEntity.getEnRepayAmt());
+        DataCaseEntity dataCaseEntity2 = dataCaseMapper.querySumSameBatch2(caseTemp);
+        map.put("noReturnCaseTotal",dataCaseEntity2.getSameBatchCaseSum());
+        map.put("moneyTotal2",dataCaseEntity2.getMoney());
+        map.put("cp2",dataCaseEntity2.getBankAmt());
+        map.put("enRepayAmt2",dataCaseEntity2.getEnRepayAmt());
+        map.put("list",list);
+        return map;
     }
 
     public void saveCaseAddress(DataCaseAddressEntity bean){
