@@ -11,9 +11,22 @@ import java.util.List;
 public class StatisticReturn2 extends CommonEntity {
 
     private String odv;
-    private int sumConPhoneNum;//接通电话数
-    private int sumPhoneNum;//总通话数
-    private int sumCasePhoneNum;//通话涉及到的案件数
+    /**接通电话数*/
+    private int sumConPhoneNum;
+    /**无效通话*/
+    private int sumInvalidPhoneNum;
+    /**总通话数*/
+    private int sumPhoneNum;
+    /**通话涉及到的案件数*/
+    private int sumCasePhoneNum;
+
+    public int getSumInvalidPhoneNum() {
+        return sumInvalidPhoneNum;
+    }
+
+    public void setSumInvalidPhoneNum(int sumInvalidPhoneNum) {
+        this.sumInvalidPhoneNum = sumInvalidPhoneNum;
+    }
 
     private List<CollectionStatisticDTO> list = new ArrayList<>();
 

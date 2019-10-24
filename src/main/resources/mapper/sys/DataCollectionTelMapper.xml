@@ -375,14 +375,15 @@
         left join sys_data_dictionary d2 on dc.tel_type=d2.id
         LEFT JOIN data_case da on dc.case_id=da.id
         <where>
-            <choose>
-                <when test="status %2==1">
-                    dc.result = 95
-                </when>
-                <otherwise>
-                    dc.result in (94,95)
-                </otherwise>
-            </choose>
+            <if test="status==1">
+                dc.result = 95
+            </if>
+            <if test="status==3">
+                dc.result in (94,95)
+            </if>
+            <if test="status==2">
+                dc.result = 94
+            </if>
         <if test="dateSearchStart != null">
             <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
         </if>
@@ -400,5 +401,45 @@
             <![CDATA[   and dbo.fnFormatDate(dc.collect_time, 'HH:ii:ss') <= dbo.fnFormatDate(#{dateEnd}, 'HH:ii:ss')  ]]>
         </if>
         </where>
+    </select>
+    <select id="statisticsCollectionInvalid" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
+        select dc.collect_time as collectTime,dc.odv as odv
+        from data_collection dc LEFT JOIN data_case da on dc.case_id=da.id
+        where dc.result=94
+        <if test="dateStart != null">
+            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
+        </if>
+        <if test="dateEnd != null" >
+            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
+        </if>
+        <if test="monthStart != null and monthStart!=''">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
+        </if>
+        <if test="monthEnd != null and monthEnd!=''" >
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
+        </if>
+        <if test="dateSearchStart != null">
+            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
+        </if>
+        <if test="dateSearchEnd != null">
+            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
+        </if>
+
+        <if test="odv != null and odv!=''">
+            AND dc.odv = #{odv}
+        </if>
+        <if test="areas != null and areas.length > 0 ">
+            and da.area in
+            <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="clients != null and clients.length > 0 ">
+            and da.client in
+            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 </mapper>

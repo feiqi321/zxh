@@ -87,7 +87,8 @@ public class OperationLogFilter extends OncePerRequestFilter {
             "/letter/pageInfoExport",
             "/reduce/sigle/download",
             "/dataCase/detail",
-            "/dataCase/selectOpExport"
+            "/dataCase/selectOpExport",
+            "/dataCollect/detailCollectExport"
     };
 
     @Override

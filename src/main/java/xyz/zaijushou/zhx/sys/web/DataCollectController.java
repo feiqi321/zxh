@@ -225,6 +225,49 @@ public class DataCollectController {
         return null;
     }
 
+    @ApiOperation(value = "导出催记", notes = "导出催记")
+    @PostMapping("/dataCollect/detailCollectExport")
+    public Object detailCollectExport(@RequestBody DataCollectionEntity bean, HttpServletResponse response) throws IOException {
+        List exportKeyList = new ArrayList();
+        Iterator iter = bean.getExportConf().entrySet().iterator();
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCollectExportConstant.CaseCollectExportConf caseCollectExportConf = ExcelCollectExportConstant.CaseCollectExportConf.getEnumByKey(entry.getKey().toString());
+                if (caseCollectExportConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseCollectExportConf.getAttr())) {
+                    exportKeyList.add(caseCollectExportConf.getAttr());
+                }
+                if (caseCollectExportConf!=null){
+                    colMap.put(caseCollectExportConf.getCol(), caseCollectExportConf.getCol());
+                }
+            }
+        }
+        ExcelCollectExportConstant.CaseCollectExport caseCollectExports[]= ExcelCollectExportConstant.CaseCollectExport.values();
+        List<ExcelCollectExportConstant.CaseCollectExport> caseCollectExports2 = new ArrayList<ExcelCollectExportConstant.CaseCollectExport>();
+        for (int i=0;i<caseCollectExports.length;i++){
+            ExcelCollectExportConstant.CaseCollectExport caseCollectListTemp = caseCollectExports[i];
+            if (colMap.get(caseCollectListTemp.getCol())!=null){
+                caseCollectExports2.add(caseCollectListTemp);
+            }
+        }
+        bean.setExportKeyList(exportKeyList);
+        WebResponse webResponse = dataCollectService.detailCollectExport(bean);
+        List<DataCollectionEntity> resultList = (List<DataCollectionEntity>) webResponse.getData();
+        String fileName = "案件管理催收记录选择导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+        ExcelUtils.exportExcel(resultList,
+                caseCollectExports2.toArray(new ExcelCollectExportConstant.CaseCollectExport[caseCollectExports2.size()]),
+                fileName + ".xlsx",
+                response
+        );
+        return null;
+    }
+
     @ApiOperation(value = "催收记录导入", notes = "催收记录导入")
     @PostMapping("/dataCollect/import")
     public Object dataCollectImport(MultipartFile file) throws IOException {

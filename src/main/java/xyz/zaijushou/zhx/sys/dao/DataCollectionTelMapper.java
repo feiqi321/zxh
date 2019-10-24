@@ -40,4 +40,6 @@ public interface DataCollectionTelMapper {
     public List<CollectionStatistic> pageCollectionTelInfo(CollectionStatistic entity);
 
     List<CollectionDetailsDTO> pageDetails(CollectionStatistic bean);
+
+    List<CollectionStatistic> statisticsCollectionInvalid(CollectionStatistic bean);
 }

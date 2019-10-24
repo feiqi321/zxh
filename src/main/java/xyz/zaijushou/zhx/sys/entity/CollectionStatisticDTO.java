@@ -22,6 +22,16 @@ public class CollectionStatisticDTO {
      */
     private Integer countCasePhoneNum;
 
+    private Integer countInvalidPhoneNum;
+
+    public Integer getCountInvalidPhoneNum() {
+        return countInvalidPhoneNum;
+    }
+
+    public void setCountInvalidPhoneNum(Integer countInvalidPhoneNum) {
+        this.countInvalidPhoneNum = countInvalidPhoneNum;
+    }
+
     private List<CollectionStatistic> conList;
 
     public List<CollectionStatistic> getConList() {
@@ -35,10 +45,11 @@ public class CollectionStatisticDTO {
     public CollectionStatisticDTO() {
     }
 
-    public CollectionStatisticDTO(Integer countConPhoneNum, Integer countPhoneNum, Integer countCasePhoneNum) {
+    public CollectionStatisticDTO(Integer countConPhoneNum, Integer countPhoneNum, Integer countCasePhoneNum, Integer countInvalidPhoneNum) {
         this.countConPhoneNum = countConPhoneNum;
         this.countPhoneNum = countPhoneNum;
         this.countCasePhoneNum = countCasePhoneNum;
+        this.countInvalidPhoneNum = countInvalidPhoneNum;
     }
 
     public Integer getCountConPhoneNum() {

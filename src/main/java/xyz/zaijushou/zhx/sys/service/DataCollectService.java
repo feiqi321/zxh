@@ -34,4 +34,6 @@ public interface DataCollectService {
 
     public WebResponse detailTelCurentCollect(DataCollectionEntity bean);
 
+    WebResponse detailCollectExport(DataCollectionEntity bean);
+
 }

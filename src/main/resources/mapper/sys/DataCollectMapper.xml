@@ -1707,6 +1707,7 @@
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
             <![CDATA[   and r.repay_date <= convert(datetime,#{expectTimeEnd}, 20) ]]>
         </if>
+           order by confimTime desc
     </select>
 
     <select id="countStatisticsCollectionPay" parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity" resultType="java.lang.Integer">
@@ -2238,5 +2239,13 @@
                 </if>
             </trim>
         </where>
+    </select>
+    <select id="detailCollectExport" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity">
+        select
+        <foreach collection ="exportKeyList" item="reddemCode" index= "index" separator =",">
+            ${reddemCode}
+        </foreach >
+        from data_collection c LEFT JOIN data_case t on c.case_id = t.id
+        where c.case_id=#{caseId}
     </select>
 </mapper>

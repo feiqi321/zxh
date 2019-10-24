@@ -49,8 +49,13 @@ public class DayCallable implements Callable<List<StatisticReturn2>> {
         if (StringUtils.notEmpty(bean.getDateSearchEnd())){
             collectionStatistic.setDateSearchEnd(sdfDate2.parse(format +"  23:59:59"));
         }
+        // 有效通话
         List<CollectionStatistic> conList = dataCollectionTelMapper.statisticsCollectionCon(collectionStatistic);
+        // 无效通话
+        List<CollectionStatistic> invalidList = dataCollectionTelMapper.statisticsCollectionInvalid(collectionStatistic);
+        // 总通话
         List<CollectionStatistic> sumList = dataCollectionTelMapper.statisticsCollectionSum(collectionStatistic);
+        //个案量
         List<CollectionStatistic> caseList = dataCollectionTelMapper.statisticsCollectionCase(collectionStatistic);
         HashSet<Integer> sets = new HashSet<>();
         for (String str : timeAreaAttr) {
@@ -61,21 +66,25 @@ public class DayCallable implements Callable<List<StatisticReturn2>> {
             Date dateEnd = sdf2.parse(str.split("-")[1]);
             Calendar dTime = Calendar.getInstance();
             dTime.setTime(bean.getDateSearchStart());
-            int telNum = 0;
             int conNum = 0;
+            int invalidNum=0;
+            int telNum = 0;
             int caseNum = 0;
-            telNum = getNum(sdf2, sdf, sumList, dateStart, dateEnd, telNum);
             conNum = getNum(sdf2, sdf, conList, dateStart, dateEnd, conNum);
+            invalidNum = getNum(sdf2, sdf, invalidList, dateStart, dateEnd, invalidNum);
+            telNum = getNum(sdf2, sdf, sumList, dateStart, dateEnd, telNum);
             HashSet<Integer> setId = getIntegers(sdf2, sdf, caseList, sets, dateStart, dateEnd);
-            col.setCountPhoneNum(telNum);
             col.setCountConPhoneNum(conNum);
+            col.setCountInvalidPhoneNum(invalidNum);
+            col.setCountPhoneNum(telNum);
             col.setCountCasePhoneNum(setId.size());
             colList.add(col);
         }
         conInfo.setList(colList);
-        conInfo.setSumCasePhoneNum(sets.size());
         conInfo.setSumConPhoneNum(conList.size());
+        conInfo.setSumInvalidPhoneNum(invalidList.size());
         conInfo.setSumPhoneNum(sumList.size());
+        conInfo.setSumCasePhoneNum(sets.size());
         list.add(conInfo);
         Collections.sort(list, new Comparator<StatisticReturn2>() {
             @Override
