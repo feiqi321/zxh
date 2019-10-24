@@ -1,49 +1,61 @@
 package xyz.zaijushou.zhx.utils;
 
-import com.google.common.collect.Lists;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.ss.util.RegionUtil;
-import org.apache.poi.xssf.usermodel.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.multipart.MultipartFile;
-import xyz.zaijushou.zhx.common.exception.CustomerException;
-import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.ExcelEnum;
-import xyz.zaijushou.zhx.constant.WebResponseCode;
-import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
-import xyz.zaijushou.zhx.sys.entity.StatisticReturn2;
-import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
-import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import static xyz.zaijushou.zhx.common.web.WebResponse.buildResponse;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import xyz.zaijushou.zhx.common.exception.CustomerException;
+import xyz.zaijushou.zhx.common.web.WebResponse;
+import xyz.zaijushou.zhx.constant.ExcelEnum;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn2;
 
 @Component
 public class ExcelUtils {
@@ -317,6 +329,9 @@ public class ExcelUtils {
     }
 
     private static Object cellValue(Cell cell, Class clazz,int row,String col) throws CustomerException,ParseException {
+        if(col.equals("逾期管理费")){
+            System.out.println(111);
+        }
         if(cell == null) {
             return null;
         }
@@ -374,7 +389,6 @@ public class ExcelUtils {
                 }
                 break;
             case NUMERIC:
-                DecimalFormat df = new DecimalFormat("0");
                 if (clazz.equals(Date.class)) {
                     /*double value = cell.getNumericCellValue();
                     Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
@@ -434,10 +448,8 @@ public class ExcelUtils {
                                 Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
                                 result = new SimpleDateFormat(dfStr).format(date);
                             }
-
-
                         }catch (Exception e){
-                            result = "" + df.format(cell.getNumericCellValue());
+                            result = fmt(cell.getNumericCellValue());
                         }
                     }else if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && (col.equals("*委案日期")  || col.equals("委案日期"))){
                         try {
@@ -472,7 +484,7 @@ public class ExcelUtils {
 
 
                         }catch (Exception e){
-                            result = "" + df.format(cell.getNumericCellValue());
+                            result = fmt(cell.getNumericCellValue());
                         }
                     } else if (xyz.zaijushou.zhx.utils.StringUtils.notEmpty(col) && (col.equals("*联络时间")  || col.equals("联络时间"))){
                         try {
@@ -509,10 +521,10 @@ public class ExcelUtils {
 
 
                         }catch (Exception e){
-                            result = "" + df.format(cell.getNumericCellValue());
+                            result = fmt(cell.getNumericCellValue());
                         }
                     }else{
-                        result = "" + df.format(cell.getNumericCellValue());
+                        result = fmt(cell.getNumericCellValue());
                     }
                 } else {
                     if (clazz.equals(BigDecimal.class)) {
@@ -529,6 +541,13 @@ public class ExcelUtils {
         }
         logger.info("result:{}", result);
         return result;
+    }
+
+    public static String fmt(double d) {
+        if (d == (long) d)
+            return String.format("%d", (long) d);
+        else
+            return String.format("%s", d);
     }
 
     public static <T> void exportExcel(List<T> data, ExcelEnum[] enums, String fileName, HttpServletResponse response) throws IOException {
