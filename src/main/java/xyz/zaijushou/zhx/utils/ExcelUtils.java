@@ -329,9 +329,6 @@ public class ExcelUtils {
     }
 
     private static Object cellValue(Cell cell, Class clazz,int row,String col) throws CustomerException,ParseException {
-        if(col.equals("逾期管理费")){
-            System.out.println(111);
-        }
         if(cell == null) {
             return null;
         }
