@@ -51,6 +51,9 @@
         r.update_time as updateTime,
         r.delete_flag as deleteFlag
     </sql>
+    <delete id="deleteDataCaseRepayRecord">
+        delete from data_case_repay_record where data_case=#{dataCase.id}
+    </delete>
 
     <select id="pageRepayRecordList" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">
         select

@@ -88,6 +88,8 @@ public class DataCaseServiceImpl implements DataCaseService {
     private CaseTimeAreaMapper caseTimeAreaMapper;
     @Resource
     private CopyAuthMapper copyAuthMapper;
+    @Resource
+    private DataCaseRepayRecordMapper dataCaseRepayRecordMapper;
 
     @Override
     public void save(DataCaseEntity dataCaseEntity){
@@ -180,6 +182,11 @@ public class DataCaseServiceImpl implements DataCaseService {
             DataCaseTelEntity dataCaseTelEntity = new DataCaseTelEntity();
             dataCaseTelEntity.setCaseId(dataCaseEntity.getId());
             dataCaseTelMapper.deleteTel(dataCaseTelEntity);
+
+            // 删除还款记录
+            DataCaseRepayRecordEntity entity = new DataCaseRepayRecordEntity();
+            entity.setDataCase(dataCaseEntity);
+            dataCaseRepayRecordMapper.deleteDataCaseRepayRecord(entity);
 
             DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
             dataCollectionEntity.setCaseId(dataCaseEntity.getId()+"");

@@ -1842,7 +1842,7 @@
     </select>
     <select id="detailCollect1" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
         select t1.id,t1.measure,dbo.fnFormatDate(t1.collect_time, 'yyyy-MM-dd HH:ii:ss') as collectTime,t1.target_name as targetName,t1.relation,t1.mobile,t1.collection_type as collectionType,t1.tel_type as telType,t1.collect_info as collectInfo,
-        t1.result,t1.method,t1.repay_time as repayTime,t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.reduce_status as reduceStatus,t2.odv,t1.collect_status as collectStatus,t1.create_user as [createUser.id]
+        t1.result,t1.method,t1.repay_time as repayTime,t1.repay_amt as repayAmt,t1.reduce_amt as reduceAmt,t1.reduce_status as reduceStatus,t1.odv,t1.collect_status as collectStatus,t1.create_user as [createUser.id]
         from data_collection t1 LEFT JOIN data_case t2 on t1.case_id = t2.id
          where t1.case_id = #{caseId} and t2.delete_flag=0  order by t1.collect_time desc
     </select>
@@ -1856,21 +1856,21 @@
 
     <select id="detailCollect2" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
          select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:ii:ss') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
-        d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,t.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
+        d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,d.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.batch_no = #{batchNo} and t.ident_no = #{identNo} and t.delete_flag=0 order by d.collect_time desc
     </select>
 
     <select id="detailCollect3" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
          select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:ii:ss') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
-        d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,t.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
+        d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,d.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.ident_no = #{identNo} and t.delete_flag=0 order by d.collect_time desc
     </select>
 
     <select id="detailCollect4" resultType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity"  parameterType="xyz.zaijushou.zhx.sys.entity.DataCollectionEntity">
          select d.id,d.measure,dbo.fnFormatDate(d.collect_time, 'yyyy-MM-dd HH:ii:ss') as collectTime,d.target_name as targetName,d.relation,d.mobile,d.collection_type as collectionType,tel_type as telType,collect_info as collectInfo,
-        d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,t.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
+        d.result,d.method,d.repay_time as repayTime,d.repay_amt as repayAmt,d.reduce_amt as reduceAmt,d.reduce_status as reduceStatus,d.odv,d.collect_status as collectStatus,d.create_user as [createUser.id]
         from data_collection d LEFT join data_case t on d.case_id = t.id
          where  t.card_no = #{cardNo} and t.ident_no = #{identNo} and t.delete_flag=0 order by d.collect_time desc
     </select>

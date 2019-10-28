@@ -42,4 +42,6 @@ public interface DataCaseRepayRecordMapper {
     DataCaseRepayRecordEntity queryOneRecord(Integer id);
 
     void updateRecord(DataCaseRepayRecordEntity entity);
+
+    void deleteDataCaseRepayRecord(DataCaseRepayRecordEntity entity);
 }
