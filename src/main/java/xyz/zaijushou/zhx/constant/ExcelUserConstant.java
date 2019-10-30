@@ -12,7 +12,7 @@ public class ExcelUserConstant {
 
     public enum UserInfo implements ExcelEnum {
         COL10(10, "*员工姓名", "userName", String.class),
-        COL20(20, "账号", "loginName", String.class),
+        COL20(20, "*账号", "loginName", String.class),
         COL30(30, "*部门", "department", String.class),
         COL40(40, "*角色", "role", String.class),
         COL50(50, "性别", "sex", String.class),

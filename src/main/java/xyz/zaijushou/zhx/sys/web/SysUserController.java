@@ -16,14 +16,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.parameters.P;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.*;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
 import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
 import xyz.zaijushou.zhx.sys.service.SysRoleService;
@@ -49,6 +47,8 @@ public class SysUserController {
     private SysOrganizationService sysOrganizationService;
     @Resource
     private SysRoleService sysRoleService;
+    @Resource
+    private SysUserMapper sysUserMapper;
 
     @ApiIgnore
     @ApiOperation(value = "测试", notes = "测试接口")
@@ -370,63 +370,186 @@ public class SysUserController {
 
     @ApiOperation(value = "简单导入用户", notes = "简单导入用户")
     @PostMapping("/simpleImport")
-    public Object simpleImport(MultipartFile file) throws IOException {
-        String fileName = file.getOriginalFilename();
-        InputStream inputStream = file.getInputStream();
-        Workbook workbook = null;
-        if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
-            workbook = new XSSFWorkbook(inputStream);
-        } else {
-            workbook = new HSSFWorkbook(inputStream);
+    public Object simpleImport(MultipartFile file, @RequestParam("updateStatus") String updateStatus) {
+        InputStream inputStream=null;
+        try {
+             String fileName = file.getOriginalFilename();
+             inputStream = file.getInputStream();
+             Workbook workbook = null;
+            if (StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
+                workbook = new XSSFWorkbook(inputStream);
+            } else {
+                workbook = new HSSFWorkbook(inputStream);
+            }
+            List<SysOrganizationEntity> orgList = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());
+            Map orgMap = new HashMap();
+            for (int i = 0; i < orgList.size(); i++) {
+                SysOrganizationEntity org = orgList.get(i);
+                orgMap.put(org.getOrgName(), org);
+            }
+
+            List<DepartmentEntity> deptList = ExcelUserUtils.importExcel(file, ExcelUserConstant.Dept.values(), DepartmentEntity.class);
+            if (deptList.size() == 0) {
+                return WebResponse.error("500", "部门为空");
+            }
+            for (int i = 0; i < deptList.size(); i++) {
+                DepartmentEntity dept = deptList.get(i);
+                if (StringUtils.isEmpty(dept.getUpDept())) {
+                    dept.setUpDept("武汉众汇信");
+                }
+                if (StringUtils.isEmpty(dept.getDownDept())) {
+                    return WebResponse.error("500", "第" + i + "条记录没有填入部门");
+                }
+            }
+            sysUserService.insertDeptSimple(deptList);
+
+            List<SysNewUserEntity> userList = ExcelSimpleUserUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);
+
+            // excel用户名重复
+            HashSet<String> namelist = new HashSet<>();
+            for (SysNewUserEntity userInfo3 : userList) {
+                namelist.add(userInfo3.getLoginName());
+            }
+            if (namelist.size() < userList.size()) {
+                return WebResponse.error("500", "excel用户名重复，导入失败");
+            }
+            ArrayList<ImportResultDTO> importResultlist = new ArrayList<>();
+            int count = 0;
+
+            // 用户名为空时
+            for (SysNewUserEntity userInfo : userList) {
+                ImportResultDTO importResultDTO1 = new ImportResultDTO();
+                StringBuilder stringBuilder = new StringBuilder();
+                // 查父级节点
+                List<DepartmentEntity> list = sysUserService.findParentDept(userInfo.getDepartment());
+                Collections.reverse(list);
+                for (DepartmentEntity departmentEntity : list) {
+                    if (!departmentEntity.getDownDept().equals("武汉众汇信")) {
+                        stringBuilder.append("/").append(departmentEntity.getDownDept());
+                    }
+                }
+                if (StringUtils.isEmpty(userInfo.getLoginName())) {
+                    importResultDTO1.setDepartment(stringBuilder.toString());
+                    importResultDTO1.setUsername(userInfo.getUserName());
+                    importResultDTO1.setRole(userInfo.getRole());
+                    importResultDTO1.setResult("导入失败，用户名为空");
+                    importResultDTO1.setColorStatus(0);
+                    importResultlist.add(importResultDTO1);
+                }
+            }
+            // 部门为空时
+            for (SysNewUserEntity userInfo : userList) {
+                ImportResultDTO importResultDTO1 = new ImportResultDTO();
+                if (StringUtils.isEmpty(userInfo.getDepartment())) {
+                    importResultDTO1.setUsername(userInfo.getUserName());
+                    importResultDTO1.setRole(userInfo.getRole());
+                    importResultDTO1.setLoginName(userInfo.getLoginName());
+                    importResultDTO1.setResult("导入失败，部门为空");
+                    importResultDTO1.setColorStatus(0);
+                    importResultlist.add(importResultDTO1);
+                }
+            }
+            // 姓名为空时
+            for (SysNewUserEntity userInfo1 : userList) {
+                ImportResultDTO importResultDTO1 = new ImportResultDTO();
+                if (StringUtils.isEmpty(userInfo1.getUserName())) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    // 查父级节点
+                    List<DepartmentEntity> list = sysUserService.findParentDept(userInfo1.getDepartment());
+                    Collections.reverse(list);
+                    for (DepartmentEntity departmentEntity : list) {
+                        if (!departmentEntity.getDownDept().equals("武汉众汇信")) {
+                            stringBuilder.append("/").append(departmentEntity.getDownDept());
+                        }
+                    }
+                    importResultDTO1.setDepartment(stringBuilder.toString());
+                    importResultDTO1.setRole(userInfo1.getRole());
+                    importResultDTO1.setLoginName(userInfo1.getLoginName());
+                    importResultDTO1.setResult("导入失败，姓名为空");
+                    importResultDTO1.setColorStatus(0);
+                    importResultlist.add(importResultDTO1);
+                }
+            }
+            for (SysNewUserEntity userInfo : userList) {
+                ImportResultDTO importResultDTO = new ImportResultDTO();
+                if (StringUtils.isEmpty(userInfo.getRole())) {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    // 查父级节点
+                    List<DepartmentEntity> list = sysUserService.findParentDept(userInfo.getDepartment());
+                    Collections.reverse(list);
+                    for (DepartmentEntity departmentEntity : list) {
+                        if (!departmentEntity.getDownDept().equals("武汉众汇信")) {
+                            stringBuilder.append("/").append(departmentEntity.getDownDept());
+                        }
+                    }
+                    importResultDTO.setDepartment(stringBuilder.toString());
+                    importResultDTO.setUsername(userInfo.getUserName());
+                    importResultDTO.setLoginName(userInfo.getLoginName());
+                    importResultDTO.setResult("导入失败，角色为空");
+                    importResultDTO.setColorStatus(0);
+                    importResultlist.add(importResultDTO);
+                }
+            }
+            for (SysNewUserEntity userInfo : userList) {
+                if (StringUtils.isNotEmpty(userInfo.getDepartment())) {
+                    userInfo.setDepartId(((SysOrganizationEntity) orgMap.get(userInfo.getDepartment())).getId() + "");
+                }
+                if (StringUtils.isNotEmpty(userInfo.getRole())
+                        && StringUtils.isNotEmpty(userInfo.getUserName())
+                        && StringUtils.isNotEmpty(userInfo.getDepartment())
+                        && StringUtils.isNotEmpty(userInfo.getLoginName())) {
+                    String[] roleName = userInfo.getRole().split(",");
+                    List<SysRoleEntity> roleList = sysUserMapper.findRole(roleName);
+                    ImportResultDTO importResultDTO = new ImportResultDTO();
+                    if (roleName.length == roleList.size()) {
+                        importResultDTO.setRole(userInfo.getRole());
+                        StringBuilder stringBuilder = new StringBuilder();
+                        // 查父级节点
+                        List<DepartmentEntity> list = sysUserService.findParentDept(userInfo.getDepartment());
+                        Collections.reverse(list);
+                        for (DepartmentEntity departmentEntity : list) {
+                            if (!departmentEntity.getDownDept().equals("武汉众汇信")) {
+                                stringBuilder.append("/").append(departmentEntity.getDownDept());
+                            }
+                        }
+                        importResultDTO.setDepartment(stringBuilder.toString());
+                        importResultDTO.setUsername(userInfo.getUserName());
+                        importResultDTO.setLoginName(userInfo.getLoginName());
+                        int count3 = sysUserMapper.findLoginName(userInfo.getLoginName());
+                        if (count3 == 1 && updateStatus.equals("1")) {
+                            importResultDTO.setResult("成功，数据更新");
+                            importResultDTO.setColorStatus(1);
+                        }
+                        if (count3 >= 1 && updateStatus.equals("2")) {
+                            importResultDTO.setResult("更新失败，用户名重复");
+                            importResultDTO.setColorStatus(0);
+                        }
+                        if (count3 == 0 && updateStatus.equals("2") || count3 == 0 && updateStatus.equals("1")) {
+                            importResultDTO.setResult("成功，导入成功");
+                            importResultDTO.setColorStatus(1);
+                        }
+                        importResultlist.add(importResultDTO);
+                        userInfo.setRoleList(roleList);
+                        sysUserService.insertSimple1(userList,updateStatus);
+                    } else {
+                        return WebResponse.error("500", "第" + count + "条记录角色不存在");
+                    }
+                }
+            }
+            WebResponse webResponse = WebResponse.buildResponse();
+            webResponse.setCode("100");
+            return WebResponse.success(importResultlist);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
-
-        List<SysOrganizationEntity>  orgList = sysOrganizationService.listAllOrganizations(new SysOrganizationEntity());
-        Map orgMap = new HashMap();
-        for (int i=0;i<orgList.size();i++){
-            SysOrganizationEntity org = orgList.get(i);
-            orgMap.put(org.getOrgName(),org);
-        }
-
-        List<DepartmentEntity> deptList = ExcelUserUtils.importExcel(file, ExcelUserConstant.Dept.values(), DepartmentEntity.class);
-        for (int i=0;i<deptList.size();i++){
-            DepartmentEntity dept = deptList.get(i);
-            if (StringUtils.isEmpty(dept.getUpDept())){
-                return WebResponse.error("500","第"+i+"条记录没有填入上级部门");
-            }
-            if (StringUtils.isEmpty(dept.getDownDept())){
-                return WebResponse.error("500","第"+i+"条记录没有填入部门");
-            }
-        }
-        sysUserService.insertDeptSimple(deptList);
-
-        List<SysNewUserEntity> userList = ExcelSimpleUserUtils.importExcel(file, ExcelUserConstant.UserInfo.values(), SysNewUserEntity.class);;
-
-        int count = 0;
-
-        for (SysNewUserEntity userInfo : userList){
-            ++count;
-            if (StringUtils.isEmpty(userInfo.getDepartment())){
-                return WebResponse.error("500","第"+count+"条记录没有填入部门");
-            }
-            if (orgMap.get(userInfo.getDepartment())==null){
-                return WebResponse.error("500","第"+count+"条记录部门不存在");
-            }
-            userInfo.setDepartId(((SysOrganizationEntity)orgMap.get(userInfo.getDepartment())).getId()+"");
-
-            if (StringUtils.isEmpty(userInfo.getUserName())){
-                return WebResponse.error("500","第"+count+"条记录没有填入姓名");
-            }
-
-        }
-
-        sysUserService.insertSimple(userList);
-
-
-
-
-        WebResponse webResponse = WebResponse.buildResponse();
-        webResponse.setCode("100");
-        return WebResponse.success();
+        return null;
     }
-
 }

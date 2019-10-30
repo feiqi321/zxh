@@ -121,6 +121,8 @@ public interface SysUserService {
 
     void insertSimple(List<SysNewUserEntity> list);
 
+    void insertSimple1(List<SysNewUserEntity> list,String updateStatus);
+
     void insertDeptSimple(List<DepartmentEntity> list);
 
     /**
@@ -139,4 +141,6 @@ public interface SysUserService {
 	List<QueryEntity> queryOdv(String odvName);
 
     List<QueryEntity> queryUser(String odvName);
+
+    List<DepartmentEntity> findParentDept(String downDept);
 }
