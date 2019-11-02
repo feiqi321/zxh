@@ -51,41 +51,41 @@ public class CSVUtils {
             for (int i = 0; i < data.size(); i++) {
                 Object val;
                 List<String> content = new ArrayList<>();
-                    T entity = data.get(i);
-                    for (int k = 0; k < excelEnumMap.size(); k++) {
-                        ExcelEnum excelEnum = excelEnumMap.get(k);
-                        if (excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
-                            continue;
-                        }
-                        String attr = excelEnum.getAttr();
-                        Matcher matcher = NAME_PATTERN.matcher(attr);
-                        if (matcher.find()) {
-                            String firstAttr = attr.substring(0, matcher.start());
-                            String secondAttr = attr.substring(matcher.end());
-                            Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
-                            Object object = firstAttrGetMethod.invoke(entity);
-                            if (object == null) {
-                                val = firstAttrGetMethod.invoke(entity);
-                            } else {
-                                Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
-                                val = secondAttrSetMethod.invoke(object);
-                            }
-                        } else {
-                            Method method = entity.getClass().getMethod("get" + attr.substring(0, 1).toUpperCase() + attr.substring(1));
-                            val = method.invoke(entity);
-                        }
-                        if (val != null) {
-                            if (Date.class.getName().equals(val.getClass().getName())) {
-                                content.add("\t" + new SimpleDateFormat("yyyy-MM-dd").format(val));
-                            } else {
-                                content.add("\t" + val.toString());
-                            }
-                        } else {
-                            content.add("");
-                        }
+                T entity = data.get(i);
+                for (int k = 0; k < excelEnumMap.size(); k++) {
+                    ExcelEnum excelEnum = excelEnumMap.get(k);
+                    if (excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
+                        continue;
                     }
-                    csvPrinter.printRecord(content);
+                    String attr = excelEnum.getAttr();
+                    Matcher matcher = NAME_PATTERN.matcher(attr);
+                    if (matcher.find()) {
+                        String firstAttr = attr.substring(0, matcher.start());
+                        String secondAttr = attr.substring(matcher.end());
+                        Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                        Object object = firstAttrGetMethod.invoke(entity);
+                        if (object == null) {
+                            val = firstAttrGetMethod.invoke(entity);
+                        } else {
+                            Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
+                            val = secondAttrSetMethod.invoke(object);
+                        }
+                    } else {
+                        Method method = entity.getClass().getMethod("get" + attr.substring(0, 1).toUpperCase() + attr.substring(1));
+                        val = method.invoke(entity);
+                    }
+                    if (val != null) {
+                        if (Date.class.getName().equals(val.getClass().getName())) {
+                            content.add("\t" + new SimpleDateFormat("yyyy-MM-dd").format(val));
+                        } else {
+                            content.add("\t" + val.toString());
+                        }
+                    } else {
+                        content.add("");
+                    }
                 }
+                csvPrinter.printRecord(content);
+            }
             csvPrinter.printRecord("\r\n");
             os.flush();
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
