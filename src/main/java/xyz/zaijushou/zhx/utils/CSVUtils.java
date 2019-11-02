@@ -38,66 +38,63 @@ public class CSVUtils {
             header[i] = enums[i].getCol();
         }
         OutputStreamWriter osw = null;
-		CSVFormat csvFormat = null;
-		CSVPrinter csvPrinter = null;
-		try {
-			osw = new OutputStreamWriter(os, "GBK");
-			csvFormat = CSVFormat.DEFAULT.withHeader(header);
-			csvPrinter = new CSVPrinter(osw, csvFormat);
-			Map<Integer, ExcelEnum> excelEnumMap = new HashMap<>();
-			for (ExcelEnum value : enums) {
-				excelEnumMap.put(excelEnumMap.size(), value);
-			}
-			for (int i = 0; i < data.size(); i++) {
-			Object val;
-			List<String> content = new ArrayList<>();
-				try {
-					T entity = data.get(i);
-					for (int k = 0; k < excelEnumMap.size(); k++) {
-						ExcelEnum excelEnum = excelEnumMap.get(k);
-						if (excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
-							continue;
-						}
-						    String attr = excelEnum.getAttr();
-						    Matcher matcher = NAME_PATTERN.matcher(attr);
-							if (matcher.find()) {
-								String firstAttr = attr.substring(0, matcher.start());
-								String secondAttr = attr.substring(matcher.end());
-								Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
-								Object object = firstAttrGetMethod.invoke(entity);
-								if (object == null) {
-									val=firstAttrGetMethod.invoke(entity);
-								}else{
-								Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
-								val = secondAttrSetMethod.invoke(object);
-								}
-							}else{
-                                Method method = entity.getClass().getMethod("get" + attr.substring(0, 1).toUpperCase() + attr.substring(1));
-                                val = method.invoke(entity);
+        CSVFormat csvFormat = null;
+        CSVPrinter csvPrinter = null;
+        try {
+            osw = new OutputStreamWriter(os, "GBK");
+            csvFormat = CSVFormat.DEFAULT.withHeader(header);
+            csvPrinter = new CSVPrinter(osw, csvFormat);
+            Map<Integer, ExcelEnum> excelEnumMap = new HashMap<>();
+            for (ExcelEnum value : enums) {
+                excelEnumMap.put(excelEnumMap.size(), value);
+            }
+            for (int i = 0; i < data.size(); i++) {
+                Object val;
+                List<String> content = new ArrayList<>();
+                    T entity = data.get(i);
+                    for (int k = 0; k < excelEnumMap.size(); k++) {
+                        ExcelEnum excelEnum = excelEnumMap.get(k);
+                        if (excelEnum == null || StringUtils.isEmpty(excelEnum.getAttr())) {
+                            continue;
+                        }
+                        String attr = excelEnum.getAttr();
+                        Matcher matcher = NAME_PATTERN.matcher(attr);
+                        if (matcher.find()) {
+                            String firstAttr = attr.substring(0, matcher.start());
+                            String secondAttr = attr.substring(matcher.end());
+                            Method firstAttrGetMethod = entity.getClass().getMethod("get" + firstAttr.substring(0, 1).toUpperCase() + firstAttr.substring(1));
+                            Object object = firstAttrGetMethod.invoke(entity);
+                            if (object == null) {
+                                val = firstAttrGetMethod.invoke(entity);
+                            } else {
+                                Method secondAttrSetMethod = excelEnum.getAttrClazz()[0].getMethod("get" + secondAttr.substring(0, 1).toUpperCase() + secondAttr.substring(1));
+                                val = secondAttrSetMethod.invoke(object);
                             }
-							if (val!=null){
-                                if(Date.class.getName().equals(val.getClass().getName())) {
-                                    content.add("\t"+new SimpleDateFormat("yyyy-MM-dd").format(val));
-                                }else{
-                                    content.add("\t"+val.toString());
-                                }
-                             }else{
-						 	content.add("");
-						 }
-					}
-					csvPrinter.printRecord(content);
-				} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-					logger.error("excel解析错误：{}", e);
-				}
-			}
-			csvPrinter.printRecord("\r\n");
-			logger.info("content is written");
-			os.flush();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close(os, csvPrinter);
-		}
+                        } else {
+                            Method method = entity.getClass().getMethod("get" + attr.substring(0, 1).toUpperCase() + attr.substring(1));
+                            val = method.invoke(entity);
+                        }
+                        if (val != null) {
+                            if (Date.class.getName().equals(val.getClass().getName())) {
+                                content.add("\t" + new SimpleDateFormat("yyyy-MM-dd").format(val));
+                            } else {
+                                content.add("\t" + val.toString());
+                            }
+                        } else {
+                            content.add("");
+                        }
+                    }
+                    csvPrinter.printRecord(content);
+                }
+            csvPrinter.printRecord("\r\n");
+            os.flush();
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            logger.error("csv解析错误：{}", e);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(os, csvPrinter);
+        }
     }
 
     private static void close(OutputStream os, CSVPrinter csvPrinter) {
