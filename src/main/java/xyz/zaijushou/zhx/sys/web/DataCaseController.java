@@ -29,16 +29,11 @@ import xyz.zaijushou.zhx.sys.entity.*;
 import xyz.zaijushou.zhx.sys.service.*;
 import xyz.zaijushou.zhx.sys.service.impl.CaseExportCallable;
 import xyz.zaijushou.zhx.sys.service.impl.CaseImportCallable;
-import xyz.zaijushou.zhx.utils.ExcelCaseUtils;
-import xyz.zaijushou.zhx.utils.ExcelUtils;
-import xyz.zaijushou.zhx.utils.JwtTokenUtil;
-import xyz.zaijushou.zhx.utils.RedisUtils;
+import xyz.zaijushou.zhx.utils.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -999,6 +994,96 @@ public class DataCaseController {
                 fileName+ ".xlsx",
                 response
         );
+        return null;
+    }
+
+    @ApiOperation(value = "查询导出所有", notes = "查询导出所有")
+    @PostMapping("/dataCase/totalDataBatchExport1")
+    public Object totalDataBatchExport1(@RequestBody DataCaseEntity bean, HttpServletResponse response) throws IOException, InvalidFormatException {
+        List exportKeyList = new ArrayList();
+        logger.info("进入全量导出");
+        Iterator iter = bean.getExportConf().entrySet().iterator(); // 获得map的Iterator
+        Map colMap = new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            if ((Boolean) entry.getValue()){
+                ExcelCaseConstant.CaseExportCaseConf caseExportCaseConf = ExcelCaseConstant.CaseExportCaseConf.getEnumByKey(entry.getKey().toString());
+                if (caseExportCaseConf!=null && xyz.zaijushou.zhx.utils.StringUtils.notEmpty(caseExportCaseConf.getAttr())) {
+                    exportKeyList.add(caseExportCaseConf.getAttr());
+                }
+                colMap.put(caseExportCaseConf.getCol(), caseExportCaseConf.getCol());
+            }
+        }
+        ExcelCaseConstant.CaseExportCase caseExportCases[]= ExcelCaseConstant.CaseExportCase.values();
+        List<ExcelCaseConstant.CaseExportCase> caseExportCases2 = new ArrayList<ExcelCaseConstant.CaseExportCase>();
+        for (int i=0;i<caseExportCases.length;i++){
+            ExcelCaseConstant.CaseExportCase caseListTemp = caseExportCases[i];
+            if (colMap.get(caseListTemp.getCol())!=null){
+                caseExportCases2.add(caseListTemp);
+            }
+        }
+        bean.setExportKeyList(exportKeyList);
+        logger.info("导出查询开始");
+        List<String> deptList = new ArrayList<String>();
+        if (xyz.zaijushou.zhx.utils.StringUtils.isEmpty(bean.getDepts()) || bean.getDepts().length==0){
+        }else{
+            for (int i=0;i<bean.getDepts().length;i++){
+                deptList.add(bean.getDepts()[i]);
+            }
+            SysNewUserEntity queryUser = new SysNewUserEntity();
+            queryUser.setDepartIdsSet(new HashSet(deptList));
+            List<SysNewUserEntity> odvList = sysUserMapper.listByDepartIdsSet(queryUser);
+            String[] odvs = new String[odvList.size()];
+            for (int i=0;i<odvList.size();i++){
+                SysNewUserEntity sysNewUserEntity = odvList.get(i);
+                odvs[i] = sysNewUserEntity.getId()+"";
+            }
+            List odvTempList = new ArrayList();
+            if(bean.getOdvs()==null || bean.getOdvs().length==0){
+                bean.setOdvs(odvs);
+            }else if (odvs!=null && odvs.length>0){
+                for(int i=0;i<odvs.length;i++){
+                    for (int j=0;j<bean.getOdvs().length;j++){
+                        if(odvs[i].equals(bean.getOdvs()[j])){
+                            odvTempList.add(odvs[i]);
+                        }
+                    }
+                }
+                String[] temps = new String[odvTempList.size()];
+                odvTempList.toArray(temps);
+                bean.setOdvs(temps);
+            }
+        }
+        bean.setDepts(null);
+        List<DataCaseEntity> list = dataCaseService.totalCaseListExport(bean);
+        for (DataCaseEntity dataCaseEntity : list) {
+            if (StringUtils.isEmpty(dataCaseEntity.getOdv())){
+                dataCaseEntity.setCollectDate(null);
+            }
+        }
+        logger.info("导出查询数据组装完毕");
+        String fileName = "案件管理全量导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        SysOperationLogEntity operationLog = new SysOperationLogEntity();
+        operationLog.setRequestBody(fileName);
+        operationLog.setUserId(userId);
+        sysOperationLogService.insertRequest(operationLog);
+
+        //催收员部门替换为中文
+        //this.dept2CN(list,colMap);
+        //去掉导出excel底色
+        //this.noBGC(list);
+
+        // ExcelUtils.exportExcel(list,
+        //         caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
+        //         fileName + ".xlsx",
+        //         response
+        // );
+        CSVUtils.export(list,
+                caseExportCases2.toArray(new ExcelCaseConstant.CaseExportCase[caseExportCases2.size()]),
+                fileName + ".csv",
+                response);
+        logger.info("导出查询全部完毕");
         return null;
     }
 
