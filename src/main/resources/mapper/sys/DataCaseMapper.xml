@@ -1826,12 +1826,15 @@
 
     <select id="listInitAllCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
         select  da.id,da.card_no as cardNo,da.odv,
-        da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(da.case_date, 'yyyy-MM-dd') as caseDate,
+        da.collect_status as collectStatus , da.account_age as accountAge ,da.seq_no as seqNo,dbo.fnFormatDate(t.case_date, 'yyyy-MM-dd') as caseDate,
         da.real_repay_date as realRepayDate ,da.name as name ,da.card_no as cardo,da.ident_no as identNo,
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,
         da.bank_amt as bankAmt,da.batch_no as batchNo
-        from data_case da
-        where da.delete_flag = 0  <![CDATA[   and da.id>#{id}  and  da.id <= #{maxId}]]>
+        from data_case da left join
+        data_case_interest t
+        on da.id=t.case_id
+        where da.delete_flag = 0
+
     </select>
 
     <select id="listBySeqNoSet" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
