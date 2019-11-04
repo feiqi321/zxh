@@ -86,7 +86,6 @@ public class CSVUtils {
                 }
                 csvPrinter.printRecord(content);
             }
-            csvPrinter.printRecord("\r\n");
             os.flush();
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             logger.error("csv解析错误：{}", e);
