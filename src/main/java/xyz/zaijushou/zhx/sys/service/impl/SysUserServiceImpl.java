@@ -58,6 +58,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class SysUserServiceImpl implements SysUserService {
     private static Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
     @Resource
@@ -851,6 +852,8 @@ public class SysUserServiceImpl implements SysUserService {
                 }
                 if (userList.size()==1&&updateStatus.equals("1")){
                     sysUserMapper.updateUserInfo(userInfo);
+                    // 更新人员案件的dept数据
+                    sysUserMapper.updatedeptInfo(userList.get(0).getId(),userInfo.getDepartId());
                     //保存角色中间表
                     SysUserRoleEntity roleEntity = new SysUserRoleEntity();
                     roleEntity.setUserId(userList.get(0).getId());

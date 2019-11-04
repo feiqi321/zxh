@@ -632,7 +632,9 @@
         enable = 0
         where id = #{id}
     </update>
-
+    <update id="updatedeptInfo">
+      update data_case set dept=#{departId} where odv=#{id}
+    </update>
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
           select <include refid="colSqlPasswordInfo"/> from sys_user where login_name LIKE dbo.CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
     </select>

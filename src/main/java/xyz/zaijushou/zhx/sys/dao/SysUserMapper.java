@@ -150,4 +150,5 @@ public interface SysUserMapper {
 
     List<SysUserEntity> listUsersByLoginName(SysUserEntity tempUser);
 
+    void updatedeptInfo(Integer id, String departId);
 }
