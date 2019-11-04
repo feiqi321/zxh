@@ -54,34 +54,31 @@ public class RedisInitConfig implements ApplicationRunner {
 
         List<SysAuthorityEntity> allAuthority = sysAuthorityService.listAllAuthorities(new SysAuthorityEntity());
 
-
         List<SysDictionaryEntity> allDic = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
 
-        List<DataCaseEntity> allCase = dataCaseMapper.listInitAllCaseInfo(new DataCaseEntity());
+        List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
+
+        int maxId= dataCaseMapper.findMaxId();
+        int cycleNum;
+        if(maxId<=50000) {
+            cycleNum=1;
+        }else {
+            cycleNum=  (int) Math.ceil(maxId / 50000)+1;
+        }
+        for (int i=0;i<cycleNum;i++){
+            DataCaseEntity DataCaseEntity = new DataCaseEntity();
+            DataCaseEntity.setId(i*50000);
+            DataCaseEntity.setMaxId((i+1)*50000);
+            List<DataCaseEntity> allCase = dataCaseMapper.listInitAllCaseInfo(DataCaseEntity);
+            initCase(allCase);
+        }
         initUserInfo(allUser);
         initMenuInfo(allMenu);
         initButtonInfo(allButton);
         initAuthorityInfo(allAuthority);
         initRoleInfo();
         initDic(allDic);
-        initCase(allCase);
-
-/*
-        List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
         initBatch(allBatch);
-        for (int i=0;i<120;i++){
-            DataCaseEntity DataCaseEntity = new DataCaseEntity();
-            DataCaseEntity.setId(i*50000);
-            DataCaseEntity.setMaxId((i+1)*50000);
-            List<DataCaseEntity> allCase = dataCaseMapper.listInitAllCaseInfo(DataCaseEntity);
-
-            initCase(allCase);
-        }*/
-
-
-
-
-
     }
     private void initDic(List<SysDictionaryEntity> allDic){
         RedisUtils.refreshDicEntity(allDic, RedisKeyPrefix.SYS_DIC);

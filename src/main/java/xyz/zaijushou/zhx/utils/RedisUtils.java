@@ -45,7 +45,7 @@ public class RedisUtils {
     }
 
     public static void refreshBatchEntity(List list, String redisKeyPrefix) {
-        //RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+        RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
         try {
             for (Object object : list) {
                 DataBatchEntity dataBatchEntity = (DataBatchEntity) object;

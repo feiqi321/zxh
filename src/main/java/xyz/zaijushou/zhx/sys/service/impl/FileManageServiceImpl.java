@@ -142,7 +142,11 @@ public class FileManageServiceImpl implements FileManageService {
                     temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt()+"");
                     dateCaseMapper.updateInterest(temp);
                 }else{
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                    if(dataCaseInterestEntity.getCardNo()!=null&&dataCaseInterestEntity.getCaseDate()!=null){
+                        return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行个案序列号或者卡号和委案日期数据错误，请修改后上传");
+                    }else {
+                        return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行个案序列号或者卡号和委案日期未填写，请修改后上传");
+                    }
                 }
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCaseInterestEntity.getSeqNo(),DataCaseEntity.class);
@@ -162,12 +166,14 @@ public class FileManageServiceImpl implements FileManageService {
                     temp.setLatestOverdueMoney(dataCaseInterestEntity.getLastestDebt()+"");
                     dateCaseMapper.updateInterest(temp);
                 }else{
-                    return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行未填写个案序列号或者卡号和委案日期，请填写后上传，并检查excel的个案序列号或者卡号和委案日期是否均填写了");
+                   if (dataCaseInterestEntity.getSeqNo()!=null){
+                       return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行个案序列号或者卡号和委案日期数据错误，请修改后上传");
+                   }else{
+                       return WebResponse.error(WebResponseCode.IMPORT_ERROR.getCode(), "第" + (i + 2) + "行个案序列号或者卡号和委案日期未填写，请修改后上传");
+                   }
                 }
             }
-
         }
-
         webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;
