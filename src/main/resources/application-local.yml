@@ -12,7 +12,7 @@ spring:
     host: 127.0.0.1
     port: 7777
     password: redis
-    timeout: 50000
+    timeout: 86400000
     jedis:
       pool:
         max-idle: 30
