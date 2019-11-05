@@ -63,7 +63,8 @@ public class SqlAop {
             "   (execution(* xyz.zaijushou.zhx..*Mapper.delete*(..)))" +
             ") && " +
             "!(" +
-            "execution(* xyz.zaijushou.zhx.sys.dao.SysOperationLogMapper.*(..)))" +
+            "   (execution(* xyz.zaijushou.zhx.sys.dao.SysOperationLogMapper.*(..))) ||" +
+            "   (execution(* xyz.zaijushou.zhx.sys.dao.SysConfigMapper.*(..)))" +
             ")"
     )
     public void doInsertUpdateDeleteBefore(JoinPoint joinPoint) {

@@ -71,7 +71,6 @@ public class RedisUtils {
     }
 
     public static void refreshCaseEntity(List list, String redisKeyPrefix) {
-        RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
         try {
             for (Object object : list) {
                 DataCaseEntity dataCaseEntity = (DataCaseEntity) object;

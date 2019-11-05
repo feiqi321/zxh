@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.SysConfigMapper">
+    <select id="queryConfig" resultType="xyz.zaijushou.zhx.sys.entity.SysConfig">
+        select cfgid,cfgtitle,cfgvalue,cfgcomment from sys_config where cfgtitle=#{cfgtitle}
+    </select>
+
+    <update id="updateConfig">
+        update sys_config set cfgvalue=#{cfgvalue} where cfgtitle=#{cfgtitle}
+    </update>
+</mapper>
