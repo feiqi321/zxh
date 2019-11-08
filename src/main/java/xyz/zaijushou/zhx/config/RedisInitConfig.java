@@ -103,7 +103,7 @@ public class RedisInitConfig implements ApplicationRunner {
             return;
         }
 
-        RedisUtils.deleteKeysWihtPrefix(RedisKeyPrefix.DATA_CASE);
+        // RedisUtils.deleteKeysWihtPrefix(RedisKeyPrefix.DATA_CASE);
         Integer maxId = dataCaseMapper.findMaxId();
         if (maxId == null) {
             return;
