@@ -15,7 +15,7 @@ public class DataCollectionEntity extends CommonEntity {
     private int[] ids;//催收数组
 
     //案件id
-    private String caseId;
+    private Integer caseId;
 
     private String name;
 
@@ -1573,11 +1573,11 @@ public class DataCollectionEntity extends CommonEntity {
         this.client = client;
     }
 
-    public String getCaseId() {
+    public Integer getCaseId() {
         return caseId;
     }
 
-    public void setCaseId(String caseId) {
+    public void setCaseId(Integer caseId) {
         this.caseId = caseId;
     }
 

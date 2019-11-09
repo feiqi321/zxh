@@ -107,11 +107,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         log.setOperName(getUserInfo().getUserName());
 
         log.setOpTime(sdf.format(new Date()));
-        log.setCaseId(beanInfo.getCaseId());
+        log.setCaseId(beanInfo.getCaseId().toString());
         dataLogService.saveDataLog(log);
 
         DataCaseEntity dataCaseEntity = new DataCaseEntity();
-        dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
+        dataCaseEntity.setId(beanInfo.getCaseId());
         dataCaseEntity.setNewCase(beanInfo.getCollectInfo().trim());
         dataCaseEntity.setSummary(beanInfo.getResult());
         dataCaseEntity.setCollectStatus(beanInfo.getCollectStatus());
@@ -157,23 +157,20 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         if(beanInfo.getId()==null || beanInfo.getId()==0){
             dataCollectionMapper.detailSave(beanInfo);
             DataCaseEntity dataCaseEntity = new DataCaseEntity();
-            dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
+            dataCaseEntity.setId(beanInfo.getCaseId());
             dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
             caseMapper.updateDataCaseByCollect(dataCaseEntity);
         }else{
             dataCollectionMapper.detailUpdate(beanInfo);
             DataCaseEntity dataCaseEntity = new DataCaseEntity();
-            dataCaseEntity.setId(Integer.parseInt(beanInfo.getCaseId()));
+            dataCaseEntity.setId(beanInfo.getCaseId());
             dataCaseEntity.setNewCase(beanInfo.getCollectInfo());
             caseMapper.updateDataCaseByCollect2(dataCaseEntity);
         }
-
-
     }
 
     public void detailDel(DataCollectionEntity beanInfo){
         dataCollectionMapper.detailDel(beanInfo);
-
     }
 
     @Override
@@ -181,13 +178,11 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         dataCollectionMapper.updateCollection(dataCollectionEntity);
         DataCollectionEntity temp = dataCollectionMapper.findById(dataCollectionEntity);
         DataCaseEntity dataCaseEntity = new DataCaseEntity();
-        dataCaseEntity.setId(Integer.parseInt(temp.getCaseId()));
+        dataCaseEntity.setId(temp.getCaseId());
         dataCaseEntity.setNewCase(dataCollectionEntity.getCollectInfo());
         dataCaseEntity.setCollectDate(dataCollectionEntity.getCollectTime());
         caseMapper.updateDataCaseByCollect3(dataCaseEntity);
-
     }
-
 
     @Override
     public List<DataCollectionEntity> pageDataCollectionList(DataCollectionEntity dataCollectionEntity){

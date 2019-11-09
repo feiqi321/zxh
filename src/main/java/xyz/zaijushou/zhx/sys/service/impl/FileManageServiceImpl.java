@@ -368,8 +368,7 @@ public class FileManageServiceImpl implements FileManageService {
                     }
                 }
                 if (temp!=null){
-
-                    dataCollectionEntity.setCaseId(temp.getId()+"");
+                    dataCollectionEntity.setCaseId(temp.getId());
                     temp.setCollectDate(dataCollectionEntity.getContractDate());
 
                     //dateCaseMapper.addCollectTimes(temp);
@@ -387,7 +386,7 @@ public class FileManageServiceImpl implements FileManageService {
             }else{
                 DataCaseEntity temp = RedisUtils.entityGet(RedisKeyPrefix.DATA_CASE+dataCollectionEntity.getSeqno(),DataCaseEntity.class);
                 if (temp!=null){
-                    dataCollectionEntity.setCaseId(temp.getId()+"");
+                    dataCollectionEntity.setCaseId(temp.getId());
                     temp.setCollectDate(dataCollectionEntity.getContractDate());
 
 
@@ -426,26 +425,22 @@ public class FileManageServiceImpl implements FileManageService {
 
         //更新催收时间
         this.updateCollectDate(caseList);
-
-
         webResponse.setMsg("导入成功");
         webResponse.setCode("100");
         return webResponse;
-
     }
+
     @Transactional
     private void updateCollectDate(List<DataCollectionEntity> list){
         for (DataCollectionEntity dataCollectionEntity: list) {
             if (StringUtils.isNotBlank(dataCollectionEntity.getContractDate())){
                 DataCaseEntity dataCaseEntity = new DataCaseEntity();
-                dataCaseEntity.setId( Integer.parseInt(dataCollectionEntity.getCaseId()) );
+                dataCaseEntity.setId(dataCollectionEntity.getCaseId());
                 dataCaseEntity.setCollectDate(dataCollectionEntity.getContractDate());
                 dateCaseMapper.updateCollectDate(dataCaseEntity);
             }
-
         }
     }
-
 
     public  void docFile() throws Exception {
         //拼一个标准的HTML格式文档
@@ -463,7 +458,6 @@ public class FileManageServiceImpl implements FileManageService {
      * @throws IOException
      */
     private void inputStreamToWord(InputStream is, OutputStream os) throws IOException {
-
         POIFSFileSystem fs = new POIFSFileSystem();
         fs.createDocument(is, "WordDocument");
         fs.writeFilesystem(os);

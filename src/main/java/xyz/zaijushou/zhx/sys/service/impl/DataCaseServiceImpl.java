@@ -189,7 +189,7 @@ public class DataCaseServiceImpl implements DataCaseService {
             dataCaseRepayRecordMapper.deleteDataCaseRepayRecord(entity);
 
             DataCollectionEntity dataCollectionEntity = new DataCollectionEntity();
-            dataCollectionEntity.setCaseId(dataCaseEntity.getId()+"");
+            dataCollectionEntity.setCaseId(dataCaseEntity.getId());
             dataCollectionMapper.detailByCaseId(dataCollectionEntity);
 
             stringRedisTemplate.delete(RedisKeyPrefix.DATA_CASE + dataCaseEntity.getSeqNo());

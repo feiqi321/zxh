@@ -61,10 +61,16 @@ public class RedisInitConfig implements ApplicationRunner {
     @Resource
     private SysConfigMapper sysConfigMapper;
 
+    private static final String RedisLoading = "redis.loading";
     private static final String RedisLoadingCases = "redis.loadingcases";
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        SysConfig redisConfig = sysConfigMapper.queryConfig(RedisLoading);
+        logger.debug("RedisLoading : "+redisConfig.getCfgvalue());
+        if(redisConfig.getCfgvalue().equals("0")){
+            return;
+        }
 
         List<SysUserEntity> allUser = sysUserService.listAllUsers(new SysUserEntity());
 
