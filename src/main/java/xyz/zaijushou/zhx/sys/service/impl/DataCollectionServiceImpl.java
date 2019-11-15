@@ -24,6 +24,8 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 import javax.annotation.Resource;
+
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,16 +68,26 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCaseRepayRecordMapper dataCaseRepayRecordMapper;
     private Lock lock = new ReentrantLock();    //注意这个地方
 
-
     @Override
-    public void save(DataCollectionEntity beanInfo){
-        if(StringUtils.isEmpty(beanInfo.getCollectInfo())){
-            //获取催收模板的通话记录
-            SysDictionaryEntity sysBean =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getModule(),SysDictionaryEntity.class);
-            if (sysBean != null){
-                beanInfo.setCollectInfo(sysBean.getDescription());
+    public void save(DataCollectionEntity beanInfo) throws Exception {
+        String collectInfo = beanInfo.getCollectInfo().trim();
+        if(hasTraditionalChinese(collectInfo)){
+            throw new Exception("催记内容不应包含繁体中文");
+        }
+        Set<String> keys = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.SYS_FORBIDDENWORDS_DATACOLLECTION);
+        for (String key : keys) {
+            String word = RedisUtils.getRawValue(key);
+            if(collectInfo.toLowerCase().contains(word)){
+                throw new Exception("无法保存催记，违规内容："+word);
             }
         }
+        // if(StringUtils.isEmpty(beanInfo.getCollectInfo())){
+        //     //获取催收模板的通话记录
+        //     SysDictionaryEntity sysBean =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getModule(),SysDictionaryEntity.class);
+        //     if (sysBean != null){
+        //         beanInfo.setCollectInfo(sysBean.getDescription());
+        //     }
+        // }
         SysUserEntity sysUserEntity = getUserInfo();
         beanInfo.setCreateUser(sysUserEntity);
         SysDictionaryEntity sysDictionaryEntity =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getCollectStatus(),SysDictionaryEntity.class);
@@ -90,11 +102,9 @@ public class DataCollectionServiceImpl implements DataCollectionService {
             beanInfo.setIsEnable(0);
         }
         beanInfo.setOdv(sysUserEntity==null?"":sysUserEntity.getId()+"");
-        beanInfo.setCollectInfo(beanInfo.getCollectInfo().trim());
+        beanInfo.setCollectInfo(collectInfo);
         beanInfo.setResult(beanInfo.getResult().trim());
         dataCollectionMapper.saveCollection(beanInfo);
-
-
 
         DataOpLog log = new DataOpLog();
         log.setType("电话催收");
@@ -112,7 +122,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         DataCaseEntity dataCaseEntity = new DataCaseEntity();
         dataCaseEntity.setId(beanInfo.getCaseId());
-        dataCaseEntity.setNewCase(beanInfo.getCollectInfo().trim());
+        dataCaseEntity.setNewCase(collectInfo);
         dataCaseEntity.setSummary(beanInfo.getResult());
         dataCaseEntity.setCollectStatus(beanInfo.getCollectStatus());
         dataCaseEntity.setProRepayAmt(beanInfo.getRepayAmt());
@@ -1341,15 +1351,15 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 ? odvReward4 : new BigDecimal("0.0");
 
         caseCommission2 = reward1.add(reward2).add(reward3).add(reward4);
-
-            managePercentage.setPercentage((caseCommission2==null?new BigDecimal(0):caseCommission2).add(rangeCommission==null?new BigDecimal(0):rangeCommission));
-
-
-
-
+        managePercentage.setPercentage((caseCommission2==null?new BigDecimal(0):caseCommission2).add(rangeCommission==null?new BigDecimal(0):rangeCommission));
     }
 
-
-
-
+    private static boolean hasTraditionalChinese(String str) {
+        String encode ="GB2312";
+        try {
+            return !str.equals(new String(str.getBytes(encode), encode));
+        } catch (UnsupportedEncodingException e) {
+            return false;
+        }
+    }
 }

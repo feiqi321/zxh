@@ -15,6 +15,7 @@ import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
 import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
 import xyz.zaijushou.zhx.sys.dao.SysConfigMapper;
 import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.entity.AllForbiddenWords;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
 import xyz.zaijushou.zhx.sys.entity.SysAuthorityEntity;
@@ -23,6 +24,7 @@ import xyz.zaijushou.zhx.sys.entity.SysConfig;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 import xyz.zaijushou.zhx.sys.entity.SysMenuEntity;
 import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
+import xyz.zaijushou.zhx.sys.service.ForbiddenWordsService;
 import xyz.zaijushou.zhx.sys.service.SysAuthorityService;
 import xyz.zaijushou.zhx.sys.service.SysButtonService;
 import xyz.zaijushou.zhx.sys.service.SysMenuService;
@@ -61,6 +63,9 @@ public class RedisInitConfig implements ApplicationRunner {
     @Resource
     private SysConfigMapper sysConfigMapper;
 
+    @Resource
+    private ForbiddenWordsService forbiddenWordsService;
+
     private static final String RedisLoading = "redis.loading";
     private static final String RedisLoadingCases = "redis.loadingcases";
 
@@ -92,9 +97,10 @@ public class RedisInitConfig implements ApplicationRunner {
         initDic(allDic);
         initBatch(allBatch);
         initCase();
+        initForbiddenWords();
     }
 
-    private void initDic(List<SysDictionaryEntity> allDic) {
+	private void initDic(List<SysDictionaryEntity> allDic) {
         RedisUtils.refreshDicEntity(allDic, RedisKeyPrefix.SYS_DIC);
     }
 
@@ -147,4 +153,9 @@ public class RedisInitConfig implements ApplicationRunner {
         sysRoleService.refreshRoleRedis();
     }
 
+    private void initForbiddenWords() {
+        AllForbiddenWords words = forbiddenWordsService.query();
+        RedisUtils.refreshForbiddenWordsDataCollection(words.getDataCollectionType());
+        RedisUtils.refreshForbiddenWordsRemark(words.getRemarkType());
+	}
 }

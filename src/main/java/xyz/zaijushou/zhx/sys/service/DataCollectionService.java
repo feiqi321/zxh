@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface DataCollectionService {
 
-    public void save(DataCollectionEntity dataCollectionEntity);
+    public void save(DataCollectionEntity dataCollectionEntity) throws Exception;
 
     public void detailSave(DataCollectionEntity dataCollectionEntity);
 

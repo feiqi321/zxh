@@ -11,8 +11,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import xyz.zaijushou.zhx.common.entity.CommonEntity;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
 import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.ForbiddenWord;
 import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
 
 import java.util.ArrayList;
@@ -135,9 +137,48 @@ public class RedisUtils {
         }
     }
 
+    public static String getRawValue(String key){
+        return stringRedisTemplate.opsForValue().get(key);
+    }
+
     @Autowired
     public void setStringRedisTemplate(StringRedisTemplate stringRedisTemplate) {
          RedisUtils.stringRedisTemplate = stringRedisTemplate;
     }
 
+    /**
+     * 刷新屏蔽词（催记）
+     * @param list
+    **/
+    public static void refreshForbiddenWordsDataCollection(List<ForbiddenWord> list) {
+        String redisKeyPrefix = RedisKeyPrefix.SYS_FORBIDDENWORDS_DATACOLLECTION;
+        try {
+            RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+            for (ForbiddenWord forbiddenWord : list) {
+                if(forbiddenWord.getEnabled() == 1){
+                    stringRedisTemplate.opsForValue().set(redisKeyPrefix + forbiddenWord.getWordid(), forbiddenWord.getWord());
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 刷新屏蔽词（自定义信息）
+     * @param list
+    **/
+    public static void refreshForbiddenWordsRemark(List<ForbiddenWord> list) {
+        String redisKeyPrefix = RedisKeyPrefix.SYS_FORBIDDENWORDS_REMARK;
+        try {
+            RedisUtils.deleteKeysWihtPrefix(redisKeyPrefix);
+            for (ForbiddenWord forbiddenWord : list) {
+                if(forbiddenWord.getEnabled() == 1){
+                    stringRedisTemplate.opsForValue().set(redisKeyPrefix + forbiddenWord.getWordid(), forbiddenWord.getWord());
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
