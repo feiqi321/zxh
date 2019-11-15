@@ -3141,7 +3141,21 @@ public class DataCaseServiceImpl implements DataCaseService {
         return telEntityList;
     }
     //有效 无效 未知
-    public void updateRemark(DataCaseEntity bean){
+    public void updateRemark(DataCaseEntity bean) throws Exception{
+        String remark = bean.getRemark();
+
+        if(StringUtils.hasTraditionalChinese(remark)){
+            throw new Exception("自定义信息不应包含繁体中文");
+        }
+
+        Set<String> keys = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.SYS_FORBIDDENWORDS_REMARK);
+        for (String key : keys) {
+            String word = RedisUtils.getRawValue(key);
+            if(remark.toLowerCase().contains(word)){
+                throw new Exception("无法保存自定义信息，违规内容："+word);
+            }
+        }
+
         dataCaseMapper.updateRemark(bean);
         DataCaseEntity temp = dataCaseMapper.findById(bean);
         DataOpLog log = new DataOpLog();

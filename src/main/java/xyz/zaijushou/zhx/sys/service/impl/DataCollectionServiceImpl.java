@@ -71,7 +71,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     @Override
     public void save(DataCollectionEntity beanInfo) throws Exception {
         String collectInfo = beanInfo.getCollectInfo().trim();
-        if(hasTraditionalChinese(collectInfo)){
+        if(StringUtils.hasTraditionalChinese(collectInfo)){
             throw new Exception("催记内容不应包含繁体中文");
         }
         Set<String> keys = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.SYS_FORBIDDENWORDS_DATACOLLECTION);
@@ -1352,14 +1352,5 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
         caseCommission2 = reward1.add(reward2).add(reward3).add(reward4);
         managePercentage.setPercentage((caseCommission2==null?new BigDecimal(0):caseCommission2).add(rangeCommission==null?new BigDecimal(0):rangeCommission));
-    }
-
-    private static boolean hasTraditionalChinese(String str) {
-        String encode ="GB2312";
-        try {
-            return !str.equals(new String(str.getBytes(encode), encode));
-        } catch (UnsupportedEncodingException e) {
-            return false;
-        }
     }
 }

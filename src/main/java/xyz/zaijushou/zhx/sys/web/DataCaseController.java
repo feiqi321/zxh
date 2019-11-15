@@ -77,8 +77,7 @@ public class DataCaseController {
     @Autowired
     private SysOrganizationService sysOrganizationService;
     @Resource
-    private SysUserMapper sysUserMapper;//用户业务控制层
-
+    private SysUserMapper sysUserMapper;// 用户业务控制层
 
     @ApiOperation(value = "新增案件", notes = "新增案件")
     @PostMapping("/dataCase/save")
@@ -103,11 +102,12 @@ public class DataCaseController {
     @ApiOperation(value = "修改自定义信息", notes = "修改自定义信息")
     @PostMapping("/dataCase/updateRemak")
     public Object updateRemark(@RequestBody DataCaseEntity bean) {
-
-        dataCaseService.updateRemark(bean);
-
+        try {
+            dataCaseService.updateRemark(bean);
+        } catch (Exception e) {
+            return WebResponse.error("500",e.getMessage());
+        }
         return WebResponse.success();
-
     }
 
     @ApiOperation(value = "刪除案件", notes = "刪除案件")
