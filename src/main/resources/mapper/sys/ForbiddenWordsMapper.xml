@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zaijushou.zhx.sys.dao.ForbiddenWordsMapper" >
+  <select id="queryAllWords" resultType="xyz.zaijushou.zhx.sys.entity.ForbiddenWord">
+    select wordid,word,wordtype,enabled from sys_forbiddenwords
+  </select>
+
+  <delete id="deleteWordsWithType">
+    delete from sys_forbiddenwords where wordtype = #{wordtype}
+  </delete>
+
+  <insert id="saveWordsWithType">
+    insert into sys_forbiddenwords(word,wordtype,enabled) values
+    <foreach item="item" index="index" collection="list" separator=",">
+      (#{item.word},#{wordtype},#{item.enabled})
+    </foreach>
+  </insert>
+</mapper>

@@ -46,7 +46,9 @@ public class ExcelSynergisticUtils {
 
     public static <T> List<T> importExcel(MultipartFile file, ExcelEnum[] enums, Class<T> entityClazz) throws IOException {
         List<T> resultList = new ArrayList<>();
-        InputStream inputStream = file.getInputStream();
+        InputStream inputStream = null;
+        try{
+        inputStream = file.getInputStream();
         String fileName = file.getOriginalFilename();
         Workbook workbook;
         if(StringUtils.isNotEmpty(fileName) && fileName.length() >= 5 && ".xlsx".equals(fileName.substring(fileName.length() - 5))) {
@@ -162,6 +164,18 @@ public class ExcelSynergisticUtils {
             }
         }
         return resultList;
+        }catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Transactional(rollbackFor = Exception.class)

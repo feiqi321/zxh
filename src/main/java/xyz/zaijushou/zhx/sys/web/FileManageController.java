@@ -64,20 +64,34 @@ public class FileManageController {
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
-
+        FileInputStream fis = null;
+        ServletOutputStream sos = null;
         try {
-            FileInputStream fis = new FileInputStream(filePath);
+             fis = new FileInputStream(filePath);
             byte[] content = new byte[fis.available()];
             fis.read(content);
-            fis.close();
 
-            ServletOutputStream sos = response.getOutputStream();
+            sos = response.getOutputStream();
             sos.write(content);
 
             sos.flush();
-            sos.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                if (sos != null) {
+                    sos.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
 
         return null;
@@ -121,8 +135,6 @@ public class FileManageController {
     @ApiOperation(value = "下载案人模板", notes = "下载案人模板")
     @PostMapping("/fileManage/downloadArchive")
     public Object downloadArchive(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-
         File imageFile = new File(archivePath);
         if (!imageFile.exists()) {
             System.out.println("文件不存在");
@@ -134,22 +146,33 @@ public class FileManageController {
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
-
+        FileInputStream fis = null;
+        ServletOutputStream sos = null;
         try {
-            FileInputStream fis = new FileInputStream(archivePath);
+            fis = new FileInputStream(archivePath);
             byte[] content = new byte[fis.available()];
             fis.read(content);
-            fis.close();
-
-            ServletOutputStream sos = response.getOutputStream();
+            sos = response.getOutputStream();
             sos.write(content);
-
             sos.flush();
-            sos.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                if (sos != null) {
+                    sos.close();
+                }
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
         }
-
         return null;
     }
 
@@ -169,20 +192,34 @@ public class FileManageController {
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         //文件下载类型--二进制文件
         response.setContentType("application/octet-stream");
-
+        FileInputStream fis = null;
+        ServletOutputStream sos =null;
         try {
-            FileInputStream fis = new FileInputStream(userFile);
+            fis = new FileInputStream(userFile);
             byte[] content = new byte[fis.available()];
             fis.read(content);
-            fis.close();
 
-            ServletOutputStream sos = response.getOutputStream();
+            sos = response.getOutputStream();
             sos.write(content);
 
             sos.flush();
-            sos.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (fis != null) {
+                    fis.close();
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            try {
+                if (sos != null) {
+                    sos.close();
+                }
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            }
         }
 
         return null;

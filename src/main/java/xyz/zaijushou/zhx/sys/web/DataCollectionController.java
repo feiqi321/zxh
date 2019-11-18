@@ -39,11 +39,12 @@ public class DataCollectionController {
     @ApiOperation(value = "新增催收", notes = "新增催收")
     @PostMapping("/dataCollection/save")
     public Object save(@RequestBody DataCollectionEntity bean) {
-
-        dataCollectionService.save(bean);
-
-        return WebResponse.success();
-
+        try {
+            dataCollectionService.save(bean);
+            return WebResponse.success();
+        } catch (Exception e) {
+            return WebResponse.error("500",e.getMessage());
+        }
     }
 
     @ApiOperation(value = "详情新增辅助催收", notes = "详情新增辅助催收")

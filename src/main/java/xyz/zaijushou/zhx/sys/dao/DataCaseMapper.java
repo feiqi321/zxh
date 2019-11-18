@@ -193,4 +193,6 @@ public interface DataCaseMapper {
     DataCaseEntity querySumSameBatch(DataCaseEntity caseTemp);
 
     DataCaseEntity querySumSameBatch2(DataCaseEntity caseTemp);
+
+    Integer findMaxId();
 }

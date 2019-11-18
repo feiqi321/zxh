@@ -58,6 +58,7 @@ import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class SysUserServiceImpl implements SysUserService {
     private static Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
     @Resource
@@ -311,6 +312,42 @@ public class SysUserServiceImpl implements SysUserService {
         return webResponse.success();
     }
 
+    @Transactional
+    public WebResponse saveUserBatch1(SysNewUserEntity userEntity) throws Exception{
+        WebResponse webResponse = WebResponse.buildResponse();
+        SysUserEntity temp = new SysUserEntity();
+        temp.setUserName(userEntity.getUserName());
+        if (StringUtils.isEmpty(userEntity.getLoginName())) {
+        }else{
+            userEntity.setNumber(userEntity.getLoginName());
+        }
+        SysPasswordEntity passwordEntity = sysPasswordMapper.selectPassword();
+        String password = passwordEntity.getPassword();
+        userEntity.setPassword(delegatingPasswordEncoder.encode(DigestUtils.md5Hex(password.trim())));//保存加密密码
+        userEntity.setCreateTime(new Date());
+        // 默认正常
+        userEntity.setDeleteFlag(0);
+        // 角色不为空时，保存
+        if (StringUtils.notEmpty(userEntity.getRoleList())) {
+            sysUserMapper.saveNewUser(userEntity);
+            //保存角色中间表
+            SysUserRoleEntity roleEntity = new SysUserRoleEntity();
+            roleEntity.setUserId(userEntity.getId());
+            if (StringUtils.notEmpty(userEntity.getRoleList())) {
+                for (SysRoleEntity role : userEntity.getRoleList()){
+                    roleEntity.setRoleId(role.getId());
+                    sysToUserRoleMapper.saveUserRole(roleEntity);
+                }
+            }
+            //存入redis
+            SysNewUserEntity newBean = sysUserMapper.getDataById(userEntity.getId());
+            if (StringUtils.notEmpty(newBean)){
+                stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userEntity.getId(), JSONObject.toJSONString(newBean));
+            }
+        }
+        return webResponse.success();
+    }
+
     /**
      * 保存用户
      * @param userEntity
@@ -324,6 +361,11 @@ public class SysUserServiceImpl implements SysUserService {
         }
         if(StringUtils.isEmpty(userEntity.getLoginName())){
             return webResponse.error("500","用户账号为空");
+        }
+        // 判断新增的账号是否重复
+        Integer countLoginName  =sysUserMapper.queryLoginName(userEntity.getLoginName());
+        if (countLoginName>0){
+            return webResponse.error("500","新增的用户账号重复");
         }
         List<SysNewUserEntity> temp = sysUserMapper.selectPasswordInfoByOffice(userEntity);
         if (temp.size()>0){
@@ -799,6 +841,40 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
+    public void insertSimple1(List<SysNewUserEntity> list,String updateStatus) {
+        try{
+            for (SysNewUserEntity userInfo : list){
+                SysUserEntity tempUser = new SysUserEntity();
+                tempUser.setLoginName(userInfo.getLoginName());
+                List<SysUserEntity> userList = sysUserMapper.listUsersByLoginName(tempUser);
+                if (userList.size()==0){
+                    this.saveUserBatch1(userInfo);
+                }
+                if (userList.size()==1&&updateStatus.equals("1")){
+                    sysUserMapper.updateUserInfo(userInfo);
+                    // 更新人员案件的dept数据
+                    sysUserMapper.updatedeptInfo(userList.get(0).getId(),userInfo.getDepartId());
+                    //保存角色中间表
+                    SysUserRoleEntity roleEntity = new SysUserRoleEntity();
+                    roleEntity.setUserId(userList.get(0).getId());
+                    sysToUserRoleMapper.deleteUserRole(roleEntity);
+                    if (StringUtils.notEmpty(userInfo.getRoleList())) {
+                        for (SysRoleEntity role : userInfo.getRoleList()) {
+                            roleEntity.setRoleId(role.getId());
+                            sysToUserRoleMapper.saveUserRole(roleEntity);
+                        }
+                    }
+                    SysNewUserEntity newBean = sysUserMapper.getDataById(userInfo.getId());
+                    if (StringUtils.notEmpty(newBean)){
+                        stringRedisTemplate.opsForValue().set(RedisKeyPrefix.USER_INFO + userInfo.getId(), JSONObject.toJSONString(newBean));
+                    }
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    @Override
     public void insertDeptSimple(List<DepartmentEntity> list){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         for (int i=0;i<list.size();i++){
@@ -1016,5 +1092,10 @@ public class SysUserServiceImpl implements SysUserService {
         List<QueryEntity> rootUser = sysUserMapper.findUserByDept(department,odvName);
         list.addAll(rootUser);
         return list;
+    }
+
+    @Override
+    public List<DepartmentEntity> findParentDept(String downDept) {
+        return sysUserMapper.findParentDept(downDept);
     }
 }

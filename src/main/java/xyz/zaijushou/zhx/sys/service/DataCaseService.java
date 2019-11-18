@@ -95,7 +95,7 @@ public interface DataCaseService {
 
     public List<DataCaseTelEntity> findTelListByCaseId(DataCaseEntity bean);
 
-    public void updateRemark(DataCaseEntity bean);
+    public void updateRemark(DataCaseEntity bean) throws Exception;
 
     public DataCaseTelEntity saveCaseTel(DataCaseTelEntity bean);
 

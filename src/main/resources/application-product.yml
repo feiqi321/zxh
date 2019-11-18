@@ -2,10 +2,10 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://192.168.25.205:1433;databasename=zhx
+    url: jdbc:sqlserver://192.168.25.204:1433;databasename=zhx
     # url: jdbc:sqlserver://172.16.0.25:1433;databasename=zhx
     username: sa
-    password: frsoft@2019
+    password: NXDAB*U^Tt3bk8VM
     initialSize: 10
     minIdle: 5
     maxActive: 200
@@ -25,7 +25,7 @@ spring:
     host: 127.0.0.1
     port: 7777
     password: redis
-    timeout: 50000
+    timeout: 86400000
     jedis:
       pool:
         max-idle: 30

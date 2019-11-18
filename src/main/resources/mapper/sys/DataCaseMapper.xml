@@ -1831,7 +1831,7 @@
         da.money as money,da.balance as balance,da.over_days as overDays,da.pro_repay_date as proPepayDate,
         da.bank_amt as bankAmt,da.batch_no as batchNo
         from data_case da
-        where da.delete_flag = 0  <![CDATA[   and da.id>#{id}  and  da.id <= #{maxId}]]>
+        where da.delete_flag = 0 <![CDATA[   and da.id>#{id}  and  da.id <= #{maxId}]]>
     </select>
 
     <select id="listBySeqNoSet" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -5634,9 +5634,8 @@
     <select id="findSameBatchCase1" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
           select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
           pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
-          collect_date as collectDate
-          from   data_case  where batch_no = #{batchNo} and ident_no = #{identNo} and status!=4 and  <![CDATA[ id <> #{id} ]]> and delete_flag=0
-
+          collect_date as collectDate, id
+          from data_case where batch_no = #{batchNo} and ident_no = #{identNo} and status!=4 and <![CDATA[ id <> #{id} ]]> and delete_flag=0
     </select>
 
     <select id="findSameBatchCase2" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
@@ -6067,6 +6066,9 @@
                 sum(da.bank_amt) as bankAmt, count(1) as sameBatchCaseSum
         from data_case da
         where batch_no = #{batchNo} and ident_no = #{identNo} and status!=4 and delete_flag=0
+    </select>
+    <select id="findMaxId" resultType="java.lang.Integer">
+        select Max(id) from data_case
     </select>
 
     <update id="updateDept" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

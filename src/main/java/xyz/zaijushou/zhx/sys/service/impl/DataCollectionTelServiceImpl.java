@@ -572,13 +572,21 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
     public List<CollectionDetailsDTO> pageDetails(CollectionStatistic bean) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
-        String formatStart = sdf.format(bean.getDateSearchStart())+" "+bean.getTime().split("-")[0];
-        String formatEnd = sdf.format(bean.getDateSearchEnd())+" "+bean.getTime().split("-")[1];
+        SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formatStart;
+        String formatEnd;
+        if (bean.getDateSearchStart().equals(bean.getDateSearchEnd())){
+            formatStart = sdf.format(bean.getDateSearchStart())+" 00:00:00";
+            formatEnd = sdf.format(bean.getDateSearchEnd())+" 23:59:59";
+        }else{
+            formatStart = sdf.format(bean.getDateSearchStart())+" "+bean.getTime().split("-")[0];
+            formatEnd = sdf.format(bean.getDateSearchEnd())+" "+bean.getTime().split("-")[1];
+        }
         Date dateStart;
         Date dateEnd;
         try {
-            bean.setDateSearchStart(sdf.parse(formatStart));
-            bean.setDateSearchEnd(sdf.parse(formatEnd));
+            bean.setDateSearchStart(sdf3.parse(formatStart));
+            bean.setDateSearchEnd(sdf3.parse(formatEnd));
             dateStart = sdf2.parse(bean.getTime().split("-")[0]);
             dateEnd = sdf2.parse(bean.getTime().split("-")[1]);
             bean.setDateStart(dateStart);

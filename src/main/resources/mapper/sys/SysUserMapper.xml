@@ -291,6 +291,27 @@
             GETDATE(),
         </trim>
     </insert>
+    <insert id="saveRole">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT @@IDENTITY AS 'Identity'
+        </selectKey>
+       insert into sys_user_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            role_id,
+            delete_flag
+            <!--<if test="createUser != null and createUser.id != null">create_user,</if>-->
+            <!--<if test="updateUser != null and updateUser.id != null">update_user,</if>-->
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            (select id from sys_role where role_name=#{roleName}),
+            0
+            <!--<if test="createUser != null and createUser.id != null">#{createUser.id},</if>-->
+            <!--<if test="updateUser != null and updateUser.id != null">#{updateUser.id},</if>-->
+        </trim>
+    </insert>
 
     <!--更新用户数据信息-->
     <update id="updateUser" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
@@ -531,6 +552,27 @@
         where username = #{userName}
     </update>
 
+    <update id="updateUserInfo" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
+        update sys_user
+        <set>
+        username = #{userName},
+        mobile = #{mobile},
+        sex = #{sex},
+        department = #{departId},
+        callcenterid = #{callcenterid},
+            <if test="officePhone != null">
+              office_phone = #{officePhone},
+            </if>
+            <if test="joinTime != null">
+                join_time = #{joinTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="leaveTime != null">
+                leave_time = #{leaveTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where login_name = #{loginName}
+    </update>
+
     <!--修改坐席号-->
     <update id="updateOfficePhone" parameterType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
         update sys_user set office_phone = #{officePhone},callcenterid = #{callcenterid}
@@ -590,7 +632,9 @@
         enable = 0
         where id = #{id}
     </update>
-
+    <update id="updatedeptInfo">
+      update data_case set dept=#{departId} where odv=#{id}
+    </update>
     <select id="countByLoginName" parameterType="xyz.zaijushou.zhx.sys.entity.SysUserEntity" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
           select <include refid="colSqlPasswordInfo"/> from sys_user where login_name LIKE dbo.CONCAT('%',#{loginName},'%') and delete_flag = 0 AND  status =1
     </select>
@@ -762,5 +806,41 @@
         select o.id,o.parent_id from x inner join sys_organization o on o.parent_id=x.id and o.delete_flag=0
         )
         select <include refid="colSqlWithoutPassword"/> from sys_user u where exists (select 1 from x where u.department=x.id)
+    </select>
+    <select id="queryLoginName" resultType="java.lang.Integer">
+        select count(1) from sys_user where login_name=#{loginName} and status = 1 and delete_flag=0
+    </select>
+    <select id="findRole" resultType="xyz.zaijushou.zhx.sys.entity.SysRoleEntity">
+      select id from sys_role
+        where role_name in
+        <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+    </select>
+    <select id="findParentDept" resultType="xyz.zaijushou.zhx.sys.entity.DepartmentEntity">
+        with tab as
+        (
+         select id,org_name,parent_id,delete_flag from sys_organization
+         where id in (select id from sys_organization where org_name=#{downDept})
+         union all
+         select b.id,b.org_name,b.parent_id,b.delete_flag
+         from
+          tab a,
+          sys_organization b
+         where a.parent_id=b.id
+        )
+        select id,org_name as downDept,parent_id,delete_flag from tab where delete_flag=0;
+    </select>
+    <select id="findLoginName" resultType="java.lang.Integer">
+        select count(1) from sys_user where login_name=#{loginName}
+    </select>
+    <select id="listUsersByLoginName" resultType="xyz.zaijushou.zhx.sys.entity.SysUserEntity">
+        select
+        <include refid="colSqlWithoutPassword"/>
+        from sys_user
+        where delete_flag = '0'
+        <if test="loginName != null and loginName != ''">
+            and login_name = #{loginName}
+        </if>
     </select>
 </mapper>

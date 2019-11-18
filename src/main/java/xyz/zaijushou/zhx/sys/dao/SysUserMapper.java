@@ -40,6 +40,8 @@ public interface SysUserMapper {
 
     void updateDeptByName(SysNewUserEntity userEntity);
 
+    void updateUserInfo(SysNewUserEntity userEntity);
+
     void batchDelete(SysNewUserEntity userEntity);
 
     /**
@@ -135,4 +137,18 @@ public interface SysUserMapper {
     String queryDepartment(Integer id);
 
     List<SysNewUserEntity> queryOdvs1(Integer[] depts);
+
+    Integer queryLoginName(String loginName);
+
+    void saveRole(Integer userId, String roleName);
+
+    List<SysRoleEntity> findRole(String[] roleName);
+
+    List<DepartmentEntity> findParentDept(String downDept);
+
+    int findLoginName(String loginName);
+
+    List<SysUserEntity> listUsersByLoginName(SysUserEntity tempUser);
+
+    void updatedeptInfo(Integer id, String departId);
 }

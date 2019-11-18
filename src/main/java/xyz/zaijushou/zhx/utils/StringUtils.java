@@ -498,9 +498,18 @@ public class StringUtils {
         Matcher matcher = pattern.matcher((CharSequence) strNum);
         return matcher.matches();
     }
-    
+
+    public static boolean hasTraditionalChinese(String str) {
+        String encode ="GB2312";
+        try {
+            return !str.equals(new String(str.getBytes(encode), encode));
+        } catch (UnsupportedEncodingException e) {
+            return false;
+        }
+    }
+
     //打包主类用
     public static void main(String[] args) {
-		
+
 	}
 }
