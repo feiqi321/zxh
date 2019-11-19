@@ -1696,16 +1696,16 @@
             <![CDATA[   and convert(datetime,c.pro_repay_date, 20) <= convert(datetime,#{repayTimeEnd}, 20)  ]]>
         </if>
         <if test="bankTimeStart != null and bankTimeStart!=''">
-            <![CDATA[   and b.cp_date>= convert(datetime,#{bankTimeStart}, 20)  ]]>
+            <![CDATA[   and r.repay_date>= convert(datetime,#{bankTimeStart}, 20)  ]]>
         </if>
         <if test="bankTimeEnd != null and bankTimeEnd!=''">
-            <![CDATA[   and b.cp_date<=  convert(datetime,#{bankTimeEnd}, 20)  ]]>
+            <![CDATA[   and r.repay_date<=  convert(datetime,#{bankTimeEnd}, 20)  ]]>
         </if>
         <if test="expectTimeStart != null and expectTimeStart!=''">
-            <![CDATA[   and r.repay_date >= convert(datetime,#{expectTimeStart}, 20)]]>
+            <![CDATA[   and b.cp_date >= convert(datetime,#{expectTimeStart}, 20)]]>
         </if>
         <if test="expectTimeEnd != null and expectTimeEnd!=''">
-            <![CDATA[   and r.repay_date <= convert(datetime,#{expectTimeEnd}, 20) ]]>
+            <![CDATA[   and b.cp_date <= convert(datetime,#{expectTimeEnd}, 20) ]]>
         </if>
            order by confimTime desc
     </select>
