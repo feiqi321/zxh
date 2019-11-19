@@ -16,5 +16,5 @@ public interface SelectFilterMapper {
 
     public SelectFilterEntity selectByModule(SelectFilterEntity bean);
 
-
+    Integer updateTable(SelectFilterEntity bean);
 }

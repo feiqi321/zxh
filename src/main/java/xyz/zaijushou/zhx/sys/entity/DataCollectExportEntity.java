@@ -43,6 +43,13 @@ public class DataCollectExportEntity {
     private String overdueMoney;
     private String remark;
     private String odv;
+    private String odv2;//催收员 查询条件     列表
+    public String getOdv2() {
+        return odv2;
+    }
+    public void setOdv2(String odv2) {
+        this.odv2 = odv2;
+    }
     private String nextFollDate;
     private String minimumPayment;
     private String creditLine;

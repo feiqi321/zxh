@@ -70,7 +70,7 @@ public class FileManageServiceImpl implements FileManageService {
         WebResponse webResponse = WebResponse.buildResponse();
         for (int i=0;i<list.size();i++){
             DataCaseTelEntity dataCaseTelEntity = list.get(i);
-            dataCaseTelMapper.saveTel(dataCaseTelEntity);
+            dataCaseTelMapper.saveTel2(dataCaseTelEntity);
         }
         //dataCaseTelMapper.insertBatchTel(list);
         webResponse.setMsg( "导入成功");

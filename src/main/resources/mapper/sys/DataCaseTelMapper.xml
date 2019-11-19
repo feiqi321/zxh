@@ -41,6 +41,45 @@
         </trim>
     </insert>
 
+    <!--导入插入数据信息-->
+    <insert id="saveTel2" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT @@IDENTITY AS 'Identity'
+        </selectKey>
+        insert into data_case_tel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tel != null">tel,</if>
+            <if test="caseId != null">case_id,</if>
+            <if test="seqNo != null">seq_no,</if>
+            <if test="archiveNo != null">archive_no,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="identNo != null">ident_no,</if>
+            <if test="caseDate != null">case_date,</if>
+            <if test="name != null">name,</if>
+            <if test="type != null">tel_type,</if>
+            <if test="relation != null">relation,</if>
+            <if test="remark != null">remark,</if>
+            <if test="telStatusMsg != null">status,</if>
+            color_status
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tel != null">#{tel},</if>
+            <if test="caseId != null">#{caseId},</if>
+            <if test="seqNo != null">#{caseId},</if>
+            <if test="archiveNo != null">#{archiveNo},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="identNo != null">#{identNo},</if>
+            <if test="caseDate != null">#{caseDate},</if>
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="relation != null">#{relation},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="telStatusMsg != null">#{telStatusMsg},</if>
+            1
+        </trim>
+    </insert>
+
     <insert id="insertBatchTel" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
             SELECT @@IDENTITY AS 'Identity'
@@ -94,7 +133,7 @@
 
     <select id="findAll" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity">
         select id,tel,case_id as caseId,seq_no as seqNo,archive_no as archiveNo, card_no as cardNo,ident_no as identNo,case_date as caseDate,
-        name,tel_type as type,relation,remark,status as telStatusMsg
+        name,tel_type as type,relation,remark,status as telStatusMsg,color_status as colorStatus
         from data_case_tel where case_id = #{caseId} order by id asc
     </select>
 

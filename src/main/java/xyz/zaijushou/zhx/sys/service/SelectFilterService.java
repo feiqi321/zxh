@@ -11,4 +11,5 @@ public interface SelectFilterService {
 
     public SelectFilterEntity selectByModule(SelectFilterEntity bean);
 
+    void updateModule(SelectFilterEntity bean);
 }

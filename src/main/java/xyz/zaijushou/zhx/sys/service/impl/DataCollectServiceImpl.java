@@ -336,6 +336,8 @@ public class DataCollectServiceImpl implements DataCollectService {
 
             SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv(), SysUserEntity.class);
             temp.setOdv(user==null?"":user.getUserName());
+            SysUserEntity user1 = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ temp.getOdv2(), SysUserEntity.class);
+            temp.setOdv2(user1==null?"":user1.getUserName());
             resultList.set(i,temp);
         }
         webResponse.setData(resultList);

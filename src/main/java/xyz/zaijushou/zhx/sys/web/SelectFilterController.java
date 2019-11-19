@@ -41,4 +41,10 @@ public class SelectFilterController {
         return WebResponse.success(result);
     }
 
+    @ApiOperation(value = "修改", notes = "修改")
+    @PostMapping("/updateModule")
+    public Object updateModule(@RequestBody SelectFilterEntity bean) {
+        selectFilterService.updateModule(bean);
+        return WebResponse.success();
+    }
 }

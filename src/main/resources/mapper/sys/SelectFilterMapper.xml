@@ -35,5 +35,8 @@
         update select_filter set menu = #{menu}  where module = #{module} and user_id = #{userId}
     </update>
 
+    <update id="updateTable" parameterType="xyz.zaijushou.zhx.sys.entity.SelectFilterEntity">
+        update select_filter set menu = #{menu}  where module = #{module} and user_id = #{userId}
+    </update>
 
 </mapper>

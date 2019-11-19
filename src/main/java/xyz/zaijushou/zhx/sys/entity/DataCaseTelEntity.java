@@ -23,6 +23,15 @@ public class DataCaseTelEntity extends CommonEntity {
     private String caseDate;
     private int telStatus;
     private String telStatusMsg;
+    private int colorStatus;
+
+    public int getColorStatus() {
+        return colorStatus;
+    }
+
+    public void setColorStatus(int colorStatus) {
+        this.colorStatus = colorStatus;
+    }
 
     public String getTypeMsg() {
         return typeMsg;

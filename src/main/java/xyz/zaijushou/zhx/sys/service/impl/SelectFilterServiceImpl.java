@@ -1,6 +1,7 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.SelectFilterMapper;
 import xyz.zaijushou.zhx.sys.entity.SelectFilterEntity;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by looyer on 2019/3/21.
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class SelectFilterServiceImpl implements SelectFilterService {
 
     @Resource
@@ -36,6 +38,17 @@ public class SelectFilterServiceImpl implements SelectFilterService {
         bean.setUserId(getUserInfo().getId());
         return selectFilterMapper.selectByModule(bean);
     }
+
+    @Override
+    public void updateModule(SelectFilterEntity bean) {
+        Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
+        bean.setUserId(userId);
+        Integer count=selectFilterMapper.updateTable(bean);
+        if (count==0){
+            selectFilterMapper.saveFilter(bean);
+        }
+    }
+
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity userTemp = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);

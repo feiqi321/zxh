@@ -27,4 +27,5 @@ public interface DataCaseTelMapper {
 
     public void updateSameTelStatus(DataCaseTelEntity entity);
 
+    void saveTel2(DataCaseTelEntity dataCaseTelEntity);
 }
