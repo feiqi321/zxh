@@ -41,6 +41,13 @@ public class SelectFilterController {
         return WebResponse.success(result);
     }
 
+    @ApiOperation(value = "查询表宽", notes = "查询表宽")
+    @PostMapping("/selectByModule2")
+    public Object selectByModule2(@RequestBody SelectFilterEntity bean) {
+        SelectFilterEntity result = selectFilterService.selectByModule2(bean);
+        return WebResponse.success(result);
+    }
+
     @ApiOperation(value = "修改", notes = "修改")
     @PostMapping("/updateModule")
     public Object updateModule(@RequestBody SelectFilterEntity bean) {

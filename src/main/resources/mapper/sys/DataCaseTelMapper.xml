@@ -97,7 +97,8 @@
             tel_type,
             relation,
             remark,
-            status
+            status,
+            color_status
         )
         values
         <foreach collection ="list" item="reddemCode" index= "index" separator =",">
@@ -113,7 +114,8 @@
             #{reddemCode.type},
             #{reddemCode.relation},
             #{reddemCode.remark},
-            #{reddemCode.telStatusMsg}
+            #{reddemCode.telStatusMsg},
+            1
         )
         </foreach >
     </insert>

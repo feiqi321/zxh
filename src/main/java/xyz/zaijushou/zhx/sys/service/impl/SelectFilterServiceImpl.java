@@ -45,8 +45,14 @@ public class SelectFilterServiceImpl implements SelectFilterService {
         bean.setUserId(userId);
         Integer count=selectFilterMapper.updateTable(bean);
         if (count==0){
-            selectFilterMapper.saveFilter(bean);
+            selectFilterMapper.saveTable(bean);
         }
+    }
+
+    @Override
+    public SelectFilterEntity selectByModule2(SelectFilterEntity bean) {
+        bean.setUserId(getUserInfo().getId());
+        return selectFilterMapper.selectByModule2(bean);
     }
 
     private SysUserEntity getUserInfo (){
