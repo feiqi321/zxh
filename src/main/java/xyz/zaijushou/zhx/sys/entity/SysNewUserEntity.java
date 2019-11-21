@@ -113,6 +113,16 @@ public class SysNewUserEntity extends CommonEntity {
 
     private String callCenter;
 
+    private Integer roleId;
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
     public String getCallCenter() {
         return callCenter;
     }

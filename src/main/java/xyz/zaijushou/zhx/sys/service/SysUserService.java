@@ -143,4 +143,6 @@ public interface SysUserService {
     List<QueryEntity> queryUser(String odvName);
 
     List<DepartmentEntity> findParentDept(String downDept);
+
+    List<UserTree> userRoleTree();
 }

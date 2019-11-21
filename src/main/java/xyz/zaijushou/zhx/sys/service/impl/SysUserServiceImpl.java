@@ -1098,4 +1098,37 @@ public class SysUserServiceImpl implements SysUserService {
     public List<DepartmentEntity> findParentDept(String downDept) {
         return sysUserMapper.findParentDept(downDept);
     }
+
+    @Override
+    public List<UserTree> userRoleTree() {
+        ArrayList<UserTree> list = new ArrayList<>();
+        SysRoleEntity sysRoleEntity = new SysRoleEntity();
+        List<SysRoleEntity> sysRoleEntities = sysRoleMapper.listAllRoles(sysRoleEntity);
+        ArrayList<UserTree> list1;
+        UserTree userTree1;
+        UserTree userTree2;
+        ArrayList<Integer> roleList = new ArrayList<>();
+        for (SysRoleEntity roleEntity : sysRoleEntities) {
+            roleList.add(roleEntity.getId());
+        }
+        List<SysNewUserEntity>list2=sysUserMapper.findUserByRoleIds(roleList);
+        for (SysRoleEntity roleEntity : sysRoleEntities) {
+            list1 = new ArrayList<>();
+            userTree1 = new UserTree();
+            userTree1.setId(roleEntity.getId());
+            userTree1.setName(roleEntity.getRoleName());
+            for (SysNewUserEntity sysNewUserEntity : list2) {
+                if(roleEntity.getId().equals(sysNewUserEntity.getRoleId())){
+                    userTree2 = new UserTree();
+                    userTree2.setId(sysNewUserEntity.getId());
+                    userTree2.setName(sysNewUserEntity.getUserName());
+                    userTree2.setType("user");
+                    list1.add(userTree2);
+                }
+            }
+            userTree1.setChildren(list1);
+            list.add(userTree1);
+        }
+        return list;
+    }
 }

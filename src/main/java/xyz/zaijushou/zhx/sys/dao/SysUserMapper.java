@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import xyz.zaijushou.zhx.sys.entity.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
@@ -151,4 +152,6 @@ public interface SysUserMapper {
     List<SysUserEntity> listUsersByLoginName(SysUserEntity tempUser);
 
     void updatedeptInfo(Integer id, String departId);
+
+    List<SysNewUserEntity> findUserByRoleIds(ArrayList<Integer> roleList);
 }
