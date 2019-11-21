@@ -153,5 +153,5 @@ public interface SysUserMapper {
 
     void updatedeptInfo(Integer id, String departId);
 
-    List<SysNewUserEntity> findUserByRoleIds(ArrayList<Integer> roleList);
+    List<SysNewUserEntity> findUsersWithRoles();
 }

@@ -58,8 +58,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     private SysAuthorityService sysAuthorityService;
 
     @Override
-    public List<SysRoleEntity> listAllRoles(SysRoleEntity sysRoleEntity) {
-        return sysRoleMapper.listAllRoles(sysRoleEntity);
+    public List<SysRoleEntity> listAllRoles() {
+        return sysRoleMapper.listAllRoles();
     }
 
     @Override
@@ -144,10 +144,8 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Async
     public void refreshRoleRedis() {
         try {
-            List<SysRoleEntity> allRole = listAllRoles(new SysRoleEntity());
-
+            List<SysRoleEntity> allRole = listAllRoles();
             refreshRoleInfo(allRole);
-
             refreshUserRole(allRole);
             Map<Integer, SysRoleEntity> roleMap = refreshRoleMenu(allRole);
 

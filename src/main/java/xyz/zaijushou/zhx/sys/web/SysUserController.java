@@ -308,7 +308,7 @@ public class SysUserController {
             orgMap.put(org.getOrgName(),org);
         }
         Map roleMap = new HashMap();
-        List<SysRoleEntity> roleList = sysRoleService.listAllRoles(new SysRoleEntity());
+        List<SysRoleEntity> roleList = sysRoleService.listAllRoles();
         for (int j=0;j<roleList.size();j++){
             SysRoleEntity sysRole = roleList.get(j);
             roleMap.put(sysRole.getRoleName(),sysRole);

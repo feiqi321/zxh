@@ -8,13 +8,11 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper {
 
-    List<SysRoleEntity> listAllRoles(SysRoleEntity sysRoleEntity);
-
+    List<SysRoleEntity> listAllRoles();
 
     List<SysRoleEntity> listAllRolesByRoleId(SysRoleEntity sysRoleEntity);
 
     List<SysToRoleMenu> listAllRoleMenus(SysToRoleMenu sysToRoleMenu);
-
 
     List<SysToRoleButton> listAllRoleButtons(SysToRoleButton sysToRoleButton);
 

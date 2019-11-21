@@ -7,7 +7,7 @@ import xyz.zaijushou.zhx.sys.entity.SysToRoleMenu;
 import java.util.List;
 
 public interface SysRoleService {
-    List<SysRoleEntity> listAllRoles(SysRoleEntity sysRoleEntity);
+    List<SysRoleEntity> listAllRoles();
 
     List<SysRoleEntity> listAllRolesByRoleId(SysRoleEntity sysRoleEntity);
 

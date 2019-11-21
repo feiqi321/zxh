@@ -1102,32 +1102,24 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<UserTree> userRoleTree() {
         ArrayList<UserTree> list = new ArrayList<>();
-        SysRoleEntity sysRoleEntity = new SysRoleEntity();
-        List<SysRoleEntity> sysRoleEntities = sysRoleMapper.listAllRoles(sysRoleEntity);
-        ArrayList<UserTree> list1;
-        UserTree userTree1;
-        UserTree userTree2;
-        ArrayList<Integer> roleList = new ArrayList<>();
-        for (SysRoleEntity roleEntity : sysRoleEntities) {
-            roleList.add(roleEntity.getId());
-        }
-        List<SysNewUserEntity>list2=sysUserMapper.findUserByRoleIds(roleList);
-        for (SysRoleEntity roleEntity : sysRoleEntities) {
-            list1 = new ArrayList<>();
-            userTree1 = new UserTree();
-            userTree1.setId(roleEntity.getId());
-            userTree1.setName(roleEntity.getRoleName());
-            for (SysNewUserEntity sysNewUserEntity : list2) {
-                if(roleEntity.getId().equals(sysNewUserEntity.getRoleId())){
-                    userTree2 = new UserTree();
-                    userTree2.setId(sysNewUserEntity.getId());
-                    userTree2.setName(sysNewUserEntity.getUserName());
-                    userTree2.setType("user");
-                    list1.add(userTree2);
+        List<SysRoleEntity> roles = sysRoleMapper.listAllRoles();
+        List<SysNewUserEntity> users = sysUserMapper.findUsersWithRoles();
+        for (SysRoleEntity role : roles) {
+            UserTree roleTree = new UserTree();
+            roleTree.setId(role.getId());
+            roleTree.setName(role.getRoleName());
+            ArrayList<UserTree> tree = new ArrayList<>();
+            for (SysNewUserEntity user : users) {
+                if(role.getId().equals(user.getRoleId())){
+                    UserTree userTree = new UserTree();
+                    userTree.setId(user.getId());
+                    userTree.setName(user.getUserName());
+                    userTree.setType("user");
+                    tree.add(userTree);
                 }
             }
-            userTree1.setChildren(list1);
-            list.add(userTree1);
+            roleTree.setChildren(tree);
+            list.add(roleTree);
         }
         return list;
     }
