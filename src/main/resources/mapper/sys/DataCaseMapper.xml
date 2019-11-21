@@ -1695,57 +1695,63 @@
         t.id,t.seq_no as seqNo,t.name,t.card_no as cardNo,t.money,CONVERT(varchar(100), t.case_date, 23)  as caseDate,t.collect_status as collectStatus,
         CONVERT(varchar(100), t.collect_date, 20) as collectDate,
         t.pro_repay_amt as proRepayAmt,t.en_repay_amt as enRepayAmt,t.account_age as accountAge,t.odv,t.comment
-        from data_case t    LEFT  JOIN data_case_tel d on t.id = d.case_id
+        from data_case t
         <where>
             <trim suffixOverrides=",">
-                <if test="clientFlag != null and clientFlag!='' and queryMethod=='1'.toString()" >
-                    and t.client in
-                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
-                </if>
-                <if test="name != null and name!='' and queryMethod=='1'.toString()">
-                    and t.name = #{name}
-                </if>
-                <if test="cardNo != null and cardNo!='' and queryMethod=='1'.toString()">
-                    and t.card_no = #{cardNo}
-                </if>
-                <if test="unitName != null and unitName!='' and queryMethod=='1'.toString()">
-                    and t.unit_name = #{unitName}
-                </if>
-                <if test="identNo != null and identNo!='' and queryMethod=='1'.toString()">
-                    and t.ident_no = #{identNo}
-                </if>
-                <if test="address != null and address!='' and queryMethod=='1'.toString()">
-                    and t.home_address = #{address}
-                </if>
-                <if test="tel != null and tel!='' and queryMethod=='1'.toString()">
-                    and d.tel = #{tel}
-                </if>
-                <if test="clientFlag != null and clientFlag!='' and queryMethod=='2'.toString()" >
-                    and t.client in
-                    <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
-                        #{item}
-                    </foreach>
-                </if>
-                <if test="name != null and name!='' and queryMethod=='2'.toString()">
-                    AND t.name like  '%${name}%'
-                </if>
-                <if test="cardNo != null and cardNo!='' and queryMethod=='2'.toString()">
-                    AND t.card_no  like  '%${cardNo}%'
-                </if>
-                <if test="unitName != null and unitName!='' and queryMethod=='2'.toString()">
-                    AND t.unit_name  like '%${unitName}%'
-                </if>
-                <if test="identNo != null and identNo!='' and queryMethod=='2'.toString()">
-                    AND t.ident_no like '%${identNo}%'
-                </if>
-                <if test="address != null and address!='' and queryMethod=='2'.toString()">
-                    AND t.home_address like '%${address}%'
-                </if>
-                <if test="tel != null and tel!='' and queryMethod=='2'.toString()">
-                    AND d.tel like '%${tel}%'
-                </if>
+                <choose>
+                    <when test="queryMethod==1">
+                        <if test="clientFlag != null and clientFlag!=''" >
+                            and t.client in
+                            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                                #{item}
+                            </foreach>
+                        </if>
+                        <if test="name != null and name!=''">
+                            and t.name = #{name}
+                        </if>
+                        <if test="cardNo != null and cardNo!=''">
+                            and t.card_no = #{cardNo}
+                        </if>
+                        <if test="unitName != null and unitName!=''">
+                            and t.unit_name = #{unitName}
+                        </if>
+                        <if test="identNo != null and identNo!=''">
+                            and t.ident_no = #{identNo}
+                        </if>
+                        <if test="address != null and address!=''">
+                            and t.home_address = #{address}
+                        </if>
+                        <if test="tel != null and tel!=''">
+                            and exists (select 1 from data_case_tel d where t.id = d.case_id and d.tel = #{tel})
+                        </if>
+                    </when>
+                    <otherwise>
+                        <if test="clientFlag != null and clientFlag!=''">
+                            and t.client in
+                            <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
+                                #{item}
+                            </foreach>
+                        </if>
+                        <if test="name != null and name!=''">
+                            and t.name like '%${name}%'
+                        </if>
+                        <if test="cardNo != null and cardNo!=''">
+                            and t.card_no like '%${cardNo}%'
+                        </if>
+                        <if test="unitName != null and unitName!=''">
+                            and t.unit_name like '%${unitName}%'
+                        </if>
+                        <if test="identNo != null and identNo!=''">
+                            and t.ident_no like '%${identNo}%'
+                        </if>
+                        <if test="address != null and address!=''">
+                            and t.home_address like '%${address}%'
+                        </if>
+                        <if test="tel != null and tel!=''">
+                            and exists (select 1 from data_case_tel d where t.id = d.case_id and d.tel like '%${tel}%')
+                        </if>
+                    </otherwise>
+                </choose>
             </trim>
         </where>
         order by ${orderBy} ${sort}
