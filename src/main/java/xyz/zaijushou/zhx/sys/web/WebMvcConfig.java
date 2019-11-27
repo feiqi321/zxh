@@ -2,13 +2,13 @@ package xyz.zaijushou.zhx.sys.web;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Created by looyer on 2019/3/20.
  */
 @Configuration
-public class WebMvcConfig  extends WebMvcConfigurerAdapter {
+public class WebMvcConfig  implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {

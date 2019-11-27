@@ -1176,6 +1176,7 @@
         from data_case_repay_record
         where data_case = #{dataCase.id}
         and delete_flag = 0 and record_status = 0
+        order by repay_date desc
     </select>
 
      <select id="findById" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity">

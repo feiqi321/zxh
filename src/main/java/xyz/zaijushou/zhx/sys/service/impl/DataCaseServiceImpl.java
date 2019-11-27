@@ -3142,6 +3142,7 @@ public class DataCaseServiceImpl implements DataCaseService {
     }
     //有效 无效 未知
     public void updateRemark(DataCaseEntity bean) throws Exception{
+        Date start = new Date();
         String remark = bean.getRemark();
 
         if(StringUtils.hasTraditionalChinese(remark)){
@@ -3155,6 +3156,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                 throw new Exception("无法保存自定义信息，违规内容："+word);
             }
         }
+
+        long timeDiff = new Date().getTime() - start.getTime();
+        logger.info("+++++++++++++自定义信息检测结束，用时："+timeDiff+"ms");
 
         dataCaseMapper.updateRemark(bean);
         DataCaseEntity temp = dataCaseMapper.findById(bean);

@@ -72,7 +72,7 @@ public class RedisInitConfig implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         SysConfig redisConfig = sysConfigMapper.queryConfig(RedisLoading);
-        logger.debug("RedisLoading : "+redisConfig.getCfgvalue());
+        logger.info("RedisLoading : "+redisConfig.getCfgvalue());
         if(redisConfig.getCfgvalue().equals("0")){
             return;
         }
@@ -110,7 +110,7 @@ public class RedisInitConfig implements ApplicationRunner {
 
     private void initCase() {
         SysConfig redisConfig = sysConfigMapper.queryConfig(RedisLoadingCases);
-        logger.debug("RedisLoadingCases : "+redisConfig.getCfgvalue());
+        logger.info("RedisLoadingCases : "+redisConfig.getCfgvalue());
         if(redisConfig.getCfgvalue().equals("0")){
             return;
         }

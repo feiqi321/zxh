@@ -11,6 +11,7 @@
         data_auth as dataAuth,
         busi_auth as busiAuth,
         delete_auth as deleteAuth,
+        collection_auth as collectionAuth,
         role_auth_symbol as roleAuthSymbol,
         remark as remark,
         create_user as [createUser.id],
@@ -187,6 +188,7 @@ AND busi_auth = 1
             <if test="dataAuth != null">data_auth,</if>
             <if test="busiAuth != null">busi_auth,</if>
             <if test="deleteAuth != null">delete_auth,</if>
+            <if test="collectionAuth != null">collection_auth,</if>
             <if test="roleAuthSymbol != null">role_auth_symbol,</if>
             <if test="remark != null">remark,</if>
             <if test="createUser != null and createUser.id != null">create_user,</if>
@@ -202,6 +204,7 @@ AND busi_auth = 1
             <if test="dataAuth != null">#{dataAuth},</if>
             <if test="busiAuth != null">#{busiAuth},</if>
             <if test="deleteAuth != null">#{deleteAuth},</if>
+            <if test="collectionAuth != null">#{collectionAuth},</if>
             <if test="roleAuthSymbol != null">#{roleAuthSymbol},</if>
             <if test="remark != null">#{remark},</if>
             <if test="createUser != null and createUser.id != null">#{createUser.id},</if>
@@ -221,6 +224,7 @@ AND busi_auth = 1
             <if test="dataAuth != null">data_auth = #{dataAuth},</if>
             <if test="busiAuth != null">busi_auth = #{busiAuth},</if>
             <if test="deleteAuth != null">delete_auth = #{deleteAuth},</if>
+            <if test="collectionAuth != null">collection_auth = #{collectionAuth},</if>
             <if test="roleAuthSymbol != null">role_auth_symbol = #{roleAuthSymbol},</if>
             <if test="remark != null">remark = #{remark},</if>
             <if test="updateUser != null and updateUser.id != null">update_user = #{updateUser.id},</if>

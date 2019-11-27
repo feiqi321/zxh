@@ -70,6 +70,7 @@ public class DataCollectionServiceImpl implements DataCollectionService {
 
     @Override
     public void save(DataCollectionEntity beanInfo) throws Exception {
+        Date start = new Date();
         String collectInfo = beanInfo.getCollectInfo().trim();
         if(StringUtils.hasTraditionalChinese(collectInfo)){
             throw new Exception("催记内容不应包含繁体中文");
@@ -81,6 +82,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
                 throw new Exception("无法保存催记，违规内容："+word);
             }
         }
+        long timeDiff = new Date().getTime() - start.getTime();
+        logger.info("+++++++++++++催记检测结束，用时："+timeDiff+"ms");
         // if(StringUtils.isEmpty(beanInfo.getCollectInfo())){
         //     //获取催收模板的通话记录
         //     SysDictionaryEntity sysBean =  RedisUtils.entityGet(RedisKeyPrefix.SYS_DIC+beanInfo.getModule(),SysDictionaryEntity.class);

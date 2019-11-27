@@ -1168,7 +1168,6 @@
                     and da.collect_hand = #{collectHand}
                 </if>
 
-
                 <if test="bank != null and bank!=''">
                     and da.bank = #{bank}
                 </if>
@@ -1223,36 +1222,35 @@
                     and da.collect_area = #{collectArea}
                 </if>
                 <if test="repayDateStart != null and repayDateStart!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')>=  #{repayDateStart}   ]]>
+                    <![CDATA[   and da.repay_date >= convert(varchar, #{repayDateStart}, 1)   ]]>
                 </if>
                 <if test="repayDateEnd != null and repayDateEnd!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.repay_date, 'yyyy-MM-dd')<=  #{repayDateEnd}   ]]>
+                    <![CDATA[   and da.repay_date <= convert(varchar, #{repayDateEnd}, 1)   ]]>
                 </if>
                 <if test="caseDateStart != null and caseDateStart!=''">
-                    <![CDATA[   and da.case_date>=  #{caseDateStart}   ]]>
+                    <![CDATA[   and da.case_date >= #{caseDateStart}   ]]>
                 </if>
                 <if test="caseDateEnd != null and caseDateEnd!=''" >
-                    <![CDATA[   and da.case_date<=  #{caseDateEnd}   ]]>
+                    <![CDATA[   and da.case_date <= #{caseDateEnd}   ]]>
                 </if>
                 <if test="expectStartTime != null and expectStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')>=  #{expectStartTime}   ]]>
+                    <![CDATA[   and da.expect_time >= convert(varchar, #{expectStartTime}, 1)   ]]>
                 </if>
                 <if test="expectEndTime != null and expectEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.expect_time, 'yyyy-MM-dd')<=  #{expectEndTime}  ]]>
+                    <![CDATA[   and da.expect_time <= convert(varchar, #{expectEndTime}, 1)  ]]>
                 </if>
                 <if test="realReturnStartTime != null and realReturnStartTime!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd')>=  #{realReturnStartTime}   ]]>
+                    <![CDATA[   and da.real_return_time >= convert(varchar, #{realReturnStartTime}, 1)   ]]>
                 </if>
                 <if test="realReturnEndTime != null and realReturnEndTime!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.real_return_time, 'yyyy-MM-dd')<=  #{realReturnEndTime}  ]]>
+                    <![CDATA[   and da.real_return_time <= convert(varchar, #{realReturnEndTime}, 1)  ]]>
                 </if>
                 <if test="collectStartDate != null and collectStartDate!=''">
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>=  #{collectStartDate}   ]]>
+                    <![CDATA[   and da.collect_date >= convert(varchar, #{collectStartDate}, 1)   ]]>
                 </if>
                 <if test="collectEndDate != null and collectEndDate!=''" >
-                    <![CDATA[   and dbo.fnFormatDate(da.collect_date, 'yyyy-MM-dd')>=  #{collectEndDate}   ]]>
+                    <![CDATA[   and da.collect_date <= convert(varchar, #{collectEndDate}, 1)   ]]>
                 </if>
-
 
                 <if test="collectAreas != null and collectAreas.length > 0 ">
                     and da.collect_area in
@@ -1316,7 +1314,6 @@
                     )
                 </if>
 
-
                 <if test="areas != null and areas.length > 0 ">
                     and da.area in
                     <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
@@ -1338,7 +1335,6 @@
         order by ${orderBy} ${sort}
         )
     </select>
-
 
     <!--催收模块-我的案件-列表查询-->
     <select id="pageCaseInfo" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

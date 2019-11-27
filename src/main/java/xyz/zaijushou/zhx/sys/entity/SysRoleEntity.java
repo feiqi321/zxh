@@ -50,6 +50,8 @@ public class SysRoleEntity extends CommonEntity {
 
     private Integer deleteAuth;
 
+    private Integer collectionAuth;
+
     public Integer getDeleteAuth() {
         return deleteAuth;
     }
@@ -129,4 +131,13 @@ public class SysRoleEntity extends CommonEntity {
     public void setAuthorities(List<SysAuthorityEntity> authorities) {
         this.authorities = authorities;
     }
+
+    public Integer getCollectionAuth() {
+        return this.collectionAuth;
+    }
+
+    public void setCollectionAuth(Integer collectionAuth) {
+        this.collectionAuth = collectionAuth;
+    }
+
 }
