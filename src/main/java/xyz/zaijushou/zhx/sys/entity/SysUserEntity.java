@@ -75,6 +75,8 @@ public class SysUserEntity extends CommonEntity {
      */
     private int enable;
 
+    private boolean hasCollectionAuth;
+
     public String getDeptName() {
         return deptName;
     }
@@ -225,5 +227,13 @@ public class SysUserEntity extends CommonEntity {
 
     public void setIdsList(List<Integer> idsList) {
         this.idsList = idsList;
+    }
+
+    public boolean getHasCollectionAuth() {
+        return this.hasCollectionAuth;
+    }
+
+    public void setHasCollectionAuth(boolean hasCollectionAuth) {
+        this.hasCollectionAuth = hasCollectionAuth;
     }
 }

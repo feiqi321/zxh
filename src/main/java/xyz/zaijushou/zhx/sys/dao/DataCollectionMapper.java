@@ -1,11 +1,15 @@
 package xyz.zaijushou.zhx.sys.dao;
 
-import org.apache.ibatis.annotations.Mapper;
-import xyz.zaijushou.zhx.sys.entity.*;
-
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
+import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectExportEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
 
 /**
  * Created by looyer on 2019/1/29.
@@ -22,7 +26,7 @@ public interface DataCollectionMapper {
 
     public int detailUpdate(DataCollectionEntity bean);
 
-    public int detailDel(DataCollectionEntity bean);
+    public int detailDel(Integer[] ids);
 
     public int detailByCaseId(DataCollectionEntity bean);
 

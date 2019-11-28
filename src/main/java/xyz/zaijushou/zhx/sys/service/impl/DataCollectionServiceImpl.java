@@ -1,40 +1,65 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import javax.annotation.Resource;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.CaseBaseConstant;
-import xyz.zaijushou.zhx.constant.ColorEnum;
 import xyz.zaijushou.zhx.constant.MyCollectSortEnum;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
-import xyz.zaijushou.zhx.sys.dao.*;
-import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCollectionTelMapper;
+import xyz.zaijushou.zhx.sys.dao.ManageMapper;
+import xyz.zaijushou.zhx.sys.dao.OdvMapper;
+import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.dao.SysPercentMapper;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.entity.CollectionReturnEntity;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity;
+import xyz.zaijushou.zhx.sys.entity.DataOpLog;
+import xyz.zaijushou.zhx.sys.entity.ManagePercentage;
+import xyz.zaijushou.zhx.sys.entity.OdvPercentage;
+import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysPercent;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
-import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
 import xyz.zaijushou.zhx.utils.FmtMicrometer;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
-
-import javax.annotation.Resource;
-
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -54,8 +79,6 @@ public class DataCollectionServiceImpl implements DataCollectionService {
     private DataCaseMapper caseMapper;//案件数据层
     @Autowired
     private DataLogService dataLogService;
-    @Autowired
-    private SysOrganizationService sysOrganizationService;
     @Resource
     private SysDictionaryMapper sysDictionaryMapper;
     @Resource
@@ -182,8 +205,8 @@ public class DataCollectionServiceImpl implements DataCollectionService {
         }
     }
 
-    public void detailDel(DataCollectionEntity beanInfo){
-        dataCollectionMapper.detailDel(beanInfo);
+    public void detailDel(Integer[] ids){
+        dataCollectionMapper.detailDel(ids);
     }
 
     @Override

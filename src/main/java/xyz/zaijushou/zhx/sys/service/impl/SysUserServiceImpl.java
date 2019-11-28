@@ -124,9 +124,9 @@ public class SysUserServiceImpl implements SysUserService {
         resultUser.setDistributeNum(distrinbuteNum);
         resultUser.setSysnergyNum(total);
         resultUser.setRoleName("");
+        resultUser.setHasCollectionAuth(false);
 
         List<SysToUserRole> roleList = sysUserMapper.listAllUserRolesByUserId(sysToUserRole);
-
         for (int i=0;i<roleList.size();i++){
             SysToUserRole tempUser = roleList.get(i);
             SysRoleEntity sysRoleEntity = new SysRoleEntity();
@@ -144,7 +144,6 @@ public class SysUserServiceImpl implements SysUserService {
                 }else if (menu.getMenu().getId()==11){//我的案件
                     resultUser.setRoleName(resultUser.getRoleName()+",mycase");
                 }
-
             }
 
             SysRoleEntity tempRole = sysRoleMapper.selectByRoleId(sysRoleEntity);
@@ -190,6 +189,10 @@ public class SysUserServiceImpl implements SysUserService {
 //                }
             }else if (tempRole!=null && tempRole.getBusiAuth()!=null && tempRole.getBusiAuth()==1){
                 resultUser.setBusiData(true);
+            }
+
+            if(tempRole.getCollectionAuth() == 1){
+                resultUser.setHasCollectionAuth(true);
             }
         }
         SysNewUserEntity temp = sysUserMapper.getDataById(resultUser.getId());

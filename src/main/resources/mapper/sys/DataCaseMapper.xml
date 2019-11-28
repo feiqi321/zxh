@@ -5630,14 +5630,13 @@
         and collect_user = #{odv}
         group by data_case
         ) r on t.id = r.data_case
-
     </select>
 
     <select id="findSameBatchCase1" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">
-          select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
-          pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
-          collect_date as collectDate, id
-          from data_case where batch_no = #{batchNo} and ident_no = #{identNo} and status!=4 and <![CDATA[ id <> #{id} ]]> and delete_flag=0
+        select seq_no as seqNo,account,card_no as cardNo,money,currency_type as currencyType ,
+        pro_repay_amt as proRepayAmt,bank_amt as bankAmt,en_repay_amt as enRepayAmt,account_age as accountAge,
+        collect_date as collectDate, id
+        from data_case where batch_no = #{batchNo} and ident_no = #{identNo} and status!=4 and <![CDATA[ id <> #{id} ]]> and delete_flag=0
     </select>
 
     <select id="findSameBatchCase2" resultType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity" parameterType="xyz.zaijushou.zhx.sys.entity.DataCaseEntity">

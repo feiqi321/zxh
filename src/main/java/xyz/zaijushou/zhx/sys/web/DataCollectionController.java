@@ -1,26 +1,32 @@
 package xyz.zaijushou.zhx.sys.web;
 
-import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
 import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
-import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.OdvPercentage;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionService;
 import xyz.zaijushou.zhx.sys.service.SysOrganizationService;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -50,47 +56,38 @@ public class DataCollectionController {
     @ApiOperation(value = "详情新增辅助催收", notes = "详情新增辅助催收")
     @PostMapping("/dataCollection/detailSave")
     public Object detailSave(@RequestBody DataCollectionEntity bean) {
-
         dataCollectionService.detailSave(bean);
-
         return WebResponse.success();
-
     }
 
-    @ApiOperation(value = "详情刪除辅助催收", notes = "详情刪除辅助催收")
+    @ApiOperation(value = "案件详情-刪除催记", notes = "案件详情-刪除催记")
     @PostMapping("/dataCollection/detailDel")
-    public Object detailDel(@RequestBody DataCollectionEntity bean) {
-
-        dataCollectionService.detailDel(bean);
-
+    public Object detailDel(@RequestBody Map<String,Integer[]> map) {
+        Integer[] ids = map.get("ids");
+        dataCollectionService.detailDel(ids);
         return WebResponse.success();
-
     }
 
-    @ApiOperation(value = "修改催收", notes = "修改催收")
+    @ApiOperation(value = "案件详情-修改催记", notes = "案件详情-修改催记")
     @PostMapping("/dataCollection/update")
     public Object update(@RequestBody DataCollectionEntity bean) {
-
         dataCollectionService.update(bean);
-
         return WebResponse.success();
-
     }
-
 
     @ApiOperation(value = "分頁查询", notes = "分頁查询")
     @PostMapping("/dataCollection/pageDataCollection")
     public Object pageDataCollection(@RequestBody DataCollectionEntity bean) {
-
         List<DataCollectionEntity> list = dataCollectionService.pageDataCollectionList(bean);
         return WebResponse.success(list);
-
     }
+
     private SysUserEntity getUserInfo (){
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysUserEntity user = RedisUtils.entityGet(RedisKeyPrefix.USER_INFO+ userId, SysUserEntity.class);
         return user;
     }
+    
     @ApiOperation(value = "催收管理-我的案件分頁查询", notes = "催收管理-我的案件分頁查询")
     @PostMapping("/dataCollection/pageMyCase")
     public Object pageMyCase(@RequestBody DataCollectionEntity bean) throws Exception{

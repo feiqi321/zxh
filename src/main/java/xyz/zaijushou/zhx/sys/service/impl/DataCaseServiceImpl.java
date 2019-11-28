@@ -1,9 +1,28 @@
 package xyz.zaijushou.zhx.sys.service.impl;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import javax.annotation.Resource;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang3.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -13,30 +32,64 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import sun.java2d.pipe.SpanShapeRenderer;
+
 import xyz.zaijushou.zhx.common.exception.CustomerException;
 import xyz.zaijushou.zhx.common.web.WebResponse;
-import xyz.zaijushou.zhx.constant.*;
-import xyz.zaijushou.zhx.sys.dao.*;
-import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.constant.CaseSortEnum;
+import xyz.zaijushou.zhx.constant.ColorEnum;
+import xyz.zaijushou.zhx.constant.RedisKeyPrefix;
+import xyz.zaijushou.zhx.constant.SynergySortEnum;
+import xyz.zaijushou.zhx.sys.dao.CaseOpLogMapper;
+import xyz.zaijushou.zhx.sys.dao.CaseTimeAreaMapper;
+import xyz.zaijushou.zhx.sys.dao.CopyAuthMapper;
+import xyz.zaijushou.zhx.sys.dao.DataBatchMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseAddressMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseCommentMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseInterestMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRepayMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseRepayRecordMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseSynergisticMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCaseTelMapper;
+import xyz.zaijushou.zhx.sys.dao.DataCollectionMapper;
+import xyz.zaijushou.zhx.sys.dao.DataOpLogMapper;
+import xyz.zaijushou.zhx.sys.dao.SysDictionaryMapper;
+import xyz.zaijushou.zhx.sys.dao.SysOperationLogMapper;
+import xyz.zaijushou.zhx.sys.dao.SysRoleMapper;
+import xyz.zaijushou.zhx.sys.dao.SysUserMapper;
+import xyz.zaijushou.zhx.sys.dao.TelIpManageMapper;
+import xyz.zaijushou.zhx.sys.entity.CallCenter;
+import xyz.zaijushou.zhx.sys.entity.CaseOpLog;
+import xyz.zaijushou.zhx.sys.entity.CaseResponse;
+import xyz.zaijushou.zhx.sys.entity.CaseTimeAreaEntity;
+import xyz.zaijushou.zhx.sys.entity.CopyAuth;
+import xyz.zaijushou.zhx.sys.entity.DataBatchEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseAddressEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseCommentEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseDetail;
+import xyz.zaijushou.zhx.sys.entity.DataCaseEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseInterestEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseRepayRecordEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseSendQuery;
+import xyz.zaijushou.zhx.sys.entity.DataCaseSynergyDetailEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseTelEntity;
+import xyz.zaijushou.zhx.sys.entity.DataCaseTelExport;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionEntity;
+import xyz.zaijushou.zhx.sys.entity.DataOpLog;
+import xyz.zaijushou.zhx.sys.entity.ShowSendCase;
+import xyz.zaijushou.zhx.sys.entity.SysDictionaryEntity;
+import xyz.zaijushou.zhx.sys.entity.SysNewUserEntity;
+import xyz.zaijushou.zhx.sys.entity.SysRoleEntity;
+import xyz.zaijushou.zhx.sys.entity.SysUserEntity;
 import xyz.zaijushou.zhx.sys.service.DataCaseService;
 import xyz.zaijushou.zhx.sys.service.DataLogService;
 import xyz.zaijushou.zhx.sys.service.SysDictionaryService;
 import xyz.zaijushou.zhx.sys.service.SysUserService;
-import xyz.zaijushou.zhx.sys.web.DataCaseController;
-import xyz.zaijushou.zhx.utils.*;
+import xyz.zaijushou.zhx.utils.CollectionsUtils;
+import xyz.zaijushou.zhx.utils.FmtMicrometer;
+import xyz.zaijushou.zhx.utils.JwtTokenUtil;
+import xyz.zaijushou.zhx.utils.RedisUtils;
 import xyz.zaijushou.zhx.utils.StringUtils;
-
-import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -3341,6 +3394,9 @@ public class DataCaseServiceImpl implements DataCaseService {
                 temp.setBalanceMsg(temp.getBalance() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getBalance().stripTrailingZeros() + ""));
                 temp.setProRepayAmtMsg(temp.getProRepayAmt() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getProRepayAmt().stripTrailingZeros() + ""));
                 temp.setEnRepayAmtMsg(temp.getEnRepayAmt() == null ? "￥0" : "￥" + FmtMicrometer.fmtMicrometer(temp.getEnRepayAmt().stripTrailingZeros() + ""));
+                if(temp.getCollectDate().contains(".")){
+                    temp.setCollectDate(temp.getCollectDate().split("\\.")[0]);
+                }
                 list.set(i, temp);
             }
         }
