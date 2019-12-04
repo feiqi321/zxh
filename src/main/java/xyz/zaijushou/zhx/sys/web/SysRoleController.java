@@ -264,7 +264,7 @@ public class SysRoleController {
         }
         List<SysMenuEntity> list = new ArrayList<>(menuMap.values());
         for(SysMenuEntity menu : list) {
-            menu.setSort("");
+            menu.setSort(null);
         }
         List<SysMenuEntity> menuTree = CollectionsUtils.listToTree(list);
         for(SysMenuEntity menu : menuTree) {

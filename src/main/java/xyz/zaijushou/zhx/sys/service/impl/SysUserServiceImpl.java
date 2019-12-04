@@ -893,9 +893,8 @@ public class SysUserServiceImpl implements SysUserService {
                     organizationEntity.setCreateUser(createUser);
                     organizationEntity.setParent(upDept);
                     SysOrganizationEntity sortOrg = sysOrganizationMapper.selectMaxSort();
-                    String sort =Integer.parseInt(sortOrg.getSort()==null?"0":(sortOrg.getSort().equals("")?"0":sortOrg.getSort()))+1+"";
-                    String all = "000000";
-                    organizationEntity.setSort(all.substring(0,all.length()-sort.length())+sort);
+                    Integer sort = sortOrg.getSort() == null ? 0 : sortOrg.getSort() + 10;
+                    organizationEntity.setSort(sort);
                     sysOrganizationMapper.saveOrg(organizationEntity);
                 }
             }else{

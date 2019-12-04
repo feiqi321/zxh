@@ -22,7 +22,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/organization")
 public class SysOrganizationController {
-
     @Resource
     private SysOrganizationService sysOrganizationService;
 
@@ -36,6 +35,11 @@ public class SysOrganizationController {
         return WebResponse.success(list);
     }
 
+    @PostMapping("/listAllOrgsWithUserNum")
+    public Object listAllOrgsWithUserNum() {
+        List<SysOrganizationEntity> list = sysOrganizationService.listAllOrgsWithUserNum();
+        return WebResponse.success(list);
+    }
 
     @PostMapping("/listOrganization")
     public Object listOrganization(@RequestBody SysOrganizationEntity organization) {
@@ -66,7 +70,6 @@ public class SysOrganizationController {
         return sysOrganizationService.deleteSelectDepartment(organizations);
     }
 
-
     private void modify(SysOrganizationEntity org) {
         if (org.getId() == null || org.getId() < 0) {
             sysOrganizationService.saveOrg(org);
@@ -90,8 +93,6 @@ public class SysOrganizationController {
     @PostMapping("/import")
     public Object departmentImport(MultipartFile file) throws IOException {
         List<DepartmentEntity> deptList = ExcelUserUtils.importExcel(file, ExcelDepartmentConstant.Department.values(), DepartmentEntity.class);
-        ;
-
         if (deptList.size() == 0) {
             return WebResponse.success("更新0条数据");
         }
@@ -120,16 +121,9 @@ public class SysOrganizationController {
         return WebResponse.success();
     }
 
-    @PostMapping("/queryStaff")
-    public Object findStaffNumber() {
-        return sysOrganizationService.findStaffNumber();
-    }
-
-
     @PostMapping("/moveUpDown")
-    public Object moveUpDown(@RequestParam("id") Integer id, @RequestParam("sort") String sort,
-                             @RequestParam("id1") Integer id1, @RequestParam("sort1") String sort1) {
-        sysOrganizationService.moveUpDown(id, sort, id1, sort1);
+    public Object moveUpDown(@RequestParam("id") Integer id,@RequestParam("id1") Integer id1) {
+        sysOrganizationService.moveUpDown(id, id1);
         return WebResponse.success();
     }
 

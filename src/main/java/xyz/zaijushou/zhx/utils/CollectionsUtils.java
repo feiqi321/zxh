@@ -116,24 +116,24 @@ public class CollectionsUtils {
         }
     }
 
-    public static <T extends TreeEntity> int treeResetSort(List<T> list, int sort) {
-        if(CollectionUtils.isEmpty(list)) {
-            return sort;
-        }
-        for(int i = 0; i < list.size(); i ++) {
-            sort += 10;
-            StringBuilder sortStr = new StringBuilder();
-            for(int k = String.valueOf(sort).length(); k < 6; k ++) {
-                sortStr.append(0);
-            }
-            sortStr.append(sort);
-            list.get(i).setSort(sortStr.toString());
-        }
-        for(int i = 0; i < list.size(); i ++) {
-            sort = treeResetSort(list.get(i).getChildren(), sort);
-        }
-        return sort;
-    }
+    // public static <T extends TreeEntity> int treeResetSort(List<T> list, int sort) {
+    //     if(CollectionUtils.isEmpty(list)) {
+    //         return sort;
+    //     }
+    //     for(int i = 0; i < list.size(); i ++) {
+    //         sort += 10;
+    //         StringBuilder sortStr = new StringBuilder();
+    //         for(int k = String.valueOf(sort).length(); k < 6; k ++) {
+    //             sortStr.append(0);
+    //         }
+    //         sortStr.append(sort);
+    //         list.get(i).setSort(sortStr.toString());
+    //     }
+    //     for(int i = 0; i < list.size(); i ++) {
+    //         sort = treeResetSort(list.get(i).getChildren(), sort);
+    //     }
+    //     return sort;
+    // }
 
     public static <T extends TreeEntity> List<T> treeToList(List<T> list) {
         List<T> returnList = new ArrayList<>();

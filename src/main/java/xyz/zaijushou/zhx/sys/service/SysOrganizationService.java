@@ -22,9 +22,7 @@ public interface SysOrganizationService {
 
     SysOrganizationEntity findByName(String name);
 
-    Object findStaffNumber();
-
-    void moveUpDown(Integer id, String sort,Integer id1,String sort1);
+    void moveUpDown(Integer id, Integer id1);
 
     void updateDepartment(SysOrganizationEntity organizations);
 
@@ -39,4 +37,6 @@ public interface SysOrganizationService {
 	List<QueryEntity> queryDept(String deptName);
 
     List<QueryEntity> queryDeptCase(String deptName);
+
+	List<SysOrganizationEntity> listAllOrgsWithUserNum();
 }

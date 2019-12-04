@@ -47,17 +47,18 @@ public class SysOrganizationEntity extends TreeEntity<SysOrganizationEntity> {
     /**
      * 查询标识
      */
-    private int typeFlag ;
+    private int typeFlag;
 
-    public int getPid() {
-        return pid;
-    }
+    private Integer parentId;
 
-    public void setPid(int pid) {
-        this.pid = pid;
-    }
+    private Integer tempChildrenSize = 0;
 
-    private int pid;
+    /**
+     * 0 初始状态
+     * 1 待累加到父节点
+     * 2 已累加到父节点
+     */
+    private Integer tempStatus = 0;
 
     public int getTypeFlag() {
         return typeFlag;
@@ -123,4 +124,30 @@ public class SysOrganizationEntity extends TreeEntity<SysOrganizationEntity> {
     public void setUsers(List<SysUserEntity> users) {
         this.users = users;
     }
+
+    public Integer getParentId() {
+        return this.parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public Integer getTempChildrenSize() {
+        return this.tempChildrenSize;
+    }
+
+    public void setTempChildrenSize(Integer tempChildrenSize) {
+        this.tempChildrenSize = tempChildrenSize;
+    }
+
+    public Integer getTempStatus() {
+        return this.tempStatus;
+    }
+
+    public void setTempStatus(Integer tempStatus) {
+        this.tempStatus = tempStatus;
+    }
+
+
 }

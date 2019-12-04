@@ -37,9 +37,7 @@ public interface SysOrganizationMapper {
 
     Integer findStaffNumberById2(String department);
 
-    void moveUpDown(Integer id, String sort1);
-
-    void moveUpDown1(Integer id1,String sort);
+    void updateSortById(Integer id, Integer sort);
 
     List<SysNewUserEntity> findUserByOrgId(Integer id);
 
@@ -49,8 +47,6 @@ public interface SysOrganizationMapper {
 
     List<SysOrganizationEntity> findTableData(Integer id);
 
-    void addDept(SysOrganizationEntity organizations);
-
     void moveToTargetDepartment(Integer id, String pid);
 
 	List<QueryEntity> queryDept(String deptName);
@@ -58,4 +54,8 @@ public interface SysOrganizationMapper {
     List<QueryEntity> findOrganizationsByParentId(String department,String odvName);
 
     List<QueryEntity> queryDeptCase(String department,String deptName);
+
+	SysOrganizationEntity queryOrganizationById(Integer id);
+
+	List<SysOrganizationEntity> listAllOrgsWithUserNum();
 }

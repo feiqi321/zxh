@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xyz.zaijushou.zhx.sys.dao.SysOrganizationMapper">
-
     <sql id="colSql">
         id as id,
         org_name as orgName,
@@ -43,7 +42,6 @@
             update_time,
             delete_flag,
         </trim>
-
         values
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orgName != null">#{orgName},</if>
@@ -61,11 +59,6 @@
             GETDATE(),
             0,
         </trim>
-
-    </insert>
-    <insert id="addDept" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
-        insert into sys_organization (org_name,parent_id,sort,create_time,update_time,delete_flag)
-        values (#{orgName},#{pid},#{sort}, GETDATE(),GETDATE(),0)
     </insert>
 
     <update id="updateOrg" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
@@ -85,6 +78,7 @@
         </trim>
         where id = #{id}
     </update>
+
     <update id="deleteSelectDepartment">
         update sys_organization set delete_flag=1 where id = #{id}
     </update>
@@ -99,15 +93,15 @@
         where id = #{id}
           and delete_flag = '0'
     </update>
-    <update id="moveUpDown">
-        update sys_organization set sort=#{sort1} where id=#{id}
+
+    <update id="updateSortById">
+        update sys_organization set sort=#{sort} where id=#{id}
     </update>
-    <update id="moveUpDown1">
-        update sys_organization set sort=#{sort} where id=#{id1}
-    </update>
+
     <update id="updateDepartment">
         update sys_organization set org_name=#{orgName} where id=#{id}
     </update>
+
     <update id="moveToTargetDepartment">
         update sys_organization set parent_id=#{pid} where id=#{id}
     </update>
@@ -120,6 +114,14 @@
         where delete_flag = '0'
         <if test="id != null">and id = #{id}</if>
         order by sort
+    </select>
+
+    <select id="queryOrganizationById" parameterType="java.lang.Integer" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        select
+        <include refid="colSql"/>
+        from sys_organization
+        where delete_flag = '0'
+        and id = #{id}
     </select>
 
     <select id="listChildOrganizationBy" parameterType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity"
@@ -148,7 +150,6 @@
         where delete_flag = '0'
     </select>
 
-
     <select id="findByName" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
         select top 1
         <include refid="colSql"/>
@@ -157,25 +158,25 @@
     </select>
 
     <select id="findById" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserEntity">
-with tem_table(id,parent_id,org_name,curlevel)
-as
-(
-select   id, parent_id, org_name, 1 as level
-     from
-           dbo.sys_organization
-     where
-           parent_id = #{department}
-union all
-select   a.id,  a.parent_id,  a.org_name, b.curlevel+1
-    from
-         dbo.sys_organization  a
-    inner join
-         tem_table  b
-    on (a.parent_id = b.id)
-)
-select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1
-
+        with tem_table(id,parent_id,org_name,curlevel)
+        as
+        (
+        select   id, parent_id, org_name, 1 as level
+            from
+                dbo.sys_organization
+            where
+                parent_id = #{department}
+        union all
+        select   a.id,  a.parent_id,  a.org_name, b.curlevel+1
+            from
+                dbo.sys_organization  a
+            inner join
+                tem_table  b
+            on (a.parent_id = b.id)
+        )
+        select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1
     </select>
+
     <select id="findSysNewUserInformationById" resultType="xyz.zaijushou.zhx.sys.entity.SysNewUserDataForm">
          with tem_table(id,parent_id,org_name,curlevel) as
 			(select   id, parent_id, org_name, 1 as level
@@ -187,6 +188,7 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
          left join (select odv, sum(o.repay_amt) as repay_amt, sum(o.percentage) as percentage
          from odv_percentage o group by odv) o on t.id=o.odv
     </select>
+
     <select id="findStaffNumberById" resultType="java.lang.Integer">
         with tem_table(id,parent_id,org_name,curlevel) as
 			(select   id, parent_id, org_name, 1 as level
@@ -195,6 +197,7 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
 			 dbo.sys_organization a inner join tem_table b on (a.parent_id = b.id))
          select count(1) as staffNumber  from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1 and sys_user.delete_flag=0
     </select>
+
     <select id="findStaffNumberById2" resultType="java.lang.Integer">
         select count(1) from sys_user where department=#{department} and  status=1 and delete_flag=0
     </select>
@@ -226,7 +229,7 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
     </resultMap>
 
     <select id="findUserByOrgId" resultMap="UserResultMap">
-           select
+        select
         su.id , su.mobile,su.number,su.sex,su.office_phone as officePhone,
         su.status,su.enable,su.username as userName,so.org_name as department,so.org_name as deptName,su.login_name as loginName,
         su.create_time as createTime,su.create_user as [createUser.id],
@@ -244,6 +247,7 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
         LEFT JOIN sys_organization so on su.department = so.id
         where su.delete_flag = 0 and  su.department = #{orgId,jdbcType=INTEGER}
     </select>
+
     <select id="findTableData" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
           select <include refid="colSql"/>
            from sys_organization s where s.parent_id=#{id} and s.delete_flag=0 order by sort
@@ -261,6 +265,7 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
 			 dbo.sys_organization a inner join tem_table b on (a.parent_id = b.id))
          select sys_user.id,sys_user.username as value from tem_table,sys_user where tem_table.id=sys_user.department and  sys_user.status=1 and sys_user.delete_flag=0 and username like dbo.concat('%',#{odvName},'%')
     </select>
+
     <select id="queryDeptCase" resultType="xyz.zaijushou.zhx.sys.entity.QueryEntity">
         WITH temp AS (
             SELECT id,parent_id
@@ -270,5 +275,14 @@ select sys_user.id,sys_user.username, sys_user.actual_time as actualTime from te
             INNER JOIN temp b ON b.id=a.parent_id)
       SELECT a.id,a.org_name as value FROM sys_organization a
       INNER JOIN temp t ON a.id=t.id  and a.delete_flag = 0 and a.parent_id != 0 and org_name like dbo.concat('%',#{deptName},'%')
+    </select>
+
+    <select id="listAllOrgsWithUserNum" resultType="xyz.zaijushou.zhx.sys.entity.SysOrganizationEntity">
+        select o.id,o.org_name as orgName,o.sort,o.parent_id as parentId,isnull(t.userNum,0) as userNum from sys_organization o
+        left join
+        (select o.id,count(1) as userNum from sys_organization o,sys_user u where o.id=u.department and o.delete_flag=0 and u.delete_flag=0 and u.status=1 group by o.id) as t
+        on o.id=t.id
+        where o.delete_flag=0
+        order by o.sort
     </select>
 </mapper>

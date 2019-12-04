@@ -15,7 +15,7 @@ public class TreeEntity<T extends TreeEntity> extends CommonEntity {
     /**
      * 排序
      */
-    private String sort;
+    private Integer sort;
 
     /**
      * 子节点列表
@@ -43,11 +43,11 @@ public class TreeEntity<T extends TreeEntity> extends CommonEntity {
         this.children = children;
     }
 
-    public String getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(String sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 
