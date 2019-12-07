@@ -69,10 +69,6 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
             bean.setDateSearchEnd(new Date());
             bean.setDateEnd(new Date());
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd ");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
-        String[] timeAreaAttr = {"00:00-8:00","08:00-12:00","12:00-18:00","18:00-24:00"};
         List<StatisticReturn2> list = Lists.newArrayList();
 
         int pageNo = bean.getPageNum();
@@ -81,7 +77,6 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
 
         try {
             if(CollectionUtils.isEmpty(bean.getOdvAttr())){
-
                 Set<String >  redisUserIds = RedisUtils.listAllKeyWithKeyPrefix(RedisKeyPrefix.USER_INFO);
                 ArrayList<Integer> listSort = new ArrayList<>();
                 for (String redisUserId : redisUserIds) {
@@ -162,7 +157,7 @@ public class DataCollectionTelServiceImpl implements DataCollectionTelService {
                 conInfo.setSumPhoneNum(sumPhoneNum);
                 list.add(conInfo);*/
                 DayCallable dayCallable = new DayCallable(list,odv,dataCollectionTelMapper,bean);
-                Future<List<StatisticReturn2>> future = executor.submit(dayCallable);
+                executor.submit(dayCallable);
             }
             executor.shutdown();
             while(true){

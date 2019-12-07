@@ -75,6 +75,8 @@ public class RedisInitConfig implements ApplicationRunner {
         logger.info("RedisLoading : "+redisConfig.getCfgvalue());
         if(redisConfig.getCfgvalue().equals("0")){
             return;
+        }else{
+            sysConfigMapper.updateConfig(RedisLoading, "0");
         }
 
         List<SysUserEntity> allUser = sysUserService.listAllUsers(new SysUserEntity());

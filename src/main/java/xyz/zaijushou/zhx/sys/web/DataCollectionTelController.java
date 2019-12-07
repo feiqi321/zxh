@@ -1,9 +1,17 @@
 package xyz.zaijushou.zhx.sys.web;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,24 +20,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import xyz.zaijushou.zhx.common.web.WebResponse;
 import xyz.zaijushou.zhx.constant.ExcelDayActionExportConstant;
-import xyz.zaijushou.zhx.constant.ExcelDayExportConstant;
-import xyz.zaijushou.zhx.constant.ExcelMonthExportConstant;
-import xyz.zaijushou.zhx.sys.entity.*;
+import xyz.zaijushou.zhx.sys.entity.CollectionDetailsDTO;
+import xyz.zaijushou.zhx.sys.entity.CollectionStatistic;
+import xyz.zaijushou.zhx.sys.entity.DataCollectionTelEntity;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn;
+import xyz.zaijushou.zhx.sys.entity.StatisticReturn2;
+import xyz.zaijushou.zhx.sys.entity.SysOperationLogEntity;
 import xyz.zaijushou.zhx.sys.service.DataCollectionTelService;
 import xyz.zaijushou.zhx.sys.service.SysOperationLogService;
 import xyz.zaijushou.zhx.utils.ExcelUtils;
 import xyz.zaijushou.zhx.utils.JwtTokenUtil;
 import xyz.zaijushou.zhx.utils.StringUtils;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by looyer on 2019/1/25.
@@ -49,9 +55,7 @@ public class DataCollectionTelController {
     public Object save(@RequestBody DataCollectionTelEntity bean) {
         logger.info("电催回调:"+JSONObject.toJSON(bean).toString());
         dataCollectionTelService.save(bean);
-
         return WebResponse.success();
-
     }
 
     @ApiOperation(value = "电催员电催单日统计", notes = "电催员电催单日统计")
@@ -80,6 +84,7 @@ public class DataCollectionTelController {
         WebResponse res = WebResponse.success(map);
         return res;
     }
+
     @ApiOperation(value = "电催员电催单日统计导出", notes = "电催员电催单日统计导出")
     @PostMapping("/day/export")
     public Object collectionDayExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {
@@ -100,7 +105,6 @@ public class DataCollectionTelController {
             List<StatisticReturn2>  list = new ArrayList<>();
             ExcelUtils.exportTempleteDay(response,list,realname);
         }
-
         return null;
     }
 
@@ -117,7 +121,6 @@ public class DataCollectionTelController {
     @ApiOperation(value = "电催员电催月统计导出", notes = "电催员电催月统计导出")
     @PostMapping("/month/export")
     public Object collectionMonthExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {
-        List<CollectionStatistic> colList = new ArrayList<CollectionStatistic>();
         if(StringUtils.isEmpty(bean.getMonthStart()) || StringUtils.isEmpty(bean.getMonthEnd())){
             return WebResponse.error("500","请输入查询的时间段");
         }
@@ -157,13 +160,10 @@ public class DataCollectionTelController {
     @PostMapping("/day/action/export")
     public Object collectionDayActionExport(@RequestBody CollectionStatistic bean, HttpServletResponse response)throws IOException, InvalidFormatException {
         List<CollectionStatistic>  list = new ArrayList<CollectionStatistic>();
-
         if(StringUtils.notEmpty(bean.getDateSearchStart()) && StringUtils.notEmpty(bean.getDateSearchEnd())){
             PageInfo<CollectionStatistic> pageInfo = dataCollectionTelService.pageCollectionDayAction(bean);
             list = pageInfo.getList();
         }
-
-
         String realname = "每日动作统计查询导出" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Integer userId = JwtTokenUtil.tokenData().getInteger("userId");
         SysOperationLogEntity operationLog = new SysOperationLogEntity();
@@ -182,9 +182,7 @@ public class DataCollectionTelController {
     @ApiOperation(value = "统计-查询催收员电催详情", notes = "统计-查询催收员电催详情")
     @PostMapping("/tel/info")
     public Object getCollectionTelInfo(@RequestBody CollectionStatistic bean) {
-
         PageInfo<CollectionStatistic> list = dataCollectionTelService.pageCollectionTelInfo(bean);
         return WebResponse.success(list);
     }
-
 }

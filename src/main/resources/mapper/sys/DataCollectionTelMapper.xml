@@ -132,39 +132,38 @@
 
     <!--拨打电话存在的案件数量-->
     <select id="statisticsCollectionCase" parameterType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic" resultType="xyz.zaijushou.zhx.sys.entity.CollectionStatistic">
-        select  da.id,dc.collect_time as collectTime
+        select da.id,dc.collect_time as collectTime
         from data_collection dc , data_case da
         <where>
-             dc.case_id = da.id
-        <if test="dateStart != null">
-            and dc.collect_time &gt;= convert(datetime,#{dateStart}, 20)
-        </if>
-        <if test="dateEnd != null" >
-            and dc.collect_time &lt;= convert(datetime,#{dateEnd}, 20)
-        </if>
-        <if test="monthStart != null and monthStart!=''">
-            <![CDATA[   and dc.collect_time>=  convert(datetime,#{monthStart}, 20)   ]]>
-        </if>
-        <if test="monthEnd != null and monthEnd!=''" >
-            <![CDATA[   and dc.collect_time<=  convert(datetime,#{monthEnd}, 20)  ]]>
-        </if>
-        <if test="dateSearchStart != null">
-            <![CDATA[   and dc.collect_time>=  convert(datetime,#{dateSearchStart}, 20)  ]]>
-        </if>
-        <if test="dateSearchEnd != null">
-            <![CDATA[   and dc.collect_time<=  convert(datetime,#{dateSearchEnd}, 20)   ]]>
-        </if>
-        <if test="odv != null and odv!=''">
-            AND dc.odv = #{odv}
-        </if>
-            <if test="areas != null and areas.length > 0 ">
+            dc.case_id = da.id
+            <if test="dateStart != null">
+                <![CDATA[   and dc.collect_time >= convert(datetime,#{dateStart}, 20)   ]]>
+            </if>
+            <if test="dateEnd != null" >
+                <![CDATA[   and dc.collect_time <= convert(datetime,#{dateEnd}, 20)   ]]>
+            </if>
+            <if test="monthStart != null and monthStart!=''">
+                <![CDATA[   and dc.collect_time >= convert(datetime,#{monthStart}, 20)   ]]>
+            </if>
+            <if test="monthEnd != null and monthEnd!=''" >
+                <![CDATA[   and dc.collect_time <= convert(datetime,#{monthEnd}, 20)  ]]>
+            </if>
+            <if test="dateSearchStart != null">
+                <![CDATA[   and dc.collect_time >= convert(datetime,#{dateSearchStart}, 20)  ]]>
+            </if>
+            <if test="dateSearchEnd != null">
+                <![CDATA[   and dc.collect_time <= convert(datetime,#{dateSearchEnd}, 20)   ]]>
+            </if>
+            <if test="odv != null and odv!=''">
+                AND dc.odv = #{odv}
+            </if>
+            <if test="areas != null and areas.length > 0">
                 and da.area in
                 <foreach item="item" index="index" collection="areas" open="(" separator="," close=")">
                     #{item}
                 </foreach>
             </if>
-
-            <if test="clients != null and clients.length > 0 ">
+            <if test="clients != null and clients.length > 0">
                 and da.client in
                 <foreach item="item" index="index" collection="clients" open="(" separator="," close=")">
                     #{item}
