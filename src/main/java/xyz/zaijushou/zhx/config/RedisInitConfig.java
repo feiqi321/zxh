@@ -73,33 +73,31 @@ public class RedisInitConfig implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         SysConfig redisConfig = sysConfigMapper.queryConfig(RedisLoading);
         logger.info("RedisLoading : "+redisConfig.getCfgvalue());
-        if(redisConfig.getCfgvalue().equals("0")){
-            return;
-        }else{
+        if(redisConfig.getCfgvalue().equals("1")){
             sysConfigMapper.updateConfig(RedisLoading, "0");
+
+            List<SysUserEntity> allUser = sysUserService.listAllUsers(new SysUserEntity());
+            initUserInfo(allUser);
+    
+            List<SysMenuEntity> allMenu = sysMenuService.listAllMenus(new SysMenuEntity());
+            initMenuInfo(allMenu);
+    
+            List<SysButtonEntity> allButton = sysButtonService.listAllButtons(new SysButtonEntity());
+            initButtonInfo(allButton);
+    
+            List<SysAuthorityEntity> allAuthority = sysAuthorityService.listAllAuthorities(new SysAuthorityEntity());
+            initAuthorityInfo(allAuthority);
+    
+            List<SysDictionaryEntity> allDic = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
+            initDic(allDic);
+    
+            List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
+            initBatch(allBatch);
+            
+            initRoleInfo();
+            initCase();
+            initForbiddenWords();
         }
-
-        List<SysUserEntity> allUser = sysUserService.listAllUsers(new SysUserEntity());
-
-        List<SysMenuEntity> allMenu = sysMenuService.listAllMenus(new SysMenuEntity());
-
-        List<SysButtonEntity> allButton = sysButtonService.listAllButtons(new SysButtonEntity());
-
-        List<SysAuthorityEntity> allAuthority = sysAuthorityService.listAllAuthorities(new SysAuthorityEntity());
-
-        List<SysDictionaryEntity> allDic = sysDictionaryMapper.getDataList(new SysDictionaryEntity());
-
-        List<DataBatchEntity> allBatch = dataBatchMapper.listAllDataBatch(new DataBatchEntity());
-
-        initUserInfo(allUser);
-        initMenuInfo(allMenu);
-        initButtonInfo(allButton);
-        initAuthorityInfo(allAuthority);
-        initRoleInfo();
-        initDic(allDic);
-        initBatch(allBatch);
-        initCase();
-        initForbiddenWords();
     }
 
 	private void initDic(List<SysDictionaryEntity> allDic) {
